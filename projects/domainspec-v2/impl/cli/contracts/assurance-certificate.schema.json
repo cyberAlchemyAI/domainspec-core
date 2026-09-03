@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://domainspec.local/contracts/assurance-certificate.schema.json",
-  "title": "DomainSpec assurance certificate v1 candidate",
+  "title": "DomainSpec assurance certificate v1",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "result", "project_id", "source_manifest_sha256", "compiled_certificate_sha256", "compiled_graph_sha256", "checked_interchange_sha256", "formalization", "independent_decoder", "denominators", "checks", "toolchain", "artifacts", "claim_ceiling", "authority_effect", "certificate_sha256"],
   "properties": {
-    "schema_version": {"const": "domainspec.assurance-certificate/v1-candidate"},
+    "schema_version": {"const": "domainspec.assurance-certificate/v1"},
     "result": {"const": "pass"},
     "project_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
     "source_manifest_sha256": {"$ref": "#/$defs/sha256"},

@@ -15,7 +15,7 @@ export interface FormalizationSourceIdentity {
 }
 
 export interface GraphBoundCertificate {
-  readonly schema_version: "domainspec.graph-bound-certificate/v2-candidate";
+  readonly schema_version: "domainspec.graph-bound-certificate/v2";
   readonly graph_sha256: string;
   readonly source_identity: FormalizationSourceIdentity;
   readonly denominators: Readonly<{
@@ -52,7 +52,7 @@ export interface TypeScriptProjectionPayload {
 }
 
 export interface CompilerRefinementOutput {
-  readonly schema_version: "domainspec.compiler-refinement-output/v1-candidate";
+  readonly schema_version: "domainspec.compiler-refinement-output/v1";
   readonly certificate: GraphBoundCertificate;
   readonly typescript_projection: TypeScriptProjectionPayload;
   readonly authority_effect: "none";
@@ -103,7 +103,7 @@ export function createCompilerRefinementOutput<Node, Edge>(
   const applicableObligationIds = Object.freeze(graph.obligation_applicability.filter(({ classification }) => classification === "applicable").map(({ obligation_id }) => obligation_id).sort());
   const witnessOutcomes = Object.freeze(graph.obligation_outcomes.map((outcome) => Object.freeze({ ...outcome })).sort((left, right) => left.witness_id.localeCompare(right.witness_id)));
   const certificate = Object.freeze({
-    schema_version: "domainspec.graph-bound-certificate/v2-candidate" as const,
+    schema_version: "domainspec.graph-bound-certificate/v2" as const,
     graph_sha256: graphSha256,
     source_identity: sourceIdentity,
     denominators: Object.freeze({
@@ -127,7 +127,7 @@ export function createCompilerRefinementOutput<Node, Edge>(
     authority_ceiling: "evidence-only-no-admission-acceptance-publication-release-deployment-or-external-effect" as const,
   });
   return Object.freeze({
-    schema_version: "domainspec.compiler-refinement-output/v1-candidate",
+    schema_version: "domainspec.compiler-refinement-output/v1",
     certificate,
     typescript_projection: Object.freeze({
       project_id: sourceIdentity.project_id,

@@ -32,7 +32,7 @@ test("compile certificate and whole-project builds are reproducible and source-s
     const stdout: string[] = []; const stderr: string[] = [];
     assert.equal(runCli(["compile", fixture.root, "--target", certificate], { stdout: (value) => stdout.push(value), stderr: (value) => stderr.push(value) }), 0, stderr.at(-1));
     const compiled = JSON.parse(fs.readFileSync(certificate, "utf8"));
-    assert.equal(compiled.node_count, 16);
+    assert.equal(compiled.node_count, 17);
     assert.equal(compiled.backend_type_ids.length, 13);
     assert.equal(compiled.backend_relationship_ids.length, 17);
     const certificateBytes = fs.readFileSync(certificate, "utf8");
@@ -46,8 +46,8 @@ test("compile certificate and whole-project builds are reproducible and source-s
       assert.equal(runCli(["verify", fixture.root, "--language", language, "--target-root", languageTarget], { stdout: (value) => stdout.push(value), stderr: (value) => stderr.push(value) }), 0, stderr.at(-1));
     }
     const receipt = JSON.parse(fs.readFileSync(path.join(target, ".domainspec/project-build.json"), "utf8"));
-    assert.equal(receipt.node_selectors.length, 16);
-    assert.equal(receipt.artifacts.length, 16);
+    assert.equal(receipt.node_selectors.length, 17);
+    assert.equal(receipt.artifacts.length, 17);
     const receiptPath = path.join(target, ".domainspec/project-build.json");
     const schemas = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../contracts");
     const schemaCheck = spawnSync("python3", ["-c", "import json,sys\nfrom jsonschema import Draft202012Validator,RefResolver\nc=json.load(open(sys.argv[1]));r=json.load(open(sys.argv[2]));v=json.load(open(sys.argv[3]));Draft202012Validator(c).validate(v['compiled_certificate']);resolver=RefResolver.from_schema(r,store={c['$id']:c});Draft202012Validator(r,resolver=resolver).validate(v)", path.join(schemas, "compiled-project-certificate.schema.json"), path.join(schemas, "project-build-receipt.schema.json"), receiptPath], { encoding: "utf8" });

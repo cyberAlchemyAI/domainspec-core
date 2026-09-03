@@ -1,6 +1,6 @@
 # DomainSpec v2
 
-Status: **implementation home** (migrating from v1 by import+reformulate, 2026-06-29) — and still the research-tower program
+Status: **implementation home with a Stable 1.0 compiler-product boundary** — and still the broader research-tower program
 Owner: DomainSpec v2
 Started: 2026-06-11
 
@@ -16,7 +16,9 @@ becoming the implementation home:** v1 ([`implementation/domainspec`](../../impl
 is being **frozen as an evidence source**, and the necessary capabilities are being **imported and
 reformulated** into v2 — see [`IMPORT-MANIFEST.md`](IMPORT-MANIFEST.md), driven by the
 [v1→v2 import triage](research/2026-06-29-v1-import-triage/findings.md). The forked implementation
-lives under [`impl/`](impl/). v2 also remains the research-tower program described below.
+lives under [`impl/`](impl/). The stable product is the compiler, generator,
+verifier, and certifier in [`impl/cli/`](impl/cli/); runtime APIs remain
+experimental. v2 also remains the research-tower program described below.
 
 ## Architecture and guide
 

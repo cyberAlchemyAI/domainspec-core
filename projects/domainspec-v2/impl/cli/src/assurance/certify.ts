@@ -8,6 +8,7 @@ import { compileProject } from "../compilation/certificate.js";
 import { materializeLeanMetaTypeFormalization } from "../formalization/projection.js";
 import { FORMALIZATION_LEAN_MODULE_FILENAMES } from "../formalization/kernel.js";
 import { canonicalJson, sha256 } from "../input/source-manifest.js";
+import { SUBPROCESS_TIMEOUT_MS } from "../input/limits.js";
 import { CLI_VERSION } from "../version.js";
 import { createCheckedInterchange, validateCheckedInterchange, type CheckedInterchangeV1 } from "./checked-interchange.js";
 
@@ -17,7 +18,7 @@ const INTERCHANGE_DECODER_FILENAME = "DomainSpecCheckedInterchangeDecoder.lean" 
 const interchangeDecoderSourcePath = fileURLToPath(new URL(`../../lean/${INTERCHANGE_DECODER_FILENAME}`, import.meta.url));
 
 export interface AssuranceCertificateV1 {
-  readonly schema_version: "domainspec.assurance-certificate/v1-candidate";
+  readonly schema_version: "domainspec.assurance-certificate/v1";
   readonly result: "pass";
   readonly project_id: string;
   readonly source_manifest_sha256: string;
@@ -58,7 +59,7 @@ export interface AssuranceCertificateV1 {
 }
 
 export interface CertificationCheckV1 {
-  readonly schema_version: "domainspec.certification-check/v1-candidate";
+  readonly schema_version: "domainspec.certification-check/v1";
   readonly result: "pass" | "fail";
   readonly current: boolean;
   readonly target_directory: string;
@@ -82,6 +83,7 @@ function leanVersion(): string {
   const result = spawnSync("lean", ["--version"], {
     encoding: "utf8",
     env: { ...process.env, ELAN_TOOLCHAIN: CERTIFY_LEAN_TOOLCHAIN },
+    timeout: SUBPROCESS_TIMEOUT_MS,
   });
   if (result.status !== 0) fail("MTCLI_CERTIFY_LEAN_UNAVAILABLE", "/toolchain/lean", result.stderr?.trim() || result.error?.message || "pinned Lean toolchain is unavailable");
   const match = /^Lean \(version ([0-9]+\.[0-9]+\.[0-9]+),/.exec(result.stdout.trim());
@@ -122,21 +124,21 @@ export function certifyProject(sourceRoot: string, targetDirectory: string): Ass
     const compiledObjects: string[] = [];
     for (const filename of FORMALIZATION_LEAN_MODULE_FILENAMES) {
       const objectName = filename.replace(/\.lean$/, ".olean");
-      const moduleCheck = spawnSync("lean", ["-o", objectName, filename], { cwd: proofDirectory, encoding: "utf8", env: proofEnvironment });
+      const moduleCheck = spawnSync("lean", ["-o", objectName, filename], { cwd: proofDirectory, encoding: "utf8", env: proofEnvironment, timeout: SUBPROCESS_TIMEOUT_MS });
       if (moduleCheck.status !== 0) fail("MTCLI_CERTIFY_LEAN_PROOF", `/formalization/${filename}`, moduleCheck.stderr.trim() || moduleCheck.stdout.trim() || `Lean rejected ${filename}`);
       compiledObjects.push(path.join(proofDirectory, objectName));
     }
-    const decoder = spawnSync("lean", ["--run", INTERCHANGE_DECODER_FILENAME, "../checked-interchange.json"], { cwd: proofDirectory, encoding: "utf8", env: proofEnvironment });
+    const decoder = spawnSync("lean", ["--run", INTERCHANGE_DECODER_FILENAME, "../checked-interchange.json"], { cwd: proofDirectory, encoding: "utf8", env: proofEnvironment, timeout: SUBPROCESS_TIMEOUT_MS });
     if (decoder.status !== 0) fail("MTCLI_CERTIFY_LEAN_DECODER", "/checked-interchange", decoder.stderr.trim() || decoder.stdout.trim() || "Lean rejected the checked interchange");
     const expectedSummary = ["pass", graph.project_id, graph.source_manifest.manifest_sha256, graph.source_manifest.aggregate_sha256, interchange.formalization_payload.project_graph.graph_sha256, String(interchange.denominators.node_count), String(interchange.denominators.edge_count), String(interchange.denominators.obligation_count), String(interchange.denominators.applicable_witness_count)].join("\t");
     const decodedSummary = decoder.stdout.trim();
     if (decodedSummary !== expectedSummary) fail("MTCLI_CERTIFY_LEAN_DECODER_RESULT", "/checked-interchange", "Lean decoded summary differs from the compiled projection");
-    const proof = spawnSync("lean", ["Current.lean"], { cwd: proofDirectory, encoding: "utf8", env: proofEnvironment });
+    const proof = spawnSync("lean", ["Current.lean"], { cwd: proofDirectory, encoding: "utf8", env: proofEnvironment, timeout: SUBPROCESS_TIMEOUT_MS });
     if (proof.status !== 0) fail("MTCLI_CERTIFY_LEAN_PROOF", "/formalization/Current.lean", proof.stderr.trim() || proof.stdout.trim() || "Lean rejected the proof unit");
     for (const objectPath of compiledObjects) fs.rmSync(objectPath, { force: true });
 
     const certificateBody = {
-      schema_version: "domainspec.assurance-certificate/v1-candidate" as const,
+      schema_version: "domainspec.assurance-certificate/v1" as const,
       result: "pass" as const,
       project_id: graph.project_id,
       source_manifest_sha256: graph.source_manifest.manifest_sha256,
@@ -218,7 +220,7 @@ export function checkCertifiedProject(sourceRoot: string, targetDirectory: strin
     const current = canonicalJson(actualInventory) === canonicalJson(expectedInventory)
       && expectedInventory.every((relative) => fs.readFileSync(path.join(targetDirectory, relative)).equals(fs.readFileSync(path.join(expectedTarget, relative))));
     return Object.freeze({
-      schema_version: "domainspec.certification-check/v1-candidate",
+      schema_version: "domainspec.certification-check/v1",
       result: current ? "pass" : "fail",
       current,
       target_directory: targetDirectory,

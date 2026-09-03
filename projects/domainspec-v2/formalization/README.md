@@ -1,6 +1,12 @@
 # DomainSpec Formalization
 
-Status: **contracts-authored candidate package**
+Status: **contracts-authored candidate package; stable compiler projection implemented separately**
+
+The Stable 1.0 CLI now compiles the complete project graph, emits DS-D8
+obligation applicability/predicate/witness data, generates a graph-bound Lean
+proof unit, and certifies it through an independent Lean JSON decoder. That
+implementation lives in `../impl/cli` and does not implement or adopt the
+broader wizard, TDE, provider, or EVF lifecycle described by this package.
 
 This package defines how DomainSpec can turn business meaning into bounded,
 checkable evidence without letting a formal tool silently change the meaning.

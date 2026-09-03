@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://domainspec.local/contracts/checked-interchange.schema.json",
-  "title": "DomainSpec checked interchange v1 candidate",
+  "title": "DomainSpec checked interchange v1",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "project_id", "source_identity", "compiled_graph", "compiled_certificate", "formalization_payload", "denominators", "claim_scope", "authority_effect", "interchange_sha256"],
   "properties": {
-    "schema_version": {"const": "domainspec.checked-interchange/v1-candidate"},
+    "schema_version": {"const": "domainspec.checked-interchange/v1"},
     "project_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
     "source_identity": {
       "type": "object",
@@ -22,7 +22,7 @@
       "additionalProperties": false,
       "required": ["schema_version", "project_id", "source_manifest", "nodes", "relationships", "obligation_witnesses", "obligation_applicability", "obligation_outcomes", "authority_effect"],
       "properties": {
-        "schema_version": {"const": "domainspec.compiled-project-graph/v1-candidate"},
+        "schema_version": {"const": "domainspec.compiled-project-graph/v1"},
         "project_id": {"type": "string"},
         "source_manifest": {"type": "object"},
         "nodes": {"type": "array", "minItems": 1},
@@ -39,7 +39,7 @@
       "additionalProperties": false,
       "required": ["schema_version", "baseline", "relationship_authority", "lean_module_set", "project_graph", "meta_types", "relationships", "obligation_catalog", "applicable_witnesses", "graph_certificate", "typescript_projection"],
       "properties": {
-        "schema_version": {"const": "domainspec.meta-type-formalization-render-payload/v1-candidate"},
+        "schema_version": {"const": "domainspec.meta-type-formalization-render-payload/v1"},
         "baseline": {"type": "object"},
         "relationship_authority": {"type": "object"},
         "lean_module_set": {"type": "object"},

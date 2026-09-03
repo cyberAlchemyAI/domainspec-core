@@ -164,8 +164,9 @@ the matching runtime case was never executed, the final claim must say so.
 
 This example demonstrates how several kinds of evidence can support one bounded claim.
 
-It does **not** describe a complete current pipeline. The direct JSON-to-obligation join,
-general factory-to-EVF join, and complete independently consumed receipt are unfinished.
+It does **not** describe a complete current pipeline. The compiled JSON graph now derives
+and checks all applicable backend DS-D8 obligations, and the packed CLI is exercised by
+isolated consumers. The general TDE/factory-to-EVF join remains unfinished.
 Even a complete technical result would still require a separate owner decision before
 release or deployment.
 
@@ -174,15 +175,15 @@ release or deployment.
 | Area | What exists now | What is still missing |
 | --- | --- | --- |
 | Language | 13 active backend types and 31 active relationship signatures in total | Wider admitted type formation and implementation coverage |
-| JSON source | A checked project/feature/node format and compiler | A released external workflow and direct obligation derivation |
+| JSON source | A checked project/feature/node format and stable compiled-graph compiler with DS-D8 obligation derivation | External registry publication and broader derivation families |
 | Generated views | Graph, source manifest, readable spec, view record, build receipt | Stable adoption by every downstream consumer |
 | Markdown derivation | A deterministic engine that creates structural obligations and test material | A safe bridge from the selected JSON graph, or retirement of the legacy input |
 | Conformance factory | Bounded, repeatable local evidence graphs | Broader providers and a governed general EVF connection |
-| Implementation conformance | An admitted architecture Design | A completed and independently adopted runtime package |
-| EVF | Architecture and partial candidate-local evidence | One complete source-to-independent-consumer result |
+| Implementation conformance | Stable generated-target compile checks and isolated package-consumer evidence | An independently adopted production runtime package |
+| EVF | Architecture and partial candidate-local evidence | A general governed EVF join; this remains outside Stable 1.0 |
 | Operational resilience | Offline checks over synthetic fixtures | Live production monitoring, deployment, rollback, and runtime proof |
-| CLI | A canonical private command surface for 13 backend meta-types across TypeScript, Python, and Rust, with static generated-target conformance | A published and released external command-line product |
-| Production release | A roadmap showing the required joins | Technical completion, independent verification, and external authorization |
+| CLI | Stable 1.0 source, compiled graph, generation, verification, and certification across 13 backend meta-types and three languages | External registry publication; runtime remains experimental |
+| Production release | A locally verified, packable Stable 1.0 implementation candidate | Independent release decision, publication, deployment, and production operations |
 
 The counts need care. There are 13 active backend types. The registry also retains UI
 candidates, deferred UI types, and the superseded `Saga` record. Those retained records
@@ -528,7 +529,7 @@ receipts, not in this stable document.
 | `impl/test-derivation-engine/` | Derives structural obligations from supported Markdown |
 | `impl/architecture-conformance/` | Runs repeatable local evidence graphs |
 | `impl/operational-resilience/` | Tests offline resilience contracts using synthetic evidence |
-| `impl/cli/` | Holds the canonical private instantiation and static-conformance CLI, not a released command |
+| `impl/cli/` | Holds the Stable 1.0 compiler, generator, verifier, certifier, and explicitly experimental runtime subpath |
 | `development/implementation-conformance/` | Holds the target conformance Design |
 | `development/evolvable-validation-framework/` | Holds the EVF architecture and evidence |
 | `development/validation-architecture-roadmap/` | Plans one complete validation route |
@@ -572,16 +573,15 @@ Examples:
 
 ## Known gaps
 
-1. The selected JSON graph does not yet feed obligation derivation directly.
-2. No receipt covers the complete route from accepted meaning to independent consumer.
-3. The language contains more active backend types than have complete implementation
-   evidence.
+1. The selected JSON graph feeds backend DS-D8 obligation derivation, but not the broader TDE/EVF obligation model.
+2. Clean-package evidence covers isolated installed consumers, but no owner-bound release receipt exists.
+3. All 13 active backend types have deterministic generated-target checks; wider admitted type formation remains open.
 4. UI types are still candidate or deferred even where related connections are active.
 5. Multi-language and formal examples prove bounded cases, not universal parity.
 6. The general factory-to-EVF connection is not established.
 7. Trend and guarded-convergence machinery is incomplete.
 8. Offline resilience evidence does not establish production behavior.
-9. The CLI is not a released interface.
+9. The CLI has a Stable 1.0 compatibility boundary but has not been externally published or released.
 10. Production authorization remains external and unsatisfied.
 11. Durable Workflow recovery has a canonical architecture-property profile, but its coordination store,
     Claim/Lease runtime, Attempt journal, Retry scheduler, Terminal recorder, restart reconciler, and

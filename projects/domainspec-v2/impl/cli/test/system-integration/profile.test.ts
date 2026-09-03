@@ -26,6 +26,18 @@ function clone(value: unknown): any {
   return JSON.parse(JSON.stringify(value));
 }
 
+function withMessaging(): any {
+  const value = clone(bindingSet);
+  value.message_channels = [
+    { channel_id: "settlement-events", purpose: "delivery", allowed_event_refs: ["alpha:settlement-requested"], publisher_operation_refs: ["alpha:settle"], consumer_operation_refs: ["beta:record-settlement-request"], evidence_boundary: "formation-only-no-delivery-claim" },
+    { channel_id: "settlement-events-dead-letter", purpose: "dead-letter", allowed_event_refs: ["alpha:settlement-requested"], publisher_operation_refs: [], consumer_operation_refs: [], evidence_boundary: "terminal-route-configuration-only" },
+  ];
+  value.delivery_policies = [{ policy_id: "settlement-delivery", semantics: "at-least-once", acknowledgement_boundary: "provider-accepted", ordering_scope: "none", visibility_timeout_seconds: 60, retention_seconds: 345600, max_receive_count: 5, dead_letter_channel_ref: "settlement-events-dead-letter", deduplication_owner_ref: "consumer:inbox-message-id", evidence_boundary: "provider-acceptance-is-not-application-commit" }];
+  value.transport_failure_policies = [{ policy_id: "settlement-transport-failure", retry_eligibility: "idempotent-message-id-only", max_attempts: 5, backoff: "exponential-bounded", unknown_outcome: "reconcile-by-message-id", terminal_action: "dead-letter", evidence_boundary: "bounded-attempt-observation-only" }];
+  value.transport_bindings = [{ binding_id: "settlement-message-transport", mode: "message", direction: "publish-subscribe", operation_ref: "alpha:settle", event_ref: "alpha:settlement-requested", channel_ref: "settlement-events", delivery_policy_ref: "settlement-delivery", failure_policy_ref: "settlement-transport-failure", envelope_profile_ref: "envelope:domainspec-event-json-v1", evidence_boundary: "intent-send-acceptance-delivery-and-commit-remain-distinct" }];
+  return value;
+}
+
 test("frozen provider-neutral profile covers D45-D49 in exactly three languages", () => {
   assert.deepEqual(FROZEN_SYSTEM_INTEGRATION.profile.definition_ids, [
     "domainspec-v2-D45",
@@ -84,4 +96,18 @@ test("profile, subject, continuation, universal abstraction, and reference drift
   const missing = clone(bindingSet);
   missing.persistence_bindings[0].dependency_contract_ref = "missing-repository";
   assert.throws(() => validateSystemIntegrationBindingSet(missing), (error) => error instanceof SystemIntegrationError && error.code === "SIC_REFERENCE_UNRESOLVED");
+});
+
+test("message contract extension compiles deterministically and rejects collapsed guarantees", () => {
+  const candidate = withMessaging();
+  assert.deepEqual(compileSystemIntegrationManifest(candidate, "typescript"), compileSystemIntegrationManifest(clone(candidate), "typescript"));
+  assert.equal(validateSystemIntegrationBindingSet(candidate).transport_bindings.length, 1);
+  candidate.delivery_policies[0].acknowledgement_boundary = "application-committed";
+  assert.throws(() => validateSystemIntegrationBindingSet(candidate), (error) => error instanceof SystemIntegrationError && error.code === "SIC_DELIVERY_CLAIM");
+  const invalidReference = withMessaging();
+  invalidReference.transport_bindings[0].operation_ref = "alpha/op";
+  assert.throws(() => validateSystemIntegrationBindingSet(invalidReference), (error) => error instanceof SystemIntegrationError && error.code === "SIC_SCHEMA");
+  const mismatchedDeadLetter = withMessaging();
+  mismatchedDeadLetter.message_channels[1].allowed_event_refs = ["beta:other-event"];
+  assert.throws(() => validateSystemIntegrationBindingSet(mismatchedDeadLetter), (error) => error instanceof SystemIntegrationError && error.code === "SIC_MESSAGE_BINDING_INCOMPLETE");
 });

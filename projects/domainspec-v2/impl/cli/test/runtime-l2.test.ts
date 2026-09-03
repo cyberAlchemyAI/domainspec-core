@@ -19,7 +19,7 @@ test("in-memory runtime executes all 13 backend types and observes all 17 relati
   const fixture = createCompleteL1Project();
   try {
     const receipt = runInMemoryProject(fixture.root, completeL2Invocation());
-    assert.equal(receipt.outcomes.length, 16);
+    assert.equal(receipt.outcomes.length, 17);
     assert.equal(receipt.coverage.meta_type_ids.length, 13);
     assert.equal(receipt.coverage.relationship_ids.length, 17);
     assert.equal(receipt.coverage.complete_backend_types, true);
@@ -37,7 +37,7 @@ test("domainspec-v2 run executes in a fresh process and writes a distinct determ
   try {
     fs.writeFileSync(requestPath, `${JSON.stringify(completeL2Invocation(), null, 2)}\n`);
     const cli = path.resolve("src/cli/main.ts");
-    const result = spawnSync("/home/vrondelli/.nvm/versions/node/v26.8.1/bin/node", ["--import", "tsx", cli, "run", fixture.root, "--request", requestPath, "--receipt", receiptPath], { cwd: path.resolve("."), encoding: "utf8", env: { ...process.env, NODE_NO_WARNINGS: "1" } });
+    const result = spawnSync(process.execPath, ["--import", "tsx", cli, "run", fixture.root, "--request", requestPath, "--receipt", receiptPath], { cwd: path.resolve("."), encoding: "utf8", env: { ...process.env, NODE_NO_WARNINGS: "1" } });
     assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
     const command = JSON.parse(result.stdout); const receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8"));
     assert.equal(command.result, "pass");
@@ -65,7 +65,7 @@ test("domainspec-v2 run executes in a fresh process and writes a distinct determ
     const repeat = runInMemoryProject(fixture.root, completeL2Invocation());
     assert.equal(repeat.receipt_sha256, receipt.receipt_sha256);
     const originalBytes = fs.readFileSync(receiptPath, "utf8");
-    const overwrite = spawnSync("/home/vrondelli/.nvm/versions/node/v26.8.1/bin/node", ["--import", "tsx", cli, "run", fixture.root, "--request", requestPath, "--receipt", receiptPath], { cwd: path.resolve("."), encoding: "utf8", env: { ...process.env, NODE_NO_WARNINGS: "1" } });
+    const overwrite = spawnSync(process.execPath, ["--import", "tsx", cli, "run", fixture.root, "--request", requestPath, "--receipt", receiptPath], { cwd: path.resolve("."), encoding: "utf8", env: { ...process.env, NODE_NO_WARNINGS: "1" } });
     assert.equal(overwrite.status, 22);
     assert.equal(JSON.parse(overwrite.stderr).code, "MTCLI_RUNTIME_RECEIPT_EXISTS");
     assert.equal(fs.readFileSync(receiptPath, "utf8"), originalBytes);

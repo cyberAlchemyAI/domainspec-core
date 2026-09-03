@@ -12,7 +12,7 @@ import {
 } from "../formalization/projection.js";
 
 export interface CheckedInterchangeV1 {
-  readonly schema_version: "domainspec.checked-interchange/v1-candidate";
+  readonly schema_version: "domainspec.checked-interchange/v1";
   readonly project_id: string;
   readonly source_identity: Readonly<{
     readonly source_manifest_sha256: string;
@@ -66,7 +66,7 @@ function body(value: Omit<CheckedInterchangeV1, "interchange_sha256">): Omit<Che
 export function createCheckedInterchange(graph: CompiledProjectGraph): CheckedInterchangeV1 {
   const projection = createMetaTypeFormalizationProjection(graph);
   const candidate = body({
-    schema_version: "domainspec.checked-interchange/v1-candidate",
+    schema_version: "domainspec.checked-interchange/v1",
     project_id: graph.project_id,
     source_identity: Object.freeze({
       source_manifest_sha256: graph.source_manifest.manifest_sha256,
@@ -89,7 +89,7 @@ export function createCheckedInterchange(graph: CompiledProjectGraph): CheckedIn
 
 export function validateCheckedInterchange(value: unknown, graph: CompiledProjectGraph): CheckedInterchangeV1 {
   exactKeys(value, ["schema_version", "project_id", "source_identity", "compiled_graph", "compiled_certificate", "formalization_payload", "denominators", "claim_scope", "authority_effect", "interchange_sha256"], "$");
-  if (value.schema_version !== "domainspec.checked-interchange/v1-candidate") fail("MTCLI_INTERCHANGE_SCHEMA", "/schema_version", "unsupported checked interchange");
+  if (value.schema_version !== "domainspec.checked-interchange/v1") fail("MTCLI_INTERCHANGE_SCHEMA", "/schema_version", "unsupported checked interchange");
   if (value.project_id !== graph.project_id) fail("MTCLI_INTERCHANGE_SOURCE", "/project_id", "project identity does not match compiled graph");
   exactKeys(value.source_identity, ["source_manifest_sha256", "source_bytes_sha256"], "/source_identity");
   if (value.source_identity.source_manifest_sha256 !== graph.source_manifest.manifest_sha256) fail("MTCLI_INTERCHANGE_SOURCE", "/source_identity/source_manifest_sha256", "source manifest identity drifted");

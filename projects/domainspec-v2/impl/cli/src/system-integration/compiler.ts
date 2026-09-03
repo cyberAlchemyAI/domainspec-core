@@ -10,6 +10,8 @@ const PROFILE_ID = "domainspec.system-integration-profile/provider-neutral-v1" a
 const ID = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const REF = /^[a-z][a-z0-9]*(?:[-.:/][a-z0-9]+)*$/;
 const SUBJECT = /^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$/;
+const MESSAGE_ENVELOPE_PROFILE = "envelope:domainspec-event-json-v1" as const;
+const MESSAGE_DEDUPLICATION_OWNER = "consumer:inbox-message-id" as const;
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -34,9 +36,22 @@ function exactKeys(value: unknown, expected: readonly string[], pointer: string)
   if (canonicalJson(Object.keys(value).sort()) !== canonicalJson([...expected].sort())) fail("SIC_SCHEMA", pointer, "unexpected or missing member");
 }
 
+function exactKeysWithOptional(value: unknown, required: readonly string[], optional: readonly string[], pointer: string): asserts value is UnknownRecord {
+  if (!isObject(value)) fail("SIC_SCHEMA", pointer, "expected object");
+  const keys = Object.keys(value);
+  for (const key of required) if (!keys.includes(key)) fail("SIC_SCHEMA", pointer, `missing member:${key}`);
+  const allowed = new Set([...required, ...optional]);
+  for (const key of keys) if (!allowed.has(key)) fail("SIC_SCHEMA", pointer, `unexpected member:${key}`);
+}
+
 function requiredString(value: unknown, pointer: string): string {
   if (typeof value !== "string" || value.length === 0) fail("SIC_SCHEMA", pointer, "expected nonempty string");
   return value;
+}
+
+function boundedInteger(value: unknown, pointer: string, minimum: number, maximum: number): number {
+  if (!Number.isInteger(value) || Number(value) < minimum || Number(value) > maximum) fail("SIC_SCHEMA", pointer, `expected integer from ${minimum} through ${maximum}`);
+  return Number(value);
 }
 
 function reference(value: unknown, pointer: string): string {
@@ -45,9 +60,28 @@ function reference(value: unknown, pointer: string): string {
   return result;
 }
 
+function subjectReference(value: unknown, pointer: string): string {
+  const result = requiredString(value, pointer);
+  if (!SUBJECT.test(result)) fail("SIC_SCHEMA", pointer, "expected feature-id:node-id reference");
+  return result;
+}
+
+function messageChannelIdentity(value: unknown, pointer: string): string {
+  const result = requiredString(value, pointer);
+  if (result.length > 64 || !ID.test(result)) fail("SIC_MESSAGE_CHANNEL", pointer, "message channel id must be at most 64 lowercase kebab-case characters");
+  return result;
+}
+
 function stringSet(value: unknown, pointer: string, minimum = 1, references = false): readonly string[] {
   if (!Array.isArray(value) || value.length < minimum) fail("SIC_SCHEMA", pointer, `expected at least ${minimum} values`);
   const rows = value.map((entry, index) => references ? reference(entry, `${pointer}/${index}`) : requiredString(entry, `${pointer}/${index}`));
+  if (new Set(rows).size !== rows.length) fail("SIC_SCHEMA", pointer, "duplicate array member");
+  return Object.freeze([...rows].sort());
+}
+
+function subjectSet(value: unknown, pointer: string, minimum = 1): readonly string[] {
+  if (!Array.isArray(value) || value.length < minimum) fail("SIC_SCHEMA", pointer, `expected at least ${minimum} values`);
+  const rows = value.map((entry, index) => subjectReference(entry, `${pointer}/${index}`));
   if (new Set(rows).size !== rows.length) fail("SIC_SCHEMA", pointer, "duplicate array member");
   return Object.freeze([...rows].sort());
 }
@@ -73,7 +107,7 @@ function identities(records: readonly UnknownRecord[], field: string, pointer: s
 
 export function validateSystemIntegrationBindingSet(value: unknown): Readonly<Record<string, unknown>> {
   if (isObject(value) && Object.keys(value).some((key) => key.endsWith("digest"))) fail("SIC_AUTHORED_DIGEST_FORBIDDEN", "$bindingSet", "portable input cannot author compiler digests");
-  exactKeys(value, ["schema_version", "binding_set_id", "profile_id", "subject_ref", "dependency_contracts", "persistence_bindings", "transaction_guarantee_bindings", "failure_outcome_bindings", "durable_workflow_runtime_bindings", "authority_effect"], "$bindingSet");
+  exactKeysWithOptional(value, ["schema_version", "binding_set_id", "profile_id", "subject_ref", "dependency_contracts", "persistence_bindings", "transaction_guarantee_bindings", "failure_outcome_bindings", "durable_workflow_runtime_bindings", "authority_effect"], ["message_channels", "transport_bindings", "delivery_policies", "transport_failure_policies"], "$bindingSet");
   if (value.schema_version !== "domainspec.system-integration-binding-set/v1" || value.profile_id !== PROFILE_ID || value.authority_effect !== "none") fail("SIC_SCHEMA", "$bindingSet", "binding-set envelope mismatch");
   const bindingSetId = reference(value.binding_set_id, "/binding_set_id");
   if (!ID.test(bindingSetId)) fail("SIC_SCHEMA", "/binding_set_id", "binding-set id must be a canonical identifier");
@@ -122,11 +156,49 @@ export function validateSystemIntegrationBindingSet(value: unknown): Readonly<Re
     return Object.freeze({ binding_id: reference(record.binding_id, `${pointer}/binding_id`), workflow_profile_ref: reference(record.workflow_profile_ref, `${pointer}/workflow_profile_ref`), persistence_binding_refs: stringSet(record.persistence_binding_refs, `${pointer}/persistence_binding_refs`, 1, true), transaction_guarantee_binding_refs: stringSet(record.transaction_guarantee_binding_refs, `${pointer}/transaction_guarantee_binding_refs`, 1, true), failure_outcome_binding_refs: stringSet(record.failure_outcome_binding_refs, `${pointer}/failure_outcome_binding_refs`, 1, true), scheduler_contract_ref: reference(record.scheduler_contract_ref, `${pointer}/scheduler_contract_ref`), clock_contract_ref: reference(record.clock_contract_ref, `${pointer}/clock_contract_ref`), wakeup_contract_ref: record.wakeup_contract_ref, replay_contract_ref: reference(record.replay_contract_ref, `${pointer}/replay_contract_ref`), version_compatibility_ref: reference(record.version_compatibility_ref, `${pointer}/version_compatibility_ref`), evidence_boundary: requiredString(record.evidence_boundary, `${pointer}/evidence_boundary`) });
   });
 
+  const messageChannels = recordArray(value.message_channels ?? [], "/message_channels").map((record, index) => {
+    const pointer = `/message_channels/${index}`;
+    exactKeys(record, ["channel_id", "purpose", "allowed_event_refs", "publisher_operation_refs", "consumer_operation_refs", "evidence_boundary"], pointer);
+    if (!['delivery', 'dead-letter'].includes(String(record.purpose))) fail("SIC_MESSAGE_CHANNEL", `${pointer}/purpose`, "message channel purpose must be delivery or dead-letter");
+    const publishers = subjectSet(record.publisher_operation_refs, `${pointer}/publisher_operation_refs`, 0);
+    const consumers = subjectSet(record.consumer_operation_refs, `${pointer}/consumer_operation_refs`, 0);
+    if (record.purpose === "delivery" && (publishers.length === 0 || consumers.length === 0)) fail("SIC_MESSAGE_CHANNEL", pointer, "delivery channel requires publisher and consumer Operation references");
+    if (record.purpose === "dead-letter" && (publishers.length !== 0 || consumers.length !== 0)) fail("SIC_MESSAGE_CHANNEL", pointer, "dead-letter channel cannot declare application publishers or consumers");
+    return Object.freeze({ channel_id: messageChannelIdentity(record.channel_id, `${pointer}/channel_id`), purpose: record.purpose, allowed_event_refs: subjectSet(record.allowed_event_refs, `${pointer}/allowed_event_refs`), publisher_operation_refs: publishers, consumer_operation_refs: consumers, evidence_boundary: requiredString(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
+  const deliveryPolicies = recordArray(value.delivery_policies ?? [], "/delivery_policies").map((record, index) => {
+    const pointer = `/delivery_policies/${index}`;
+    exactKeys(record, ["policy_id", "semantics", "acknowledgement_boundary", "ordering_scope", "visibility_timeout_seconds", "retention_seconds", "max_receive_count", "dead_letter_channel_ref", "deduplication_owner_ref", "evidence_boundary"], pointer);
+    if (record.semantics !== "at-least-once" || record.acknowledgement_boundary !== "provider-accepted" || record.ordering_scope !== "none") fail("SIC_DELIVERY_CLAIM", pointer, "candidate message vertical supports at-least-once, provider acceptance, and no ordering guarantee only");
+    if (record.deduplication_owner_ref !== MESSAGE_DEDUPLICATION_OWNER) fail("SIC_DEDUPLICATION_OWNER", `${pointer}/deduplication_owner_ref`, `unsupported deduplication owner:${String(record.deduplication_owner_ref)}`);
+    return Object.freeze({ policy_id: reference(record.policy_id, `${pointer}/policy_id`), semantics: "at-least-once", acknowledgement_boundary: "provider-accepted", ordering_scope: "none", visibility_timeout_seconds: boundedInteger(record.visibility_timeout_seconds, `${pointer}/visibility_timeout_seconds`, 1, 43200), retention_seconds: boundedInteger(record.retention_seconds, `${pointer}/retention_seconds`, 60, 1209600), max_receive_count: boundedInteger(record.max_receive_count, `${pointer}/max_receive_count`, 1, 1000), dead_letter_channel_ref: reference(record.dead_letter_channel_ref, `${pointer}/dead_letter_channel_ref`), deduplication_owner_ref: MESSAGE_DEDUPLICATION_OWNER, evidence_boundary: requiredString(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
+  const transportFailurePolicies = recordArray(value.transport_failure_policies ?? [], "/transport_failure_policies").map((record, index) => {
+    const pointer = `/transport_failure_policies/${index}`;
+    exactKeys(record, ["policy_id", "retry_eligibility", "max_attempts", "backoff", "unknown_outcome", "terminal_action", "evidence_boundary"], pointer);
+    if (record.retry_eligibility !== "idempotent-message-id-only" || record.backoff !== "exponential-bounded" || record.unknown_outcome !== "reconcile-by-message-id" || record.terminal_action !== "dead-letter") fail("SIC_TRANSPORT_FAILURE_POLICY", pointer, "transport failure policy overclaims or omits bounded reconciliation");
+    return Object.freeze({ policy_id: reference(record.policy_id, `${pointer}/policy_id`), retry_eligibility: "idempotent-message-id-only", max_attempts: boundedInteger(record.max_attempts, `${pointer}/max_attempts`, 1, 1000), backoff: "exponential-bounded", unknown_outcome: "reconcile-by-message-id", terminal_action: "dead-letter", evidence_boundary: requiredString(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
+  const transportBindings = recordArray(value.transport_bindings ?? [], "/transport_bindings").map((record, index) => {
+    const pointer = `/transport_bindings/${index}`;
+    exactKeys(record, ["binding_id", "mode", "direction", "operation_ref", "event_ref", "channel_ref", "delivery_policy_ref", "failure_policy_ref", "envelope_profile_ref", "evidence_boundary"], pointer);
+    if (record.mode !== "message" || record.direction !== "publish-subscribe") fail("SIC_TRANSPORT_BINDING", pointer, "candidate transport binding supports publish-subscribe messages only");
+    if (record.envelope_profile_ref !== MESSAGE_ENVELOPE_PROFILE) fail("SIC_ENVELOPE_PROFILE", `${pointer}/envelope_profile_ref`, `unsupported envelope profile:${String(record.envelope_profile_ref)}`);
+    return Object.freeze({ binding_id: reference(record.binding_id, `${pointer}/binding_id`), mode: "message", direction: "publish-subscribe", operation_ref: subjectReference(record.operation_ref, `${pointer}/operation_ref`), event_ref: subjectReference(record.event_ref, `${pointer}/event_ref`), channel_ref: reference(record.channel_ref, `${pointer}/channel_ref`), delivery_policy_ref: reference(record.delivery_policy_ref, `${pointer}/delivery_policy_ref`), failure_policy_ref: reference(record.failure_policy_ref, `${pointer}/failure_policy_ref`), envelope_profile_ref: MESSAGE_ENVELOPE_PROFILE, evidence_boundary: requiredString(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
   const dependencyIds = identities(dependencyContracts, "contract_id", "/dependency_contracts");
   const persistenceIds = identities(persistenceBindings, "binding_id", "/persistence_bindings");
   const failureIds = identities(failureOutcomeBindings, "binding_id", "/failure_outcome_bindings");
   const transactionIds = identities(transactionGuaranteeBindings, "binding_id", "/transaction_guarantee_bindings");
   identities(durableWorkflowRuntimeBindings, "binding_id", "/durable_workflow_runtime_bindings");
+  const channelIds = identities(messageChannels, "channel_id", "/message_channels");
+  const deliveryPolicyIds = identities(deliveryPolicies, "policy_id", "/delivery_policies");
+  const transportFailurePolicyIds = identities(transportFailurePolicies, "policy_id", "/transport_failure_policies");
+  identities(transportBindings, "binding_id", "/transport_bindings");
   for (const binding of persistenceBindings) if (!dependencyIds.has(binding.dependency_contract_ref)) fail("SIC_REFERENCE_UNRESOLVED", "/persistence_bindings", `dependency contract unresolved:${binding.dependency_contract_ref}`);
   for (const binding of failureOutcomeBindings) if (!dependencyIds.has(binding.concern_ref)) fail("SIC_REFERENCE_UNRESOLVED", "/failure_outcome_bindings", `failure concern unresolved:${binding.concern_ref}`);
   for (const binding of transactionGuaranteeBindings) {
@@ -141,7 +213,23 @@ export function validateSystemIntegrationBindingSet(value: unknown): Readonly<Re
     if (typeof binding.wakeup_contract_ref === "string" && !dependencyIds.has(binding.wakeup_contract_ref)) fail("SIC_DURABLE_BINDING_INCOMPLETE", "/durable_workflow_runtime_bindings", `wakeup contract unresolved:${binding.wakeup_contract_ref}`);
   }
 
-  return Object.freeze({ schema_version: "domainspec.system-integration-binding-set/v1", binding_set_id: bindingSetId, profile_id: PROFILE_ID, subject_ref: subjectRef, dependency_contracts: sortRecords(dependencyContracts, "contract_id"), persistence_bindings: sortRecords(persistenceBindings, "binding_id"), transaction_guarantee_bindings: sortRecords(transactionGuaranteeBindings, "binding_id"), failure_outcome_bindings: sortRecords(failureOutcomeBindings, "binding_id"), durable_workflow_runtime_bindings: sortRecords(durableWorkflowRuntimeBindings, "binding_id"), authority_effect: "none" });
+  for (const policy of deliveryPolicies) {
+    if (!channelIds.has(policy.dead_letter_channel_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/delivery_policies", `dead-letter channel unresolved:${policy.dead_letter_channel_ref}`);
+    const channel = messageChannels.find(({ channel_id }) => channel_id === policy.dead_letter_channel_ref);
+    if (channel?.purpose !== "dead-letter") fail("SIC_MESSAGE_CHANNEL", "/delivery_policies", `dead-letter reference does not select a dead-letter channel:${policy.dead_letter_channel_ref}`);
+  }
+  for (const binding of transportBindings) {
+    if (!channelIds.has(binding.channel_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/transport_bindings", `message channel unresolved:${binding.channel_ref}`);
+    if (!deliveryPolicyIds.has(binding.delivery_policy_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/transport_bindings", `delivery policy unresolved:${binding.delivery_policy_ref}`);
+    if (!transportFailurePolicyIds.has(binding.failure_policy_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/transport_bindings", `transport failure policy unresolved:${binding.failure_policy_ref}`);
+    const channel = messageChannels.find(({ channel_id }) => channel_id === binding.channel_ref);
+    if (channel?.purpose !== "delivery" || !channel.allowed_event_refs.includes(binding.event_ref) || !channel.publisher_operation_refs.includes(binding.operation_ref)) fail("SIC_MESSAGE_BINDING_INCOMPLETE", "/transport_bindings", `transport binding is not admitted by its delivery channel:${binding.binding_id}`);
+    const delivery = deliveryPolicies.find(({ policy_id }) => policy_id === binding.delivery_policy_ref);
+    const deadLetter = messageChannels.find(({ channel_id }) => channel_id === delivery?.dead_letter_channel_ref);
+    if (!deadLetter?.allowed_event_refs.includes(binding.event_ref)) fail("SIC_MESSAGE_BINDING_INCOMPLETE", "/transport_bindings", `transport Event is not admitted by its dead-letter channel:${binding.binding_id}`);
+  }
+
+  return Object.freeze({ schema_version: "domainspec.system-integration-binding-set/v1", binding_set_id: bindingSetId, profile_id: PROFILE_ID, subject_ref: subjectRef, dependency_contracts: sortRecords(dependencyContracts, "contract_id"), persistence_bindings: sortRecords(persistenceBindings, "binding_id"), transaction_guarantee_bindings: sortRecords(transactionGuaranteeBindings, "binding_id"), failure_outcome_bindings: sortRecords(failureOutcomeBindings, "binding_id"), durable_workflow_runtime_bindings: sortRecords(durableWorkflowRuntimeBindings, "binding_id"), message_channels: sortRecords(messageChannels, "channel_id"), transport_bindings: sortRecords(transportBindings, "binding_id"), delivery_policies: sortRecords(deliveryPolicies, "policy_id"), transport_failure_policies: sortRecords(transportFailurePolicies, "policy_id"), authority_effect: "none" });
 }
 
 export function compileSystemIntegrationManifest(value: unknown, language: SupportedLanguage): SystemIntegrationBindingManifestV1 {

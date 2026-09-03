@@ -4,7 +4,7 @@ import path from "node:path";
 import { compileBindingManifest, LANGUAGES, loadProfilePackage, PACKAGE_ROOT, readBindingSetFile, renderLanguageContract, verifyLanguageContract } from "../compiler/system-integration-v1.mjs";
 
 const packageState = loadProfilePackage();
-const schemaNames = ["integration-reference-v1.schema.json", "dependency-contract-v1.schema.json", "persistence-binding-v1.schema.json", "transaction-guarantee-binding-v1.schema.json", "failure-outcome-binding-v1.schema.json", "durable-workflow-runtime-binding-v1.schema.json", "binding-set-v1.schema.json", "binding-manifest-v1.schema.json"];
+const schemaNames = ["integration-reference-v1.schema.json", "dependency-contract-v1.schema.json", "persistence-binding-v1.schema.json", "transaction-guarantee-binding-v1.schema.json", "failure-outcome-binding-v1.schema.json", "durable-workflow-runtime-binding-v1.schema.json", "message-channel-v1.schema.json", "transport-binding-v1.schema.json", "delivery-policy-v1.schema.json", "transport-failure-policy-v1.schema.json", "binding-set-v1.schema.json", "binding-manifest-v1.schema.json"];
 for (const name of schemaNames) {
   const value = JSON.parse(fs.readFileSync(path.join(PACKAGE_ROOT, "contracts", name), "utf8"));
   if (name !== "integration-reference-v1.schema.json" && value.additionalProperties !== false) throw new Error(`schema is not closed:${name}`);

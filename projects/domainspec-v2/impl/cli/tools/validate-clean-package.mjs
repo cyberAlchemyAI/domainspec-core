@@ -30,6 +30,16 @@ const exactValidationToolchain = Object.freeze({
   DOMAINSPEC_RUSTC: pathExecutable("rustc"),
   DOMAINSPEC_CARGO: pathExecutable("cargo"),
 });
+const doctorPath = [...new Set([
+  path.dirname(process.execPath),
+  path.dirname(exactValidationToolchain.DOMAINSPEC_TSC),
+  path.dirname(exactValidationToolchain.DOMAINSPEC_PYTHON),
+  path.dirname(exactValidationToolchain.DOMAINSPEC_RUSTC),
+  path.dirname(exactValidationToolchain.DOMAINSPEC_CARGO),
+  path.dirname(pathExecutable("lean")),
+  "/usr/bin",
+  "/bin",
+])].join(path.delimiter);
 
 function inventory(root) {
   const rows = [];
@@ -47,9 +57,118 @@ function inventory(root) {
   return rows;
 }
 
+function writeJson(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function addRecipeEvidence(source) {
+  writeJson(path.join(source, "specs/alpha/nodes/settlement-requested.json"), {
+    schema_version: "domainspec.node/v1",
+    node_id: "settlement-requested",
+    feature_id: "alpha",
+    kind: "Event",
+    body: {
+      description: "A settlement was requested.",
+      event_type: "settlement-requested",
+      version: "1",
+      occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true },
+      occurred_at_policy: "generated",
+      payload: [],
+    },
+  });
+  writeJson(path.join(source, "specs/alpha/edges/settle-produces-settlement-requested.json"), {
+    schema_version: "domainspec.edge/v1",
+    edge_id: "settle-produces-settlement-requested",
+    feature_id: "alpha",
+    relationship: "produces",
+    source_node_id: "settle",
+    target_node_id: "settlement-requested",
+    scope: "feature",
+  });
+  const featurePath = path.join(source, "specs/alpha/feature.json");
+  const feature = JSON.parse(fs.readFileSync(featurePath, "utf8"));
+  feature.nodes.push("settlement-requested");
+  feature.nodes.sort();
+  feature.edges.push("settle-produces-settlement-requested");
+  feature.edges.sort();
+  writeJson(featurePath, feature);
+  writeJson(path.join(source, "specs/beta/nodes/record-settlement-request.json"), {
+    schema_version: "domainspec.node/v1", node_id: "record-settlement-request", feature_id: "beta", kind: "Operation",
+    body: { description: "Consume one settlement request Event idempotently.", reads: ["settlement-inbox"], writes: ["settlement-audit"], effects: [], guard: "message-id-not-processed", failure_continuation: "retry" },
+  });
+  const betaPath = path.join(source, "specs/beta/feature.json");
+  const beta = JSON.parse(fs.readFileSync(betaPath, "utf8"));
+  beta.nodes.push("record-settlement-request"); beta.nodes.sort(); writeJson(betaPath, beta);
+  writeJson(path.join(source, "edges/settlement-requested-triggers-record.json"), { schema_version: "domainspec.edge/v1", edge_id: "settlement-requested-triggers-record", source_feature_id: "alpha", source_node_id: "settlement-requested", target_feature_id: "beta", target_node_id: "record-settlement-request", relationship: "triggers-cross", scope: "project" });
+  const projectPath = path.join(source, "project.json");
+  const project = JSON.parse(fs.readFileSync(projectPath, "utf8"));
+  project.cross_feature_edges.push("settlement-requested-triggers-record"); project.cross_feature_edges.sort(); writeJson(projectPath, project);
+  const bindingPath = path.join(source, "integrations/settle-runtime.json");
+  const binding = JSON.parse(fs.readFileSync(bindingPath, "utf8"));
+  binding.message_channels = [
+    { channel_id: "settlement-events", purpose: "delivery", allowed_event_refs: ["alpha:settlement-requested"], publisher_operation_refs: ["alpha:settle"], consumer_operation_refs: ["beta:record-settlement-request"], evidence_boundary: "formation-only-no-delivery-claim" },
+    { channel_id: "settlement-events-dead-letter", purpose: "dead-letter", allowed_event_refs: ["alpha:settlement-requested"], publisher_operation_refs: [], consumer_operation_refs: [], evidence_boundary: "terminal-route-configuration-only" },
+  ];
+  binding.delivery_policies = [{ policy_id: "settlement-delivery", semantics: "at-least-once", acknowledgement_boundary: "provider-accepted", ordering_scope: "none", visibility_timeout_seconds: 60, retention_seconds: 345600, max_receive_count: 5, dead_letter_channel_ref: "settlement-events-dead-letter", deduplication_owner_ref: "consumer:inbox-message-id", evidence_boundary: "provider-acceptance-is-not-application-commit" }];
+  binding.transport_failure_policies = [{ policy_id: "settlement-transport-failure", retry_eligibility: "idempotent-message-id-only", max_attempts: 5, backoff: "exponential-bounded", unknown_outcome: "reconcile-by-message-id", terminal_action: "dead-letter", evidence_boundary: "bounded-attempt-observation-only" }];
+  binding.transport_bindings = [{ binding_id: "settlement-message-transport", mode: "message", direction: "publish-subscribe", operation_ref: "alpha:settle", event_ref: "alpha:settlement-requested", channel_ref: "settlement-events", delivery_policy_ref: "settlement-delivery", failure_policy_ref: "settlement-transport-failure", envelope_profile_ref: "envelope:domainspec-event-json-v1", evidence_boundary: "intent-send-acceptance-delivery-and-commit-remain-distinct" }];
+  writeJson(bindingPath, binding);
+}
+
+function createRecipeInputs(consumer) {
+  const root = path.join(consumer, "recipe-input");
+  writeJson(path.join(root, "application/package.json"), {
+    name: "settlement-service",
+    version: "1.0.0",
+    private: true,
+    type: "module",
+    scripts: { build: "tsc -p tsconfig.json" },
+  });
+  writeJson(path.join(root, "application/package-lock.json"), {
+    name: "settlement-service",
+    version: "1.0.0",
+    lockfileVersion: 3,
+    requires: true,
+    packages: { "": { name: "settlement-service", version: "1.0.0" } },
+  });
+  writeJson(path.join(root, "application/tsconfig.json"), {
+    compilerOptions: { target: "ES2022", module: "NodeNext", moduleResolution: "NodeNext", rootDir: "src", outDir: "dist", strict: true },
+    include: ["src/**/*.ts"],
+  });
+  fs.mkdirSync(path.join(root, "application/src"), { recursive: true });
+  fs.writeFileSync(path.join(root, "application/src/api.ts"), "import http from 'node:http';\nhttp.createServer((_, response) => { response.statusCode = 204; response.end(); }).listen(8080);\n");
+  fs.writeFileSync(path.join(root, "application/src/outbox-worker.ts"), "process.on('SIGTERM', () => process.exit(0));\nsetInterval(() => undefined, 1000);\n");
+  fs.writeFileSync(path.join(root, "application/src/queue-consumer.ts"), "process.on('SIGTERM', () => process.exit(0));\nsetInterval(() => undefined, 1000);\n");
+  fs.mkdirSync(path.join(root, "database/domain-migrations"), { recursive: true });
+  fs.writeFileSync(path.join(root, "database/domain-migrations/0001_settlement.sql"), "CREATE TABLE settlement (settlement_id text PRIMARY KEY);\n");
+  const requestPath = path.join(root, "deployment-recipe-request.json");
+  writeJson(requestPath, {
+    schema_version: "domainspec.deployment-recipe-request/v1",
+    request_id: "settlement-production-recipe",
+    target: "aws-ecs-fargate-postgres-v1",
+    application: {
+      language: "typescript",
+      source_root: "application",
+      lockfile: "package-lock.json",
+      base_image: `node:26.8.1-bookworm-slim@sha256:${"a".repeat(64)}`,
+      api: { entrypoint: ["node", "dist/api.js"], port: 8080, health_path: "/healthz" },
+      worker: { entrypoint: ["node", "dist/outbox-worker.js"] },
+      consumer: { entrypoint: ["node", "dist/queue-consumer.js"] },
+      domain_migrations_root: "database/domain-migrations",
+    },
+    integration_binding_ids: ["settle-runtime"],
+    environment: { name_variable: "environment_name", aws_region_variable: "aws_region" },
+    authority_effect: "none",
+  });
+  return { root, requestPath };
+}
+
 const temporaryRoot = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-cli-clean-package-"));
 try {
   const sourcePackage = JSON.parse(fs.readFileSync(path.join(cliRoot, "package.json"), "utf8"));
+  assert.equal(sourcePackage.version, "1.0.0");
+  assert.equal(sourcePackage.private, false);
   assert.deepEqual(sourcePackage.engines, { node: "26.8.1", npm: "11.19.0" });
   assert.equal(sourcePackage.packageManager, "npm@11.19.0");
   const packOutput = JSON.parse(run("npm", ["pack", "--json", "--ignore-scripts", "--pack-destination", temporaryRoot], cliRoot));
@@ -60,6 +179,7 @@ try {
   const packedPaths = packed.files.map(({ path: relativePath }) => relativePath).sort();
   assert.equal(packedPaths.includes("package.json"), true);
   assert.equal(packedPaths.includes("README.md"), true);
+  for (const document of ["CHANGELOG.md", "COMPATIBILITY.md", "MIGRATION.md", "SECURITY.md"]) assert.equal(packedPaths.includes(document), true, document);
   assert.equal(packedPaths.includes("dist/authoring/add-operation.js"), true);
   assert.equal(packedPaths.includes("dist/cli/main.js"), true);
   assert.equal(packedPaths.includes("dist/generation/project-instantiation.js"), true);
@@ -68,11 +188,19 @@ try {
   assert.equal(packedPaths.includes("dist/meta-types/frozen-catalog.generated.js"), true);
   assert.equal(packedPaths.includes("dist/system-integration/frozen-profile.generated.js"), true);
   assert.equal(packedPaths.includes("dist/system-integration/compiler.js"), true);
+  assert.equal(packedPaths.includes("dist/recipe/contracts.js"), true);
+  assert.equal(packedPaths.includes("dist/recipe/plan.js"), true);
+  assert.equal(packedPaths.includes("dist/recipe/publish.js"), true);
+  assert.equal(packedPaths.includes("dist/recipe/targets/aws-ecs-fargate-postgres-v1.js"), true);
   assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeKernel.lean"), true);
   assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeCompilerRefinement.lean"), true);
   assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeTypeScriptProjectionRefinement.lean"), true);
   assert.equal(packedPaths.includes("contracts/instantiation-receipt.schema.json"), true);
   assert.equal(packedPaths.includes("contracts/target-observation.schema.json"), true);
+  assert.equal(packedPaths.includes("contracts/product-capabilities.schema.json"), true);
+  assert.equal(packedPaths.includes("contracts/deployment-recipe-request.schema.json"), true);
+  assert.equal(packedPaths.includes("contracts/deployment-recipe-manifest.schema.json"), true);
+  assert.equal(packedPaths.includes("contracts/deployment-recipe-receipt.schema.json"), true);
   assert.equal(packedPaths.some((relativePath) => relativePath.startsWith("src/") || relativePath.startsWith("test/") || relativePath.startsWith("tools/")), false);
 
   const cleanRuns = ["consumer-one", "consumer-two"].map((name) => {
@@ -80,9 +208,10 @@ try {
     fs.mkdirSync(consumer);
     fs.writeFileSync(path.join(consumer, "package.json"), `${JSON.stringify({ private: true, type: "module" })}\n`);
     run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund", tarball], consumer);
-    run(process.execPath, ["--input-type=module", "-e", "const root = await import('@domainspec-v2/cli'); const forbidden = ['emitCompilerRefinementOutput', 'createCompilerRefinementOutput', 'toTypeScriptProjectionPayload', 'FormalizationMaterializationHooks'].filter((name) => name in root); if (forbidden.length) throw new Error(forbidden.join(','));"], consumer);
+    run(process.execPath, ["--input-type=module", "-e", "const root = await import('@domainspec-v2/cli'); const forbidden = ['emitCompilerRefinementOutput', 'createCompilerRefinementOutput', 'toTypeScriptProjectionPayload', 'FormalizationMaterializationHooks', 'runInMemoryProject', 'runDurableOperation', 'PostgresTransactionalOutbox'].filter((name) => name in root); const required = ['addOperation', 'addQuery', 'addCalculation', 'addRule', 'addPolicy', 'addMapping', 'PRODUCT_CAPABILITIES', 'planDeploymentRecipe', 'publishDeploymentRecipe', 'verifyDeploymentRecipe', 'validateDeploymentRecipeReceipt'].filter((name) => !(name in root)); if (forbidden.length || required.length) throw new Error(JSON.stringify({forbidden,required})); const runtime = await import('@domainspec-v2/cli/experimental/runtime'); if (!('runInMemoryProject' in runtime) || !('PostgresTransactionalOutbox' in runtime) || !('SqsPostgresOutboxTransport' in runtime)) throw new Error('experimental runtime subpath incomplete');"], consumer);
     const source = path.join(consumer, "source");
     fs.cpSync(fixtureRoot, source, { recursive: true });
+    addRecipeEvidence(source);
     const rulePath = path.join(source, "specs/beta/nodes/can-complete-settlement.json");
     const rule = JSON.parse(fs.readFileSync(rulePath, "utf8"));
     rule.body.predicate = "structured:domainspec.typed-rule/v1";
@@ -94,6 +223,15 @@ try {
     };
     fs.writeFileSync(rulePath, `${JSON.stringify(rule, null, 2)}\n`);
     const executable = path.join(consumer, "node_modules/.bin/domainspec-v2");
+    assert.equal(run(executable, ["--version"], consumer).trim(), "1.0.0");
+    const capabilities = JSON.parse(run(executable, ["capabilities"], consumer));
+    assert.equal(capabilities.product.lifecycle, "stable");
+    assert.deepEqual(capabilities.experimental_commands, ["run"]);
+    const capabilitiesPath = path.join(consumer, "capabilities.json");
+    fs.writeFileSync(capabilitiesPath, `${JSON.stringify(capabilities)}\n`);
+    run("python3", ["-c", "import json,jsonschema,sys; jsonschema.Draft202012Validator(json.load(open(sys.argv[1]))).validate(json.load(open(sys.argv[2])))", path.join(consumer, "node_modules/@domainspec-v2/cli/contracts/product-capabilities.schema.json"), capabilitiesPath], consumer);
+    const doctor = JSON.parse(run(executable, ["doctor"], consumer, { PATH: doctorPath }));
+    assert.equal(doctor.result, "pass");
     const target = path.join(consumer, "target");
     const authoringResult = JSON.parse(run(executable, [
       "add", "operation", source,
@@ -115,10 +253,15 @@ try {
     const projectResult = JSON.parse(run(executable, ["instantiate-project", source, "--languages", "typescript,python,rust", "--target-root", projectTarget], consumer));
     const verifiedTarget = path.join(consumer, "verified-target");
     const verificationResult = JSON.parse(run(executable, ["verify-project", source, "--target-root", verifiedTarget], consumer, exactValidationToolchain));
-    return { consumer, executable, source, target, projectTarget, verifiedTarget, verificationResult, projectResult, formalizationTarget, formalizationResult, formalizationCheck, authoringResult, sourceLint, result };
+    const recipeInputs = createRecipeInputs(consumer);
+    const recipeTarget = path.join(consumer, "deployment-recipe");
+    const recipePlan = JSON.parse(run(executable, ["recipe-plan", source, "--request", recipeInputs.requestPath, "--consumer-root", recipeInputs.root], consumer));
+    const recipeGeneration = JSON.parse(run(executable, ["recipe-generate", source, "--request", recipeInputs.requestPath, "--consumer-root", recipeInputs.root, "--target-root", recipeTarget], consumer));
+    const recipeVerification = JSON.parse(run(executable, ["recipe-verify", source, "--request", recipeInputs.requestPath, "--consumer-root", recipeInputs.root, "--target-root", recipeTarget], consumer));
+    return { consumer, executable, source, target, projectTarget, verifiedTarget, verificationResult, projectResult, formalizationTarget, formalizationResult, formalizationCheck, authoringResult, sourceLint, result, recipeInputs, recipeTarget, recipePlan, recipeGeneration, recipeVerification };
   });
   const authoringResults = cleanRuns.map(({ authoringResult }) => authoringResult);
-  assert.equal(authoringResults.every(({ result, selector, source_count }) => result === "pass" && selector === "alpha:create-order" && source_count === 22), true);
+  assert.equal(authoringResults.every(({ result, selector, source_count }) => result === "pass" && selector === "alpha:create-order" && source_count >= 24), true);
   assert.equal(authoringResults[0].source_manifest_sha256, authoringResults[1].source_manifest_sha256);
   assert.equal(cleanRuns.every(({ sourceLint, authoringResult }) => sourceLint.result === "pass" && sourceLint.source_manifest.manifest_sha256 === authoringResult.source_manifest_sha256), true);
   assert.equal(
@@ -131,6 +274,11 @@ try {
   assert.equal(cleanRuns.every(({ projectResult, verificationResult }) => projectResult.result === "pass" && verificationResult.result === "pass" && verificationResult.skipped_check_count === 0 && verificationResult.inferred_evidence_count === 0), true);
   assert.equal(cleanRuns[0].projectResult.project_plan_sha256, cleanRuns[1].projectResult.project_plan_sha256);
   assert.equal(cleanRuns[0].verificationResult.project_plan_sha256, cleanRuns[1].verificationResult.project_plan_sha256);
+  assert.equal(cleanRuns.every(({ recipePlan, recipeGeneration, recipeVerification }) => recipePlan.authority_effect === "none" && recipeGeneration.result === "pass" && recipeVerification.result === "pass"), true);
+  assert.equal(cleanRuns[0].recipePlan.plan_sha256, cleanRuns[1].recipePlan.plan_sha256);
+  assert.equal(cleanRuns[0].recipePlan.manifest_sha256, cleanRuns[1].recipePlan.manifest_sha256);
+  assert.equal(cleanRuns[0].recipePlan.receipt_sha256, cleanRuns[1].recipePlan.receipt_sha256);
+  assert.deepEqual(inventory(cleanRuns[0].recipeTarget), inventory(cleanRuns[1].recipeTarget));
   assert.equal(cleanRuns[0].formalizationResult.render_payload_sha256, cleanRuns[1].formalizationResult.render_payload_sha256);
   assert.equal(cleanRuns[0].formalizationResult.project_graph_sha256, cleanRuns[1].formalizationResult.project_graph_sha256);
   assert.equal(cleanRuns[0].formalizationResult.lean_module_set_sha256, cleanRuns[1].formalizationResult.lean_module_set_sha256);
@@ -154,6 +302,9 @@ try {
     [path.join(cliRoot, "contracts/instantiation-receipt.schema.json"), receipt.receipt, "instantiation-receipt.json"],
     [path.join(cliRoot, "contracts/target-observation.schema.json"), receipt.observation, "target-observation.json"],
     [path.join(cliRoot, "contracts/target-observation.schema.json"), failureObservation, "target-observation-failure.json"],
+    [path.join(cliRoot, "contracts/deployment-recipe-request.schema.json"), JSON.parse(fs.readFileSync(cleanRuns[0].recipeInputs.requestPath, "utf8")), "deployment-recipe-request.json"],
+    [path.join(cliRoot, "contracts/deployment-recipe-manifest.schema.json"), JSON.parse(fs.readFileSync(path.join(cleanRuns[0].recipeTarget, "deployment-manifest.json"), "utf8")), "deployment-recipe-manifest.json"],
+    [path.join(cliRoot, "contracts/deployment-recipe-receipt.schema.json"), JSON.parse(fs.readFileSync(path.join(cleanRuns[0].recipeTarget, ".domainspec/deployment-recipe-receipt.json"), "utf8")), "deployment-recipe-receipt.json"],
   ];
   for (const [schemaPath, value, filename] of schemaCases) {
     const valuePath = path.join(temporaryRoot, filename);
@@ -184,6 +335,14 @@ try {
       file_count: inventory(path.dirname(cleanRuns[0].formalizationTarget)).length,
     },
     project_plan_sha256: cleanRuns[0].projectResult.project_plan_sha256,
+    deployment_recipe: {
+      target: "aws-ecs-fargate-postgres-v1",
+      plan_sha256: cleanRuns[0].recipePlan.plan_sha256,
+      manifest_sha256: cleanRuns[0].recipePlan.manifest_sha256,
+      receipt_sha256: cleanRuns[0].recipePlan.receipt_sha256,
+      artifact_count: inventory(cleanRuns[0].recipeTarget).length,
+      authority_effect: "none",
+    },
     project_verification_checks: cleanRuns[0].verificationResult.checks.map(({ id, result }) => ({ id, result })),
     authority_effect: "none",
   }, null, 2)}\n`);

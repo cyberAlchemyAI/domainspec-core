@@ -130,8 +130,8 @@ test("certify covers the complete 13-type and 17-relationship backend corpus", (
     assert.equal(interchange.compiled_certificate.backend_type_ids.length, 13);
     assert.equal(interchange.compiled_certificate.backend_relationship_ids.length, 17);
     assert.equal(interchange.denominators.obligation_count, 45);
-    assert.equal(certificate.denominators.node_count, 16);
-    assert.equal(certificate.denominators.edge_count, 19);
+    assert.equal(certificate.denominators.node_count, 17);
+    assert.equal(certificate.denominators.edge_count, 20);
     assert.equal(certificate.checks.every(({ result }) => result === "pass"), true);
   } finally {
     fs.rmSync(fixture.parent, { recursive: true, force: true });

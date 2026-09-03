@@ -74,13 +74,13 @@ type RelationshipProjection = Readonly<{
 type ObligationProjection = Readonly<{ obligation_id: string; lean_constructor: string; family: ObligationFamily; relationship_ids: readonly string[] }>;
 type WitnessProjection = Readonly<{ witness_id: string; lean_constructor: string; edge_id: string; obligation_id: string }>;
 type LeanModuleSetProjection = Readonly<{
-  schema_version: "domainspec.formalization-lean-module-set-projection/v1-candidate";
+  schema_version: "domainspec.formalization-lean-module-set-projection/v1";
   sha256: string;
   modules: readonly Readonly<{ filename: string; sha256: string }>[];
 }>;
 
 export interface FormalizationRenderPayload {
-  readonly schema_version: "domainspec.meta-type-formalization-render-payload/v1-candidate";
+  readonly schema_version: "domainspec.meta-type-formalization-render-payload/v1";
   readonly baseline: BaselineProjection;
   readonly relationship_authority: RelationshipAuthorityProjection;
   readonly lean_module_set: LeanModuleSetProjection;
@@ -94,7 +94,7 @@ export interface FormalizationRenderPayload {
 }
 
 export interface MetaTypeFormalizationProjection {
-  readonly schema_version: "domainspec.meta-type-formalization-projection/v2-candidate";
+  readonly schema_version: "domainspec.meta-type-formalization-projection/v2";
   readonly authority_effect: "none";
   readonly claim_ceiling: "compiled-project-graph-projection-only-no-runtime-conformance-or-authority";
   readonly render_payload_sha256: string;
@@ -153,7 +153,7 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
   graph: CompiledProjectGraph,
   leanModuleSet: FormalizationLeanModuleSet,
 ): MetaTypeFormalizationProjection {
-  if (graph.schema_version !== "domainspec.compiled-project-graph/v1-candidate" || graph.authority_effect !== "none") fail("MTCLI_FORMALIZE_GRAPH", "formalize requires the decoded, non-effectful project graph");
+  if (graph.schema_version !== "domainspec.compiled-project-graph/v1" || graph.authority_effect !== "none") fail("MTCLI_FORMALIZE_GRAPH", "formalize requires the decoded, non-effectful project graph");
   validateCompiledProjectGraphObligations(graph);
   const backend = FROZEN_META_TYPE_CATALOG.backend_meta_types.map(({ label }) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "backend" as const }));
   const ui = UI_META_TYPES.map((label) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "ui-supporting-context" as const }));
@@ -257,11 +257,11 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
   const refinement = createCompilerRefinementOutput(graph, { nodes: graphNodes, edges: graphEdges });
   const graphSha256 = refinement.certificate.graph_sha256;
   const renderPayload = deepFreeze<FormalizationRenderPayload>({
-    schema_version: "domainspec.meta-type-formalization-render-payload/v1-candidate",
+    schema_version: "domainspec.meta-type-formalization-render-payload/v1",
     baseline: { id: FROZEN_META_TYPE_CATALOG.baseline_id, digest: FROZEN_META_TYPE_CATALOG.baseline_digest, manifest_sha256: FROZEN_META_TYPE_CATALOG.manifest_sha256 },
     relationship_authority: { path: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_path, sha256: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_sha256, signature_count: 31 },
     lean_module_set: {
-      schema_version: "domainspec.formalization-lean-module-set-projection/v1-candidate",
+      schema_version: "domainspec.formalization-lean-module-set-projection/v1",
       sha256: leanModuleSet.sha256,
       modules: leanModuleSet.modules.map(({ filename, sha256: moduleSha256 }) => Object.freeze({ filename, sha256: moduleSha256 })),
     },
@@ -275,7 +275,7 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
   });
   const renderPayloadSha256 = sha256(JSON.stringify(renderPayload));
   return deepFreeze({
-    schema_version: "domainspec.meta-type-formalization-projection/v2-candidate", authority_effect: "none",
+    schema_version: "domainspec.meta-type-formalization-projection/v2", authority_effect: "none",
     claim_ceiling: "compiled-project-graph-projection-only-no-runtime-conformance-or-authority",
     render_payload_sha256: renderPayloadSha256,
     render_payload: renderPayload,

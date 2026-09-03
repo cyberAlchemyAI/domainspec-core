@@ -178,6 +178,36 @@ test("all generated TypeScript typechecks, all generated Python parses, and gene
   }
 });
 
+test("generated Rust Operation with no effects remains type-inferable", (context) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-rust-empty-effects-"));
+  try {
+    const base = node("Operation", "record-settlement-request");
+    const input = Object.freeze({
+      ...base,
+      body: decodeBody("Operation", {
+        description: "Consume one message without producing another effect.",
+        reads: ["settlement-inbox"],
+        writes: ["settlement-audit"],
+        effects: [],
+        guard: "message-id-not-processed",
+        failure_continuation: "retry",
+      }),
+    });
+    const artifact = planInstantiation(input, "rust").artifacts[0]!;
+    assert.match(artifact.content, /let outbox: Vec<String> = vec!\[\];/);
+    const source = path.join(root, "record-settlement-request.rs");
+    fs.writeFileSync(source, artifact.content);
+    const rust = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", "--crate-type", "lib", source, "--out-dir", root], { encoding: "utf8" });
+    if ((rust.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+      context.skip("Rust provider is not installed");
+      return;
+    }
+    assert.equal(rust.status, 0, `${rust.stdout}\n${rust.stderr}`);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("State Machine causal outcomes are equivalent in TypeScript, Python, and Rust", async (context) => {
   const machine = loadProjectNode(sourceFixtureRoot, "beta:settlement-status");
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-state-machine-runtime-"));

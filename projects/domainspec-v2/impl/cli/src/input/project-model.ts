@@ -200,7 +200,7 @@ export interface CompiledObligationOutcome {
 }
 
 export interface CompiledProjectGraph {
-  readonly schema_version: "domainspec.compiled-project-graph/v1-candidate";
+  readonly schema_version: "domainspec.compiled-project-graph/v1";
   readonly project_root: string;
   readonly project_id: string;
   readonly source_manifest: SourceManifestV1;
@@ -1218,7 +1218,7 @@ export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectG
   const applicability = compileObligationApplicability(nodes, model.relationships);
   const outcomes = Object.freeze(obligationWitnesses.map((witness) => evaluateCompiledObligationWitness({ nodes, relationships: model.relationships }, witness)));
   return validateCompiledProjectGraphObligations(Object.freeze({
-    schema_version: "domainspec.compiled-project-graph/v1-candidate",
+    schema_version: "domainspec.compiled-project-graph/v1",
     project_root: model.project_root,
     project_id: model.source_manifest.project_id,
     source_manifest: model.source_manifest,

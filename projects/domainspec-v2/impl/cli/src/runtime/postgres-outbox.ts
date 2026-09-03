@@ -1,16 +1,37 @@
 import { spawnSync } from "node:child_process";
+import { SUBPROCESS_TIMEOUT_MS } from "../input/limits.js";
+import { canonicalJson } from "../input/source-manifest.js";
 import { createHash } from "node:crypto";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import type { DurableCommitRequestV1, TransactionalOutboxPortV1 } from "./durable.js";
 
 export type PostgresOutboxStatus = "pending" | "leased" | "published" | "dead";
-export interface PostgresOutboxConfig { readonly host: string; readonly port: number; readonly database: string; readonly user: string; readonly password: string }
+export const POSTGRES_OUTBOX_SQS_ENVELOPE_PROFILE = "envelope:domainspec-event-json-v1" as const;
+export const POSTGRES_OUTBOX_DEDUPLICATION_OWNER = "consumer:inbox-message-id" as const;
+export interface PostgresOutboxConfig { readonly host: string; readonly port: number; readonly database: string; readonly user: string; readonly password: string; readonly maxAttempts?: number }
 export interface PostgresOutboxRecord { readonly messageId: string; readonly eventType: string; readonly payload: Readonly<Record<string, unknown>>; readonly occurredAt: string; readonly aggregateType: string; readonly aggregateId: string; readonly status: PostgresOutboxStatus; readonly attempts: number; readonly maxAttempts: number; readonly availableAt: string; readonly leaseOwner: string | null; readonly leaseUntil: string | null; readonly lastError: string | null; readonly quarantineReason: string | null; readonly publishedAt: string | null }
 export interface PostgresOutboxTransport { publish(message: PostgresOutboxRecord): Promise<void> }
 export interface PostgresOutboxHttpClient { send(input: { readonly url: string; readonly headers: Readonly<Record<string, string>>; readonly body: string }): Promise<{ readonly status: number }> }
 export class FetchPostgresOutboxHttpClient implements PostgresOutboxHttpClient { constructor(private readonly allowedOrigins: readonly string[]) {} async send(input: { url: string; headers: Readonly<Record<string, string>>; body: string }): Promise<{ status: number }> { const origin = new URL(input.url).origin; if (!this.allowedOrigins.includes(origin)) throw new Error(`OUTBOX_HTTP_ORIGIN_DENIED:${origin}`); const response = await fetch(input.url, { method: "POST", headers: input.headers, body: input.body, redirect: "error" }); return { status: response.status }; } }
 export class HttpPostgresOutboxTransport implements PostgresOutboxTransport { constructor(private readonly endpoint: string, private readonly client: PostgresOutboxHttpClient) {} async publish(message: PostgresOutboxRecord): Promise<void> { const response = await this.client.send({ url: this.endpoint, headers: { "content-type": "application/json", "idempotency-key": message.messageId }, body: JSON.stringify({ messageId: message.messageId, eventType: message.eventType, payload: message.payload, occurredAt: message.occurredAt, aggregateType: message.aggregateType, aggregateId: message.aggregateId }) }); if (response.status < 200 || response.status >= 300) throw new Error(`OUTBOX_HTTP_FAILED:${response.status}`); } }
+export interface PostgresOutboxSqsClient { send(input: { readonly queueUrl: string; readonly messageBody: string; readonly messageAttributes: Readonly<Record<string, Readonly<{ dataType: "String"; stringValue: string }>>> }): Promise<Readonly<{ messageId?: string }>> }
+export class SqsPostgresOutboxTransport implements PostgresOutboxTransport {
+  readonly envelope_profile_ref = POSTGRES_OUTBOX_SQS_ENVELOPE_PROFILE;
+  readonly deduplication_owner_ref = POSTGRES_OUTBOX_DEDUPLICATION_OWNER;
+  constructor(private readonly queueUrl: string, private readonly client: PostgresOutboxSqsClient) {
+    const parsed = new URL(queueUrl);
+    if (parsed.protocol !== "https:" || !/^sqs\.[a-z0-9-]+\.amazonaws\.com$/.test(parsed.hostname)) throw new Error("OUTBOX_SQS_URL_INVALID");
+  }
+  async publish(message: PostgresOutboxRecord): Promise<void> {
+    const result = await this.client.send({
+      queueUrl: this.queueUrl,
+      messageBody: canonicalJson({ messageId: message.messageId, eventType: message.eventType, payload: message.payload, occurredAt: message.occurredAt, aggregateType: message.aggregateType, aggregateId: message.aggregateId }),
+      messageAttributes: Object.freeze({ eventType: Object.freeze({ dataType: "String", stringValue: message.eventType }), messageId: Object.freeze({ dataType: "String", stringValue: message.messageId }) }),
+    });
+    if (typeof result.messageId !== "string" || result.messageId.length === 0) throw new Error("OUTBOX_SQS_PROVIDER_ACCEPTANCE_MISSING");
+  }
+}
 
 const migration = `CREATE TABLE IF NOT EXISTS domainspec_aggregate_state(aggregate_type text NOT NULL,aggregate_id text NOT NULL,state_json jsonb NOT NULL,version bigint NOT NULL,updated_at timestamptz NOT NULL,PRIMARY KEY(aggregate_type,aggregate_id));CREATE TABLE IF NOT EXISTS domainspec_outbox(message_id text PRIMARY KEY,aggregate_type text NOT NULL,aggregate_id text NOT NULL,event_type text NOT NULL,payload_json jsonb NOT NULL,occurred_at timestamptz NOT NULL,status text NOT NULL DEFAULT 'pending' CHECK(status IN('pending','leased','published','dead')),attempts integer NOT NULL DEFAULT 0,max_attempts integer NOT NULL DEFAULT 5,available_at timestamptz NOT NULL,lease_owner text,lease_until timestamptz,last_error text,quarantine_reason text,published_at timestamptz);ALTER TABLE domainspec_outbox ADD COLUMN IF NOT EXISTS quarantine_reason text;CREATE TABLE IF NOT EXISTS domainspec_outbox_attempt(message_id text NOT NULL,attempt integer NOT NULL,worker_id text NOT NULL,started_at timestamptz NOT NULL,completed_at timestamptz,outcome text NOT NULL,error text,PRIMARY KEY(message_id,attempt));CREATE TABLE IF NOT EXISTS domainspec_inbox(message_id text PRIMARY KEY,event_type text NOT NULL,processed_at timestamptz NOT NULL);CREATE TABLE IF NOT EXISTS domainspec_consumer_effect(effect_key text PRIMARY KEY,message_id text NOT NULL REFERENCES domainspec_inbox(message_id));CREATE INDEX IF NOT EXISTS domainspec_outbox_dispatch_idx ON domainspec_outbox(status,available_at,lease_until,occurred_at,message_id);`;
 function literal(value: string): string { if (value.includes("\0")) throw new Error("OUTBOX_NUL_FORBIDDEN"); return `'${value.replaceAll("'", "''")}'`; }
@@ -20,15 +41,17 @@ function digest(): string { return createHash("sha256").update(fs.readFileSync(f
 export class PostgresTransactionalOutbox implements TransactionalOutboxPortV1 {
   readonly provider_id = "postgres-transactional-outbox-v1" as const;
   readonly implementation_sha256 = digest();
-  constructor(private readonly config: PostgresOutboxConfig) { if (!config.host || !config.database || !config.user || !Number.isInteger(config.port)) throw new Error("OUTBOX_POSTGRES_CONFIG_INVALID"); this.sql(migration); }
+  readonly deduplication_owner_ref = POSTGRES_OUTBOX_DEDUPLICATION_OWNER;
+  readonly publish_max_attempts: number | null;
+  constructor(private readonly config: PostgresOutboxConfig) { if (!config.host || !config.database || !config.user || !Number.isInteger(config.port) || (config.maxAttempts !== undefined && (!Number.isSafeInteger(config.maxAttempts) || config.maxAttempts < 1 || config.maxAttempts > 1000))) throw new Error("OUTBOX_POSTGRES_CONFIG_INVALID"); this.publish_max_attempts = config.maxAttempts ?? null; this.sql(migration); }
   private sql(statement: string): string {
-    const result = spawnSync("psql", ["-X", "-qAt", "-v", "ON_ERROR_STOP=1", "-h", this.config.host, "-p", String(this.config.port), "-U", this.config.user, "-d", this.config.database], { input: statement, encoding: "utf8", env: { ...process.env, PGPASSWORD: this.config.password } });
+    const result = spawnSync("psql", ["-X", "-qAt", "-v", "ON_ERROR_STOP=1", "-h", this.config.host, "-p", String(this.config.port), "-U", this.config.user, "-d", this.config.database], { input: statement, encoding: "utf8", env: { ...process.env, PGPASSWORD: this.config.password }, timeout: SUBPROCESS_TIMEOUT_MS });
     if (result.status !== 0) throw new Error(`OUTBOX_POSTGRES:${result.stderr.trim()}`); return result.stdout.trim();
   }
   commit(request: DurableCommitRequestV1, failpoint?: "after-state-write"): { status: "committed" | "already-committed"; version: number } {
     if (!request.messages.length || !Number.isSafeInteger(request.expectedVersion) || request.expectedVersion < 0) throw new Error("OUTBOX_REQUEST_INVALID");
     const state = JSON.stringify(request.state); const exactMessages = request.messages.map((message) => `(message_id=${literal(message.messageId)} AND aggregate_type=${literal(request.aggregateType)} AND aggregate_id=${literal(request.aggregateId)} AND event_type=${literal(message.eventType)} AND payload_json=${literal(JSON.stringify(message.payload))}::jsonb AND occurred_at=${literal(iso(message.occurredAt))}::timestamptz)`).join(" OR ");
-    const inserts = request.messages.map((message) => `INSERT INTO domainspec_outbox(message_id,aggregate_type,aggregate_id,event_type,payload_json,occurred_at,max_attempts,available_at)VALUES(${literal(message.messageId)},${literal(request.aggregateType)},${literal(request.aggregateId)},${literal(message.eventType)},${literal(JSON.stringify(message.payload))}::jsonb,${literal(iso(message.occurredAt))}::timestamptz,${message.maxAttempts ?? 5},${literal(iso(message.occurredAt))}::timestamptz);`).join("");
+    const inserts = request.messages.map((message) => { const maxAttempts = this.publish_max_attempts ?? message.maxAttempts ?? 5; if (this.publish_max_attempts !== null && message.maxAttempts !== undefined && message.maxAttempts !== this.publish_max_attempts) throw new Error(`OUTBOX_MAX_ATTEMPTS_MISMATCH:${message.maxAttempts}:${this.publish_max_attempts}`); return `INSERT INTO domainspec_outbox(message_id,aggregate_type,aggregate_id,event_type,payload_json,occurred_at,max_attempts,available_at)VALUES(${literal(message.messageId)},${literal(request.aggregateType)},${literal(request.aggregateId)},${literal(message.eventType)},${literal(JSON.stringify(message.payload))}::jsonb,${literal(iso(message.occurredAt))}::timestamptz,${maxAttempts},${literal(iso(message.occurredAt))}::timestamptz);`; }).join("");
     const script = `BEGIN;SELECT pg_advisory_xact_lock(hashtextextended(${literal(`${request.aggregateType}:${request.aggregateId}`)},0));CREATE TEMP TABLE ds_result(status text,version bigint) ON COMMIT DROP;DO $$DECLARE v bigint; s jsonb; n integer;BEGIN SELECT version,state_json INTO v,s FROM domainspec_aggregate_state WHERE aggregate_type=${literal(request.aggregateType)} AND aggregate_id=${literal(request.aggregateId)} FOR UPDATE;IF v=${request.expectedVersion + 1} THEN SELECT count(*) INTO n FROM domainspec_outbox WHERE ${exactMessages};IF s=${literal(state)}::jsonb AND n=${request.messages.length} THEN INSERT INTO ds_result VALUES('already-committed',v);RETURN;END IF;END IF;IF COALESCE(v,0)<>${request.expectedVersion} THEN RAISE EXCEPTION 'OUTBOX_VERSION_CONFLICT';END IF;INSERT INTO domainspec_aggregate_state VALUES(${literal(request.aggregateType)},${literal(request.aggregateId)},${literal(state)}::jsonb,${request.expectedVersion + 1},${literal(iso(request.messages[0]!.occurredAt))}::timestamptz) ON CONFLICT(aggregate_type,aggregate_id) DO UPDATE SET state_json=excluded.state_json,version=excluded.version,updated_at=excluded.updated_at;${failpoint ? "RAISE EXCEPTION 'OUTBOX_FAILPOINT_AFTER_STATE_WRITE';" : ""}${inserts}INSERT INTO ds_result VALUES('committed',${request.expectedVersion + 1});END$$;SELECT status||'|'||version FROM ds_result;COMMIT;`;
     const [status, version] = this.sql(script).split("|"); if (status !== "committed" && status !== "already-committed") throw new Error("OUTBOX_POSTGRES_RESULT_INVALID"); return { status, version: Number(version) };
   }

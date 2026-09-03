@@ -93,6 +93,10 @@ export function createCompleteL1Project(): { readonly root: string; readonly par
     schema_version: "domainspec.node/v1", node_id: "settlement-requested", feature_id: "alpha", kind: "Event",
     body: { description: "L1 produced event fixture.", event_type: "settlement-requested", version: "1", occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, occurred_at_policy: "generated", payload: [] },
   });
+  writeJson(path.join(root, "specs/beta/nodes/record-settlement-request.json"), {
+    schema_version: "domainspec.node/v1", node_id: "record-settlement-request", feature_id: "beta", kind: "Operation",
+    body: { description: "Consume one settlement request Event idempotently.", reads: ["settlement-inbox"], writes: ["settlement-audit"], effects: [], guard: "message-id-not-processed", failure_continuation: "retry" },
+  });
   const alphaEdges = [
     ["settle-produces-settlement-requested", "produces", "settle", "settlement-requested"],
     ["settlement-flow-orchestrates-settle", "orchestrates", "settlement-flow", "settle"],
@@ -104,9 +108,20 @@ export function createCompleteL1Project(): { readonly root: string; readonly par
     ["settled-emits-settlement-completed", "emits", "settled", "settlement-completed"],
   ] as const;
   for (const edge of betaEdges) featureEdge(root, "beta", ...edge);
-  appendFeature(root, "beta", [], betaEdges.map(([id]) => id));
+  appendFeature(root, "beta", ["record-settlement-request"], betaEdges.map(([id]) => id));
   projectEdge(root, "settle-produces-for-settled", "produces-for", "alpha", "settle", "beta", "settled");
   projectEdge(root, "can-complete-enforces-settle", "enforces", "beta", "can-complete-settlement", "alpha", "settle");
+  projectEdge(root, "settlement-requested-triggers-record", "triggers-cross", "alpha", "settlement-requested", "beta", "record-settlement-request");
+  const integrationPath = path.join(root, "integrations/settle-runtime.json");
+  const integration = readJson(integrationPath);
+  integration.message_channels = [
+    { channel_id: "settlement-events", purpose: "delivery", allowed_event_refs: ["alpha:settlement-requested"], publisher_operation_refs: ["alpha:settle"], consumer_operation_refs: ["beta:record-settlement-request"], evidence_boundary: "formation-only-no-delivery-claim" },
+    { channel_id: "settlement-events-dead-letter", purpose: "dead-letter", allowed_event_refs: ["alpha:settlement-requested"], publisher_operation_refs: [], consumer_operation_refs: [], evidence_boundary: "terminal-route-configuration-only" },
+  ];
+  integration.delivery_policies = [{ policy_id: "settlement-delivery", semantics: "at-least-once", acknowledgement_boundary: "provider-accepted", ordering_scope: "none", visibility_timeout_seconds: 60, retention_seconds: 345600, max_receive_count: 5, dead_letter_channel_ref: "settlement-events-dead-letter", deduplication_owner_ref: "consumer:inbox-message-id", evidence_boundary: "provider-acceptance-is-not-application-commit" }];
+  integration.transport_failure_policies = [{ policy_id: "settlement-transport-failure", retry_eligibility: "idempotent-message-id-only", max_attempts: 5, backoff: "exponential-bounded", unknown_outcome: "reconcile-by-message-id", terminal_action: "dead-letter", evidence_boundary: "bounded-attempt-observation-only" }];
+  integration.transport_bindings = [{ binding_id: "settlement-message-transport", mode: "message", direction: "publish-subscribe", operation_ref: "alpha:settle", event_ref: "alpha:settlement-requested", channel_ref: "settlement-events", delivery_policy_ref: "settlement-delivery", failure_policy_ref: "settlement-transport-failure", envelope_profile_ref: "envelope:domainspec-event-json-v1", evidence_boundary: "intent-send-acceptance-delivery-and-commit-remain-distinct" }];
+  writeJson(integrationPath, integration);
   return Object.freeze({ root, parent });
 }
 
@@ -116,6 +131,7 @@ export function completeL2Invocation(): Record<string, unknown> {
     steps: [
       { step_id: "customer", selector: "alpha:customer", input: { record: { "customer-id": "customer-1", "settlement-details": "details-1", "preferred-method": "card" } } },
       { step_id: "settle", selector: "alpha:settle", input: { state: { customer: "customer-1", "customer.settlement-status": "pending" }, changes: { "customer.settlement-status": "settled" }, guard: true } },
+      { step_id: "record-settlement-request", selector: "beta:record-settlement-request", input: { state: { "settlement-inbox": "message-1" }, changes: { "settlement-audit": "recorded" }, guard: true } },
       { step_id: "api", selector: "alpha:settlement-api", input: { requested_version: "1" } },
       { step_id: "query", selector: "alpha:find-customer", input: { rows: [{ customer_id: "b", settlement_details: "B" }, { customer_id: "a", settlement_details: "A" }], parameters: { customer_id: "a" } } },
       { step_id: "calculation", selector: "alpha:total-cost", input: { inputs: { subtotal: 10, fee: 1, divisor: 2 } } },

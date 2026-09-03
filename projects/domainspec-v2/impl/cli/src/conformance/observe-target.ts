@@ -84,7 +84,7 @@ function operationEffectConstruction(content: string, receipt: InstantiationRece
   const expected = {
     typescript: `const outbox = ${receipt.input.node_id.split(/[^A-Za-z0-9]+/).filter(Boolean).map((word) => `${word[0]?.toUpperCase() ?? ""}${word.slice(1)}`).join("")}Contract.effects.map((type) => Object.freeze({ type, operation: ${JSON.stringify(receipt.input.node_id)} }));`,
     python: `outbox = [{"type": effect, "operation": ${JSON.stringify(receipt.input.node_id)}} for effect in ${JSON.stringify(effects)}]`,
-    rust: `let outbox: Vec<String> = [${effects.map((value) => JSON.stringify(value)).join(", ")}].iter().map(|value| (*value).to_owned()).collect();`,
+    rust: `let outbox: Vec<String> = vec![${effects.map((value) => `${JSON.stringify(value)}.to_owned()`).join(", ")}];`,
   } as const;
   if (!content.includes(expected[receipt.language])) fail("MTCLI_OPERATION_UNDECLARED_EFFECT", pointer, "Operation effect construction is not exactly derived from the declared effect set");
 }

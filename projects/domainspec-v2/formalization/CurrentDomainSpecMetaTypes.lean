@@ -6,7 +6,7 @@ import DomainSpecMetaTypeTypeScriptProjectionRefinement
    Source bytes: c1610a3ebff6aedf3ac2ddd840eb204571ae005846130e782530b33aefb08b69.
    Compiled graph: 934e7bb46f5e54e4320427b4f7af779582b150b0f1a85f410bb21c4d97adfbb7.
    Reusable Lean module set: 81f3268e0cb8751aeaa5b86ab3514389e8531d7f301c7bd7482fc008acfa5492.
-   Render payload: a4405225bdbd17b658b5f8bb67d34308a70c45c0b0a658f29510c8ee11360615.
+   Render payload: 214a7a9d8e3c9a7225c450200dfff2ab31b98b729d746e36d612232d07d39800.
    Baseline: domainspec-meta-types-current-implemented@10 (bfbc335d151ab8b29150dc95f246c2bc0954cff179ece5ce51222b2d1455abda).
    Relationship authority: projects/domainspec-v2/definitions/relationships/relationships.yml (82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1). -/
 namespace DomainSpec.CurrentGenerated

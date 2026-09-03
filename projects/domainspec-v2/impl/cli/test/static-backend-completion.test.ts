@@ -81,7 +81,7 @@ test("Calculation rounding is explicit and agrees on positive and negative ties 
     assert.equal(py.status, 0, py.stderr); assert.equal(py.stdout.trim(), "3.0 -3.0");
     const rustPath = path.join(root, "fee.rs"); fs.writeFileSync(rustPath, planInstantiation(node, "rust").artifacts[0]!.content);
     const harness = path.join(root, "main.rs"); fs.writeFileSync(harness, `mod generated { include!(${JSON.stringify(rustPath)}); }\nuse generated::*;\nfn main(){for base in [5.0,-5.0]{println!("{}",fee(&FeeInputs{base,surcharge:0.0,rate:2.0}).unwrap());}}\n`);
-    const binary = path.join(root, "rounding"); const compile = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
+    const binary = path.join(root, "rounding"); const compile = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
     assert.equal(compile.status, 0, compile.stderr); assert.deepEqual(spawnSync(binary, [], { encoding: "utf8" }).stdout.trim().split("\n"), ["3", "-3"]);
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
 });
@@ -155,7 +155,7 @@ test("Calculation executes one deterministic corpus in TypeScript, Python, and R
     const harness = path.join(root, "main.rs");
     fs.writeFileSync(harness, `mod generated { include!(${JSON.stringify(rustPath)}); }\nuse generated::*;\nfn main(){let i=FeeInputs{base:10.0,surcharge:4.0,rate:0.5};println!("{}",fee(&i).unwrap());let hostile=FeeInputs{base:f64::NAN,surcharge:4.0,rate:0.5};println!("{}",fee(&hostile).unwrap_err());}\n`);
     const binary = path.join(root, "calc");
-    const compile = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
+    const compile = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
     assert.equal(compile.status, 0, compile.stderr);
     assert.deepEqual(spawnSync(binary, [], { encoding: "utf8" }).stdout.trim().split("\n"), ["12", "missing or non-finite Calculation input:base"]);
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
@@ -181,7 +181,7 @@ test("Calculation division by zero fails causally in every native binding", asyn
     const harness = path.join(root, "main.rs");
     fs.writeFileSync(harness, `mod generated { include!(${JSON.stringify(rustPath)}); }\nuse generated::*;\nfn main(){let i=FeeInputs{base:10.0,surcharge:0.0,rate:0.0};println!("{}",fee(&i).unwrap_err());}\n`);
     const binary = path.join(root, "calc-zero");
-    const compile = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
+    const compile = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
     assert.equal(compile.status, 0, compile.stderr);
     assert.equal(spawnSync(binary, [], { encoding: "utf8" }).stdout.trim(), "Calculation division by zero");
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
@@ -219,7 +219,7 @@ test("Policy selection and Mapping transformation agree across native bindings",
     const harness = path.join(root, "main.rs");
     fs.writeFileSync(harness, `mod p { include!(${JSON.stringify(policyRs)}); }\nmod m { include!(${JSON.stringify(mappingRs)}); }\nuse std::collections::BTreeMap;\nfn main(){println!("{}",p::routing_policy(|r|r=="alpha:is-fast").unwrap());println!("{}",p::routing_policy(|_|false).unwrap());assert!(p::routing_policy(|_|true).is_err());let mut s=BTreeMap::new();s.insert("id".to_owned(),m::DomainspecMappingValue::String("c-1".to_owned()));let out=m::customer_mapping(&s).unwrap();println!("{}|{}",out.get("customer-id").unwrap().display(),out.get("currency").unwrap().display());}\n`);
     const binary = path.join(root, "static");
-    const compile = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
+    const compile = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
     assert.equal(compile.status, 0, compile.stderr);
     assert.deepEqual(spawnSync(binary, [], { encoding: "utf8" }).stdout.trim().split("\n"), ["fast-path", "safe-path", "c-1|USD"]);
   } finally { fs.rmSync(root, { recursive: true, force: true }); }
@@ -518,7 +518,7 @@ test("B15 generated corpus has no hidden runtime skips", () => {
     const rs = plan.artifacts.filter(({ relative_path }) => relative_path.endsWith(".rs")).map(({ relative_path }) => path.join(target, relative_path));
     const tsc = spawnSync(path.resolve(import.meta.dirname, "../../node_modules/.bin/tsc"), ["--noEmit", "--target", "ES2022", "--module", "NodeNext", "--moduleResolution", "NodeNext", "--skipLibCheck", ...ts], { encoding: "utf8", cwd: target });
     assert.equal(tsc.status, 0, tsc.stderr || tsc.stdout); assert.equal(spawnSync("python3", ["-m", "py_compile", ...py], { encoding: "utf8" }).status, 0);
-    for (const file of rs) { const result = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", "--crate-type", "lib", file, "-o", `${file}.rlib`], { encoding: "utf8" }); assert.equal(result.status, 0, `${file}\n${result.stderr}`); }
+    for (const file of rs) { const result = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", "--crate-type", "lib", file, "-o", `${file}.rlib`], { encoding: "utf8" }); assert.equal(result.status, 0, `${file}\n${result.stderr}`); }
     assert.deepEqual([ts.length, py.length, rs.length], [18, 18, 18]);
     const verifiedTarget = path.join(targetParent, "verified"); const out: string[] = []; const errors: string[] = [];
     const priorTsc = process.env.DOMAINSPEC_TSC;

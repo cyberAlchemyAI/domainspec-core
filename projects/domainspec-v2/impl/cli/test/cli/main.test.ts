@@ -7,11 +7,45 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { runCli } from "../../src/cli/main.ts";
+import { MAX_SOURCE_FILE_BYTES } from "../../src/input/limits.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
 const authOperationSource = path.resolve(testDir, "../../../../../auth-foundation/implementation/operation-source");
 const capacityOperationSource = path.resolve(testDir, "../fixtures/capacity-decision");
+
+test("product discovery reports the stable compiler boundary and experimental runtime", () => {
+  const out: string[] = [];
+  const errors: string[] = [];
+  const io = { stdout: (value: string) => out.push(value), stderr: (value: string) => errors.push(value) };
+  assert.equal(runCli(["--version"], io), 0);
+  assert.equal(out.pop(), "1.0.0\n");
+  assert.equal(runCli(["--help"], io), 0);
+  assert.match(out.pop()!, /Stable commands:/);
+  assert.equal(runCli(["capabilities"], io), 0);
+  const capabilities = JSON.parse(out.pop()!);
+  assert.equal(capabilities.product.lifecycle, "stable");
+  assert.equal(capabilities.product.version, "1.0.0");
+  assert.deepEqual(capabilities.experimental_commands, ["run"]);
+  assert.deepEqual(capabilities.deployment_recipe, { lifecycle: "candidate", target: "aws-ecs-fargate-postgres-v1", messaging: { lifecycle: "candidate", provider: "aws-sqs", guarantees: ["at-least-once", "provider-acceptance-only"] }, effects: "none" });
+  assert.equal(capabilities.stable_commands.includes("recipe-plan"), true);
+  assert.equal(capabilities.stable_commands.includes("recipe-generate"), true);
+  assert.equal(capabilities.stable_commands.includes("recipe-verify"), true);
+  assert.deepEqual(capabilities.compiled_meta_types, ["Entity", "Value Object", "Enum", "Operation", "Query", "Calculation", "Rule", "Policy", "Workflow", "Interface", "Event", "Mapping", "State Machine"]);
+  assert.equal(errors.length, 0);
+});
+
+test("oversized project sources fail closed before JSON decoding", () => {
+  const candidate = fixture();
+  try {
+    fs.writeFileSync(path.join(candidate.source, "project.json"), Buffer.alloc(MAX_SOURCE_FILE_BYTES + 1, 0x20));
+    const errors: string[] = [];
+    assert.equal(runCli(["lint", candidate.source], { stdout: () => undefined, stderr: (value) => errors.push(value) }), 22);
+    assert.equal(JSON.parse(errors[0]!).code, "SFC_INPUT_SIZE");
+  } finally {
+    fs.rmSync(candidate.parent, { recursive: true, force: true });
+  }
+});
 
 function fixture(): { parent: string; source: string; target: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-e2e-"));

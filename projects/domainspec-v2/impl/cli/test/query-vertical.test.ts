@@ -161,7 +161,7 @@ test("TypeScript, Python, and Rust Query bindings execute one semantic corpus", 
     const harness = path.join(parent, "main.rs");
     fs.writeFileSync(harness, `mod generated { include!(${JSON.stringify(rustPath)}); }\nuse generated::*;\nfn label(value: TrustedInputResolution)->&'static str { match value { TrustedInputResolution::Resolved(_) => "Resolved", TrustedInputResolution::Deny => "Deny" } }\nfn main(){ let snapshot=TrustedInputSnapshot{authentication_evidence:vec![],route_bindings:vec![]}; let valid=TrustedInputQuery{authentication_evidence_ref:"evidence-1".to_owned(),route_id:"route-1".to_owned(),decision_time:1}; let invalid=TrustedInputQuery{route_id:"".to_owned(),..valid.clone()}; println!("{}",DOMAINSPEC_QUERY_CLOSURE_SHA256); println!("{}",label(resolve_trusted_inputs(&valid,&snapshot))); println!("{}",label(resolve_trusted_inputs(&invalid,&snapshot))); }\n`);
     const binary = path.join(parent, "query-bin");
-    const compiled = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
+    const compiled = spawnSync(process.env.DOMAINSPEC_RUSTC ?? "rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
     assert.equal(compiled.status, 0, compiled.stderr ?? compiled.error?.message);
     const rust = spawnSync(binary, [], { encoding: "utf8" });
     assert.equal(rust.status, 0, rust.stderr);

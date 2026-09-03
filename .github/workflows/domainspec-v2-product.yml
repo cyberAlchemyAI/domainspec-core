@@ -1,0 +1,56 @@
+name: DomainSpec v2 product
+
+on:
+  pull_request:
+    paths:
+      - "projects/domainspec-v2/impl/cli/**"
+      - "projects/domainspec-v2/impl/system-integration/**"
+      - "projects/domainspec-v2/README.md"
+      - "projects/domainspec-v2/ARCHITECTURE.md"
+      - "projects/domainspec-v2/formalization/README.md"
+      - ".github/workflows/domainspec-v2-product.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+  push:
+    branches: [master]
+    paths:
+      - "projects/domainspec-v2/impl/cli/**"
+      - "projects/domainspec-v2/impl/system-integration/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-product:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.34.5
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.8.1
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.94.0"
+          components: rustfmt
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
+        with:
+          auto-config: false
+          lake-package-directory: projects/domainspec-v2/impl/cli
+      - name: Install product validation dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          python3 -m pip install --disable-pip-version-check jsonschema
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: Verify Stable 1.0 product
+        working-directory: projects/domainspec-v2/impl/cli
+        run: npm run verify:product

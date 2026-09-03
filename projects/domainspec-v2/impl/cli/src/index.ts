@@ -11,13 +11,29 @@ export {
 
 export { runCli, type CliIo } from "./cli/main.js";
 export {
+  addCalculation,
+  addMapping,
   addOperation,
+  addPolicy,
+  addQuery,
   addRule,
+  addThinBackend,
   SourceAuthoringError,
+  type AddCalculationInput,
+  type AddCalculationResult,
+  type AddMappingInput,
+  type AddMappingResult,
   type AddOperationInput,
   type AddOperationResult,
+  type AddPolicyInput,
+  type AddPolicyResult,
+  type AddQueryInput,
+  type AddQueryResult,
   type AddRuleInput,
   type AddRuleResult,
+  type AddThinBackendInput,
+  type AddThinBackendResult,
+  type ThinBackendKind,
 } from "./authoring/add-operation.js";
 export {
   observeTarget,
@@ -122,24 +138,42 @@ export {
   validateSystemIntegrationManifest,
 } from "./system-integration/compiler.js";
 export { FROZEN_SYSTEM_INTEGRATION, validateFrozenSystemIntegrationProfile } from "./system-integration/profile.js";
-export { runInMemoryProject } from "./runtime/in-memory.js";
-export { runDurableOperation, type DurableCommitRequestV1, type DurableOperationInvocationV1, type DurableOperationReceiptV1, type TransactionalOutboxPortV1 } from "./runtime/durable.js";
-export { FetchPostgresOutboxHttpClient, HttpPostgresOutboxTransport, PostgresOutboxWorker, PostgresTransactionalOutbox, type PostgresOutboxConfig, type PostgresOutboxHttpClient, type PostgresOutboxRecord, type PostgresOutboxStatus, type PostgresOutboxTransport } from "./runtime/postgres-outbox.js";
-export { materializeRuntimeReceipt, validateRuntimeReceiptBinding } from "./runtime/receipt.js";
-export { compareIndependentRuntimeTarget, type IndependentRuntimeTarget, type RuntimeConformanceResultV1 } from "./runtime/conformance.js";
 export {
-  decodeRuntimeInvocation,
-  runtimeRequestSha256,
-  RuntimeContractError,
-  type RuntimeInvocationV1,
-  type RuntimeStepV1,
-  type RuntimeStepOutcomeV1,
-  type RuntimeCoverageV1,
-  type RuntimeReceiptV1,
-} from "./runtime/contracts.js";
+  AUTHORING_META_TYPES,
+  CLI_HELP,
+  COMPILED_META_TYPES,
+  EXPERIMENTAL_COMMANDS,
+  PRODUCT_CAPABILITIES,
+  STABLE_COMMANDS,
+  inspectProductEnvironment,
+  type ProductDoctorCheck,
+} from "./product/capabilities.js";
 export type {
   SystemIntegrationBindingManifestV1,
   SystemIntegrationProfileV1,
   SystemIntegrationReceiptBindingV1,
   SystemIntegrationSelectionV1,
 } from "./system-integration/types.js";
+export {
+  DEPLOYMENT_RECIPE_TARGET,
+  DeploymentRecipeError,
+  decodeDeploymentRecipeRequest,
+  parseDeploymentRecipeRequestJson,
+  readDeploymentRecipeRequest,
+  type DeploymentRecipeArtifactV1,
+  type DeploymentRecipeBindingV1,
+  type DeploymentRecipeManifestV1,
+  type DeploymentRecipeMessageV1,
+  type DeploymentRecipePlanV1,
+  type DeploymentRecipeReceiptV1,
+  type DeploymentRecipeRequestV1,
+  type DeploymentRecipeComponentV1,
+} from "./recipe/contracts.js";
+export { planDeploymentRecipe, deploymentRecipePlanSummary } from "./recipe/plan.js";
+export {
+  publishDeploymentRecipe,
+  verifyDeploymentRecipe,
+  validateDeploymentRecipeReceipt,
+  type DeploymentRecipePublicationV1,
+  type DeploymentRecipeVerificationV1,
+} from "./recipe/publish.js";

@@ -24,6 +24,12 @@ import { materializeRuntimeReceipt } from "../runtime/receipt.js";
 import { runDurableOperation } from "../runtime/durable.js";
 import { PostgresTransactionalOutbox } from "../runtime/postgres-outbox.js";
 import { certifyProject, checkCertifiedProject } from "../assurance/certify.js";
+import { CLI_HELP, PRODUCT_CAPABILITIES, inspectProductEnvironment } from "../product/capabilities.js";
+import { CLI_VERSION } from "../version.js";
+import { MAX_SOURCE_FILE_BYTES, readBoundedFileSync } from "../input/limits.js";
+import { readDeploymentRecipeRequest } from "../recipe/contracts.js";
+import { deploymentRecipePlanSummary, planDeploymentRecipe } from "../recipe/plan.js";
+import { publishDeploymentRecipe, verifyDeploymentRecipe } from "../recipe/publish.js";
 
 export interface CliIo {
   readonly stdout: (value: string) => void;
@@ -326,10 +332,26 @@ function runArgs(args: readonly string[]): { readonly sourceRoot: string; readon
   return Object.freeze({ sourceRoot, requestPath: values.get("--request")!, receiptPath: values.get("--receipt")!, provider: values.get("--provider") ?? null });
 }
 
+function recipeArgs(args: readonly string[], command: "recipe-plan" | "recipe-generate" | "recipe-verify"): { readonly sourceRoot: string; readonly requestPath: string; readonly consumerRoot: string; readonly targetRoot: string | null } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`${command} requires one absolute source project root`);
+  const required = command === "recipe-plan" ? ["--request", "--consumer-root"] : ["--request", "--consumer-root", "--target-root"];
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !required.includes(option) || !value || !path.isAbsolute(value)) usage(`${command} requires absolute ${required.join(", ")}`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  if (values.size !== required.length || required.some((option) => !values.has(option))) usage(`${command} requires absolute ${required.join(", ")}`);
+  return Object.freeze({ sourceRoot, requestPath: values.get("--request")!, consumerRoot: values.get("--consumer-root")!, targetRoot: values.get("--target-root") ?? null });
+}
+
 function postgresProvider(): PostgresTransactionalOutbox {
   const required = ["PGHOST", "PGPORT", "PGDATABASE", "PGUSER", "PGPASSWORD"] as const;
   for (const key of required) if (!process.env[key]) usage(`postgres provider requires ${key}`);
-  return new PostgresTransactionalOutbox({ host: process.env.PGHOST!, port: Number(process.env.PGPORT), database: process.env.PGDATABASE!, user: process.env.PGUSER!, password: process.env.PGPASSWORD! });
+  const configuredAttempts = process.env.OUTBOX_MAX_ATTEMPTS;
+  return new PostgresTransactionalOutbox({ host: process.env.PGHOST!, port: Number(process.env.PGPORT), database: process.env.PGDATABASE!, user: process.env.PGUSER!, password: process.env.PGPASSWORD!, ...(configuredAttempts === undefined ? {} : { maxAttempts: Number(configuredAttempts) }) });
 }
 
 function isInstantiationTarget(root: string): boolean {
@@ -353,6 +375,25 @@ export function runCli(argv: readonly string[], io: CliIo = {
 }): number {
   try {
     const [command, ...args] = argv;
+    if (command === undefined || command === "help" || command === "--help" || command === "-h") {
+      io.stdout(CLI_HELP);
+      return 0;
+    }
+    if (command === "--version" || command === "-v") {
+      io.stdout(`${CLI_VERSION}\n`);
+      return 0;
+    }
+    if (command === "capabilities") {
+      if (args.length !== 0) usage("capabilities accepts no arguments");
+      objectOutput(io, PRODUCT_CAPABILITIES);
+      return 0;
+    }
+    if (command === "doctor") {
+      if (args.length !== 0) usage("doctor accepts no arguments");
+      const result = inspectProductEnvironment();
+      objectOutput(io, result);
+      return result.result === "pass" ? 0 : 1;
+    }
     if (command === "add") {
       if (!args[0] || !["operation", "query", "calculation", "rule", "policy", "mapping"].includes(args[0])) usage("add requires a supported meta-type: operation, query, calculation, rule, policy, or mapping");
       const result = THIN_COMMANDS[args[0]] && args.includes("--contract-json")
@@ -381,6 +422,23 @@ export function runCli(argv: readonly string[], io: CliIo = {
         authority_effect: result.authority_effect,
       });
       return 0;
+    }
+    if (command === "recipe-plan" || command === "recipe-generate" || command === "recipe-verify") {
+      const parsed = recipeArgs(args, command);
+      const request = readDeploymentRecipeRequest(parsed.requestPath);
+      if (command === "recipe-plan") {
+        objectOutput(io, deploymentRecipePlanSummary(planDeploymentRecipe(parsed.sourceRoot, request, parsed.consumerRoot)));
+        return 0;
+      }
+      if (command === "recipe-generate") {
+        const plan = planDeploymentRecipe(parsed.sourceRoot, request, parsed.consumerRoot);
+        const publication = publishDeploymentRecipe(plan, parsed.targetRoot!);
+        objectOutput(io, { schema_version: "domainspec.deployment-recipe-command-result/v1", result: "pass", target_root: publication.target_root, receipt_path: publication.receipt_path, artifact_count: plan.artifacts.length, manifest_sha256: plan.manifest.manifest_sha256, plan_sha256: plan.plan_sha256, receipt_sha256: publication.receipt.receipt_sha256, authority_effect: "none" });
+        return 0;
+      }
+      const verification = verifyDeploymentRecipe(parsed.sourceRoot, request, parsed.consumerRoot, parsed.targetRoot!);
+      objectOutput(io, verification);
+      return verification.result === "pass" ? 0 : 1;
     }
     if (command === "instantiate") {
       const parsed = instantiateArgs(args);
@@ -426,7 +484,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       const parsed = certifyArgs(args, command);
       if (command === "certify") {
         const certificate = certifyProject(parsed.sourceRoot, parsed.targetDirectory);
-        objectOutput(io, { schema_version: "domainspec.certify-command-result/v1-candidate", result: "pass", target_directory: parsed.targetDirectory, certificate, authority_effect: "none" });
+        objectOutput(io, { schema_version: "domainspec.certify-command-result/v1", result: "pass", target_directory: parsed.targetDirectory, certificate, authority_effect: "none" });
         return 0;
       }
       const result = checkCertifiedProject(parsed.sourceRoot, parsed.targetDirectory);
@@ -447,7 +505,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
     if (command === "run") {
       const parsed = runArgs(args);
       let request: unknown;
-      try { request = JSON.parse(fs.readFileSync(parsed.requestPath, "utf8")); } catch { usage("--request must identify readable JSON"); }
+      try { request = JSON.parse(readBoundedFileSync(parsed.requestPath, MAX_SOURCE_FILE_BYTES).toString("utf8")); } catch { usage(`--request must identify readable JSON no larger than ${MAX_SOURCE_FILE_BYTES} bytes`); }
       const schemaVersion = (request as { schema_version?: unknown })?.schema_version;
       const receipt = schemaVersion === "domainspec.durable-operation-invocation/v1"
         ? materializeRuntimeReceipt(runDurableOperation(parsed.sourceRoot, request, parsed.provider === "postgres-transactional-outbox-v1" ? postgresProvider() : usage("durable run requires --provider postgres-transactional-outbox-v1")), parsed.receiptPath)
@@ -462,7 +520,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       if (command === "formalize") {
         const result = materializeLeanMetaTypeFormalization(projectGraph, parsed.targetPath);
         objectOutput(io, {
-          schema_version: "domainspec.meta-type-formalization-command-result/v1-candidate",
+          schema_version: "domainspec.meta-type-formalization-command-result/v1",
           result: "pass",
           source_manifest_sha256: sourceManifest.manifest_sha256,
           ...result,
@@ -472,7 +530,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       }
       const result = checkLeanMetaTypeFormalization(projectGraph, parsed.targetPath);
       objectOutput(io, {
-        schema_version: "domainspec.meta-type-formalization-command-result/v1-candidate",
+        schema_version: "domainspec.meta-type-formalization-command-result/v1",
         result: result.current ? "pass" : "fail",
         source_manifest_sha256: sourceManifest.manifest_sha256,
         ...result,

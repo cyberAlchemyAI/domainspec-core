@@ -11,6 +11,14 @@ exists. Target projects supply opaque adapter and resource references; the
 compiler validates their declared relationships, canonicalizes the binding set,
 and binds it to exact profile and source digests.
 
+The v1 decoder also accepts an additive candidate messaging extension:
+`MessageChannel`, `TransportBinding`, `DeliveryPolicy`, and
+`TransportFailurePolicy`. These records keep domain Event meaning separate from
+message transport, restrict the executable slice to at-least-once delivery with
+provider acceptance as the acknowledgement boundary, and reject exactly-once or
+application-commit inflation. The adopted D45-D49 denominator and frozen profile
+remain unchanged.
+
 The package preserves these boundaries:
 
 - dependency contracts are responsibility-specific; there is no universal

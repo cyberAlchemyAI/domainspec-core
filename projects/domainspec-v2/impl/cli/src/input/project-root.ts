@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { buildSourceManifest, type SourceInput, type SourceManifestV1, type SourceType } from "./source-manifest.js";
+import { MAX_PROJECT_NODES, MAX_PROJECT_RELATIONSHIPS, MAX_PROJECT_SOURCES, MAX_SOURCE_FILE_BYTES, assertBoundedJsonDepth } from "./limits.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
@@ -72,6 +73,7 @@ function readSource(root: string, relativePath: string, sourceType: SourceType, 
   }
   if (lstat.isSymbolicLink()) fail("SFC_INPUT_SYMLINK", `/${normalizedRelative}`, "symbolic links are unsupported");
   if (!lstat.isFile()) fail("SFC_INPUT_NOT_FILE", `/${normalizedRelative}`, "declared source is not a regular file");
+  if (lstat.size > MAX_SOURCE_FILE_BYTES) fail("SFC_INPUT_SIZE", `/${normalizedRelative}`, `declared source exceeds ${MAX_SOURCE_FILE_BYTES} bytes`);
   const real = fs.realpathSync(absolute);
   if (real !== absolute) fail("SFC_INPUT_SYMLINK", `/${normalizedRelative}`, "declared source path cannot traverse a symbolic link");
   ensureContained(root, real, `/${normalizedRelative}`);
@@ -79,8 +81,9 @@ function readSource(root: string, relativePath: string, sourceType: SourceType, 
   let value: unknown;
   try {
     value = JSON.parse(bytes.toString("utf8"));
+    assertBoundedJsonDepth(value);
   } catch {
-    fail("SFC_INPUT_JSON", `/${normalizedRelative}`, "declared source is not valid JSON");
+    fail("SFC_INPUT_JSON", `/${normalizedRelative}`, "declared source is invalid or exceeds the JSON nesting limit");
   }
   if (!isObject(value)) fail("SFC_INPUT_SCHEMA", `/${normalizedRelative}`, "declared source must be an object");
   return {
@@ -116,9 +119,13 @@ export function resolveProjectRoot(projectRoot: unknown): SourceManifestV1 {
   const projectId = requireId(project.value.project_id, "/project.json/project_id");
   const featureIds = requireIdArray(project.value.features, "/project.json/features");
   const crossEdgeIds = requireIdArray(project.value.cross_feature_edges, "/project.json/cross_feature_edges");
+  if (featureIds.length + crossEdgeIds.length + 1 > MAX_PROJECT_SOURCES) fail("SFC_INPUT_SIZE", "/project.json", "declared project exceeds the source-count limit");
+  if (crossEdgeIds.length > MAX_PROJECT_RELATIONSHIPS) fail("SFC_INPUT_SIZE", "/project.json/cross_feature_edges", "declared project exceeds the relationship-count limit");
   inputs.push(project.input);
 
   const nodesByFeature = new Map<string, Set<string>>();
+  let nodeCount = 0;
+  let relationshipCount = crossEdgeIds.length;
   for (const featureId of featureIds) {
     const featurePath = `specs/${featureId}/feature.json`;
     const feature = readSource(root, featurePath, "feature", featureId, featureId);
@@ -127,6 +134,11 @@ export function resolveProjectRoot(projectRoot: unknown): SourceManifestV1 {
     if (feature.value.feature_id !== featureId) fail("SFC_INPUT_WRONG_ROOT", `/${featurePath}/feature_id`, "feature identity does not match its directory");
     const nodeIds = requireIdArray(feature.value.nodes, `/${featurePath}/nodes`);
     const edgeIds = requireIdArray(feature.value.edges, `/${featurePath}/edges`);
+    nodeCount += nodeIds.length;
+    if (nodeCount > MAX_PROJECT_NODES) fail("SFC_INPUT_SIZE", `/${featurePath}/nodes`, "declared project exceeds the node-count limit");
+    if (inputs.length + nodeIds.length + edgeIds.length + crossEdgeIds.length > MAX_PROJECT_SOURCES) fail("SFC_INPUT_SIZE", `/${featurePath}`, "declared project exceeds the source-count limit");
+    relationshipCount += edgeIds.length;
+    if (relationshipCount > MAX_PROJECT_RELATIONSHIPS) fail("SFC_INPUT_SIZE", `/${featurePath}/edges`, "declared project exceeds the relationship-count limit");
     nodesByFeature.set(featureId, new Set(nodeIds));
     inputs.push(feature.input);
 

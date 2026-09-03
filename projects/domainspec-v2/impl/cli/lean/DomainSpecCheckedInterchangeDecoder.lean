@@ -331,7 +331,7 @@ theorem decodedInterchangeRefinesCheckedInput (decoded : DecodedCheckedProjectio
 
 def decodeCheckedInterchange (root : Json) : Except String DecodedCheckedProjectionInput := do
   requireExactKeys root requiredTopLevelKeys "root"
-  if (← stringAt root "schema_version") != "domainspec.checked-interchange/v1-candidate" then
+  if (← stringAt root "schema_version") != "domainspec.checked-interchange/v1" then
     throw "schema_version:unsupported"
   if (← stringAt root "claim_scope") != "exact-finite-compiled-project-projection" then
     throw "claim_scope:invalid"
@@ -399,7 +399,7 @@ def decodeCheckedInterchange (root : Json) : Except String DecodedCheckedProject
   if sha256Hex compiledBody.compress != compiledSha then throw "compiled-certificate:digest-mismatch"
   let compiledGraph ← root.getObjVal? "compiled_graph"
   requireExactKeys compiledGraph ["schema_version", "project_id", "source_manifest", "nodes", "relationships", "obligation_witnesses", "obligation_applicability", "obligation_outcomes", "authority_effect"] "compiled-graph"
-  if (← stringAt compiledGraph "schema_version") != "domainspec.compiled-project-graph/v1-candidate" ||
+  if (← stringAt compiledGraph "schema_version") != "domainspec.compiled-project-graph/v1" ||
      (← stringAt compiledGraph "project_id") != projectId ||
      (← stringAt compiledGraph "authority_effect") != "none" then throw "compiled-graph:identity-mismatch"
   let compiledManifest ← compiledGraph.getObjVal? "source_manifest"
@@ -472,7 +472,7 @@ def decodeCheckedInterchange (root : Json) : Except String DecodedCheckedProject
   if sha256Hex graphBody.compress != graphSha then throw "project-graph:digest-mismatch"
   let graphCertificate ← payload.getObjVal? "graph_certificate"
   requireExactKeys graphCertificate ["schema_version", "graph_sha256", "source_identity", "denominators", "applicable_obligation_ids", "witness_outcomes", "compiler", "authority_ceiling"] "graph-certificate"
-  if (← stringAt graphCertificate "schema_version") != "domainspec.graph-bound-certificate/v2-candidate" then throw "graph_certificate:schema"
+  if (← stringAt graphCertificate "schema_version") != "domainspec.graph-bound-certificate/v2" then throw "graph_certificate:schema"
   if (← stringAt graphCertificate "graph_sha256") != graphSha then throw "graph_certificate:digest-mismatch"
   let certificateSource ← graphCertificate.getObjVal? "source_identity"
   requireExactKeys certificateSource ["project_id", "source_manifest_sha256", "source_bytes_sha256"] "graph-certificate-source"

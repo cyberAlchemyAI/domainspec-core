@@ -7,12 +7,13 @@ import { checkLeanMetaTypeFormalization, createMetaTypeFormalizationProjection, 
 import { validateGraphBoundCertificate } from "../formalization/refinement.js";
 import { planProjectInstantiation, type ProjectInstantiationPlanV1 } from "../generation/project-instantiation.js";
 import { publishProjectInstantiation, type ProjectPublicationResult } from "../generation/publish-project.js";
+import { SUBPROCESS_TIMEOUT_MS } from "../input/limits.js";
 import { loadCompiledProjectGraph, validateCompiledProjectGraphObligations } from "../input/project-model.js";
 import { canonicalJson, sha256 } from "../input/source-manifest.js";
 import { SUPPORTED_LANGUAGES } from "../meta-types/types.js";
 
 export interface ProjectVerificationReceiptV1 {
-  readonly schema_version: "domainspec.project-verification-receipt/v1-candidate";
+  readonly schema_version: "domainspec.project-verification-receipt/v1";
   readonly result: "pass";
   readonly project_id: string;
   readonly source_manifest_sha256: string;
@@ -73,7 +74,7 @@ function executable(name: string, environmentName: string, localCandidates: read
 }
 
 function runValidator(command: string, args: readonly string[], cwd: string, environment: NodeJS.ProcessEnv = process.env): string {
-  const result = spawnSync(command, [...args], { cwd, encoding: "utf8", env: environment });
+  const result = spawnSync(command, [...args], { cwd, encoding: "utf8", env: environment, timeout: SUBPROCESS_TIMEOUT_MS });
   if (result.error || result.status !== 0) {
     fail("MTCLI_VERIFY_ARTIFACT_COMPILE", `${command} rejected generated artifacts:${result.error?.message ?? (result.stderr || result.stdout || `exit ${result.status}`)}`);
   }
@@ -158,7 +159,7 @@ export function verifyProject(sourceRoot: string, targetRoot: string): ProjectVe
       Object.freeze({ id: "no-skips-or-inference", result: "pass" as const, evidence: Object.freeze({ skipped_check_count: 0, inferred_evidence_count: 0 }) }),
     ]);
     return Object.freeze({
-      schema_version: "domainspec.project-verification-receipt/v1-candidate",
+      schema_version: "domainspec.project-verification-receipt/v1",
       result: "pass",
       project_id: graph.project_id,
       source_manifest_sha256: graph.source_manifest.manifest_sha256,

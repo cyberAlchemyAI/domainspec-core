@@ -1,6 +1,8 @@
 # `@domainspec-v2/cli`
 
-This directory contains the canonical private DomainSpec v2 foundation CLI.
+This directory contains the DomainSpec v2 Stable 1.0 compiler product. Its
+stable boundary is source validation, compiled-graph construction,
+deterministic generation, verification, and bounded Lean certification.
 It embeds the immutable `domainspec-meta-types-current-implemented@10` catalog,
 selects exactly one of
 its 39 realization rows, and exposes the following command forms:
@@ -16,6 +18,9 @@ domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --langua
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root> --integration-profile provider-neutral-v1 --integration-binding-set <binding-set-id>
 domainspec-v2 instantiate-project <source-project-root> --languages typescript,python,rust --target-root <absolute-new-root>
 domainspec-v2 instantiate-project <source-project-root> --languages typescript --target-root <absolute-new-root>
+domainspec-v2 compile <source-project-root> --target <absolute-new-file>
+domainspec-v2 build <source-project-root> --language <typescript|python|rust> --target-root <absolute-new-root>
+domainspec-v2 verify <source-project-root> --language <typescript|python|rust> --target-root <absolute-root>
 domainspec-v2 verify-project <source-project-root> --target-root <absolute-new-root>
 domainspec-v2 formalize <source-project-root> --target <absolute-new-lean-file>
 domainspec-v2 formalize-check <source-project-root> --target <absolute-lean-file>
@@ -23,7 +28,45 @@ domainspec-v2 certify <source-project-root> --target <absolute-new-directory>
 domainspec-v2 certify-check <source-project-root> --target <absolute-certificate-directory>
 domainspec-v2 lint <source-or-instantiated-target-root>
 domainspec-v2 receipt <source-or-instantiated-target-root>
+domainspec-v2 capabilities
+domainspec-v2 doctor
+domainspec-v2 recipe-plan <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root>
+domainspec-v2 recipe-generate <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-new-root>
+domainspec-v2 recipe-verify <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-root>
+domainspec-v2 --help
+domainspec-v2 --version
 ```
+
+`run` is an explicitly experimental command. Runtime library APIs are available
+only from `@domainspec-v2/cli/experimental/runtime`; they are not part of the
+Stable 1.x root API compatibility promise.
+
+The stable command surface exposes a candidate deployment-recipe capability that compiles the checked project graph, one
+closed recipe request, selected provider-neutral integration bindings, and
+caller-owned TypeScript application and SQL migration bytes into the
+`aws-ecs-fargate-postgres-v1` target. The generated bundle contains OCI
+Dockerfiles, an encrypted/private ECS Fargate plus RDS PostgreSQL Terraform
+module, transactional-outbox migrations, an encrypted SQS channel and dead-letter
+queue, least-privilege publisher/consumer roles, configuration and observability
+contracts, rollback guidance, and inert CI checks. The request must name an
+immutable Node base-image digest plus concrete API, outbox-worker, and queue-consumer
+entrypoints.
+
+The currently required SQS branch keeps the whole recipe capability candidate.
+It is generated only from an exact `TransportBinding`, `MessageChannel`,
+`DeliveryPolicy`, and `TransportFailurePolicy` joined to compiled `produces` and
+`triggers-cross` edges. Provider acceptance, delivery/redelivery, and application
+commit remain separate evidence stages; the recipe never claims exactly-once delivery.
+The first target admits only the fixed `domainspec-event-json-v1` envelope and
+consumer inbox message-id deduplication owner, and carries the selected bounded
+publisher retry count into configuration and the outbox migration.
+
+`recipe-plan` is read-only. `recipe-generate` publishes only to a new absolute
+directory through atomic staging. `recipe-verify` independently regenerates
+the plan and checks exact path and byte membership. None of these commands
+runs Docker, Terraform, PostgreSQL, AWS, image publication, infrastructure
+apply, or deployment; those remain separately reviewed consumer operations.
+The schemas are shipped under `contracts/deployment-recipe-*.schema.json`.
 
 `add operation` authors one closed `domainspec.node/v1` Operation in an
 existing validated source project. The feature and name are lowercase
@@ -126,7 +169,7 @@ DomainSpec accepts the target project's opaque adapter and resource references;
 it does not select SQLite, another database, a framework, or a dependency
 container. Generated contracts preserve
 `runtime_guarantees_observed: false`: provider runtime behavior requires a
-separate observation layer and is outside this candidate slice.
+separate observation layer and is outside the stable compiler-product boundary.
 
 Relationship inputs are validated project-wide against a digest-bound generated
 projection of all 31 canonical signatures and all 45 declared validation
@@ -177,18 +220,20 @@ against authored `exposes` relationships. Generated TypeScript, Python, and
 Rust artifacts preserve these roles and expose deterministic identity,
 equality, Event compatibility, and Interface version checks.
 
-The package is not released, published, registered, deployed, or production
-ready. The root export is the curated instantiation/conformance API; the
-architecture-conformance proof runner remains internal to `@domainspec-v2/impl`
-and is not used as a code generator.
+The implementation and compatibility boundary are stable at package version
+`1.0.0`. This repository state is not itself evidence that the package was
+published, registered, deployed, adopted by an owner, or used in production.
+The root export is the curated compiler/generation/conformance API; the
+experimental runtime uses its explicit subpath. The architecture-conformance
+proof runner remains internal to `@domainspec-v2/impl` and is not used as a
+code generator.
 
 The supported target environment is Linux x64 in the repository Node toolchain
-container with Node.js `v26.8.1` and npm `11.19.0`. The development workspace
-uses the same container with pnpm `10.34.5`; this private CLI package has its
-own npm `11.19.0` lock and package boundary. Clean-package validation packs the
+container with Node.js `v26.8.1` and npm `11.19.0`. The package has its own npm
+`11.19.0` lock and a restricted registry publication configuration. Clean-package validation packs the
 compiled output into isolated temporary consumers, exercises both whole-project
 commands, and compares their plans and generated targets byte for byte. These checks are implementation evidence only; they do
-not publish, release, deploy, or claim production readiness.
+not publish, release, deploy, or claim production operation.
 
 ## Closed Governance-kernel instantiation
 

@@ -21,7 +21,7 @@ export interface FormalizationLeanModuleEntry {
 }
 
 export interface FormalizationLeanModuleSet {
-  readonly schema_version: "domainspec.formalization-lean-module-set/v1-candidate";
+  readonly schema_version: "domainspec.formalization-lean-module-set/v1";
   readonly sha256: string;
   readonly modules: readonly FormalizationLeanModuleEntry[];
 }
@@ -41,7 +41,7 @@ export function createFormalizationLeanModuleSet(sources: FormalizationLeanModul
     sha256: sha256(sources[filename]),
   })));
   return Object.freeze({
-    schema_version: "domainspec.formalization-lean-module-set/v1-candidate",
+    schema_version: "domainspec.formalization-lean-module-set/v1",
     sha256: sha256(JSON.stringify(modules.map(({ filename, source }) => ({ filename, source })))),
     modules,
   });

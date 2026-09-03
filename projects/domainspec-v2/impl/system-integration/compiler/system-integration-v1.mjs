@@ -16,6 +16,9 @@ const LANGUAGE_PATHS = Object.freeze({
 });
 const REF_PATTERN = /^[a-z][a-z0-9]*(?:[-.:/][a-z0-9]+)*$/;
 const SUBJECT_PATTERN = /^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$/;
+const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
+const MESSAGE_ENVELOPE_PROFILE = "envelope:domainspec-event-json-v1";
+const MESSAGE_DEDUPLICATION_OWNER = "consumer:inbox-message-id";
 
 export class SystemIntegrationError extends Error {
   constructor(code, pointer, message) {
@@ -59,14 +62,39 @@ function exactKeys(value, expected, pointer) {
   if (canonicalJson(Object.keys(value).sort()) !== canonicalJson([...expected].sort())) fail("SIC_SCHEMA", pointer, "unexpected or missing member");
 }
 
+function exactKeysWithOptional(value, required, optional, pointer) {
+  if (!isObject(value)) fail("SIC_SCHEMA", pointer, "expected object");
+  const keys = Object.keys(value);
+  for (const key of required) if (!keys.includes(key)) fail("SIC_SCHEMA", pointer, `missing member:${key}`);
+  const allowed = new Set([...required, ...optional]);
+  for (const key of keys) if (!allowed.has(key)) fail("SIC_SCHEMA", pointer, `unexpected member:${key}`);
+}
+
 function string(value, pointer) {
   if (typeof value !== "string" || value.length === 0) fail("SIC_SCHEMA", pointer, "expected nonempty string");
+  return value;
+}
+
+function boundedInteger(value, pointer, minimum, maximum) {
+  if (!Number.isInteger(value) || value < minimum || value > maximum) fail("SIC_SCHEMA", pointer, `expected integer from ${minimum} through ${maximum}`);
   return value;
 }
 
 function ref(value, pointer) {
   const result = string(value, pointer);
   if (!REF_PATTERN.test(result)) fail("SIC_SCHEMA", pointer, "invalid integration reference");
+  return result;
+}
+
+function subject(value, pointer) {
+  const result = string(value, pointer);
+  if (!SUBJECT_PATTERN.test(result)) fail("SIC_SCHEMA", pointer, "expected feature-id:node-id reference");
+  return result;
+}
+
+function messageChannelIdentity(value, pointer) {
+  const result = string(value, pointer);
+  if (result.length > 64 || !ID_PATTERN.test(result)) fail("SIC_MESSAGE_CHANNEL", pointer, "message channel id must be at most 64 lowercase kebab-case characters");
   return result;
 }
 
@@ -80,6 +108,13 @@ function strings(value, pointer, minimum = 1) {
 function refs(value, pointer, minimum = 1) {
   if (!Array.isArray(value) || value.length < minimum) fail("SIC_SCHEMA", pointer, `expected at least ${minimum} references`);
   const result = value.map((entry, index) => ref(entry, `${pointer}/${index}`));
+  if (new Set(result).size !== result.length) fail("SIC_SCHEMA", pointer, "duplicate reference");
+  return Object.freeze([...result].sort());
+}
+
+function subjects(value, pointer, minimum = 1) {
+  if (!Array.isArray(value) || value.length < minimum) fail("SIC_SCHEMA", pointer, `expected at least ${minimum} references`);
+  const result = value.map((entry, index) => subject(entry, `${pointer}/${index}`));
   if (new Set(result).size !== result.length) fail("SIC_SCHEMA", pointer, "duplicate reference");
   return Object.freeze([...result].sort());
 }
@@ -130,7 +165,7 @@ export function loadProfilePackage(packageRoot = PACKAGE_ROOT) {
 
 export function validateBindingSet(value) {
   if (isObject(value) && Object.keys(value).some((key) => key.endsWith("digest"))) fail("SIC_AUTHORED_DIGEST_FORBIDDEN", "$bindingSet", "portable binding set cannot author digests");
-  exactKeys(value, ["schema_version", "binding_set_id", "profile_id", "subject_ref", "dependency_contracts", "persistence_bindings", "transaction_guarantee_bindings", "failure_outcome_bindings", "durable_workflow_runtime_bindings", "authority_effect"], "$bindingSet");
+  exactKeysWithOptional(value, ["schema_version", "binding_set_id", "profile_id", "subject_ref", "dependency_contracts", "persistence_bindings", "transaction_guarantee_bindings", "failure_outcome_bindings", "durable_workflow_runtime_bindings", "authority_effect"], ["message_channels", "transport_bindings", "delivery_policies", "transport_failure_policies"], "$bindingSet");
   if (value.schema_version !== "domainspec.system-integration-binding-set/v1" || value.profile_id !== SYSTEM_PROFILE_ID || value.authority_effect !== "none") fail("SIC_SCHEMA", "$bindingSet", "binding-set envelope mismatch");
   const bindingSetId = ref(value.binding_set_id, "/binding_set_id");
   const subjectRef = string(value.subject_ref, "/subject_ref");
@@ -178,11 +213,49 @@ export function validateBindingSet(value) {
     return Object.freeze({ binding_id: ref(record.binding_id, `${pointer}/binding_id`), workflow_profile_ref: ref(record.workflow_profile_ref, `${pointer}/workflow_profile_ref`), persistence_binding_refs: refs(record.persistence_binding_refs, `${pointer}/persistence_binding_refs`), transaction_guarantee_binding_refs: refs(record.transaction_guarantee_binding_refs, `${pointer}/transaction_guarantee_binding_refs`), failure_outcome_binding_refs: refs(record.failure_outcome_binding_refs, `${pointer}/failure_outcome_binding_refs`), scheduler_contract_ref: ref(record.scheduler_contract_ref, `${pointer}/scheduler_contract_ref`), clock_contract_ref: ref(record.clock_contract_ref, `${pointer}/clock_contract_ref`), wakeup_contract_ref: record.wakeup_contract_ref, replay_contract_ref: ref(record.replay_contract_ref, `${pointer}/replay_contract_ref`), version_compatibility_ref: ref(record.version_compatibility_ref, `${pointer}/version_compatibility_ref`), evidence_boundary: string(record.evidence_boundary, `${pointer}/evidence_boundary`) });
   });
 
+  const messageChannels = records(value.message_channels ?? [], "/message_channels").map((record, index) => {
+    const pointer = `/message_channels/${index}`;
+    exactKeys(record, ["channel_id", "purpose", "allowed_event_refs", "publisher_operation_refs", "consumer_operation_refs", "evidence_boundary"], pointer);
+    if (!["delivery", "dead-letter"].includes(record.purpose)) fail("SIC_MESSAGE_CHANNEL", `${pointer}/purpose`, "message channel purpose must be delivery or dead-letter");
+    const publishers = subjects(record.publisher_operation_refs, `${pointer}/publisher_operation_refs`, 0);
+    const consumers = subjects(record.consumer_operation_refs, `${pointer}/consumer_operation_refs`, 0);
+    if (record.purpose === "delivery" && (publishers.length === 0 || consumers.length === 0)) fail("SIC_MESSAGE_CHANNEL", pointer, "delivery channel requires publisher and consumer Operation references");
+    if (record.purpose === "dead-letter" && (publishers.length !== 0 || consumers.length !== 0)) fail("SIC_MESSAGE_CHANNEL", pointer, "dead-letter channel cannot declare application publishers or consumers");
+    return Object.freeze({ channel_id: messageChannelIdentity(record.channel_id, `${pointer}/channel_id`), purpose: record.purpose, allowed_event_refs: subjects(record.allowed_event_refs, `${pointer}/allowed_event_refs`), publisher_operation_refs: publishers, consumer_operation_refs: consumers, evidence_boundary: string(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
+  const deliveryPolicies = records(value.delivery_policies ?? [], "/delivery_policies").map((record, index) => {
+    const pointer = `/delivery_policies/${index}`;
+    exactKeys(record, ["policy_id", "semantics", "acknowledgement_boundary", "ordering_scope", "visibility_timeout_seconds", "retention_seconds", "max_receive_count", "dead_letter_channel_ref", "deduplication_owner_ref", "evidence_boundary"], pointer);
+    if (record.semantics !== "at-least-once" || record.acknowledgement_boundary !== "provider-accepted" || record.ordering_scope !== "none") fail("SIC_DELIVERY_CLAIM", pointer, "candidate message vertical supports at-least-once, provider acceptance, and no ordering guarantee only");
+    if (record.deduplication_owner_ref !== MESSAGE_DEDUPLICATION_OWNER) fail("SIC_DEDUPLICATION_OWNER", `${pointer}/deduplication_owner_ref`, `unsupported deduplication owner:${String(record.deduplication_owner_ref)}`);
+    return Object.freeze({ policy_id: ref(record.policy_id, `${pointer}/policy_id`), semantics: "at-least-once", acknowledgement_boundary: "provider-accepted", ordering_scope: "none", visibility_timeout_seconds: boundedInteger(record.visibility_timeout_seconds, `${pointer}/visibility_timeout_seconds`, 1, 43200), retention_seconds: boundedInteger(record.retention_seconds, `${pointer}/retention_seconds`, 60, 1209600), max_receive_count: boundedInteger(record.max_receive_count, `${pointer}/max_receive_count`, 1, 1000), dead_letter_channel_ref: ref(record.dead_letter_channel_ref, `${pointer}/dead_letter_channel_ref`), deduplication_owner_ref: MESSAGE_DEDUPLICATION_OWNER, evidence_boundary: string(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
+  const transportFailurePolicies = records(value.transport_failure_policies ?? [], "/transport_failure_policies").map((record, index) => {
+    const pointer = `/transport_failure_policies/${index}`;
+    exactKeys(record, ["policy_id", "retry_eligibility", "max_attempts", "backoff", "unknown_outcome", "terminal_action", "evidence_boundary"], pointer);
+    if (record.retry_eligibility !== "idempotent-message-id-only" || record.backoff !== "exponential-bounded" || record.unknown_outcome !== "reconcile-by-message-id" || record.terminal_action !== "dead-letter") fail("SIC_TRANSPORT_FAILURE_POLICY", pointer, "transport failure policy overclaims or omits bounded reconciliation");
+    return Object.freeze({ policy_id: ref(record.policy_id, `${pointer}/policy_id`), retry_eligibility: "idempotent-message-id-only", max_attempts: boundedInteger(record.max_attempts, `${pointer}/max_attempts`, 1, 1000), backoff: "exponential-bounded", unknown_outcome: "reconcile-by-message-id", terminal_action: "dead-letter", evidence_boundary: string(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
+  const transportBindings = records(value.transport_bindings ?? [], "/transport_bindings").map((record, index) => {
+    const pointer = `/transport_bindings/${index}`;
+    exactKeys(record, ["binding_id", "mode", "direction", "operation_ref", "event_ref", "channel_ref", "delivery_policy_ref", "failure_policy_ref", "envelope_profile_ref", "evidence_boundary"], pointer);
+    if (record.mode !== "message" || record.direction !== "publish-subscribe") fail("SIC_TRANSPORT_BINDING", pointer, "candidate transport binding supports publish-subscribe messages only");
+    if (record.envelope_profile_ref !== MESSAGE_ENVELOPE_PROFILE) fail("SIC_ENVELOPE_PROFILE", `${pointer}/envelope_profile_ref`, `unsupported envelope profile:${String(record.envelope_profile_ref)}`);
+    return Object.freeze({ binding_id: ref(record.binding_id, `${pointer}/binding_id`), mode: "message", direction: "publish-subscribe", operation_ref: subject(record.operation_ref, `${pointer}/operation_ref`), event_ref: subject(record.event_ref, `${pointer}/event_ref`), channel_ref: ref(record.channel_ref, `${pointer}/channel_ref`), delivery_policy_ref: ref(record.delivery_policy_ref, `${pointer}/delivery_policy_ref`), failure_policy_ref: ref(record.failure_policy_ref, `${pointer}/failure_policy_ref`), envelope_profile_ref: MESSAGE_ENVELOPE_PROFILE, evidence_boundary: string(record.evidence_boundary, `${pointer}/evidence_boundary`) });
+  });
+
   const dependencyIds = ensureUnique(dependencyContracts, "contract_id", "/dependency_contracts");
   const persistenceIds = ensureUnique(persistenceBindings, "binding_id", "/persistence_bindings");
   const failureIds = ensureUnique(failureOutcomeBindings, "binding_id", "/failure_outcome_bindings");
   const transactionIds = ensureUnique(transactionGuaranteeBindings, "binding_id", "/transaction_guarantee_bindings");
   ensureUnique(durableWorkflowRuntimeBindings, "binding_id", "/durable_workflow_runtime_bindings");
+  const channelIds = ensureUnique(messageChannels, "channel_id", "/message_channels");
+  const deliveryPolicyIds = ensureUnique(deliveryPolicies, "policy_id", "/delivery_policies");
+  const transportFailurePolicyIds = ensureUnique(transportFailurePolicies, "policy_id", "/transport_failure_policies");
+  ensureUnique(transportBindings, "binding_id", "/transport_bindings");
   for (const binding of persistenceBindings) if (!dependencyIds.has(binding.dependency_contract_ref)) fail("SIC_REFERENCE_UNRESOLVED", `/persistence_bindings/${binding.binding_id}/dependency_contract_ref`, "persistence dependency contract is unresolved");
   for (const binding of failureOutcomeBindings) if (!dependencyIds.has(binding.concern_ref)) fail("SIC_REFERENCE_UNRESOLVED", `/failure_outcome_bindings/${binding.binding_id}/concern_ref`, "failure concern is unresolved");
   for (const binding of transactionGuaranteeBindings) {
@@ -197,7 +270,23 @@ export function validateBindingSet(value) {
     if (binding.wakeup_contract_ref !== null && !dependencyIds.has(binding.wakeup_contract_ref)) fail("SIC_DURABLE_BINDING_INCOMPLETE", `/durable_workflow_runtime_bindings/${binding.binding_id}/wakeup_contract_ref`, "wakeup contract unresolved");
   }
 
-  return Object.freeze({ schema_version: "domainspec.system-integration-binding-set/v1", binding_set_id: bindingSetId, profile_id: SYSTEM_PROFILE_ID, subject_ref: subjectRef, dependency_contracts: sortedRecords(dependencyContracts, "contract_id"), persistence_bindings: sortedRecords(persistenceBindings, "binding_id"), transaction_guarantee_bindings: sortedRecords(transactionGuaranteeBindings, "binding_id"), failure_outcome_bindings: sortedRecords(failureOutcomeBindings, "binding_id"), durable_workflow_runtime_bindings: sortedRecords(durableWorkflowRuntimeBindings, "binding_id"), authority_effect: "none" });
+  for (const policy of deliveryPolicies) {
+    if (!channelIds.has(policy.dead_letter_channel_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/delivery_policies", `dead-letter channel unresolved:${policy.dead_letter_channel_ref}`);
+    const channel = messageChannels.find(({ channel_id }) => channel_id === policy.dead_letter_channel_ref);
+    if (channel?.purpose !== "dead-letter") fail("SIC_MESSAGE_CHANNEL", "/delivery_policies", `dead-letter reference does not select a dead-letter channel:${policy.dead_letter_channel_ref}`);
+  }
+  for (const binding of transportBindings) {
+    if (!channelIds.has(binding.channel_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/transport_bindings", `message channel unresolved:${binding.channel_ref}`);
+    if (!deliveryPolicyIds.has(binding.delivery_policy_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/transport_bindings", `delivery policy unresolved:${binding.delivery_policy_ref}`);
+    if (!transportFailurePolicyIds.has(binding.failure_policy_ref)) fail("SIC_MESSAGE_REFERENCE_UNRESOLVED", "/transport_bindings", `transport failure policy unresolved:${binding.failure_policy_ref}`);
+    const channel = messageChannels.find(({ channel_id }) => channel_id === binding.channel_ref);
+    if (channel?.purpose !== "delivery" || !channel.allowed_event_refs.includes(binding.event_ref) || !channel.publisher_operation_refs.includes(binding.operation_ref)) fail("SIC_MESSAGE_BINDING_INCOMPLETE", "/transport_bindings", `transport binding is not admitted by its delivery channel:${binding.binding_id}`);
+    const delivery = deliveryPolicies.find(({ policy_id }) => policy_id === binding.delivery_policy_ref);
+    const deadLetter = messageChannels.find(({ channel_id }) => channel_id === delivery?.dead_letter_channel_ref);
+    if (!deadLetter?.allowed_event_refs.includes(binding.event_ref)) fail("SIC_MESSAGE_BINDING_INCOMPLETE", "/transport_bindings", `transport Event is not admitted by its dead-letter channel:${binding.binding_id}`);
+  }
+
+  return Object.freeze({ schema_version: "domainspec.system-integration-binding-set/v1", binding_set_id: bindingSetId, profile_id: SYSTEM_PROFILE_ID, subject_ref: subjectRef, dependency_contracts: sortedRecords(dependencyContracts, "contract_id"), persistence_bindings: sortedRecords(persistenceBindings, "binding_id"), transaction_guarantee_bindings: sortedRecords(transactionGuaranteeBindings, "binding_id"), failure_outcome_bindings: sortedRecords(failureOutcomeBindings, "binding_id"), durable_workflow_runtime_bindings: sortedRecords(durableWorkflowRuntimeBindings, "binding_id"), message_channels: sortedRecords(messageChannels, "channel_id"), transport_bindings: sortedRecords(transportBindings, "binding_id"), delivery_policies: sortedRecords(deliveryPolicies, "policy_id"), transport_failure_policies: sortedRecords(transportFailurePolicies, "policy_id"), authority_effect: "none" });
 }
 
 export function compileBindingManifest(value, language, profilePackage = loadProfilePackage()) {

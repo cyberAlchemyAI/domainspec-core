@@ -15,31 +15,34 @@ const versionSource = fs.readFileSync(path.join(cliRoot, "src/version.ts"), "utf
 
 test("package identity and supported bin are exact", () => {
   assert.equal(packageJson.name, "@domainspec-v2/cli");
-  assert.equal(packageJson.version, "0.0.0-candidate.5");
-  assert.equal(packageJson.private, true);
+  assert.equal(packageJson.version, "1.0.0");
+  assert.equal(packageJson.private, false);
   assert.equal(packageJson.type, "module");
   assert.deepEqual(packageJson.bin, { "domainspec-v2": "./dist/cli/main.js" });
 });
 
-test("only the curated root entry is exported and build scripts are exact", () => {
+test("stable root and explicitly experimental runtime subpath are exported", () => {
   assert.deepEqual(packageJson.exports, {
-    ".": { types: "./dist/index.d.ts", import: "./dist/index.js" }
+    ".": { types: "./dist/index.d.ts", import: "./dist/index.js" },
+    "./experimental/runtime": { types: "./dist/experimental/runtime.d.ts", import: "./dist/experimental/runtime.js" }
   });
-  assert.deepEqual(packageJson.files, ["dist", "lean", "contracts/instantiation-receipt.schema.json", "contracts/compiled-project-certificate.schema.json", "contracts/project-build-receipt.schema.json", "contracts/runtime-invocation.schema.json", "contracts/runtime-receipt.schema.json", "contracts/durable-operation-invocation.schema.json", "contracts/durable-operation-receipt.schema.json", "contracts/checked-interchange.schema.json", "contracts/assurance-certificate.schema.json", "contracts/target-observation.schema.json", "lean-toolchain", "README.md"]);
+  for (const required of [
+    "dist",
+    "lean",
+    "contracts/deployment-recipe-request.schema.json",
+    "contracts/deployment-recipe-manifest.schema.json",
+    "contracts/deployment-recipe-receipt.schema.json",
+    "README.md",
+    "CHANGELOG.md",
+    "COMPATIBILITY.md",
+    "MIGRATION.md",
+    "SECURITY.md",
+  ]) assert.equal(packageJson.files.includes(required), true, required);
   assert.equal("workspaces" in packageJson, false);
   assert.equal("dependencies" in packageJson, false);
   assert.equal("devDependencies" in packageJson, false);
-  assert.deepEqual(packageJson.scripts, {
-    "catalog:check": "node tools/materialize-frozen-catalog.mjs --check",
-    "relationships:check": "node tools/materialize-relationship-authority.mjs --check",
-    "integration-profile:check": "node tools/materialize-system-integration-profile.mjs --check",
-    typecheck: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json --noEmit --pretty false",
-    build: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json",
-    test: "node --import tsx --test test/assurance/certify.test.ts test/cli/main.test.ts test/conformance/observe-target.test.ts test/formalization/projection.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/l1-project.test.ts test/meta-types/catalog.test.ts test/query-vertical.test.ts test/rule-vertical.test.ts test/runtime-l2.test.ts test/runtime-l3-postgres.test.ts test/static-backend-completion.test.ts test/system-integration/profile.test.ts test/thin-backend-verticals.test.ts test/typed-operation/contracts.test.ts test/typed-operation/hardening.test.ts test/typed-operation/rust.test.ts",
-    "test:contract": "node --test test/contract/foundation-contract.test.mjs test/contract/instantiation-foundation-contract.test.mjs test/contract/package-boundary.test.mjs",
-    "validate:rust": "node tools/validate-generated-rust.mjs",
-    "validate:clean-package": "node tools/validate-clean-package.mjs"
-  });
+  for (const required of ["typecheck", "build", "test", "test:contract", "validate:rust", "validate:clean-package", "verify:product", "pack:release"]) assert.equal(typeof packageJson.scripts[required], "string", required);
+  assert.deepEqual(packageJson.publishConfig, { access: "restricted", provenance: true });
   assert.equal(packageJson.packageManager, "npm@11.19.0");
 });
 
@@ -49,6 +52,26 @@ test("development and factory command surfaces are not re-exported", () => {
     assert.equal(JSON.stringify(packageJson.exports).includes(forbidden), false, forbidden);
   }
   assert.match(source, /from "\.\/version\.js"/);
+  for (const runtimeExport of ["runInMemoryProject", "runDurableOperation", "PostgresTransactionalOutbox", "decodeRuntimeInvocation"]) assert.equal(source.includes(runtimeExport), false, runtimeExport);
+  for (const stableExport of [
+    "addOperation",
+    "addQuery",
+    "addCalculation",
+    "addRule",
+    "addPolicy",
+    "addMapping",
+    "planDeploymentRecipe",
+    "publishDeploymentRecipe",
+    "verifyDeploymentRecipe",
+    "validateDeploymentRecipeReceipt",
+  ]) assert.equal(source.includes(stableExport), true, stableExport);
+});
+
+test("deployment recipe commands remain stable while the capability stays candidate and non-effectful", () => {
+  for (const command of ["recipe-plan", "recipe-generate", "recipe-verify"]) assert.equal(source.includes(command), false, `CLI command names belong in the capability surface, not the API barrel:${command}`);
+  const capabilitiesSource = fs.readFileSync(path.join(cliRoot, "src/product/capabilities.ts"), "utf8");
+  for (const command of ["recipe-plan", "recipe-generate", "recipe-verify"]) assert.equal(capabilitiesSource.includes(`"${command}"`), true, command);
+  assert.match(capabilitiesSource, /deployment_recipe:[\s\S]*lifecycle: "candidate"[\s\S]*target: "aws-ecs-fargate-postgres-v1"[\s\S]*effects: "none"/);
 });
 
 test("the standard typed Operation path has no specialized Auth generator", () => {
