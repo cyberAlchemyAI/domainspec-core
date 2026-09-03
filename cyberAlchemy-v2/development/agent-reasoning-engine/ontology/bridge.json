@@ -342,6 +342,78 @@
       "target": "agent-reasoning-engine.ContextBoundSemanticIntegrity",
       "realization_status": "bounded-realization",
       "evidence_refs": ["CAP-SEL-ARE-EVALUATOR", "CAP-SEL-ARE-CONTEXT-SEMANTIC-ADAPTER", "CAP-SEL-ARE-EVALUATOR-REDUCER", "CAP-SEL-ARE-EVALUATOR-RECEIPT-ASSEMBLER", "CAP-SEL-ARE-EVALUATOR-CONTEXT-TEST"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-43",
+      "source": "CA2-ARE-CONCEPT-IMPROVEMENT-SIGNAL",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ImprovementSignal",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-DEFINITION-PACK", "CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-CODEX-EVOLUTION-SIGNALS"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-44",
+      "source": "CA2-ARE-CONCEPT-IMPROVEMENT-TARGET",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.ImprovementTarget",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-DEFINITION-PACK", "CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-EVOLUTION-BENCHMARK-BRIDGE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-45",
+      "source": "CA2-ARE-CONCEPT-TECHNIQUE-CANDIDATE",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.TechniqueCandidate",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-DEFINITION-PACK", "CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-EVOLUTION-BENCHMARK-BRIDGE"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-46",
+      "source": "CA2-ARE-CONCEPT-ENGINE-VARIANT",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.EngineVariant",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-EVOLUTION-VARIANT-WORKSPACE", "CAP-SEL-ARE-EVOLUTION-OPERATIONS-TEST"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-47",
+      "source": "CA2-ARE-CONCEPT-VARIANT-COMPARISON",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.VariantComparison",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-EVOLUTION-BENCHMARK-BRIDGE", "CAP-SEL-ARE-EVOLUTION-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-48",
+      "source": "CA2-ARE-CONCEPT-UPGRADE-DECISION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.UpgradeDecision",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-EVOLUTION-UPGRADE-CONTROLLER", "CAP-SEL-ARE-EVOLUTION-OPERATIONS-TEST"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-49",
+      "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION",
+      "relation": "realized_by",
+      "target": "agent-reasoning-engine.EvolutionCycle",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-RUNTIME", "CAP-SEL-ARE-EVOLUTION-BENCHMARK-BRIDGE", "CAP-SEL-ARE-EVOLUTION-CANARY"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-50",
+      "source": "CA2-ARE-RULE-VARIANT-ISOLATION",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.EvaluateEngineVariant",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-VARIANT-WORKSPACE", "CAP-SEL-ARE-EVOLUTION-OPERATIONS-TEST"]
+    },
+    {
+      "id": "CA2-ARE-BRIDGE-51",
+      "source": "CA2-ARE-RULE-CANARY-ROLLBACK",
+      "relation": "constrained_by",
+      "target": "agent-reasoning-engine.ApplyUpgradeDecision",
+      "realization_status": "bounded-realization",
+      "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-UPGRADE-CONTROLLER", "CAP-SEL-ARE-EVOLUTION-OPERATIONS-TEST"]
     }
   ],
   "gaps": [
@@ -356,8 +428,8 @@
       "id": "CA2-ARE-GAP-WHOLE-ENGINE",
       "status": "blocked",
       "business_refs": ["CA2-ARE-BUSINESS-ONTOLOGY"],
-      "system_refs": ["agent-reasoning-engine.ReasoningContextLifecycle", "agent-reasoning-engine.IntentRouteResolution", "agent-reasoning-engine.SemanticReduction", "agent-reasoning-engine.ReasoningReceiptConstraint", "agent-reasoning-engine.RuntimeJournal", "agent-reasoning-engine.JournalReplay", "agent-reasoning-engine.ReasoningStateLedger", "agent-reasoning-engine.ReasoningStateEpoch", "agent-reasoning-engine.ReasoningStateCheckpoint", "agent-reasoning-engine.ReasoningDispatch", "agent-reasoning-engine.ReasoningStateDerivedIndex", "agent-reasoning-engine.ReasoningStateRecoveryAssessment", "agent-reasoning-engine.ReasoningStateFrontier", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.SealCompletionFrontier", "agent-reasoning-engine.CompletionFrontierBoundary", "agent-reasoning-engine.PersistentAppServerGateway", "agent-reasoning-engine.GatewayConsumerSession", "agent-reasoning-engine.GatewayConnection"],
-      "meaning": "Context assembly, reusable explicit reasoning-state epochs, exact dispatch reconstruction, risk-aligned checkpoints, checkpointed file recovery, completed-turn frontier replay, semantic materialization, receipt-constrained continuation, bounded replay, and an isolated app-server gateway form a working candidate vertical. The whole engine remains incomplete because delivery acknowledgement, repair, compaction, branching, a production semantic catalog, default activation, durable cross-process coordination, and a supported Codex Desktop endpoint are absent."
+      "system_refs": ["agent-reasoning-engine.ReasoningContextLifecycle", "agent-reasoning-engine.IntentRouteResolution", "agent-reasoning-engine.SemanticReduction", "agent-reasoning-engine.ReasoningReceiptConstraint", "agent-reasoning-engine.RuntimeJournal", "agent-reasoning-engine.JournalReplay", "agent-reasoning-engine.ReasoningStateLedger", "agent-reasoning-engine.ReasoningStateEpoch", "agent-reasoning-engine.ReasoningStateCheckpoint", "agent-reasoning-engine.ReasoningDispatch", "agent-reasoning-engine.ReasoningStateDerivedIndex", "agent-reasoning-engine.ReasoningStateRecoveryAssessment", "agent-reasoning-engine.ReasoningStateFrontier", "agent-reasoning-engine.ReasoningStateFormation", "agent-reasoning-engine.ExactDispatchPreparation", "agent-reasoning-engine.CheckpointReasoningState", "agent-reasoning-engine.RebuildReasoningStateIndex", "agent-reasoning-engine.RecoverReasoningState", "agent-reasoning-engine.ReasoningStateRecoveryBoundary", "agent-reasoning-engine.SealCompletionFrontier", "agent-reasoning-engine.CompletionFrontierBoundary", "agent-reasoning-engine.PersistentAppServerGateway", "agent-reasoning-engine.GatewayConsumerSession", "agent-reasoning-engine.GatewayConnection", "agent-reasoning-engine.EvolutionCycle", "agent-reasoning-engine.EngineVariant", "agent-reasoning-engine.VariantComparison", "agent-reasoning-engine.UpgradeDecision"],
+      "meaning": "The serving path and a measured evolution cycle now form a working candidate vertical, including immutable signals, target selection, exact research records, reproduction, isolated variants, fixed comparison, recommend-only defaults, and controlled-local canary rollback. The whole engine remains incomplete because production research providers and cadence, autonomous technique-to-code materialization, delivery acknowledgement, repair, compaction, a production semantic catalog, durable cross-process coordination, and supported Codex Desktop endpoint adoption are absent."
     },
     {
       "id": "CA2-ARE-GAP-DOMAINSPEC-ADMISSION",

@@ -1,12 +1,13 @@
 # Agent Reasoning Engine Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `139863fd3ca0de1fce90472b80494b9e9619b7f729ecff71cec445a17862cd36`.
+Graph digest: `335eb928b11d259fb62a112fd1ad2f910be6d010ed1e98e1d49b84719e8a07e5`.
 
 ## Nodes
 
 | Node | Kind | Intent |
 | --- | --- | --- |
+| `agent-reasoning-engine.ApplyUpgradeDecision` | Operation | Atomically apply an exact controlled-local upgrade decision and restore its predecessor when the required canary fails. |
 | `agent-reasoning-engine.AuthoritySeparation` | Rule | Keep context selection, semantic judgment, validation, consensus, and receipts separate from owner authority and exact-effect permission. |
 | `agent-reasoning-engine.CapabilitySelection` | Entity | Return the nearest uniquely supported capability, visible ambiguity, no-match, or invalid result with exact profile and provenance digests. |
 | `agent-reasoning-engine.CheckpointReasoningState` | Operation | Verify and flush one selected Reasoning State epoch before a model request, accepted effect, or automatic continuation boundary advances. |
@@ -26,9 +27,14 @@ Graph digest: `139863fd3ca0de1fce90472b80494b9e9619b7f729ecff71cec445a17862cd36`
 | `agent-reasoning-engine.DecisionGateProfile` | Entity | Configure route signals, consequence classes, protected hazards, owner-gate mappings, provenance bindings, and continuation limits without becoming authority. |
 | `agent-reasoning-engine.DefinitionClosure` | Entity | Preserve the route-profiled least fixed point of exact definitions needed to interpret one bounded request before ontology selection or strategy. |
 | `agent-reasoning-engine.DefinitionClosureResolution` | Operation | Resolve exact request-relative definitions to the selected route profile's deterministic least fixed point before ontology selection. |
+| `agent-reasoning-engine.EngineVariant` | Entity | Identify one isolated content-addressed candidate implementation built from an exact serving baseline and declared changes. |
+| `agent-reasoning-engine.EvaluateEngineVariant` | Operation | Apply the fixed benchmark fitness function to one exact target, baseline, and isolated candidate variant. |
+| `agent-reasoning-engine.EvolutionCycle` | Workflow | Run one serialized measured-improvement cycle from signals through target selection and variant comparison to a non-authorizing upgrade decision. |
 | `agent-reasoning-engine.ExactDispatchPreparation` | Operation | Materialize, append, reconstruct, verify, and checkpoint the exact outbound request before it crosses a model, effect, or continuation boundary. |
 | `agent-reasoning-engine.GatewayConnection` | Operation | Authorize a declared consumer and lane, attach one isolated app-server transport, and resume only its existing in-memory session when allowed. |
 | `agent-reasoning-engine.GatewayConsumerSession` | Entity | Bind one declared consumer and lane to isolated in-memory wrapper, upstream connection, context, turn, journal, and reconnect state. |
+| `agent-reasoning-engine.ImprovementSignal` | Entity | Preserve one provenance-bound observation that may indicate a measurable ARE weakness without asserting a cause or granting change authority. |
+| `agent-reasoning-engine.ImprovementTarget` | Entity | Bind one selected weakness to an exact baseline, metric, threshold, protected metrics, mutation allowlist, and invalidation rules. |
 | `agent-reasoning-engine.IntentRouteResolution` | Operation | Derive advisory route disposition from a prepared typed intent and frozen owner-supplied capability-route catalog without dispatch or execution authority. |
 | `agent-reasoning-engine.JournalReplay` | Operation | Verify one immutable runtime-journal cut and reconstruct its recorded lifecycle state deterministically with zero external calls. |
 | `agent-reasoning-engine.NecessaryContextBasis` | Entity | Bind the minimum explicit request-relative semantic substrate required before a selected route creates strategy or begins work. |
@@ -55,13 +61,19 @@ Graph digest: `139863fd3ca0de1fce90472b80494b9e9619b7f729ecff71cec445a17862cd36`
 | `agent-reasoning-engine.RequestContext` | Entity | Preserve a raw request with explicit or inferred objective, effect, target, constraint, and provenance fields for fast deterministic routing. |
 | `agent-reasoning-engine.RuntimeJournal` | Entity | Preserve a bounded immutable hash-chained sequence of compact lifecycle events and exact per-turn cuts without durable or effect authority. |
 | `agent-reasoning-engine.SealCompletionFrontier` | Operation | Append, epoch-seal, and checkpoint one exact completed-turn semantic and continuation frontier before automatic continuation. |
+| `agent-reasoning-engine.SelectImprovementTarget` | Operation | Select one priority-ordered measurable target from exact improvement signals and fixed target profiles. |
 | `agent-reasoning-engine.SemanticJudgment` | Entity | Represent exactly one typed semantic disposition under a frozen context, catalog, evaluator, and residue set. |
 | `agent-reasoning-engine.SemanticReduction` | Operation | Derive exactly one typed semantic outcome from an admitted frozen context and finite rule catalog while abstaining on missing support or unresolved ownership. |
+| `agent-reasoning-engine.TechniqueCandidate` | Entity | Bind a research mechanism and exact source identity to a locally testable ARE integration hypothesis. |
+| `agent-reasoning-engine.UpgradeDecision` | Entity | Bind one retain, recommend, activate, or block disposition to an exact predecessor, candidate, comparison, and rollback target. |
+| `agent-reasoning-engine.VariantComparison` | Entity | Preserve the deterministic fitness result for one exact baseline, candidate, manifest, environment, and holdout set. |
 
 ## Edges
 
 | Edge | From | Type | To |
 | --- | --- | --- | --- |
+| `agent-reasoning-engine.edge.apply-upgrade-reads-comparison` | `agent-reasoning-engine.ApplyUpgradeDecision` | `reads` | `agent-reasoning-engine.VariantComparison` |
+| `agent-reasoning-engine.edge.apply-upgrade-reads-decision` | `agent-reasoning-engine.ApplyUpgradeDecision` | `reads` | `agent-reasoning-engine.UpgradeDecision` |
 | `agent-reasoning-engine.edge.authority-separation-enforces-continuation` | `agent-reasoning-engine.AuthoritySeparation` | `enforces` | `agent-reasoning-engine.ContinuationDecision` |
 | `agent-reasoning-engine.edge.authority-separation-enforces-reduction` | `agent-reasoning-engine.AuthoritySeparation` | `enforces` | `agent-reasoning-engine.SemanticReduction` |
 | `agent-reasoning-engine.edge.authority-separation-enforces-route` | `agent-reasoning-engine.AuthoritySeparation` | `enforces` | `agent-reasoning-engine.IntentRouteResolution` |
@@ -90,6 +102,12 @@ Graph digest: `139863fd3ca0de1fce90472b80494b9e9619b7f729ecff71cec445a17862cd36`
 | `agent-reasoning-engine.edge.definition-closure-reads-request-context` | `agent-reasoning-engine.DefinitionClosureResolution` | `reads` | `agent-reasoning-engine.RequestContext` |
 | `agent-reasoning-engine.edge.dispatch-preparation-creates-dispatch` | `agent-reasoning-engine.ExactDispatchPreparation` | `creates` | `agent-reasoning-engine.ReasoningDispatch` |
 | `agent-reasoning-engine.edge.dispatch-preparation-reads-epoch` | `agent-reasoning-engine.ExactDispatchPreparation` | `reads` | `agent-reasoning-engine.ReasoningStateEpoch` |
+| `agent-reasoning-engine.edge.evaluate-variant-creates-comparison` | `agent-reasoning-engine.EvaluateEngineVariant` | `creates` | `agent-reasoning-engine.VariantComparison` |
+| `agent-reasoning-engine.edge.evaluate-variant-reads-target` | `agent-reasoning-engine.EvaluateEngineVariant` | `reads` | `agent-reasoning-engine.ImprovementTarget` |
+| `agent-reasoning-engine.edge.evaluate-variant-reads-variant` | `agent-reasoning-engine.EvaluateEngineVariant` | `reads` | `agent-reasoning-engine.EngineVariant` |
+| `agent-reasoning-engine.edge.evolution-orchestrates-comparison` | `agent-reasoning-engine.EvolutionCycle` | `orchestrates` | `agent-reasoning-engine.EvaluateEngineVariant` |
+| `agent-reasoning-engine.edge.evolution-orchestrates-selection` | `agent-reasoning-engine.EvolutionCycle` | `orchestrates` | `agent-reasoning-engine.SelectImprovementTarget` |
+| `agent-reasoning-engine.edge.evolution-orchestrates-upgrade` | `agent-reasoning-engine.EvolutionCycle` | `orchestrates` | `agent-reasoning-engine.ApplyUpgradeDecision` |
 | `agent-reasoning-engine.edge.frontier-sealing-creates-frontier` | `agent-reasoning-engine.SealCompletionFrontier` | `creates` | `agent-reasoning-engine.ReasoningStateFrontier` |
 | `agent-reasoning-engine.edge.frontier-sealing-reads-consequence-assessment` | `agent-reasoning-engine.SealCompletionFrontier` | `reads` | `agent-reasoning-engine.ConsequenceAssessment` |
 | `agent-reasoning-engine.edge.frontier-sealing-reads-ledger` | `agent-reasoning-engine.SealCompletionFrontier` | `reads` | `agent-reasoning-engine.ReasoningStateLedger` |
@@ -129,6 +147,8 @@ Graph digest: `139863fd3ca0de1fce90472b80494b9e9619b7f729ecff71cec445a17862cd36`
 | `agent-reasoning-engine.edge.recover-reasoning-state-reads-ledger` | `agent-reasoning-engine.RecoverReasoningState` | `reads` | `agent-reasoning-engine.ReasoningStateLedger` |
 | `agent-reasoning-engine.edge.recovery-boundary-enforces-index-rebuild` | `agent-reasoning-engine.ReasoningStateRecoveryBoundary` | `enforces` | `agent-reasoning-engine.RebuildReasoningStateIndex` |
 | `agent-reasoning-engine.edge.recovery-boundary-enforces-recovery` | `agent-reasoning-engine.ReasoningStateRecoveryBoundary` | `enforces` | `agent-reasoning-engine.RecoverReasoningState` |
+| `agent-reasoning-engine.edge.select-target-creates-target` | `agent-reasoning-engine.SelectImprovementTarget` | `creates` | `agent-reasoning-engine.ImprovementTarget` |
+| `agent-reasoning-engine.edge.select-target-reads-signal` | `agent-reasoning-engine.SelectImprovementTarget` | `reads` | `agent-reasoning-engine.ImprovementSignal` |
 | `agent-reasoning-engine.edge.selector-binding-creates-selector-lock` | `agent-reasoning-engine.OntologySelectorBinding` | `creates` | `agent-reasoning-engine.OntologySelectorLock` |
 | `agent-reasoning-engine.edge.selector-binding-reads-definition-closure` | `agent-reasoning-engine.OntologySelectorBinding` | `reads` | `agent-reasoning-engine.DefinitionClosure` |
 | `agent-reasoning-engine.edge.semantic-reduction-creates-judgment` | `agent-reasoning-engine.SemanticReduction` | `creates` | `agent-reasoning-engine.SemanticJudgment` |

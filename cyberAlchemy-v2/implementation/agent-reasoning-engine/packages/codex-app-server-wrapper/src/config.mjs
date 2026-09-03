@@ -250,6 +250,11 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     : {enabled: false, trigger: "turn/completed"};
   if (semanticEvaluation.enabled !== true && semanticEvaluation.enabled !== false) return fail("config", ["config.semantic-enabled-invalid"]);
   if (semanticEvaluation.trigger !== "turn/completed") return fail("config", ["config.semantic-trigger-unsupported"]);
+  const evolutionSignals = isRecord(profile.evolution_signals)
+    ? profile.evolution_signals
+    : {enabled: false, trigger: "turn/completed"};
+  if (evolutionSignals.enabled !== true && evolutionSignals.enabled !== false) return fail("config", ["config.evolution-signals-enabled-invalid"]);
+  if (evolutionSignals.trigger !== "turn/completed") return fail("config", ["config.evolution-signals-trigger-unsupported"]);
   const runtimeJournal = isRecord(profile.runtime_journal)
     ? profile.runtime_journal
     : {journal_id: `are-codex-runtime:${profile.profile_id}`, max_events: 4096, max_closed_turns: 256};
@@ -310,6 +315,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
       effect_defaults: profile.effect_defaults,
       context_projection: profile.context_projection ?? {max_inline_bytes: 32768},
       semantic_evaluation: freezeResult({enabled: semanticEvaluation.enabled, trigger: semanticEvaluation.trigger}),
+      evolution_signals: freezeResult({enabled: evolutionSignals.enabled, trigger: evolutionSignals.trigger}),
       runtime_journal: freezeResult({
         journal_id: runtimeJournal.journal_id,
         max_events: runtimeJournal.max_events,

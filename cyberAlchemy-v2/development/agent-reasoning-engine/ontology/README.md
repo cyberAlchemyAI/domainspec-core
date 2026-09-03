@@ -9,8 +9,10 @@ CyberAlchemy-v2 capability for both governed reasoning and context management.
 It keeps business meaning, DomainSpec-authored system structure, generated
 system projections, implementation evidence, and unresolved gaps distinct.
 The current bounded system branch includes checkpointed append-only Reasoning
-State recovery and disposable-index rebuilding while keeping repair,
-cross-process coordination, and Session semantics outside the realization.
+State recovery, disposable-index rebuilding, and a measured evolution cycle
+with isolated variants and reversible controlled-local activation. Production
+research providers, automatic code materialization, deployment, repair,
+cross-process coordination, and Session semantics remain outside the realization.
 
 The package uses the `business-system-bridge` ontology archetype because the
 requested capability spans product meaning and runtime structure. Its business
@@ -30,7 +32,7 @@ deterministically. The bridge links only what current evidence supports.
 | Compiled graph | candidate-generated | Deterministic projection, not independent authority. |
 | System ontology | candidate-generated | Deterministic projection; profile admission is not granted. |
 | Bridge validation | candidate | Partial realization and gaps are explicit. |
-| Implementation | candidate partial realizations | Routing, context, context-bound semantic integrity, journal, app-server, reusable reasoning-state, exact-dispatch, checkpoint, and fail-closed recovery verticals have bounded evidence; they do not constitute the whole engine. |
+| Implementation | candidate partial realizations | Routing, context, context-bound semantic integrity, journal, app-server, reusable reasoning-state, exact-dispatch, checkpoint, fail-closed recovery, and measured evolution verticals have bounded evidence; they do not constitute the whole engine. |
 | Static conformance | not evaluable | No accepted exact implementation binding. |
 | Runtime evidence | not evaluable | No complete engine or context manager. |
 

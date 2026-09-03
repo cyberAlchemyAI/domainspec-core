@@ -39,6 +39,41 @@
     "request_timeout_ms": 180000,
     "completion_timeout_ms": 300000
   },
+  "external_retrieval": {
+    "adapter": "agent-retrieval-bench-jsonl/v2",
+    "upstream_source": {
+      "repository": "https://github.com/eyuansu62/agent-retrieval-bench",
+      "observed_revision": "07014c986f3deadb1548c62b32c0ffbe6a81465d",
+      "paper": "https://arxiv.org/abs/2607.24882",
+      "license_posture": "evaluator metadata and documentation MIT; corpus source files retain upstream repository licenses"
+    },
+    "top_k": 20,
+    "token_budget": 8000,
+    "producer": {
+      "maximum_ranked_files": 20,
+      "maximum_files_per_snapshot": 20000,
+      "maximum_content_characters": 20000,
+      "minimum_score": 0.5,
+      "minimum_margin": 0,
+      "anchor_token_bonus": 2,
+      "explicit_path_bonus": 25,
+      "task_path_bonus": 3,
+      "task_path_penalty": 2,
+      "noise_penalty": 2
+    },
+    "quality_targets": {
+      "mrr": 0.2379,
+      "recall_at_20": 0.7029,
+      "bcy_at_8000": 0.3788,
+      "selective_success_at_20": 0.75
+    },
+    "target_basis": {
+      "mrr": "published Qwen3-Embedding-4B reference",
+      "recall_at_20": "published Qwen3-Embedding-8B reference",
+      "bcy_at_8000": "published RepoMap reference",
+      "selective_success_at_20": "ARE candidate target; no claimed upstream frontier"
+    }
+  },
   "improvement_loop": {
     "required_pass_streak": 2,
     "max_attempts": 5,

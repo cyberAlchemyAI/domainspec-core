@@ -128,9 +128,10 @@ async function startAndBind(instance, {id, text, threadId, turnId}) {
 test("repository profile verifies exact sources and materializes production inputs", () => {
   assert.equal(loaded.decision_profile.profile_id, "cyberalchemy-fast-routing");
   assert.ok(loaded.definition_catalog.definitions.length > 20);
-  assert.equal(loaded.ontology_snapshot.nodes.length, 50);
-  assert.equal(loaded.ontology_snapshot.edges.length, 82);
+  assert.equal(loaded.ontology_snapshot.nodes.length, 60);
+  assert.equal(loaded.ontology_snapshot.edges.length, 92);
   assert.deepEqual(loaded.value.semantic_evaluation, {enabled: false, trigger: "turn/completed"});
+  assert.deepEqual(loaded.value.evolution_signals, {enabled: false, trigger: "turn/completed"});
   assert.deepEqual(loaded.value.runtime_journal, {journal_id: "are-codex-runtime:domainspec-core", max_events: 4096, max_closed_turns: 256});
   assert.deepEqual(loaded.value.gateway, {
     backend_mode: "daemon-proxy",
@@ -569,6 +570,48 @@ test("default semantic configuration is a zero-call no-op at turn/completed", as
   assert.equal(calls, 0);
   assert.equal(result.to_client.some((message) => message.method === SEMANTIC_NOTIFICATION), false);
   assert.equal(instance.ledger.snapshot().some((event) => event.event_kind.startsWith("semantic-evaluation-")), false);
+});
+
+test("default evolution signal configuration is a zero-call no-op at turn/completed", async () => {
+  let providerCalls = 0;
+  let sinkCalls = 0;
+  const instance = wrapper({
+    evolution_signal_provider: () => { providerCalls += 1; return []; },
+    evolution_signal_sink: () => { sinkCalls += 1; },
+  });
+  await startAndBind(instance, {id: 2101, text: "Explain the current context.", threadId: "thread-evolution-off", turnId: "turn-evolution-off"});
+  await instance.processServerMessage(completed("thread-evolution-off", "turn-evolution-off"));
+  assert.equal(providerCalls, 0);
+  assert.equal(sinkCalls, 0);
+  assert.equal(instance.ledger.snapshot().some((event) => event.event_kind === "evolution-signals-assessed"), false);
+});
+
+test("opt-in evolution signals emit immutable compact records exactly once per completion", async () => {
+  const profile = structuredClone(loaded.value);
+  profile.evolution_signals = {enabled: true, trigger: "turn/completed"};
+  let providerCalls = 0;
+  const emitted = [];
+  const instance = wrapper({
+    loaded_profile: profile,
+    evolution_signal_provider: () => {
+      providerCalls += 1;
+      return [{kind: "context-precision-failure", scope: "context-precision", observed_value: 0.71, expected_value: 0.8, metric: "context_precision"}];
+    },
+    evolution_signal_sink: (signal) => { emitted.push(signal); return {ok: true}; },
+  });
+  await startAndBind(instance, {id: 2102, text: "Explain the current context.", threadId: "thread-evolution-on", turnId: "turn-evolution-on"});
+  const completion = completed("thread-evolution-on", "turn-evolution-on");
+  await instance.processServerMessage(completion);
+  await instance.processServerMessage(completion);
+  assert.equal(providerCalls, 1);
+  assert.equal(emitted.length, 1);
+  assert.equal(emitted[0].schema_version, "are.improvement-signal/v1");
+  assert.match(emitted[0].source_result_ref, /^codex-turn-completed:[a-f0-9]{64}$/);
+  const event = instance.ledger.snapshot().find((entry) => entry.event_kind === "evolution-signals-assessed");
+  assert.equal(event.signal_disposition, "emitted");
+  assert.equal(event.signal_count, 1);
+  assert.equal(Object.hasOwn(event, "completion_message"), false);
+  assert.equal(Object.hasOwn(event, "context_contents"), false);
 });
 
 test("opt-in turn/completed performs one context-bound semantic evaluation", async () => {

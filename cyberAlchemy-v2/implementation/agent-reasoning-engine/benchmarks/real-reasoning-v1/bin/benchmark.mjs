@@ -1,32 +1,47 @@
 #!/usr/bin/env node
+import {mkdirSync, writeFileSync} from "node:fs";
+import {dirname, resolve} from "node:path";
+
 import {loadBenchmark} from "../src/corpus.mjs";
 import {packageRoot} from "../src/common.mjs";
 import {runCoreBenchmark} from "../src/core.mjs";
 import {runIntegrationBenchmark} from "../src/integration.mjs";
 import {runLiveBenchmark, runLiveMultiTurnBenchmark} from "../src/live.mjs";
+import {runExternalRetrievalBenchmark} from "../src/external-retrieval.mjs";
+import {produceExternalRetrievalPredictions} from "../src/external-retrieval-producer.mjs";
 import {combineResults, writeReport} from "../src/report.mjs";
 
 function options(argv) {
-  const value = {mode: "core", output: null, gateway_socket: null, repetitions: null, include_live: false, write: true};
+  const value = {mode: "core", output: null, gateway_socket: null, repetitions: null, include_live: false, write: true, dataset: null, predictions: null, predictions_output: null, corpus_dir: null, dataset_id: null, dataset_revision: null, top_k: null, token_budget: null};
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--mode") value.mode = argv[++index];
     else if (arg === "--output") value.output = argv[++index];
     else if (arg === "--gateway-socket") value.gateway_socket = argv[++index];
     else if (arg === "--repetitions") value.repetitions = Number(argv[++index]);
+    else if (arg === "--dataset") value.dataset = argv[++index];
+    else if (arg === "--predictions") value.predictions = argv[++index];
+    else if (arg === "--predictions-output") value.predictions_output = argv[++index];
+    else if (arg === "--corpus-dir") value.corpus_dir = argv[++index];
+    else if (arg === "--dataset-id") value.dataset_id = argv[++index];
+    else if (arg === "--dataset-revision") value.dataset_revision = argv[++index];
+    else if (arg === "--top-k") value.top_k = Number(argv[++index]);
+    else if (arg === "--token-budget") value.token_budget = Number(argv[++index]);
     else if (arg === "--include-live") value.include_live = true;
     else if (arg === "--stdout-only") value.write = false;
     else if (arg === "--help") value.help = true;
     else throw new Error(`Unknown option: ${arg}`);
   }
-  if (!["core", "integration", "live", "live-multiturn", "all"].includes(value.mode)) throw new Error(`Unsupported mode: ${value.mode}`);
+  if (!["core", "integration", "live", "live-multiturn", "external-retrieval", "external-retrieval-run", "all"].includes(value.mode)) throw new Error(`Unsupported mode: ${value.mode}`);
   if (value.repetitions !== null && (!Number.isSafeInteger(value.repetitions) || value.repetitions < 1)) throw new Error("--repetitions must be a positive integer");
+  if (value.mode === "external-retrieval" && (![value.dataset, value.predictions, value.dataset_id, value.dataset_revision].every((entry) => typeof entry === "string" && entry.length > 0))) throw new Error("external-retrieval requires --dataset, --predictions, --dataset-id, and --dataset-revision");
+  if (value.mode === "external-retrieval-run" && (![value.dataset, value.corpus_dir, value.dataset_id, value.dataset_revision].every((entry) => typeof entry === "string" && entry.length > 0))) throw new Error("external-retrieval-run requires --dataset, --corpus-dir, --dataset-id, and --dataset-revision");
   return value;
 }
 
 const selected = options(process.argv.slice(2));
 if (selected.help) {
-  process.stdout.write("Usage: benchmark.mjs --mode core|integration|live|live-multiturn|all [--include-live] [--gateway-socket PATH] [--repetitions N] [--output PATH] [--stdout-only]\n\n'live-multiturn' runs the opt-in persistent-conversation holdout. 'all' runs core and integration; add --include-live to invoke the original live A/B turns.\n");
+  process.stdout.write("Usage: benchmark.mjs --mode core|integration|live|live-multiturn|external-retrieval|external-retrieval-run|all [options]\n\nexternal-retrieval scores --predictions. external-retrieval-run produces them from --corpus-dir and optionally writes --predictions-output. Both require --dataset, --dataset-id, and --dataset-revision. 'all' remains core plus integration; add --include-live for live A/B turns.\n");
   process.exit(0);
 }
 const benchmark = loadBenchmark(packageRoot);
@@ -35,6 +50,21 @@ if (selected.mode === "core") result = await runCoreBenchmark(benchmark);
 else if (selected.mode === "integration") result = await runIntegrationBenchmark(benchmark);
 else if (selected.mode === "live") result = await runLiveBenchmark(benchmark, selected);
 else if (selected.mode === "live-multiturn") result = await runLiveMultiTurnBenchmark(benchmark, selected);
+else if (selected.mode === "external-retrieval") result = runExternalRetrievalBenchmark(benchmark.profile, selected);
+else if (selected.mode === "external-retrieval-run") {
+  const production = produceExternalRetrievalPredictions(benchmark.profile, selected);
+  if (selected.predictions_output) {
+    const predictionPath = resolve(selected.predictions_output);
+    mkdirSync(dirname(predictionPath), {recursive: true});
+    writeFileSync(predictionPath, production.prediction_bytes);
+  }
+  result = {
+    ...runExternalRetrievalBenchmark(benchmark.profile, {...selected, prediction_bytes: production.prediction_bytes}),
+    mode: "external-retrieval-run",
+    producer_receipt: production.receipt,
+    predictions_path: selected.predictions_output ? resolve(selected.predictions_output) : null,
+  };
+}
 else {
   const results = [await runCoreBenchmark(benchmark), await runIntegrationBenchmark(benchmark)];
   if (selected.include_live) results.push(await runLiveBenchmark(benchmark, selected));

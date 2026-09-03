@@ -99,6 +99,13 @@ function build() {
   const persistentGatewayPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/gateway.mjs");
   const gatewayBackendPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/backend.mjs");
   const gatewayCanaryPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/scripts/persistent-gateway-canary.mjs");
+  const evolutionRuntimePath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/index.mjs");
+  const evolutionVariantWorkspacePath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/src/variant-workspace.mjs");
+  const evolutionUpgradeControllerPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/src/upgrade-controller.mjs");
+  const evolutionOperationsTestPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/test/operations.test.mjs");
+  const evolutionBenchmarkBridgePath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/benchmarks/real-reasoning-v1/src/evolution-bridge.mjs");
+  const evolutionCanaryPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/benchmarks/real-reasoning-v1/bin/evolution-canary.mjs");
+  const codexEvolutionSignalsPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/evolution-signals.mjs");
 
   const systemOntology = {
     schema_version: "cav2-agent-reasoning-engine-system-ontology/v1",
@@ -259,8 +266,45 @@ function build() {
           managed_daemon_mutated: false,
           authority_effect: "none",
         },
+        {
+          id: "evolution-runtime@1",
+          evidence_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/index.mjs",
+          evidence_sha256: sha256(readFileSync(evolutionRuntimePath)),
+          variant_workspace_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/src/variant-workspace.mjs",
+          variant_workspace_sha256: sha256(readFileSync(evolutionVariantWorkspacePath)),
+          upgrade_controller_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/src/upgrade-controller.mjs",
+          upgrade_controller_sha256: sha256(readFileSync(evolutionUpgradeControllerPath)),
+          operations_test_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/evolution-runtime/test/operations.test.mjs",
+          operations_test_sha256: sha256(readFileSync(evolutionOperationsTestPath)),
+          append_only_records: true,
+          content_addressed_variants: true,
+          single_writer_workspaces: true,
+          recommend_only_default: true,
+          canary_rollback: true,
+          authority_effect: "none",
+        },
+        {
+          id: "benchmark-evolution-cycle@1",
+          evidence_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/benchmarks/real-reasoning-v1/src/evolution-bridge.mjs",
+          evidence_sha256: sha256(readFileSync(evolutionBenchmarkBridgePath)),
+          canary_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/benchmarks/real-reasoning-v1/bin/evolution-canary.mjs",
+          canary_sha256: sha256(readFileSync(evolutionCanaryPath)),
+          deterministic_full_cycle_fixture: true,
+          default_upgrade_disposition: "recommend-only",
+          authority_effect: "none",
+        },
+        {
+          id: "codex-evolution-signal-emission@1",
+          evidence_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/evolution-signals.mjs",
+          evidence_sha256: sha256(readFileSync(codexEvolutionSignalsPath)),
+          wrapper_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/wrapper.mjs",
+          wrapper_sha256: sha256(readFileSync(journaledWrapperPath)),
+          default_enabled: false,
+          duplicate_completion_emission: false,
+          authority_effect: "none",
+        },
       ],
-      context_management_realization: "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
+      context_management_realization: "bounded-serving-and-measured-evolution-candidate",
       whole_engine_realization: "absent",
       accepted_baseline_required: true,
       accepted_baseline_ref: null,

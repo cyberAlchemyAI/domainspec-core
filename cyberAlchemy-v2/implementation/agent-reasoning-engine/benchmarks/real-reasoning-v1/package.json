@@ -9,7 +9,10 @@
     "benchmark:integration": "node bin/benchmark.mjs --mode integration",
     "benchmark:live": "node bin/benchmark.mjs --mode live",
     "benchmark:live-multiturn": "node bin/benchmark.mjs --mode live-multiturn",
+    "benchmark:external-retrieval:fixture": "node bin/benchmark.mjs --mode external-retrieval --dataset fixtures/agent-retrieval-bench/samples.jsonl --predictions fixtures/agent-retrieval-bench/predictions.jsonl --dataset-id arb-fixture --dataset-revision fixture-v1 --stdout-only",
+    "benchmark:external-retrieval:produce-fixture": "node bin/benchmark.mjs --mode external-retrieval-run --dataset fixtures/agent-retrieval-bench/samples.jsonl --corpus-dir fixtures/agent-retrieval-bench/corpus --dataset-id arb-fixture --dataset-revision fixture-v1 --stdout-only",
     "benchmark:all": "node bin/benchmark.mjs --mode all",
-    "improve": "node bin/improve.mjs --mode diagnose"
+    "improve": "node bin/improve.mjs --mode diagnose",
+    "evolve:fixture": "node bin/evolution-canary.mjs"
   }
 }

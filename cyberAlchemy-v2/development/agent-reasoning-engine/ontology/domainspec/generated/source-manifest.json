@@ -2,11 +2,15 @@
   "schema_version": "minted-source-manifest/v1",
   "authority": "generated-provenance-read-model",
   "project_id": "agent-reasoning-engine",
-  "source_set_digest": "ebf4965eaf19a0938cb108b4d66fa76d5d2c4ba9e03aff1fc198cb5f890ab8c3",
+  "source_set_digest": "9d5022a0422ed4ebebc26125bfe8ef8f83276d25cd11ff59817c392776fd78d6",
   "inputs": [
     {
       "path": "feature.json",
-      "digest": "810d474033eef62f52c53f8aff177e3a13da755ea9e3b69a8304c443a8a1ce6d"
+      "digest": "025d5b856254402e1fe8529734ca1d22ea6a39d8a90fd19bded0ee2ef228606f"
+    },
+    {
+      "path": "nodes/apply-upgrade-decision.json",
+      "digest": "b568e1f34d9af2586e0ff25b48f661e5b80016c24a61fe08d21648929de7ea41"
     },
     {
       "path": "nodes/authority-separation.json",
@@ -85,6 +89,18 @@
       "digest": "423192314f80ae1ce4bfa1dbd964b6311fb533b1b539439b6155174dbdeb1bab"
     },
     {
+      "path": "nodes/engine-variant.json",
+      "digest": "00c11afee434798490453620163149d11e94f71e9eed83f92168b1227be0deb3"
+    },
+    {
+      "path": "nodes/evaluate-engine-variant.json",
+      "digest": "1e10992235bd6ffa8f43ad9d0aa7e0b897c7c20cef61496a2b91869ecbb9799b"
+    },
+    {
+      "path": "nodes/evolution-cycle.json",
+      "digest": "8a772f66338dce8621cf94805ce78903013da04d9d5c34ca6271df63cbe6b94d"
+    },
+    {
       "path": "nodes/exact-dispatch-preparation.json",
       "digest": "b3e08686d01fd3183176c106e905b8dab990606d6ce1646db7a88c6147be065d"
     },
@@ -95,6 +111,14 @@
     {
       "path": "nodes/gateway-consumer-session.json",
       "digest": "393c478c7a4c9649195e29fc372b3ce3654358838079a487435537cc3637578d"
+    },
+    {
+      "path": "nodes/improvement-signal.json",
+      "digest": "b28f1db3d7d86f338a6cdd409b003ea1f51a237806485ce7b81748b6274425f4"
+    },
+    {
+      "path": "nodes/improvement-target.json",
+      "digest": "b97db2a4b30b91d1c8266da07bd3c5d573a85b7a2e686a455032dcfb5d084d34"
     },
     {
       "path": "nodes/intent-route-resolution.json",
@@ -201,6 +225,10 @@
       "digest": "21da9284ae94c500e724bafc0d7f0fbaafd138aad1692364d70b9d870b923a65"
     },
     {
+      "path": "nodes/select-improvement-target.json",
+      "digest": "e9968bac8bfd2ad65d6d33ac7a01a5b514e3fae5e0be48edac03005b06f00c54"
+    },
+    {
       "path": "nodes/semantic-judgment.json",
       "digest": "dbc1610bd2cbe4d46a988b3ab45cc4feaf73fb883fc3e4ab8135879e227ba0d6"
     },
@@ -209,11 +237,35 @@
       "digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
     },
     {
+      "path": "nodes/technique-candidate.json",
+      "digest": "d6a6f03d785a20894f20936d420f97565cf5c5ad9522bde8225c190a31574c45"
+    },
+    {
+      "path": "nodes/upgrade-decision.json",
+      "digest": "79a0ab947f817579ac4c5f99ca1fedc07c9f2bf8d68953f9865bef91b295d47c"
+    },
+    {
+      "path": "nodes/variant-comparison.json",
+      "digest": "67769a808eb9129bd69dcb06e90d937017a35b3356df41dbaa99877ae7dccf3a"
+    },
+    {
       "path": "project.json",
       "digest": "be93cb1ce329555c34443bdf5284fe1d9ef2060f5ba423f285d61ba53654659d"
     }
   ],
   "records": [
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.apply-upgrade-reads-comparison",
+      "source_path": "nodes/apply-upgrade-decision.json",
+      "source_digest": "b568e1f34d9af2586e0ff25b48f661e5b80016c24a61fe08d21648929de7ea41"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.apply-upgrade-reads-decision",
+      "source_path": "nodes/apply-upgrade-decision.json",
+      "source_digest": "b568e1f34d9af2586e0ff25b48f661e5b80016c24a61fe08d21648929de7ea41"
+    },
     {
       "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.authority-separation-enforces-continuation",
@@ -381,6 +433,42 @@
       "graph_id": "agent-reasoning-engine.edge.dispatch-preparation-reads-epoch",
       "source_path": "nodes/exact-dispatch-preparation.json",
       "source_digest": "b3e08686d01fd3183176c106e905b8dab990606d6ce1646db7a88c6147be065d"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.evaluate-variant-creates-comparison",
+      "source_path": "nodes/evaluate-engine-variant.json",
+      "source_digest": "1e10992235bd6ffa8f43ad9d0aa7e0b897c7c20cef61496a2b91869ecbb9799b"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.evaluate-variant-reads-target",
+      "source_path": "nodes/evaluate-engine-variant.json",
+      "source_digest": "1e10992235bd6ffa8f43ad9d0aa7e0b897c7c20cef61496a2b91869ecbb9799b"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.evaluate-variant-reads-variant",
+      "source_path": "nodes/evaluate-engine-variant.json",
+      "source_digest": "1e10992235bd6ffa8f43ad9d0aa7e0b897c7c20cef61496a2b91869ecbb9799b"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.evolution-orchestrates-comparison",
+      "source_path": "nodes/evolution-cycle.json",
+      "source_digest": "8a772f66338dce8621cf94805ce78903013da04d9d5c34ca6271df63cbe6b94d"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.evolution-orchestrates-selection",
+      "source_path": "nodes/evolution-cycle.json",
+      "source_digest": "8a772f66338dce8621cf94805ce78903013da04d9d5c34ca6271df63cbe6b94d"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.evolution-orchestrates-upgrade",
+      "source_path": "nodes/evolution-cycle.json",
+      "source_digest": "8a772f66338dce8621cf94805ce78903013da04d9d5c34ca6271df63cbe6b94d"
     },
     {
       "record_type": "edge",
@@ -618,6 +706,18 @@
     },
     {
       "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.select-target-creates-target",
+      "source_path": "nodes/select-improvement-target.json",
+      "source_digest": "e9968bac8bfd2ad65d6d33ac7a01a5b514e3fae5e0be48edac03005b06f00c54"
+    },
+    {
+      "record_type": "edge",
+      "graph_id": "agent-reasoning-engine.edge.select-target-reads-signal",
+      "source_path": "nodes/select-improvement-target.json",
+      "source_digest": "e9968bac8bfd2ad65d6d33ac7a01a5b514e3fae5e0be48edac03005b06f00c54"
+    },
+    {
+      "record_type": "edge",
       "graph_id": "agent-reasoning-engine.edge.selector-binding-creates-selector-lock",
       "source_path": "nodes/ontology-selector-binding.json",
       "source_digest": "8d3c9e8fe1d6feb7d627167e22187c4ef28740c3ca38549745f9aa6ea991d71c"
@@ -705,6 +805,12 @@
       "graph_id": "agent-reasoning-engine.edge.view-binding-reads-basis",
       "source_path": "nodes/context-view-binding.json",
       "source_digest": "fe335250d6a1fe790dc10bbc46d8e2fe3de19db1fa2c3550eb36f795d232717c"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.ApplyUpgradeDecision",
+      "source_path": "nodes/apply-upgrade-decision.json",
+      "source_digest": "b568e1f34d9af2586e0ff25b48f661e5b80016c24a61fe08d21648929de7ea41"
     },
     {
       "record_type": "node",
@@ -822,6 +928,24 @@
     },
     {
       "record_type": "node",
+      "graph_id": "agent-reasoning-engine.EngineVariant",
+      "source_path": "nodes/engine-variant.json",
+      "source_digest": "00c11afee434798490453620163149d11e94f71e9eed83f92168b1227be0deb3"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.EvaluateEngineVariant",
+      "source_path": "nodes/evaluate-engine-variant.json",
+      "source_digest": "1e10992235bd6ffa8f43ad9d0aa7e0b897c7c20cef61496a2b91869ecbb9799b"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.EvolutionCycle",
+      "source_path": "nodes/evolution-cycle.json",
+      "source_digest": "8a772f66338dce8621cf94805ce78903013da04d9d5c34ca6271df63cbe6b94d"
+    },
+    {
+      "record_type": "node",
       "graph_id": "agent-reasoning-engine.ExactDispatchPreparation",
       "source_path": "nodes/exact-dispatch-preparation.json",
       "source_digest": "b3e08686d01fd3183176c106e905b8dab990606d6ce1646db7a88c6147be065d"
@@ -837,6 +961,18 @@
       "graph_id": "agent-reasoning-engine.GatewayConsumerSession",
       "source_path": "nodes/gateway-consumer-session.json",
       "source_digest": "393c478c7a4c9649195e29fc372b3ce3654358838079a487435537cc3637578d"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.ImprovementSignal",
+      "source_path": "nodes/improvement-signal.json",
+      "source_digest": "b28f1db3d7d86f338a6cdd409b003ea1f51a237806485ce7b81748b6274425f4"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.ImprovementTarget",
+      "source_path": "nodes/improvement-target.json",
+      "source_digest": "b97db2a4b30b91d1c8266da07bd3c5d573a85b7a2e686a455032dcfb5d084d34"
     },
     {
       "record_type": "node",
@@ -996,6 +1132,12 @@
     },
     {
       "record_type": "node",
+      "graph_id": "agent-reasoning-engine.SelectImprovementTarget",
+      "source_path": "nodes/select-improvement-target.json",
+      "source_digest": "e9968bac8bfd2ad65d6d33ac7a01a5b514e3fae5e0be48edac03005b06f00c54"
+    },
+    {
+      "record_type": "node",
       "graph_id": "agent-reasoning-engine.SemanticJudgment",
       "source_path": "nodes/semantic-judgment.json",
       "source_digest": "dbc1610bd2cbe4d46a988b3ab45cc4feaf73fb883fc3e4ab8135879e227ba0d6"
@@ -1005,6 +1147,24 @@
       "graph_id": "agent-reasoning-engine.SemanticReduction",
       "source_path": "nodes/semantic-reduction.json",
       "source_digest": "af20c80458a9a9aa0178fdbd84a425a7a102c658060cf43b057acdb8e765d892"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.TechniqueCandidate",
+      "source_path": "nodes/technique-candidate.json",
+      "source_digest": "d6a6f03d785a20894f20936d420f97565cf5c5ad9522bde8225c190a31574c45"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.UpgradeDecision",
+      "source_path": "nodes/upgrade-decision.json",
+      "source_digest": "79a0ab947f817579ac4c5f99ca1fedc07c9f2bf8d68953f9865bef91b295d47c"
+    },
+    {
+      "record_type": "node",
+      "graph_id": "agent-reasoning-engine.VariantComparison",
+      "source_path": "nodes/variant-comparison.json",
+      "source_digest": "67769a808eb9129bd69dcb06e90d937017a35b3356df41dbaa99877ae7dccf3a"
     }
   ]
 }

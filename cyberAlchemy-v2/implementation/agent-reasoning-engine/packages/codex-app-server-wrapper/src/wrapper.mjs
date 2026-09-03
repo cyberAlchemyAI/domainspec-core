@@ -4,6 +4,7 @@ import {bindApprovalResponse, evaluateEffectRequest} from "./effect-boundary.mjs
 import {createEvidenceLedger} from "./evidence-ledger.mjs";
 import {evaluateTurnPreflight} from "./preflight.mjs";
 import {evaluateSemanticCompletion} from "./semantic-completion.mjs";
+import {emitCompletionImprovementSignals} from "./evolution-signals.mjs";
 import {deriveReasoningReceiptConstraints} from "./reasoning-receipt-constraints.mjs";
 import {
   createReasoningStateLedger,
@@ -84,6 +85,7 @@ export function createCodexAppServerWrapper(options) {
   const pendingTurnStates = new Map();
   const activeTurnStates = new Map();
   const semanticCompletions = new Map();
+  const evolutionSignalEmissions = new Map();
   const completionFrontiers = new Map();
   const internalRequests = new Set();
   let activeDecisionProfile = options.decision_profile;
@@ -106,6 +108,7 @@ export function createCodexAppServerWrapper(options) {
     const key = turnKey(persisted.thread_id, persisted.turn_id);
     completionFrontiers.set(key, entry);
     semanticCompletions.set(key, persisted.semantic_completion);
+    if (persisted.evolution_signal_emission) evolutionSignalEmissions.set(key, persisted.evolution_signal_emission);
     completionByTurn.set(key, persisted.continuation_result);
     completionByThread.set(persisted.thread_id, {completion: persisted.completion, directive: persisted.continuation_result});
   }
@@ -497,6 +500,24 @@ export function createCodexAppServerWrapper(options) {
     return result;
   }
 
+  async function emitEvolutionSignals(message, turnState, semantic, continuation, completionDigest) {
+    const identity = extractTurnIdentity(message);
+    const key = turnKey(identity.thread_id, identity.turn_id);
+    if (evolutionSignalEmissions.has(key)) return evolutionSignalEmissions.get(key);
+    const result = await emitCompletionImprovementSignals({
+      configuration: options.loaded_profile.evolution_signals,
+      completion_message: message,
+      completion_digest: completionDigest,
+      turn_state: turnState,
+      semantic_completion: semantic,
+      continuation_result: continuation,
+      signal_provider: options.evolution_signal_provider,
+      signal_sink: options.evolution_signal_sink,
+    });
+    evolutionSignalEmissions.set(key, result);
+    return result;
+  }
+
   async function assessCompletion(message, semantic) {
     const params = message.params ?? {};
     const turn = params.turn ?? {};
@@ -659,6 +680,22 @@ export function createCodexAppServerWrapper(options) {
         const continuation = await assessCompletion(message, semantic);
         const directive = continuation.ok ? continuation.value : continuation;
         ledger.record({event_kind: "continuation-decision", direction: "wrapper", method: TURN_COMPLETED, thread_id: identity.thread_id, turn_id: identity.turn_id, message_digest: admitted.message_digest, decision_digest: directive.decision_digest ?? digestValue(directive)});
+        const evolutionSignalEmission = await emitEvolutionSignals(message, completionTurnState, semantic, continuation, admitted.message_digest);
+        if (evolutionSignalEmission.disposition !== "disabled" && evolutionSignalEmission.disposition !== "no-signals") {
+          ledger.record({
+            event_kind: "evolution-signals-assessed",
+            direction: "wrapper",
+            method: TURN_COMPLETED,
+            thread_id: identity.thread_id,
+            turn_id: identity.turn_id,
+            message_digest: admitted.message_digest,
+            signal_disposition: evolutionSignalEmission.disposition,
+            signal_count: evolutionSignalEmission.signal_count,
+            provider_calls: evolutionSignalEmission.provider_calls,
+            sink_calls: evolutionSignalEmission.sink_calls,
+            signal_refs: evolutionSignalEmission.signal_refs,
+          });
+        }
         const completionRecord = completionByThread.get(identity.thread_id)?.completion ?? {
           completion_id: `codex-turn:${identity.turn_id}`,
           status: message.params?.turn?.status ?? null,
@@ -684,6 +721,7 @@ export function createCodexAppServerWrapper(options) {
             completion_message_digest: admitted.message_digest,
             completion: completionRecord,
             semantic_completion: semantic,
+            evolution_signal_emission: evolutionSignalEmission,
             continuation_result: continuation,
             decision_digest: directive.decision_digest ?? digestValue(directive),
             selected_proposal_digest: continuation.selected_proposal?.proposal_digest ?? null,
@@ -797,6 +835,7 @@ export function createCodexAppServerWrapper(options) {
       pending_semantic_rpc_ids: [...pendingTurnStates.keys()].sort(),
       active_semantic_turn_ids: [...activeTurnStates.values()].map((state) => state.turn_id).sort(),
       semantic_completion_turn_ids: [...semanticCompletions.keys()].sort(),
+      evolution_signal_turn_ids: [...evolutionSignalEmissions.keys()].sort(),
       completion_turn_ids: [...completionByTurn.keys()].sort(),
       completion_frontier_turn_ids: [...completionFrontiers.keys()].sort(),
       runtime_journal: ledger.inspect(),

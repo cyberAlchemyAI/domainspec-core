@@ -21,6 +21,7 @@ export {
   verifyReasoningStateLog,
 } from "../reasoning-state-runtime/index.mjs";
 export {CODEX_SEMANTIC_COMPLETION_SCHEMA, evaluateSemanticCompletion} from "./src/semantic-completion.mjs";
+export {CODEX_EVOLUTION_SIGNAL_EMISSION_SCHEMA, emitCompletionImprovementSignals} from "./src/evolution-signals.mjs";
 export {
   deriveReasoningReceiptConstraints,
   isVerifiedReasoningReceiptConstraints,

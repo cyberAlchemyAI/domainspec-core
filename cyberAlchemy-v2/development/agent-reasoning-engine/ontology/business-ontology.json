@@ -82,6 +82,20 @@
     ,{"id": "CA2-ARE-RULE-DERIVED-INDEX-IS-DISPOSABLE", "kind": "Business Rule", "meaning": "A recovery index must be reproducible solely from canonical records and cannot replace the append-only log, create provenance, or grant authority."}
     ,{"id": "CA2-ARE-RULE-COMPLETION-FRONTIER-BEFORE-CONTINUATION", "kind": "Business Rule", "meaning": "Automatic continuation cannot advance until the exact completed-turn frontier is checkpointed; recovery may replay it without external calls but cannot retry an unacknowledged successor delivery."}
     ,{"id": "CA2-ARE-RULE-GATEWAY-CONSUMER-ISOLATION", "kind": "Business Rule", "meaning": "A gateway consumer cannot substitute lanes, attach concurrently, access another consumer's state, or treat reconnect as durable recovery or authority."}
+    ,{"id": "CA2-ARE-OUTCOME-MEASURED-EVOLUTION", "kind": "Outcome", "meaning": "Measured weaknesses can produce reproducible, benchmarked engine variants while the serving version remains stable and rollback remains available."}
+    ,{"id": "CA2-ARE-CONCEPT-IMPROVEMENT-SIGNAL", "kind": "Domain Concept", "meaning": "A provenance-bound benchmark or runtime observation that indicates one possible weakness without asserting its cause."}
+    ,{"id": "CA2-ARE-CONCEPT-IMPROVEMENT-TARGET", "kind": "Domain Concept", "meaning": "One selected measurable objective with an exact baseline, threshold, mutation scope, protected metrics, and invalidation rules."}
+    ,{"id": "CA2-ARE-CONCEPT-TECHNIQUE-CANDIDATE", "kind": "Domain Concept", "meaning": "An exact-source research mechanism rewritten as a locally reproducible improvement hypothesis."}
+    ,{"id": "CA2-ARE-CONCEPT-REPRODUCTION-TRIAL", "kind": "Domain Concept", "meaning": "A bounded experiment recording whether a technique's mechanism reproduces under declared local conditions."}
+    ,{"id": "CA2-ARE-CONCEPT-ENGINE-VARIANT", "kind": "Domain Concept", "meaning": "A content-addressed isolated candidate built from an exact serving baseline and a declared mutation allowlist."}
+    ,{"id": "CA2-ARE-CONCEPT-VARIANT-COMPARISON", "kind": "Domain Concept", "meaning": "An immutable application of a fixed fitness function to one exact baseline and candidate variant."}
+    ,{"id": "CA2-ARE-CONCEPT-UPGRADE-DECISION", "kind": "Domain Concept", "meaning": "A retain, recommend, activate, or block disposition that binds predecessor, candidate, comparison, and rollback target."}
+    ,{"id": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "kind": "Workflow", "meaning": "Convert measured signals into one target, research and reproduce a technique, build an isolated variant, compare it, and retain or recommend it."}
+    ,{"id": "CA2-ARE-WORKFLOW-CONTROLLED-UPGRADE", "kind": "Workflow", "meaning": "Atomically select a candidate serving version only under explicit controlled-local configuration, run its canary, and restore the predecessor after failure."}
+    ,{"id": "CA2-ARE-RULE-BENCHMARK-IS-NOT-AUTHORITY", "kind": "Business Rule", "meaning": "A benchmark KEEP or recommendation cannot grant acceptance, deployment, effect authority, or unrestricted self-modification."}
+    ,{"id": "CA2-ARE-RULE-EVOLUTION-EXACT-BASELINE", "kind": "Business Rule", "meaning": "Research, reproduction, variants, comparisons, and upgrades must preserve exact source, baseline, environment, and evidence identities."}
+    ,{"id": "CA2-ARE-RULE-VARIANT-ISOLATION", "kind": "Business Rule", "meaning": "Variant construction permits one writer in a content-addressed workspace outside the serving repository and blocks changed paths outside the target allowlist."}
+    ,{"id": "CA2-ARE-RULE-CANARY-ROLLBACK", "kind": "Business Rule", "meaning": "Controlled activation requires the exact predecessor and a canary; failure restores the predecessor rather than retaining the candidate."}
   ],
   "relations": [
     {"id": "CA2-ARE-BREL-01", "source": "CA2-ARE-BUSINESS-ONTOLOGY", "type": "belongs_to", "target": "CA2-PRODUCT-CYBERALCHEMY"},
@@ -165,6 +179,19 @@
     ,{"id": "CA2-ARE-BREL-81", "source": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING", "type": "manages", "target": "CA2-ARE-CONCEPT-REASONING-STATE-LEDGER"}
     ,{"id": "CA2-ARE-BREL-82", "source": "CA2-ARE-RULE-COMPLETION-FRONTIER-BEFORE-CONTINUATION", "type": "constrains", "target": "CA2-ARE-WORKFLOW-COMPLETION-FRONTIER-SEALING"}
     ,{"id": "CA2-ARE-BREL-83", "source": "CA2-ARE-WORKFLOW-REASONING-STATE-RECOVERY", "type": "produces", "target": "CA2-ARE-CONCEPT-REASONING-STATE-FRONTIER"}
+    ,{"id": "CA2-ARE-BREL-84", "source": "CA2-ARE-BUSINESS-ONTOLOGY", "type": "produces", "target": "CA2-ARE-OUTCOME-MEASURED-EVOLUTION"}
+    ,{"id": "CA2-ARE-BREL-85", "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "type": "consumes", "target": "CA2-ARE-CONCEPT-IMPROVEMENT-SIGNAL"}
+    ,{"id": "CA2-ARE-BREL-86", "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "type": "produces", "target": "CA2-ARE-CONCEPT-IMPROVEMENT-TARGET"}
+    ,{"id": "CA2-ARE-BREL-87", "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "type": "produces", "target": "CA2-ARE-CONCEPT-TECHNIQUE-CANDIDATE"}
+    ,{"id": "CA2-ARE-BREL-88", "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "type": "produces", "target": "CA2-ARE-CONCEPT-REPRODUCTION-TRIAL"}
+    ,{"id": "CA2-ARE-BREL-89", "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "type": "produces", "target": "CA2-ARE-CONCEPT-ENGINE-VARIANT"}
+    ,{"id": "CA2-ARE-BREL-90", "source": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION", "type": "produces", "target": "CA2-ARE-CONCEPT-VARIANT-COMPARISON"}
+    ,{"id": "CA2-ARE-BREL-91", "source": "CA2-ARE-WORKFLOW-CONTROLLED-UPGRADE", "type": "consumes", "target": "CA2-ARE-CONCEPT-VARIANT-COMPARISON"}
+    ,{"id": "CA2-ARE-BREL-92", "source": "CA2-ARE-WORKFLOW-CONTROLLED-UPGRADE", "type": "produces", "target": "CA2-ARE-CONCEPT-UPGRADE-DECISION"}
+    ,{"id": "CA2-ARE-BREL-93", "source": "CA2-ARE-RULE-BENCHMARK-IS-NOT-AUTHORITY", "type": "constrains", "target": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION"}
+    ,{"id": "CA2-ARE-BREL-94", "source": "CA2-ARE-RULE-EVOLUTION-EXACT-BASELINE", "type": "constrains", "target": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION"}
+    ,{"id": "CA2-ARE-BREL-95", "source": "CA2-ARE-RULE-VARIANT-ISOLATION", "type": "constrains", "target": "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION"}
+    ,{"id": "CA2-ARE-BREL-96", "source": "CA2-ARE-RULE-CANARY-ROLLBACK", "type": "constrains", "target": "CA2-ARE-WORKFLOW-CONTROLLED-UPGRADE"}
   ],
   "authority_effect": "none"
 }
