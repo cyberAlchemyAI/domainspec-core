@@ -463,8 +463,11 @@ export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizatio
 }
 
 interface FormalizationMaterializationHooks {
-  readonly before_publish?: (stagingDirectory: string, targetDirectory: string) => void;
+  readonly before_claim?: (stagingDirectory: string, targetDirectory: string) => void;
+  readonly after_complete?: (completionRecordPath: string) => void;
 }
+
+const FORMALIZATION_COMPLETION_RECORD = ".domainspec-formalization-complete.json";
 
 export interface FormalizationMaterializationResult {
   readonly projection_sha256: string;
@@ -527,6 +530,13 @@ function materializationResult(proofUnit: FormalizationProofUnit, targetPath: st
   });
 }
 
+function formalizationCompletionRecord(proofUnit: FormalizationProofUnit): string {
+  return `${JSON.stringify({
+    schema_version: "domainspec.formalization-completion-record/v1",
+    proof_unit_sha256: proofUnit.proof_unit_sha256,
+  }, null, 2)}\n`;
+}
+
 function materializeLeanMetaTypeFormalizationWithHooks(
   graph: CompiledProjectGraph,
   targetPath: string,
@@ -537,19 +547,44 @@ function materializeLeanMetaTypeFormalizationWithHooks(
   const targetDirectory = path.dirname(targetPath);
   const targetParent = path.dirname(targetDirectory);
   fs.mkdirSync(targetParent, { recursive: true });
-  if (fs.existsSync(targetDirectory)) fail("MTCLI_FORMALIZE_TARGET_EXISTS", `formalization target directory already exists:${targetDirectory}`);
   const stagingDirectory = fs.mkdtempSync(path.join(targetParent, `.${path.basename(targetDirectory)}.formalize-`));
+  const completionRecordSource = formalizationCompletionRecord(proofUnit);
+  const stagedCompletionRecordPath = path.join(stagingDirectory, FORMALIZATION_COMPLETION_RECORD);
+  const publicCompletionRecordPath = path.join(targetDirectory, FORMALIZATION_COMPLETION_RECORD);
   try {
     for (const item of proofUnit.sources) {
       fs.writeFileSync(path.join(stagingDirectory, item.filename), item.source, { encoding: "utf8", flag: "wx" });
     }
-    hooks.before_publish?.(stagingDirectory, targetDirectory);
-    if (fs.existsSync(targetDirectory)) fail("MTCLI_FORMALIZE_TARGET_EXISTS", "a competing writer created the formalization target directory");
-    fs.renameSync(stagingDirectory, targetDirectory);
+    fs.writeFileSync(stagedCompletionRecordPath, completionRecordSource, { encoding: "utf8", flag: "wx" });
+    hooks.before_claim?.(stagingDirectory, targetDirectory);
+
+    // mkdir is the atomic, no-replace claim for the public path: unlike POSIX
+    // rename, it fails when any directory, regular file, or symlink is present.
+    fs.mkdirSync(targetDirectory);
+
+    // Staging and target are siblings, so hard links provide atomic no-replace
+    // installation without copying partially written bytes into the proof unit.
+    for (const item of proofUnit.sources) {
+      fs.linkSync(path.join(stagingDirectory, item.filename), item.target);
+    }
+    const stagedCompletionRecordIdentity = fs.lstatSync(stagedCompletionRecordPath);
+    fs.linkSync(stagedCompletionRecordPath, publicCompletionRecordPath);
+    hooks.after_complete?.(publicCompletionRecordPath);
+
+    if (!fs.existsSync(publicCompletionRecordPath)) {
+      fail("MTCLI_FORMALIZE_PUBLICATION_RACE", "formalization completion record disappeared during publication");
+    }
+    const publicCompletionRecordIdentity = fs.lstatSync(publicCompletionRecordPath);
+    if (publicCompletionRecordIdentity.dev !== stagedCompletionRecordIdentity.dev
+      || publicCompletionRecordIdentity.ino !== stagedCompletionRecordIdentity.ino
+      || fs.readFileSync(publicCompletionRecordPath, "utf8") !== completionRecordSource) {
+      fail("MTCLI_FORMALIZE_PUBLICATION_RACE", "formalization completion record changed during publication");
+    }
+    fs.rmSync(stagingDirectory, { recursive: true });
   } catch (error) {
     if (fs.existsSync(stagingDirectory)) fs.rmSync(stagingDirectory, { recursive: true, force: true });
-    if (["EEXIST", "ENOTEMPTY"].includes((error as NodeJS.ErrnoException).code ?? "")) {
-      fail("MTCLI_FORMALIZE_TARGET_EXISTS", "a competing writer created the formalization target directory");
+    if (["EEXIST", "ENOTEMPTY", "EISDIR"].includes((error as NodeJS.ErrnoException).code ?? "")) {
+      fail("MTCLI_FORMALIZE_TARGET_EXISTS", "the formalization target path or one of its artifacts already exists");
     }
     throw error;
   }
@@ -576,11 +611,13 @@ export function checkLeanMetaTypeFormalization(graph: CompiledProjectGraph, targ
   if (!path.isAbsolute(targetPath)) fail("MTCLI_FORMALIZE_TARGET", "formalize-check target must be absolute");
   const proofUnit = createFormalizationProofUnit(graph, targetPath, formalizationLeanModuleSources());
   const targetDirectory = path.dirname(targetPath);
-  const expectedFilenames = proofUnit.sources.map(({ filename }) => filename).sort();
+  const completionRecordSource = formalizationCompletionRecord(proofUnit);
+  const expectedFilenames = [...proofUnit.sources.map(({ filename }) => filename), FORMALIZATION_COMPLETION_RECORD].sort();
   const actualFilenames = fs.existsSync(targetDirectory) && fs.statSync(targetDirectory).isDirectory()
     ? fs.readdirSync(targetDirectory).sort()
     : [];
   const current = JSON.stringify(actualFilenames) === JSON.stringify(expectedFilenames)
-    && proofUnit.sources.every(({ target, source }) => fs.readFileSync(target, "utf8") === source);
+    && proofUnit.sources.every(({ target, source }) => fs.readFileSync(target, "utf8") === source)
+    && fs.readFileSync(path.join(targetDirectory, FORMALIZATION_COMPLETION_RECORD), "utf8") === completionRecordSource;
   return deepFreeze({ ...materializationResult(proofUnit, targetPath), current });
 }

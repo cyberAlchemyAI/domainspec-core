@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { runCli } from "../../src/cli/main.ts";
 import {
   FormalizationProjectionError,
+  checkLeanMetaTypeFormalization,
   createFormalizationProofUnitForModuleSources,
   createMetaTypeFormalizationProjection,
   createMetaTypeFormalizationProjectionForModuleSources,
@@ -21,6 +22,7 @@ import { loadCompiledProjectGraph } from "../../src/input/project-model.ts";
 
 const testDir = path.dirname(fileURLToPath(import.meta.url));
 const fixtureRoot = path.resolve(testDir, "../../fixtures/input-roots/canonical-project");
+const completionRecordFilename = ".domainspec-formalization-complete.json";
 
 function createRoot(): { readonly parent: string; readonly source: string; readonly target: string } {
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "mtcli-formalize-"));
@@ -111,6 +113,10 @@ test("formalize materializes compilable Lean once and formalize-check detects by
     assert.match(materialized.render_payload_sha256, /^[a-f0-9]{64}$/);
     assert.match(materialized.lean_module_set_sha256, /^[a-f0-9]{64}$/);
     assert.match(materialized.proof_unit_sha256, /^[a-f0-9]{64}$/);
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(path.dirname(target), completionRecordFilename), "utf8")), {
+      schema_version: "domainspec.formalization-completion-record/v1",
+      proof_unit_sha256: materialized.proof_unit_sha256,
+    });
     assert.deepEqual(materialized.module_paths.map((value: string) => path.basename(value)), FORMALIZATION_LEAN_MODULE_FILENAMES);
     assert.equal(materialized.module_paths.every((value: string) => fs.existsSync(value)), true);
     assert.equal(runCli(["formalize-check", source, "--target", target], io), 0);
@@ -196,24 +202,108 @@ test("legitimate source changes update source identity, semantic payload digest,
   }
 });
 
-test("private staging preserves a competing replacement and removes only invocation-private bytes", () => {
+function assertCompetingTargetPreserved(
+  installCompetitor: (targetDirectory: string) => void,
+  assertPreserved: (targetDirectory: string) => void,
+): void {
   const { parent, source, target } = createRoot();
-  const sentinel = "-- competing writer owns this file\n";
   try {
     assert.throws(
       () => materializeLeanMetaTypeFormalizationForTest(loadCompiledProjectGraph(source), target, {
-        before_publish: (stagingDirectory, targetDirectory) => {
-          assert.equal(fs.readdirSync(stagingDirectory).length, FORMALIZATION_LEAN_MODULE_FILENAMES.length + 1);
-          fs.mkdirSync(targetDirectory);
-          fs.writeFileSync(path.join(targetDirectory, FORMALIZATION_LEAN_MODULE_FILENAMES[0]), sentinel, { flag: "wx" });
+        before_claim: (stagingDirectory, targetDirectory) => {
+          assert.equal(fs.readdirSync(stagingDirectory).length, FORMALIZATION_LEAN_MODULE_FILENAMES.length + 2);
+          installCompetitor(targetDirectory);
         },
       }),
       (error: unknown) => error instanceof FormalizationProjectionError && error.code === "MTCLI_FORMALIZE_TARGET_EXISTS",
     );
     const directory = path.dirname(target);
-    assert.equal(fs.readFileSync(path.join(directory, FORMALIZATION_LEAN_MODULE_FILENAMES[0]), "utf8"), sentinel);
-    assert.equal(fs.existsSync(path.join(directory, FORMALIZATION_LEAN_MODULE_FILENAMES[1])), false);
-    assert.equal(fs.existsSync(target), false);
+    assertPreserved(directory);
+    assert.deepEqual(fs.readdirSync(parent).filter((entry) => entry.startsWith(".generated.formalize-")), []);
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+}
+
+test("atomic publication claim preserves a competing empty directory", () => {
+  assertCompetingTargetPreserved(
+    (targetDirectory) => fs.mkdirSync(targetDirectory),
+    (targetDirectory) => assert.deepEqual(fs.readdirSync(targetDirectory), []),
+  );
+});
+
+test("atomic publication claim preserves a competing non-empty directory", () => {
+  const sentinel = "-- competing writer owns this file\n";
+  assertCompetingTargetPreserved(
+    (targetDirectory) => {
+      fs.mkdirSync(targetDirectory);
+      fs.writeFileSync(path.join(targetDirectory, FORMALIZATION_LEAN_MODULE_FILENAMES[0]), sentinel, { flag: "wx" });
+    },
+    (targetDirectory) => {
+      assert.equal(fs.readFileSync(path.join(targetDirectory, FORMALIZATION_LEAN_MODULE_FILENAMES[0]), "utf8"), sentinel);
+      assert.equal(fs.existsSync(path.join(targetDirectory, FORMALIZATION_LEAN_MODULE_FILENAMES[1])), false);
+    },
+  );
+});
+
+test("atomic publication claim preserves a competing regular file", () => {
+  const sentinel = "competing regular file\n";
+  assertCompetingTargetPreserved(
+    (targetDirectory) => fs.writeFileSync(targetDirectory, sentinel, { flag: "wx" }),
+    (targetDirectory) => assert.equal(fs.readFileSync(targetDirectory, "utf8"), sentinel),
+  );
+});
+
+test("atomic publication claim preserves a competing symlink and its referent", () => {
+  let referent = "";
+  assertCompetingTargetPreserved(
+    (targetDirectory) => {
+      referent = `${targetDirectory}-referent`;
+      fs.mkdirSync(referent);
+      fs.symlinkSync(referent, targetDirectory);
+    },
+    (targetDirectory) => {
+      assert.equal(fs.lstatSync(targetDirectory).isSymbolicLink(), true);
+      assert.equal(fs.readlinkSync(targetDirectory), referent);
+      assert.deepEqual(fs.readdirSync(referent), []);
+    },
+  );
+});
+
+test("removing positive completion evidence leaves failed publication non-current", () => {
+  const { parent, source, target } = createRoot();
+  const graph = loadCompiledProjectGraph(source);
+  try {
+    assert.throws(
+      () => materializeLeanMetaTypeFormalizationForTest(graph, target, {
+        after_complete: (completionRecordPath) => fs.unlinkSync(completionRecordPath),
+      }),
+      (error: unknown) => error instanceof FormalizationProjectionError && error.code === "MTCLI_FORMALIZE_PUBLICATION_RACE",
+    );
+    assert.equal(fs.existsSync(path.join(path.dirname(target), completionRecordFilename)), false);
+    assert.equal(checkLeanMetaTypeFormalization(graph, target).current, false);
+    assert.deepEqual(fs.readdirSync(parent).filter((entry) => entry.startsWith(".generated.formalize-")), []);
+  } finally {
+    fs.rmSync(parent, { recursive: true, force: true });
+  }
+});
+
+test("replacing positive completion evidence is preserved and rejected", () => {
+  const { parent, source, target } = createRoot();
+  const graph = loadCompiledProjectGraph(source);
+  const sentinel = "competing completion record\n";
+  try {
+    assert.throws(
+      () => materializeLeanMetaTypeFormalizationForTest(graph, target, {
+        after_complete: (completionRecordPath) => {
+          fs.unlinkSync(completionRecordPath);
+          fs.writeFileSync(completionRecordPath, sentinel, { flag: "wx" });
+        },
+      }),
+      (error: unknown) => error instanceof FormalizationProjectionError && error.code === "MTCLI_FORMALIZE_PUBLICATION_RACE",
+    );
+    assert.equal(fs.readFileSync(path.join(path.dirname(target), completionRecordFilename), "utf8"), sentinel);
+    assert.equal(checkLeanMetaTypeFormalization(graph, target).current, false);
     assert.deepEqual(fs.readdirSync(parent).filter((entry) => entry.startsWith(".generated.formalize-")), []);
   } finally {
     fs.rmSync(parent, { recursive: true, force: true });

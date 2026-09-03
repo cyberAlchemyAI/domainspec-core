@@ -58,11 +58,14 @@ L1 typed-field identities, Entity identity,
 Value Object structural equality, Enum closure, Event occurrence/version, and
 Interface boundary/compatibility facts into `allProjectL1RolesHold`.
 The containing output directory must not already exist. `formalize` writes the
-complete proof unit in a private sibling staging directory and publishes it by
-one directory rename; failed publication removes only private staging bytes and
-never deletes a competing public path. `formalize-check` rebuilds all four
-files, requires the exact directory inventory, and rejects source, module, or
-target drift.
+complete proof unit in a private sibling staging directory, claims the public
+directory with an atomic exclusive create, and installs each complete staged
+file with an atomic no-replace hard link. A digest-bound completion record is
+linked last, retained as positive completion evidence, and never deleted by the
+publisher. Failed publication removes only private staging bytes and never
+deletes a claimed or competing public path. `formalize-check` rebuilds all four
+proof files and the completion record, requires the exact directory inventory,
+and rejects incomplete publication, source, module, or target drift.
 The reusable kernel reflects graph-digest binding, source-identity binding, and
 static conformance into a checked certificate. The generated current module
 proves the TypeScript projection lowers to the Lean `CheckedProjectionInput`
