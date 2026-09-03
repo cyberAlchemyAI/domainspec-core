@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hostile mutation checks for the first executable D65 evaluator."""
+"""Hostile mutation checks for the quarantined legacy D65 evaluator."""
 
 from __future__ import annotations
 
@@ -33,11 +33,12 @@ def mutated(change) -> dict:
 cases = []
 
 baseline = evaluate(copy.deepcopy(REGISTRY))
-assert baseline["status"] == "NOT_EVALUABLE", baseline
+assert baseline["status"] == "BLOCK", baseline
+assert "D65_REVISION_2_EVALUATOR_NOT_IMPLEMENTED" in baseline["blockers"]
 assert "DOMAINSPEC_PROFILE_NOT_ADMITTED" in baseline["blockers"]
 assert "IMPLEMENTATION_BASELINE_NOT_OWNER_ACCEPTED" in baseline["blockers"]
 assert "SYSTEM_ONTOLOGY_NOT_ADMITTED" in baseline["blockers"]
-cases.append("live unadmitted epoch fails closed")
+cases.append("legacy revision-1 evaluator cannot satisfy revision 2")
 
 result = mutated(lambda binding: binding["file_bindings"][0].update(sha256="0" * 64))
 assert result["status"] == "BLOCK" and any("file binding drift" in item for item in result["errors"])

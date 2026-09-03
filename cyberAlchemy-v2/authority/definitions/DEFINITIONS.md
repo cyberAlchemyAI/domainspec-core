@@ -5092,150 +5092,187 @@ but neither is created or adopted by this definition.
 ## CAV2-D65: DomainSpec-Governed Construction Invariant
 
 Status: active
-Term: DomainSpec-governed construction invariant
-Aliases: DomainSpec v2 construction invariant, definitions-to-implementation construction invariant, DomainSpec-first construction path, CyberAlchemy construction pipeline
+Term: prototype-first DomainSpec construction invariant
+Aliases: DomainSpec-governed construction invariant, DomainSpec v2 construction invariant, definitions-to-implementation construction invariant, DomainSpec-first construction path, CyberAlchemy construction pipeline
 Promoted: 2026-08-30 by explicit owner direction to make DomainSpec v2 the construction path inside CyberAlchemy v2; definition authority only
+Revised: 2026-09-03 by explicit owner direction to make product construction prototype-first and defer every authority request until after tested-product approval
 
 ### Normative Definition
 
-The DomainSpec-governed construction invariant is the must-hold CyberAlchemy v2
-condition that every new or materially revised implementation-bearing system or
-capability advances through one version-exact semantic and construction chain:
+The prototype-first DomainSpec construction invariant is the must-hold
+CyberAlchemy v2 condition that every new or materially revised
+implementation-bearing system or capability advances through one inspectable,
+version-exact learning and construction chain:
 
 ```text
-canonical definitions
-  -> CyberAlchemy product ontology
-  -> capability-local business ontology
-  -> DomainSpec v2 authored project source
-  -> deterministic compiled graph and system-ontology projection
-  -> implementation bound to that exact system ontology
-  -> static conformance and, when claimed, runtime evidence
+prototype definitions
+  -> agent-facing ontology scaffolds
+  -> product-capability and capability-local business prototypes
+  -> DomainSpec v2 authored prototype source
+  -> deterministic compiled graph and system-ontology scaffolds
+  -> implementation prototypes iterated with tests
+  -> one exact testable product candidate
+  -> current product-test evidence
+  -> product approval
+  -> only then requests for authority, admission, activation, cutover,
+     publication, release, or deployment decisions
 ```
 
-The definitions stage may reuse, specialize, propose, or leave meaning open; it
-must not mint a new definition merely to satisfy the chain. Product and business
-ontologies record intended meaning and rules without claiming implementation.
-The DomainSpec v2 project is the source for the system model. The compiled graph
-and system ontology must be deterministic projections of that exact source, not
-independently authored competing graphs. Implementation may begin only from an
-exact validated system-ontology state and an owner-accepted implementation
-binding. An implementation claim becomes conformance only through evidence
-against that same exact state.
+Definitions begin explicitly as prototypes. They may be reused, split,
+specialized, contradicted, or revised as construction teaches the product what
+its terms must mean. Ontology records are scaffolded early to help agents find
+concepts, relationships, constraints, questions, and evidence. An ontology
+scaffold is provisional navigation and coordination material: it is not
+canonical truth, admission, permission, implementation authority, or a reason
+to stop prototype learning.
 
-Every transition preserves predecessor identities, versions, digests, owner
-routes, validation outcomes, residue, and challenge routes. A missing, stale,
-unsupported, ambiguous, or non-reproducible predecessor blocks the next
-transition or makes it `not_evaluable`; it never becomes an implicit PASS.
+Product, business, DomainSpec, compiled-system, and implementation artifacts
+remain prototypes while they are being iterated. DomainSpec is the authored
+technical source for each compiled prototype epoch. Its graph and system
+ontology must be deterministic projections of that exact source, not
+independently authored competitors. The implementation and scaffolds may be
+revised together through bounded prototype loops, but every testable product
+candidate freezes their exact identities and digests for testing.
+
+Product approval may be requested only for an exact testable candidate whose
+required product tests pass with current evidence. Product approval accepts the
+candidate as worth considering for governed use; it grants no operational
+authority. No request for authorization, ontology or system admission,
+activation, cutover, publication, release, deployment, or other authority
+decision is eligible before that exact tested candidate receives product
+approval. Each post-approval effect remains a separate owner decision.
+
+Every candidate boundary preserves predecessor identities, versions, digests,
+test outcomes, residue, and challenge routes. Missing or changing prototype
+material causes another prototype epoch; it does not require an authority
+decision. Missing, stale, unsupported, ambiguous, or non-reproducible bytes in
+a frozen test candidate invalidate that candidate's test or approval
+eligibility; they never become an implicit PASS.
 
 ### Invariant Statement
 
 For one construction subject `S`, let:
 
 ```text
-ConstructionStage =
-  {definition, product_ontology, business_ontology, domainspec_source,
-   compiled_graph, system_ontology, implementation,
-   static_conformance, runtime_evidence}
+PrototypeConstructionStage =
+  {definition_prototype, ontology_scaffold, product_capability_prototype,
+   business_prototype, domainspec_prototype, compiled_system_prototype,
+   implementation_prototype, testable_product_candidate,
+   product_test_evidence, product_approval,
+   post_approval_authority_decisions}
 
-StageState = {absent, candidate, blocked, not_evaluable, validated}
+PrototypeState =
+  {absent, scaffolded, prototyped, blocked, not_evaluable, testable,
+   test_failed, tested, product_approved, stale, superseded}
 
 ConstructionBinding =
   (construction_id, project_ref, subject_ref,
-   definition_refs, definition_digests,
-   product_ontology_refs, product_ontology_digests,
-   business_ontology_refs, business_ontology_digests,
+   definition_prototype_refs, definition_prototype_digests,
+   ontology_scaffold_refs, ontology_scaffold_digests,
+   product_capability_prototype_refs, product_capability_prototype_digests,
+   business_prototype_refs, business_prototype_digests,
    domainspec_project_ref, domainspec_profile_ref,
    domainspec_language_refs, domainspec_language_digests,
    source_set_ref, source_set_digest,
    compiler_ref, compiler_version_ref, compiler_digest,
    compiled_graph_ref, compiled_graph_digest,
    system_ontology_ref, system_ontology_digest,
-   bridge_validation_ref,
-   implementation_target_ref?, implementation_target_digest?,
-   realization_baseline_ref?, realization_baseline_digest?,
-   instantiation_receipt_ref?, conformance_ref?, runtime_evidence_refs,
-   owner_routes, stage_states, evidence_refs,
+   implementation_prototype_ref?, implementation_prototype_digest?,
+   testable_product_candidate_ref?, testable_product_candidate_digest?,
+   product_test_contract_ref?, product_test_evidence_refs,
+   product_approval_ref?, product_approval_candidate_digest?,
+   post_approval_decision_refs,
+   contributor_routes, stage_states, evidence_refs,
    challenge_route, drift_route, authority_effect)
 
-eligible(system_ontology) only if
-  current(definition_refs, definition_digests)
-  and validated(product_ontology)
-  and validated(business_ontology)
-  and current(domainspec_source)
-  and exact(compiler_ref, compiler_version_ref, compiler_digest)
-  and deterministic_compile(domainspec_source, compiled_graph)
+ontology_scaffold(S) => authority_effect(S) = none
+ontology_scaffold(S) =/=> canonical_truth(S)
+ontology_scaffold(S) =/=> admission(S)
 
-eligible(implementation) only if
-  validated(system_ontology)
-  and validated(bridge_validation_ref)
-  and owner_accepted(realization_baseline_ref)
+eligible(product_approval_request) only if
+  exact(testable_product_candidate_ref,
+        testable_product_candidate_digest)
+  and testable(testable_product_candidate_ref)
+  and required_product_tests_pass(product_test_contract_ref,
+                                  product_test_evidence_refs)
+  and current(product_test_evidence_refs)
 
-conforms(implementation, system_ontology) only if
-  exact_binding(implementation_target_ref, implementation_target_digest,
-                system_ontology_ref, system_ontology_digest)
-  and current(conformance_ref)
+before(product_approval) =>
+  authority_effect(ConstructionBinding) = none
+  and eligible(authority_request) = false
 
-missing_or_stale(stage_n) =>
-  state(stage_n+1) in {blocked, not_evaluable}
+eligible(authority_request) only if
+  product_approved(product_approval_ref,
+                   product_approval_candidate_digest)
+  and exact(product_approval_candidate_digest,
+            testable_product_candidate_digest)
 
-validated(stage_n) =/=> authority(stage_n+1)
-generated(system_ontology) =/=> implemented(S)
-implemented(S) =/=> conforms(S)
-static_conformance(S) =/=> runtime_behavior_proved(S)
+product_approved(S) =/=> authorized(S)
+product_approved(S) =/=> admitted(S)
+product_approved(S) =/=> activated(S)
+product_approved(S) =/=> cut_over(S)
+test_pass(S) =/=> product_approved(S)
 ```
 
-The chain is monotonic but not automatically advancing. A validated predecessor
-makes the next stage eligible for its own owner-governed work; it does not
-perform that work or grant authority to do it. A materially changed predecessor
-creates a new exact binding epoch and makes dependent evidence non-current.
+The prototype portion is intentionally iterative rather than monotonic. Agents
+may move backward, replace scaffolds, and create new epochs without requesting
+authority. The chain becomes digest-monotonic only when one testable product
+candidate is frozen. Any change to that candidate invalidates its dependent
+tests and product approval. Product approval opens only the right to prepare and
+request separately scoped authority decisions; it performs none of them.
 
 ### Schema
 
 Schema handle: `CAV2-D65-SCHEMA` — tracked in
 [DEFINITION-SCHEMAS.md](DEFINITION-SCHEMAS.md). Status: tracked (documentary).
-The Goals package now owns the first closed machine-checkable
-`ConstructionBinding` registry and the Define bridge owns an empty
-business-to-DomainSpec handoff registry. Both are deliberately empty and
-blocked in this ontology slice. The transition evaluator, DomainSpec compiler
-gate, compiled-graph receipt, system-ontology projection receipt,
-implementation admission, conformance proof, and runtime enforcement remain
-deferred. No current CyberAlchemy package may claim D65 conformance merely from
-this definition, either registry, or either schema record.
+The Governance package now owns the first parallel revision-2 prototype
+`ConstructionBinding` registry, ontology-scaffold registry, deterministic
+freezer/evaluator, and hostile test surface. Its current exact candidate has
+passing product-test evidence and is eligible for a product-approval request;
+it has no product approval or authority-request eligibility. The earlier
+Governance and Goals stage-completion registries implement the superseded
+pre-prototype interpretation and remain quarantined diagnostic evidence until
+migrated. No current CyberAlchemy package may claim D65 conformance, product
+approval, admission, or authority merely from this definition, a registry row,
+a deterministic compile, or a passing prototype test.
 
 Field meanings:
 
 - `construction_id`, `project_ref`, and `subject_ref` identify one bounded
   construction chain and its coordinating Project.
-- Definition, product-ontology, and business-ontology refs and digests preserve
-  the exact semantic predecessors.
+- Prototype-definition, ontology-scaffold, product-capability, and business
+  refs preserve the exact learning epoch without promoting prototypes.
 - DomainSpec project, profile, language, source-set, and compiler bindings name
   the exact authored model and deterministic construction mechanism.
-- Compiled-graph and system-ontology refs and digests bind the derived system
-  model without turning projections into independent authority.
-- `bridge_validation_ref` records checked alignment between business meaning
-  and the system ontology; it is not implementation evidence.
-- Optional implementation, baseline, instantiation, conformance, and runtime
-  refs become required only when their corresponding stage is claimed.
-- `owner_routes`, `stage_states`, `evidence_refs`, `challenge_route`, and
+- Compiled-graph and system-ontology refs bind derived scaffolds without
+  turning those projections into independent authority.
+- Product-test contracts and evidence say whether the exact frozen candidate is
+  testable and tested; they do not approve the product.
+- `product_approval_ref` binds one exact tested candidate and grants no
+  operational authority.
+- Post-approval decision refs are absent before product approval and remain
+  separately scoped afterward.
+- `contributor_routes`, `stage_states`, `evidence_refs`, `challenge_route`, and
   `drift_route` keep decisions, support, dispute, and invalidation explicit.
 - `authority_effect` is `none` for the binding itself.
 
-### Ownership And Gates
+### Ownership And Decision Order
 
-- The definitions-governance owner controls canonical definition meaning.
-- The CyberAlchemy product-ontology owner controls shared product meaning.
-- The capability business-ontology owner controls capability-local meaning.
-- DomainSpec v2 language, profile, compiler, and instantiation owners control
-  their respective source, compilation, and realization contracts.
-- The system-ontology owner controls admission of the exact generated system
-  projection.
-- The implementation owner selects and accepts one exact implementation
-  binding; the conformance owner controls observation and conformance evidence.
-- The applicable runtime owner controls any runtime-behavior claim.
+- Before product approval, definitions, ontology, product, business,
+  DomainSpec, compiler, implementation, and test owners contribute prototype
+  artifacts and evidence. Their validations are learning checkpoints, not
+  authorization or authority gates.
+- An independent product-test route evaluates the exact frozen candidate.
+- The product owner may approve that exact candidate only after the required
+  tests pass with current evidence.
+- Only after product approval may the applicable authority owners be asked to
+  decide admission, authorization, activation, cutover, publication, release,
+  deployment, or other effects.
 
-The same actor may occupy more than one route, but the routes, decisions, and
-evidence remain distinct. No stage can approve itself or substitute its PASS for
-the next owner's gate.
+The same actor may occupy more than one route, but product testing, product
+approval, and each later authority decision remain distinct. No prototype,
+ontology scaffold, compiler receipt, test PASS, or product approval may
+substitute for a later authority decision.
 
 ### Axiom And Invariant Basis
 
@@ -5253,69 +5290,60 @@ construction order. It does not create a new authority kind.
 
 ### Validation Mode
 
-Current validation mode: `review-only`.
+Current validation mode: `prototype-review-only`.
 
-The definition and documentary schema are active definition authority, but no
-Governance registration, Constitution adoption, DomainSpec compiler gate,
-system-ontology generation receipt, implementation admission check, or runtime
-enforcement binding is activated by this slice. Until those consumers exist,
-current systems record D65 coverage as residue, `blocked`, or `not_evaluable`.
+The definition and documentary schema are active definition authority. The
+current Governance registration and revision-2 machine contract remain
+candidate, prototype-only, and non-effectful. Legacy validators built for the
+superseded stage-admission sequence remain diagnostic until migrated.
 
-The later deterministic validator must reject skipped stages, hand-authored
-system indexes presented as compiler output, stale predecessor digests,
-unadmitted DomainSpec profiles, missing compiler identity, non-reproducible
-graphs, implementation without an exact system-ontology binding, conformance
-without target observations, runtime claims based only on static evidence, and
-any authority effect inferred from validation or generation.
+The revision-2 deterministic validator permits bounded prototype iteration,
+requires ontology scaffolds to declare their non-authoritative posture, freezes
+exact bytes at the testable-candidate boundary, rejects stale or contradictory
+product-test evidence, rejects a product-approval record before the required
+tests pass, and rejects every authority request before exact product approval.
+Its PASS makes a product-approval request eligible; it cannot approve the
+product or infer authority from scaffolding, compilation, validation, testing,
+or product approval.
 
 ### Operational Interpretation
 
-Begin CyberAlchemy system work by resolving its required definitions and
-placing product-wide and capability-local meaning in their owned ontologies.
-Author the technical system in a package-local DomainSpec v2 project using the
-exact admitted language and profile. Compile that project deterministically to
-the checked graph and system-ontology projection. Validate the business-system
-bridge. Only then select or generate implementation against the exact system
-ontology and evaluate the resulting target with the applicable conformance and
-runtime evidence providers.
+Start with prototype words and an ontology scaffold that helps agents navigate
+the product. Build product, business, DomainSpec, compiled-system, and
+implementation prototypes together. Iterate until one candidate can be frozen
+and tested as a product. After its required tests pass, ask for product approval.
+Only after that approval may anyone prepare or ask for the separate authority
+decisions needed for governed use or external effect.
 
-Legacy or imported implementation may remain as evidence, but it does not
-become D65-conforming by proximity. Register its missing predecessor stages as
-residue and migrate it through a new exact construction binding before making a
-conformance claim.
+Legacy or imported implementation may seed a prototype and its tests. It does
+not become approved or authorized by proximity, and it does not force premature
+canonicalization of the definitions or ontology scaffolds around it.
 
 ### Plain-Language Intuition
 
-Define the words, model what the product means, describe the system in
-DomainSpec, generate the system map, build from that map, and then prove the
-build matches. Do not skip a floor and do not let a later floor rewrite an
-earlier one.
+Sketch the words and the map so agents can build and learn. Keep revising the
+prototypes until the product can really be tested. Approve that exact tested
+product first. Only then ask whether it may be admitted, activated, cut over,
+published, released, or deployed.
 
 ### Domain-Context Voice
 
-Inside CyberAlchemy v2, the existing Define system-runtime package already
-shows the intended source direction: its package-local DomainSpec project owns
-the node-level system source, while `NODES.json` and `RELATIONS.json` are checked
-projections. That package still reports compiler conformance as
-`not_evaluable`, so it is evidence for the construction shape, not proof that
-the D65 compiler or implementation gates are enforced. The next ontology slice
-must add the product/business rule and Governance registration before a later
-DomainSpec slice may generate an accepted system ontology.
+Inside CyberAlchemy v2, package-local DomainSpec projects, generated
+`NODES.json` and `RELATIONS.json`, product ontologies, and system ontologies may
+all help agents construct the next prototype. They remain scaffolds until an
+exact implementation-bearing product candidate is frozen and tested. Even a
+deterministic projection or complete conformance suite does not create product
+approval or authorize governed use.
 
 ### Boundary
 
-This invariant is not a command to create unnecessary definitions, a license to
-move CyberAlchemy meaning into DomainSpec, an admission of every DomainSpec v2
-profile, a claim that generated projections are canonical definition authority,
-an implementation plan, a code generator selection, runtime proof, publication,
-release, or deployment authority. It does not require implementation when the
-work legitimately stops at definitions or ontology. It governs advancement only
-when CyberAlchemy work moves toward a product-realizing implementation-bearing
-system. Validation utilities, receipts, migration helpers, and mechanical
-governance repairs are outside this initial subject scope unless they themselves
-claim to realize product, business, or system meaning; broadening the invariant
-to every repository byte requires a separate owner-scoped recursion and
-exemption decision.
+This invariant does not make prototypes disposable or untraceable, move
+CyberAlchemy meaning into DomainSpec, make an ontology scaffold canonical truth,
+approve a product, or authorize implementation use, admission, activation,
+cutover, publication, release, deployment, or external effect. It does not
+require implementation when work legitimately stops at exploratory definitions
+or ontology. It governs advancement when CyberAlchemy work moves toward a
+product-realizing implementation-bearing system.
 
 ### Primary Consumers
 

@@ -58,6 +58,9 @@ Delegation never changes the selected objective route or its authority ceiling.
 ## D65 construction
 
 Implementation-bearing work must carry forward the D65 chain. The router's
-own DomainSpec profile and system ontology are candidate, not admitted. Their
-receipts prove deterministic materialization only. Owner admission and
-independent conformance remain separate future gates.
+own definitions, DomainSpec profile, and ontology records are prototype
+scaffolds for agent navigation. Deterministic materialization and test receipts
+are product evidence only. No authority, admission, activation, cutover,
+publication, release, or deployment request is eligible until one exact
+testable product candidate passes its required tests and receives product
+approval; that approval grants none of those effects.

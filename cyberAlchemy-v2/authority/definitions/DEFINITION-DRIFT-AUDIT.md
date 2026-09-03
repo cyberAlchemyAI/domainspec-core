@@ -2,7 +2,7 @@
 
 Status: active
 Owner: definitions-governance
-Last updated: 2026-08-31
+Last updated: 2026-09-03
 
 ## Audit Scope
 
@@ -63,6 +63,15 @@ This first audit covered the starter artifacts created for CyberAlchemy v2:
 | UX/UI knowledge needed a lens-specific governance interface so interface lessons, browser evidence, accessibility checks, screenshot review, studio intents, and human-study residue can feed knowledge promotion without becoming a false UX authority. | fixed | Promoted `CAV2-D45` UX/UI knowledge governance, `CAV2-D46` experience evidence lifecycle, and `CAV2-D47` interface evidence boundary. These definitions make `ux-lessons`, `ux-evidence-validator`, and `ui-prototyping-studio` part of a governed experience-knowledge view while preserving the guardrail that browser evidence, UX patterns, screenshots, and subjective claims do not promote themselves. |
 | CyberAlchemy value framing now uses `synergetic cybernetic human-machine integration` as a load-bearing proposition across CAV2 and IDE Ergonomics. | flag | Added [source-clusters/cyberalchemy.md](source-clusters/cyberalchemy.md) with candidate `CAV2-CAND-HMI-001`, wired it into T5, and resolved promotion-prep blockers in [the HMI decision record](../decisions/2026-06-23-hmi-candidate-promotion-prep.md). Do not promote until a canonical definition draft, index sync, drift audit, and Connective proof fixture or owner approval exist. |
 | `constitution`, `invariant`, and `axiom` are all load-bearing in CAV2 imports, but their role boundary was implicit and later Constitution references incorrectly reused `CAV2-D34` (Authority). | fixed | `CAV2-D53` defines Axiom, `CAV2-D54` defines Invariant, and `CAV2-D58` now defines Constitution. `CAV2-D34` remains Authority. Axiom grounds; Invariant states the must-hold condition; Constitution carries owner-adopted scoped rules and policies; validators or gates perform or check enforcement. |
+
+## CAV2-D65 Prototype-First Revision Audit — 2026-09-03
+
+| Finding | Status | Remediation |
+| --- | --- | --- |
+| The prior D65 wording required validated or admitted semantic and system-ontology predecessors before implementation could begin. That made authority-like owner gates prerequisites to learning whether the product was testable. | fixed in canonical definition | Revision 2 begins with prototype definitions, treats ontology as agent-facing scaffolding, permits bounded iteration across product, business, DomainSpec, compiled-system, and implementation prototypes, and freezes exact bytes only at the testable-product boundary. |
+| The old chain allowed requests for profile admission, system-ontology admission, implementation acceptance, and plan acceptance before a tested product existed. | fixed in canonical definition and routing guidance | Product approval is now the first product decision and is eligible only after the exact candidate passes its required tests. Every authority, admission, activation, cutover, publication, release, and deployment request is prohibited until after product approval. Product approval grants none of those effects. |
+| Governance and Goals machine `ConstructionBinding` schemas, concrete bindings, evaluators, generated graphs, and prior plan/decision packages encoded the superseded stage-admission sequence. | partially fixed | Governance now has a parallel revision-2 prototype schema, non-authoritative ontology scaffold, deterministic freezer/evaluator, frozen candidate, exact PASS evidence, and request-eligibility checks. Keep the legacy Governance and Goals bindings plus historical receipts immutable and diagnostic until their own migrations; do not infer product approval from the new PASS. |
+| The unadmitted CyberAlchemy-lab `CAL-PLAN-0004` candidate contains a pre-product owner-decision request. | blocked successor | Preserve revision 1 as unadmitted evidence. Its owner request is ineligible under D65 revision 2; author a superseding prototype-first revision that runs construction and product tests before preparing any approval or authority request. |
 
 ## Knowledge Exchange Protocol Ordering Audit — 2026-08-31
 

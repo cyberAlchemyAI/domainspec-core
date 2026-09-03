@@ -11,6 +11,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from validate_prototype_construction_binding import validate_current as validate_d65_prototype_binding
+
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
@@ -32,6 +34,7 @@ RELATION_ADMISSION_SCHEMA_AMENDMENT_PATH = "ontology/model-instance-relation-adm
 EXACT_PARENT_ADOPTION_SCHEMA_AMENDMENT_PATH = "ontology/exact-parent-adoption-schema-amendment.json"
 CONFORMANCE_ASSESSMENT_SCHEMA_AMENDMENT_PATH = "ontology/conformance-assessment-schema-amendment.json"
 CONSTRUCTION_BINDING_SCHEMA_AMENDMENT_PATH = "ontology/construction-binding-schema-amendment.json"
+PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH = "ontology/prototype-construction-schema-amendment.json"
 RELATION_DECISION_RECORD_PATH = "decisions/define-model-instance-relation/DECISION.md"
 RELATION_DECISION_REQUEST_PATH = "decisions/define-model-instance-relation/option-admissibility-request.json"
 RELATION_DECISION_RECEIPT_PATH = "decisions/define-model-instance-relation/option-admissibility-receipt.json"
@@ -68,6 +71,7 @@ BASE_MATERIAL_FILES = (
     EXACT_PARENT_ADOPTION_SCHEMA_AMENDMENT_PATH,
     CONFORMANCE_ASSESSMENT_SCHEMA_AMENDMENT_PATH,
     CONSTRUCTION_BINDING_SCHEMA_AMENDMENT_PATH,
+    PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH,
     RELATION_DECISION_RECORD_PATH,
     RELATION_DECISION_REQUEST_PATH,
     RELATION_DECISION_RECEIPT_PATH,
@@ -215,6 +219,9 @@ def main() -> int:
     construction_binding_schema_amendment = load(
         CONSTRUCTION_BINDING_SCHEMA_AMENDMENT_PATH, errors
     )
+    prototype_construction_schema_amendment = load(
+        PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH, errors
+    )
     relation_decision_request = load(RELATION_DECISION_REQUEST_PATH, errors)
     relation_decision_receipt = load(RELATION_DECISION_RECEIPT_PATH, errors)
     relation_decision_selection = load(RELATION_DECISION_SELECTION_PATH, errors)
@@ -272,13 +279,14 @@ def main() -> int:
         "model_instance_relation_admission_schema_amendment",
         "exact_parent_adoption_schema_amendment",
         "conformance_assessment_schema_amendment", "construction_binding_schema_amendment",
+        "prototype_construction_schema_amendment",
         "schema_path", "validator_path", "blocked_effects"
     }, "profile", errors)
     if profile.get("package_root") != "cyberAlchemy-v2/goals":
         errors.append("profile package_root is not canonical")
     if profile.get("visibility") != "private" or profile.get("authority_effect") != "none":
         errors.append("profile must remain private with authority_effect none")
-    if profile.get("schema_version") != "cav2-goal-package-profile/v9":
+    if profile.get("schema_version") != "cav2-goal-package-profile/v10":
         errors.append("profile schema_version is invalid")
     if profile.get("authority_claim_registry") != AUTHORITY_CLAIM_REGISTRY_PATH:
         errors.append("profile authority_claim_registry is not canonical")
@@ -322,6 +330,8 @@ def main() -> int:
         errors.append("profile conformance_assessment_schema_amendment is not canonical")
     if profile.get("construction_binding_schema_amendment") != CONSTRUCTION_BINDING_SCHEMA_AMENDMENT_PATH:
         errors.append("profile construction_binding_schema_amendment is not canonical")
+    if profile.get("prototype_construction_schema_amendment") != PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH:
+        errors.append("profile prototype_construction_schema_amendment is not canonical")
     required_blocked_effects = {
         "candidate-authority-claim-activation",
         "child-package-relation-admission",
@@ -332,7 +342,9 @@ def main() -> int:
         "relation-admission-treated-as-adoption-or-conformance",
         "adoption-decision-treated-as-conformance-or-binding",
         "conformance-by-validation-alone",
-        "construction-binding-registration-before-all-stages-validate",
+        "ontology-scaffold-treated-as-authority",
+        "product-approval-before-exact-current-product-tests",
+        "authority-request-before-exact-product-approval",
     }
     if not required_blocked_effects.issubset(set(profile.get("blocked_effects", []))):
         errors.append("profile does not block every prerequisite authority inflation path")
@@ -353,9 +365,9 @@ def main() -> int:
         "exactParentAdoptionDecision", "exactParentAdoptionSchemaAmendment",
         "conformanceTermResult", "observedSystemValidation", "conformanceAssessment",
         "conformanceAssessmentRegistry", "conformanceAssessmentSchemaAmendment",
-        "exactDigestRef", "constructionStageStates", "constructionBinding",
-        "constructionBindingEntry", "constructionBindingRegistry",
-        "constructionBindingSchemaAmendment"
+        "exactDigestRef", "exactPathRef", "prototypeConstructionStageStates",
+        "constructionBinding", "constructionBindingRegistry",
+        "constructionBindingSchemaAmendment", "prototypeConstructionSchemaAmendment"
     }
     if "$defs" not in schema or not required_defs.issubset(schema.get("$defs", {})):
         errors.append("schema is missing required definitions")
@@ -498,6 +510,7 @@ def main() -> int:
     exact_keys(construction_binding_registry, {
         "schema_ref", "schema_version", "registry_id", "canonical_definition_ref",
         "canonical_schema_ref", "governance_invariant_ref", "operational_rule_ref",
+        "upstream_contract_registry_ref", "upstream_scaffold_registry_ref",
         "record_owner_rule", "status", "validation_mode", "bindings", "residue_refs",
         "claim_ceiling", "authority_effect", "enforcement_effect", "implementation_effect"
     }, "construction binding registry", errors)
@@ -530,16 +543,16 @@ def main() -> int:
     if binding_registry.get("authority_effect") != "none" or binding_residue.get("authority_effect") != "none":
         errors.append("binding registries must have authority_effect none")
     if (
-        construction_binding_registry.get("schema_version") != "cav2-project-construction-binding-registry/v1"
+        construction_binding_registry.get("schema_version") != "cav2-project-construction-binding-registry/v2"
         or construction_binding_registry.get("registry_id") != "cav2.project.construction-bindings"
         or construction_binding_registry.get("canonical_definition_ref") != "CAV2-D65"
         or construction_binding_registry.get("canonical_schema_ref") != "CAV2-D65-SCHEMA"
         or construction_binding_registry.get("governance_invariant_ref") != "GOV-INV-CAV2-D65"
         or construction_binding_registry.get("operational_rule_ref") != "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE"
-        or construction_binding_registry.get("status") != "candidate-empty-blocked"
-        or construction_binding_registry.get("validation_mode") != "review-only"
+        or construction_binding_registry.get("status") != "prototype-active"
+        or construction_binding_registry.get("validation_mode") != "prototype"
     ):
-        errors.append("construction binding registry identity or blocked posture is invalid")
+        errors.append("construction binding registry identity or prototype posture is invalid")
     if construction_binding_registry.get("governance_invariant_ref") not in invariant_ids:
         errors.append("construction binding registry Governance invariant ref does not resolve")
     if construction_binding_registry.get("operational_rule_ref") not in rule_ids:
@@ -609,6 +622,12 @@ def main() -> int:
         "from_project_schema", "to_project_schema", "change_kind", "changes",
         "migration", "rollback", "claim_ceiling", "authority_effect"
     }, "construction binding schema amendment", errors)
+    exact_keys(prototype_construction_schema_amendment, {
+        "schema_ref", "schema_version", "amendment_id", "from_package_schema",
+        "to_package_schema", "from_profile_schema", "to_profile_schema",
+        "project_schema", "change_kind", "changes", "migration", "rollback",
+        "claim_ceiling", "authority_effect"
+    }, "prototype construction schema amendment", errors)
     if (
         construction_binding_schema_amendment.get("from_package_schema")
         != "https://cyberalchemy.local/private/schemas/goal-package/v8"
@@ -625,6 +644,20 @@ def main() -> int:
         or construction_binding_schema_amendment.get("authority_effect") != "none"
     ):
         errors.append("construction binding schema amendment does not witness v8/v2 to v9/v3")
+    if (
+        prototype_construction_schema_amendment.get("from_package_schema")
+        != "https://cyberalchemy.local/private/schemas/goal-package/v9"
+        or prototype_construction_schema_amendment.get("to_package_schema")
+        != "https://cyberalchemy.local/private/schemas/goal-package/v10"
+        or prototype_construction_schema_amendment.get("from_profile_schema")
+        != "cav2-goal-package-profile/v9"
+        or prototype_construction_schema_amendment.get("to_profile_schema")
+        != "cav2-goal-package-profile/v10"
+        or prototype_construction_schema_amendment.get("project_schema")
+        != "cav2-project/v3"
+        or prototype_construction_schema_amendment.get("authority_effect") != "none"
+    ):
+        errors.append("prototype construction schema amendment does not witness no-effect v9 to v10")
     if (
         conformance_assessment_schema_amendment.get("from_package_schema")
         != "https://cyberalchemy.local/private/schemas/goal-package/v7"
@@ -1659,15 +1692,28 @@ def main() -> int:
         if binding.get("conformance_ref") in conformance_assessment_ids:
             errors.append(f"{label} may not use an indeterminate assessment as conformance proof")
     if binding_entries:
-        errors.append("v9 construction-binding ontology slice must keep the concrete RecursiveInstanceBinding registry empty")
+        errors.append("v10 prototype-construction slice does not change the empty RecursiveInstanceBinding registry")
     construction_binding_entries = construction_binding_registry.get("bindings", [])
     if not isinstance(construction_binding_entries, list):
         errors.append("construction binding registry bindings must be an array")
         construction_binding_entries = []
-    if construction_binding_entries:
-        errors.append("v9 construction-binding ontology slice must keep the ConstructionBinding registry empty")
-    construction_binding_ids: set[str] = set()
+    if not construction_binding_entries:
+        errors.append("v10 prototype-construction registry must contain at least one binding")
+    construction_binding_ids = {
+        row.get("construction_id")
+        for row in construction_binding_entries
+        if isinstance(row, dict) and isinstance(row.get("construction_id"), str)
+    }
     construction_binding_project_refs: dict[str, set[str]] = {}
+    for row in construction_binding_entries:
+        if not isinstance(row, dict):
+            continue
+        project_ref = row.get("project_ref")
+        construction_id = row.get("construction_id")
+        if isinstance(project_ref, str) and isinstance(construction_id, str):
+            construction_binding_project_refs.setdefault(project_ref, set()).add(construction_id)
+    d65_errors, _ = validate_d65_prototype_binding()
+    errors.extend(f"D65 prototype binding: {error}" for error in d65_errors)
     all_project_binding_refs: set[str] = set()
     for project_id, project in project_by_id.items():
         project_binding_refs = set(project.get("instance_binding_refs", []))

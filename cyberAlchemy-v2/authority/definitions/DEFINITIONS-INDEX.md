@@ -71,7 +71,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D62 | experiment | active | [Experiment](DEFINITIONS.md#cav2-d62-experiment) | A bounded, recorded test that produces observations under declared conditions and claim limits. |
 | CAV2-D63 | product thesis | active | [Product Thesis](DEFINITIONS.md#cav2-d63-product-thesis) | The durable product proposition that says why the product should exist, how it should create value, what it must protect, and what evidence could require revision. |
 | CAV2-D64 | recursive instance ownership invariant | active | [Recursive Instance Ownership Invariant](DEFINITIONS.md#cav2-d64-recursive-instance-ownership-invariant) | The parent owns the blueprint, the local capability owns its instance, and the Project keeps their typed connection without letting either side silently rewrite the other. |
-| CAV2-D65 | DomainSpec-governed construction invariant | active | [DomainSpec-Governed Construction Invariant](DEFINITIONS.md#cav2-d65-domainspec-governed-construction-invariant) | Define the words, model product and business meaning, describe the system in DomainSpec, generate the system ontology, build from it, and prove the build matches. |
+| CAV2-D65 | prototype-first DomainSpec construction invariant | active | [DomainSpec-Governed Construction Invariant](DEFINITIONS.md#cav2-d65-domainspec-governed-construction-invariant) | Prototype the words and ontology scaffolds, iterate the product through tests, approve the exact tested product, and only then request separate authority decisions. |
 | CAV2-D66 | context | active | [Context](DEFINITIONS.md#cav2-d66-context) | The stable frame that says what work is about, why information is needed, and which Product, Project, Goal, consumers, subjects, and source policies apply. |
 | CAV2-D67 | product capability | active | [Product Capability](DEFINITIONS.md#cav2-d67-product-capability) | What useful outcome the Product must make possible, kept separate from the tool or implementation that realizes it. |
 | CAV2-D68 | person | active | [Person](DEFINITIONS.md#cav2-d68-person) | The human, not their login, job title, permission, or database row. |
@@ -347,6 +347,7 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | model-instance ownership invariant | CAV2-D64 |
 | capability instance ownership | CAV2-D64 |
 | DomainSpec-governed construction invariant | CAV2-D65 |
+| prototype-first DomainSpec construction invariant | CAV2-D65 |
 | DomainSpec v2 construction invariant | CAV2-D65 |
 | definitions-to-implementation construction invariant | CAV2-D65 |
 | DomainSpec-first construction path | CAV2-D65 |

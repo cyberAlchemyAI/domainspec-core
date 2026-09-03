@@ -11,7 +11,7 @@ This is the self-contained Governance module inside CyberAlchemy v2. It owns an
 authority-governance ontology at this root and a business product ontology in
 `product/`. Together they define governance meaning, business intent, relation
 contracts, identity axes, source bindings, internal product links, and residue
-without making any rule active or implementing an enforcement runtime.
+without making any rule active or implementing an admitted enforcement runtime.
 
 The JSON registries are the package state. This README is a human navigation
 view. Canonical CAV2 meanings remain owned by the definitions and authority
@@ -26,6 +26,8 @@ replace them.
 - separate semantic, lifecycle, currentness, authority, product, and evidence
   identity axes;
 - 9 target-level bindings into a 43-node Governance business product ontology;
+- 1 non-authoritative D65 revision-2 ontology scaffold and 1 exact prototype
+  construction binding;
 - 6 candidate perennial documents covering product, domain, authority,
   lifecycle, evidence, and runtime intent;
 - residue that prevents missing evidence or future runtime work from looking
@@ -33,8 +35,8 @@ replace them.
 - deterministic package validation and append-only receipts.
 
 It does not own canonical definitions, owner decisions, Constitution adoption,
-runtime components, enforcement points, product outcomes, publication, or
-deployment.
+admitted runtime components, enforcement points, product outcomes, publication,
+or deployment.
 
 ## Module Boundary
 
@@ -114,7 +116,7 @@ The Project package's closed empty binding registry makes the record shape and
 reference direction first-class without claiming a binding exists.
 
 The second concrete registration adds the DomainSpec-governed construction
-invariant without changing the registry schema:
+invariant:
 
 ```text
 CAV2-D65 --registered as--> GOV-INV-CAV2-D65
@@ -122,11 +124,30 @@ GOV-INV-CAV2-D65 --is operationalized by-->
   GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE
 ```
 
-It records the required definitions-to-product-to-business-to-DomainSpec-to-
-system-ontology-to-implementation order as a candidate review rule. No machine
-`ConstructionBinding` registry, transition validator, compiler gate, admitted
-system ontology, accepted implementation binding, conformance proof,
-Constitution adoption, or runtime enforcement exists in this slice.
+Revision 2 records a prototype-first sequence: prototype definitions and
+agent-facing ontology scaffolds guide iterative product, business, DomainSpec,
+compiled-system, and implementation prototypes until one exact product
+candidate can be tested. Only after current tests pass may product approval be
+requested, and only after that approval may separate authority decisions be
+requested. Product approval itself grants no authority. The legacy machine
+`ConstructionBinding` registry and evaluator still encode the superseded
+stage-admission sequence and remain quarantined diagnostics.
+
+The parallel revision-2 prototype runtime is now materialized in:
+
+- `ontology-scaffolds.json` — agent navigation records that must remain
+  `prototype-scaffold`, `non-authoritative`, and `authority_effect: none`;
+- `prototype-constructions.json` — exact artifact bindings, frozen candidate,
+  product-test contract and evidence, optional product approval, and optional
+  post-approval authority-request candidates;
+- `scripts/validate-prototype-construction.py` — deterministic freezing,
+  selected-byte currentness, and eligibility calculation; and
+- `tests/test_d65_prototype_construction.py` — positive and hostile checks for
+  vacuity, drift, scaffold authority, freezing, and request ordering.
+
+The current exact prototype is tested and therefore eligible for a
+product-approval request. No product approval record exists, so authority
+requests remain ineligible. Validator `PASS` is product evidence only.
 
 ## DomainSpec v2 Meta-Types
 

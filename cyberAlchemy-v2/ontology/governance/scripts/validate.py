@@ -7,10 +7,13 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from jsonschema import Draft202012Validator
 
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
@@ -25,10 +28,13 @@ MATERIAL_FILES = (
     "invariants.json",
     "rules.json",
     "product-bindings.json",
+    "ontology-scaffolds.json",
+    "prototype-constructions.json",
     "identity-policy.json",
     "residue.json",
     "migration.json",
     "schema-amendment-d64.json",
+    "schema-amendment-d65-r2.json",
     "module.json",
     "documents.json",
     "docs/AUTHORITY.md",
@@ -38,8 +44,13 @@ MATERIAL_FILES = (
     "docs/PRODUCT.md",
     "docs/RUNTIME.md",
     "schemas/governance-ontology.schema.json",
+    "schemas/ontology-scaffold.schema.json",
+    "schemas/prototype-construction.schema.json",
+    "scripts/validate-prototype-construction.py",
     "scripts/validate.py",
     "scripts/validate-module.py",
+    "tests/test_d65_prototype_construction.py",
+    "receipts/d65-r2-prototype-tests.json",
 )
 
 PROFILE_KEYS = {
@@ -48,6 +59,9 @@ PROFILE_KEYS = {
     "visibility", "candidate_status", "authority_effect", "enforcement_effect",
     "source_registry", "node_registry", "relation_registry", "invariant_registry",
     "rule_registry", "product_binding_registry",
+    "ontology_scaffold_registry", "prototype_construction_registry",
+    "ontology_scaffold_schema", "prototype_construction_schema",
+    "prototype_construction_validator", "prototype_construction_amendment",
     "identity_policy", "residue_registry", "migration_manifest", "module_manifest", "schema_path",
     "validator_path", "blocked_outputs",
 }
@@ -417,7 +431,7 @@ def check_governed_instances(
             "operational_rule_ref": "GOV-RULE-D64-BINDING-COMPLETE",
         },
         "GOV-INV-CAV2-D65": {
-            "owner_qualified_version": "GOV-INV-CAV2-D65/v1-candidate",
+            "owner_qualified_version": "GOV-INV-CAV2-D65/v2-candidate",
             "canonical_definition_ref": "CAV2-D65",
             "canonical_schema_ref": "CAV2-D65-SCHEMA",
             "basis_refs": {"CAV2-D16", "CAV2-D25", "CAV2-D34", "CAV2-D38", "CAV2-D41", "CAV2-D48", "CAV2-D64"},
@@ -434,7 +448,7 @@ def check_governed_instances(
             "evaluation_contract_ref": "CAV2-D64-SCHEMA",
         },
         "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE": {
-            "owner_qualified_version": "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE/v1-candidate",
+            "owner_qualified_version": "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE/v2-candidate",
             "source_ref": "GOV-INV-CAV2-D65",
             "rule_kind": "lifecycle",
             "subject_kind": "ConstructionBinding",
@@ -706,6 +720,49 @@ def check_schema_amendment(witness: dict[str, Any], errors: list[str]) -> None:
     no_effect(witness, "D64 schema amendment witness", errors, implementation=True)
 
 
+def check_prototype_construction_amendment(witness: dict[str, Any], errors: list[str]) -> None:
+    schema = load_json("schemas/governance-ontology.schema.json", errors)
+    amendment_schema = schema.get("$defs", {}).get("prototypeConstructionAmendment", {})
+    for violation in sorted(Draft202012Validator(amendment_schema).iter_errors(witness), key=lambda item: list(item.path)):
+        location = ".".join(str(part) for part in violation.path) or "$"
+        errors.append(f"D65 revision-2 schema amendment.{location}: {violation.message}")
+    required_files = {
+        "profile.json", "ontology-scaffolds.json", "prototype-constructions.json",
+        "schemas/governance-ontology.schema.json", "schemas/ontology-scaffold.schema.json",
+        "schemas/prototype-construction.schema.json", "scripts/validate-prototype-construction.py",
+        "scripts/validate.py", "tests/test_d65_prototype_construction.py",
+        "receipts/d65-r2-prototype-tests.json",
+    }
+    if set(witness.get("affected_files", [])) != required_files:
+        errors.append("D65 revision-2 amendment must name its exact implementation surface")
+
+
+def check_prototype_construction_runtime(errors: list[str]) -> dict[str, Any]:
+    completed = subprocess.run(
+        [sys.executable, str(PACKAGE_ROOT / "scripts/validate-prototype-construction.py")],
+        cwd=REPOSITORY_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    try:
+        result = json.loads(completed.stdout)
+    except json.JSONDecodeError as exc:
+        errors.append(f"D65 revision-2 evaluator did not return JSON: {exc}")
+        return {}
+    construction_id = "GOV-D65-R2-PROTOTYPE-CONSTRUCTION-001"
+    eligibility = result.get("eligibility", {}).get(construction_id, {})
+    if completed.returncode != 0 or result.get("status") != "PASS":
+        errors.append(f"D65 revision-2 evaluator is not PASS: {result.get('errors', [])}")
+    if result.get("definition_revision") != 2 or result.get("authority_effect") != "none":
+        errors.append("D65 revision-2 evaluator identity or authority boundary is invalid")
+    if eligibility.get("product_approval_request") != "eligible":
+        errors.append("the exact tested prototype must be eligible for a product-approval request")
+    if eligibility.get("authority_request") != "not_eligible":
+        errors.append("authority requests must remain ineligible before product approval")
+    return result
+
+
 def check_module(module: dict[str, Any], errors: list[str]) -> None:
     expected = {
         "schema_ref", "schema_version", "module_id", "title", "package_root",
@@ -889,13 +946,14 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
     residue_doc = load_json("residue.json", errors)
     migration = load_json("migration.json", errors)
     schema_amendment = load_json("schema-amendment-d64.json", errors)
+    prototype_construction_amendment = load_json("schema-amendment-d65-r2.json", errors)
     module = load_json("module.json", errors)
     documents_doc = load_json("documents.json", errors)
     schema = load_json("schemas/governance-ontology.schema.json", errors)
 
     exact_keys(profile, PROFILE_KEYS, "profile", errors)
     expected_profile = {
-        "schema_version": "cav2-governance-ontology-profile/v2",
+        "schema_version": "cav2-governance-ontology-profile/v3",
         "ontology_id": "cav2.governance-model",
         "ontology_type": "authority-governance",
         "branch": "none",
@@ -908,6 +966,12 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
         "module_manifest": "module.json",
         "invariant_registry": "invariants.json",
         "rule_registry": "rules.json",
+        "ontology_scaffold_registry": "ontology-scaffolds.json",
+        "prototype_construction_registry": "prototype-constructions.json",
+        "ontology_scaffold_schema": "schemas/ontology-scaffold.schema.json",
+        "prototype_construction_schema": "schemas/prototype-construction.schema.json",
+        "prototype_construction_validator": "scripts/validate-prototype-construction.py",
+        "prototype_construction_amendment": "schema-amendment-d65-r2.json",
     }
     for field, expected in expected_profile.items():
         if profile.get(field) != expected:
@@ -917,7 +981,7 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
         "invariantRegistry", "ruleRegistry", "schemaAmendmentWitness",
         "productBindingRegistry", "identityPolicy", "residueRegistry",
         "migrationManifest", "documentAdmission", "document", "documentRegistry",
-        "moduleManifest", "moduleValidationReceipt", "validationReceipt",
+        "prototypeConstructionAmendment", "moduleManifest", "moduleValidationReceipt", "validationReceipt",
     }
     if not isinstance(schema.get("$defs"), dict) or not required_defs.issubset(schema["$defs"]):
         errors.append("schema does not expose every closed package definition")
@@ -934,6 +998,8 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
     residue = check_residue(residue_doc, node_ids | governed_instance_ids, errors)
     check_migration(migration, errors)
     check_schema_amendment(schema_amendment, errors)
+    check_prototype_construction_amendment(prototype_construction_amendment, errors)
+    prototype_result = check_prototype_construction_runtime(errors)
     check_module(module, errors)
     documents = check_documents(documents_doc, node_ids, residue, errors)
     check_readme(len(nodes), len(relations), len(invariants), len(rules), len(bindings), len(documents), errors)
@@ -970,6 +1036,7 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
         "migration exclusions and residue closure",
         "perennial document registry, projection, and heading closure",
         "deterministic package material digest",
+        "D65 revision-2 prototype construction and request eligibility",
     ]
     result: dict[str, Any] = {
         "status": status,
@@ -989,6 +1056,8 @@ def build_result(write_receipt: bool) -> tuple[dict[str, Any], int]:
             "product_bindings": len(bindings),
             "documents": len(documents),
             "residue": len(residue),
+            "prototype_constructions": prototype_result.get("counts", {}).get("constructions", 0),
+            "ontology_scaffolds": prototype_result.get("counts", {}).get("ontology_scaffolds", 0),
         },
         "material_digest": digest,
         "checks": checks,
