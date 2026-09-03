@@ -11,13 +11,16 @@
         "branch", "materialization", "package_root", "package_owner", "meaning_owner",
         "visibility", "candidate_status", "authority_effect", "enforcement_effect",
         "source_registry", "node_registry", "relation_registry", "invariant_registry",
-        "rule_registry", "product_binding_registry",
+        "rule_registry", "product_binding_registry", "ontology_scaffold_registry",
+        "prototype_construction_registry", "ontology_scaffold_schema",
+        "prototype_construction_schema", "prototype_construction_validator",
+        "prototype_construction_amendment",
         "identity_policy", "residue_registry", "migration_manifest", "module_manifest", "schema_path",
         "validator_path", "blocked_outputs"
       ],
       "properties": {
         "schema_ref": {"type": "string"},
-        "schema_version": {"const": "cav2-governance-ontology-profile/v2"},
+        "schema_version": {"const": "cav2-governance-ontology-profile/v3"},
         "ontology_id": {"const": "cav2.governance-model"},
         "title": {"type": "string", "minLength": 1},
         "ontology_type": {"const": "authority-governance"},
@@ -36,6 +39,12 @@
         "invariant_registry": {"const": "invariants.json"},
         "rule_registry": {"const": "rules.json"},
         "product_binding_registry": {"const": "product-bindings.json"},
+        "ontology_scaffold_registry": {"const": "ontology-scaffolds.json"},
+        "prototype_construction_registry": {"const": "prototype-constructions.json"},
+        "ontology_scaffold_schema": {"const": "schemas/ontology-scaffold.schema.json"},
+        "prototype_construction_schema": {"const": "schemas/prototype-construction.schema.json"},
+        "prototype_construction_validator": {"const": "scripts/validate-prototype-construction.py"},
+        "prototype_construction_amendment": {"const": "schema-amendment-d65-r2.json"},
         "identity_policy": {"const": "identity-policy.json"},
         "residue_registry": {"const": "residue.json"},
         "migration_manifest": {"const": "migration.json"},
@@ -361,6 +370,34 @@
         "authority_effect": {"const": "none"},
         "enforcement_effect": {"const": "none"},
         "implementation_effect": {"const": "none"},
+        "claim_ceiling": {"type": "string", "minLength": 1}
+      }
+    },
+    "prototypeConstructionAmendment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_ref", "schema_version", "amendment_id", "status",
+        "previous_schema_version", "new_schema_version", "change_kind",
+        "rationale", "affected_files", "migration_impact", "rollback",
+        "authority_effect", "enforcement_effect", "implementation_effect",
+        "claim_ceiling"
+      ],
+      "properties": {
+        "schema_ref": {"type": "string"},
+        "schema_version": {"const": "cav2-governance-prototype-construction-amendment/v1"},
+        "amendment_id": {"const": "GOV-SCHEMA-AMEND-D65-R2-001"},
+        "status": {"const": "user-requested-prototype"},
+        "previous_schema_version": {"const": "cav2-governance-ontology-profile/v2"},
+        "new_schema_version": {"const": "cav2-governance-ontology-profile/v3"},
+        "change_kind": {"const": "additive-prototype-construction-runtime"},
+        "rationale": {"type": "string", "minLength": 1},
+        "affected_files": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "migration_impact": {"type": "string", "minLength": 1},
+        "rollback": {"type": "string", "minLength": 1},
+        "authority_effect": {"const": "none"},
+        "enforcement_effect": {"const": "none"},
+        "implementation_effect": {"const": "prototype-only"},
         "claim_ceiling": {"type": "string", "minLength": 1}
       }
     },

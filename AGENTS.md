@@ -57,18 +57,23 @@ Every new or materially revised implementation-bearing system or capability
 must follow `CAV2-D65`:
 
 ```text
-canonical definitions
-  -> Product Capability
-  -> capability-local business ontology
-  -> DomainSpec v2 authored source
-  -> deterministic compiled graph and system ontology
-  -> exact implementation binding
-  -> conformance evidence
+prototype definitions
+  -> agent-facing ontology scaffolds
+  -> product, business, DomainSpec, compiled-system, and implementation prototypes
+  -> one exact testable product candidate
+  -> current product-test evidence
+  -> product approval
+  -> only then separate authority, admission, activation, cutover,
+     publication, release, or deployment decisions
 ```
 
-Missing, stale, unadmitted, or unaccepted predecessors make successor claims
-`not_evaluable` or blocked. Never manufacture an admission by changing a
-status field or refreshing a digest.
+Prototype stages are iterative and non-authoritative. Ontology artifacts are
+scaffolds for agent navigation until the exact product candidate is tested and
+approved. No authorization or authority decision may be requested before that
+product approval, and product approval itself grants no operational authority.
+Changed acceptance-bound bytes require a new test and approval epoch. Never
+manufacture approval or authority by changing a status field or refreshing a
+digest.
 
 ## Work and authority rules
 

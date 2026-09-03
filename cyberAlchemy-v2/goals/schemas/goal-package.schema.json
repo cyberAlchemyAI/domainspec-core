@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cyberalchemy.local/private/schemas/goal-package/v9",
+  "$id": "https://cyberalchemy.local/private/schemas/goal-package/v10",
   "title": "CyberAlchemy v2 Goal and Project package",
   "$defs": {
     "profile": {
@@ -21,13 +21,13 @@
         "binding_prerequisite_schema_amendment", "adoption_decision_schema_amendment",
         "model_instance_relation_schema_amendment", "model_instance_relation_admission_schema_amendment",
         "exact_parent_adoption_schema_amendment", "conformance_assessment_schema_amendment",
-        "construction_binding_schema_amendment",
+        "construction_binding_schema_amendment", "prototype_construction_schema_amendment",
         "schema_path", "validator_path", "blocked_effects"
       ],
       "additionalProperties": false,
       "properties": {
         "schema_ref": {"type": "string", "minLength": 1},
-        "schema_version": {"const": "cav2-goal-package-profile/v9"},
+        "schema_version": {"const": "cav2-goal-package-profile/v10"},
         "package_id": {"const": "cav2.goals"},
         "package_root": {"const": "cyberAlchemy-v2/goals"},
         "package_owner": {"type": "string", "minLength": 1},
@@ -61,6 +61,7 @@
         "exact_parent_adoption_schema_amendment": {"const": "ontology/exact-parent-adoption-schema-amendment.json"},
         "conformance_assessment_schema_amendment": {"const": "ontology/conformance-assessment-schema-amendment.json"},
         "construction_binding_schema_amendment": {"const": "ontology/construction-binding-schema-amendment.json"},
+        "prototype_construction_schema_amendment": {"const": "ontology/prototype-construction-schema-amendment.json"},
         "schema_path": {"const": "schemas/goal-package.schema.json"},
         "validator_path": {"const": "scripts/validate.py"},
         "blocked_effects": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
@@ -955,105 +956,102 @@
         "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     },
-    "constructionStageStates": {
+    "exactPathRef": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "prototypeConstructionStageStates": {
       "type": "object",
       "required": [
-        "definitions", "product_ontology", "business_ontology",
-        "domainspec_source", "compiled_graph", "system_ontology",
-        "implementation", "static_conformance", "runtime_evidence"
+        "definition_prototypes", "ontology_scaffolds", "product_capability",
+        "business_ontology", "domainspec_source", "compiled_graph",
+        "system_ontology", "implementation", "testable_product_candidate",
+        "product_test_evidence", "product_approval"
       ],
       "additionalProperties": false,
       "properties": {
-        "definitions": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "product_ontology": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "business_ontology": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "domainspec_source": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "compiled_graph": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "system_ontology": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "implementation": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "static_conformance": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]},
-        "runtime_evidence": {"enum": ["absent", "candidate", "blocked", "not_evaluable", "validated"]}
+        "definition_prototypes": {"enum": ["absent", "prototype", "tested"]},
+        "ontology_scaffolds": {"enum": ["absent", "prototype", "tested"]},
+        "product_capability": {"enum": ["absent", "prototype", "tested"]},
+        "business_ontology": {"enum": ["absent", "prototype", "tested"]},
+        "domainspec_source": {"enum": ["absent", "prototype", "tested"]},
+        "compiled_graph": {"enum": ["absent", "prototype", "tested"]},
+        "system_ontology": {"enum": ["absent", "prototype", "tested"]},
+        "implementation": {"enum": ["absent", "prototype", "tested"]},
+        "testable_product_candidate": {"enum": ["absent", "frozen"]},
+        "product_test_evidence": {"enum": ["absent", "passing", "failing"]},
+        "product_approval": {"enum": ["absent", "approved", "rejected"]}
       }
     },
     "constructionBinding": {
       "type": "object",
       "required": [
-        "construction_id", "project_ref", "subject_ref",
-        "definition_refs", "product_ontology_refs", "business_ontology_refs",
-        "domainspec_project", "domainspec_profile", "domainspec_language",
-        "domainspec_source_set", "compiler", "compiled_graph", "system_ontology",
-        "bridge_validation_ref", "implementation", "static_conformance",
-        "runtime_evidence_refs", "stage_states", "evidence_refs", "owner_routes",
-        "challenge_route", "drift_route", "authority_effect"
+        "construction_id", "binding_kind", "project_ref", "goal_refs",
+        "subject_ref", "prototype_contract", "stage_states",
+        "next_prototype_target", "product_approval_ref", "authority_request_refs",
+        "owner_routes", "challenge_route", "authority_effect"
       ],
       "additionalProperties": false,
       "properties": {
         "construction_id": {"type": "string", "pattern": "^CA2-CONSTRUCTION-[A-Z0-9-]+$"},
+        "binding_kind": {"const": "project-prototype-construction"},
         "project_ref": {"type": "string", "pattern": "^CA2-PROJECT-[A-Z0-9-]+$"},
+        "goal_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^CA2-GOAL-[A-Z0-9-]+$"}},
         "subject_ref": {"type": "string", "minLength": 1},
-        "definition_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/exactDigestRef"}},
-        "product_ontology_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/exactDigestRef"}},
-        "business_ontology_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/exactDigestRef"}},
-        "domainspec_project": {"$ref": "#/$defs/exactDigestRef"},
-        "domainspec_profile": {"$ref": "#/$defs/exactDigestRef"},
-        "domainspec_language": {"$ref": "#/$defs/exactDigestRef"},
-        "domainspec_source_set": {"$ref": "#/$defs/exactDigestRef"},
-        "compiler": {
+        "prototype_contract": {
           "type": "object",
-          "required": ["ref", "version", "digest"],
+          "required": [
+            "construction_ref", "ontology_scaffold_ref",
+            "testable_product_candidate_ref", "candidate_manifest_sha256",
+            "contract_test_state", "product_approval_state",
+            "authority_request_eligibility"
+          ],
           "additionalProperties": false,
           "properties": {
-            "ref": {"type": "string", "minLength": 1},
-            "version": {"type": "string", "minLength": 1},
-            "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            "construction_ref": {"type": "string", "pattern": "^GOV-D65-R2-PROTOTYPE-CONSTRUCTION-[0-9]+$"},
+            "ontology_scaffold_ref": {"type": "string", "pattern": "^GOV-D65-R2-SCAFFOLD-[0-9]+$"},
+            "testable_product_candidate_ref": {"type": "string", "pattern": "^GOV-D65-R2-PROTOTYPE-CONSTRUCTION-[0-9]+-CANDIDATE$"},
+            "candidate_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "contract_test_state": {"const": "tested"},
+            "product_approval_state": {"const": "absent"},
+            "authority_request_eligibility": {"const": "not_eligible"}
           }
         },
-        "compiled_graph": {"$ref": "#/$defs/exactDigestRef"},
-        "system_ontology": {"$ref": "#/$defs/exactDigestRef"},
-        "bridge_validation_ref": {"type": "string", "minLength": 1},
-        "implementation": {"$ref": "#/$defs/exactDigestRef"},
-        "static_conformance": {"$ref": "#/$defs/exactDigestRef"},
-        "runtime_evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/exactDigestRef"}},
-        "stage_states": {"$ref": "#/$defs/constructionStageStates"},
-        "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "stage_states": {"$ref": "#/$defs/prototypeConstructionStageStates"},
+        "next_prototype_target": {
+          "type": "object",
+          "required": ["repository", "context", "objective"],
+          "additionalProperties": false,
+          "properties": {
+            "repository": {"type": "string", "minLength": 1},
+            "context": {"type": "string", "minLength": 1},
+            "objective": {"type": "string", "minLength": 1}
+          }
+        },
+        "product_approval_ref": {"type": "null"},
+        "authority_request_refs": {"type": "array", "maxItems": 0},
         "owner_routes": {
           "type": "object",
-          "required": ["project", "definitions", "product_ontology", "business_ontology", "domainspec", "system_ontology", "implementation", "runtime_evidence"],
+          "required": ["project", "definitions", "product", "domainspec", "implementation", "product_test", "product_approval", "post_approval_authority"],
           "additionalProperties": false,
           "properties": {
             "project": {"type": "string", "minLength": 1},
             "definitions": {"type": "string", "minLength": 1},
-            "product_ontology": {"type": "string", "minLength": 1},
-            "business_ontology": {"type": "string", "minLength": 1},
+            "product": {"type": "string", "minLength": 1},
             "domainspec": {"type": "string", "minLength": 1},
-            "system_ontology": {"type": "string", "minLength": 1},
             "implementation": {"type": "string", "minLength": 1},
-            "runtime_evidence": {"type": "string", "minLength": 1}
+            "product_test": {"type": "string", "minLength": 1},
+            "product_approval": {"type": "string", "minLength": 1},
+            "post_approval_authority": {"type": "string", "minLength": 1}
           }
         },
         "challenge_route": {"type": "string", "minLength": 1},
-        "drift_route": {"type": "string", "minLength": 1},
         "authority_effect": {"const": "none"}
-      }
-    },
-    "constructionBindingEntry": {
-      "type": "object",
-      "required": ["binding", "evaluation"],
-      "additionalProperties": false,
-      "properties": {
-        "binding": {"$ref": "#/$defs/constructionBinding"},
-        "evaluation": {
-          "type": "object",
-          "required": ["rule_ref", "evaluation_mode", "result", "residue_refs", "authority_effect"],
-          "additionalProperties": false,
-          "properties": {
-            "rule_ref": {"const": "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE"},
-            "evaluation_mode": {"const": "review-only"},
-            "result": {"enum": ["satisfied", "violated", "indeterminate"]},
-            "residue_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
-            "authority_effect": {"const": "none"}
-          }
-        }
       }
     },
     "constructionBindingRegistry": {
@@ -1061,22 +1059,25 @@
       "required": [
         "schema_ref", "schema_version", "registry_id", "canonical_definition_ref",
         "canonical_schema_ref", "governance_invariant_ref", "operational_rule_ref",
+        "upstream_contract_registry_ref", "upstream_scaffold_registry_ref",
         "record_owner_rule", "status", "validation_mode", "bindings", "residue_refs",
         "claim_ceiling", "authority_effect", "enforcement_effect", "implementation_effect"
       ],
       "additionalProperties": false,
       "properties": {
         "schema_ref": {"type": "string", "minLength": 1},
-        "schema_version": {"const": "cav2-project-construction-binding-registry/v1"},
+        "schema_version": {"const": "cav2-project-construction-binding-registry/v2"},
         "registry_id": {"const": "cav2.project.construction-bindings"},
         "canonical_definition_ref": {"const": "CAV2-D65"},
         "canonical_schema_ref": {"const": "CAV2-D65-SCHEMA"},
         "governance_invariant_ref": {"const": "GOV-INV-CAV2-D65"},
         "operational_rule_ref": {"const": "GOV-RULE-D65-CONSTRUCTION-STAGES-COMPLETE"},
+        "upstream_contract_registry_ref": {"$ref": "#/$defs/exactPathRef"},
+        "upstream_scaffold_registry_ref": {"$ref": "#/$defs/exactPathRef"},
         "record_owner_rule": {"type": "string", "minLength": 1},
-        "status": {"const": "candidate-empty-blocked"},
-        "validation_mode": {"const": "review-only"},
-        "bindings": {"type": "array", "maxItems": 0, "items": {"$ref": "#/$defs/constructionBindingEntry"}},
+        "status": {"const": "prototype-active"},
+        "validation_mode": {"const": "prototype"},
+        "bindings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/constructionBinding"}},
         "residue_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "claim_ceiling": {"type": "string", "minLength": 1},
         "authority_effect": {"const": "none"},
@@ -1104,6 +1105,32 @@
         "from_project_schema": {"const": "cav2-project/v2"},
         "to_project_schema": {"const": "cav2-project/v3"},
         "change_kind": {"const": "additive-required-project-owned-construction-binding-registry"},
+        "changes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "migration": {"type": "string", "minLength": 1},
+        "rollback": {"type": "string", "minLength": 1},
+        "claim_ceiling": {"type": "string", "minLength": 1},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "prototypeConstructionSchemaAmendment": {
+      "type": "object",
+      "required": [
+        "schema_ref", "schema_version", "amendment_id", "from_package_schema",
+        "to_package_schema", "from_profile_schema", "to_profile_schema",
+        "project_schema", "change_kind", "changes", "migration", "rollback",
+        "claim_ceiling", "authority_effect"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_ref": {"type": "string", "minLength": 1},
+        "schema_version": {"const": "cav2-goal-package-schema-amendment/v1"},
+        "amendment_id": {"const": "CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-PROTOTYPE-CONSTRUCTION-001"},
+        "from_package_schema": {"const": "https://cyberalchemy.local/private/schemas/goal-package/v9"},
+        "to_package_schema": {"const": "https://cyberalchemy.local/private/schemas/goal-package/v10"},
+        "from_profile_schema": {"const": "cav2-goal-package-profile/v9"},
+        "to_profile_schema": {"const": "cav2-goal-package-profile/v10"},
+        "project_schema": {"const": "cav2-project/v3"},
+        "change_kind": {"const": "replace-vacuous-stage-gate-with-project-owned-prototype-construction-contract"},
         "changes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
         "migration": {"type": "string", "minLength": 1},
         "rollback": {"type": "string", "minLength": 1},
@@ -1236,7 +1263,7 @@
       "additionalProperties": false,
       "properties": {
         "schema_ref": {"type": "string", "minLength": 1},
-        "schema_version": {"const": "cav2-goal-ontology-view/v2"},
+        "schema_version": {"const": "cav2-goal-ontology-view/v3"},
         "view_id": {"const": "cav2.goal.project-binding-thesis-evidence"},
         "title": {"type": "string", "minLength": 1},
         "view_kind": {"const": "business-domain"},

@@ -46,16 +46,20 @@ The additive v1-to-v2 Project migration is recorded by
 
 Project records use `construction_binding_refs` to name complete records in the
 closed [ConstructionBinding registry](bindings/construction-bindings.json). The
-Project named by `project_ref` owns each record. The registry only indexes exact
-definition, product-ontology, business-ontology, DomainSpec source, compiler,
-compiled-graph, system-ontology, implementation, conformance, and runtime-evidence
-identities; it does not inherit any of their authority.
+Project named by `project_ref` owns each record. A prototype record selects an
+exact tested D65 construction contract and non-authoritative ontology scaffold,
+then tracks the Project's definition, product, business-ontology, DomainSpec,
+compiled-graph, system-ontology, implementation, product-candidate, product-test,
+and product-approval stages without inheriting any authority from them.
 
-The registry is deliberately empty and blocked. The current Define compiler
-check is not evaluable, so local ontology files are not accepted as compiler
-output or as a generated system ontology. The v8-to-v9 package and v2-to-v3
-Project change is witnessed by
-[`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-CONSTRUCTION-BINDING-001`](ontology/construction-binding-schema-amendment.json).
+The registry now contains one CyberAlchemy Lab prototype binding to the exact
+tested Governance D65 revision-2 contract. Only definition prototypes and the
+ontology scaffold are present for the Lab product; every product-building stage
+and product approval remains absent. The historical empty-registry v8-to-v9
+change remains recorded by
+[`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-CONSTRUCTION-BINDING-001`](ontology/construction-binding-schema-amendment.json),
+and the non-vacuous prototype migration is recorded by
+[`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-PROTOTYPE-CONSTRUCTION-001`](ontology/prototype-construction-schema-amendment.json).
 
 ## Binding prerequisites
 
@@ -175,9 +179,9 @@ candidate tuples, exact-state inherited contracts, binding reference closure,
 D16-shaped relation candidates, exact user-selection closure, D48-shaped
 adoption-decision candidate envelopes, exact frozen-candidate and admission-decision
 digest closure, one qualified admitted relation, exact protected D48 gate and owner-selection closure,
-an adopted D48 posture, one exact review-only conformance assessment, the empty
-Project-owned CAV2-D65 ConstructionBinding registry and reference closure, blocked
-evidence-currency preservation, and denied binding eligibility,
+an adopted D48 posture, one exact review-only conformance assessment, one
+Project-owned D65 prototype ConstructionBinding, its exact tested-contract and
+scaffold closure, absent product approval, and denied authority-request eligibility,
 D64 field completeness,
 separate owner lanes, adoption/evaluation posture, recursive stops, ontology
 endpoints, lifecycle rules, evidence links, and the authority ceiling. The
@@ -187,18 +191,27 @@ default command is check-only. Materialize one append-only receipt explicitly:
 python3 cyberAlchemy-v2/goals/scripts/validate.py --write-receipt
 ```
 
+The narrower D65 consumer slice can be checked independently of unrelated Goals
+source drift:
+
+```bash
+python3 cyberAlchemy-v2/goals/scripts/validate_prototype_construction_binding.py
+python3 -m unittest cyberAlchemy-v2/goals/tests/test_d65_prototype_binding.py
+```
+
 ## Claim Ceiling
 
 This package defines and instantiates a goal model, gives Define a proposed
 Project and draft Goal, and makes Project binding prerequisites, one exact
 admitted `instance_of` relation for CAV2-D16 typed-relation witnessing, and an exact
 D48 parent-contract adoption decision, an indeterminate conformance assessment,
-and a complete Project-owned ConstructionBinding shape representable.
+and one Project-owned prototype ConstructionBinding registered for the
+CyberAlchemy Lab ontology-runtime integration Goal.
 The original selected candidate remains
 immutable evidence. It does not activate the
 candidate authority claims, reinterpret `child-package` topology as semantic admission, treat the
-candidate envelope as the owner decision, register a Define binding or ConstructionBinding,
-satisfy D64 or D65, treat adoption as conformance, accept or
+candidate envelope as the owner decision, register a Define binding, treat the
+Lab prototype binding as product approval, satisfy D64 or D65, treat adoption as conformance, accept or
 implement a Define runtime, route live definitions, achieve either Goal,
 approve a plan, authorize implementation, publish anything, deploy anything,
 or prove product value.

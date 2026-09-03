@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate one CAV2-D65 ConstructionBinding without granting authority."""
+"""Diagnose one legacy D65 revision-1 binding without granting authority."""
 
 from __future__ import annotations
 
@@ -208,8 +208,11 @@ def evaluate_registry(
     verify_dependency_checks: bool = True,
 ) -> dict[str, Any]:
     errors: list[str] = []
-    blockers: list[str] = []
-    warnings: list[str] = []
+    blockers: list[str] = ["D65_REVISION_2_EVALUATOR_NOT_IMPLEMENTED"]
+    warnings: list[str] = [
+        "Legacy revision-1 stage diagnostics only; this evaluator cannot prove the "
+        "prototype-first chain, product approval, or authority-request eligibility."
+    ]
     validate_schema(registry, load_json(SCHEMA_PATH), "construction registry", errors)
 
     bindings = registry.get("bindings", [])
@@ -372,7 +375,7 @@ def result(
         "blockers": sorted(set(blockers)),
         "errors": errors,
         "warnings": warnings,
-        "claim_ceiling": "One exact, non-effectful construction assessment only; no profile or system-ontology admission, implementation acceptance, repository-wide conformance, Constitution activation, enforcement, publication, release, deployment, or external effect.",
+        "claim_ceiling": "Legacy revision-1 diagnostic assessment only. It cannot prove CAV2-D65 revision 2, product approval, authority-request eligibility, profile or system-ontology admission, implementation acceptance, repository-wide conformance, Constitution activation, enforcement, publication, release, deployment, or external effect.",
     }
 
 
