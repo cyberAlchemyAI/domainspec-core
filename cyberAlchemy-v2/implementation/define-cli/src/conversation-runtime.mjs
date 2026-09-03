@@ -138,7 +138,13 @@ export async function runDefineConversation(input) {
         write("\nDefine is reconsidering this option...\n");
         const discussed = await agent.respond({mode: "discuss-option", user_input: comment, scope_confirmed: true, confirmed_scope: scope, current_option: option});
         write(`\nDefine: ${discussed.message}\n`);
-        if (discussed.options.length > 0) option = discussed.options[0];
+        if (discussed.options.length > 0) {
+          const replacement = discussed.options[0];
+          if (replacement.option_id !== option.option_id || replacement.term.trim().toLowerCase() !== option.term.trim().toLowerCase()) {
+            throw new Error("define-conversation.discussion-option-identity-drift");
+          }
+          option = replacement;
+        }
       } else if (choice === "q" || choice === "quit") {
         return {ok: false, stopped: true, reason_codes: ["define-conversation.user-stopped-during-review"], authority_effect: "none"};
       } else {

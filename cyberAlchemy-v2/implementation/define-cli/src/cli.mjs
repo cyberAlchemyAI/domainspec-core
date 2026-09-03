@@ -14,6 +14,9 @@ export const HELP = `Usage:
 
 Options:
   --model <id>         Optional Codex model override for conversational mode
+  --gateway-socket <path>
+                       Persistent ARE gateway socket (default: runtime are-codex/gateway.sock)
+  --direct             Spawn the strict app-server wrapper directly for diagnostics
   --input <path>       JSON with concepts and optional responses
   --concept <term>     Required concept; repeatable
   --output <path>      Atomically write the complete result JSON
@@ -27,8 +30,9 @@ Advanced scripted responses:
   propose <meaning> | reuse <definition-ref> | specialize <ref> :: <scope>
   open [reason] | defer [reason] | refuse [reason]
 
-The default flow uses the Codex app-server wrapper in an ephemeral read-only thread.
+The default flow connects to the persistent ARE Codex gateway and opens an ephemeral read-only thread.
 It starts broadly, confirms scope, and reviews candidate meaning options one at a time.
+Direct mode remains strict about the configured Codex protocol version.
 All state is in-memory and non-authorizing.`;
 
 function parseArgs(argv) {
@@ -44,10 +48,12 @@ function parseArgs(argv) {
     const flag = args.shift();
     if (flag === "--help" || flag === "-h") result.help = true;
     else if (flag === "--json") result.json = true;
-    else if (["--goal", "--intent", "--context", "--consumer", "--input", "--output", "--concept", "--model"].includes(flag)) {
+    else if (flag === "--direct") result.direct = true;
+    else if (["--goal", "--intent", "--context", "--consumer", "--input", "--output", "--concept", "--model", "--gateway-socket"].includes(flag)) {
       const value = args.shift();
       if (value === undefined || value.startsWith("--")) throw new Error(`define-cli.value-required:${flag}`);
       if (flag === "--concept") result.concepts.push(value);
+      else if (flag === "--gateway-socket") result.gateway_socket = value;
       else result[flag.slice(2)] = value;
     } else if (!flag.startsWith("-") && result.mode === "chat") result.opening_parts.push(flag);
     else throw new Error(`define-cli.unknown-option:${flag}`);
@@ -133,7 +139,12 @@ export async function runDefineCli(argv, environment = {}) {
         result = {ok: false, stopped: true, reason_codes: ["define-conversation.opening-required"], authority_effect: "none"};
       } else {
         const createAgent = environment.agent_factory ?? createAppServerDefineAgent;
-        agent ??= createAgent({repository_root: repositoryRoot, model: options.model});
+        agent ??= createAgent({
+          repository_root: repositoryRoot,
+          model: options.model,
+          gateway_socket: options.gateway_socket ?? environment.gateway_socket,
+          transport_mode: options.direct || environment.transport_mode === "direct" ? "direct" : "gateway",
+        });
         result = await runDefineConversation({
           agent,
           ask,

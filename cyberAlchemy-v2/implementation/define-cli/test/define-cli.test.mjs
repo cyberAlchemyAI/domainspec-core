@@ -185,6 +185,26 @@ test("discussion lets the agent revise only the current option before acceptance
   assert.equal(result.definition_pack.concept_dispositions[0].candidate_definition.normative_voice, revised.candidate_definition);
 });
 
+test("discussion cannot replace the current option with a different identity", async () => {
+  const original = option("option:vocabulary", "shared vocabulary", "An initial meaning.");
+  const replacement = option("option:owner", "term owner", "A different concept.");
+  const agent = {
+    respond: async (request) => request.mode === "discuss-option"
+      ? {...scopeReview([replacement]), phase: "option-discussion", message: "I replaced the option."}
+      : scopeReview([original]),
+  };
+  await assert.rejects(
+    runDefineConversation({
+      agent,
+      ask: scriptedAnswers(["yes", "discuss", "It is too broad"]),
+      write: () => {},
+      opening: "Atlas needs a shared vocabulary.",
+      repository_root: repositoryRoot,
+    }),
+    /define-conversation\.discussion-option-identity-drift/,
+  );
+});
+
 test("CLI defaults to conversational mode and keeps agent inference candidate", async () => {
   const agent = {
     respond: async () => ({...scopeReview([option("option:vocabulary", "shared vocabulary", "A reviewed project vocabulary.")]), phase: "options-ready"}),
@@ -209,6 +229,7 @@ test("CLI defaults to conversational mode and keeps agent inference candidate", 
 
 test("CLI waits for the broad opening before creating the app-server agent", async () => {
   let agentCreated = false;
+  let agentOptions = null;
   const prompts = [];
   const agent = {
     respond: async () => ({...scopeReview([option("option:vocabulary", "shared vocabulary", "A reviewed project vocabulary.")]), phase: "options-ready"}),
@@ -227,15 +248,36 @@ test("CLI waits for the broad opening before creating the app-server agent", asy
       if (prompts.length === 1) assert.equal(agentCreated, false);
       return answers();
     },
-    agent_factory: () => {
+    agent_factory: (options) => {
       agentCreated = true;
+      agentOptions = options;
       return agent;
     },
     write: (text) => stdout.stream.write(text),
   });
   assert.equal(code, 0, stderr.value());
   assert.equal(agentCreated, true);
+  assert.equal(agentOptions.transport_mode, "gateway");
   assert.match(prompts[0], /domain, subject, context, or project/);
+});
+
+test("CLI exposes direct transport only as an explicit diagnostic option", async () => {
+  let agentOptions = null;
+  const agent = {
+    respond: async () => ({...scopeReview([option("option:vocabulary", "shared vocabulary", "A reviewed project vocabulary.")]), phase: "options-ready"}),
+    close: async () => {},
+  };
+  const code = await runDefineCli(["--direct", "Atlas", "vocabulary"], {
+    repositoryRoot,
+    stdin: new PassThrough(),
+    stdout: capture().stream,
+    stderr: capture().stream,
+    agent_factory: (options) => { agentOptions = options; return agent; },
+    ask: scriptedAnswers(["yes", "accept", "yes"]),
+    write: () => {},
+  });
+  assert.equal(code, 0);
+  assert.equal(agentOptions.transport_mode, "direct");
 });
 
 test("agent preserves an app-server exit reason that occurs before initialize", async () => {
@@ -246,13 +288,17 @@ test("agent preserves an app-server exit reason that occurs before initialize", 
   child.kill = () => true;
   const agent = createAppServerDefineAgent({
     repository_root: repositoryRoot,
-    spawn_impl: () => child,
+    spawn_impl: () => {
+      queueMicrotask(() => {
+        child.stderr.write("profile failed to load");
+        child.emit("exit", 3, null);
+      });
+      return child;
+    },
   });
-  child.stderr.write("profile failed to load");
-  child.emit("exit", 3, null);
   await assert.rejects(
     agent.respond({mode: "discovery", user_input: "escape room", scope_confirmed: false}),
-    /define-agent\.app-server-exited:3:profile failed to load/,
+    /App-server transport exited: 3: profile failed to load/,
   );
-  assert.match(agent.inspect().close_error, /app-server-exited:3/);
+  assert.match(agent.inspect().rpc.failure, /App-server transport exited: 3/);
 });
