@@ -124,6 +124,7 @@ function provenance(input: GeneratorInput, comment: "//" | "#"): string {
 }
 
 function typedRuleProjection(input: GeneratorInput): Readonly<{
+  closureSha256: string;
   root: string;
   properties: Readonly<Record<string, string>>;
   rules: Readonly<Record<string, unknown>>;
@@ -131,6 +132,7 @@ function typedRuleProjection(input: GeneratorInput): Readonly<{
   const closure = input.typed_closure;
   if (closure?.schema_version !== "domainspec.typed-rule-closure/v1") throw new Error("typed Rule requires a Rule-rooted semantic closure");
   return Object.freeze({
+    closureSha256: closure.closure_sha256,
     root: closure.root_selector,
     properties: Object.freeze(Object.fromEntries(closure.properties.map((row) => {
       const field = row.domainspec_selector.split("#")[1];
@@ -144,6 +146,7 @@ function typedRuleProjection(input: GeneratorInput): Readonly<{
 function renderTypeScriptTypedRule(input: GeneratorInput, fn: string, header: string): string {
   const projection = typedRuleProjection(input);
   return `${header}// domainspec-rule-semantics: "domainspec.typed-rule/v1"
+export const DOMAINSPEC_RULE_CLOSURE_SHA256 = ${JSON.stringify(projection.closureSha256)};
 const domainspecRuleRoot = ${JSON.stringify(projection.root)};
 const domainspecRuleProperties: Readonly<Record<string, string>> = Object.freeze(${canonicalJson(projection.properties)});
 const domainspecRuleContracts: Readonly<Record<string, any>> = Object.freeze(${canonicalJson(projection.rules)});
@@ -200,6 +203,7 @@ function renderPythonTypedRule(input: GeneratorInput, fn: string, header: string
   return `${header}# domainspec-rule-semantics: "domainspec.typed-rule/v1"
 import json
 
+DOMAINSPEC_RULE_CLOSURE_SHA256 = ${JSON.stringify(projection.closureSha256)}
 _DOMAINSPEC_RULE_ROOT = ${JSON.stringify(projection.root)}
 _DOMAINSPEC_RULE_PROPERTIES = json.loads(${JSON.stringify(canonicalJson(projection.properties))})
 _DOMAINSPEC_RULE_CONTRACTS = json.loads(${JSON.stringify(canonicalJson(projection.rules))})

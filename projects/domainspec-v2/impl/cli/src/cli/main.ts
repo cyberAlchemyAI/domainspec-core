@@ -198,6 +198,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       objectOutput(io, {
         schema_version: args[0] === "operation" ? "domainspec.add-operation-command-result/v1" : "domainspec.add-rule-command-result/v1",
         result: "pass",
+        publication_protocol: result.publication_protocol,
         source_root: result.source_root,
         selector: result.selector,
         node_path: result.node_path,

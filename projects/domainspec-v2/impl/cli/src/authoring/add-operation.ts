@@ -22,6 +22,7 @@ export interface AddOperationInput {
 
 export interface AddOperationResult {
   readonly schema_version: "domainspec.add-operation-result/v1";
+  readonly publication_protocol: "domainspec.atomic-authored-node/v1";
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
@@ -41,6 +42,7 @@ export interface AddRuleInput {
 
 export interface AddRuleResult {
   readonly schema_version: "domainspec.add-rule-result/v1";
+  readonly publication_protocol: "domainspec.atomic-authored-node/v1";
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
@@ -203,6 +205,7 @@ interface AuthorNodeInput {
 }
 
 interface AuthorNodeResult {
+  readonly publication_protocol: "domainspec.atomic-authored-node/v1";
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
@@ -282,6 +285,7 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
 
     nodePublished = false;
     return Object.freeze({
+      publication_protocol: "domainspec.atomic-authored-node/v1" as const,
       source_root: root,
       selector: `${input.featureId}:${input.nodeId}`,
       node_path: nodeRelativePath,

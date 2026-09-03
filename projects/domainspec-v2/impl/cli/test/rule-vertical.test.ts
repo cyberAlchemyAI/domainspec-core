@@ -58,6 +58,7 @@ test("add rule atomically authors deterministic typed semantics", () => {
       const receipt = JSON.parse(out.pop()!);
       assert.equal(receipt.schema_version, "domainspec.add-rule-command-result/v1");
       assert.equal(receipt.selector, "alpha:candidate-is-true");
+      assert.equal(receipt.publication_protocol, "domainspec.atomic-authored-node/v1");
       manifests.push(receipt.source_manifest_sha256);
       assert.deepEqual(errors, []);
       const node = JSON.parse(fs.readFileSync(path.join(root, receipt.node_path), "utf8"));
@@ -152,6 +153,7 @@ test("Rule source changes alter closure and generated bindings while unrelated b
 
 test("TypeScript, Python, and Rust Rule bindings execute the same corpus", async () => {
   const node = loadProjectNode(capacityFixture, "capacity-decision:within-capacity");
+  const closureSha256 = node.typed_closure!.closure_sha256;
   const parent = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-rule-native-"));
   try {
     const expected = [true, false, false];
@@ -159,25 +161,26 @@ test("TypeScript, Python, and Rust Rule bindings execute the same corpus", async
     const tsPath = path.join(parent, "within-capacity.ts");
     fs.writeFileSync(tsPath, planInstantiation(node, "typescript").artifacts[0]!.content);
     const ts = await import(`${pathToFileURL(tsPath).href}?rule-native`);
+    assert.equal(ts.DOMAINSPEC_RULE_CLOSURE_SHA256, closureSha256);
     assert.deepEqual(samples.map(([requested_units, available_units]) => ts.withinCapacity({ snapshot: { request_id: "r", requested_units, available_units } })), expected);
 
     const pyPath = path.join(parent, "within_capacity.py");
     fs.writeFileSync(pyPath, planInstantiation(node, "python").artifacts[0]!.content);
-    const pythonProgram = `import importlib.util\ns=importlib.util.spec_from_file_location('rule',${JSON.stringify(pyPath)})\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\nprint([m.within_capacity({'snapshot':{'request_id':'r','requested_units':a,'available_units':b}}) for a,b in [(2,3),(3,3),(4,3)]])`;
+    const pythonProgram = `import importlib.util\ns=importlib.util.spec_from_file_location('rule',${JSON.stringify(pyPath)})\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\nprint(m.DOMAINSPEC_RULE_CLOSURE_SHA256)\nprint([m.within_capacity({'snapshot':{'request_id':'r','requested_units':a,'available_units':b}}) for a,b in [(2,3),(3,3),(4,3)]])`;
     const python = spawnSync("python3", ["-c", pythonProgram], { encoding: "utf8" });
     assert.equal(python.status, 0, python.stderr);
-    assert.equal(python.stdout.trim(), "[True, False, False]");
+    assert.deepEqual(python.stdout.trim().split("\n"), [closureSha256, "[True, False, False]"]);
 
     const rustPath = path.join(parent, "within_capacity.rs");
     fs.writeFileSync(rustPath, planInstantiation(node, "rust").artifacts[0]!.content);
     const harness = path.join(parent, "main.rs");
-    fs.writeFileSync(harness, `mod generated { include!(${JSON.stringify(rustPath)}); }\nfn main(){for (a,b) in [(2,3),(3,3),(4,3)] { let value=generated::CapacitySnapshot{request_id:"r".to_owned(),requested_units:a,available_units:b}; println!("{}",generated::within_capacity(&value)); }}\n`);
+    fs.writeFileSync(harness, `mod generated { include!(${JSON.stringify(rustPath)}); }\nfn main(){println!("{}",generated::DOMAINSPEC_RULE_CLOSURE_SHA256); for (a,b) in [(2,3),(3,3),(4,3)] { let value=generated::CapacitySnapshot{request_id:"r".to_owned(),requested_units:a,available_units:b}; println!("{}",generated::within_capacity(&value)); }}\n`);
     const binary = path.join(parent, "rule-bin");
     const compiled = spawnSync("/home/vrondelli/.cargo/bin/rustc", ["--edition", "2024", harness, "-o", binary], { encoding: "utf8" });
     assert.equal(compiled.status, 0, compiled.stderr ?? compiled.error?.message);
     const rust = spawnSync(binary, [], { encoding: "utf8" });
     assert.equal(rust.status, 0, rust.stderr);
-    assert.deepEqual(rust.stdout.trim().split("\n"), ["true", "false", "false"]);
+    assert.deepEqual(rust.stdout.trim().split("\n"), [closureSha256, "true", "false", "false"]);
   } finally {
     fs.rmSync(parent, { recursive: true, force: true });
   }

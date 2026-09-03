@@ -326,10 +326,13 @@ function renderTypedRustSemantic(closure: TypedSemanticClosureV1): string {
   const collectionImport = [...dataDefinitions, ...ruleFunctions].some((definition) => definition.includes("BTreeSet<"))
     ? "use std::collections::BTreeSet;\n\n"
     : "";
+  const ruleClosureIdentity = closure.schema_version === "domainspec.typed-rule-closure/v1"
+    ? "pub const DOMAINSPEC_RULE_CLOSURE_SHA256: &str = DOMAINSPEC_TYPED_CLOSURE_SHA256;\n"
+    : "";
   const prelude = `// domainspec-typed-closure-sha256: ${rustStringLiteral(closure.closure_sha256)}
 ${collectionImport}pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
     ${rustStringLiteral(closure.closure_sha256)};
-#[rustfmt::skip]
+${ruleClosureIdentity}#[rustfmt::skip]
 pub const DOMAINSPEC_PROPERTY_BINDINGS: &[(&str, &str)] = &[
 ${propertyBindings}
 ];
