@@ -32,6 +32,12 @@ test("stable root and explicitly experimental runtime subpath are exported", () 
     "contracts/deployment-recipe-request.schema.json",
     "contracts/deployment-recipe-manifest.schema.json",
     "contracts/deployment-recipe-receipt.schema.json",
+    "contracts/recipe-qualification-profile.schema.json",
+    "contracts/recipe-qualification-plan.schema.json",
+    "contracts/recipe-qualification-certificate.schema.json",
+    "contracts/recipe-qualification-run-receipt.schema.json",
+    "tools/recipe-qualification/terraform",
+    "tools/recipe-qualification/docker",
     "README.md",
     "CHANGELOG.md",
     "COMPATIBILITY.md",
@@ -41,7 +47,7 @@ test("stable root and explicitly experimental runtime subpath are exported", () 
   assert.equal("workspaces" in packageJson, false);
   assert.equal("dependencies" in packageJson, false);
   assert.equal("devDependencies" in packageJson, false);
-  for (const required of ["typecheck", "build", "test", "test:contract", "validate:rust", "validate:clean-package", "verify:product", "pack:release"]) assert.equal(typeof packageJson.scripts[required], "string", required);
+  for (const required of ["typecheck", "build", "test", "recipe-qualification:check", "recipe-qualification:l1", "test:contract", "validate:rust", "validate:clean-package", "verify:product", "pack:release"]) assert.equal(typeof packageJson.scripts[required], "string", required);
   assert.deepEqual(packageJson.publishConfig, { access: "restricted", provenance: true });
   assert.equal(packageJson.packageManager, "npm@11.19.0");
 });
@@ -64,6 +70,10 @@ test("development and factory command surfaces are not re-exported", () => {
     "publishDeploymentRecipe",
     "verifyDeploymentRecipe",
     "validateDeploymentRecipeReceipt",
+    "createRecipeQualificationProfile",
+    "planRecipeQualification",
+    "qualifyDeploymentRecipe",
+    "verifyRecipeQualification",
   ]) assert.equal(source.includes(stableExport), true, stableExport);
 });
 
@@ -72,6 +82,13 @@ test("deployment recipe commands remain stable while the capability stays candid
   const capabilitiesSource = fs.readFileSync(path.join(cliRoot, "src/product/capabilities.ts"), "utf8");
   for (const command of ["recipe-plan", "recipe-generate", "recipe-verify"]) assert.equal(capabilitiesSource.includes(`"${command}"`), true, command);
   assert.match(capabilitiesSource, /deployment_recipe:[\s\S]*lifecycle: "candidate"[\s\S]*target: "aws-ecs-fargate-postgres-v1"[\s\S]*effects: "none"/);
+});
+
+test("recipe qualification commands remain stable while the capability stays candidate and non-effectful", () => {
+  for (const command of ["recipe-qualification-plan", "recipe-qualify", "recipe-qualification-verify"]) assert.equal(source.includes(command), false, `CLI command names belong in the capability surface, not the API barrel:${command}`);
+  const capabilitiesSource = fs.readFileSync(path.join(cliRoot, "src/product/capabilities.ts"), "utf8");
+  for (const command of ["recipe-qualification-plan", "recipe-qualify", "recipe-qualification-verify"]) assert.equal(capabilitiesSource.includes(`"${command}"`), true, command);
+  assert.match(capabilitiesSource, /recipe_qualification:[\s\S]*lifecycle: "candidate"[\s\S]*ontology_id: "domainspec\.recipe-qualification-ontology@1"[\s\S]*effect_ceiling: "no-external-effect"[\s\S]*effects: "none"/);
 });
 
 test("the standard typed Operation path has no specialized Auth generator", () => {

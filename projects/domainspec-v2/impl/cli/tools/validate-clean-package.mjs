@@ -192,6 +192,9 @@ try {
   assert.equal(packedPaths.includes("dist/recipe/plan.js"), true);
   assert.equal(packedPaths.includes("dist/recipe/publish.js"), true);
   assert.equal(packedPaths.includes("dist/recipe/targets/aws-ecs-fargate-postgres-v1.js"), true);
+  assert.equal(packedPaths.includes("dist/qualification/contracts.js"), true);
+  assert.equal(packedPaths.includes("dist/qualification/plan.js"), true);
+  assert.equal(packedPaths.includes("dist/qualification/execute.js"), true);
   assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeKernel.lean"), true);
   assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeCompilerRefinement.lean"), true);
   assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeTypeScriptProjectionRefinement.lean"), true);
@@ -201,14 +204,28 @@ try {
   assert.equal(packedPaths.includes("contracts/deployment-recipe-request.schema.json"), true);
   assert.equal(packedPaths.includes("contracts/deployment-recipe-manifest.schema.json"), true);
   assert.equal(packedPaths.includes("contracts/deployment-recipe-receipt.schema.json"), true);
-  assert.equal(packedPaths.some((relativePath) => relativePath.startsWith("src/") || relativePath.startsWith("test/") || relativePath.startsWith("tools/")), false);
+  for (const contract of ["profile", "plan", "certificate", "run-receipt"]) assert.equal(packedPaths.includes(`contracts/recipe-qualification-${contract}.schema.json`), true, contract);
+  assert.equal(packedPaths.includes("tools/recipe-qualification/terraform"), true);
+  assert.equal(packedPaths.includes("tools/recipe-qualification/docker"), true);
+  const shippedAdapters = new Set(["tools/recipe-qualification/terraform", "tools/recipe-qualification/docker"]);
+  assert.equal(packedPaths.some((relativePath) => relativePath.startsWith("src/") || relativePath.startsWith("test/") || (relativePath.startsWith("tools/") && !shippedAdapters.has(relativePath))), false);
 
   const cleanRuns = ["consumer-one", "consumer-two"].map((name) => {
     const consumer = path.join(temporaryRoot, name);
     fs.mkdirSync(consumer);
     fs.writeFileSync(path.join(consumer, "package.json"), `${JSON.stringify({ private: true, type: "module" })}\n`);
     run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund", tarball], consumer);
-    run(process.execPath, ["--input-type=module", "-e", "const root = await import('@domainspec-v2/cli'); const forbidden = ['emitCompilerRefinementOutput', 'createCompilerRefinementOutput', 'toTypeScriptProjectionPayload', 'FormalizationMaterializationHooks', 'runInMemoryProject', 'runDurableOperation', 'PostgresTransactionalOutbox'].filter((name) => name in root); const required = ['addOperation', 'addQuery', 'addCalculation', 'addRule', 'addPolicy', 'addMapping', 'PRODUCT_CAPABILITIES', 'planDeploymentRecipe', 'publishDeploymentRecipe', 'verifyDeploymentRecipe', 'validateDeploymentRecipeReceipt'].filter((name) => !(name in root)); if (forbidden.length || required.length) throw new Error(JSON.stringify({forbidden,required})); const runtime = await import('@domainspec-v2/cli/experimental/runtime'); if (!('runInMemoryProject' in runtime) || !('PostgresTransactionalOutbox' in runtime) || !('SqsPostgresOutboxTransport' in runtime)) throw new Error('experimental runtime subpath incomplete');"], consumer);
+    const installedAdapterRoot = path.join(consumer, "node_modules/@domainspec-v2/cli/tools/recipe-qualification");
+    for (const [adapter, image] of [
+      ["terraform", "hashicorp/terraform:1.16.0@sha256:fb5ea091b84f35e111e3a83eb8a6cdeb264bba11687c2eebc52253ade183022f"],
+      ["docker", "docker:28.0.1-cli@sha256:043c259759666d273afa94a9c9175a87a11f16cde2f613f4c527e4395b703a1f"],
+    ]) {
+      const adapterPath = path.join(installedAdapterRoot, adapter);
+      const identity = JSON.parse(run(adapterPath, ["domainspec-adapter-identity"], consumer));
+      assert.deepEqual(identity, { adapter_protocol: "domainspec.oci-tool-adapter/v1", image });
+      assert.equal(spawnSync(adapterPath, [adapter === "terraform" ? "apply" : "push"], { cwd: consumer, encoding: "utf8" }).status, 64);
+    }
+    run(process.execPath, ["--input-type=module", "-e", "const root = await import('@domainspec-v2/cli'); const forbidden = ['emitCompilerRefinementOutput', 'createCompilerRefinementOutput', 'toTypeScriptProjectionPayload', 'FormalizationMaterializationHooks', 'runInMemoryProject', 'runDurableOperation', 'PostgresTransactionalOutbox'].filter((name) => name in root); const required = ['addOperation', 'addQuery', 'addCalculation', 'addRule', 'addPolicy', 'addMapping', 'PRODUCT_CAPABILITIES', 'planDeploymentRecipe', 'publishDeploymentRecipe', 'verifyDeploymentRecipe', 'validateDeploymentRecipeReceipt', 'createRecipeQualificationProfile', 'planRecipeQualification', 'qualifyDeploymentRecipe', 'verifyRecipeQualification'].filter((name) => !(name in root)); if (forbidden.length || required.length) throw new Error(JSON.stringify({forbidden,required})); const runtime = await import('@domainspec-v2/cli/experimental/runtime'); if (!('runInMemoryProject' in runtime) || !('PostgresTransactionalOutbox' in runtime) || !('SqsPostgresOutboxTransport' in runtime)) throw new Error('experimental runtime subpath incomplete');"], consumer);
     const source = path.join(consumer, "source");
     fs.cpSync(fixtureRoot, source, { recursive: true });
     addRecipeEvidence(source);

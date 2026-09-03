@@ -33,6 +33,9 @@ domainspec-v2 doctor
 domainspec-v2 recipe-plan <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root>
 domainspec-v2 recipe-generate <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-new-root>
 domainspec-v2 recipe-verify <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-root>
+domainspec-v2 recipe-qualification-plan <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-recipe-root> --profile <absolute-profile-file>
+domainspec-v2 recipe-qualify <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-recipe-root> --profile <absolute-profile-file> --qualification-root <absolute-new-directory>
+domainspec-v2 recipe-qualification-verify <source-project-root> --request <absolute-request-file> --consumer-root <absolute-consumer-root> --target-root <absolute-recipe-root> --profile <absolute-profile-file> --qualification-root <absolute-directory>
 domainspec-v2 --help
 domainspec-v2 --version
 ```
@@ -67,6 +70,33 @@ the plan and checks exact path and byte membership. None of these commands
 runs Docker, Terraform, PostgreSQL, AWS, image publication, infrastructure
 apply, or deployment; those remain separately reviewed consumer operations.
 The schemas are shipped under `contracts/deployment-recipe-*.schema.json`.
+
+The candidate `domainspec.recipe-qualification` capability closes the next
+no-effect boundary. A digest-bound profile selects exactly five adapters:
+recipe-byte verification, Terraform format, backendless provider initialization,
+Terraform validation, and Docker Buildx bake checking. `recipe-qualification-plan`
+is pure. `recipe-qualify` runs only those fixed adapters, copies Terraform into
+a temporary directory before initialization, and atomically writes a deterministic
+qualification certificate plus a host run receipt and hashed stdout/stderr evidence.
+`recipe-qualification-verify` replays the pure recipe plan and checks exact evidence
+membership and digest linkage without rerunning external tools.
+
+Every required check is reported as `pass`, `fail`, or `not_evaluable`; dependency
+blockers are explicit and there is no skipped state. A passing qualification
+certificate denies release, publication, deployment, and runtime-conformance
+claims. It does not build or push images, run Terraform plan/apply, access a live
+account, publish a package, release, or deploy. The four closed contracts are
+shipped under `contracts/recipe-qualification-*.schema.json`.
+
+The L1 candidate ships two closed OCI adapters under
+`tools/recipe-qualification/`. Terraform 1.16.0, Docker CLI 28.0.1, Buildx
+0.21.3, and their linux/amd64 image manifests are immutable inputs. The
+generated Terraform recipe includes the AWS provider 6.63.0 lockfile, and
+qualification uses backendless initialization with the lockfile read-only.
+Run `npm run recipe-qualification:l1` from this package checkout to execute two
+isolated real-tool qualifications and compare their certificate bytes with the
+committed baseline. Raw receipts may differ because cache and registry output
+is observational; the normalized semantic certificate must not.
 
 `add operation` authors one closed `domainspec.node/v1` Operation in an
 existing validated source project. The feature and name are lowercase

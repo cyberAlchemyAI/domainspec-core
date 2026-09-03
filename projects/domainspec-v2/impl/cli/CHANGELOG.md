@@ -14,5 +14,14 @@
 - Ships closed deployment-recipe request, manifest, and receipt schemas plus
   OCI Dockerfiles, Terraform, PostgreSQL transactional-outbox migrations,
   operational contracts, and exact packed-consumer verification.
+- Adds stable `recipe-qualification-plan`, `recipe-qualify`, and
+  `recipe-qualification-verify` surfaces for the candidate
+  `domainspec.recipe-qualification` capability. The fixed no-effect adapters
+  emit deterministic certificates, host receipts, and hashed raw evidence with
+  explicit `pass`, `fail`, and `not_evaluable` outcomes.
+- Adds the L1 candidate real-tool binding: immutable Terraform and Docker CLI
+  OCI adapters, a generated AWS-provider lockfile enforced read-only, two-run
+  certificate equivalence, a committed local baseline, and a clean hosted-CI
+  evidence job. CI conformance remains unevaluated until that job runs.
 
 The package version records compatibility, not publication, deployment, Product Capability adoption, or authority.

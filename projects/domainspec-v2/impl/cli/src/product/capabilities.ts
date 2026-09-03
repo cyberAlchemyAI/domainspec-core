@@ -30,6 +30,9 @@ export const STABLE_COMMANDS = Object.freeze([
   "recipe-plan",
   "recipe-generate",
   "recipe-verify",
+  "recipe-qualification-plan",
+  "recipe-qualify",
+  "recipe-qualification-verify",
 ] as const);
 
 export const EXPERIMENTAL_COMMANDS = Object.freeze(["run"] as const);
@@ -54,6 +57,7 @@ export const PRODUCT_CAPABILITIES = Object.freeze({
   limits: Object.freeze({ source_file_bytes: MAX_SOURCE_FILE_BYTES, project_sources: MAX_PROJECT_SOURCES, project_nodes: MAX_PROJECT_NODES, project_relationships: MAX_PROJECT_RELATIONSHIPS, json_depth: MAX_JSON_DEPTH, subprocess_timeout_ms: SUBPROCESS_TIMEOUT_MS }),
   runtime: Object.freeze({ lifecycle: "experimental" as const, package_subpath: "@domainspec-v2/cli/experimental/runtime" as const }),
   deployment_recipe: Object.freeze({ lifecycle: "candidate" as const, target: "aws-ecs-fargate-postgres-v1" as const, messaging: Object.freeze({ lifecycle: "candidate" as const, provider: "aws-sqs" as const, guarantees: Object.freeze(["at-least-once", "provider-acceptance-only"] as const) }), effects: "none" as const }),
+  recipe_qualification: Object.freeze({ lifecycle: "candidate" as const, ontology_id: "domainspec.recipe-qualification-ontology@1" as const, qualification_level: "recipe-executable-v1" as const, result_domain: Object.freeze(["pass", "fail", "not_evaluable"] as const), effect_ceiling: "no-external-effect" as const, effects: "none" as const }),
   authority_effect: "none" as const,
 });
 
@@ -123,6 +127,9 @@ Stable commands:
   recipe-plan <absolute-source-root> --request <absolute-file> --consumer-root <absolute-directory>
   recipe-generate <absolute-source-root> --request <absolute-file> --consumer-root <absolute-directory> --target-root <absolute-new-directory>
   recipe-verify <absolute-source-root> --request <absolute-file> --consumer-root <absolute-directory> --target-root <absolute-directory>
+  recipe-qualification-plan <absolute-source-root> --request <absolute-file> --consumer-root <absolute-directory> --target-root <absolute-directory> --profile <absolute-file>
+  recipe-qualify <absolute-source-root> --request <absolute-file> --consumer-root <absolute-directory> --target-root <absolute-directory> --profile <absolute-file> --qualification-root <absolute-new-directory>
+  recipe-qualification-verify <absolute-source-root> --request <absolute-file> --consumer-root <absolute-directory> --target-root <absolute-directory> --profile <absolute-file> --qualification-root <absolute-directory>
 
 Experimental commands:
   run <absolute-source-root> --request <absolute-file> --receipt <absolute-file> [--provider <id>]

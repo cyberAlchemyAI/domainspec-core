@@ -4,7 +4,7 @@
   "title": "DomainSpec product capabilities v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "product", "product_spine", "stable_commands", "experimental_commands", "authoring", "compiled_meta_types", "supported_languages", "limits", "runtime", "deployment_recipe", "authority_effect"],
+  "required": ["schema_version", "product", "product_spine", "stable_commands", "experimental_commands", "authoring", "compiled_meta_types", "supported_languages", "limits", "runtime", "deployment_recipe", "recipe_qualification", "authority_effect"],
   "properties": {
     "schema_version": {"const": "domainspec.product-capabilities/v1"},
     "product": {
@@ -18,7 +18,7 @@
       }
     },
     "product_spine": {"const": "authored-source-to-compiled-graph-to-generated-targets-and-certificates"},
-    "stable_commands": {"const": ["add", "instantiate", "instantiate-project", "verify-project", "compile", "build", "verify", "formalize", "formalize-check", "certify", "certify-check", "lint", "receipt", "capabilities", "doctor", "recipe-plan", "recipe-generate", "recipe-verify"]},
+    "stable_commands": {"const": ["add", "instantiate", "instantiate-project", "verify-project", "compile", "build", "verify", "formalize", "formalize-check", "certify", "certify-check", "lint", "receipt", "capabilities", "doctor", "recipe-plan", "recipe-generate", "recipe-verify", "recipe-qualification-plan", "recipe-qualify", "recipe-qualification-verify"]},
     "experimental_commands": {"const": ["run"]},
     "authoring": {
       "type": "object",
@@ -70,6 +70,19 @@
             "guarantees": {"const": ["at-least-once", "provider-acceptance-only"]}
           }
         },
+        "effects": {"const": "none"}
+      }
+    },
+    "recipe_qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lifecycle", "ontology_id", "qualification_level", "result_domain", "effect_ceiling", "effects"],
+      "properties": {
+        "lifecycle": {"const": "candidate"},
+        "ontology_id": {"const": "domainspec.recipe-qualification-ontology@1"},
+        "qualification_level": {"const": "recipe-executable-v1"},
+        "result_domain": {"const": ["pass", "fail", "not_evaluable"]},
+        "effect_ceiling": {"const": "no-external-effect"},
         "effects": {"const": "none"}
       }
     },

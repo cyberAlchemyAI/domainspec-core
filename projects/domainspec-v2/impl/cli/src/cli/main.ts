@@ -30,6 +30,9 @@ import { MAX_SOURCE_FILE_BYTES, readBoundedFileSync } from "../input/limits.js";
 import { readDeploymentRecipeRequest } from "../recipe/contracts.js";
 import { deploymentRecipePlanSummary, planDeploymentRecipe } from "../recipe/plan.js";
 import { publishDeploymentRecipe, verifyDeploymentRecipe } from "../recipe/publish.js";
+import { readRecipeQualificationProfile } from "../qualification/contracts.js";
+import { planRecipeQualification, recipeQualificationPlanSummary } from "../qualification/plan.js";
+import { qualifyDeploymentRecipe, verifyRecipeQualification } from "../qualification/execute.js";
 
 export interface CliIo {
   readonly stdout: (value: string) => void;
@@ -347,6 +350,21 @@ function recipeArgs(args: readonly string[], command: "recipe-plan" | "recipe-ge
   return Object.freeze({ sourceRoot, requestPath: values.get("--request")!, consumerRoot: values.get("--consumer-root")!, targetRoot: values.get("--target-root") ?? null });
 }
 
+function qualificationArgs(args: readonly string[], command: "recipe-qualification-plan" | "recipe-qualify" | "recipe-qualification-verify"): { readonly sourceRoot: string; readonly requestPath: string; readonly consumerRoot: string; readonly targetRoot: string; readonly profilePath: string; readonly qualificationRoot: string | null } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`${command} requires one absolute source project root`);
+  const required = command === "recipe-qualification-plan" ? ["--request", "--consumer-root", "--target-root", "--profile"] : ["--request", "--consumer-root", "--target-root", "--profile", "--qualification-root"];
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !required.includes(option) || !value || !path.isAbsolute(value)) usage(`${command} requires absolute ${required.join(", ")}`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  if (values.size !== required.length || required.some((option) => !values.has(option))) usage(`${command} requires absolute ${required.join(", ")}`);
+  return Object.freeze({ sourceRoot, requestPath: values.get("--request")!, consumerRoot: values.get("--consumer-root")!, targetRoot: values.get("--target-root")!, profilePath: values.get("--profile")!, qualificationRoot: values.get("--qualification-root") ?? null });
+}
+
 function postgresProvider(): PostgresTransactionalOutbox {
   const required = ["PGHOST", "PGPORT", "PGDATABASE", "PGUSER", "PGPASSWORD"] as const;
   for (const key of required) if (!process.env[key]) usage(`postgres provider requires ${key}`);
@@ -437,6 +455,23 @@ export function runCli(argv: readonly string[], io: CliIo = {
         return 0;
       }
       const verification = verifyDeploymentRecipe(parsed.sourceRoot, request, parsed.consumerRoot, parsed.targetRoot!);
+      objectOutput(io, verification);
+      return verification.result === "pass" ? 0 : 1;
+    }
+    if (command === "recipe-qualification-plan" || command === "recipe-qualify" || command === "recipe-qualification-verify") {
+      const parsed = qualificationArgs(args, command);
+      const request = readDeploymentRecipeRequest(parsed.requestPath);
+      const profile = readRecipeQualificationProfile(parsed.profilePath);
+      if (command === "recipe-qualification-plan") {
+        objectOutput(io, recipeQualificationPlanSummary(planRecipeQualification(parsed.sourceRoot, request, parsed.consumerRoot, parsed.targetRoot, profile)));
+        return 0;
+      }
+      if (command === "recipe-qualify") {
+        const publication = qualifyDeploymentRecipe(parsed.sourceRoot, request, parsed.consumerRoot, parsed.targetRoot, profile, parsed.qualificationRoot!);
+        objectOutput(io, { schema_version: "domainspec.recipe-qualification-command-result/v1", result: publication.certificate.result, qualification_root: publication.qualification_root, plan_sha256: publication.plan.plan_sha256, certificate_sha256: publication.certificate.certificate_sha256, receipt_sha256: publication.receipt.receipt_sha256, authority_effect: "none" });
+        return publication.certificate.result === "pass" ? 0 : 1;
+      }
+      const verification = verifyRecipeQualification(parsed.sourceRoot, request, parsed.consumerRoot, parsed.targetRoot, profile, parsed.qualificationRoot!);
       objectOutput(io, verification);
       return verification.result === "pass" ? 0 : 1;
     }

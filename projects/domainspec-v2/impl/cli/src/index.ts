@@ -177,3 +177,29 @@ export {
   type DeploymentRecipePublicationV1,
   type DeploymentRecipeVerificationV1,
 } from "./recipe/publish.js";
+export {
+  RECIPE_QUALIFICATION_LEVEL,
+  RECIPE_QUALIFICATION_ONTOLOGY,
+  RECIPE_QUALIFICATION_ADAPTER_PROTOCOL,
+  RECIPE_QUALIFICATION_TERRAFORM_IMAGE,
+  RECIPE_QUALIFICATION_DOCKER_IMAGE,
+  RECIPE_QUALIFICATION_REQUIRED_CHECKS,
+  RecipeQualificationError,
+  createRecipeQualificationProfile,
+  decodeRecipeQualificationProfile,
+  parseRecipeQualificationProfileJson,
+  readRecipeQualificationProfile,
+  type RecipeQualificationCertificateV1,
+  type RecipeQualificationPlanV1,
+  type RecipeQualificationProfileV1,
+  type RecipeQualificationResult,
+  type RecipeQualificationRunReceiptV1,
+} from "./qualification/contracts.js";
+export { planRecipeQualification, recipeQualificationPlanSummary } from "./qualification/plan.js";
+export {
+  qualifyDeploymentRecipe,
+  verifyRecipeQualification,
+  type RecipeQualificationPublicationV1,
+  type RecipeQualificationToolBindings,
+  type RecipeQualificationVerificationV1,
+} from "./qualification/execute.js";

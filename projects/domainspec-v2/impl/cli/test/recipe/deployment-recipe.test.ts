@@ -74,6 +74,9 @@ test("compiled graph produces one deterministic, policy-bounded deployment recip
     assert.equal(leftPlan.artifacts.some(({ relative_path }) => relative_path === "images/api.Dockerfile"), true);
     assert.equal(leftPlan.artifacts.some(({ relative_path }) => relative_path === ".dockerignore"), true);
     assert.equal(leftPlan.artifacts.some(({ relative_path }) => relative_path === "infrastructure/terraform/database.tf"), true);
+    const providerLock = leftPlan.artifacts.find(({ relative_path }) => relative_path === "infrastructure/terraform/.terraform.lock.hcl")!.content;
+    assert.match(providerLock, /version\s+= "6\.63\.0"/);
+    assert.match(providerLock, /h1:9cre7jh1lSs\/9igpgAcENMUAUlYW3HCtkav3up4oit0=/);
     assert.equal(leftPlan.artifacts.some(({ relative_path }) => relative_path === "infrastructure/terraform/messaging.tf"), true);
     assert.equal(leftPlan.artifacts.some(({ relative_path }) => relative_path === "images/consumer.Dockerfile"), true);
     const terraform = leftPlan.artifacts.filter(({ relative_path }) => relative_path.endsWith(".tf")).map(({ content }) => content).join("\n");
