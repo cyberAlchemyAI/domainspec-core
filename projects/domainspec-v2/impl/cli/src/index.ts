@@ -26,6 +26,25 @@ export {
 } from "./conformance/receipt.js";
 export { planInstantiation } from "./generation/plan-instantiation.js";
 export { publishInstantiation, PublicationError, type PublicationResult } from "./generation/publish-instantiation.js";
+export {
+  checkLeanMetaTypeFormalization,
+  createMetaTypeFormalizationProjection,
+  formalizationProjectionSha256,
+  materializeLeanMetaTypeFormalization,
+  renderLeanMetaTypeFormalization,
+  FormalizationProjectionError,
+  type FormalizationMaterializationResult,
+  type FormalizationRenderPayload,
+  type MetaTypeFormalizationProjection,
+  type ObligationFamily,
+} from "./formalization/projection.js";
+export {
+  type CompilerRefinementOutput,
+  type FormalizationSourceIdentity,
+  type GraphBoundCertificate,
+  type TypeScriptProjectionPayload,
+} from "./formalization/refinement.js";
+export { FORMALIZATION_LEAN_MODULE_FILENAMES, formalizationLeanModuleSources } from "./formalization/kernel.js";
 export { loadProjectNode, ProjectModelError, type DecodedProjectNode } from "./input/project-model.js";
 export { FROZEN_META_TYPE_CATALOG, selectRealization } from "./meta-types/catalog.js";
 export {

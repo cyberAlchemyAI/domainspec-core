@@ -25,7 +25,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
   assert.deepEqual(packageJson.exports, {
     ".": { types: "./dist/index.d.ts", import: "./dist/index.js" }
   });
-  assert.deepEqual(packageJson.files, ["dist", "contracts/instantiation-receipt.schema.json", "contracts/target-observation.schema.json", "README.md"]);
+  assert.deepEqual(packageJson.files, ["dist", "lean", "contracts/instantiation-receipt.schema.json", "contracts/target-observation.schema.json", "README.md"]);
   assert.equal("workspaces" in packageJson, false);
   assert.equal("dependencies" in packageJson, false);
   assert.equal("devDependencies" in packageJson, false);
@@ -44,7 +44,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
 });
 
 test("development and factory command surfaces are not re-exported", () => {
-  for (const forbidden of ["roundtrip", "derive", "self-check", "emit-tests", "factory", "replay", "verify"]) {
+  for (const forbidden of ["roundtrip", "derive", "self-check", "emit-tests", "factory", "replay", "verify", "emitCompilerRefinementOutput", "createCompilerRefinementOutput", "FormalizationMaterializationHooks"]) {
     assert.equal(source.includes(forbidden), false, forbidden);
     assert.equal(JSON.stringify(packageJson.exports).includes(forbidden), false, forbidden);
   }

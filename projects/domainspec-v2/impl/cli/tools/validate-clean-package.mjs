@@ -49,6 +49,9 @@ try {
   assert.equal(packedPaths.includes("dist/meta-types/frozen-catalog.generated.js"), true);
   assert.equal(packedPaths.includes("dist/system-integration/frozen-profile.generated.js"), true);
   assert.equal(packedPaths.includes("dist/system-integration/compiler.js"), true);
+  assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeKernel.lean"), true);
+  assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeCompilerRefinement.lean"), true);
+  assert.equal(packedPaths.includes("lean/DomainSpecMetaTypeTypeScriptProjectionRefinement.lean"), true);
   assert.equal(packedPaths.includes("contracts/instantiation-receipt.schema.json"), true);
   assert.equal(packedPaths.includes("contracts/target-observation.schema.json"), true);
   assert.equal(packedPaths.some((relativePath) => relativePath.startsWith("src/") || relativePath.startsWith("test/") || relativePath.startsWith("tools/")), false);
@@ -58,6 +61,7 @@ try {
     fs.mkdirSync(consumer);
     fs.writeFileSync(path.join(consumer, "package.json"), `${JSON.stringify({ private: true, type: "module" })}\n`);
     run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund", tarball], consumer);
+    run(process.execPath, ["--input-type=module", "-e", "const root = await import('@domainspec-v2/cli'); const forbidden = ['emitCompilerRefinementOutput', 'createCompilerRefinementOutput', 'toTypeScriptProjectionPayload', 'FormalizationMaterializationHooks'].filter((name) => name in root); if (forbidden.length) throw new Error(forbidden.join(','));"], consumer);
     const source = path.join(consumer, "source");
     fs.cpSync(fixtureRoot, source, { recursive: true });
     const executable = path.join(consumer, "node_modules/.bin/domainspec-v2");
@@ -75,7 +79,10 @@ try {
     ], consumer));
     const sourceLint = JSON.parse(run(executable, ["lint", source], consumer));
     const result = JSON.parse(run(executable, ["instantiate", source, "--node", "alpha:settle", "--language", "typescript", "--target-root", target, "--integration-profile", "provider-neutral-v1", "--integration-binding-set", "settle-runtime"], consumer));
-    return { consumer, executable, source, target, authoringResult, sourceLint, result };
+    const formalizationTarget = path.join(consumer, "formalization", "CurrentDomainSpecMetaTypes.lean");
+    const formalizationResult = JSON.parse(run(executable, ["formalize", source, "--target", formalizationTarget], consumer));
+    const formalizationCheck = JSON.parse(run(executable, ["formalize-check", source, "--target", formalizationTarget], consumer));
+    return { consumer, executable, source, target, formalizationTarget, formalizationResult, formalizationCheck, authoringResult, sourceLint, result };
   });
   const authoringResults = cleanRuns.map(({ authoringResult }) => authoringResult);
   assert.equal(authoringResults.every(({ result, selector, source_count }) => result === "pass" && selector === "alpha:create-order" && source_count === 22), true);
@@ -87,6 +94,12 @@ try {
   );
   const commandResults = cleanRuns.map(({ result }) => result);
   assert.equal(commandResults.every(({ result }) => result === "pass"), true);
+  assert.equal(cleanRuns.every(({ formalizationResult, formalizationCheck }) => formalizationResult.result === "pass" && formalizationCheck.result === "pass"), true);
+  assert.equal(cleanRuns[0].formalizationResult.render_payload_sha256, cleanRuns[1].formalizationResult.render_payload_sha256);
+  assert.equal(cleanRuns[0].formalizationResult.project_graph_sha256, cleanRuns[1].formalizationResult.project_graph_sha256);
+  assert.equal(cleanRuns[0].formalizationResult.lean_module_set_sha256, cleanRuns[1].formalizationResult.lean_module_set_sha256);
+  assert.equal(cleanRuns[0].formalizationResult.proof_unit_sha256, cleanRuns[1].formalizationResult.proof_unit_sha256);
+  assert.deepEqual(inventory(path.dirname(cleanRuns[0].formalizationTarget)), inventory(path.dirname(cleanRuns[1].formalizationTarget)));
   const deterministicInventory = inventory(cleanRuns[0].target);
   assert.deepEqual(deterministicInventory, inventory(cleanRuns[1].target));
   const lint = JSON.parse(run(cleanRuns[0].executable, ["lint", cleanRuns[0].target], cleanRuns[0].consumer));
@@ -127,6 +140,13 @@ try {
     deterministic_target_inventory: deterministicInventory,
     plan_sha256: commandResults[0].plan_sha256,
     receipt_sha256: commandResults[0].receipt_sha256,
+    formalization: {
+      render_payload_sha256: cleanRuns[0].formalizationResult.render_payload_sha256,
+      project_graph_sha256: cleanRuns[0].formalizationResult.project_graph_sha256,
+      lean_module_set_sha256: cleanRuns[0].formalizationResult.lean_module_set_sha256,
+      proof_unit_sha256: cleanRuns[0].formalizationResult.proof_unit_sha256,
+      file_count: inventory(path.dirname(cleanRuns[0].formalizationTarget)).length,
+    },
     authority_effect: "none",
   }, null, 2)}\n`);
 } finally {

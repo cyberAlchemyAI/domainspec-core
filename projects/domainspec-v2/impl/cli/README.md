@@ -35,7 +35,11 @@ instantiated target, reproduce the expected generator output for the selected
 frozen row, and reject undeclared files or semantic drift.
 
 `formalize` decodes and validates the entire authored project before it creates
-one Lean file. The output binds the source-manifest and compiled-graph digests,
+one generated Lean module plus three reusable checked-refinement modules. The
+output binds the source-manifest, aggregate source-bytes, compiled-graph, and
+complete semantic-render-payload digests,
+the ordered filename-and-byte digest of the three reusable Lean modules, and
+the ordered four-file proof-unit digest,
 the immutable `@10` predecessor, all 31 DS-D8 signatures, all 45 obligation
 identifiers, executable predicates for the six obligation families, and one
 witness for every obligation applicable to an authored edge. State Machine
@@ -45,10 +49,19 @@ executable `allProjectStateMachinesHold` theorem. The same projection carries
 L1 typed-field identities, Entity identity,
 Value Object structural equality, Enum closure, Event occurrence/version, and
 Interface boundary/compatibility facts into `allProjectL1RolesHold`.
-`formalize-check`
-rebuilds that projection and rejects source or target drift. These finite Lean
-proofs establish only the generated graph obligations; they do not establish
-runtime conformance, business acceptance, publication, or external authority.
+The containing output directory must not already exist. `formalize` writes the
+complete proof unit in a private sibling staging directory and publishes it by
+one directory rename; failed publication removes only private staging bytes and
+never deletes a competing public path. `formalize-check` rebuilds all four
+files, requires the exact directory inventory, and rejects source, module, or
+target drift.
+The reusable kernel reflects graph-digest binding, source-identity binding, and
+static conformance into a checked certificate. The generated current module
+proves the TypeScript projection lowers to the Lean `CheckedProjectionInput`
+shape and proves that successful checked compilation returns all three facts;
+actual SHA-256 computation and source admission remain TypeScript/compiler
+responsibilities. These finite Lean proofs do not establish runtime
+conformance, business acceptance, publication, or external authority.
 
 The optional system-integration pair is explicit and closed: both options must
 be present or both absent. The CLI reads

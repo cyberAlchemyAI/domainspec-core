@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -6,6 +5,15 @@ import type { CompiledProjectGraph, DecodedRelationship, FieldSpec, InterfaceOpe
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import { FROZEN_RELATIONSHIP_AUTHORITY_V1 } from "../relationships/frozen-authority.generated.js";
 import type { FrozenRelationshipSignature } from "../relationships/types.js";
+import {
+  FORMALIZATION_LEAN_MODULE_FILENAMES,
+  createFormalizationLeanModuleSet,
+  formalizationLeanModuleSet,
+  formalizationLeanModuleSources,
+  type FormalizationLeanModuleSet,
+  type FormalizationLeanModuleSources,
+} from "./kernel.js";
+import { createCompilerRefinementOutput, sha256, type GraphBoundCertificate, type TypeScriptProjectionPayload } from "./refinement.js";
 
 const UI_META_TYPES = ["Page", "Layout", "Component", "View Model", "Hook", "Form", "Action", "Guard", "Binding", "Adapter", "State Indicator"] as const;
 const LEAN_META_TYPE: Readonly<Record<string, string>> = Object.freeze({
@@ -44,20 +52,57 @@ type ProjectEdgeProjection = Readonly<{
   source_authored_generated_projection: boolean; obligation_ids: readonly string[];
 }>;
 
+type BaselineProjection = Readonly<{ id: string; digest: string; manifest_sha256: string }>;
+type RelationshipAuthorityProjection = Readonly<{ path: string; sha256: string; signature_count: 31 }>;
+type ProjectGraphProjection = Readonly<{
+  project_id: string;
+  source_manifest_sha256: string;
+  source_bytes_sha256: string;
+  graph_sha256: string;
+  nodes: readonly ProjectNodeProjection[];
+  edges: readonly ProjectEdgeProjection[];
+}>;
+type MetaTypeProjection = Readonly<{ label: string; lean_constructor: string; partition: "backend" | "ui-supporting-context" }>;
+type RelationshipProjection = Readonly<{
+  id: string; lean_constructor: string; source_types: readonly string[]; target_types: readonly string[]; scopes: readonly string[];
+  multiplicity: string; inverse_kind: "none" | "generated_view"; obligation_ids: readonly string[];
+}>;
+type ObligationProjection = Readonly<{ obligation_id: string; lean_constructor: string; family: ObligationFamily; relationship_ids: readonly string[] }>;
+type WitnessProjection = Readonly<{ witness_id: string; lean_constructor: string; edge_id: string; obligation_id: string }>;
+type LeanModuleSetProjection = Readonly<{
+  schema_version: "domainspec.formalization-lean-module-set-projection/v1-candidate";
+  sha256: string;
+  modules: readonly Readonly<{ filename: string; sha256: string }>[];
+}>;
+
+export interface FormalizationRenderPayload {
+  readonly schema_version: "domainspec.meta-type-formalization-render-payload/v1-candidate";
+  readonly baseline: BaselineProjection;
+  readonly relationship_authority: RelationshipAuthorityProjection;
+  readonly lean_module_set: LeanModuleSetProjection;
+  readonly project_graph: ProjectGraphProjection;
+  readonly meta_types: readonly MetaTypeProjection[];
+  readonly relationships: readonly RelationshipProjection[];
+  readonly obligation_catalog: readonly ObligationProjection[];
+  readonly applicable_witnesses: readonly WitnessProjection[];
+  readonly graph_certificate: GraphBoundCertificate;
+  readonly typescript_projection: TypeScriptProjectionPayload;
+}
+
 export interface MetaTypeFormalizationProjection {
   readonly schema_version: "domainspec.meta-type-formalization-projection/v2-candidate";
   readonly authority_effect: "none";
   readonly claim_ceiling: "compiled-project-graph-projection-only-no-runtime-conformance-or-authority";
-  readonly baseline: Readonly<{ id: string; digest: string; manifest_sha256: string }>;
-  readonly relationship_authority: Readonly<{ path: string; sha256: string; signature_count: 31 }>;
-  readonly project_graph: Readonly<{ project_id: string; source_manifest_sha256: string; graph_sha256: string; nodes: readonly ProjectNodeProjection[]; edges: readonly ProjectEdgeProjection[] }>;
-  readonly meta_types: readonly Readonly<{ label: string; lean_constructor: string; partition: "backend" | "ui-supporting-context" }>[];
-  readonly relationships: readonly Readonly<{
-    id: string; lean_constructor: string; source_types: readonly string[]; target_types: readonly string[]; scopes: readonly string[];
-    multiplicity: string; inverse_kind: "none" | "generated_view"; obligation_ids: readonly string[];
-  }>[];
-  readonly obligation_catalog: readonly Readonly<{ obligation_id: string; lean_constructor: string; family: ObligationFamily; relationship_ids: readonly string[] }>[];
-  readonly applicable_witnesses: readonly Readonly<{ witness_id: string; lean_constructor: string; edge_id: string; obligation_id: string }>[];
+  readonly render_payload_sha256: string;
+  readonly render_payload: FormalizationRenderPayload;
+  /** Compatibility views. Rendering is exclusively controlled by render_payload. */
+  readonly baseline: BaselineProjection;
+  readonly relationship_authority: RelationshipAuthorityProjection;
+  readonly project_graph: ProjectGraphProjection;
+  readonly meta_types: readonly MetaTypeProjection[];
+  readonly relationships: readonly RelationshipProjection[];
+  readonly obligation_catalog: readonly ObligationProjection[];
+  readonly applicable_witnesses: readonly WitnessProjection[];
 }
 
 export class FormalizationProjectionError extends Error {
@@ -65,7 +110,13 @@ export class FormalizationProjectionError extends Error {
   constructor(readonly code: string, message: string) { super(message); this.name = "FormalizationProjectionError"; }
 }
 function fail(code: string, message: string): never { throw new FormalizationProjectionError(code, message); }
-function sha256(text: string): string { return crypto.createHash("sha256").update(text).digest("hex"); }
+function deepFreeze<T>(value: T): T {
+  if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
+    for (const child of Object.values(value as Record<string, unknown>)) deepFreeze(child);
+    Object.freeze(value);
+  }
+  return value;
+}
 function leanList(values: readonly string[]): string { return `[${values.map((value) => `.${value}`).join(", ")}]`; }
 function leanStringList(values: readonly string[]): string { return `[${values.map((value) => JSON.stringify(value)).join(", ")}]`; }
 function leanStateTransitionList(values: readonly StateTransitionProjection[]): string {
@@ -94,7 +145,10 @@ function edgeScope(edge: DecodedRelationship, signature: FrozenRelationshipSigna
   return fail("MTCLI_FORMALIZE_SCOPE", `compiled feature edge has no admitted scope:${edge.edge_id}`);
 }
 
-export function createMetaTypeFormalizationProjection(graph: CompiledProjectGraph): MetaTypeFormalizationProjection {
+function createMetaTypeFormalizationProjectionWithModuleSet(
+  graph: CompiledProjectGraph,
+  leanModuleSet: FormalizationLeanModuleSet,
+): MetaTypeFormalizationProjection {
   if (graph.schema_version !== "domainspec.compiled-project-graph/v1-candidate" || graph.authority_effect !== "none") fail("MTCLI_FORMALIZE_GRAPH", "formalize requires the decoded, non-effectful project graph");
   const backend = FROZEN_META_TYPE_CATALOG.backend_meta_types.map(({ label }) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "backend" as const }));
   const ui = UI_META_TYPES.map((label) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "ui-supporting-context" as const }));
@@ -175,33 +229,82 @@ export function createMetaTypeFormalizationProjection(graph: CompiledProjectGrap
     return Object.freeze({ witness_id: witnessId, lean_constructor: leanIdentifier(witnessId), edge_id: edge.edge_id, obligation_id: obligationId });
   }));
   if (backend.length !== 13 || ui.length !== 11 || relationships.length !== 31 || obligationCatalog.length !== 45) fail("MTCLI_FORMALIZE_COVERAGE", "formalization source denominator drift");
-  const graphIdentity = { project_id: graph.project_id, source_manifest_sha256: graph.source_manifest.manifest_sha256, nodes: graphNodes, edges: graphEdges };
-  return Object.freeze({
+  const graphIdentity = {
+    project_id: graph.project_id,
+    source_manifest_sha256: graph.source_manifest.manifest_sha256,
+    source_bytes_sha256: graph.source_manifest.aggregate_sha256,
+    nodes: graphNodes,
+    edges: graphEdges,
+  };
+  const refinement = createCompilerRefinementOutput(graph, { nodes: graphNodes, edges: graphEdges });
+  const graphSha256 = refinement.certificate.graph_sha256;
+  const renderPayload = deepFreeze<FormalizationRenderPayload>({
+    schema_version: "domainspec.meta-type-formalization-render-payload/v1-candidate",
+    baseline: { id: FROZEN_META_TYPE_CATALOG.baseline_id, digest: FROZEN_META_TYPE_CATALOG.baseline_digest, manifest_sha256: FROZEN_META_TYPE_CATALOG.manifest_sha256 },
+    relationship_authority: { path: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_path, sha256: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_sha256, signature_count: 31 },
+    lean_module_set: {
+      schema_version: "domainspec.formalization-lean-module-set-projection/v1-candidate",
+      sha256: leanModuleSet.sha256,
+      modules: leanModuleSet.modules.map(({ filename, sha256: moduleSha256 }) => Object.freeze({ filename, sha256: moduleSha256 })),
+    },
+    project_graph: { ...graphIdentity, graph_sha256: graphSha256 },
+    meta_types: [...backend, ...ui],
+    relationships,
+    obligation_catalog: obligationCatalog,
+    applicable_witnesses: applicableWitnesses,
+    graph_certificate: refinement.certificate,
+    typescript_projection: refinement.typescript_projection,
+  });
+  const renderPayloadSha256 = sha256(JSON.stringify(renderPayload));
+  return deepFreeze({
     schema_version: "domainspec.meta-type-formalization-projection/v2-candidate", authority_effect: "none",
     claim_ceiling: "compiled-project-graph-projection-only-no-runtime-conformance-or-authority",
-    baseline: Object.freeze({ id: FROZEN_META_TYPE_CATALOG.baseline_id, digest: FROZEN_META_TYPE_CATALOG.baseline_digest, manifest_sha256: FROZEN_META_TYPE_CATALOG.manifest_sha256 }),
-    relationship_authority: Object.freeze({ path: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_path, sha256: FROZEN_RELATIONSHIP_AUTHORITY_V1.source_sha256, signature_count: 31 }),
-    project_graph: Object.freeze({ ...graphIdentity, graph_sha256: sha256(JSON.stringify(graphIdentity)) }), meta_types: Object.freeze([...backend, ...ui]),
-    relationships: Object.freeze(relationships), obligation_catalog: Object.freeze(obligationCatalog), applicable_witnesses: Object.freeze(applicableWitnesses),
+    render_payload_sha256: renderPayloadSha256,
+    render_payload: renderPayload,
+    baseline: renderPayload.baseline,
+    relationship_authority: renderPayload.relationship_authority,
+    project_graph: renderPayload.project_graph,
+    meta_types: renderPayload.meta_types,
+    relationships: renderPayload.relationships,
+    obligation_catalog: renderPayload.obligation_catalog,
+    applicable_witnesses: renderPayload.applicable_witnesses,
   });
+}
+
+export function createMetaTypeFormalizationProjection(graph: CompiledProjectGraph): MetaTypeFormalizationProjection {
+  return createMetaTypeFormalizationProjectionWithModuleSet(graph, formalizationLeanModuleSet());
+}
+
+/** Internal deterministic seam for module source-sensitivity tests; not exported by the package root. */
+export function createMetaTypeFormalizationProjectionForModuleSources(
+  graph: CompiledProjectGraph,
+  sources: FormalizationLeanModuleSources,
+): MetaTypeFormalizationProjection {
+  return createMetaTypeFormalizationProjectionWithModuleSet(graph, createFormalizationLeanModuleSet(sources));
 }
 
 export function formalizationProjectionSha256(projection: MetaTypeFormalizationProjection): string { return sha256(JSON.stringify(projection)); }
 
 export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizationProjection): string {
-  const meta = projection.meta_types.map(({ lean_constructor }) => lean_constructor);
-  const relations = projection.relationships;
-  const obligations = projection.obligation_catalog;
+  const payload = projection.render_payload;
+  if (sha256(JSON.stringify(payload)) !== projection.render_payload_sha256) {
+    fail("MTCLI_FORMALIZE_PAYLOAD_DIGEST", "formalization render payload digest is stale");
+  }
+  const meta = payload.meta_types.map(({ lean_constructor }) => lean_constructor);
+  const relations = payload.relationships;
+  const obligations = payload.obligation_catalog;
   const signatureRows = relations.map((relation) => `  | .${relation.lean_constructor} => ⟨${leanList(relation.source_types)}, ${leanList(relation.target_types)}, ${leanList(relation.scopes)}, .${relation.multiplicity}, .${relation.inverse_kind === "generated_view" ? "generatedView" : "none"}, ${leanList(relation.obligation_ids.map(leanIdentifier))}⟩`);
   const familyRows = obligations.map((obligation) => `  | .${obligation.lean_constructor} => .${leanIdentifier(obligation.family)}`);
-  const nodeRows = projection.project_graph.nodes.map((node) => `  ⟨${JSON.stringify(node.selector)}, ${JSON.stringify(node.feature_id)}, ${JSON.stringify(node.node_id)}, .${node.meta_type}, ${leanStringList(node.generated_creation_targets)}, ${leanStringList(node.authored_forbidden_projection_attributes)}, ${leanStringList(node.typed_field_ids)}, ${leanStringList(node.typed_field_type_refs)}, ${JSON.stringify(node.entity_identity_field)}, ${node.value_object_structural_equality}, ${leanStringList(node.enum_values)}, ${JSON.stringify(node.event_type)}, ${JSON.stringify(node.event_version)}, ${JSON.stringify(node.event_occurrence_field)}, ${JSON.stringify(node.event_occurred_at_policy)}, ${JSON.stringify(node.interface_boundary_kind)}, ${JSON.stringify(node.interface_version)}, ${JSON.stringify(node.interface_compatibility)}, ${leanStringList(node.interface_operation_refs)}, ${leanStringList(node.state_machine_states)}, ${JSON.stringify(node.state_machine_initial)}, ${leanStateTransitionList(node.state_machine_transitions)}⟩`);
-  const edgeRows = projection.project_graph.edges.map((edge) => `  ⟨${JSON.stringify(edge.edge_id)}, .${edge.relation}, .${edge.scope}, ${JSON.stringify(edge.source_selector)}, ${JSON.stringify(edge.target_selector)}, .${edge.source_type}, .${edge.target_type}, ${JSON.stringify(edge.authored_relationship_id)}, ${leanStringList(edge.source_generated_creation_targets)}, ${edge.source_authored_generated_projection}⟩`);
-  const witnessRows = projection.applicable_witnesses.map((witness) => `  ⟨${JSON.stringify(witness.witness_id)}, ${JSON.stringify(witness.edge_id)}, .${leanIdentifier(witness.obligation_id)}⟩`);
+  const nodeRows = payload.project_graph.nodes.map((node) => `  ⟨${JSON.stringify(node.selector)}, ${JSON.stringify(node.feature_id)}, ${JSON.stringify(node.node_id)}, .${node.meta_type}, ${leanStringList(node.generated_creation_targets)}, ${leanStringList(node.authored_forbidden_projection_attributes)}, ${leanStringList(node.typed_field_ids)}, ${leanStringList(node.typed_field_type_refs)}, ${JSON.stringify(node.entity_identity_field)}, ${node.value_object_structural_equality}, ${leanStringList(node.enum_values)}, ${JSON.stringify(node.event_type)}, ${JSON.stringify(node.event_version)}, ${JSON.stringify(node.event_occurrence_field)}, ${JSON.stringify(node.event_occurred_at_policy)}, ${JSON.stringify(node.interface_boundary_kind)}, ${JSON.stringify(node.interface_version)}, ${JSON.stringify(node.interface_compatibility)}, ${leanStringList(node.interface_operation_refs)}, ${leanStringList(node.state_machine_states)}, ${JSON.stringify(node.state_machine_initial)}, ${leanStateTransitionList(node.state_machine_transitions)}⟩`);
+  const edgeRows = payload.project_graph.edges.map((edge) => `  ⟨${JSON.stringify(edge.edge_id)}, .${edge.relation}, .${edge.scope}, ${JSON.stringify(edge.source_selector)}, ${JSON.stringify(edge.target_selector)}, .${edge.source_type}, .${edge.target_type}, ${JSON.stringify(edge.authored_relationship_id)}, ${leanStringList(edge.source_generated_creation_targets)}, ${edge.source_authored_generated_projection}⟩`);
+  const witnessRows = payload.applicable_witnesses.map((witness) => `  ⟨${JSON.stringify(witness.witness_id)}, ${JSON.stringify(witness.edge_id)}, .${leanIdentifier(witness.obligation_id)}⟩`);
   return [
-    "/- Generated by domainspec-v2 formalize from one compiled project graph. Do not hand-edit.", `   Project: ${projection.project_graph.project_id}.`,
-    `   Source manifest: ${projection.project_graph.source_manifest_sha256}.`, `   Compiled graph: ${projection.project_graph.graph_sha256}.`,
-    `   Baseline: ${projection.baseline.id} (${projection.baseline.digest}).`, `   Relationship authority: ${projection.relationship_authority.path} (${projection.relationship_authority.sha256}). -/`,
-    "namespace DomainSpec.CurrentGenerated", "",
+    "import DomainSpecMetaTypeTypeScriptProjectionRefinement", "",
+    "/- Generated by domainspec-v2 formalize from one compiled project graph. Do not hand-edit.", `   Project: ${payload.project_graph.project_id}.`,
+    `   Source manifest: ${payload.project_graph.source_manifest_sha256}.`, `   Source bytes: ${payload.project_graph.source_bytes_sha256}.`,
+    `   Compiled graph: ${payload.project_graph.graph_sha256}.`, `   Reusable Lean module set: ${payload.lean_module_set.sha256}.`, `   Render payload: ${projection.render_payload_sha256}.`,
+    `   Baseline: ${payload.baseline.id} (${payload.baseline.digest}).`, `   Relationship authority: ${payload.relationship_authority.path} (${payload.relationship_authority.sha256}). -/`,
+    "namespace DomainSpec.CurrentGenerated", "", `def reusableLeanModuleSetSha256 : String := ${JSON.stringify(payload.lean_module_set.sha256)}`, "",
     `inductive MetaType | ${meta.join(" | ")} deriving DecidableEq, BEq, Repr`, `def allMetaTypes : List MetaType := ${leanList(meta)}`,
     "theorem allMetaTypes_count : allMetaTypes.length = 24 := by decide", "theorem allMetaTypes_complete : ∀ m : MetaType, allMetaTypes.contains m = true := by intro m; cases m <;> decide", "",
     `inductive Relation | ${relations.map(({ lean_constructor }) => lean_constructor).join(" | ")} deriving DecidableEq, BEq, Repr`,
@@ -215,9 +318,9 @@ export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizatio
     "inductive Multiplicity | oneToOne | oneToMany | oneToManyOrdered | manyToOne | manyToMany deriving DecidableEq, BEq, Repr",
     "inductive InverseKind | none | generatedView deriving DecidableEq, BEq, Repr", "structure RelationshipSignature where", "  sourceTypes : List MetaType", "  targetTypes : List MetaType", "  scopes : List FeatureScope", "  multiplicity : Multiplicity", "  inverse : InverseKind", "  obligations : List ObligationId", "def signature : Relation → RelationshipSignature", ...signatureRows, "",
     "structure StateTransition where", "  transitionId : String", "  sourceState : String", "  targetState : String", "  guardRef : String", "  effectEventRef : String", "  deriving DecidableEq, BEq, Repr", "",
-    "structure ProjectNode where", "  selector : String", "  featureId : String", "  nodeId : String", "  metaType : MetaType", "  generatedCreationTargets : List String", "  authoredForbiddenProjectionAttributes : List String", "  typedFieldIds : List String", "  typedFieldTypeRefs : List String", "  entityIdentityField : String", "  valueObjectStructuralEquality : Bool", "  enumValues : List String", "  eventType : String", "  eventVersion : String", "  eventOccurrenceField : String", "  eventOccurredAtPolicy : String", "  interfaceBoundaryKind : String", "  interfaceVersion : String", "  interfaceCompatibility : String", "  interfaceOperationRefs : List String", "  stateMachineStates : List String", "  stateMachineInitial : String", "  stateMachineTransitions : List StateTransition", "  deriving Repr",
+    "structure ProjectNode where", "  selector : String", "  featureId : String", "  nodeId : String", "  metaType : MetaType", "  generatedCreationTargets : List String", "  authoredForbiddenProjectionAttributes : List String", "  typedFieldIds : List String", "  typedFieldTypeRefs : List String", "  entityIdentityField : String", "  valueObjectStructuralEquality : Bool", "  enumValues : List String", "  eventType : String", "  eventVersion : String", "  eventOccurrenceField : String", "  eventOccurredAtPolicy : String", "  interfaceBoundaryKind : String", "  interfaceVersion : String", "  interfaceCompatibility : String", "  interfaceOperationRefs : List String", "  stateMachineStates : List String", "  stateMachineInitial : String", "  stateMachineTransitions : List StateTransition", "  deriving DecidableEq, BEq, Repr",
     `def projectNodes : List ProjectNode := [\n${nodeRows.join(",\n")}\n]`, "",
-    "structure ProjectEdge where", "  edgeId : String", "  relation : Relation", "  scope : FeatureScope", "  sourceSelector : String", "  targetSelector : String", "  sourceType : MetaType", "  targetType : MetaType", "  authoredRelationshipId : String", "  sourceGeneratedCreationTargets : List String", "  sourceAuthoredGeneratedProjection : Bool", "  deriving Repr",
+    "structure ProjectEdge where", "  edgeId : String", "  relation : Relation", "  scope : FeatureScope", "  sourceSelector : String", "  targetSelector : String", "  sourceType : MetaType", "  targetType : MetaType", "  authoredRelationshipId : String", "  sourceGeneratedCreationTargets : List String", "  sourceAuthoredGeneratedProjection : Bool", "  deriving DecidableEq, BEq, Repr",
     `def projectEdges : List ProjectEdge := [\n${edgeRows.join(",\n")}\n]`, "",
     "def endpointAllowed (edge : ProjectEdge) : Bool :=", "  (signature edge.relation).sourceTypes.contains edge.sourceType &&", "  (signature edge.relation).targetTypes.contains edge.targetType",
     "def scopeAllowed (edge : ProjectEdge) : Bool := (signature edge.relation).scopes.contains edge.scope",
@@ -288,20 +391,196 @@ export function renderLeanMetaTypeFormalization(projection: MetaTypeFormalizatio
     "  else match obligationFamily obligation with", "    | .endpoint => endpointAllowed edge", "    | .scope => scopeAllowed edge", "    | .multiplicity => multiplicityAllowed edges edge", "    | .generatedProjection => false", "    | .inverseCollapse => inverseCollapseAllowed edges edge", "    | .deprecation => false", "",
     "structure ApplicableObligationWitness where", "  witnessId : String", "  edgeId : String", "  obligation : ObligationId", "  deriving Repr",
     `def applicableWitnesses : List ApplicableObligationWitness := [\n${witnessRows.join(",\n")}\n]`, "def witnessHolds (witness : ApplicableObligationWitness) : Bool :=", "  match projectEdges.find? (fun edge => edge.edgeId == witness.edgeId) with", "  | some edge => (signature edge.relation).obligations.contains witness.obligation && obligationHolds projectEdges witness.obligation edge", "  | none => false",
-    "theorem allApplicableWitnessesHold : ∀ witness ∈ applicableWitnesses, witnessHolds witness = true := by decide", "", "end DomainSpec.CurrentGenerated", "",
+    "theorem allApplicableWitnessesHold : ∀ witness ∈ applicableWitnesses, witnessHolds witness = true := by decide", "",
+    "open DomainSpec.MetaTypeKernel",
+    "open DomainSpec.MetaTypeCompilerRefinement",
+    "open DomainSpec.MetaTypeTypeScriptProjectionRefinement", "",
+    "structure RefinedProjectGraph where",
+    "  nodes : List ProjectNode",
+    "  edges : List ProjectEdge",
+    "  deriving DecidableEq, BEq, Repr",
+    "def refinedProjectGraph : RefinedProjectGraph := ⟨projectNodes, projectEdges⟩",
+    "def refinedStaticConforms (graph : RefinedProjectGraph) : Bool :=",
+    "  decide (graph = refinedProjectGraph)",
+    "theorem refinedProjectGraphStaticConforms : refinedStaticConforms refinedProjectGraph = true := by decide", "",
+    "theorem refinedStaticConformanceSound (graph : RefinedProjectGraph)",
+    "    (checked : refinedStaticConforms graph = true) :",
+    "    graph = refinedProjectGraph ∧",
+    "    (∀ node ∈ graph.nodes, l1RoleHolds node = true) ∧",
+    "    (∀ node ∈ graph.nodes, stateMachineHolds node = true) ∧",
+    "    (∀ witness ∈ applicableWitnesses, witnessHolds witness = true) := by",
+    "  have graphExact : graph = refinedProjectGraph := by",
+    "    simpa [refinedStaticConforms] using checked",
+    "  subst graph",
+    "  exact ⟨rfl, by simpa [refinedProjectGraph] using allProjectL1RolesHold, by simpa [refinedProjectGraph] using allProjectStateMachinesHold, allApplicableWitnessesHold⟩", "",
+    `def currentSourceIdentity : SourceIdentity := ⟨${JSON.stringify(payload.typescript_projection.project_id)}, ${JSON.stringify(payload.typescript_projection.source_manifest_sha256)}, ${JSON.stringify(payload.typescript_projection.source_bytes_sha256)}⟩`,
+    "def unboundSourceIdentity : SourceIdentity := ⟨\"\", \"\", \"\"⟩",
+    "def currentTheory : Theory RefinedProjectGraph := {",
+    "  staticConforms := refinedStaticConforms",
+    `  graphDigest := fun graph => if graph == refinedProjectGraph then ${JSON.stringify(payload.typescript_projection.graph_sha256)} else ""`,
+    "  sourceIdentity := fun graph => if graph == refinedProjectGraph then currentSourceIdentity else unboundSourceIdentity",
+    "}", "",
+    "def currentTypeScriptProjection : TypeScriptProjectionPayload RefinedProjectGraph := {",
+    "  graph := refinedProjectGraph",
+    `  projectId := ${JSON.stringify(payload.typescript_projection.project_id)}`,
+    `  sourceManifestSha256 := ${JSON.stringify(payload.typescript_projection.source_manifest_sha256)}`,
+    `  sourceBytesSha256 := ${JSON.stringify(payload.typescript_projection.source_bytes_sha256)}`,
+    `  graphSha256 := ${JSON.stringify(payload.typescript_projection.graph_sha256)}`,
+    "}",
+    "def currentCheckedProjectionInput : CheckedProjectionInput RefinedProjectGraph :=",
+    "  lowerTypeScriptProjection currentTypeScriptProjection", "",
+    "theorem typescriptProjectionRefinesCheckedInput :",
+    "    currentCheckedProjectionInput.graph = currentTypeScriptProjection.graph ∧",
+    "    currentCheckedProjectionInput.certificate.graphSha256 = currentTypeScriptProjection.graphSha256 ∧",
+    "    currentCheckedProjectionInput.certificate.sourceIdentity.projectId = currentTypeScriptProjection.projectId ∧",
+    "    currentCheckedProjectionInput.certificate.sourceIdentity.sourceManifestSha256 = currentTypeScriptProjection.sourceManifestSha256 ∧",
+    "    currentCheckedProjectionInput.certificate.sourceIdentity.sourceBytesSha256 = currentTypeScriptProjection.sourceBytesSha256 :=",
+    "  lowerTypeScriptProjection_refines_checked_input currentTypeScriptProjection", "",
+    "theorem currentCertificateChecks :",
+    "    checkCertificate currentTheory currentCheckedProjectionInput.graph currentCheckedProjectionInput.certificate = true := by decide",
+    "theorem currentCompilerEmitsCertificate :",
+    "    compileChecked currentTheory currentCheckedProjectionInput = some currentCheckedProjectionInput.certificate := by decide",
+    "theorem currentCompileSuccessImpliesBoundStaticConformance :",
+    "    GraphDigestBound currentTheory currentCheckedProjectionInput.graph currentCheckedProjectionInput.certificate ∧",
+    "    SourceIdentityBound currentTheory currentCheckedProjectionInput.graph currentCheckedProjectionInput.certificate ∧",
+    "    StaticConforms currentTheory currentCheckedProjectionInput.graph :=",
+    "  compile_success_implies_static_conformance currentTheory currentCheckedProjectionInput currentCheckedProjectionInput.certificate currentCompilerEmitsCertificate", "",
+    "theorem currentCompileSuccessCarriesGeneratedObligations :",
+    "    (∀ node ∈ currentCheckedProjectionInput.graph.nodes, l1RoleHolds node = true) ∧",
+    "    (∀ node ∈ currentCheckedProjectionInput.graph.nodes, stateMachineHolds node = true) ∧",
+    "    (∀ witness ∈ applicableWitnesses, witnessHolds witness = true) :=",
+    "  (refinedStaticConformanceSound currentCheckedProjectionInput.graph currentCompileSuccessImpliesBoundStaticConformance.2.2).2", "",
+    "def forgedGraphDigestProjection : TypeScriptProjectionPayload RefinedProjectGraph :=",
+    `  { currentTypeScriptProjection with graphSha256 := ${JSON.stringify("0".repeat(64))} }`,
+    "theorem conformingGraphWithForgedDigestRejected :",
+    "    checkCertificate currentTheory (lowerTypeScriptProjection forgedGraphDigestProjection).graph (lowerTypeScriptProjection forgedGraphDigestProjection).certificate = false := by decide", "",
+    "def forgedSourceIdentityProjection : TypeScriptProjectionPayload RefinedProjectGraph :=",
+    "  { currentTypeScriptProjection with projectId := \"forged-project\" }",
+    "theorem conformingGraphWithForgedSourceIdentityRejected :",
+    "    checkCertificate currentTheory (lowerTypeScriptProjection forgedSourceIdentityProjection).graph (lowerTypeScriptProjection forgedSourceIdentityProjection).certificate = false := by decide", "",
+    "end DomainSpec.CurrentGenerated", "",
   ].join("\n");
 }
 
-export function materializeLeanMetaTypeFormalization(graph: CompiledProjectGraph, targetPath: string): Readonly<{ projection_sha256: string; project_graph_sha256: string; target_path: string }> {
-  if (!path.isAbsolute(targetPath)) fail("MTCLI_FORMALIZE_TARGET", "formalize target must be absolute");
-  const projection = createMetaTypeFormalizationProjection(graph);
-  fs.mkdirSync(path.dirname(targetPath), { recursive: true });
-  fs.writeFileSync(targetPath, renderLeanMetaTypeFormalization(projection), { encoding: "utf8", flag: "wx" });
-  return Object.freeze({ projection_sha256: formalizationProjectionSha256(projection), project_graph_sha256: projection.project_graph.graph_sha256, target_path: targetPath });
+interface FormalizationMaterializationHooks {
+  readonly before_publish?: (stagingDirectory: string, targetDirectory: string) => void;
 }
-export function checkLeanMetaTypeFormalization(graph: CompiledProjectGraph, targetPath: string): Readonly<{ projection_sha256: string; project_graph_sha256: string; target_path: string; current: boolean }> {
+
+export interface FormalizationMaterializationResult {
+  readonly projection_sha256: string;
+  readonly render_payload_sha256: string;
+  readonly project_graph_sha256: string;
+  readonly lean_module_set_sha256: string;
+  readonly proof_unit_sha256: string;
+  readonly target_path: string;
+  readonly module_paths: readonly string[];
+}
+
+interface FormalizationProofUnit {
+  readonly projection: MetaTypeFormalizationProjection;
+  readonly sources: readonly Readonly<{ filename: string; target: string; source: string }>[];
+  readonly proof_unit_sha256: string;
+}
+
+function createFormalizationProofUnit(
+  graph: CompiledProjectGraph,
+  targetPath: string,
+  moduleSources: FormalizationLeanModuleSources,
+): FormalizationProofUnit {
+  const directory = path.dirname(targetPath);
+  const targetFilename = path.basename(targetPath);
+  if (FORMALIZATION_LEAN_MODULE_FILENAMES.includes(targetFilename as typeof FORMALIZATION_LEAN_MODULE_FILENAMES[number])) {
+    fail("MTCLI_FORMALIZE_TARGET", `generated module filename is reserved:${targetFilename}`);
+  }
+  const moduleSet = createFormalizationLeanModuleSet(moduleSources);
+  const projection = createMetaTypeFormalizationProjectionWithModuleSet(graph, moduleSet);
+  const sources = Object.freeze([
+    ...moduleSet.modules.map(({ filename, source }) => Object.freeze({ filename, target: path.join(directory, filename), source })),
+    Object.freeze({ filename: targetFilename, target: targetPath, source: renderLeanMetaTypeFormalization(projection) }),
+  ]);
+  return deepFreeze({
+    projection,
+    sources,
+    proof_unit_sha256: sha256(JSON.stringify(sources.map(({ filename, source }) => ({ filename, source })))),
+  });
+}
+
+/** Internal deterministic seam for module source-sensitivity tests; not exported by the package root. */
+export function createFormalizationProofUnitForModuleSources(
+  graph: CompiledProjectGraph,
+  targetPath: string,
+  moduleSources: FormalizationLeanModuleSources,
+): Readonly<{ projection: MetaTypeFormalizationProjection; proof_unit_sha256: string }> {
+  const proofUnit = createFormalizationProofUnit(graph, targetPath, moduleSources);
+  return deepFreeze({ projection: proofUnit.projection, proof_unit_sha256: proofUnit.proof_unit_sha256 });
+}
+
+function materializationResult(proofUnit: FormalizationProofUnit, targetPath: string): FormalizationMaterializationResult {
+  return deepFreeze({
+    projection_sha256: formalizationProjectionSha256(proofUnit.projection),
+    render_payload_sha256: proofUnit.projection.render_payload_sha256,
+    project_graph_sha256: proofUnit.projection.project_graph.graph_sha256,
+    lean_module_set_sha256: proofUnit.projection.render_payload.lean_module_set.sha256,
+    proof_unit_sha256: proofUnit.proof_unit_sha256,
+    target_path: targetPath,
+    module_paths: proofUnit.sources.slice(0, -1).map(({ target }) => target),
+  });
+}
+
+function materializeLeanMetaTypeFormalizationWithHooks(
+  graph: CompiledProjectGraph,
+  targetPath: string,
+  hooks: FormalizationMaterializationHooks = {},
+): FormalizationMaterializationResult {
+  if (!path.isAbsolute(targetPath)) fail("MTCLI_FORMALIZE_TARGET", "formalize target must be absolute");
+  const proofUnit = createFormalizationProofUnit(graph, targetPath, formalizationLeanModuleSources());
+  const targetDirectory = path.dirname(targetPath);
+  const targetParent = path.dirname(targetDirectory);
+  fs.mkdirSync(targetParent, { recursive: true });
+  if (fs.existsSync(targetDirectory)) fail("MTCLI_FORMALIZE_TARGET_EXISTS", `formalization target directory already exists:${targetDirectory}`);
+  const stagingDirectory = fs.mkdtempSync(path.join(targetParent, `.${path.basename(targetDirectory)}.formalize-`));
+  try {
+    for (const item of proofUnit.sources) {
+      fs.writeFileSync(path.join(stagingDirectory, item.filename), item.source, { encoding: "utf8", flag: "wx" });
+    }
+    hooks.before_publish?.(stagingDirectory, targetDirectory);
+    if (fs.existsSync(targetDirectory)) fail("MTCLI_FORMALIZE_TARGET_EXISTS", "a competing writer created the formalization target directory");
+    fs.renameSync(stagingDirectory, targetDirectory);
+  } catch (error) {
+    if (fs.existsSync(stagingDirectory)) fs.rmSync(stagingDirectory, { recursive: true, force: true });
+    if (["EEXIST", "ENOTEMPTY"].includes((error as NodeJS.ErrnoException).code ?? "")) {
+      fail("MTCLI_FORMALIZE_TARGET_EXISTS", "a competing writer created the formalization target directory");
+    }
+    throw error;
+  }
+  return materializationResult(proofUnit, targetPath);
+}
+
+export function materializeLeanMetaTypeFormalization(
+  graph: CompiledProjectGraph,
+  targetPath: string,
+): FormalizationMaterializationResult {
+  return materializeLeanMetaTypeFormalizationWithHooks(graph, targetPath);
+}
+
+/** Internal hostile-race seam; not exported by the package root. */
+export function materializeLeanMetaTypeFormalizationForTest(
+  graph: CompiledProjectGraph,
+  targetPath: string,
+  hooks: FormalizationMaterializationHooks,
+): FormalizationMaterializationResult {
+  return materializeLeanMetaTypeFormalizationWithHooks(graph, targetPath, hooks);
+}
+
+export function checkLeanMetaTypeFormalization(graph: CompiledProjectGraph, targetPath: string): FormalizationMaterializationResult & Readonly<{ current: boolean }> {
   if (!path.isAbsolute(targetPath)) fail("MTCLI_FORMALIZE_TARGET", "formalize-check target must be absolute");
-  const projection = createMetaTypeFormalizationProjection(graph);
-  const current = fs.existsSync(targetPath) && fs.readFileSync(targetPath, "utf8") === renderLeanMetaTypeFormalization(projection);
-  return Object.freeze({ projection_sha256: formalizationProjectionSha256(projection), project_graph_sha256: projection.project_graph.graph_sha256, target_path: targetPath, current });
+  const proofUnit = createFormalizationProofUnit(graph, targetPath, formalizationLeanModuleSources());
+  const targetDirectory = path.dirname(targetPath);
+  const expectedFilenames = proofUnit.sources.map(({ filename }) => filename).sort();
+  const actualFilenames = fs.existsSync(targetDirectory) && fs.statSync(targetDirectory).isDirectory()
+    ? fs.readdirSync(targetDirectory).sort()
+    : [];
+  const current = JSON.stringify(actualFilenames) === JSON.stringify(expectedFilenames)
+    && proofUnit.sources.every(({ target, source }) => fs.readFileSync(target, "utf8") === source);
+  return deepFreeze({ ...materializationResult(proofUnit, targetPath), current });
 }
