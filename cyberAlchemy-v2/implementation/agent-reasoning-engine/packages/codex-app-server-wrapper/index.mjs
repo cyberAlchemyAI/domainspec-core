@@ -8,16 +8,37 @@ export {evaluateDualLaneContinuation, normalizeContinuationProposals} from "./sr
 export {createEvidenceLedger} from "./src/evidence-ledger.mjs";
 export {createCodexAppServerWrapper} from "./src/wrapper.mjs";
 export {
+  acquireReasoningStateWriterLock,
+  bindCacheTelemetryObservation,
+  appendReasoningCounterevidence,
+  appendReasoningStateReduction,
+  assessReasoningStateTransition,
+  checkpointReasoningStateByRisk,
+  compareReasoningProvenance,
   createAppendOnlyFileReasoningStateSink,
   createMemoryReasoningStateSink,
   createReasoningStateLedger,
+  createReasoningStateBranch,
+  deriveReasoningReplayFixture,
+  executeReasoningStateTransition,
+  exportPortableReasoningEpoch,
+  importPortableReasoningEpoch,
+  materializeCacheAffinityProjection,
+  REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA,
+  planReasoningStateTransition,
   getReasoningStateFrontier,
   listReasoningStateFrontiers,
   rebuildReasoningStateIndexes,
   recoverReasoningStateLedger,
+  selectReasoningCheckpointPolicy,
+  selectReusableCounterevidence,
   sealReasoningStateFrontier,
   selectRecoverableCheckpoint,
   verifyReasoningStateFrontier,
+  verifyReasoningStateTransitionPlan,
+  verifyReasoningStateTransitionReceipt,
+  verifyReasoningReplayFixture,
+  verifyPortableReasoningEpoch,
   verifyReasoningStateLog,
 } from "../reasoning-state-runtime/index.mjs";
 export {CODEX_SEMANTIC_COMPLETION_SCHEMA, evaluateSemanticCompletion} from "./src/semantic-completion.mjs";
@@ -28,7 +49,17 @@ export {
 } from "./src/reasoning-receipt-constraints.mjs";
 export {runStdioProxy} from "./src/stdio-proxy.mjs";
 export {resolveBackendCommand, spawnCodexBackend} from "./src/backend.mjs";
-export {createPersistentGateway, GATEWAY_CONNECT_SCHEMA, GATEWAY_CONNECTED_SCHEMA} from "./src/gateway.mjs";
+export {
+  ACKNOWLEDGED_CONTINUITY_MODE,
+  createPersistentGateway,
+  GATEWAY_ACK_SCHEMA,
+  GATEWAY_CONNECT_SCHEMA,
+  GATEWAY_CONNECTED_SCHEMA,
+  GATEWAY_DELIVERY_SCHEMA,
+  GATEWAY_SESSION_EXPIRATION_SCHEMA,
+  GATEWAY_REQUEST_META_KEY,
+} from "./src/gateway.mjs";
+export {deriveGatewayReasoningStateProfile} from "./src/gateway-reasoning-state.mjs";
 export {runGatewayClientProxy} from "./src/gateway-client.mjs";
 export {connectGatewayRpcTransport} from "./src/gateway-client.mjs";
 export {AppServerRpcError, createAppServerRpcClient, spawnAppServerRpcTransport} from "./src/rpc-client.mjs";

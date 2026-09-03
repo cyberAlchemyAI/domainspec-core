@@ -1,13 +1,18 @@
-import {randomUUID} from "node:crypto";
-import {chmodSync, existsSync, lstatSync, unlinkSync} from "node:fs";
+import {randomBytes, randomUUID, timingSafeEqual} from "node:crypto";
+import {chmodSync, existsSync, lstatSync, statSync, unlinkSync} from "node:fs";
 import {createServer} from "node:net";
 
 import {spawnCodexBackend} from "./backend.mjs";
-import {freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
+import {digestValue, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
 import {jsonLine, jsonRpcError, parseJsonLine} from "./protocol.mjs";
 
 export const GATEWAY_CONNECT_SCHEMA = "are.codex-gateway-connect/v1";
 export const GATEWAY_CONNECTED_SCHEMA = "are.codex-gateway-connected/v1";
+export const GATEWAY_DELIVERY_SCHEMA = "are.codex-gateway-delivery/v1";
+export const GATEWAY_ACK_SCHEMA = "are.codex-gateway-ack/v1";
+export const GATEWAY_REQUEST_META_KEY = "_are_gateway";
+export const ACKNOWLEDGED_CONTINUITY_MODE = "acknowledged-v1";
+export const GATEWAY_SESSION_EXPIRATION_SCHEMA = "are.codex-session-expiration/v1";
 const LANES = new Set(["plan-bound", "interaction-bound"]);
 
 function send(stream, value) {
@@ -19,7 +24,41 @@ function validateHandshake(value) {
     return {ok: false, reason: "gateway.handshake-invalid"};
   }
   if (value.consumer_id.length > 256) return {ok: false, reason: "gateway.consumer-id-too-long"};
-  return {ok: true, value: {consumer_id: value.consumer_id, lane: value.lane}};
+  let continuity = null;
+  if (value.continuity !== undefined) {
+    if (!isRecord(value.continuity) || value.continuity.mode !== ACKNOWLEDGED_CONTINUITY_MODE) {
+      return {ok: false, reason: "gateway.continuity-mode-invalid"};
+    }
+    if (value.continuity.resume_token !== undefined && (!nonEmptyString(value.continuity.resume_token) || value.continuity.resume_token.length > 256)) {
+      return {ok: false, reason: "gateway.resume-token-invalid"};
+    }
+    const lastAcked = value.continuity.last_acked_sequence ?? 0;
+    if (!Number.isSafeInteger(lastAcked) || lastAcked < 0) return {ok: false, reason: "gateway.ack-sequence-invalid"};
+    const aliases = value.continuity.request_aliases ?? [];
+    if (!Array.isArray(aliases) || aliases.length > 256 || aliases.some((alias) => !isRecord(alias) || !nonEmptyString(alias.request_key) || alias.request_key.length > 256 || !Object.hasOwn(alias, "client_id"))) {
+      return {ok: false, reason: "gateway.request-aliases-invalid"};
+    }
+    continuity = {mode: value.continuity.mode, resume_token: value.continuity.resume_token ?? null, last_acked_sequence: lastAcked, request_aliases: aliases};
+  }
+  return {ok: true, value: {consumer_id: value.consumer_id, lane: value.lane, continuity}};
+}
+
+function sameSecret(left, right) {
+  if (!nonEmptyString(left) || !nonEmptyString(right)) return false;
+  const a = Buffer.from(left);
+  const b = Buffer.from(right);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+function requestMetadata(message) {
+  const metadata = message?.[GATEWAY_REQUEST_META_KEY];
+  if (metadata === undefined) return {ok: true, request_key: null, message};
+  if (!isRecord(metadata) || !nonEmptyString(metadata.request_key) || metadata.request_key.length > 256) {
+    return {ok: false, reason: "gateway.request-key-invalid"};
+  }
+  const clean = {...message};
+  delete clean[GATEWAY_REQUEST_META_KEY];
+  return {ok: true, request_key: metadata.request_key, message: clean};
 }
 
 function removeSocketPath(path) {
@@ -48,7 +87,7 @@ function createLineReader(stream, onLine, onOverflow, initial = "") {
   return () => stream.off("data", onData);
 }
 
-function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, maxBufferedMessages, reconnectEnabled, onBackendStderr, onClosed}) {
+function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, maxBufferedMessages, reconnectEnabled, continuityMode, detachTimeoutMs, idleTimeoutMs, maxRetainedBytes, maxReasoningLogBytes, evictionRetryMs, onBackendStderr, onClosed, onExpired}) {
   const child = spawnCodexBackend(backend, spawnImpl, WebSocketImpl);
   let client = null;
   let detachReader = null;
@@ -57,41 +96,384 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
   let closed = false;
   let closeReason = null;
   const buffered = [];
+  const resumeToken = continuityMode === ACKNOWLEDGED_CONTINUITY_MODE ? randomBytes(32).toString("base64url") : null;
+  const resumeTokenDigest = resumeToken ? digestValue(resumeToken) : null;
+  const deliveries = new Map();
+  const deliveredThisAttachment = new Set();
+  let deliverySequence = 0;
+  let acknowledgedThrough = 0;
+  const stableRequests = new Map();
+  const upstreamRequests = new Map();
+  const attachmentRequestKeys = new Set();
+  const serverRequests = new Map();
+  let upstreamRequestSequence = 0;
+  let deduplicatedRequestCount = 0;
+  let deduplicatedServerResponseCount = 0;
   let reconnectCount = 0;
+  let initialization = freezeResult({status: "not-started", binding_digest: null, request_id: null, result: null, result_digest: null});
+  let initializationForwardCount = 0;
+  let initializationReplayCount = 0;
+  const pendingInitializationAliases = new Map();
+  let lastActivityAt = Date.now();
+  let detachedAt = null;
+  let lifecycleTimer = null;
+  let evictionInProgress = false;
+  let evictionAttemptCount = 0;
+  let lastEvictionBlock = null;
+  let expirationReceipt = null;
 
-  function emitClient(value) {
+  function touch() {
+    lastActivityAt = Date.now();
+    if (!client) scheduleLifecycleCheck();
+  }
+
+  function reasoningLogBytes() {
+    const path = wrapper.inspectState?.()?.reasoning_state?.sink?.path;
+    if (!nonEmptyString(path)) return 0;
+    try { return statSync(path).size; } catch { return 0; }
+  }
+
+  function retainedProtocolBytes() {
+    let bytes = buffered.reduce((sum, value) => sum + Buffer.byteLength(value), 0);
+    for (const delivery of deliveries.values()) bytes += Buffer.byteLength(jsonLine(delivery));
+    for (const entry of stableRequests.values()) {
+      bytes += Buffer.byteLength(entry.request_key) + Buffer.byteLength(entry.binding_digest);
+      if (entry.response) bytes += Buffer.byteLength(JSON.stringify(entry.response));
+    }
+    return bytes;
+  }
+
+  function lifecycleReason(now = Date.now()) {
+    if ((continuityMode === ACKNOWLEDGED_CONTINUITY_MODE ? deliveries.size : buffered.length) > maxBufferedMessages) return "buffered-message-limit";
+    if (retainedProtocolBytes() > maxRetainedBytes) return "retained-byte-limit";
+    if (reasoningLogBytes() > maxReasoningLogBytes) return "reasoning-log-byte-limit";
+    if (client) return null;
+    if (detachTimeoutMs > 0 && detachedAt !== null && now - detachedAt >= detachTimeoutMs) return "detach-timeout";
+    if (idleTimeoutMs > 0 && now - lastActivityAt >= idleTimeoutMs) return "idle-timeout";
+    return null;
+  }
+
+  function lifecycleDelay(now = Date.now()) {
+    const candidates = [];
+    if (detachTimeoutMs > 0 && detachedAt !== null) candidates.push(Math.max(1, detachTimeoutMs - (now - detachedAt)));
+    if (idleTimeoutMs > 0) candidates.push(Math.max(1, idleTimeoutMs - (now - lastActivityAt)));
+    return candidates.length > 0 ? Math.min(...candidates) : evictionRetryMs;
+  }
+
+  function scheduleLifecycleCheck(delay = lifecycleDelay()) {
+    if (closed || client) return;
+    clearTimeout(lifecycleTimer);
+    lifecycleTimer = setTimeout(runLifecycleCheck, delay);
+    lifecycleTimer.unref?.();
+  }
+
+  function safeToEvict() {
+    if ([...stableRequests.values()].some((entry) => entry.status !== "complete")) return {ok: false, reason_codes: ["session.pending-stable-request"]};
+    if ([...serverRequests.values()].some((entry) => entry.status === "pending")) return {ok: false, reason_codes: ["session.pending-server-request"]};
+    if (initialization.status === "pending") return {ok: false, reason_codes: ["session.pending-initialization"]};
+    if (typeof wrapper.prepareForEviction !== "function") return {ok: false, reason_codes: ["session.eviction-checkpoint-unsupported"]};
+    return wrapper.prepareForEviction({reason: lifecycleReason() ?? "session-lifecycle-expiry", consumer_id: metadata.consumer_id, lane: metadata.lane});
+  }
+
+  function runLifecycleCheck() {
+    lifecycleTimer = null;
+    if (closed || client || evictionInProgress) return;
+    const reason = lifecycleReason();
+    if (!reason) {
+      scheduleLifecycleCheck();
+      return;
+    }
+    evictionInProgress = true;
+    evictionAttemptCount += 1;
+    const prepared = safeToEvict();
+    evictionInProgress = false;
+    if (!prepared?.ok) {
+      lastEvictionBlock = freezeResult({reason_codes: prepared?.reason_codes ?? ["session.eviction-preparation-failed"], observed_at: new Date().toISOString()});
+      scheduleLifecycleCheck(evictionRetryMs);
+      return;
+    }
+    const expiredAt = new Date().toISOString();
+    expirationReceipt = freezeResult({
+      schema_version: GATEWAY_SESSION_EXPIRATION_SCHEMA,
+      consumer_id: metadata.consumer_id,
+      lane: metadata.lane,
+      reason: `gateway.session-${reason}`,
+      resume_token_digest: resumeTokenDigest,
+      retained_protocol_bytes: retainedProtocolBytes(),
+      reasoning_log_bytes: reasoningLogBytes(),
+      checkpoint_digest: prepared.checkpoint_digest,
+      reasoning_epoch_digest: prepared.epoch_digest,
+      preparation_digest: prepared.preparation_digest,
+      expired_at: expiredAt,
+      authority_effect: "none",
+    });
+    onExpired(metadata.consumer_id, api, expirationReceipt);
+    stop(expirationReceipt.reason);
+  }
+
+  function initializationBinding(message) {
+    return digestValue({method: "initialize", params: Object.hasOwn(message, "params") ? message.params : null});
+  }
+
+  function initializationError(id, reason, actualBindingDigest) {
+    return jsonRpcError(id, -32092, "Gateway initialization binding failed", {
+      reason_codes: [reason],
+      expected_binding_digest: initialization.binding_digest,
+      actual_binding_digest: actualBindingDigest,
+      authority_effect: "none",
+    });
+  }
+
+  function interceptInitialization(message) {
+    if (message.method !== "initialize" || !Object.hasOwn(message, "id")) return false;
+    const bindingDigest = initializationBinding(message);
+    if (initialization.status === "complete") {
+      if (bindingDigest !== initialization.binding_digest) {
+        emitClient(initializationError(message.id, "gateway.initialize-binding-mismatch", bindingDigest));
+      } else {
+        initializationReplayCount += 1;
+        emitClient({jsonrpc: "2.0", id: message.id, result: initialization.result});
+      }
+      return true;
+    }
+    if (initialization.status === "pending") {
+      if (bindingDigest !== initialization.binding_digest) {
+        emitClient(initializationError(message.id, "gateway.initialize-binding-mismatch", bindingDigest));
+      } else if (String(message.id) !== String(initialization.request_id)) {
+        pendingInitializationAliases.set(String(message.id), message.id);
+      }
+      return true;
+    }
+    initialization = freezeResult({status: "pending", binding_digest: bindingDigest, request_id: message.id, result: null, result_digest: null});
+    return false;
+  }
+
+  function observeInitializationResponse(message) {
+    if (initialization.status !== "pending" || !Object.hasOwn(message, "id") || String(message.id) !== String(initialization.request_id)) return;
+    if (Object.hasOwn(message, "result") && !Object.hasOwn(message, "error")) {
+      initialization = freezeResult({status: "complete", binding_digest: initialization.binding_digest, request_id: initialization.request_id, result: message.result, result_digest: digestValue(message.result)});
+      for (const id of pendingInitializationAliases.values()) {
+        initializationReplayCount += 1;
+        emitClient({jsonrpc: "2.0", id, result: initialization.result});
+      }
+      pendingInitializationAliases.clear();
+      return;
+    }
+    for (const id of pendingInitializationAliases.values()) emitClient({...message, id});
+    pendingInitializationAliases.clear();
+    initialization = freezeResult({status: "not-started", binding_digest: null, request_id: null, result: null, result_digest: null});
+  }
+
+  function initializationReceipt() {
+    return freezeResult({
+      status: initialization.status,
+      binding_digest: initialization.binding_digest,
+      ...(initialization.status === "complete" ? {result: initialization.result, result_digest: initialization.result_digest} : {}),
+      authority_effect: "none",
+    });
+  }
+
+  function encodeDelivery(value, requestKey = null) {
+    const sequence = ++deliverySequence;
+    const delivery = {schema_version: GATEWAY_DELIVERY_SCHEMA, sequence, message: value, ...(requestKey ? {request_key: requestKey} : {}), authority_effect: "none"};
+    deliveries.set(sequence, delivery);
+    return jsonLine(delivery);
+  }
+
+  function emitClient(value, requestKey = null) {
+    touch();
+    if (continuityMode === ACKNOWLEDGED_CONTINUITY_MODE) {
+      const encoded = encodeDelivery(value, requestKey);
+      if (client && !client.destroyed) {
+        client.write(encoded);
+        deliveredThisAttachment.add(deliverySequence);
+      }
+      if (deliveries.size > maxBufferedMessages || retainedProtocolBytes() > maxRetainedBytes) {
+        if (client && !client.destroyed) client.end();
+        else scheduleLifecycleCheck(1);
+      }
+      return;
+    }
     const encoded = jsonLine(value);
     if (client && !client.destroyed) {
       client.write(encoded);
       return;
     }
     buffered.push(encoded);
-    if (buffered.length > maxBufferedMessages) stop("gateway.detached-buffer-overflow");
+    if (buffered.length > maxBufferedMessages || retainedProtocolBytes() > maxRetainedBytes) scheduleLifecycleCheck(1);
+  }
+
+  function acknowledge(message) {
+    if (continuityMode !== ACKNOWLEDGED_CONTINUITY_MODE || !isRecord(message) || message.schema_version !== GATEWAY_ACK_SCHEMA) return false;
+    const through = message.through_sequence;
+    if (!Number.isSafeInteger(through) || through < acknowledgedThrough || through > deliverySequence) {
+      stop("gateway.ack-sequence-invalid");
+      return true;
+    }
+    acknowledgedThrough = through;
+    for (const sequence of [...deliveries.keys()]) if (sequence <= through) deliveries.delete(sequence);
+    touch();
+    return true;
+  }
+
+  function stableRequestError(id, reason, requestKey, expectedDigest = null, actualDigest = null) {
+    return jsonRpcError(id, -32093, "Gateway stable request binding failed", {
+      reason_codes: [reason], request_key: requestKey, expected_binding_digest: expectedDigest, actual_binding_digest: actualDigest, authority_effect: "none",
+    });
+  }
+
+  function rebindStableRequest(requestKey, clientId) {
+    const entry = stableRequests.get(requestKey);
+    if (!entry) return {ok: false, reason: "gateway.request-alias-not-found"};
+    entry.client_id = clientId;
+    for (const delivery of deliveries.values()) {
+      if (delivery.request_key !== requestKey || !Object.hasOwn(delivery.message, "id")) continue;
+      delivery.message = {...delivery.message, id: clientId};
+    }
+    return {ok: true};
+  }
+
+  function interceptStableRequest(message, requestKey) {
+    if (!requestKey || !message.method || !Object.hasOwn(message, "id")) return {intercepted: false};
+    const bindingDigest = digestValue({method: message.method, params: Object.hasOwn(message, "params") ? message.params : null});
+    const existing = stableRequests.get(requestKey);
+    if (existing) {
+      if (existing.binding_digest !== bindingDigest) {
+        emitClient(stableRequestError(message.id, "gateway.request-binding-mismatch", requestKey, existing.binding_digest, bindingDigest));
+      } else {
+        deduplicatedRequestCount += 1;
+        attachmentRequestKeys.add(requestKey);
+        rebindStableRequest(requestKey, message.id);
+        if (existing.status === "complete" && ![...deliveries.values()].some((delivery) => delivery.request_key === requestKey)) {
+          emitClient({...existing.response, id: message.id}, requestKey);
+        }
+        flushBuffered();
+      }
+      return {intercepted: true};
+    }
+    const upstreamId = `are-gateway:${metadata.consumer_id}:${++upstreamRequestSequence}`;
+    const entry = {request_key: requestKey, method: message.method, binding_digest: bindingDigest, wrapper_id: message.id, client_id: message.id, upstream_id: upstreamId, status: "preparing", response: null, response_digest: null};
+    stableRequests.set(requestKey, entry);
+    upstreamRequests.set(String(upstreamId), entry);
+    return {intercepted: false, entry};
   }
 
   function processClientLine(line) {
     clientChain = clientChain.then(async () => {
+      touch();
+      let control;
+      try { control = JSON.parse(line); } catch { control = null; }
+      if (control?.schema_version === GATEWAY_ACK_SCHEMA) {
+        acknowledge(control);
+        return;
+      }
       const parsed = parseJsonLine(line);
       if (!parsed.ok) {
         emitClient(jsonRpcError(null, -32700, "Parse error", parsed));
         return;
       }
-      const actions = await wrapper.processClientMessage(parsed.value);
-      for (const message of actions.to_server) send(child.stdin, message);
-      for (const message of actions.to_client) emitClient(message);
+      const resourceReason = lifecycleReason();
+      if (resourceReason === "retained-byte-limit" || resourceReason === "reasoning-log-byte-limit") {
+        emitClient(jsonRpcError(parsed.value?.id ?? null, -32095, "Gateway session resource limit reached", {
+          reason_codes: [`gateway.session-${resourceReason}`],
+          retained_protocol_bytes: retainedProtocolBytes(),
+          reasoning_log_bytes: reasoningLogBytes(),
+          authority_effect: "none",
+        }));
+        if (client && !client.destroyed) client.end();
+        return;
+      }
+      const metadataResult = requestMetadata(parsed.value);
+      if (!metadataResult.ok) {
+        emitClient(stableRequestError(parsed.value?.id ?? null, metadataResult.reason, null));
+        return;
+      }
+      const message = metadataResult.message;
+      const serverRequest = !message.method && Object.hasOwn(message, "id") ? serverRequests.get(String(message.id)) : null;
+      if (serverRequest?.status === "forwarded") {
+        const responseDigest = digestValue(message);
+        if (responseDigest !== serverRequest.response_digest) {
+          emitClient(jsonRpcError(message.id, -32094, "Gateway server-request response binding failed", {
+            reason_codes: ["gateway.server-response-binding-mismatch"],
+            expected_response_digest: serverRequest.response_digest,
+            actual_response_digest: responseDigest,
+            authority_effect: "none",
+          }));
+        } else deduplicatedServerResponseCount += 1;
+        return;
+      }
+      if (interceptInitialization(message)) return;
+      const stable = interceptStableRequest(message, metadataResult.request_key);
+      if (stable.intercepted) return;
+      let actions;
+      try {
+        actions = await wrapper.processClientMessage(message);
+      } catch (error) {
+        if (stable.entry) {
+          stableRequests.delete(stable.entry.request_key);
+          upstreamRequests.delete(String(stable.entry.upstream_id));
+        }
+        throw error;
+      }
+      const forwardedInitialization = actions.to_server.some((candidate) => candidate.method === "initialize" && String(candidate.id) === String(message.id));
+      if (forwardedInitialization) initializationForwardCount += 1;
+      else if (message.method === "initialize" && initialization.status === "pending" && String(initialization.request_id) === String(message.id)) {
+        initialization = freezeResult({status: "not-started", binding_digest: null, request_id: null, result: null, result_digest: null});
+      }
+      let forwardedStable = false;
+      for (const candidate of actions.to_server) {
+        if (stable.entry && candidate.method === message.method && String(candidate.id) === String(message.id)) {
+          stable.entry.status = "pending";
+          forwardedStable = true;
+          send(child.stdin, {...candidate, id: stable.entry.upstream_id});
+        } else send(child.stdin, candidate);
+        if (serverRequest && Object.hasOwn(candidate, "id") && String(candidate.id) === String(message.id)) {
+          serverRequest.status = "forwarded";
+          serverRequest.response_digest = digestValue(message);
+        }
+      }
+      for (const candidate of actions.to_client) {
+        if (stable.entry && Object.hasOwn(candidate, "id") && String(candidate.id) === String(message.id)) {
+          stable.entry.status = "complete";
+          stable.entry.response = candidate;
+          stable.entry.response_digest = digestValue(candidate);
+          upstreamRequests.delete(String(stable.entry.upstream_id));
+          emitClient(candidate, stable.entry.request_key);
+        } else emitClient(candidate);
+      }
+      if (stable.entry && !forwardedStable && stable.entry.status === "preparing") {
+        stableRequests.delete(stable.entry.request_key);
+        upstreamRequests.delete(String(stable.entry.upstream_id));
+      }
     }).catch((error) => emitClient(jsonRpcError(null, -32603, "Gateway client-path failure", {message: error.message})));
   }
 
   const detachServerReader = createLineReader(child.stdout, (line) => {
     serverChain = serverChain.then(async () => {
+      touch();
       const parsed = parseJsonLine(line);
       if (!parsed.ok) {
         emitClient(jsonRpcError(null, -32700, "App-server parse error", parsed));
         return;
       }
-      const actions = await wrapper.processServerMessage(parsed.value);
+      const stable = Object.hasOwn(parsed.value, "id") ? upstreamRequests.get(String(parsed.value.id)) : null;
+      const wrapperMessage = stable ? {...parsed.value, id: stable.wrapper_id} : parsed.value;
+      const actions = await wrapper.processServerMessage(wrapperMessage);
+      observeInitializationResponse(wrapperMessage);
       for (const message of actions.to_server) send(child.stdin, message);
-      for (const message of actions.to_client) emitClient(message);
+      for (const message of actions.to_client) {
+        if (message.method && Object.hasOwn(message, "id")) {
+          serverRequests.set(String(message.id), {method: message.method, request_digest: digestValue(message), status: "pending", response_digest: null});
+        }
+        if (stable && Object.hasOwn(message, "id") && String(message.id) === String(stable.wrapper_id)) {
+          const response = {...message, id: stable.client_id};
+          stable.status = "complete";
+          stable.response = {...message};
+          stable.response_digest = digestValue(stable.response);
+          upstreamRequests.delete(String(stable.upstream_id));
+          emitClient(response, stable.request_key);
+        } else emitClient(message);
+      }
     }).catch((error) => emitClient(jsonRpcError(null, -32603, "Gateway server-path failure", {message: error.message})));
   }, () => stop("gateway.upstream-line-too-large"));
 
@@ -107,10 +489,31 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     stop("gateway.upstream-failed", false, false);
   });
 
-  function attach(socket) {
+  function attach(socket, continuity = null) {
     if (closed) return {ok: false, reason: closeReason ?? "gateway.session-closed"};
     if (client && !client.destroyed) return {ok: false, reason: "gateway.consumer-already-attached"};
+    attachmentRequestKeys.clear();
+    deliveredThisAttachment.clear();
+    if (continuityMode === ACKNOWLEDGED_CONTINUITY_MODE) {
+      if (!continuity || continuity.mode !== ACKNOWLEDGED_CONTINUITY_MODE) return {ok: false, reason: "gateway.resume-authentication-required"};
+      if (reconnectCount > 0 && !sameSecret(continuity.resume_token, resumeToken)) return {ok: false, reason: "gateway.resume-authentication-failed"};
+      if (continuity.last_acked_sequence > deliverySequence) return {ok: false, reason: "gateway.ack-sequence-invalid"};
+      acknowledgedThrough = Math.max(acknowledgedThrough, continuity.last_acked_sequence);
+      for (const sequence of [...deliveries.keys()]) if (sequence <= acknowledgedThrough) deliveries.delete(sequence);
+      for (const alias of continuity.request_aliases) {
+        if (!stableRequests.has(alias.request_key)) return {ok: false, reason: "gateway.request-alias-not-found"};
+      }
+      for (const alias of continuity.request_aliases) {
+        const rebound = rebindStableRequest(alias.request_key, alias.client_id);
+        if (!rebound.ok) return rebound;
+        attachmentRequestKeys.add(alias.request_key);
+      }
+    }
     client = socket;
+    clearTimeout(lifecycleTimer);
+    lifecycleTimer = null;
+    detachedAt = null;
+    touch();
     reconnectCount += 1;
     detachReader = createLineReader(socket, processClientLine, () => stop("gateway.client-line-too-large"));
     const detach = () => {
@@ -118,7 +521,9 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
       detachReader?.();
       detachReader = null;
       client = null;
+      detachedAt = Date.now();
       if (!reconnectEnabled) stop("gateway.client-disconnected");
+      else scheduleLifecycleCheck(lifecycleReason() ? 1 : lifecycleDelay());
     };
     socket.once("close", detach);
     socket.once("error", detach);
@@ -127,6 +532,15 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
 
   function flushBuffered() {
     if (!client || client.destroyed) return;
+    if (continuityMode === ACKNOWLEDGED_CONTINUITY_MODE) {
+      for (const delivery of [...deliveries.values()].sort((a, b) => a.sequence - b.sequence)) {
+        if (delivery.request_key && !attachmentRequestKeys.has(delivery.request_key)) break;
+        if (deliveredThisAttachment.has(delivery.sequence)) continue;
+        client.write(jsonLine(delivery));
+        deliveredThisAttachment.add(delivery.sequence);
+      }
+      return;
+    }
     for (const encoded of buffered.splice(0)) client.write(encoded);
   }
 
@@ -134,6 +548,8 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     if (closed) return;
     closed = true;
     closeReason = reason;
+    clearTimeout(lifecycleTimer);
+    lifecycleTimer = null;
     detachReader?.();
     detachServerReader();
     if (client && !client.destroyed) {
@@ -142,12 +558,15 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     }
     client = null;
     if (killChild && typeof child.kill === "function") child.kill("SIGTERM");
+    if (typeof wrapper.close === "function") wrapper.close();
     onClosed(metadata.consumer_id, api);
   }
 
   const api = Object.freeze({
     attach,
     flushBuffered,
+    initializationReceipt,
+    resumeToken: () => resumeToken,
     stop,
     metadata: freezeResult(metadata),
     child,
@@ -155,8 +574,37 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
       consumer_id: metadata.consumer_id,
       lane: metadata.lane,
       attached: Boolean(client && !client.destroyed),
-      buffered_messages: buffered.length,
+      buffered_messages: continuityMode === ACKNOWLEDGED_CONTINUITY_MODE ? deliveries.size : buffered.length,
+      continuity_mode: continuityMode,
+      resume_token_digest: resumeTokenDigest,
+      delivery_sequence: deliverySequence,
+      acknowledged_through: acknowledgedThrough,
+      unacknowledged_deliveries: deliveries.size,
+      stable_requests: [...stableRequests.values()].map((entry) => ({request_key: entry.request_key, method: entry.method, binding_digest: entry.binding_digest, status: entry.status, response_digest: entry.response_digest})).sort((a, b) => a.request_key.localeCompare(b.request_key)),
+      upstream_request_count: upstreamRequestSequence,
+      deduplicated_request_count: deduplicatedRequestCount,
+      pending_server_requests: [...serverRequests.entries()].filter(([, entry]) => entry.status === "pending").map(([id]) => id).sort(),
+      forwarded_server_responses: [...serverRequests.values()].filter((entry) => entry.status === "forwarded").length,
+      deduplicated_server_response_count: deduplicatedServerResponseCount,
       reconnect_count: reconnectCount,
+      initialization_status: initialization.status,
+      initialization_binding_digest: initialization.binding_digest,
+      initialization_forward_count: initializationForwardCount,
+      initialization_replay_count: initializationReplayCount,
+      pending_initialization_aliases: pendingInitializationAliases.size,
+      lifecycle: {
+        last_activity_at: new Date(lastActivityAt).toISOString(),
+        detached_at: detachedAt === null ? null : new Date(detachedAt).toISOString(),
+        detach_timeout_ms: detachTimeoutMs,
+        idle_timeout_ms: idleTimeoutMs,
+        retained_protocol_bytes: retainedProtocolBytes(),
+        max_retained_bytes: maxRetainedBytes,
+        reasoning_log_bytes: reasoningLogBytes(),
+        max_reasoning_log_bytes: maxReasoningLogBytes,
+        eviction_attempt_count: evictionAttemptCount,
+        last_eviction_block: lastEvictionBlock,
+        expiration_receipt: expirationReceipt,
+      },
       closed,
       close_reason: closeReason,
       wrapper_state: typeof wrapper.inspectState === "function" ? wrapper.inspectState() : null,
@@ -171,17 +619,39 @@ export function createPersistentGateway(options = {}) {
   if (typeof options.wrapper_factory !== "function") throw new TypeError("A wrapper_factory is required.");
   const maxClients = options.max_clients ?? 8;
   const maxBufferedMessages = options.max_buffered_messages_per_client ?? 256;
+  const detachTimeoutMs = options.detach_timeout_ms ?? 300_000;
+  const idleTimeoutMs = options.idle_timeout_ms ?? 1_800_000;
+  const maxRetainedBytes = options.max_retained_bytes_per_session ?? 4 * 1024 * 1024;
+  const maxReasoningLogBytes = options.max_reasoning_log_bytes_per_session ?? 64 * 1024 * 1024;
+  const expirationTombstoneTtlMs = options.expiration_tombstone_ttl_ms ?? 3_600_000;
+  const evictionRetryMs = options.eviction_retry_ms ?? 1_000;
   if (!Number.isSafeInteger(maxClients) || maxClients < 1) throw new TypeError("max_clients must be a positive safe integer.");
   if (!Number.isSafeInteger(maxBufferedMessages) || maxBufferedMessages < 1) throw new TypeError("max_buffered_messages_per_client must be a positive safe integer.");
+  for (const [name, value] of [["detach_timeout_ms", detachTimeoutMs], ["idle_timeout_ms", idleTimeoutMs]]) {
+    if (!Number.isSafeInteger(value) || value < 0) throw new TypeError(`${name} must be a non-negative safe integer.`);
+  }
+  for (const [name, value] of [["max_retained_bytes_per_session", maxRetainedBytes], ["max_reasoning_log_bytes_per_session", maxReasoningLogBytes], ["expiration_tombstone_ttl_ms", expirationTombstoneTtlMs], ["eviction_retry_ms", evictionRetryMs]]) {
+    if (!Number.isSafeInteger(value) || value < 1) throw new TypeError(`${name} must be a positive safe integer.`);
+  }
   const runtimeEpochId = options.runtime_epoch_id ?? `are-gateway-runtime:${randomUUID()}`;
   const reconnectEnabled = options.reconnect !== false;
   const sessions = new Map();
+  const expiredSessions = new Map();
   const authorizeClient = options.authorize_client ?? (() => true);
   const server = createServer();
   let started = false;
 
   function closeSession(consumerId, session) {
     if (sessions.get(consumerId) === session) sessions.delete(consumerId);
+  }
+
+  function recordExpiration(consumerId, session, receipt) {
+    expiredSessions.set(consumerId, {session, receipt, retain_until: Date.now() + expirationTombstoneTtlMs});
+  }
+
+  function pruneExpirations() {
+    const now = Date.now();
+    for (const [consumerId, entry] of expiredSessions) if (entry.retain_until <= now) expiredSessions.delete(consumerId);
   }
 
   server.on("connection", (socket) => {
@@ -207,6 +677,7 @@ export function createPersistentGateway(options = {}) {
         return;
       }
       const metadata = handshake.value;
+      pruneExpirations();
       let session = sessions.get(metadata.consumer_id);
       if (session && session.metadata.lane !== metadata.lane) {
         send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.consumer-lane-mismatch", authority_effect: "none"});
@@ -214,6 +685,13 @@ export function createPersistentGateway(options = {}) {
         return;
       }
       if (!session) {
+        if (metadata.continuity?.resume_token) {
+          const expired = expiredSessions.get(metadata.consumer_id);
+          const authenticatedExpiration = expired && digestValue(metadata.continuity.resume_token) === expired.receipt.resume_token_digest;
+          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: authenticatedExpiration ? "gateway.session-expired" : "gateway.resume-session-missing", ...(authenticatedExpiration ? {expiration: expired.receipt} : {}), authority_effect: "none"});
+          socket.end();
+          return;
+        }
         if (sessions.size >= maxClients) {
           send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.max-clients-reached", authority_effect: "none"});
           socket.end();
@@ -229,8 +707,15 @@ export function createPersistentGateway(options = {}) {
             WebSocketImpl: options.websocket_impl,
             maxBufferedMessages,
             reconnectEnabled,
+            continuityMode: metadata.continuity?.mode ?? null,
+            detachTimeoutMs,
+            idleTimeoutMs,
+            maxRetainedBytes,
+            maxReasoningLogBytes,
+            evictionRetryMs,
             onBackendStderr: options.on_backend_stderr ?? (() => {}),
             onClosed: closeSession,
+            onExpired: recordExpiration,
           });
         } catch (error) {
           send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-start-failed", detail: error.message, authority_effect: "none"});
@@ -239,13 +724,14 @@ export function createPersistentGateway(options = {}) {
         }
         sessions.set(metadata.consumer_id, session);
       }
-      const attached = session.attach(socket);
+      const attached = session.attach(socket, metadata.continuity);
       if (!attached.ok) {
         send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: attached.reason, authority_effect: "none"});
         socket.end();
         return;
       }
-      send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: true, consumer_id: metadata.consumer_id, lane: metadata.lane, runtime_epoch_id: runtimeEpochId, resumed: session.inspect().reconnect_count > 1, authority_effect: "none"});
+      const state = session.inspect();
+      send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: true, consumer_id: metadata.consumer_id, lane: metadata.lane, runtime_epoch_id: runtimeEpochId, resumed: state.reconnect_count > 1, initialization: session.initializationReceipt(), ...(state.continuity_mode === ACKNOWLEDGED_CONTINUITY_MODE ? {continuity: {mode: ACKNOWLEDGED_CONTINUITY_MODE, resume_token: session.resumeToken(), resume_token_digest: state.resume_token_digest, acknowledged_through: state.acknowledged_through, next_sequence: state.delivery_sequence + 1}} : {}), authority_effect: "none"});
       setImmediate(() => session.flushBuffered());
       if (remainder) socket.emit("data", Buffer.from(remainder));
     };
@@ -271,6 +757,7 @@ export function createPersistentGateway(options = {}) {
     for (const session of [...sessions.values()]) session.stop("gateway.shutdown");
     if (started) await new Promise((resolveClose) => server.close(resolveClose));
     started = false;
+    expiredSessions.clear();
     removeSocketPath(options.listen_path);
   }
 
@@ -278,14 +765,18 @@ export function createPersistentGateway(options = {}) {
     start,
     close,
     server,
-    inspect: () => freezeResult({
+    inspect: () => {
+      pruneExpirations();
+      return freezeResult({
       schema_version: "are.codex-persistent-gateway-state/v1",
       runtime_epoch_id: runtimeEpochId,
       listen_path: options.listen_path,
       started,
       sessions: [...sessions.values()].map((session) => session.inspect()).sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
+      expired_sessions: [...expiredSessions.values()].map((entry) => entry.receipt).sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
       authority_effect: "none",
-    }),
+      });
+    },
   });
   return api;
 }

@@ -7,6 +7,7 @@ import {fileURLToPath} from "node:url";
 
 import {
   approvalAccepted,
+  CACHE_AFFINITY_KEY,
   CONTEXT_KEY,
   createAppendOnlyFileReasoningStateSink,
   createCodexAppServerWrapper,
@@ -47,17 +48,6 @@ function wrapper(overrides = {}) {
 
 function turnStart(id, text, threadId = "thread-1", extras = {}) {
   return {jsonrpc: "2.0", id, method: "turn/start", params: {threadId, input: [{type: "text", text}], ...extras}};
-}
-
-function forwardedContext(result) {
-  const context = result.to_server[0].params.additionalContext;
-  const manifest = JSON.parse(context[CONTEXT_KEY].value);
-  const includedItems = Object.values(context)
-    .map((entry) => {
-      try { return JSON.parse(entry.value); } catch { return null; }
-    })
-    .filter((value) => value?.schema_version === "are.context-item/v1");
-  return {...manifest, included_items: includedItems};
 }
 
 function completed(threadId = "thread-1", turnId = "turn-1") {
@@ -128,8 +118,8 @@ async function startAndBind(instance, {id, text, threadId, turnId}) {
 test("repository profile verifies exact sources and materializes production inputs", () => {
   assert.equal(loaded.decision_profile.profile_id, "cyberalchemy-fast-routing");
   assert.ok(loaded.definition_catalog.definitions.length > 20);
-  assert.equal(loaded.ontology_snapshot.nodes.length, 50);
-  assert.equal(loaded.ontology_snapshot.edges.length, 82);
+  assert.equal(loaded.ontology_snapshot.nodes.length, 67);
+  assert.equal(loaded.ontology_snapshot.edges.length, 91);
   assert.deepEqual(loaded.value.semantic_evaluation, {enabled: false, trigger: "turn/completed"});
   assert.deepEqual(loaded.value.runtime_journal, {journal_id: "are-codex-runtime:domainspec-core", max_events: 4096, max_closed_turns: 256});
   assert.deepEqual(loaded.value.gateway, {
@@ -137,6 +127,17 @@ test("repository profile verifies exact sources and materializes production inpu
     max_clients: 8,
     max_buffered_messages_per_client: 256,
     reconnect: true,
+    detach_timeout_ms: 300000,
+    idle_timeout_ms: 1800000,
+    max_retained_bytes_per_session: 4194304,
+    max_reasoning_log_bytes_per_session: 67108864,
+    expiration_tombstone_ttl_ms: 3600000,
+    eviction_retry_ms: 1000,
+    reasoning_state: {
+      mode: "file-per-consumer",
+      directory: resolve(packageRoot, ".runtime/reasoning-state"),
+      single_writer: true,
+    },
     allowed_clients: [
       {consumer_id: "codex:benchmark", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:human-chat", lane: "interaction-bound", window_ref: null, request_id: null},
@@ -194,16 +195,16 @@ test("obvious Research preflight forwards a bounded inline Context Envelope", as
   assert.equal(result.to_client.length, 0);
   const entry = result.to_server[0].params.additionalContext[CONTEXT_KEY];
   assert.equal(entry.kind, "application");
-  const fragment = forwardedContext(result);
+  const fragment = JSON.parse(entry.value);
   assert.equal(fragment.route_id, "CA2-ROUTE-RESEARCH");
-  assert.equal(fragment.schema_version, "are.codex-context-manifest/v1");
-  assert.equal(fragment.context_fragment_schema_version, "are.codex-context-fragment/v2");
-  assert.equal(fragment.included_item_count, fragment.included_items.length);
+  assert.equal(fragment.schema_version, "are.codex-context-fragment/v2");
   assert.equal(fragment.view_lane, "interaction-bound");
   assert.equal(fragment.inline_bytes <= 32768, true);
   assert.equal(fragment.included_items.length > 0, true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "definition" && typeof item.content.text === "string"), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && typeof item.content.intent === "string"), true);
+  assert.equal(fragment.context_use_contract.schema_version, "are.codex-context-use-contract/v1");
+  assert.equal(fragment.context_use_contract.authority_effect, "none");
   assert.equal(fragment.authority_effect, "none");
 });
 
@@ -221,7 +222,7 @@ test("typed request hint retrieves canonical ontology meaning, related nodes, an
     additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}},
   }));
   assert.equal(result.to_server.length, 1);
-  const fragment = forwardedContext(result);
+  const fragment = JSON.parse(result.to_server[0].params.additionalContext[CONTEXT_KEY].value);
   assert.equal(fragment.route_id, "CA2-ROUTE-DEFINE");
   assert.equal(fragment.inline_bytes <= fragment.max_inline_bytes, true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "request" && item.content.raw_request === hint.raw_request), true);
@@ -229,23 +230,26 @@ test("typed request hint retrieves canonical ontology meaning, related nodes, an
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && item.context_item_id.includes("OntologySelector")), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-catalog" && item.content.ontologies.some((ontology) => ontology.ontology_id === "cav2.ontology-product")), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "repository-instruction" && item.content.instruction_id === "repository-root-agents"), true);
-  assert.equal(fragment.exclusion_count >= fragment.exclusions.length, true);
-  assert.equal(fragment.omitted_diagnostic_exclusion_count > 0, true);
-  assert.equal(typeof fragment.exclusions_digest, "string");
-  assert.equal(fragment.exclusions.some((entry) => entry.reason === "not-selected"), false);
+  assert.deepEqual(fragment.context_use_contract.direct_answer_sources, [
+    {context_item_id: "definition:CAV2-D19", use_role: "canonical-term-meaning"},
+    {context_item_id: "ontology-catalog:repository", use_role: "repository-ontology-inventory"},
+  ]);
+  assert.equal(fragment.context_use_contract.supporting_context_item_ids.some((id) => id.includes("OntologySelector")), true);
+  assert.equal(fragment.context_use_contract.instructions.some((instruction) => instruction.includes("do not substitute a supporting ontology node")), true);
 });
 
-test("a request naming CyberAlchemy v2 and ontology projects both exact definitions", async () => {
-  const rawRequest = "I want to understand and use the ontology already present in CyberAlchemy v2.";
-  const hint = {schema_version: "are.request-context-hint/v1", raw_request: rawRequest, objective_kind: "define"};
-  const result = await wrapper().processClientMessage(turnStart(1903, rawRequest, "thread-disjoint-exact", {
+test("ontology inventory requests identify the repository catalog as the direct answer source", async () => {
+  const rawRequest = "What registered ontologies are available here?";
+  const hint = {schema_version: "are.request-context-hint/v1", raw_request: rawRequest, objective_kind: "ontology-query"};
+  const result = await wrapper().processClientMessage(turnStart(1903, rawRequest, "thread-ontology-catalog", {
     additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}},
   }));
   assert.equal(result.to_server.length, 1);
-  const fragment = forwardedContext(result);
-  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D9"), true);
-  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D19"), true);
-  assert.equal(fragment.included_items.some((item) => item.context_item_id === "ontology-catalog:repository"), true);
+  const fragment = JSON.parse(result.to_server[0].params.additionalContext[CONTEXT_KEY].value);
+  assert.deepEqual(fragment.context_use_contract.direct_answer_sources, [
+    {context_item_id: "ontology-catalog:repository", use_role: "repository-ontology-inventory"},
+  ]);
+  assert.equal(fragment.context_use_contract.supporting_context_item_ids.includes("ontology-node:agent-reasoning-engine.ContextItem"), true);
 });
 
 test("malformed request context hint blocks before forwarding", async () => {
@@ -277,6 +281,59 @@ test("turn/start seals, reconstructs, verifies, and checkpoints reasoning state 
   assert.equal(state.durability, "process-memory");
   assert.equal(state.sink.record_count, 5);
   assert.equal(state.sink.flush_count, 1);
+});
+
+test("turn/start places the reusable reasoning projection before volatile context and measures exact reuse", async () => {
+  const instance = wrapper();
+  const first = await instance.processClientMessage(turnStart(1011, "Research reusable reasoning state.", "thread-cache"));
+  const second = await instance.processClientMessage(turnStart(1012, "Research reusable reasoning state.", "thread-cache"));
+  assert.equal(first.to_server.length, 1);
+  assert.equal(second.to_server.length, 1);
+  const firstContext = first.to_server[0].params.additionalContext;
+  const secondContext = second.to_server[0].params.additionalContext;
+  assert.equal(Object.keys(firstContext)[0], CACHE_AFFINITY_KEY);
+  assert.equal(Object.keys(secondContext)[0], CACHE_AFFINITY_KEY);
+  assert.equal(firstContext[CACHE_AFFINITY_KEY].value.includes("are.reasoning-request-series-header/v1"), true);
+  assert.equal(firstContext[CACHE_AFFINITY_KEY].value.includes("reusable_reasoning_state"), false);
+  const states = instance.inspectState().cache_affinity_consumers;
+  assert.equal(states.length, 1);
+  assert.equal(states[0].posture, "eligible-reuse");
+  assert.equal(states[0].exact_prefix_reuse, true);
+  assert.equal(states[0].reused_prefix_bytes >= states[0].reusable_prefix_bytes, true);
+  const events = instance.ledger.snapshot().filter((event) => event.event_kind === "reasoning-dispatch-verified");
+  assert.equal(events[0].cache_affinity_posture, "cold");
+  assert.equal(events[1].cache_affinity_posture, "eligible-reuse");
+  assert.equal(events[1].cache_hit_posture, "unobserved");
+  assert.equal(events[1].observed_token_savings, null);
+});
+
+test("measured provider cache usage is bound to the exact current projection", async () => {
+  const instance = wrapper();
+  await instance.processClientMessage(turnStart(1013, "Research reusable reasoning state.", "thread-cache-measured"));
+  const projection = instance.inspectState().cache_affinity_consumers[0];
+  const observed = instance.recordCacheTelemetry({
+    consumer_ref: projection.consumer,
+    provider_usage: {
+      schema_version: "are.provider-cache-usage/v1",
+      projection_digest: projection.projection_digest,
+      exact_prefix_digest: projection.exact_prefix_digest,
+      provider_ref: projection.provider_ref,
+      model_ref: projection.model_ref,
+      input_tokens: 1400,
+      cached_input_tokens: 1100,
+      latency_ms: 82,
+      baseline_latency_ms: 127,
+    },
+  });
+  assert.equal(observed.ok, true);
+  assert.equal(observed.disposition, "observed-hit");
+  assert.equal(observed.observation.observed_token_savings, 1100);
+  assert.equal(observed.observation.observed_time_savings_ms, 45);
+  const state = instance.inspectState().cache_affinity_consumers[0];
+  assert.equal(state.cache_hit_posture, "observed-hit");
+  assert.equal(state.observed_cached_input_tokens, 1100);
+  const event = instance.ledger.snapshot().find((candidate) => candidate.event_kind === "cache-telemetry-observed");
+  assert.equal(event.cache_telemetry_observation_digest, observed.observation.observation_digest);
 });
 
 test("file-backed turn/start persists the verified dispatch sequence before forwarding", async () => {
@@ -331,6 +388,25 @@ test("file-backed wrapper recovers the last checkpoint before accepting a new tu
   const verified = verifyReasoningStateLog(logPath, {expected_ledger_id: loaded.value.reasoning_state.ledger_id});
   assert.equal(verified.ok, true);
   assert.equal(verified.value.index.checkpoint_count, 2);
+});
+
+test("file-backed wrapper enforces one writer and permits clean restart recovery", async () => {
+  const directory = mkdtempSync("/tmp/are-wrapper-single-writer-");
+  temporaryPaths.push(directory);
+  const logPath = resolve(directory, "reasoning-state.jsonl");
+  const profile = structuredClone(loaded.value);
+  profile.reasoning_state = {...profile.reasoning_state, storage_mode: "append-only-file-fsync", log_path: logPath, single_writer: true};
+  const first = wrapper({loaded_profile: profile});
+  await first.processClientMessage(turnStart(10041, "Research durable restart state.", "thread-single-writer"));
+  assert.throws(() => wrapper({loaded_profile: profile}), /reasoning\.writer-lock-held/);
+  assert.equal(first.close().ok, true);
+  const successor = wrapper({loaded_profile: profile});
+  assert.equal(successor.inspectState().reasoning_state.recovery.disposition, "recovered");
+  assert.equal(successor.inspectState().reasoning_state_writer_lock.released, false);
+  const resumed = await successor.processClientMessage(turnStart(10042, "Research durable restart state.", "thread-single-writer"));
+  assert.equal(resumed.to_server.length, 1);
+  assert.equal(successor.inspectState().cache_affinity_consumers[0].exact_prefix_reuse, true);
+  assert.equal(successor.close().ok, true);
 });
 
 test("file-backed wrapper rejects an uncheckpointed recovery tail at startup", () => {

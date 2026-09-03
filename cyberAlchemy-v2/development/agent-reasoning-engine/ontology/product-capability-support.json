@@ -84,6 +84,25 @@
       "meaning": "One content-addressed completed reasoning frontier binding the exact completion subject, context and prior-epoch identities, explicit semantic result, continuation result, and non-authorizing posture to a verified after-completion checkpoint."
     },
     {
+      "id": "CA2-CAP-CONTRACT-ARE-CACHE-AFFINITY-ASSESSMENT",
+      "kind": "output-contract",
+      "meaning": "One exact-byte assessment of stable request, reusable explicit reasoning-state, and volatile turn segments, including reusable bytes, estimated reusable tokens, projection cost, cache observability, and invalidation reasons without freshness or authority claims."
+    },
+    {
+      "id": "CA2-CAP-CONTRACT-ARE-REASONING-WRITER-LOCK",
+      "kind": "output-contract",
+      "meaning": "One atomic exclusive-writer claim over an exact reasoning-state log path, released only by its matching clean owner and never interpreted as evidence authority."
+    },
+    {"id":"CA2-CAP-CONTRACT-ARE-REASONING-STATE-BRANCH","kind":"output-contract","meaning":"One immutable content-addressed successor branch bound to its verified base epoch and additional events."},
+    {"id":"CA2-CAP-CONTRACT-ARE-REPLAY-FIXTURE","kind":"output-contract","meaning":"One deterministic exact-event replay fixture with expected replay digest and zero external calls."},
+    {"id":"CA2-CAP-CONTRACT-ARE-STATE-REDUCTION","kind":"output-contract","meaning":"One append-only retained and omitted event selection that creates a successor epoch without rewriting history."},
+    {"id":"CA2-CAP-CONTRACT-ARE-COUNTEREVIDENCE","kind":"output-contract","meaning":"One claim-scoped counterevidence record with exact currentness-bound source provenance."},
+    {"id":"CA2-CAP-CONTRACT-ARE-PORTABLE-EPOCH","kind":"output-contract","meaning":"One complete reasoning epoch bundle bound to an exact compatibility profile and local-import provenance."},
+    {"id":"CA2-CAP-CONTRACT-ARE-PROVENANCE-COMPARISON","kind":"output-contract","meaning":"One exact explanation of the provenance differences that permit or prevent reasoning-state reuse."},
+    {"id":"CA2-CAP-CONTRACT-ARE-TRANSITION-PLAN","kind":"output-contract","meaning":"One deterministic content-addressed selection of reuse, branch, reduction, checkpoint, portable export, or block over a verified epoch."},
+    {"id":"CA2-CAP-CONTRACT-ARE-TRANSITION-RECEIPT","kind":"output-contract","meaning":"One verified binding from an exact transition plan to its complete result, output epoch, and checkpoint posture."},
+    {"id":"CA2-CAP-CONTRACT-ARE-IMPROVEMENT-ITERATION","kind":"output-contract","meaning":"One benchmark observation bound to exact baseline, profile, candidate source closure, measured safety, comparison, branch receipt, counterevidence, and replay fixture."},
+    {
       "id": "CA2-CAP-CONTRACT-ARE-GATEWAY-SESSION",
       "kind": "output-contract",
       "meaning": "One declared consumer and lane bound to an isolated in-memory wrapper and upstream app-server connection under a distinct gateway runtime epoch."
@@ -159,6 +178,23 @@
       "meaning": "Before semantic reduction, verify exact agreement among the Context Envelope binding, bound Problem Frame, entry gate, authority snapshot, selected Context Item digests, freshness, and claim ceiling; bind those identities into context-bound receipts without changing historical unbound receipt bytes."
     },
     {
+      "id": "CA2-CAP-POLICY-ARE-CACHE-AFFINITY-NONAUTHORITY",
+      "kind": "context-policy",
+      "meaning": "Place stable request and reusable explicit reasoning state before volatile turn bytes, but never treat byte equality or a provider cache hit as proof of freshness, provenance, correctness, or authority."
+    },
+    {
+      "id": "CA2-CAP-POLICY-ARE-SINGLE-REASONING-WRITER",
+      "kind": "context-policy",
+      "meaning": "A file-backed reasoning ledger admits exactly one live writer; lock contention or an unreconciled stale lock blocks startup without lock stealing or log mutation."
+    },
+    {"id":"CA2-CAP-POLICY-ARE-APPEND-ONLY-REDUCTION","kind":"context-policy","meaning":"Reduction preserves source history and records every omission in a new event and successor epoch."},
+    {"id":"CA2-CAP-POLICY-ARE-PORTABLE-EPOCH-COMPATIBILITY","kind":"context-policy","meaning":"Epoch transfer requires exact compatibility and creates local import provenance without identity impersonation."},
+    {"id":"CA2-CAP-POLICY-ARE-COUNTEREVIDENCE-CURRENTNESS","kind":"context-policy","meaning":"Counterevidence reuse requires exact selected-source identity and digest currentness."},
+    {"id":"CA2-CAP-POLICY-ARE-RISK-SCALED-DURABILITY","kind":"context-policy","meaning":"Checkpoint durability is selected from the boundary risk and blocks when the configured sink is insufficient."},
+    {"id":"CA2-CAP-POLICY-ARE-TRANSITION-FAIL-CLOSED","kind":"context-policy","meaning":"Incomplete, invalid, over-budget, incompatible, or insufficiently durable transition inputs block before reasoning state changes."},
+    {"id":"CA2-CAP-POLICY-ARE-IMPROVEMENT-EXACT-PROVENANCE","kind":"context-policy","meaning":"Improvement identity excludes wall-clock time, verifies its baseline, detects outside-allowlist changes, and binds repeated success to one candidate digest."},
+    {"id":"CA2-CAP-POLICY-ARE-MEASURED-AUTHORITY-SAFETY","kind":"context-policy","meaning":"Benchmark authority safety must be computed from explicit observations and never supplied as a constant."},
+    {
       "id": "CA2-CAP-BIND-ARE-SEMANTIC-EVALUATOR-L0",
       "kind": "realization-binding",
       "meaning": "Bounded legacy evidence for deterministic semantic reduction and reasoning-receipt assembly; not a complete engine or context manager."
@@ -186,7 +222,7 @@
     {
       "id": "CA2-CAP-BIND-ARE-PERSISTENT-GATEWAY",
       "kind": "realization-binding",
-      "meaning": "Candidate local realization of isolated lane-bound consumer sessions across direct stdio, managed-daemon proxy, or loopback WebSocket app-server transports with bounded reconnect and no durable state."
+      "meaning": "Candidate local realization of isolated lane-bound consumer sessions across direct stdio, managed-daemon proxy, or loopback WebSocket app-server transports with bounded reconnect and per-consumer durable Reasoning State; diagnostic journals remain process-local."
     },
     {
       "id": "CA2-CAP-BIND-ARE-REASONING-STATE-FIRST-THREE",
@@ -196,7 +232,7 @@
     {
       "id": "CA2-CAP-BIND-ARE-REASONING-STATE-RECOVERY",
       "kind": "realization-binding",
-      "meaning": "Candidate local realization of canonical log verification, deterministic disposable-index rebuilding, final-checkpoint selection, exact ledger hydration, and Codex startup recovery; repair, compaction, cross-process locking, and Session semantics remain absent."
+      "meaning": "Candidate local realization of canonical log verification, deterministic disposable-index rebuilding, final-checkpoint selection, exact ledger hydration, Codex startup recovery, and atomic single-writer exclusion; stale-lock repair, compaction, distributed coordination, and Session semantics remain absent."
     },
     {
       "id": "CA2-CAP-BIND-ARE-COMPLETED-TURN-FRONTIER",
@@ -209,21 +245,31 @@
       "meaning": "Candidate local realization of fail-closed context-binding verification and context-bearing Reasoning Receipts with byte-compatible legacy unbound evaluation."
     },
     {
+      "id": "CA2-CAP-BIND-ARE-CACHE-AFFINITY-DURABLE-GATEWAY",
+      "kind": "realization-binding",
+      "meaning": "Candidate local realization of deterministic stable/reusable/volatile request projection, exact prefix diagnostics, collision-resistant per-consumer checkpointed logs, clean restart recovery, and atomic single-writer exclusion; provider cache telemetry and stale-lock repair remain absent."
+    },
+    {"id":"CA2-CAP-BIND-ARE-ADVANCED-REUSABLE-STATE","kind":"realization-binding","meaning":"Candidate local realization of content-addressed branching, deterministic replay fixtures, append-only reductions, risk-scaled checkpoints, currentness-bound counterevidence, exact-compatible epoch portability, and explicit provenance comparison; wrapper use remains opt-in."},
+    {"id":"CA2-CAP-BIND-ARE-REASONING-STATE-LIFECYCLE-COORDINATOR","kind":"realization-binding","meaning":"Candidate local realization of deterministic transition assessment and planning, explicit append-only execution, result-bound receipts, and fail-closed risk, budget, provenance, and compatibility checks."},
+    {"id":"CA2-CAP-BIND-ARE-REASONING-IMPROVEMENT-LOOP","kind":"realization-binding","meaning":"Candidate local realization of verified benchmark baselines, complete bounded source comparison, measured authority safety, same-candidate stability, reasoning-state branches, replay fixtures, and reusable rejection counterevidence."},
+    {"id":"CA2-CAP-CONTRACT-ARE-PRODUCT-HEALTH","kind":"output-contract","meaning":"A deterministic non-authorizing health record binding the versioned product profile, exact Node runtime, repository profile verification, required component and integration presence, and source-closure identity."},
+    {"id":"CA2-CAP-BIND-ARE-INTEGRATED-PRODUCT-SURFACE","kind":"realization-binding","meaning":"Candidate local product surface that composes the existing ARE runtimes, Codex app-server gateway, Define adapter, real-reasoning benchmark, deterministic closure, doctor command, and unified test matrix without replacing component identities or granting lifecycle authority."},
+    {
       "id": "CA2-CAP-OBLIGATIONS-ARE",
       "kind": "obligation-registry",
-      "meaning": "Intent preservation, fast direct routing, route-profiled definition closure, declared ontology selector locking, Necessary Context Basis construction, dual-lane immutable Context Window Views, bounded context selection, provenance integrity, contradiction and exclusion visibility, freshness and invalidation, fail-closed context-bound semantic integrity, typed semantic outcomes, deterministic reuse and reasoning receipts, fail-closed checkpointed recovery, completed-turn frontier replay, abstention, replay separation, authority non-collapse, and explicit realization gaps."
+      "meaning": "Intent preservation, fast direct routing, Necessary Context Basis construction, provenance integrity, semantic outcomes, deterministic reuse, exact cache affinity, content-addressed branches, replay fixtures, append-only reductions, risk-scaled durability, counterevidence, portable epochs, provenance comparison, fail-closed transition coordination, exact benchmark candidate identity, measured authority safety, same-candidate stability, exclusive writers, checkpointed recovery, completed-turn replay, abstention, authority non-collapse, and explicit realization gaps."
     }
   ],
   "residue": [
     {
       "id": "CAP-RES-ARE-CONTEXT-MANAGER",
       "status": "blocked",
-      "meaning": "The bounded candidate realizes fast routing, definition closure, selector locking, Context Basis and dual-lane views, inline envelopes, refresh and invalidation, semantic input and reduction, receipt-constrained continuation, in-memory journal replay, checkpointed Reasoning State file recovery, completed-turn frontier replay, and isolated persistent app-server consumer sessions. Production semantic activation, delivery acknowledgement, adaptive compression, cross-process recovery coordination, and supported Codex Desktop adoption remain open."
+      "meaning": "The integrated stability candidate realizes fast routing, definition closure, selector locking, Context Basis and dual-lane views, inline envelopes, semantic input, receipt-constrained continuation, exact cache affinity, content-addressed branches, replay fixtures, append-only reductions, risk-scaled checkpoints, currentness-bound counterevidence, portable compatible epochs, provenance comparison, per-consumer recovery, authenticated reconnect, acknowledged delivery, safe eviction, completed-turn replay, a unified product surface, and isolated app-server consumers. Production semantic activation, actual provider cache telemetry from the current app-server, stale-lock repair, automatic reduction and import policy, adaptive compression, distributed recovery, a durable session index, and supported Codex Desktop endpoint adoption remain open."
     },
     {
       "id": "CAP-RES-ARE-WHOLE-ENGINE",
       "status": "blocked",
-      "meaning": "The working Codex candidate composes the bounded libraries behind a local persistent gateway, recovers one checkpointed Reasoning State file, and replays exact completed-turn frontiers, but no production semantic-domain catalog or default activation is adopted, delivery acknowledgement, cross-process coordination, and repair are absent, Desktop integration is unproved, and the full engine is not admitted or generally hosted."
+      "meaning": "The working product candidate composes the bounded libraries, Define adapter, benchmark, deterministic closure, unified tests, and local persistent Codex gateway, recovers per-consumer Reasoning State, and exposes advanced reusable-state operations. No production semantic-domain catalog or default activation is adopted; automatic reduction/import policy, stale-lock reconciliation, distributed coordination, log repair, a durable gateway-session index, actual provider cache telemetry, and supported Desktop endpoint adoption remain absent; the full engine is not admitted or generally hosted."
     },
     {
       "id": "CAP-RES-ARE-DOMAINSPEC-ADMISSION",

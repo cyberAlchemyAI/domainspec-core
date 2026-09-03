@@ -99,6 +99,9 @@ function build() {
   const persistentGatewayPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/gateway.mjs");
   const gatewayBackendPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/backend.mjs");
   const gatewayCanaryPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/scripts/persistent-gateway-canary.mjs");
+  const productProfilePath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/product.json");
+  const productRuntimePath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/src/product.mjs");
+  const productTestPath = resolve(repositoryRoot, "cyberAlchemy-v2/implementation/agent-reasoning-engine/scripts/test-all.mjs");
 
   const systemOntology = {
     schema_version: "cav2-agent-reasoning-engine-system-ontology/v1",
@@ -259,8 +262,21 @@ function build() {
           managed_daemon_mutated: false,
           authority_effect: "none",
         },
+        {
+          id: "integrated-product-surface@1",
+          product_profile_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/product.json",
+          product_profile_sha256: sha256(readFileSync(productProfilePath)),
+          product_runtime_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/src/product.mjs",
+          product_runtime_sha256: sha256(readFileSync(productRuntimePath)),
+          unified_test_ref: "cyberAlchemy-v2/implementation/agent-reasoning-engine/scripts/test-all.mjs",
+          unified_test_sha256: sha256(readFileSync(productTestPath)),
+          deterministic_source_closure: true,
+          exact_runtime_health_check: true,
+          required_component_inspection: true,
+          authority_effect: "none",
+        },
       ],
-      context_management_realization: "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
+      context_management_realization: "integrated-bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
       whole_engine_realization: "absent",
       accepted_baseline_required: true,
       accepted_baseline_ref: null,

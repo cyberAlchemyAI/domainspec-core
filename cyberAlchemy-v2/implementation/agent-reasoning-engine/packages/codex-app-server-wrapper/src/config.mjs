@@ -270,6 +270,12 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     max_clients: 8,
     max_buffered_messages_per_client: 256,
     reconnect: true,
+    detach_timeout_ms: 300000,
+    idle_timeout_ms: 1800000,
+    max_retained_bytes_per_session: 4194304,
+    max_reasoning_log_bytes_per_session: 67108864,
+    expiration_tombstone_ttl_ms: 3600000,
+    eviction_retry_ms: 1000,
     allowed_clients: [
       {consumer_id: "codex:human-chat", lane: "interaction-bound"},
       {consumer_id: "codex:plan", lane: "plan-bound", window_ref: "plan:persistent-codex", request_id: "request:persistent-codex-plan"},
@@ -279,7 +285,22 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   for (const field of ["max_clients", "max_buffered_messages_per_client"]) {
     if (!Number.isSafeInteger(gateway[field]) || gateway[field] < 1) return fail("config", [`config.gateway-${field.replaceAll("_", "-")}-invalid`]);
   }
+  for (const field of ["detach_timeout_ms", "idle_timeout_ms"]) {
+    const value = gateway[field] ?? (field === "detach_timeout_ms" ? 300000 : 1800000);
+    if (!Number.isSafeInteger(value) || value < 0) return fail("config", [`config.gateway-${field.replaceAll("_", "-")}-invalid`]);
+  }
+  const gatewayPositiveDefaults = {max_retained_bytes_per_session: 4194304, max_reasoning_log_bytes_per_session: 67108864, expiration_tombstone_ttl_ms: 3600000, eviction_retry_ms: 1000};
+  for (const [field, fallback] of Object.entries(gatewayPositiveDefaults)) {
+    const value = gateway[field] ?? fallback;
+    if (!Number.isSafeInteger(value) || value < 1) return fail("config", [`config.gateway-${field.replaceAll("_", "-")}-invalid`]);
+  }
   if (gateway.reconnect !== true && gateway.reconnect !== false) return fail("config", ["config.gateway-reconnect-invalid"]);
+  const gatewayReasoningState = isRecord(gateway.reasoning_state)
+    ? gateway.reasoning_state
+    : {mode: "process-memory", directory: null, single_writer: false};
+  if (!["process-memory", "file-per-consumer"].includes(gatewayReasoningState.mode)) return fail("config", ["config.gateway-reasoning-state-mode-invalid"]);
+  if (gatewayReasoningState.mode === "file-per-consumer" && !nonEmptyString(gatewayReasoningState.directory)) return fail("config", ["config.gateway-reasoning-state-directory-required"]);
+  if (gatewayReasoningState.mode === "file-per-consumer" && gatewayReasoningState.single_writer !== true) return fail("config", ["config.gateway-reasoning-state-single-writer-required"]);
   if (!Array.isArray(gateway.allowed_clients) || gateway.allowed_clients.length === 0) return fail("config", ["config.gateway-clients-required"]);
   const gatewayClients = [];
   const gatewayConsumerIds = new Set();
@@ -302,7 +323,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   return {
     ok: true,
     value: freezeResult({
-      schema_version: "are.codex-wrapper-loaded-profile/v4",
+      schema_version: "are.codex-wrapper-loaded-profile/v5",
       profile_id: profile.profile_id,
       protocol_binding: protocolBinding,
       context: profile.context,
@@ -319,6 +340,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
         ledger_id: reasoningState.ledger_id.trim(),
         storage_mode: reasoningState.storage_mode,
         log_path: nonEmptyString(reasoningState.log_path) ? absolute(repositoryRoot, reasoningState.log_path) : null,
+        single_writer: reasoningState.single_writer === true,
         checkpoints: freezeResult({before_model_request: true, before_effect: true, before_continuation: true}),
       }),
       gateway: freezeResult({
@@ -326,6 +348,17 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
         max_clients: gateway.max_clients,
         max_buffered_messages_per_client: gateway.max_buffered_messages_per_client,
         reconnect: gateway.reconnect,
+        detach_timeout_ms: gateway.detach_timeout_ms ?? 300000,
+        idle_timeout_ms: gateway.idle_timeout_ms ?? 1800000,
+        max_retained_bytes_per_session: gateway.max_retained_bytes_per_session ?? 4194304,
+        max_reasoning_log_bytes_per_session: gateway.max_reasoning_log_bytes_per_session ?? 67108864,
+        expiration_tombstone_ttl_ms: gateway.expiration_tombstone_ttl_ms ?? 3600000,
+        eviction_retry_ms: gateway.eviction_retry_ms ?? 1000,
+        reasoning_state: freezeResult({
+          mode: gatewayReasoningState.mode,
+          directory: nonEmptyString(gatewayReasoningState.directory) ? absolute(repositoryRoot, gatewayReasoningState.directory) : null,
+          single_writer: gatewayReasoningState.mode === "file-per-consumer",
+        }),
         allowed_clients: gatewayClients.sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
       }),
       authority_effect: "none",

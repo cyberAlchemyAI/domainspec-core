@@ -4,18 +4,25 @@ import {createConnection, createServer} from "node:net";
 import {resolve} from "node:path";
 
 import {
+  ACKNOWLEDGED_CONTINUITY_MODE,
   createCodexAppServerWrapper,
   createPersistentGateway,
+  deriveGatewayReasoningStateProfile,
+  GATEWAY_ACK_SCHEMA,
   GATEWAY_CONNECT_SCHEMA,
+  GATEWAY_DELIVERY_SCHEMA,
+  GATEWAY_REQUEST_META_KEY,
   loadRepositoryProfile,
   protocolBindingCheck,
 } from "../index.mjs";
+import {digestValue} from "../src/canonical.mjs";
 
 const packageRoot = resolve(import.meta.dirname, "..");
 const repositoryRoot = resolve(packageRoot, "../../../../..");
 const profilePath = resolve(packageRoot, "profiles/repository-v1.json");
 const temporaryRoot = mkdtempSync("/tmp/are-persistent-canary-");
 const gatewaySocket = resolve(temporaryRoot, "are-gateway.sock");
+const reasoningStateDirectory = resolve(temporaryRoot, "reasoning-state");
 
 async function availablePort() {
   const server = createServer();
@@ -58,19 +65,21 @@ async function waitFor(predicate, label, milliseconds = 15000) {
   throw new Error(`${label}:timeout`);
 }
 
-async function connectClient(consumerId, lane) {
+async function connectClient(consumerId, lane, continuity = {}) {
   const socket = createConnection(gatewaySocket);
   const messages = [];
   const waiters = [];
   const pending = new Map();
   let sequence = 0;
+  let lastAcknowledgedSequence = continuity.last_acked_sequence ?? 0;
   let buffer = "";
   socket.on("data", (chunk) => {
     buffer += chunk.toString("utf8");
     let index;
     while ((index = buffer.indexOf("\n")) >= 0) {
-      const message = JSON.parse(buffer.slice(0, index));
+      const frame = JSON.parse(buffer.slice(0, index));
       buffer = buffer.slice(index + 1);
+      const message = frame.schema_version === GATEWAY_DELIVERY_SCHEMA ? frame.message : frame;
       messages.push(message);
       for (const waiter of [...waiters]) {
         if (!waiter.predicate(message)) continue;
@@ -87,18 +96,23 @@ async function connectClient(consumerId, lane) {
         if (message.error) request.reject(new Error(`${request.method}:${JSON.stringify(message.error)}`));
         else request.resolve(message.result);
       }
+      if (frame.schema_version === GATEWAY_DELIVERY_SCHEMA) {
+        if (frame.sequence !== lastAcknowledgedSequence + 1) throw new Error(`${consumerId}:delivery-sequence:${lastAcknowledgedSequence}->${frame.sequence}`);
+        lastAcknowledgedSequence = frame.sequence;
+        socket.write(`${JSON.stringify({schema_version: GATEWAY_ACK_SCHEMA, through_sequence: lastAcknowledgedSequence})}\n`);
+      }
     }
   });
   await bounded(new Promise((resolveConnect, reject) => {
     socket.once("connect", resolveConnect);
     socket.once("error", reject);
   }), `${consumerId}:connect`, 15000);
-  socket.write(`${JSON.stringify({schema_version: GATEWAY_CONNECT_SCHEMA, consumer_id: consumerId, lane})}\n`);
+  socket.write(`${JSON.stringify({schema_version: GATEWAY_CONNECT_SCHEMA, consumer_id: consumerId, lane, continuity: {mode: ACKNOWLEDGED_CONTINUITY_MODE, last_acked_sequence: lastAcknowledgedSequence, request_aliases: [], ...(continuity.resume_token ? {resume_token: continuity.resume_token} : {})}})}\n`);
   const receipt = await bounded(waitMessage((message) => message.schema_version === "are.codex-gateway-connected/v1"), `${consumerId}:handshake`, 15000);
 
-  function request(method, params) {
+  function request(method, params, requestKey = null) {
     const id = ++sequence;
-    socket.write(`${JSON.stringify({jsonrpc: "2.0", id, method, params})}\n`);
+    socket.write(`${JSON.stringify({jsonrpc: "2.0", id, method, params, ...(requestKey ? {[GATEWAY_REQUEST_META_KEY]: {request_key: requestKey}} : {})})}\n`);
     return new Promise((resolveValue, reject) => pending.set(String(id), {resolve: resolveValue, reject, method}));
   }
 
@@ -108,7 +122,7 @@ async function connectClient(consumerId, lane) {
     return new Promise((resolveValue) => waiters.push({predicate, resolve: resolveValue}));
   }
 
-  return {socket, receipt, request, waitMessage, messages};
+  return {socket, receipt, request, waitMessage, messages, continuityState: () => ({resume_token: receipt.continuity?.resume_token, last_acked_sequence: lastAcknowledgedSequence})};
 }
 
 async function runTurn(client, threadId, text, label) {
@@ -148,12 +162,18 @@ try {
   upstream.stderr.on("data", (chunk) => { upstreamStderr += chunk; });
   await waitForPort(upstreamPort);
   const allowed = new Map(loaded.value.gateway.allowed_clients.map((client) => [client.consumer_id, client]));
-  gateway = createPersistentGateway({
+  const buildGateway = () => createPersistentGateway({
     listen_path: gatewaySocket,
     backend: {mode: "websocket", url: upstreamUrl},
     max_clients: loaded.value.gateway.max_clients,
     max_buffered_messages_per_client: loaded.value.gateway.max_buffered_messages_per_client,
     reconnect: true,
+    detach_timeout_ms: loaded.value.gateway.detach_timeout_ms,
+    idle_timeout_ms: loaded.value.gateway.idle_timeout_ms,
+    max_retained_bytes_per_session: loaded.value.gateway.max_retained_bytes_per_session,
+    max_reasoning_log_bytes_per_session: loaded.value.gateway.max_reasoning_log_bytes_per_session,
+    expiration_tombstone_ttl_ms: loaded.value.gateway.expiration_tombstone_ttl_ms,
+    eviction_retry_ms: loaded.value.gateway.eviction_retry_ms,
     authorize_client: ({consumer_id, lane}) => allowed.get(consumer_id)?.lane === lane,
     on_backend_stderr: (chunk) => { gatewayStderr += chunk; },
     wrapper_factory: ({consumer_id, lane}) => {
@@ -164,6 +184,7 @@ try {
         consumer_ref: consumer_id,
         ...(lane === "plan-bound" ? {window_ref: allowed.get(consumer_id).window_ref, request_id: allowed.get(consumer_id).request_id} : {}),
       };
+      profile.reasoning_state = deriveGatewayReasoningStateProfile(loaded.value, consumer_id, reasoningStateDirectory);
       return createCodexAppServerWrapper({
         loaded_profile: profile,
         decision_profile: loaded.decision_profile,
@@ -175,17 +196,26 @@ try {
       });
     },
   });
+  gateway = buildGateway();
   await gateway.start();
 
   const plan = await connectClient("codex:plan", "plan-bound");
-  await bounded(plan.request("initialize", {clientInfo: {name: "are-persistent-plan-canary", version: "0.1.0"}, capabilities: {experimentalApi: true}}), "plan:initialize");
-  const planThread = await bounded(plan.request("thread/start", {cwd: "/tmp", ephemeral: true, model: "gpt-5.6-sol", approvalPolicy: "never", sandbox: "read-only"}), "plan:thread-start");
+  const planInitialization = {clientInfo: {name: "are-persistent-plan-canary", version: "0.1.0"}, capabilities: {experimentalApi: true}};
+  await bounded(plan.request("initialize", planInitialization), "plan:initialize");
+  const planThreadParams = {cwd: "/tmp", ephemeral: true, model: "gpt-5.6-sol", approvalPolicy: "never", sandbox: "read-only"};
+  const planThread = await bounded(plan.request("thread/start", planThreadParams, "plan:thread-start:stable"), "plan:thread-start");
   const stablePlanPrompt = "Research Context Envelope provenance and answer in one sentence. Do not use tools.";
   const planTurn1 = await runTurn(plan, planThread.thread.id, stablePlanPrompt, "plan:first");
   const planView1 = contextView(gateway, "codex:plan");
   plan.socket.destroy();
   await waitFor(() => gateway.inspect().sessions.find((item) => item.consumer_id === "codex:plan")?.attached === false, "plan-detach");
-  const resumedPlan = await connectClient("codex:plan", "plan-bound");
+  const resumedPlan = await connectClient("codex:plan", "plan-bound", plan.continuityState());
+  const reconnectInitializationStarted = performance.now();
+  await bounded(resumedPlan.request("initialize", planInitialization), "plan:reconnect-initialize");
+  const reconnectInitializationLatencyMs = performance.now() - reconnectInitializationStarted;
+  const reconnectInitializationResultDigestVerified = digestValue(resumedPlan.receipt.initialization?.result) === resumedPlan.receipt.initialization?.result_digest;
+  const replayedPlanThread = await bounded(resumedPlan.request("thread/start", planThreadParams, "plan:thread-start:stable"), "plan:reconnect-thread-replay");
+  const resumedInitializationState = gateway.inspect().sessions.find((item) => item.consumer_id === "codex:plan");
   const planTurn2 = await runTurn(resumedPlan, planThread.thread.id, stablePlanPrompt, "plan:second");
   const planView2 = contextView(gateway, "codex:plan");
 
@@ -197,12 +227,47 @@ try {
   const humanTurn2 = await runTurn(human, humanThread.thread.id, "Research Context Envelope freshness and answer in one sentence. Do not use tools.", "human:second");
   const humanView2 = contextView(gateway, "codex:human-chat");
 
+  const planStateBeforeRestart = gateway.inspect().sessions.find((item) => item.consumer_id === "codex:plan")?.wrapper_state;
+  const humanStateBeforeRestart = gateway.inspect().sessions.find((item) => item.consumer_id === "codex:human-chat")?.wrapper_state;
+
   const effectRequests = [...plan.messages, ...resumedPlan.messages, ...human.messages].filter((message) => message.method?.endsWith("/requestApproval")).length;
   const semanticNotifications = [...plan.messages, ...resumedPlan.messages, ...human.messages].filter((message) => message.method === "cyberalchemy/semantic").length;
+  resumedPlan.socket.destroy();
+  human.socket.destroy();
+  await gateway.close();
+  gateway = buildGateway();
+  await gateway.start();
+  const restartedPlan = await connectClient("codex:plan", "plan-bound");
+  const recoveredPlanState = gateway.inspect().sessions.find((item) => item.consumer_id === "codex:plan")?.wrapper_state;
+  const recovered = recoveredPlanState?.reasoning_state?.recovery?.disposition === "recovered"
+    && recoveredPlanState?.completion_frontier_turn_ids?.length >= 2
+    && recoveredPlanState?.reasoning_state_writer_lock?.released === false;
+  await bounded(restartedPlan.request("initialize", {clientInfo: {name: "are-persistent-restart-canary", version: "0.1.0"}, capabilities: {experimentalApi: true}}), "restart:initialize");
+  const restartStarted = await bounded(restartedPlan.request("turn/start", {
+    threadId: planThread.thread.id,
+    input: [{type: "text", text: stablePlanPrompt}],
+    approvalPolicy: "never",
+    sandboxPolicy: {type: "readOnly", networkAccess: false},
+  }), "plan:after-restart-dispatch");
+  const postRestartPlanState = gateway.inspect().sessions.find((item) => item.consumer_id === "codex:plan")?.wrapper_state;
+  const restartPrefixReused = postRestartPlanState?.cache_affinity_consumers?.[0]?.exact_prefix_reuse === true;
   const passed = plan.receipt.resumed === false
     && resumedPlan.receipt.resumed === true
+    && resumedPlan.receipt.continuity?.resume_token_digest === plan.receipt.continuity?.resume_token_digest
+    && resumedPlan.receipt.initialization?.status === "complete"
+    && reconnectInitializationResultDigestVerified
+    && resumedInitializationState?.initialization_forward_count === 1
+    && resumedInitializationState?.initialization_replay_count === 1
+    && resumedInitializationState?.upstream_request_count === 1
+    && resumedInitializationState?.deduplicated_request_count === 1
+    && replayedPlanThread.thread.id === planThread.thread.id
+    && restartedPlan.receipt.resumed === false
     && planView1 === planView2
     && humanView1 !== humanView2
+    && planStateBeforeRestart?.cache_affinity_consumers?.[0]?.exact_prefix_reuse === true
+    && humanStateBeforeRestart?.reasoning_state?.checkpoint_count >= 4
+    && recovered
+    && restartPrefixReused
     && effectRequests === 0
     && semanticNotifications === 0;
   output = {
@@ -211,16 +276,16 @@ try {
     observed_codex_version: observedVersion,
     protocol_binding: "matched",
     backend_mode: "websocket-isolated-canary",
-    plan_bound: {thread_id: planThread.thread.id, turn_ids: [planTurn1, planTurn2], reconnected: resumedPlan.receipt.resumed, context_view_identity_reused: planView1 === planView2},
+    plan_bound: {thread_id: planThread.thread.id, turn_ids: [planTurn1, planTurn2], reconnected: resumedPlan.receipt.resumed, authenticated_resume: resumedPlan.receipt.continuity?.resume_token_digest === plan.receipt.continuity?.resume_token_digest, acknowledged_through: resumedPlan.continuityState().last_acked_sequence, initialization_replayed: resumedInitializationState?.initialization_replay_count === 1, initialization_result_digest_verified: reconnectInitializationResultDigestVerified, upstream_initializations: resumedInitializationState?.initialization_forward_count ?? null, stable_request_upstream_dispatches: resumedInitializationState?.upstream_request_count ?? null, stable_request_deduplications: resumedInitializationState?.deduplicated_request_count ?? null, stable_thread_identity_replayed: replayedPlanThread.thread.id === planThread.thread.id, reconnect_initialization_latency_ms: reconnectInitializationLatencyMs, context_view_identity_reused: planView1 === planView2, exact_prefix_reuse: planStateBeforeRestart?.cache_affinity_consumers?.[0]?.exact_prefix_reuse ?? null, cache_hit_posture: planStateBeforeRestart?.cache_affinity_consumers?.[0]?.cache_hit_posture ?? "unobserved", observed_token_savings: planStateBeforeRestart?.cache_affinity_consumers?.[0]?.observed_token_savings ?? null, observed_time_savings_ms: planStateBeforeRestart?.cache_affinity_consumers?.[0]?.observed_time_savings_ms ?? null},
     interaction_bound: {thread_id: humanThread.thread.id, turn_ids: [humanTurn1, humanTurn2], context_view_identity_succeeded: humanView1 !== humanView2},
+    restart_recovery: {new_transport_epoch: restartedPlan.receipt.resumed === false, disposition: recoveredPlanState?.reasoning_state?.recovery?.disposition ?? null, recovered_completion_frontiers: recoveredPlanState?.completion_frontier_turn_ids?.length ?? 0, writer_lock_held: recoveredPlanState?.reasoning_state_writer_lock?.released === false, post_restart_dispatch_turn_id: restartStarted.turn.id, exact_prefix_reuse: restartPrefixReused, cache_hit_posture: postRestartPlanState?.cache_affinity_consumers?.[0]?.cache_hit_posture ?? "unobserved"},
     consumer_sessions: gateway.inspect().sessions.length,
     effect_requests: effectRequests,
     semantic_notifications: semanticNotifications,
     authority_effect: "none",
     claim_limit: "Controlled ephemeral local persistent-gateway canary only; no Desktop integration, daemon installation, admission, conformance, publication, deployment, or external-effect authority.",
   };
-  resumedPlan.socket.destroy();
-  human.socket.destroy();
+  restartedPlan.socket.destroy();
 } catch (error) {
   output = {schema_version: "are.codex-persistent-gateway-live-canary/v1", status: "FAIL", error: error.message, observed_codex_version: observedVersion, authority_effect: "none"};
 } finally {

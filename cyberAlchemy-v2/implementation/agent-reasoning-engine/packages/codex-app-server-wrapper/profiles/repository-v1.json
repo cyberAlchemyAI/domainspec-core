@@ -119,6 +119,17 @@
     "max_clients": 8,
     "max_buffered_messages_per_client": 256,
     "reconnect": true,
+    "detach_timeout_ms": 300000,
+    "idle_timeout_ms": 1800000,
+    "max_retained_bytes_per_session": 4194304,
+    "max_reasoning_log_bytes_per_session": 67108864,
+    "expiration_tombstone_ttl_ms": 3600000,
+    "eviction_retry_ms": 1000,
+    "reasoning_state": {
+      "mode": "file-per-consumer",
+      "directory": "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/.runtime/reasoning-state",
+      "single_writer": true
+    },
     "allowed_clients": [
       {
         "consumer_id": "codex:human-chat",

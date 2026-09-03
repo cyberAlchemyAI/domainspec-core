@@ -38,16 +38,49 @@ remains explicit residue.
 The ledger contains explicit system reasoning products, not hidden model
 chain-of-thought. Its epochs, dispatch records, and checkpoints have
 `authority_effect: none` and do not authorize effects or continuations.
-Recovery is currently single-process. Cross-process writer coordination and
-operator-directed log repair remain separate capabilities.
+The wrapper package also exports the bounded branch, replay-fixture,
+append-only reduction, risk-scaled checkpoint, counterevidence, portable-epoch,
+and provenance-comparison operations from the Reasoning State runtime. These
+operations are opt-in: the wrapper does not autonomously branch, reduce,
+compact, export, or import a consumer's state.
+Before every model request, the wrapper also projects a stable request header
+and reusable explicit reasoning state ahead of a volatile turn suffix in
+`additionalContext`. It measures exact and common prefix bytes, estimated
+reusable tokens, projection cost, and invalidation reasons. Explicit normalized
+provider usage can be attached through `recordCacheTelemetry`, producing an
+exact projection-bound hit/miss observation and measured token/time savings.
+The currently selected app-server protocol exposes no such usage field, so real
+turns remain `unobserved` instead of inferring a cache hit.
 
 It also provides a persistent local gateway. The gateway listens on a
 permission-restricted Unix socket, creates one isolated ARE wrapper and
 upstream app-server connection per declared consumer, and preserves that
-consumer's in-memory Context Views, turn state, and runtime journal across
-transport reconnects. A second live attachment for the same consumer, lane
+consumer's Context Views, turn state, and runtime journal across transport
+reconnects. The repository profile additionally gives each consumer a distinct
+append-only, checkpointed Reasoning State log. Startup obtains an atomic
+single-writer lock, verifies and recovers that log before accepting the client,
+and releases the lock only after clean wrapper shutdown. A second live attachment for the same consumer, lane
 substitution, unknown consumers, oversized messages, and detached-buffer
-overflow fail closed.
+overflow fail closed. Detach and detached-idle deadlines, retained protocol
+bytes, and append-only Reasoning State log bytes are profile-bounded. Expiration
+first requires the wrapper to prove no in-flight turn, approval, internal, or
+stable request and to append/fsync a manual checkpoint. Unsafe eviction retries
+without closing. A successfully expired resume secret authenticates an explicit
+`gateway.session-expired` tombstone; the gateway never silently recreates that
+session, and it never truncates a ledger to satisfy a size limit.
+
+Programmatic gateway transports opt into `acknowledged-v1` continuity. The
+first connection receives a 256-bit resume secret; a later attachment must
+present that secret, while diagnostic state exposes only its digest. Downstream
+messages are wrapped in monotonically sequenced delivery envelopes and removed
+from the replay frontier only after an acknowledgement. Client requests may
+carry an exact idempotency key: the gateway rewrites the first dispatch to an
+internal correlation identity, adopts an identical unfinished request after a
+client crash, and never forwards that request upstream twice. Reusing the key
+with different method or parameter bytes fails closed. Responses to
+server-initiated approval/tool requests are also digest-bound and forwarded at
+most once. Legacy transparent stdio clients retain the unacknowledged v1 byte
+stream and therefore do not receive these stronger continuity guarantees.
 
 The currently bound `0.153.0-alpha.5` server accepts JSON-RPC 2.0 client messages but
 omits the `jsonrpc` member on its own responses and notifications. The wrapper
@@ -70,9 +103,13 @@ compact `ontology-catalog` item only for matching requests. Direct requests
 therefore receive the bounded meanings of selected definitions, instructions,
 catalog records, and selector-locked ontology records through the
 protocol-supported `params.additionalContext` field, not only their digests.
-The carrier uses one compact envelope manifest plus one stable, source-keyed
-fragment per selected Context Item. This keeps provenance and envelope identity
-visible without burying useful meanings inside one large opaque JSON value.
+The projected fragment also carries an `are.codex-context-use-contract/v1`.
+It marks request-matched definitions and ontology catalogs as direct answer
+sources, keeps dependency nodes, edges, and instructions available as
+supporting context, and tells the consumer to report the exact item identities
+it materially used. This ordering is a context-use hint with
+`authority_effect: none`; it does not promote relevance, cache reuse, or a
+model citation into freshness, correctness, admission, or authority evidence.
 The default inline budget is 32 KiB. Optional diagnostics are excluded first
 and recorded; mandatory overflow blocks without truncation or model-generated
 summarization. Gates and blocks are not forwarded.
@@ -172,15 +209,38 @@ node bin/are-codex-client-proxy.mjs \
 ```
 
 `codex:plan` is separately configured as `plan-bound` with a stable request and
-window identity. Exact reconnect resumes the same gateway session; process
-restart creates a new runtime epoch. No journal or context state is durable.
+window identity. Exact reconnect resumes the same gateway session. The gateway
+retains the first successful app-server `initialize` request binding and result,
+includes their non-authorizing state in the reconnect receipt, and replays that
+result locally for an identical programmatic client initialization. It never
+forwards the duplicate upstream. A changed client identity, capability set, or
+other initialization parameter fails closed with an exact binding mismatch.
+Reconnect during a pending initialization binds the new correlation identity
+to the single upstream response. Process restart creates a new transport
+runtime epoch while the verified per-consumer Reasoning State log and
+completed-turn frontiers recover. The diagnostic runtime journal remains
+process-local. A stale crash lock is fail-closed and requires separate operator
+reconciliation.
 
 Programmatic consumers use `connectGatewayRpcTransport` with
 `createAppServerRpcClient`. The shared client owns JSON-line parsing, request
 correlation, bounded notification waits, streamed agent-text collection, and
-default approval refusal. `spawnAppServerRpcTransport` provides an explicit
+default approval refusal. `request`, `startThread`, and `runTurn` accept an
+`idempotency_key`; callers that reconstruct a client after a crash reuse that
+key and pass the prior handshake's `continuity.resume_token` to
+`connectGatewayRpcTransport`. The transport unwraps each sequenced delivery and
+acknowledges it only after writing the exact JSON-RPC message to its local output
+boundary. This proves exactly-once upstream dispatch and acknowledged-once
+transport delivery, not durable processing inside an arbitrary application.
+If a gateway process restart has lost the live session named by a resume token,
+resumption returns `gateway.resume-session-missing` rather than silently
+redispatching in-flight work. `spawnAppServerRpcTransport` provides an explicit
 strict direct-process transport for diagnostics and tests; it does not bypass
 the wrapper's version gate.
+
+The session expiration tombstone is process-local and time-bounded. It explains
+a controlled eviction, but it is not a durable gateway-session index. Gateway
+process loss therefore remains distinguishable as `resume-session-missing`.
 
 Run the controlled version-bound semantic continuation matrix with:
 
@@ -202,7 +262,10 @@ local state index has known startup latency.
 Run the isolated persistent transport canary with `npm run canary:gateway`.
 It exercises two exact plan-bound turns across a disconnect/reconnect and two
 interaction-bound turns through a real long-lived loopback WebSocket
-app-server. The official daemon-proxy command surface is covered separately;
+app-server, then restarts the gateway and verifies recovery of the
+per-consumer checkpointed log, completion frontiers, exclusive writer, and an
+exact-prefix-reusing post-restart model dispatch.
+The official daemon-proxy command surface is covered separately;
 the canary intentionally does not mutate the user-global managed daemon.
 
 The repository default adopts no production semantic-domain catalog. The

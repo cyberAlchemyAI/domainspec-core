@@ -291,7 +291,7 @@ test("agent preserves an app-server exit reason that occurs before initialize", 
     spawn_impl: () => {
       queueMicrotask(() => {
         child.stderr.write("profile failed to load");
-        child.emit("exit", 3, null);
+        child.emit("close", 3, null);
       });
       return child;
     },
@@ -301,4 +301,55 @@ test("agent preserves an app-server exit reason that occurs before initialize", 
     /App-server transport exited: 3: profile failed to load/,
   );
   assert.match(agent.inspect().rpc.failure, /App-server transport exited: 3/);
+});
+
+test("agent delegates the app-server lifecycle to the shared RPC client", async () => {
+  const calls = [];
+  const turn = {...scopeReview([option("option:vocabulary", "shared vocabulary", "A bounded vocabulary.")]), phase: "options-ready"};
+  const rpcClient = {
+    initialize: async (params) => { calls.push(["initialize", params]); return {}; },
+    startThread: async (params) => { calls.push(["thread/start", params]); return {thread: {id: "thread:define"}}; },
+    runTurn: async (params) => {
+      calls.push(["turn/start", params]);
+      return {completed: {turn: {id: "turn:define", status: "completed"}}, text: JSON.stringify(turn)};
+    },
+    close: async () => { calls.push(["close"]); },
+    inspect: () => ({kind: "test-rpc", authority_effect: "none"}),
+  };
+  const agent = createAppServerDefineAgent({repository_root: repositoryRoot, rpc_client: rpcClient});
+  const result = await agent.respond({mode: "discovery", user_input: "Atlas vocabulary", scope_confirmed: false});
+  assert.deepEqual(calls.map(([method]) => method), ["initialize", "thread/start", "turn/start"]);
+  assert.equal(calls[0][1].capabilities.experimentalApi, true);
+  assert.equal(calls[1][1].sandbox, "read-only");
+  assert.equal(calls[2][1].approvalPolicy, "never");
+  const requestHint = JSON.parse(calls[2][1].additionalContext["cyberalchemy.request-context"].value);
+  assert.equal(requestHint.schema_version, "are.request-context-hint/v1");
+  assert.equal(requestHint.raw_request, "Atlas vocabulary");
+  assert.equal(requestHint.objective_kind, "define");
+  assert.equal(result.options[0].option_id, "option:vocabulary");
+  await agent.close();
+  assert.equal(calls.at(-1)[0], "close");
+});
+
+test("agent resumes an initialized persistent gateway session without hiding other initialize failures", async () => {
+  const calls = [];
+  const turn = {...scopeReview([option("option:vocabulary", "shared vocabulary", "A bounded vocabulary.")]), phase: "options-ready"};
+  const rpcClient = {
+    ready: async () => ({ok: true, resumed: true}),
+    initialize: async () => {
+      calls.push("initialize");
+      const error = new Error("initialize: Already initialized");
+      error.details = {message: "Already initialized"};
+      throw error;
+    },
+    startThread: async () => { calls.push("thread/start"); return {thread: {id: "thread:resumed"}}; },
+    runTurn: async () => ({completed: {turn: {id: "turn:resumed", status: "completed"}}, text: JSON.stringify(turn)}),
+    close: async () => {},
+    inspect: () => ({kind: "test-rpc"}),
+  };
+  const agent = createAppServerDefineAgent({repository_root: repositoryRoot, rpc_client: rpcClient});
+  const result = await agent.respond({mode: "discovery", user_input: "Atlas vocabulary", scope_confirmed: false});
+  assert.deepEqual(calls, ["initialize", "thread/start"]);
+  assert.equal(result.options[0].option_id, "option:vocabulary");
+  await agent.close();
 });

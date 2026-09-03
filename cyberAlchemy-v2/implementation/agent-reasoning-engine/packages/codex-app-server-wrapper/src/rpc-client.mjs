@@ -2,6 +2,9 @@ import {EventEmitter} from "node:events";
 import {spawn} from "node:child_process";
 import {createInterface} from "node:readline";
 
+import {digestValue, nonEmptyString} from "./canonical.mjs";
+import {GATEWAY_REQUEST_META_KEY} from "./gateway.mjs";
+
 export class AppServerRpcError extends Error {
   constructor(code, message, details = null) {
     super(message);
@@ -77,6 +80,7 @@ export function createAppServerRpcClient(options = {}) {
   let sequence = 0;
   let closed = false;
   let failure = null;
+  let initializationReuseCount = 0;
 
   function failAll(error) {
     if (failure) return;
@@ -160,7 +164,11 @@ export function createAppServerRpcClient(options = {}) {
   async function request(method, params, requestOptions = {}) {
     await transport.ready;
     if (closed) throw failure ?? new AppServerRpcError("rpc.closed", "App-server RPC client is closed.");
-    const id = `are-rpc-${++sequence}`;
+    const id = requestOptions.request_id ?? `are-rpc-${++sequence}`;
+    if (!(["string", "number"].includes(typeof id))) throw new TypeError("request_id must be a string or number.");
+    if (requestOptions.idempotency_key !== undefined && (!nonEmptyString(requestOptions.idempotency_key) || requestOptions.idempotency_key.length > 256)) {
+      throw new TypeError("idempotency_key must be a non-empty string of at most 256 characters.");
+    }
     const timeoutMs = requestOptions.timeout_ms ?? requestTimeout;
     return new Promise((resolveValue, reject) => {
       const timer = setTimeout(() => {
@@ -168,7 +176,8 @@ export function createAppServerRpcClient(options = {}) {
         reject(new AppServerRpcError("rpc.request-timeout", `${method} timed out after ${timeoutMs} ms.`, {method, timeout_ms: timeoutMs}));
       }, timeoutMs);
       pending.set(id, {method, resolve: resolveValue, reject, timer});
-      try { send({jsonrpc: "2.0", id, method, params}); } catch (error) {
+      const requestMessage = {jsonrpc: "2.0", id, method, params, ...(requestOptions.idempotency_key ? {[GATEWAY_REQUEST_META_KEY]: {request_key: requestOptions.idempotency_key}} : {})};
+      try { send(requestMessage); } catch (error) {
         clearTimeout(timer);
         pending.delete(id);
         reject(error);
@@ -196,15 +205,37 @@ export function createAppServerRpcClient(options = {}) {
   }
 
   async function initialize(params) {
+    const receipt = await transport.ready;
+    const retained = receipt?.resumed === true ? receipt.initialization : null;
+    if (retained?.status === "complete") {
+      const actualBindingDigest = digestValue({method: "initialize", params});
+      if (actualBindingDigest !== retained.binding_digest) {
+        throw new AppServerRpcError("rpc.initialize-binding-mismatch", "Reconnect initialization does not match the retained app-server session.", {
+          expected_binding_digest: retained.binding_digest,
+          actual_binding_digest: actualBindingDigest,
+          authority_effect: "none",
+        });
+      }
+      const actualResultDigest = digestValue(retained.result);
+      if (actualResultDigest !== retained.result_digest) {
+        throw new AppServerRpcError("rpc.initialize-result-digest-mismatch", "Retained app-server initialization result failed digest verification.", {
+          expected_result_digest: retained.result_digest,
+          actual_result_digest: actualResultDigest,
+          authority_effect: "none",
+        });
+      }
+      initializationReuseCount += 1;
+      return retained.result;
+    }
     return request("initialize", params);
   }
 
-  async function startThread(params) {
-    return request("thread/start", params, {timeout_ms: options.thread_start_timeout_ms ?? 240000});
+  async function startThread(params, requestOptions = {}) {
+    return request("thread/start", params, {...requestOptions, timeout_ms: requestOptions.timeout_ms ?? options.thread_start_timeout_ms ?? 240000});
   }
 
-  async function runTurn(params) {
-    const started = await request("turn/start", params);
+  async function runTurn(params, requestOptions = {}) {
+    const started = await request("turn/start", params, requestOptions);
     const turnId = started?.turn?.id;
     if (!turnId) throw new AppServerRpcError("rpc.turn-id-missing", "turn/start did not return a turn identity.");
     const notification = await waitForNotification(
@@ -231,6 +262,6 @@ export function createAppServerRpcClient(options = {}) {
     waitForNotification,
     close,
     events,
-    inspect: () => ({closed, failure: failure?.message ?? null, pending_requests: pending.size, notification_waiters: waiters.size, transport: transport.inspect?.() ?? null, authority_effect: "none"}),
+    inspect: () => ({closed, failure: failure?.message ?? null, pending_requests: pending.size, notification_waiters: waiters.size, initialization_reuse_count: initializationReuseCount, transport: transport.inspect?.() ?? null, authority_effect: "none"}),
   });
 }

@@ -1,0 +1,14 @@
+{
+  "schema_version": "are.reconnect-chaos-matrix/v1",
+  "scenarios": [
+    {"scenario_id": "disconnect-before-initialize-completes", "test_name": "gateway binds a reconnecting initialize request to the pending upstream response", "expected": "one upstream initialize and one replayed alias response"},
+    {"scenario_id": "disconnect-after-turn-start", "test_name": "stable request key adopts an in-flight request without duplicate upstream dispatch", "expected": "one upstream request and one adopted request key"},
+    {"scenario_id": "disconnect-during-stream", "test_name": "unacknowledged delivery replays once and disappears after acknowledgement", "expected": "unacknowledged output replays until acknowledged"},
+    {"scenario_id": "disconnect-during-tool-interaction", "test_name": "server-request response is forwarded upstream at most once", "expected": "one upstream tool response"},
+    {"scenario_id": "disconnect-around-turn-completed", "test_name": "turn completion is continuous both immediately before and after disconnect", "expected": "both completion deliveries replay in sequence"},
+    {"scenario_id": "gateway-restart", "test_name": "resume token fails closed after gateway process-state loss", "expected": "resume session missing and no silent state recreation"},
+    {"scenario_id": "app-server-restart", "test_name": "upstream exit is visible and closes only its consumer session", "expected": "explicit backend exit and isolated session close"}
+  ],
+  "claim_ceiling": "Deterministic local gateway fault injection; not a universal transport guarantee.",
+  "authority_effect": "none"
+}

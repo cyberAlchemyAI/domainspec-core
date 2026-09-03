@@ -33,9 +33,41 @@ recoverable only when its final record is a valid checkpoint. Torn, malformed,
 tampered, mixed-ledger, unknown, or uncheckpointed tails block without changing
 the source file.
 
+`materializeCacheAffinityProjection` places a canonical stable request header
+and reusable explicit Reasoning State before the volatile current-turn suffix.
+Its assessment reports exact/common prefix bytes, estimated reusable tokens,
+projection time, and deterministic invalidation reasons.
+`bindCacheTelemetryObservation` can bind explicit provider-reported input and
+cached-input tokens plus optional measured/baseline latency to that exact
+projection. Missing provider telemetry remains `unobserved`; the runtime never
+guesses a cache hit or savings. Cache eligibility and an observed hit prove
+neither freshness, provenance, correctness, nor authority.
+
+`acquireReasoningStateWriterLock` provides an adjacent atomic file lock for a
+selected append-only log. It prevents a second live writer, is released after a
+clean close, and never steals or repairs a lock left by a crashed writer.
+
+The advanced reusable-state surface adds seven bounded mechanisms:
+
+- content-addressed branches append a branch record and seal a successor epoch
+  while leaving the base epoch unchanged;
+- verified replay-derived fixtures bind exact events and expected replay bytes
+  with zero external calls;
+- reductions are new append-only events naming retained and omitted source
+  events, never destructive summaries;
+- risk-scaled checkpoint policy distinguishes observation, model-request,
+  continuation, and effect boundaries and blocks insufficient durability;
+- counterevidence is reusable only while its exact selected source remains
+  current;
+- portable epoch bundles require an exact compatibility profile and import as
+  a provenance-bearing local event rather than rewriting source identities;
+- provenance comparison names every context, dependency, frontier, event,
+  consumer, and request difference that prevents exact reuse.
+
 Public operations include:
 
 - `createReasoningStateLedger`
+- `acquireReasoningStateWriterLock`
 - `appendReasoningStateEvent`
 - `sealReasoningStateEpoch`
 - `verifyReasoningStateEpoch`
@@ -52,12 +84,30 @@ Public operations include:
 - `getReasoningStateFrontier`
 - `listReasoningStateFrontiers`
 - `createRequestSeriesHeader`
+- `materializeCacheAffinityProjection`
+- `createReasoningStateBranch`
+- `deriveReasoningReplayFixture`
+- `verifyReasoningReplayFixture`
+- `appendReasoningStateReduction`
+- `selectReasoningCheckpointPolicy`
+- `checkpointReasoningStateByRisk`
+- `appendReasoningCounterevidence`
+- `selectReusableCounterevidence`
+- `exportPortableReasoningEpoch`
+- `verifyPortableReasoningEpoch`
+- `importPortableReasoningEpoch`
+- `compareReasoningProvenance`
+- `assessReasoningStateTransition`
+- `planReasoningStateTransition`
+- `verifyReasoningStateTransitionPlan`
+- `executeReasoningStateTransition`
+- `verifyReasoningStateTransitionReceipt`
 - `materializeReasoningDispatch`
 - `verifyReasoningDispatch`
 - `reconstructReasoningDispatch`
 
-The package is a bounded implementation candidate. Recovery assumes one
-process owns a selected log; cross-process locking, log repair, compaction, and
-distributed replication remain absent. It does not establish a durable
+The package is a bounded implementation candidate. It provides exclusive
+single-writer locking, not stale-lock adjudication, multi-writer coordination,
+log repair, compaction, or distributed replication. It does not establish a durable
 CyberAlchemy Session, admission, conformance, publication, deployment, or
 authority.

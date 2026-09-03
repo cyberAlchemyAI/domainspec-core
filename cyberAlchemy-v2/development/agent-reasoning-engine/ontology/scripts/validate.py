@@ -221,8 +221,18 @@ def validate_generated(errors: list[str], sources: dict[str, Any], bridge: dict[
         errors.append("generated system ontology projection-builder binding drift")
     if contract.get("validator_sha256") != sha256_file(Path(__file__).resolve()):
         errors.append("generated system ontology validator binding drift")
-    if contract.get("context_management_realization") != "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate" or contract.get("whole_engine_realization") != "absent":
+    if contract.get("context_management_realization") != "integrated-bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate" or contract.get("whole_engine_realization") != "absent":
         errors.append("generated system ontology overclaims complete realization")
+    product_surface = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "integrated-product-surface@1"), None)
+    if not product_surface:
+        errors.append("generated system ontology lacks integrated product surface realization")
+    elif any([
+        product_surface.get("deterministic_source_closure") is not True,
+        product_surface.get("exact_runtime_health_check") is not True,
+        product_surface.get("required_component_inspection") is not True,
+        product_surface.get("authority_effect") != "none",
+    ]):
+        errors.append("generated integrated product surface realization posture drift")
     semantic_integrity = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "context-bound-semantic-integrity@1"), None)
     if not semantic_integrity:
         errors.append("generated system ontology lacks context-bound semantic integrity realization")
@@ -351,8 +361,8 @@ def evaluate(
         "bridge_edge_count": len(bridge.get("edges", [])),
         "gap_count": len(bridge.get("gaps", [])),
         "residue_count": residue_count,
-        "bounded_partial_realizations": 15,
-        "context_management_realization": "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
+        "bounded_partial_realizations": 16,
+        "context_management_realization": "integrated-bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
         "whole_engine_realization": "absent",
         "domainspec_profile_admission": "not-granted",
         "implementation_binding_status": "not_evaluable",

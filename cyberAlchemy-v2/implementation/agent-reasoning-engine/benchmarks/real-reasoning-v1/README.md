@@ -42,7 +42,72 @@ Results are written under `runs/` unless `--stdout-only` is supplied. Timing is 
 - `integration`: five multi-turn lifecycle traces plus six fail-closed cases.
 - `live`: paired ARE/control ephemeral app-server turns, alternating execution order.
 - `live-multiturn`: four paired three-turn conversations with thread continuity, per-turn grounding, Context Item citation, question-policy, and authority-safety checks.
+- `external-retrieval`: exact-bound Agent Retrieval Bench JSONL plus ARE prediction JSONL, scored for MRR, Recall/Precision/F0.5@20, BCY@8k, and selective abstention.
+- `external-retrieval-run`: produce deterministic ARE hybrid-lexical predictions from exact corpus snapshots, then score them through the same adapter.
 - `all`: core plus integration; `--include-live` adds the live comparison.
+
+`npm test` also runs `reconnect-chaos.test.mjs`. Its seven-scenario matrix
+injects disconnects around initialization, stable turn dispatch, streamed
+output, tool responses, and completion, then exercises app-server exit and
+gateway process-state loss. It is deterministic local fault evidence, not a
+universal transport guarantee.
+
+## External retrieval lane
+
+The first external adapter targets [Agent Retrieval Bench](https://github.com/eyuansu62/agent-retrieval-bench) without vendoring its corpus. Download and validate an upstream release separately, produce one prediction per sample, and run:
+
+```sh
+node bin/benchmark.mjs \
+  --mode external-retrieval \
+  --dataset /path/to/arb/samples.jsonl \
+  --predictions /path/to/are-predictions.jsonl \
+  --dataset-id v2-positive-or-selective-release \
+  --dataset-revision <exact-upstream-revision> \
+  --stdout-only
+```
+
+Prediction records conform to `schemas/external-retrieval-input.schema.json`. Each ranked file must carry observed `header_tokens` and `content_tokens`; the adapter never estimates missing token counts. Dataset and prediction bytes are SHA-256 bound in the result, repository/base-commit mismatches block, duplicate or unexpected predictions block, and missing predictions remain visible failures.
+
+Run the included structural canary with:
+
+```sh
+npm run benchmark:external-retrieval:fixture
+npm run benchmark:external-retrieval:produce-fixture
+```
+
+Run the producer against a downloaded release whose corpus directory contains
+`corpus_manifest.jsonl`:
+
+```sh
+node bin/benchmark.mjs \
+  --mode external-retrieval-run \
+  --dataset /path/to/arb/samples.jsonl \
+  --corpus-dir /path/to/arb/corpus-release \
+  --dataset-id v2-selective-release \
+  --dataset-revision <exact-upstream-revision> \
+  --predictions-output /path/to/are-predictions.jsonl
+```
+
+The producer uses request fields and the exact base-commit corpus only; gold
+labels are forbidden inputs to ranking and abstention. It combines BM25 content
+matching, path/anchor proximity, task-aware source/test priors, deterministic
+tie-breaking, and a configurable evidence threshold. Corpus paths may not
+escape the supplied corpus directory. The production receipt binds the dataset,
+manifest, selected snapshots, predictions, and ARB canonical
+`regex_code_tokenizer_v1`.
+
+The positive quality targets reproduce the best published upstream reference value for each ARB metric, even though those values come from different retrievers. The selective-success target is explicitly an ARE candidate target rather than an upstream leaderboard claim. A PASS is local benchmark evidence only and does not demonstrate end-to-end repair success or grant authority.
+
+### Benchmark attack order
+
+The external program advances in impact order:
+
+1. **Agent Retrieval Bench:** file ranking, hard token-budget coverage, and the retrieve-versus-abstain decision. The scorer is implemented.
+2. **ARE prediction producer:** connect request selection to exact repository snapshots and emit the prediction schema above. The deterministic hybrid-lexical baseline is implemented; its real quality is not known until the downloaded 427-row release is run.
+3. **ContextBench:** test whether retrieved context improves downstream task completion, after retrieval quality is measurable.
+4. **MemoryAgentBench:** test longer-lived state selection only after per-request retrieval and abstention are stable.
+
+This order attacks the current precision failure directly. It avoids using an end-task score to hide whether the wrong context was retrieved, and avoids adding durable-memory complexity before selective retrieval is reliable.
 
 ## Improvement loop
 

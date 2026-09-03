@@ -5,12 +5,26 @@ import {resolve} from "node:path";
 import test from "node:test";
 
 import {
+  acquireReasoningStateWriterLock,
+  appendReasoningCounterevidence,
+  appendReasoningStateReduction,
+  assessReasoningStateTransition,
+  bindCacheTelemetryObservation,
+  checkpointReasoningStateByRisk,
+  compareReasoningProvenance,
   checkpointReasoningState,
   createAppendOnlyFileReasoningStateSink,
   createMemoryReasoningStateSink,
   createReasoningStateLedger,
+  createReasoningStateBranch,
   createRequestSeriesHeader,
+  deriveReasoningReplayFixture,
+  executeReasoningStateTransition,
+  exportPortableReasoningEpoch,
+  importPortableReasoningEpoch,
+  materializeCacheAffinityProjection,
   materializeReasoningDispatch,
+  planReasoningStateTransition,
   getReasoningStateFrontier,
   listReasoningStateFrontiers,
   rebuildReasoningStateIndexes,
@@ -18,11 +32,138 @@ import {
   reconstructReasoningDispatch,
   sealReasoningStateFrontier,
   selectRecoverableCheckpoint,
+  selectReasoningCheckpointPolicy,
+  selectReusableCounterevidence,
   verifyReasoningDispatch,
   verifyReasoningStateLog,
   verifyReasoningStateEpoch,
   verifyReasoningStateFrontier,
+  verifyReasoningReplayFixture,
+  verifyReasoningStateTransitionPlan,
+  verifyReasoningStateTransitionReceipt,
+  verifyPortableReasoningEpoch,
 } from "../index.mjs";
+
+test("content-addressed branches retain their exact base without rewriting it", () => {
+  const {ledger, epoch} = state();
+  const additional = ledger.append({event_kind: "hypothesis-added", content: {hypothesis: "branch-only"}});
+  const branched = createReasoningStateBranch(ledger, {base_epoch: epoch.value, branch_ref: "branch:counterfactual", additional_event_digests: [additional.event.event_digest], branch_basis: {technique: "counterfactual"}});
+  assert.equal(branched.ok, true);
+  assert.equal(branched.epoch.frontier.branch_id, branched.branch.branch_id);
+  assert.deepEqual(epoch.value.event_digests, [epoch.value.event_digests[0], epoch.value.event_digests[1]]);
+  const duplicate = createReasoningStateBranch(ledger, {base_epoch: epoch.value, branch_ref: "branch:counterfactual", additional_event_digests: [additional.event.event_digest], branch_basis: {technique: "counterfactual"}});
+  assert.equal(duplicate.branch.branch_id, branched.branch.branch_id);
+});
+
+test("verified replay state deterministically derives executable-free fixtures", () => {
+  const {ledger, epoch} = state();
+  const first = deriveReasoningReplayFixture(ledger, epoch.value, {fixture_ref: "fixture:state"});
+  const second = deriveReasoningReplayFixture(ledger, epoch.value, {fixture_ref: "fixture:state"});
+  assert.deepEqual(first, second);
+  assert.equal(verifyReasoningReplayFixture(first.value).ok, true);
+  const changed = structuredClone(first.value);
+  changed.events[0].content.request_id = "tampered";
+  assert.equal(verifyReasoningReplayFixture(changed).ok, false);
+});
+
+test("reductions append successor records and preserve source epochs", () => {
+  const {ledger, epoch} = state();
+  const retained = [epoch.value.event_digests[1]];
+  const reduced = appendReasoningStateReduction(ledger, {source_epoch: epoch.value, retained_event_digests: retained, reduction_basis: {policy: "retain-context-evidence"}});
+  assert.equal(reduced.ok, true);
+  assert.deepEqual(reduced.reduction.omitted_event_digests, [epoch.value.event_digests[0]]);
+  assert.equal(reduced.reduction.destructive, false);
+  assert.deepEqual(epoch.value.event_digests.length, 2);
+  assert.deepEqual(reduced.epoch.event_digests, [retained[0], reduced.event.event_digest]);
+});
+
+test("checkpoint durability scales with boundary risk and fails closed", () => {
+  assert.equal(selectReasoningCheckpointPolicy({boundary: "observation"}).value.checkpoint_required, false);
+  assert.equal(selectReasoningCheckpointPolicy({boundary: "effect"}).value.minimum_durability, "append-only-file-fsync");
+  const memory = state();
+  assert.deepEqual(checkpointReasoningStateByRisk(memory.ledger, {boundary: "effect", epoch: memory.epoch.value}).reason_codes, ["reasoning.checkpoint-durability-insufficient"]);
+  assert.equal(checkpointReasoningStateByRisk(memory.ledger, {boundary: "model-request", epoch: memory.epoch.value}).ok, true);
+});
+
+test("counterevidence remains reusable only while its selected source is current", () => {
+  const ledger = createReasoningStateLedger({ledger_id: "reasoning:counterevidence"});
+  const added = appendReasoningCounterevidence(ledger, {claim_ref: "claim:eligible", evidence_ref: "evidence:defeater", source_identity: "source:policy", source_digest: "digest:v1", content: {defeater: "hold"}});
+  assert.equal(added.ok, true);
+  const current = selectReusableCounterevidence(ledger, {claim_ref: "claim:eligible", current_sources: [{source_identity: "source:policy", source_digest: "digest:v1"}]});
+  assert.equal(current.value.selected.length, 1);
+  const drifted = selectReusableCounterevidence(ledger, {claim_ref: "claim:eligible", current_sources: [{source_identity: "source:policy", source_digest: "digest:v2"}]});
+  assert.equal(drifted.value.selected.length, 0);
+  assert.equal(drifted.value.invalidated[0].reason, "counterevidence.source-changed");
+});
+
+test("portable epochs require exact compatibility and import as new local events", () => {
+  const {ledger, epoch} = state();
+  const compatibility = {protocol: "are-reasoning-state/v1", semantic_profile: "semantic:v1"};
+  const exported = exportPortableReasoningEpoch(ledger, epoch.value, {compatibility_profile: compatibility});
+  assert.equal(verifyPortableReasoningEpoch(exported.value, compatibility).ok, true);
+  assert.deepEqual(verifyPortableReasoningEpoch(exported.value, {...compatibility, semantic_profile: "semantic:v2"}).reason_codes, ["reasoning.portable-compatibility-mismatch"]);
+  const target = createReasoningStateLedger({ledger_id: "reasoning:portable-target"});
+  const imported = importPortableReasoningEpoch(target, exported.value, {compatibility_profile: compatibility, consumer_ref: "codex:handoff"});
+  assert.equal(imported.ok, true);
+  assert.equal(imported.epoch.frontier.source_epoch_digest, epoch.value.epoch_digest);
+  assert.equal(target.snapshot().length, 1);
+});
+
+test("provenance comparison names every reason similar requests cannot reuse state", () => {
+  const {ledger, epoch} = state();
+  const changed = ledger.seal({...epoch.value, event_digests: epoch.value.event_digests, selected_dependencies: ["definition:2"], context_envelope_digest: "context:2", frontier: {continuation: "gated"}, request_ref: "request:2"});
+  const comparison = compareReasoningProvenance(epoch.value, changed.value);
+  assert.equal(comparison.value.reuse_eligible, false);
+  assert.deepEqual(comparison.value.difference_reasons, ["provenance.context-envelope-changed", "provenance.frontier-changed", "provenance.request-changed", "provenance.selected-dependencies-changed"]);
+  assert.equal(compareReasoningProvenance(epoch.value, epoch.value).value.same_provenance, true);
+});
+
+test("transition coordinator deterministically selects reuse, branch, and reduction", () => {
+  const {ledger, epoch} = state();
+  const reuse = planReasoningStateTransition({current_epoch: epoch.value, boundary: "observation"});
+  assert.equal(reuse.value.assessment.selected_action, "reuse");
+  assert.equal(executeReasoningStateTransition(ledger, reuse.value).receipt.action, "reuse");
+
+  const added = ledger.append({event_kind: "candidate-observed", content: {candidate_digest: "candidate:1"}});
+  const branch = planReasoningStateTransition({current_epoch: epoch.value, requested_action: "branch", branch_ref: "candidate:1", additional_event_digests: [added.event.event_digest], boundary: "observation"});
+  assert.equal(branch.value.assessment.selected_action, "branch");
+  const executed = executeReasoningStateTransition(ledger, branch.value);
+  assert.equal(executed.ok, true);
+  assert.equal(verifyReasoningStateTransitionReceipt(executed.receipt).ok, true);
+  const tamperedReceipt = structuredClone(executed.receipt);
+  tamperedReceipt.result.disposition = "reused";
+  assert.equal(verifyReasoningStateTransitionReceipt(tamperedReceipt).ok, false);
+
+  const reduction = planReasoningStateTransition({current_epoch: executed.result.epoch, maximum_event_count: 1, retained_event_digests: [executed.result.epoch.event_digests.at(-1)], boundary: "observation"});
+  assert.equal(reduction.value.assessment.selected_action, "reduce");
+});
+
+test("transition coordinator blocks incomplete operations and tampered plans", () => {
+  const {epoch} = state();
+  const incomplete = assessReasoningStateTransition({current_epoch: epoch.value, requested_action: "branch", boundary: "observation"});
+  assert.equal(incomplete.ok, false);
+  assert.deepEqual(incomplete.reason_codes, ["reasoning.transition-branch-input-required"]);
+  const planned = planReasoningStateTransition({current_epoch: epoch.value, boundary: "observation"});
+  const tampered = structuredClone(planned.value);
+  tampered.assessment.selected_action = "checkpoint";
+  assert.equal(verifyReasoningStateTransitionPlan(tampered).ok, false);
+});
+
+test("a reasoning-state log admits exactly one writer until clean release", () => {
+  const directory = mkdtempSync(resolve(tmpdir(), "are-reasoning-lock-"));
+  const path = resolve(directory, "reasoning.jsonl");
+  try {
+    const first = acquireReasoningStateWriterLock({path, owner_id: "writer:first"});
+    assert.equal(first.ok, true);
+    assert.deepEqual(acquireReasoningStateWriterLock({path, owner_id: "writer:second"}).reason_codes, ["reasoning.writer-lock-held"]);
+    assert.equal(first.lock.release().ok, true);
+    const successor = acquireReasoningStateWriterLock({path, owner_id: "writer:successor"});
+    assert.equal(successor.ok, true);
+    assert.equal(successor.lock.release().ok, true);
+  } finally {
+    rmSync(directory, {recursive: true, force: true});
+  }
+});
 
 function state() {
   const sink = createMemoryReasoningStateSink();
@@ -108,6 +249,89 @@ test("dispatch reconstruction binds exact request, header, and epoch", () => {
   const changed = structuredClone(message);
   changed.params.model = "different";
   assert.deepEqual(verifyReasoningDispatch(dispatch.value, {epoch: epoch.value, message: changed}).reason_codes, ["reasoning.dispatch-message-mismatch"]);
+});
+
+test("cache affinity projects stable request and reasoning bytes before the volatile suffix", () => {
+  const message = {jsonrpc: "2.0", id: 8, method: "turn/start", params: {threadId: "thread:cache", model: "gpt-test", input: [{type: "text", text: "first"}], tools: [{name: "search"}]}};
+  const header = createRequestSeriesHeader(message, {system: "stable-system", configuration: {sandbox: "read-only"}});
+  const reusable = {context_envelope_digest: "context:stable", selected_dependencies: [{id: "definition:1", digest: "a"}], included_items: [{id: "definition:1", text: "stable meaning"}]};
+  const first = materializeCacheAffinityProjection({request_header: header, reusable_reasoning_state: reusable, volatile_current_turn_suffix: {request_id: "request:1", input: "first"}});
+  assert.equal(first.ok, true);
+  assert.equal(first.assessment.posture, "cold");
+  assert.equal(first.assessment.cache_hit_posture, "unobserved");
+  assert.equal(first.projection.wire_value.startsWith(`${JSON.stringify(first.projection.stable_request_prefix)}\n`), true);
+  assert.equal(first.projection.exact_reusable_prefix_bytes, first.projection.stable_prefix_bytes + first.projection.reusable_reasoning_bytes + 2);
+
+  const second = materializeCacheAffinityProjection({request_header: header, reusable_reasoning_state: reusable, volatile_current_turn_suffix: {request_id: "request:2", input: "second"}, previous_projection: first.projection});
+  assert.equal(second.assessment.posture, "eligible-reuse");
+  assert.equal(second.assessment.exact_prefix_reuse, true);
+  assert.equal(second.assessment.reused_prefix_bytes >= second.projection.exact_reusable_prefix_bytes, true);
+  assert.deepEqual(second.assessment.invalidation_reasons, []);
+  assert.equal(second.assessment.observed_time_savings_ms, null);
+  assert.match(second.assessment.claim_ceiling, /no cache hit/);
+});
+
+test("cache affinity explains exact prefix invalidation without treating it as a correctness result", () => {
+  const baseMessage = {jsonrpc: "2.0", id: 9, method: "turn/start", params: {threadId: "thread:cache", model: "gpt-a", input: []}};
+  const first = materializeCacheAffinityProjection({
+    request_header: createRequestSeriesHeader(baseMessage, {tools: [{name: "one"}]}),
+    reusable_reasoning_state: {context_envelope_digest: "context:a"},
+    volatile_current_turn_suffix: {request_id: "request:a"},
+  });
+  const second = materializeCacheAffinityProjection({
+    request_header: createRequestSeriesHeader({...baseMessage, params: {...baseMessage.params, model: "gpt-b"}}, {tools: [{name: "two"}]}),
+    reusable_reasoning_state: {context_envelope_digest: "context:b"},
+    volatile_current_turn_suffix: {request_id: "request:b"},
+    previous_projection: first.projection,
+  });
+  assert.equal(second.assessment.posture, "invalidated");
+  assert.equal(second.assessment.exact_prefix_reuse, false);
+  assert.deepEqual(second.assessment.invalidation_reasons, [
+    "cache-affinity.model-changed",
+    "cache-affinity.reasoning-state-changed",
+    "cache-affinity.tools-changed",
+  ]);
+  assert.equal(second.assessment.authority_effect, "none");
+});
+
+test("cache telemetry binds measured provider usage to one exact projection", () => {
+  const message = {jsonrpc: "2.0", id: 10, method: "turn/start", params: {threadId: "thread:telemetry", model: "gpt-test", input: []}};
+  const projected = materializeCacheAffinityProjection({request_header: createRequestSeriesHeader(message), reusable_reasoning_state: {context: "stable"}, volatile_current_turn_suffix: {request_id: "telemetry:1"}});
+  const observed = bindCacheTelemetryObservation({
+    projection: projected.projection,
+    assessment: projected.assessment,
+    provider_usage: {
+      schema_version: "are.provider-cache-usage/v1",
+      projection_digest: projected.projection.projection_digest,
+      exact_prefix_digest: projected.projection.exact_prefix_digest,
+      provider_ref: projected.projection.stable_request_prefix.provider_ref,
+      model_ref: projected.projection.stable_request_prefix.model_ref,
+      input_tokens: 1200,
+      cached_input_tokens: 900,
+      latency_ms: 80,
+      baseline_latency_ms: 125,
+    },
+  });
+  assert.equal(observed.ok, true);
+  assert.equal(observed.value.cache_hit_posture, "observed-hit");
+  assert.equal(observed.value.observed_token_savings, 900);
+  assert.equal(observed.value.observed_time_savings_ms, 45);
+  assert.equal(observed.value.authority_effect, "none");
+});
+
+test("cache telemetry stays unobserved without usage and blocks cross-projection claims", () => {
+  const message = {jsonrpc: "2.0", id: 11, method: "turn/start", params: {threadId: "thread:telemetry", model: "gpt-test", input: []}};
+  const projected = materializeCacheAffinityProjection({request_header: createRequestSeriesHeader(message), reusable_reasoning_state: {context: "stable"}, volatile_current_turn_suffix: {request_id: "telemetry:2"}});
+  const absent = bindCacheTelemetryObservation({projection: projected.projection, assessment: projected.assessment, provider_usage: null});
+  assert.equal(absent.value.cache_hit_posture, "unobserved");
+  assert.equal(absent.value.observed_token_savings, null);
+  const drifted = bindCacheTelemetryObservation({projection: projected.projection, assessment: projected.assessment, provider_usage: {
+    schema_version: "are.provider-cache-usage/v1", projection_digest: "different", exact_prefix_digest: projected.projection.exact_prefix_digest,
+    provider_ref: projected.projection.stable_request_prefix.provider_ref, model_ref: projected.projection.stable_request_prefix.model_ref,
+    input_tokens: 100, cached_input_tokens: 50,
+  }});
+  assert.equal(drifted.ok, false);
+  assert.deepEqual(drifted.reason_codes, ["cache-telemetry.projection-binding-mismatch"]);
 });
 
 test("idempotency conflicts and invalid dispatches fail closed", () => {

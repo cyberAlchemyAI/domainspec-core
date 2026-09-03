@@ -20,7 +20,7 @@ export function createEvidenceLedger(options = {}) {
   function record(event) {
     if (!isRecord(event) || !nonEmptyString(event.event_kind)) return fail("evidence-ledger", ["evidence.event-kind-required"]);
     const material = {
-      schema_version: "are.codex-integration-event/v3",
+      schema_version: "are.codex-integration-event/v4",
       event_kind: event.event_kind,
       direction: event.direction ?? null,
       method: event.method ?? null,
@@ -57,6 +57,20 @@ export function createEvidenceLedger(options = {}) {
       dispatch_digest: event.dispatch_digest ?? null,
       dispatch_verification_digest: event.dispatch_verification_digest ?? null,
       request_header_digest: event.request_header_digest ?? null,
+      cache_affinity_projection_digest: event.cache_affinity_projection_digest ?? null,
+      cache_affinity_assessment_digest: event.cache_affinity_assessment_digest ?? null,
+      cache_telemetry_observation_digest: event.cache_telemetry_observation_digest ?? null,
+      cache_affinity_posture: event.cache_affinity_posture ?? null,
+      exact_prefix_reuse: event.exact_prefix_reuse ?? null,
+      reusable_prefix_bytes: event.reusable_prefix_bytes ?? null,
+      reused_prefix_bytes: event.reused_prefix_bytes ?? null,
+      cache_hit_posture: event.cache_hit_posture ?? null,
+      estimated_reused_tokens: event.estimated_reused_tokens ?? null,
+      observed_time_savings_ms: event.observed_time_savings_ms ?? null,
+      observed_token_savings: event.observed_token_savings ?? null,
+      observed_input_tokens: event.observed_input_tokens ?? null,
+      observed_cached_input_tokens: event.observed_cached_input_tokens ?? null,
+      cache_invalidation_reasons: event.cache_invalidation_reasons ?? [],
       authority_effect: "none",
     };
     const appended = journal.append({...material, idempotency_key: event.idempotency_key, observed_at: event.observed_at ?? null});

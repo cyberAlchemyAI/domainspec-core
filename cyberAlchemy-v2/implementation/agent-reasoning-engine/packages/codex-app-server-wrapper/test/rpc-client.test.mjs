@@ -4,6 +4,7 @@ import {PassThrough} from "node:stream";
 import test from "node:test";
 
 import {AppServerRpcError, createAppServerRpcClient} from "../index.mjs";
+import {digestValue} from "../src/canonical.mjs";
 
 function fakeTransport() {
   const input = new PassThrough();
@@ -62,6 +63,62 @@ test("shared RPC client exposes the transport handshake receipt", async () => {
   transport.ready = Promise.resolve({ok: true, resumed: true, runtime_epoch_id: "runtime:1"});
   const client = createAppServerRpcClient({transport});
   assert.deepEqual(await client.ready(), {ok: true, resumed: true, runtime_epoch_id: "runtime:1"});
+  await client.close();
+});
+
+test("shared RPC client reuses an exactly bound reconnect initialization without writing", async () => {
+  const params = {clientInfo: {name: "test", version: "1"}, capabilities: {experimentalApi: true}};
+  const transport = fakeTransport();
+  transport.ready = Promise.resolve({
+    ok: true,
+    resumed: true,
+    initialization: {
+      status: "complete",
+      binding_digest: digestValue({method: "initialize", params}),
+      result: {ready: true, serverInfo: {version: "1"}},
+      result_digest: digestValue({ready: true, serverInfo: {version: "1"}}),
+    },
+  });
+  let writes = 0;
+  transport.input.on("data", () => { writes += 1; });
+  const client = createAppServerRpcClient({transport});
+  assert.deepEqual(await client.initialize(params), {ready: true, serverInfo: {version: "1"}});
+  assert.equal(writes, 0);
+  assert.equal(client.inspect().initialization_reuse_count, 1);
+  await client.close();
+});
+
+test("shared RPC client rejects reconnect initialization drift without writing", async () => {
+  const retained = {clientInfo: {name: "test", version: "1"}};
+  const transport = fakeTransport();
+  transport.ready = Promise.resolve({
+    ok: true,
+    resumed: true,
+    initialization: {status: "complete", binding_digest: digestValue({method: "initialize", params: retained}), result: {ready: true}, result_digest: digestValue({ready: true})},
+  });
+  let writes = 0;
+  transport.input.on("data", () => { writes += 1; });
+  const client = createAppServerRpcClient({transport});
+  await assert.rejects(client.initialize({clientInfo: {name: "different", version: "1"}}), (error) => error.code === "rpc.initialize-binding-mismatch");
+  assert.equal(writes, 0);
+  await client.close();
+});
+
+test("shared RPC client rejects a tampered retained initialization result", async () => {
+  const params = {clientInfo: {name: "test", version: "1"}};
+  const transport = fakeTransport();
+  transport.ready = Promise.resolve({
+    ok: true,
+    resumed: true,
+    initialization: {
+      status: "complete",
+      binding_digest: digestValue({method: "initialize", params}),
+      result: {ready: false},
+      result_digest: digestValue({ready: true}),
+    },
+  });
+  const client = createAppServerRpcClient({transport});
+  await assert.rejects(client.initialize(params), (error) => error.code === "rpc.initialize-result-digest-mismatch");
   await client.close();
 });
 

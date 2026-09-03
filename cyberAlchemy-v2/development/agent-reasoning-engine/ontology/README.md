@@ -8,9 +8,19 @@ This durable ontology package defines the Agent Reasoning Engine as the
 CyberAlchemy-v2 capability for both governed reasoning and context management.
 It keeps business meaning, DomainSpec-authored system structure, generated
 system projections, implementation evidence, and unresolved gaps distinct.
-The current bounded system branch includes checkpointed append-only Reasoning
-State recovery and disposable-index rebuilding while keeping repair,
-cross-process coordination, and Session semantics outside the realization.
+The current bounded system branch includes exact cache-affinity projection,
+checkpointed append-only per-consumer Reasoning State recovery, disposable-index
+rebuilding, atomic single-writer exclusion, content-addressed branches,
+deterministic replay fixtures, append-only reductions, risk-scaled durability,
+currentness-bound counterevidence, compatible portable epochs, and explicit
+provenance comparison. It also includes fail-closed transition coordination,
+a provenance-bound real-reasoning improvement iteration, and a versioned
+integrated product surface with deterministic health, closure, and unified-test
+operations. Authenticated reconnect, acknowledged delivery, and safe bounded
+session eviction are implemented. Actual provider cache telemetry from the
+current app-server, automatic reduction and import policy, stale-lock and log
+repair, distributed coordination, a durable gateway-session index, and
+supported Codex Desktop endpoint adoption remain outside the realization.
 
 The package uses the `business-system-bridge` ontology archetype because the
 requested capability spans product meaning and runtime structure. Its business
@@ -30,9 +40,9 @@ deterministically. The bridge links only what current evidence supports.
 | Compiled graph | candidate-generated | Deterministic projection, not independent authority. |
 | System ontology | candidate-generated | Deterministic projection; profile admission is not granted. |
 | Bridge validation | candidate | Partial realization and gaps are explicit. |
-| Implementation | candidate partial realizations | Routing, context, context-bound semantic integrity, journal, app-server, reusable reasoning-state, exact-dispatch, checkpoint, and fail-closed recovery verticals have bounded evidence; they do not constitute the whole engine. |
+| Implementation | integrated stability candidate | One versioned product profile composes routing, context, semantic integrity, journal, app-server, reusable reasoning-state, cache-affinity, Define, benchmark, doctor, closure, and unified tests; it does not constitute the admitted whole engine. |
 | Static conformance | not evaluable | No accepted exact implementation binding. |
-| Runtime evidence | not evaluable | No complete engine or context manager. |
+| Runtime evidence | candidate local evidence only | Unified tests and controlled app-server canaries support engineering stability, but no accepted binding or conformance decision exists. |
 
 ## Key files
 
@@ -59,8 +69,9 @@ with the separate `--write-receipt --receipt-name <unique-name>` operation.
 
 The current candidate projection includes checkpointed completed-turn Reasoning
 State Frontiers. They preserve explicit semantic and continuation results for
-zero-call recovery replay, but do not acknowledge downstream successor delivery,
-create a durable Session, or grant authority.
+zero-call recovery replay. The gateway separately supports acknowledged client
+delivery, authenticated reconnect, and safe bounded eviction; it still does not
+create a durable gateway-session index or grant authority.
 
 It also includes fail-closed context-bound semantic integrity: the binding,
 Problem Frame, entry gate, authority snapshot, selected Context Items, freshness,
