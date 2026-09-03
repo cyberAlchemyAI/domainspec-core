@@ -11,6 +11,15 @@ export {
 
 export { runCli, type CliIo } from "./cli/main.js";
 export {
+  addOperation,
+  addRule,
+  SourceAuthoringError,
+  type AddOperationInput,
+  type AddOperationResult,
+  type AddRuleInput,
+  type AddRuleResult,
+} from "./authoring/add-operation.js";
+export {
   observeTarget,
   observeTargetReceipt,
   ConformanceError,
@@ -45,7 +54,15 @@ export {
   type TypeScriptProjectionPayload,
 } from "./formalization/refinement.js";
 export { FORMALIZATION_LEAN_MODULE_FILENAMES, formalizationLeanModuleSources } from "./formalization/kernel.js";
-export { loadProjectNode, ProjectModelError, type DecodedProjectNode } from "./input/project-model.js";
+export {
+  loadCompiledProjectGraph,
+  loadProjectNode,
+  validateCompiledProjectGraphObligations,
+  ProjectModelError,
+  type CompiledProjectGraph,
+  type CompiledRelationshipObligationWitness,
+  type DecodedProjectNode,
+} from "./input/project-model.js";
 export { FROZEN_META_TYPE_CATALOG, selectRealization } from "./meta-types/catalog.js";
 export {
   FROZEN_RELATIONSHIP_AUTHORITY,

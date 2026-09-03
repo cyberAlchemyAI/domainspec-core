@@ -7,6 +7,7 @@ its 39 realization rows, and exposes the following command forms:
 
 ```text
 domainspec-v2 add operation <source-project-root> --feature <feature> --name <operation> --description <text> --guard <guard> --failure-continuation <continuation> [--reads <csv>] [--writes <csv>] [--effects <csv>]
+domainspec-v2 add rule <source-project-root> --feature <feature> --name <rule> --description <text> --ontology-rule <selector> --parameters-json <json> --expression-json <json>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root> --integration-profile provider-neutral-v1 --integration-binding-set <binding-set-id>
 domainspec-v2 formalize <source-project-root> --target <absolute-new-lean-file>
@@ -26,6 +27,13 @@ authoring, writes the new node while it is still unreferenced, and atomically
 replaces the feature index as the visibility boundary. Its result includes the
 recomputed source-manifest digest. This slice does not create projects,
 relationships, generated implementations, or runtime providers.
+
+`add rule` uses the same staged, locked, atomic authoring boundary. It requires
+an exact ontology Rule selector, typed parameters, and a Boolean expression in
+the `domainspec.typed-rule/v1` grammar. The prospective project must resolve
+every referenced node, property, variant, and Rule before publication. The
+three generators consume that typed closure; an untyped Rule fails explicitly
+instead of receiving a truthiness default.
 
 `instantiate` decodes one of the 13 closed backend meta types, plans one
 deterministic language artifact, and publishes the artifact plus a

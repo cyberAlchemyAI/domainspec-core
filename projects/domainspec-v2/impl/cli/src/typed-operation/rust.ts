@@ -1,6 +1,6 @@
 import { canonicalJson } from "../input/source-manifest.js";
 import type { RuleExpression, TypedParameter, TypedResultConstructor, TypedType, ValueExpression } from "./contracts.js";
-import type { TypedOperationClosureV1 } from "./closure.js";
+import type { TypedOperationClosureV1, TypedRuleClosureV1, TypedSemanticClosureV1 } from "./closure.js";
 
 const RUST_KEYWORDS = new Set([
   "Self", "abstract", "as", "async", "await", "become", "box", "break", "const", "continue", "crate", "do", "dyn", "else", "enum", "extern", "false", "final", "fn", "for", "gen", "if", "impl", "in", "let", "loop", "macro", "match", "mod", "move", "mut", "override", "priv", "pub", "raw", "ref", "return", "safe", "self", "static", "struct", "super", "trait", "true", "try", "type", "typeof", "union", "unsafe", "unsized", "use", "virtual", "where", "while", "yield",
@@ -146,7 +146,7 @@ function borrowValue(value: RenderedValue): string {
   return value.ownership === "borrowed" || value.ownership === "string-literal" ? value.code : `&${value.code}`;
 }
 
-export function renderTypedRustOperation(closure: TypedOperationClosureV1): string {
+function renderTypedRustSemantic(closure: TypedSemanticClosureV1): string {
   const nodeContracts = new Map(closure.nodes.map((node) => [node.selector, node.typed_contract]));
   const properties = new Map<string, { readonly owner: string; readonly name: string; readonly type: TypedType }>();
   const variants = new Map<string, { readonly owner: string; readonly name: string; readonly payload: TypedType | null }>();
@@ -178,12 +178,15 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
     }
   }
 
-  const guardNode = closure.nodes.find((node) => node.selector === closure.operation.guard);
-  if (guardNode?.typed_contract.schema_version !== "domainspec.typed-rule/v1") fail("MTCLI_TYPED_RUST_GUARD", "/typed-rust/operation/guard", "typed Operation guard is not a typed Rule in the closure");
-  const guardFunction = snake(guardNode.selector.split(":")[1] ?? "guard");
-  const operationFunction = snake(closure.root_selector.split(":")[1] ?? "operation");
-  claimSymbol(callableSymbols, operationFunction, closure.root_selector, "Rust callable");
-  validateParameterSymbols(closure.operation.inputs, closure.root_selector);
+  const operation = closure.schema_version === "domainspec.typed-operation-closure/v1" ? closure.operation : null;
+  const guardNode = operation === null ? null : closure.nodes.find((node) => node.selector === operation.guard);
+  if (operation !== null && guardNode?.typed_contract.schema_version !== "domainspec.typed-rule/v1") fail("MTCLI_TYPED_RUST_GUARD", "/typed-rust/operation/guard", "typed Operation guard is not a typed Rule in the closure");
+  const guardFunction = guardNode === null || guardNode === undefined ? null : snake(guardNode.selector.split(":")[1] ?? "guard");
+  const operationFunction = operation === null ? null : snake(closure.root_selector.split(":")[1] ?? "operation");
+  if (operation !== null) {
+    claimSymbol(callableSymbols, operationFunction!, closure.root_selector, "Rust callable");
+    validateParameterSymbols(operation.inputs, closure.root_selector);
+  }
 
   const renderValue = (value: ValueExpression, scopes: ReadonlyMap<string, TypedType>): RenderedValue => {
     if (value.op === "literal") {
@@ -316,20 +319,52 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
     const block = renderRule(contract.expression, scopes);
     return [`#[rustfmt::skip]\npub fn ${snake(node.selector.split(":")[1] ?? "rule")}(${parameters}) -> bool {\n${indentText(blockBody(block), 4)}\n}`];
   });
-  const outputType = rustType(closure.operation.output);
-  const inputParameters = closure.operation.inputs.map((parameter) => `${snake(parameter.name)}: &${rustType(parameter.type)}`).join(", ");
-  const operationInputs = new Map(closure.operation.inputs.map((parameter) => [parameter.name, parameter.type]));
-  const inputArguments = guardNode.typed_contract.parameters.map((parameter) => {
+  const propertyBindings = closure.properties.map((row) => `    (${rustStringLiteral(row.ontology_property)}, ${rustStringLiteral(`${nodeName(row.domainspec_selector.split("#")[0]!)}::${snake(row.domainspec_selector.split("#")[1]!)}`)}),`).join("\n");
+  const variantBindings = closure.variants.map((row) => `    (${rustStringLiteral(row.ontology_variant)}, ${rustStringLiteral(`${nodeName(row.domainspec_selector.split("#")[0]!)}::${variantName(row.domainspec_selector.split("#")[1]!)}`)}),`).join("\n");
+  const ruleSelectors = closure.rules.map((row) => `    (${rustStringLiteral(row.ontology_rule)}, ${rustStringLiteral(row.domainspec_selector)}),`).join("\n");
+  const ruleImplementationBindings = closure.rules.map((row) => `    (${rustStringLiteral(row.ontology_rule)}, ${rustStringLiteral(row.domainspec_selector)}, ${rustStringLiteral(snake(row.domainspec_selector.split(":")[1] ?? "rule"))}),`).join("\n");
+  const collectionImport = [...dataDefinitions, ...ruleFunctions].some((definition) => definition.includes("BTreeSet<"))
+    ? "use std::collections::BTreeSet;\n\n"
+    : "";
+  const prelude = `// domainspec-typed-closure-sha256: ${rustStringLiteral(closure.closure_sha256)}
+${collectionImport}pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
+    ${rustStringLiteral(closure.closure_sha256)};
+#[rustfmt::skip]
+pub const DOMAINSPEC_PROPERTY_BINDINGS: &[(&str, &str)] = &[
+${propertyBindings}
+];
+#[rustfmt::skip]
+pub const DOMAINSPEC_VARIANT_BINDINGS: &[(&str, &str)] = &[
+${variantBindings}
+];
+#[rustfmt::skip]
+pub const DOMAINSPEC_RULE_SELECTORS: &[(&str, &str)] = &[
+${ruleSelectors}
+];
+#[rustfmt::skip]
+pub const DOMAINSPEC_RULE_IMPLEMENTATION_BINDINGS: &[(&str, &str, &str)] = &[
+${ruleImplementationBindings}
+];
+
+${dataDefinitions.join("\n\n")}
+
+${ruleFunctions.join("\n\n")}`;
+  if (operation === null) return `${prelude}\n`;
+
+  const outputType = rustType(operation.output);
+  const inputParameters = operation.inputs.map((parameter) => `${snake(parameter.name)}: &${rustType(parameter.type)}`).join(", ");
+  const operationInputs = new Map(operation.inputs.map((parameter) => [parameter.name, parameter.type]));
+  const inputArguments = guardNode!.typed_contract.schema_version === "domainspec.typed-rule/v1" ? guardNode!.typed_contract.parameters.map((parameter) => {
     const inputType = operationInputs.get(parameter.name);
     if (inputType === undefined || !sameType(inputType, parameter.type)) {
       fail("MTCLI_TYPED_RUST_GUARD", "/typed-rust/operation/guard", `typed guard parameter is not supplied by the root:${parameter.name}`);
     }
     return snake(parameter.name);
-  }).join(", ");
-  const resultScopes = new Map(closure.operation.inputs.map((parameter) => [parameter.name, parameter.type]));
+  }).join(", ") : fail("MTCLI_TYPED_RUST_GUARD", "/typed-rust/operation/guard", "typed Operation guard is not a typed Rule in the closure");
+  const resultScopes = new Map(operation.inputs.map((parameter) => [parameter.name, parameter.type]));
 
   const result = (constructor: TypedResultConstructor): string => {
-    const outputSelector = closure.operation.output.kind === "named" ? closure.operation.output.selector : null;
+    const outputSelector = operation.output.kind === "named" ? operation.output.selector : null;
     if (outputSelector === null) fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/output", "typed Rust Operation output must be a named sum");
     const outputContract = nodeContracts.get(outputSelector);
     if (outputContract?.schema_version !== "domainspec.typed-sum/v1") fail("MTCLI_TYPED_RUST_RESULT", "/typed-rust/operation/output", "typed Rust Operation output must select a typed sum");
@@ -364,44 +399,22 @@ export function renderTypedRustOperation(closure: TypedOperationClosureV1): stri
     return `${outputType}::${variantName(variant.name)}(${rustType(variant.payload)}::${variantName(constructor.payload_variant)})`;
   };
 
-  const propertyBindings = closure.properties.map((row) => `    (${rustStringLiteral(row.ontology_property)}, ${rustStringLiteral(`${nodeName(row.domainspec_selector.split("#")[0]!)}::${snake(row.domainspec_selector.split("#")[1]!)}`)}),`).join("\n");
-  const variantBindings = closure.variants.map((row) => `    (${rustStringLiteral(row.ontology_variant)}, ${rustStringLiteral(`${nodeName(row.domainspec_selector.split("#")[0]!)}::${variantName(row.domainspec_selector.split("#")[1]!)}`)}),`).join("\n");
-  const ruleSelectors = closure.rules.map((row) => `    (${rustStringLiteral(row.ontology_rule)}, ${rustStringLiteral(row.domainspec_selector)}),`).join("\n");
-  const ruleImplementationBindings = closure.rules.map((row) => `    (${rustStringLiteral(row.ontology_rule)}, ${rustStringLiteral(row.domainspec_selector)}, ${rustStringLiteral(snake(row.domainspec_selector.split(":")[1] ?? "rule"))}),`).join("\n");
-  const collectionImport = [...dataDefinitions, ...ruleFunctions].some((definition) => definition.includes("BTreeSet<"))
-    ? "use std::collections::BTreeSet;\n\n"
-    : "";
+  return `${prelude}
 
-  return `// domainspec-typed-closure-sha256: ${rustStringLiteral(closure.closure_sha256)}
-${collectionImport}pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
-    ${rustStringLiteral(closure.closure_sha256)};
-#[rustfmt::skip]
-pub const DOMAINSPEC_PROPERTY_BINDINGS: &[(&str, &str)] = &[
-${propertyBindings}
-];
-#[rustfmt::skip]
-pub const DOMAINSPEC_VARIANT_BINDINGS: &[(&str, &str)] = &[
-${variantBindings}
-];
-#[rustfmt::skip]
-pub const DOMAINSPEC_RULE_SELECTORS: &[(&str, &str)] = &[
-${ruleSelectors}
-];
-#[rustfmt::skip]
-pub const DOMAINSPEC_RULE_IMPLEMENTATION_BINDINGS: &[(&str, &str, &str)] = &[
-${ruleImplementationBindings}
-];
-
-${dataDefinitions.join("\n\n")}
-
-${ruleFunctions.join("\n\n")}
-
-pub fn ${operationFunction}(${inputParameters}) -> ${outputType} {
-    if ${guardFunction}(${inputArguments}) {
-        ${result(closure.operation.success_result)}
+pub fn ${operationFunction!}(${inputParameters}) -> ${outputType} {
+    if ${guardFunction!}(${inputArguments}) {
+        ${result(operation.success_result)}
     } else {
-        ${result(closure.operation.failure_result)}
+        ${result(operation.failure_result)}
     }
 }
 `;
+}
+
+export function renderTypedRustOperation(closure: TypedOperationClosureV1): string {
+  return renderTypedRustSemantic(closure);
+}
+
+export function renderTypedRustRule(closure: TypedRuleClosureV1): string {
+  return renderTypedRustSemantic(closure);
 }

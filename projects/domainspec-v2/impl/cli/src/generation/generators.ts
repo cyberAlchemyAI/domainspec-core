@@ -3,7 +3,7 @@ import type { FieldSpec, InterfaceOperationSpec, StateTransitionSpec, TypeRef } 
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
 import type { GeneratorInput, GeneratorRegistration } from "./contracts.js";
-import { renderTypedRustOperation } from "../typed-operation/rust.js";
+import { renderTypedRustOperation, renderTypedRustRule } from "../typed-operation/rust.js";
 
 const EXTENSIONS = Object.freeze({ typescript: "ts", python: "py", rust: "rs" } as const);
 const LOWER_IDENTIFIER_KEYWORDS = new Set([
@@ -121,6 +121,140 @@ function provenance(input: GeneratorInput, comment: "//" | "#"): string {
   const relationships = canonicalJson(input.relationships);
   const body = canonicalJson(input.body);
   return `${comment} domainspec-meta: ${metadata}\n${comment} domainspec-body: ${body}\n${comment} domainspec-relationships: ${relationships}\n`;
+}
+
+function typedRuleProjection(input: GeneratorInput): Readonly<{
+  root: string;
+  properties: Readonly<Record<string, string>>;
+  rules: Readonly<Record<string, unknown>>;
+}> {
+  const closure = input.typed_closure;
+  if (closure?.schema_version !== "domainspec.typed-rule-closure/v1") throw new Error("typed Rule requires a Rule-rooted semantic closure");
+  return Object.freeze({
+    root: closure.root_selector,
+    properties: Object.freeze(Object.fromEntries(closure.properties.map((row) => {
+      const field = row.domainspec_selector.split("#")[1];
+      if (field === undefined) throw new Error(`typed Rule property binding lacks a field:${row.domainspec_selector}`);
+      return [row.ontology_property, field];
+    }))),
+    rules: Object.freeze(Object.fromEntries(closure.nodes.flatMap((node) => node.typed_contract.schema_version === "domainspec.typed-rule/v1" ? [[node.selector, node.typed_contract]] : []))),
+  });
+}
+
+function renderTypeScriptTypedRule(input: GeneratorInput, fn: string, header: string): string {
+  const projection = typedRuleProjection(input);
+  return `${header}// domainspec-rule-semantics: "domainspec.typed-rule/v1"
+const domainspecRuleRoot = ${JSON.stringify(projection.root)};
+const domainspecRuleProperties: Readonly<Record<string, string>> = Object.freeze(${canonicalJson(projection.properties)});
+const domainspecRuleContracts: Readonly<Record<string, any>> = Object.freeze(${canonicalJson(projection.rules)});
+function domainspecStable(value: unknown): string {
+  if (value instanceof Set) return JSON.stringify([...value].map(domainspecStable).sort());
+  if (Array.isArray(value)) return JSON.stringify(value.map(domainspecStable));
+  if (value !== null && typeof value === "object") return JSON.stringify(Object.fromEntries(Object.entries(value as Record<string, unknown>).sort(([left], [right]) => left.localeCompare(right)).map(([key, child]) => [key, domainspecStable(child)])));
+  return JSON.stringify(value) ?? "undefined";
+}
+function domainspecValue(expression: any, environment: Readonly<Record<string, unknown>>): any {
+  if (expression.op === "literal") return expression.value;
+  if (expression.op === "variant") return expression.selector;
+  if (expression.op === "to_set") return new Set((domainspecValue(expression.value, environment) as readonly unknown[]).map(domainspecStable));
+  let current: any = environment[expression.root];
+  for (const property of expression.properties as readonly string[]) {
+    const field = domainspecRuleProperties[property];
+    if (field === undefined) throw new Error("unresolved Rule property:" + property);
+    current = Array.isArray(current) ? current.map((entry) => entry?.[field]) : current?.[field];
+  }
+  return current;
+}
+function domainspecEqual(left: unknown, right: unknown): boolean { return domainspecStable(left) === domainspecStable(right); }
+function domainspecCollection(value: unknown): readonly unknown[] { return value instanceof Set ? [...value] : Array.isArray(value) ? value : (() => { throw new Error("Rule quantifier requires a collection"); })(); }
+function domainspecEvaluateExpression(expression: any, environment: Readonly<Record<string, unknown>>): boolean {
+  if (expression.op === "all" || expression.op === "any") return expression.op === "all" ? expression.terms.every((term: any) => domainspecEvaluateExpression(term, environment)) : expression.terms.some((term: any) => domainspecEvaluateExpression(term, environment));
+  if (expression.op === "not") return !domainspecEvaluateExpression(expression.term, environment);
+  if (["eq", "lt", "set_equal", "contains"].includes(expression.op)) {
+    const left = domainspecValue(expression.left, environment); const right = domainspecValue(expression.right, environment);
+    if (expression.op === "lt") return typeof left === "number" && typeof right === "number" && left < right;
+    if (expression.op === "contains") return (left instanceof Set && left.has(domainspecStable(right))) || (Array.isArray(left) && left.some((entry) => domainspecEqual(entry, right)));
+    return domainspecEqual(left, right);
+  }
+  if (["exactly_one", "exists", "unique"].includes(expression.op)) {
+    const values = domainspecCollection(domainspecValue(expression.collection, environment));
+    if (expression.op === "unique") return new Set(values.map((value) => domainspecStable(domainspecValue(expression.where.left, { ...environment, [expression.binding]: value })))).size === values.length;
+    const matches = values.filter((value) => domainspecEvaluateExpression(expression.where, { ...environment, [expression.binding]: value })).length;
+    return expression.op === "exactly_one" ? matches === 1 : matches > 0;
+  }
+  if (expression.op === "rule_ref") return domainspecEvaluate(expression.selector, Object.fromEntries(expression.arguments.map((argument: any) => [argument.parameter, domainspecValue(argument.value, environment)])));
+  throw new Error("unsupported Rule operator:" + String(expression.op));
+}
+function domainspecEvaluate(selector: string, environment: Readonly<Record<string, unknown>>): boolean {
+  const contract = domainspecRuleContracts[selector];
+  if (contract === undefined) throw new Error("unresolved Rule reference:" + selector);
+  if (!contract.parameters.every((parameter: any) => Object.hasOwn(environment, parameter.name))) throw new Error("missing Rule parameter:" + selector);
+  return domainspecEvaluateExpression(contract.expression, environment);
+}
+export function ${fn}(parameters: Readonly<Record<string, unknown>>): boolean { return domainspecEvaluate(domainspecRuleRoot, parameters); }
+`;
+}
+
+function renderPythonTypedRule(input: GeneratorInput, fn: string, header: string): string {
+  const projection = typedRuleProjection(input);
+  return `${header}# domainspec-rule-semantics: "domainspec.typed-rule/v1"
+import json
+
+_DOMAINSPEC_RULE_ROOT = ${JSON.stringify(projection.root)}
+_DOMAINSPEC_RULE_PROPERTIES = json.loads(${JSON.stringify(canonicalJson(projection.properties))})
+_DOMAINSPEC_RULE_CONTRACTS = json.loads(${JSON.stringify(canonicalJson(projection.rules))})
+
+def _domainspec_stable(value: object) -> str:
+    if isinstance(value, set):
+        return json.dumps(sorted(_domainspec_stable(item) for item in value), separators=(",", ":"))
+    if isinstance(value, list):
+        return json.dumps([_domainspec_stable(item) for item in value], separators=(",", ":"))
+    if isinstance(value, dict):
+        return json.dumps({key: _domainspec_stable(value[key]) for key in sorted(value)}, separators=(",", ":"))
+    return json.dumps(value, separators=(",", ":"))
+
+def _domainspec_value(expression: dict[str, object], environment: dict[str, object]) -> object:
+    operation = expression["op"]
+    if operation == "literal": return expression["value"]
+    if operation == "variant": return expression["selector"]
+    if operation == "to_set": return {_domainspec_stable(item) for item in _domainspec_value(expression["value"], environment)}
+    current = environment[expression["root"]]
+    for property_selector in expression["properties"]:
+        field = _DOMAINSPEC_RULE_PROPERTIES[property_selector]
+        current = [entry[field] for entry in current] if isinstance(current, list) else current[field]
+    return current
+
+def _domainspec_evaluate_expression(expression: dict[str, object], environment: dict[str, object]) -> bool:
+    operation = expression["op"]
+    if operation in ("all", "any"):
+        values = (_domainspec_evaluate_expression(term, environment) for term in expression["terms"])
+        return all(values) if operation == "all" else any(values)
+    if operation == "not": return not _domainspec_evaluate_expression(expression["term"], environment)
+    if operation in ("eq", "lt", "set_equal", "contains"):
+        left = _domainspec_value(expression["left"], environment); right = _domainspec_value(expression["right"], environment)
+        if operation == "lt": return isinstance(left, (int, float)) and isinstance(right, (int, float)) and left < right
+        if operation == "contains": return _domainspec_stable(right) in left if isinstance(left, set) else any(_domainspec_stable(item) == _domainspec_stable(right) for item in left)
+        return _domainspec_stable(left) == _domainspec_stable(right)
+    if operation in ("exactly_one", "exists", "unique"):
+        collection = _domainspec_value(expression["collection"], environment)
+        if not isinstance(collection, (list, set, tuple)): raise ValueError("Rule quantifier requires a collection")
+        if operation == "unique":
+            keys = [_domainspec_stable(_domainspec_value(expression["where"]["left"], {**environment, expression["binding"]: item})) for item in collection]
+            return len(set(keys)) == len(keys)
+        matches = sum(1 for item in collection if _domainspec_evaluate_expression(expression["where"], {**environment, expression["binding"]: item}))
+        return matches == 1 if operation == "exactly_one" else matches > 0
+    if operation == "rule_ref": return _domainspec_evaluate(expression["selector"], {argument["parameter"]: _domainspec_value(argument["value"], environment) for argument in expression["arguments"]})
+    raise ValueError(f"unsupported Rule operator:{operation}")
+
+def _domainspec_evaluate(selector: str, environment: dict[str, object]) -> bool:
+    contract = _DOMAINSPEC_RULE_CONTRACTS.get(selector)
+    if contract is None: raise ValueError(f"unresolved Rule reference:{selector}")
+    if any(parameter["name"] not in environment for parameter in contract["parameters"]): raise ValueError(f"missing Rule parameter:{selector}")
+    return _domainspec_evaluate_expression(contract["expression"], environment)
+
+def ${fn}(parameters: dict[str, object]) -> bool:
+    return _domainspec_evaluate(_DOMAINSPEC_RULE_ROOT, parameters)
+`;
 }
 
 function workflowOperationIds(input: GeneratorInput): readonly string[] {
@@ -615,7 +749,9 @@ export class ${name} {
     case "Calculation":
       return `${header}export function ${fn}(inputs: readonly number[]): number {\n  return inputs.reduce((total, value) => total + value, 0);\n}\n`;
     case "Rule":
-      return `${header}export function ${fn}(candidate: unknown): boolean {\n  return Boolean(candidate);\n}\n`;
+      return input.typed_closure?.schema_version === "domainspec.typed-rule-closure/v1"
+        ? renderTypeScriptTypedRule(input, fn, header)
+        : `${header}export function ${fn}(_candidate: unknown): boolean {\n  throw new Error("Rule requires authored domainspec.typed-rule/v1 semantics");\n}\n`;
     case "Policy":
       return `${header}export const ${name}Strategies = Object.freeze(${JSON.stringify(strings(body.strategies))});\nexport function ${fn}(index = 0): string { return ${name}Strategies[index] ?? ${name}Strategies[0] ?? ""; }\n`;
     case "Workflow":
@@ -741,7 +877,9 @@ ${pythonFields(fields)}
     case "Calculation":
       return `${header}def ${fn}(inputs: list[float]) -> float:\n    return sum(inputs)\n`;
     case "Rule":
-      return `${header}def ${fn}(candidate: object) -> bool:\n    return bool(candidate)\n`;
+      return input.typed_closure?.schema_version === "domainspec.typed-rule-closure/v1"
+        ? renderPythonTypedRule(input, fn, header)
+        : `${header}def ${fn}(_candidate: object) -> bool:\n    raise ValueError("Rule requires authored domainspec.typed-rule/v1 semantics")\n`;
     case "Policy":
       return `${header}${name.toUpperCase()}_STRATEGIES = tuple(${JSON.stringify(strings(body.strategies))})\n\ndef ${fn}(index: int = 0) -> str:\n    return ${name.toUpperCase()}_STRATEGIES[index]\n`;
     case "Workflow":
@@ -872,19 +1010,21 @@ impl ${name} {
     case "Enum":
       return `${header}${l1Marker(input, "//")}// domainspec-enum-closed-values: ${canonicalJson(strings(body.values))}\n#[derive(Clone, Debug, PartialEq, Eq)]\npub enum ${name} { ${uniqueNames(strings(body.values), pascal, "Rust Enum").join(", ")} }\n`;
     case "Operation":
-      if (input.typed_closure !== null && input.typed_closure !== undefined) {
+      if (input.typed_closure?.schema_version === "domainspec.typed-operation-closure/v1") {
         return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\npub const ${snake(name).toUpperCase()}_CREATION_TARGETS: &[&str] = ${rustSlice(strings(body.creation_targets))};\n${renderTypedRustOperation(input.typed_closure)}`;
       }
       return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nuse std::collections::BTreeMap;\npub const ${snake(name).toUpperCase()}_CREATION_TARGETS: &[&str] = ${rustSlice(strings(body.creation_targets))};\npub const ${snake(name).toUpperCase()}_RELATIONSHIPS_JSON: &str = ${JSON.stringify(canonicalJson(input.relationships))};\n#[derive(Clone, Debug, PartialEq)]\npub struct ${name}Outcome { pub reads: BTreeMap<String, String>, pub state: BTreeMap<String, String>, pub outbox: Vec<String> }\npub fn ${fn}(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool) -> Result<${name}Outcome, &'static str> {\n    if !guard { return Err(${JSON.stringify(text(body.failure_continuation, "return-error"))}); }\n    let reads = ${rustArray(strings(body.reads))}.iter().filter_map(|key| state.get(*key).map(|value| ((*key).to_owned(), value.clone()))).collect();\n    let mut next_state = state.clone();\n    for key in ${rustArray(strings(body.writes))} { if let Some(value) = changes.get(key) { next_state.insert(key.to_owned(), value.clone()); } }\n    let outbox: Vec<String> = ${rustArray(strings(body.effects))}.iter().map(|value| (*value).to_owned()).collect();\n    Ok(${name}Outcome { reads, state: next_state, outbox })\n}\npub fn ${fn}_observed(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool, observe: &mut impl FnMut(&str)) -> Result<${name}Outcome, &'static str> {\n    observe("operation.enter");\n    let outcome = ${fn}(state, changes, guard);\n    observe(if outcome.is_ok() { "operation.success" } else { "operation.failure" });\n    outcome\n}\n`;
     case "Query":
-      if (input.typed_closure !== null && input.typed_closure !== undefined) {
+      if (input.typed_closure?.schema_version === "domainspec.typed-operation-closure/v1") {
         return `${header}// domainspec-query-reads: ${canonicalJson(strings(body.reads))}\n// domainspec-query-effects: []\n// domainspec-query-provider-neutral: true\n${renderTypedRustOperation(input.typed_closure)}`;
       }
       return `${header}pub fn ${fn}(state: &str) -> String { state.to_owned() }\n`;
     case "Calculation":
       return `${header}pub fn ${fn}(inputs: &[f64]) -> f64 { inputs.iter().sum() }\n`;
     case "Rule":
-      return `${header}pub fn ${fn}(candidate: bool) -> bool { candidate }\n`;
+      return input.typed_closure?.schema_version === "domainspec.typed-rule-closure/v1"
+        ? `${header}${renderTypedRustRule(input.typed_closure)}`
+        : `${header}pub fn ${fn}(_candidate: bool) -> bool { panic!("Rule requires authored domainspec.typed-rule/v1 semantics") }\n`;
     case "Policy":
       return `${header}pub const ${snake(name).toUpperCase()}_STRATEGIES: &[&str] = ${rustSlice(strings(body.strategies))};\npub fn ${fn}(index: usize) -> &'static str { ${snake(name).toUpperCase()}_STRATEGIES.get(index).copied().unwrap_or("") }\n`;
     case "Workflow":

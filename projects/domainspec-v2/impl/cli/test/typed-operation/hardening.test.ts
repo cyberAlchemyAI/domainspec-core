@@ -130,9 +130,9 @@ const mutations: readonly MutationCase[] = Object.freeze([
     evaluate: load,
   },
   {
-    mutation_id: "L2-SEMANTIC-RUST-TYPE-MISMATCH",
+    mutation_id: "L2-SEMANTIC-RULE-TYPE-MISMATCH",
     category: "semantic-type-invalid",
-    expected_code: "MTCLI_TYPED_RUST_TYPE",
+    expected_code: "MTCLI_TYPED_RULE_TYPE",
     mutate: (root) => mutateNode(root, "within-capacity", (node) => {
       node.body.typed_contract.expression.right.properties = ["CAPACITY-SNAPSHOT#request_id"];
     }),
@@ -148,7 +148,7 @@ test("L2 mutation matrix rejects every category with deterministic typed diagnos
     { mutation_id: "L2-CYCLIC-SELF-RULE", category: "cyclic", expected_code: "MTCLI_TYPED_CLOSURE_CYCLE" },
     { mutation_id: "L2-AMBIGUOUS-PROPERTY-IDENTITY", category: "ambiguous", expected_code: "MTCLI_TYPED_DUPLICATE" },
     { mutation_id: "L2-UNSUPPORTED-RULE-OPERATOR", category: "unsupported", expected_code: "MTCLI_TYPED_RULE" },
-    { mutation_id: "L2-SEMANTIC-RUST-TYPE-MISMATCH", category: "semantic-type-invalid", expected_code: "MTCLI_TYPED_RUST_TYPE" },
+    { mutation_id: "L2-SEMANTIC-RULE-TYPE-MISMATCH", category: "semantic-type-invalid", expected_code: "MTCLI_TYPED_RULE_TYPE" },
   ]);
 
   for (const mutation of mutations) {
@@ -167,7 +167,7 @@ test("L2 mutation matrix rejects every category with deterministic typed diagnos
   }
 });
 
-test("typed Rust diagnostics retain their code and pointer through the CLI envelope", () => {
+test("typed Rule diagnostics retain their code and pointer through the CLI envelope", () => {
   const fixture = copiedCapacitySource();
   const target = path.join(fixture.parent, "target");
   try {
@@ -184,9 +184,9 @@ test("typed Rust diagnostics retain their code and pointer through the CLI envel
     assert.equal(errors.length, 1);
     assert.deepEqual(JSON.parse(errors[0]!), {
       result: "fail",
-      code: "MTCLI_TYPED_RUST_TYPE",
-      pointer: "/typed-rust/rule/lt",
-      message: "Rust lt operands are type-incompatible",
+      code: "MTCLI_TYPED_RULE_TYPE",
+      pointer: "/nodes/capacity-decision:within-capacity/typed_contract/expression",
+      message: "lt operands are type-incompatible",
       authority_effect: "none",
     });
   } finally {

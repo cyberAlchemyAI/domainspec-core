@@ -56,6 +56,21 @@ export interface TypedOperationClosureV1 {
   readonly authority_effect: "none";
 }
 
+export interface TypedRuleClosureV1 {
+  readonly schema_version: "domainspec.typed-rule-closure/v1";
+  readonly root_selector: string;
+  readonly nodes: readonly TypedClosureNode[];
+  readonly relationships: readonly DecodedRelationship[];
+  readonly properties: readonly TypedPropertyClosureRow[];
+  readonly variants: readonly TypedVariantClosureRow[];
+  readonly rules: readonly TypedRuleClosureRow[];
+  readonly rule: TypedRuleContract;
+  readonly closure_sha256: string;
+  readonly authority_effect: "none";
+}
+
+export type TypedSemanticClosureV1 = TypedOperationClosureV1 | TypedRuleClosureV1;
+
 function fail(code: string, pointer: string, message: string): never {
   throw new TypedContractError(code, pointer, message);
 }
@@ -108,38 +123,126 @@ function sameSet(left: readonly string[], right: readonly string[]): boolean {
   return canonicalJson(uniqueSorted(left)) === canonicalJson(uniqueSorted(right));
 }
 
-export function compileTypedOperationClosure(
+function compileTypedClosure(
   rootSelector: string,
   sourceNodes: readonly TypedClosureSourceNode[],
   relationships: readonly DecodedRelationship[],
-): TypedOperationClosureV1 | null {
+  expectedRoot: "operation" | "rule",
+): TypedSemanticClosureV1 | null {
   const nodes = new Map(sourceNodes.map((node) => [selector(node), node]));
   const root = nodes.get(rootSelector);
   if (!root) fail("MTCLI_TYPED_CLOSURE_MISSING", "/node", `root node is missing:${rootSelector}`);
   if (root.typed_contract === null) return null;
-  if (!["Operation", "Query"].includes(root.kind) || contractSchema(root.typed_contract) !== "domainspec.typed-operation/v1") {
-    fail("MTCLI_TYPED_CLOSURE_ROOT", "/node", "typed closure root must be an Operation or Query");
+  const isOperationRoot = ["Operation", "Query"].includes(root.kind) && contractSchema(root.typed_contract) === "domainspec.typed-operation/v1";
+  const isRuleRoot = root.kind === "Rule" && contractSchema(root.typed_contract) === "domainspec.typed-rule/v1";
+  if ((expectedRoot === "operation" && !isOperationRoot) || (expectedRoot === "rule" && !isRuleRoot)) {
+    fail("MTCLI_TYPED_CLOSURE_ROOT", "/node", expectedRoot === "operation" ? "typed closure root must be an Operation or Query" : "typed closure root must be a Rule");
   }
-  const operation = root.typed_contract as TypedOperationContract;
+  const operation = isOperationRoot ? root.typed_contract as TypedOperationContract : null;
+  const rule = isRuleRoot ? root.typed_contract as TypedRuleContract : null;
 
   const propertyOwners = new Map<string, string>();
+  const propertyDefinitions = new Map<string, Readonly<{ owner: string; type: TypedType }>>();
+  const variantDefinitions = new Map<string, Readonly<{ owner: string; payload: TypedType | null }>>();
+  const ruleDefinitions = new Map<string, TypedRuleContract>();
   for (const node of sourceNodes) {
-    if (node.typed_contract?.schema_version !== "domainspec.typed-record/v1") continue;
-    for (const property of node.typed_contract.properties) {
-      if (propertyOwners.has(property.ontology_property)) fail("MTCLI_TYPED_CLOSURE_DUPLICATE_PROPERTY", "/nodes", `duplicate ontology property:${property.ontology_property}`);
-      propertyOwners.set(property.ontology_property, selector(node));
+    const contract = node.typed_contract;
+    if (contract?.schema_version === "domainspec.typed-record/v1") {
+      for (const property of contract.properties) {
+        if (propertyOwners.has(property.ontology_property)) fail("MTCLI_TYPED_CLOSURE_DUPLICATE_PROPERTY", "/nodes", `duplicate ontology property:${property.ontology_property}`);
+        propertyOwners.set(property.ontology_property, selector(node));
+        propertyDefinitions.set(property.ontology_property, Object.freeze({ owner: selector(node), type: property.type }));
+      }
+    } else if (contract?.schema_version === "domainspec.typed-sum/v1") {
+      for (const variant of contract.variants) variantDefinitions.set(variant.ontology_variant, Object.freeze({ owner: selector(node), payload: variant.payload }));
+    } else if (contract?.schema_version === "domainspec.typed-rule/v1") {
+      ruleDefinitions.set(selector(node), contract);
     }
   }
 
-  const incidentReads = relationships
-    .filter((edge) => edge.relationship === "reads" && `${edge.source.feature_id}:${edge.source.node_id}` === rootSelector)
-    .map((edge) => `${edge.target.feature_id}:${edge.target.node_id}`);
-  if (!sameSet(incidentReads, operation.reads)) fail("MTCLI_TYPED_CLOSURE_READS", "/typed_contract/reads", "typed reads must exactly match authored reads relationships");
-  const enforcingRules = relationships
+  const sameType = (left: TypedType, right: TypedType): boolean => canonicalJson(left) === canonicalJson(right);
+  const validateRuleSemantics = (contract: TypedRuleContract, pointer: string): void => {
+    const valueType = (value: ValueExpression, scopes: ReadonlyMap<string, TypedType>, valuePointer: string): TypedType => {
+      if (value.op === "literal") return Object.freeze({ kind: "scalar", name: value.type });
+      if (value.op === "variant") {
+        const variant = variantDefinitions.get(value.selector);
+        if (!variant || variant.payload !== null) fail("MTCLI_TYPED_RULE_TYPE", valuePointer, `Rule references an unknown or payload variant:${value.selector}`);
+        return Object.freeze({ kind: "named", selector: variant.owner });
+      }
+      if (value.op === "to_set") {
+        const source = valueType(value.value, scopes, `${valuePointer}/value`);
+        if (source.kind !== "list") fail("MTCLI_TYPED_RULE_TYPE", valuePointer, "to_set requires a list");
+        return Object.freeze({ kind: "set", element: source.element });
+      }
+      const rootType = scopes.get(value.root);
+      if (!rootType) fail("MTCLI_TYPED_RULE_SCOPE", `${valuePointer}/root`, `Rule path references an unknown scope:${value.root}`);
+      let current: TypedType = rootType;
+      for (const [index, propertySelector] of value.properties.entries()) {
+        const property = propertyDefinitions.get(propertySelector);
+        if (!property) fail("MTCLI_TYPED_CLOSURE_PROPERTY", `${valuePointer}/properties/${index}`, `unresolved ontology property:${propertySelector}`);
+        if (current.kind === "set" || current.kind === "list") {
+          if (current.element.kind !== "named" || current.element.selector !== property.owner || index !== value.properties.length - 1) {
+            fail("MTCLI_TYPED_RULE_TYPE", `${valuePointer}/properties/${index}`, `Rule collection projection owner mismatch:${propertySelector}`);
+          }
+          current = Object.freeze({ kind: current.kind, element: property.type });
+        } else {
+          if (current.kind !== "named" || current.selector !== property.owner) fail("MTCLI_TYPED_RULE_TYPE", `${valuePointer}/properties/${index}`, `Rule property owner mismatch:${propertySelector}`);
+          current = property.type;
+        }
+      }
+      return current;
+    };
+    const expression = (candidate: RuleExpression, scopes: ReadonlyMap<string, TypedType>, expressionPointer: string): void => {
+      if (candidate.op === "all" || candidate.op === "any") {
+        candidate.terms.forEach((term, index) => expression(term, scopes, `${expressionPointer}/terms/${index}`));
+        return;
+      }
+      if (candidate.op === "not") {
+        expression(candidate.term, scopes, `${expressionPointer}/term`);
+        return;
+      }
+      if (candidate.op === "eq" || candidate.op === "lt" || candidate.op === "set_equal" || candidate.op === "contains") {
+        const left = valueType(candidate.left, scopes, `${expressionPointer}/left`);
+        const right = valueType(candidate.right, scopes, `${expressionPointer}/right`);
+        if (candidate.op === "contains") {
+          if ((left.kind !== "set" && left.kind !== "list") || !sameType(left.element, right)) fail("MTCLI_TYPED_RULE_TYPE", expressionPointer, "contains operands are type-incompatible");
+        } else if (!sameType(left, right) || (candidate.op === "lt" && (left.kind !== "scalar" || left.name === "Bool"))) {
+          fail("MTCLI_TYPED_RULE_TYPE", expressionPointer, `${candidate.op} operands are type-incompatible`);
+        }
+        return;
+      }
+      if (candidate.op === "rule_ref") {
+        const target = ruleDefinitions.get(candidate.selector);
+        if (!target) fail("MTCLI_TYPED_RULE_REFERENCE", expressionPointer, `Rule reference is unresolved:${candidate.selector}`);
+        const supplied = new Map(candidate.arguments.map((argument) => [argument.parameter, argument.value]));
+        if (supplied.size !== target.parameters.length || target.parameters.some(({ name }) => !supplied.has(name))) fail("MTCLI_TYPED_RULE_REFERENCE", expressionPointer, `Rule arguments do not exactly bind:${candidate.selector}`);
+        for (const parameter of target.parameters) if (!sameType(valueType(supplied.get(parameter.name)!, scopes, `${expressionPointer}/arguments/${parameter.name}`), parameter.type)) fail("MTCLI_TYPED_RULE_TYPE", expressionPointer, `Rule argument type mismatch:${candidate.selector}:${parameter.name}`);
+        return;
+      }
+      if (candidate.op !== "exactly_one" && candidate.op !== "exists" && candidate.op !== "unique") fail("MTCLI_TYPED_RULE_TYPE", expressionPointer, "unsupported Rule quantifier");
+      const collection = valueType(candidate.collection, scopes, `${expressionPointer}/collection`);
+      if (collection.kind !== "set" && collection.kind !== "list") fail("MTCLI_TYPED_RULE_TYPE", expressionPointer, `${candidate.op} requires a collection`);
+      const nested = new Map(scopes);
+      nested.set(candidate.binding, collection.element);
+      if (candidate.op === "unique" && (candidate.where.op !== "eq" || canonicalJson(candidate.where.left) !== canonicalJson(candidate.where.right) || candidate.where.left.op !== "path")) {
+        fail("MTCLI_TYPED_RULE_TYPE", `${expressionPointer}/where`, "unique requires an identical path equality naming the uniqueness key");
+      }
+      expression(candidate.where, nested, `${expressionPointer}/where`);
+    };
+    expression(contract.expression, new Map(contract.parameters.map((parameter) => [parameter.name, parameter.type])), `${pointer}/expression`);
+  };
+
+  const enforcingRules = operation === null ? [] : relationships
     .filter((edge) => edge.relationship === "enforces" && `${edge.target.feature_id}:${edge.target.node_id}` === rootSelector)
     .map((edge) => `${edge.source.feature_id}:${edge.source.node_id}`);
-  if (root.kind === "Operation" && !enforcingRules.includes(operation.guard)) {
-    fail("MTCLI_TYPED_CLOSURE_GUARD", "/typed_contract/guard", "guard Rule must enforce the selected Operation");
+  if (operation !== null) {
+    const incidentReads = relationships
+      .filter((edge) => edge.relationship === "reads" && `${edge.source.feature_id}:${edge.source.node_id}` === rootSelector)
+      .map((edge) => `${edge.target.feature_id}:${edge.target.node_id}`);
+    if (!sameSet(incidentReads, operation.reads)) fail("MTCLI_TYPED_CLOSURE_READS", "/typed_contract/reads", "typed reads must exactly match authored reads relationships");
+    if (root.kind === "Operation" && !enforcingRules.includes(operation.guard)) {
+      fail("MTCLI_TYPED_CLOSURE_GUARD", "/typed_contract/guard", "guard Rule must enforce the selected Operation");
+    }
   }
 
   const dependencies = (node: TypedClosureSourceNode): readonly string[] => {
@@ -151,6 +254,7 @@ export function compileTypedOperationClosure(
     } else if (contract.schema_version === "domainspec.typed-sum/v1") {
       for (const variant of contract.variants) if (variant.payload !== null) result.push(...namedTypeSelectors(variant.payload));
     } else if (contract.schema_version === "domainspec.typed-rule/v1") {
+      validateRuleSemantics(contract, `/nodes/${selector(node)}/typed_contract`);
       for (const parameter of contract.parameters) result.push(...namedTypeSelectors(parameter.type));
       const expression = expressionDependencies(contract.expression);
       result.push(...expression.nodeSelectors);
@@ -206,16 +310,33 @@ export function compileTypedOperationClosure(
       ? [Object.freeze({ ontology_rule: node.typed_contract.ontology_rule, domainspec_selector: node.selector })]
       : []
   ).sort((left, right) => left.ontology_rule.localeCompare(right.ontology_rule)));
-  const body = {
-    schema_version: "domainspec.typed-operation-closure/v1" as const,
+  const shared = {
     root_selector: rootSelector,
     nodes: closureNodes,
     relationships: closureRelationships,
     properties,
     variants,
     rules,
-    operation,
     authority_effect: "none" as const,
   };
+  const body = operation !== null
+    ? { schema_version: "domainspec.typed-operation-closure/v1" as const, ...shared, operation }
+    : { schema_version: "domainspec.typed-rule-closure/v1" as const, ...shared, rule: rule! };
   return Object.freeze({ ...body, closure_sha256: sha256(canonicalJson(body)) });
+}
+
+export function compileTypedOperationClosure(
+  rootSelector: string,
+  sourceNodes: readonly TypedClosureSourceNode[],
+  relationships: readonly DecodedRelationship[],
+): TypedOperationClosureV1 | null {
+  return compileTypedClosure(rootSelector, sourceNodes, relationships, "operation") as TypedOperationClosureV1 | null;
+}
+
+export function compileTypedRuleClosure(
+  rootSelector: string,
+  sourceNodes: readonly TypedClosureSourceNode[],
+  relationships: readonly DecodedRelationship[],
+): TypedRuleClosureV1 | null {
+  return compileTypedClosure(rootSelector, sourceNodes, relationships, "rule") as TypedRuleClosureV1 | null;
 }

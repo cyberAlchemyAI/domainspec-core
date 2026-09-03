@@ -129,9 +129,13 @@
     "typed_closure": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["schema_version", "root_selector", "nodes", "relationships", "properties", "variants", "rules", "operation", "closure_sha256", "authority_effect"],
+      "required": ["schema_version", "root_selector", "nodes", "relationships", "properties", "variants", "rules", "closure_sha256", "authority_effect"],
+      "oneOf": [
+        {"required": ["operation"], "properties": {"schema_version": {"const": "domainspec.typed-operation-closure/v1"}}, "not": {"required": ["rule"]}},
+        {"required": ["rule"], "properties": {"schema_version": {"const": "domainspec.typed-rule-closure/v1"}}, "not": {"required": ["operation"]}}
+      ],
       "properties": {
-        "schema_version": {"const": "domainspec.typed-operation-closure/v1"},
+        "schema_version": {"enum": ["domainspec.typed-operation-closure/v1", "domainspec.typed-rule-closure/v1"]},
         "root_selector": {"type": "string", "pattern": "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$"},
         "nodes": {
           "type": "array",
@@ -152,6 +156,7 @@
         "variants": {"type": "array", "items": {"type": "object"}},
         "rules": {"type": "array", "items": {"type": "object"}},
         "operation": {"type": "object"},
+        "rule": {"type": "object"},
         "closure_sha256": {"$ref": "#/$defs/sha256"},
         "authority_effect": {"const": "none"}
       }

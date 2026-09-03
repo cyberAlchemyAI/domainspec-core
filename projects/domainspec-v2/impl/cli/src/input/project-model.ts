@@ -17,7 +17,7 @@ import {
   decodeTypedRuleContract,
   decodeTypedSumContract,
 } from "../typed-operation/contracts.js";
-import { compileTypedOperationClosure, type TypedClosureSourceNode, type TypedOperationClosureV1 } from "../typed-operation/closure.js";
+import { compileTypedOperationClosure, compileTypedRuleClosure, type TypedClosureSourceNode, type TypedSemanticClosureV1 } from "../typed-operation/closure.js";
 
 export { RELATIONSHIP_AUTHORITY_SHA256, RELATIONSHIP_SIGNATURES } from "../relationships/authority.js";
 
@@ -116,7 +116,7 @@ export interface DecodedProjectNode {
   readonly body: DecodedBody;
   readonly relationships: readonly DecodedRelationship[];
   readonly source_manifest: SourceManifestV1;
-  readonly typed_closure: TypedOperationClosureV1 | null;
+  readonly typed_closure: TypedSemanticClosureV1 | null;
 }
 
 export interface CompiledProjectGraphNode {
@@ -128,6 +128,30 @@ export interface CompiledProjectGraphNode {
   readonly body: DecodedBody;
   readonly generated_relationship_projections: Readonly<Record<string, readonly string[]>>;
   readonly authored_forbidden_projection_attributes: readonly string[];
+  readonly applicable_obligation_ids: readonly string[];
+}
+
+export interface CompiledRelationshipObligationWitness {
+  readonly witness_id: string;
+  readonly edge_id: string;
+  readonly obligation_id: string;
+  readonly family: "endpoint" | "scope" | "multiplicity" | "generated-projection" | "inverse-collapse" | "deprecation";
+  readonly predicate: Readonly<{
+    readonly relationship_id: string;
+    readonly allowed_source_types: readonly string[];
+    readonly allowed_target_types: readonly string[];
+    readonly allowed_scopes: readonly string[];
+    readonly multiplicity: string;
+    readonly inverse_kind: string;
+    readonly generated_projection_attribute: string | null;
+  }>;
+  readonly witness: Readonly<{
+    readonly scope: "feature" | "project";
+    readonly source_selector: string;
+    readonly source_type: string;
+    readonly target_selector: string;
+    readonly target_type: string;
+  }>;
 }
 
 export interface CompiledProjectGraph {
@@ -137,6 +161,7 @@ export interface CompiledProjectGraph {
   readonly source_manifest: SourceManifestV1;
   readonly nodes: readonly CompiledProjectGraphNode[];
   readonly relationships: readonly DecodedRelationship[];
+  readonly obligation_witnesses: readonly CompiledRelationshipObligationWitness[];
   readonly authority_effect: "none";
 }
 
@@ -671,8 +696,64 @@ export function validateProjectRoot(projectRoot: unknown): SourceManifestV1 {
   return decodeProjectModel(projectRoot).source_manifest;
 }
 
+function compileObligationWitnesses(relationships: readonly DecodedRelationship[]): readonly CompiledRelationshipObligationWitness[] {
+  const family = (obligationId: string): CompiledRelationshipObligationWitness["family"] => {
+    if (/^reject_non_.+_(?:source|target)$/.test(obligationId)) return "endpoint";
+    if (["admit_same_and_cross_feature_scope", "reject_cross_feature_scope", "reject_enforces_cross_label", "require_admitted_workflow_scope"].includes(obligationId)) return "scope";
+    if (["reject_multiple_sources_per_target", "reject_multiple_targets_per_source"].includes(obligationId)) return "multiplicity";
+    if (["reject_authored_generated_projection", "derive_creation_targets_from_edge"].includes(obligationId)) return "generated-projection";
+    if (obligationId === "reject_inverse_collapse_with_owns") return "inverse-collapse";
+    if (obligationId === "reject_deprecated_queries_alias") return "deprecation";
+    fail("MTCLI_COMPILED_OBLIGATION", "/relationships", `unclassified DS-D8 obligation:${obligationId}`);
+  };
+  return Object.freeze(relationships.flatMap((edge): readonly CompiledRelationshipObligationWitness[] => {
+    const signature = relationshipSignature(edge.relationship);
+    if (!signature) fail("MTCLI_COMPILED_OBLIGATION", `/relationships/${edge.edge_id}`, `missing relationship signature:${edge.relationship}`);
+    const predicate = Object.freeze({
+      relationship_id: signature.id,
+      allowed_source_types: Object.freeze([...signature.source_types]),
+      allowed_target_types: Object.freeze([...signature.target_types]),
+      allowed_scopes: Object.freeze([...signature.feature_scope]),
+      multiplicity: signature.multiplicity,
+      inverse_kind: signature.inverse.kind,
+      generated_projection_attribute: signature.generated_source_projection?.attribute ?? null,
+    });
+    return signature.validation_obligations.map((obligationId) => Object.freeze({
+      witness_id: `${edge.edge_id}:${obligationId}`,
+      edge_id: edge.edge_id,
+      obligation_id: obligationId,
+      family: family(obligationId),
+      predicate,
+      witness: Object.freeze({
+        scope: edge.scope,
+        source_selector: `${edge.source.feature_id}:${edge.source.node_id}`,
+        source_type: edge.source.kind,
+        target_selector: `${edge.target.feature_id}:${edge.target.node_id}`,
+        target_type: edge.target.kind,
+      }),
+    }));
+  }).sort((left, right) => left.witness_id.localeCompare(right.witness_id)));
+}
+
+export function validateCompiledProjectGraphObligations(graph: CompiledProjectGraph): CompiledProjectGraph {
+  const expectedWitnesses = compileObligationWitnesses(graph.relationships);
+  if (JSON.stringify(expectedWitnesses) !== JSON.stringify(graph.obligation_witnesses)) {
+    fail("MTCLI_COMPILED_OBLIGATION", "/obligation_witnesses", "compiled graph omitted or changed an applicable DS-D8 predicate or witness");
+  }
+  for (const node of graph.nodes) {
+    const expectedIds = [...new Set(expectedWitnesses
+      .filter(({ witness }) => witness.source_selector === node.selector || witness.target_selector === node.selector)
+      .map(({ obligation_id }) => obligation_id))].sort();
+    if (JSON.stringify(expectedIds) !== JSON.stringify(node.applicable_obligation_ids)) {
+      fail("MTCLI_COMPILED_OBLIGATION", `/nodes/${node.selector}/applicable_obligation_ids`, "compiled node omitted or changed an applicable DS-D8 obligation ID");
+    }
+  }
+  return graph;
+}
+
 export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectGraph {
   const model = decodeProjectModel(projectRoot);
+  const obligationWitnesses = compileObligationWitnesses(model.relationships);
   const nodes = [...model.nodes.values()]
     .map((node): CompiledProjectGraphNode => {
       const selector = `${node.feature_id}:${node.node_id}`;
@@ -706,18 +787,22 @@ export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectG
         ),
         generated_relationship_projections: Object.freeze(generatedRelationshipProjections),
         authored_forbidden_projection_attributes: Object.freeze(authoredForbiddenProjectionAttributes.sort()),
+        applicable_obligation_ids: Object.freeze([...new Set(obligationWitnesses
+          .filter(({ witness }) => witness.source_selector === selector || witness.target_selector === selector)
+          .map(({ obligation_id }) => obligation_id))].sort()),
       });
     })
     .sort((left, right) => left.selector.localeCompare(right.selector));
-  return Object.freeze({
+  return validateCompiledProjectGraphObligations(Object.freeze({
     schema_version: "domainspec.compiled-project-graph/v1-candidate",
     project_root: model.project_root,
     project_id: model.source_manifest.project_id,
     source_manifest: model.source_manifest,
     nodes: Object.freeze(nodes),
     relationships: model.relationships,
+    obligation_witnesses: obligationWitnesses,
     authority_effect: "none",
-  });
+  }));
 }
 
 export function withGeneratedRelationshipProjections(
@@ -770,7 +855,11 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
       }));
     }
   }
-  const typedClosure = selectedTypedContract === undefined ? null : compileTypedOperationClosure(selector, closureSources, projectRelationships);
+  const typedClosure = selectedTypedContract === undefined
+    ? null
+    : selected.kind === "Rule"
+      ? compileTypedRuleClosure(selector, closureSources, projectRelationships)
+      : compileTypedOperationClosure(selector, closureSources, projectRelationships);
   const node = Object.freeze({
     project_root: root,
     project_id: manifest.project_id,

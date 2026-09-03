@@ -4,6 +4,7 @@ import path from "node:path";
 
 import { decodeBody, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { sha256, type SourceManifestV1 } from "../input/source-manifest.js";
+import { decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
@@ -21,6 +22,25 @@ export interface AddOperationInput {
 
 export interface AddOperationResult {
   readonly schema_version: "domainspec.add-operation-result/v1";
+  readonly source_root: string;
+  readonly selector: string;
+  readonly node_path: string;
+  readonly source_manifest: SourceManifestV1;
+  readonly authority_effect: "none";
+}
+
+export interface AddRuleInput {
+  readonly sourceRoot: string;
+  readonly featureId: string;
+  readonly nodeId: string;
+  readonly description: string;
+  readonly ontologyRule: string;
+  readonly parameters: readonly TypedParameter[];
+  readonly expression: RuleExpression;
+}
+
+export interface AddRuleResult {
+  readonly schema_version: "domainspec.add-rule-result/v1";
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
@@ -69,7 +89,7 @@ interface AuthoringLock {
   readonly inode: number;
 }
 
-function acquireLock(root: string): AuthoringLock {
+function acquireLock(root: string, operation: "add-operation" | "add-rule"): AuthoringLock {
   const lockPath = path.join(path.dirname(root), `.${path.basename(root)}.domainspec-authoring.lock`);
   let descriptor: number;
   try {
@@ -83,7 +103,7 @@ function acquireLock(root: string): AuthoringLock {
   try {
     fs.writeFileSync(descriptor, canonicalDocument({
       schema_version: "domainspec.authoring-lock/v1",
-      operation: "add-operation",
+      operation,
       pid: process.pid,
     }));
     const stats = fs.fstatSync(descriptor);
@@ -136,7 +156,7 @@ function readFeature(root: string, featureId: string): {
   return { relativePath, absolutePath, bytes, value };
 }
 
-function validateInput(input: AddOperationInput): void {
+function validateOperationInput(input: AddOperationInput): void {
   requireId(input.featureId, "/feature");
   requireId(input.nodeId, "/name");
   requireText(input.description, "/description");
@@ -155,8 +175,42 @@ function validateInput(input: AddOperationInput): void {
   });
 }
 
-export function addOperation(input: AddOperationInput): AddOperationResult {
-  validateInput(input);
+function validateRuleInput(input: AddRuleInput): Record<string, unknown> {
+  requireId(input.featureId, "/feature");
+  requireId(input.nodeId, "/name");
+  requireText(input.description, "/description");
+  const typedContract = decodeTypedRuleContract({
+    schema_version: "domainspec.typed-rule/v1",
+    ontology_rule: input.ontologyRule,
+    parameters: input.parameters,
+    expression: input.expression,
+  });
+  return {
+    description: input.description.trim(),
+    predicate: "structured:domainspec.typed-rule/v1",
+    typed_contract: typedContract,
+  };
+}
+
+interface AuthorNodeInput {
+  readonly sourceRoot: string;
+  readonly featureId: string;
+  readonly nodeId: string;
+  readonly kind: "Operation" | "Rule";
+  readonly metaTypeId: "DS-D1.4" | "DS-D1.7";
+  readonly transaction: "add-operation" | "add-rule";
+  readonly body: Record<string, unknown>;
+}
+
+interface AuthorNodeResult {
+  readonly source_root: string;
+  readonly selector: string;
+  readonly node_path: string;
+  readonly source_manifest: SourceManifestV1;
+  readonly authority_effect: "none";
+}
+
+function authorNode(input: AuthorNodeInput): AuthorNodeResult {
   const initialManifest = validateProjectRoot(input.sourceRoot);
   const root = fs.realpathSync(input.sourceRoot);
   const featureExists = initialManifest.sources.some((source) => source.source_type === "feature" && source.source_id === input.featureId);
@@ -166,7 +220,7 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
   const nodeAbsolutePath = path.join(root, nodeRelativePath);
   if (fs.existsSync(nodeAbsolutePath)) fail("MTCLI_AUTHORING_NODE_EXISTS", "/name", `node already exists:${input.featureId}:${input.nodeId}`);
 
-  const lock = acquireLock(root);
+  const lock = acquireLock(root, input.transaction);
   let stageRoot: string | null = null;
   let nodePublished = false;
   try {
@@ -183,15 +237,8 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
       schema_version: "domainspec.node/v1",
       node_id: input.nodeId,
       feature_id: input.featureId,
-      kind: "Operation",
-      body: {
-        description: input.description.trim(),
-        reads: [...input.reads],
-        writes: [...input.writes],
-        effects: [...input.effects],
-        guard: input.guard.trim(),
-        failure_continuation: input.failureContinuation.trim(),
-      },
+      kind: input.kind,
+      body: input.body,
     });
     const featureDocument = canonicalDocument({
       schema_version: "domainspec.feature/v1",
@@ -200,7 +247,7 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
       edges: [...feature.value.edges],
     });
 
-    stageRoot = fs.mkdtempSync(path.join(path.dirname(root), `.${path.basename(root)}.add-operation-`));
+    stageRoot = fs.mkdtempSync(path.join(path.dirname(root), `.${path.basename(root)}.${input.transaction}-`));
     copyDeclaredSources(root, stageRoot, lockedManifest);
     fs.mkdirSync(path.dirname(path.join(stageRoot, nodeRelativePath)), { recursive: true, mode: 0o755 });
     fs.writeFileSync(path.join(stageRoot, nodeRelativePath), nodeDocument, { encoding: "utf8", flag: "wx", mode: 0o644 });
@@ -208,8 +255,8 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
 
     const prospectiveManifest = validateProjectRoot(stageRoot);
     const stagedNode = loadProjectNode(stageRoot, `${input.featureId}:${input.nodeId}`);
-    if (stagedNode.kind !== "Operation" || stagedNode.meta_type_id !== "DS-D1.4") {
-      fail("MTCLI_AUTHORING_META_TYPE", "/name", "authored node did not resolve to the canonical Operation meta-type");
+    if (stagedNode.kind !== input.kind || stagedNode.meta_type_id !== input.metaTypeId) {
+      fail("MTCLI_AUTHORING_META_TYPE", "/name", `authored node did not resolve to the canonical ${input.kind} meta-type`);
     }
 
     const liveManifest = validateProjectRoot(root);
@@ -235,7 +282,6 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
 
     nodePublished = false;
     return Object.freeze({
-      schema_version: "domainspec.add-operation-result/v1",
       source_root: root,
       selector: `${input.featureId}:${input.nodeId}`,
       node_path: nodeRelativePath,
@@ -249,4 +295,43 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
     if (stageRoot !== null) fs.rmSync(stageRoot, { recursive: true, force: true });
     releaseLock(lock);
   }
+}
+
+export function addOperation(input: AddOperationInput): AddOperationResult {
+  validateOperationInput(input);
+  return Object.freeze({
+    schema_version: "domainspec.add-operation-result/v1",
+    ...authorNode({
+      sourceRoot: input.sourceRoot,
+      featureId: input.featureId,
+      nodeId: input.nodeId,
+      kind: "Operation",
+      metaTypeId: "DS-D1.4",
+      transaction: "add-operation",
+      body: {
+        description: input.description.trim(),
+        reads: [...input.reads],
+        writes: [...input.writes],
+        effects: [...input.effects],
+        guard: input.guard.trim(),
+        failure_continuation: input.failureContinuation.trim(),
+      },
+    }),
+  });
+}
+
+export function addRule(input: AddRuleInput): AddRuleResult {
+  const body = validateRuleInput(input);
+  return Object.freeze({
+    schema_version: "domainspec.add-rule-result/v1",
+    ...authorNode({
+      sourceRoot: input.sourceRoot,
+      featureId: input.featureId,
+      nodeId: input.nodeId,
+      kind: "Rule",
+      metaTypeId: "DS-D1.7",
+      transaction: "add-rule",
+      body,
+    }),
+  });
 }

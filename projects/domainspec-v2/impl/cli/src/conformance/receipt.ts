@@ -18,9 +18,11 @@ import { generatedSystemIntegrationPath, validateSystemIntegrationManifest } fro
 import type { SystemIntegrationReceiptBindingV1 } from "../system-integration/types.js";
 import {
   compileTypedOperationClosure,
+  compileTypedRuleClosure,
   type TypedClosureSourceNode,
   type TypedNodeContract,
   type TypedOperationClosureV1,
+  type TypedSemanticClosureV1,
 } from "../typed-operation/closure.js";
 import {
   decodeTypedOperationContract,
@@ -54,7 +56,7 @@ export interface InstantiationReceiptV1 {
     readonly body: DecodedBody;
     readonly relationships: readonly DecodedRelationship[];
     readonly relationship_authority_sha256: typeof RELATIONSHIP_AUTHORITY_SHA256;
-    readonly typed_closure?: TypedOperationClosureV1;
+    readonly typed_closure?: TypedSemanticClosureV1;
   };
   readonly plan_sha256: string;
   readonly artifacts: readonly Omit<PlannedArtifact, "content">[];
@@ -152,10 +154,11 @@ function decodeClosureContract(kind: string, value: unknown, pointer: string): T
   fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, `unsupported typed closure node kind:${kind}`);
 }
 
-function validateTypedClosure(value: unknown, receiptInput: Record<string, unknown>, body: DecodedBody, relationships: readonly DecodedRelationship[]): TypedOperationClosureV1 {
+function validateTypedClosure(value: unknown, receiptInput: Record<string, unknown>, body: DecodedBody, relationships: readonly DecodedRelationship[]): TypedSemanticClosureV1 {
   const pointer = "/semantic_contract/typed_closure";
-  exactKeys(value, ["schema_version", "root_selector", "nodes", "relationships", "properties", "variants", "rules", "operation", "closure_sha256", "authority_effect"], pointer);
-  if (value.schema_version !== "domainspec.typed-operation-closure/v1" || value.authority_effect !== "none") fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, "invalid typed closure envelope");
+  const ruleRoot = isObject(value) && value.schema_version === "domainspec.typed-rule-closure/v1";
+  exactKeys(value, ["schema_version", "root_selector", "nodes", "relationships", "properties", "variants", "rules", ruleRoot ? "rule" : "operation", "closure_sha256", "authority_effect"], pointer);
+  if (!["domainspec.typed-operation-closure/v1", "domainspec.typed-rule-closure/v1"].includes(String(value.schema_version)) || value.authority_effect !== "none") fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, "invalid typed closure envelope");
   const expectedRoot = `${receiptInput.feature_id}:${receiptInput.node_id}`;
   if (value.root_selector !== expectedRoot) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/root_selector`, "typed closure root does not match receipt input");
   if (!Array.isArray(value.nodes)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/nodes`, "typed closure nodes must be an array");
@@ -168,10 +171,11 @@ function validateTypedClosure(value: unknown, receiptInput: Record<string, unkno
     const kind = requireString(candidate.kind, `${nodePointer}/kind`);
     return Object.freeze({ feature_id: featureId, node_id: nodeId, kind, typed_contract: decodeClosureContract(kind, candidate.typed_contract, `${nodePointer}/typed_contract`) });
   });
-  const rebuilt = compileTypedOperationClosure(expectedRoot, sourceNodes, relationships);
+  const rebuilt = ruleRoot ? compileTypedRuleClosure(expectedRoot, sourceNodes, relationships) : compileTypedOperationClosure(expectedRoot, sourceNodes, relationships);
   if (rebuilt === null || canonicalJson(rebuilt) !== canonicalJson(value)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", pointer, "typed closure is not the deterministic closure of its bound nodes and relationships");
-  if (canonicalJson(rebuilt.relationships) !== canonicalJson(relationships)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/relationships`, "typed closure relationships do not match the receipt relationship contract");
-  if (!isObject(body.typed_contract) || canonicalJson(rebuilt.operation) !== canonicalJson(body.typed_contract)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/operation`, "typed closure operation does not match the selected body contract");
+  if (!ruleRoot && canonicalJson(rebuilt.relationships) !== canonicalJson(relationships)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/relationships`, "typed closure relationships do not match the receipt relationship contract");
+  const rootContract = rebuilt.schema_version === "domainspec.typed-rule-closure/v1" ? rebuilt.rule : rebuilt.operation;
+  if (!isObject(body.typed_contract) || canonicalJson(rootContract) !== canonicalJson(body.typed_contract)) fail("MTCLI_RECEIPT_TYPED_CLOSURE", `${pointer}/${ruleRoot ? "rule" : "operation"}`, "typed closure root contract does not match the selected body contract");
   return rebuilt;
 }
 

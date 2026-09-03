@@ -3,7 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { addOperation, type AddOperationInput } from "../authoring/add-operation.js";
+import { addOperation, addRule, type AddOperationInput, type AddRuleInput } from "../authoring/add-operation.js";
+import { decodeRuleExpression, decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
 import { observeTarget, observeTargetReceipt } from "../conformance/observe-target.js";
 import { readInstantiationReceipt } from "../conformance/receipt.js";
 import { planInstantiation } from "../generation/plan-instantiation.js";
@@ -86,6 +87,44 @@ function addOperationArgs(args: readonly string[]): AddOperationInput {
   });
 }
 
+function parseJsonOption(value: string, option: string): unknown {
+  try {
+    return JSON.parse(value);
+  } catch {
+    usage(`${option} must contain valid JSON`);
+  }
+}
+
+function addRuleArgs(args: readonly string[]): AddRuleInput {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage("add rule requires one absolute source project root");
+  const values = new Map<string, string>();
+  const allowedOptions = ["--feature", "--name", "--description", "--ontology-rule", "--parameters-json", "--expression-json"];
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index];
+    const value = args[index + 1];
+    if (!option || !allowedOptions.includes(option) || value === undefined || value.startsWith("--")) usage("add rule received an unsupported or unvalued option");
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  for (const required of allowedOptions) if (!values.has(required)) usage(`add rule requires ${required}`);
+  const candidate = decodeTypedRuleContract({
+    schema_version: "domainspec.typed-rule/v1",
+    ontology_rule: values.get("--ontology-rule"),
+    parameters: parseJsonOption(values.get("--parameters-json")!, "--parameters-json"),
+    expression: parseJsonOption(values.get("--expression-json")!, "--expression-json"),
+  });
+  return Object.freeze({
+    sourceRoot,
+    featureId: values.get("--feature")!,
+    nodeId: values.get("--name")!,
+    description: values.get("--description")!,
+    ontologyRule: candidate.ontology_rule,
+    parameters: candidate.parameters as readonly TypedParameter[],
+    expression: decodeRuleExpression(candidate.expression) as RuleExpression,
+  });
+}
+
 interface InstantiateArgs {
   readonly sourceRoot: string;
   readonly node: string;
@@ -154,10 +193,10 @@ export function runCli(argv: readonly string[], io: CliIo = {
   try {
     const [command, ...args] = argv;
     if (command === "add") {
-      if (args[0] !== "operation") usage("add requires the supported meta-type: operation");
-      const result = addOperation(addOperationArgs(args.slice(1)));
+      if (args[0] !== "operation" && args[0] !== "rule") usage("add requires a supported meta-type: operation or rule");
+      const result = args[0] === "operation" ? addOperation(addOperationArgs(args.slice(1))) : addRule(addRuleArgs(args.slice(1)));
       objectOutput(io, {
-        schema_version: "domainspec.add-operation-command-result/v1",
+        schema_version: args[0] === "operation" ? "domainspec.add-operation-command-result/v1" : "domainspec.add-rule-command-result/v1",
         result: "pass",
         source_root: result.source_root,
         selector: result.selector,
@@ -244,7 +283,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       }
       return 0;
     }
-    usage("expected command: add operation, instantiate, formalize, formalize-check, lint, or receipt");
+    usage("expected command: add operation, add rule, instantiate, formalize, formalize-check, lint, or receipt");
   } catch (error) {
     objectOutput({ ...io, stdout: io.stderr }, errorEnvelope(error));
     const candidate = error as { exitCode?: unknown };
