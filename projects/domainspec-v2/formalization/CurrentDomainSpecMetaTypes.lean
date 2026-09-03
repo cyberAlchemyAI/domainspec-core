@@ -4,9 +4,9 @@ import DomainSpecMetaTypeTypeScriptProjectionRefinement
    Project: foundation-fixture.
    Source manifest: dc50d0d711305e933b8fc0c1a3aeb6cfd7edf4addabcd76e34fc9893b7137e58.
    Source bytes: c1610a3ebff6aedf3ac2ddd840eb204571ae005846130e782530b33aefb08b69.
-   Compiled graph: 611affd19ef71fcb82ba4195b1b0afe6b7844ed69f8332a82e97a0d619620a5a.
+   Compiled graph: a7116be7af5131c2c7573ed04e83094c7c517313db08bba084b490def59bb39a.
    Reusable Lean module set: 81f3268e0cb8751aeaa5b86ab3514389e8531d7f301c7bd7482fc008acfa5492.
-   Render payload: 5f05a08fe8e1e742f874b2c13944798446a07418e496405327d7086f5256c76c.
+   Render payload: 9bee935ac24c6eec0a292dc5f9b34693a79e3a000b7601533ba4ae2934f4b3f1.
    Baseline: domainspec-meta-types-current-implemented@10 (bfbc335d151ab8b29150dc95f246c2bc0954cff179ece5ce51222b2d1455abda).
    Relationship authority: projects/domainspec-v2/definitions/relationships/relationships.yml (82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1). -/
 namespace DomainSpec.CurrentGenerated
@@ -338,7 +338,7 @@ def currentSourceIdentity : SourceIdentity := ⟨"foundation-fixture", "dc50d0d7
 def unboundSourceIdentity : SourceIdentity := ⟨"", "", ""⟩
 def currentTheory : Theory RefinedProjectGraph := {
   staticConforms := refinedStaticConforms
-  graphDigest := fun graph => if graph == refinedProjectGraph then "611affd19ef71fcb82ba4195b1b0afe6b7844ed69f8332a82e97a0d619620a5a" else ""
+  graphDigest := fun graph => if graph == refinedProjectGraph then "a7116be7af5131c2c7573ed04e83094c7c517313db08bba084b490def59bb39a" else ""
   sourceIdentity := fun graph => if graph == refinedProjectGraph then currentSourceIdentity else unboundSourceIdentity
 }
 
@@ -347,7 +347,7 @@ def currentTypeScriptProjection : TypeScriptProjectionPayload RefinedProjectGrap
   projectId := "foundation-fixture"
   sourceManifestSha256 := "dc50d0d711305e933b8fc0c1a3aeb6cfd7edf4addabcd76e34fc9893b7137e58"
   sourceBytesSha256 := "c1610a3ebff6aedf3ac2ddd840eb204571ae005846130e782530b33aefb08b69"
-  graphSha256 := "611affd19ef71fcb82ba4195b1b0afe6b7844ed69f8332a82e97a0d619620a5a"
+  graphSha256 := "a7116be7af5131c2c7573ed04e83094c7c517313db08bba084b490def59bb39a"
 }
 def currentCheckedProjectionInput : CheckedProjectionInput RefinedProjectGraph :=
   lowerTypeScriptProjection currentTypeScriptProjection

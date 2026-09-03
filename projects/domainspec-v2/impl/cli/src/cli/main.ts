@@ -3,16 +3,23 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { addOperation, addRule, type AddOperationInput, type AddRuleInput } from "../authoring/add-operation.js";
+import { addOperation, addRule, addThinBackend, type AddOperationInput, type AddRuleInput, type AddThinBackendInput, type ThinBackendKind } from "../authoring/add-operation.js";
 import { decodeRuleExpression, decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
 import { observeTarget, observeTargetReceipt } from "../conformance/observe-target.js";
 import { readInstantiationReceipt } from "../conformance/receipt.js";
 import { planInstantiation } from "../generation/plan-instantiation.js";
 import { publishInstantiation } from "../generation/publish-instantiation.js";
+import { materializeCompiledProjectCertificate } from "../compilation/certificate.js";
+import { planProjectBuild, publishProjectBuild, verifyProjectBuild } from "../generation/project-build.js";
 import { checkLeanMetaTypeFormalization, materializeLeanMetaTypeFormalization } from "../formalization/projection.js";
 import { loadCompiledProjectGraph, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { normalizeLanguage } from "../meta-types/catalog.js";
 import { loadSystemIntegrationSelection } from "../system-integration/compiler.js";
+import { runInMemoryProject } from "../runtime/in-memory.js";
+import { materializeRuntimeReceipt } from "../runtime/receipt.js";
+import { runDurableOperation } from "../runtime/durable.js";
+import { PostgresTransactionalOutbox } from "../runtime/postgres-outbox.js";
+import { certifyProject, checkCertifiedProject } from "../assurance/certify.js";
 
 export interface CliIo {
   readonly stdout: (value: string) => void;
@@ -125,6 +132,23 @@ function addRuleArgs(args: readonly string[]): AddRuleInput {
   });
 }
 
+const THIN_COMMANDS: Readonly<Record<string, ThinBackendKind>> = Object.freeze({ query: "Query", calculation: "Calculation", mapping: "Mapping", policy: "Policy" });
+
+function addThinBackendArgs(kind: ThinBackendKind, args: readonly string[]): AddThinBackendInput {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`add ${kind.toLowerCase()} requires one absolute source project root`);
+  const values = new Map<string, string>();
+  const allowed = ["--feature", "--name", "--description", "--contract-json"];
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !allowed.includes(option) || value === undefined || value.startsWith("--")) usage(`add ${kind.toLowerCase()} received an unsupported or unvalued option`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  for (const option of allowed) if (!values.has(option)) usage(`add ${kind.toLowerCase()} requires ${option}`);
+  return Object.freeze({ sourceRoot, featureId: values.get("--feature")!, nodeId: values.get("--name")!, description: values.get("--description")!, kind, typedContract: parseJsonOption(values.get("--contract-json")!, "--contract-json") });
+}
+
 interface InstantiateArgs {
   readonly sourceRoot: string;
   readonly node: string;
@@ -171,6 +195,54 @@ function formalizeArgs(args: readonly string[], command: "formalize" | "formaliz
   return Object.freeze({ sourceRoot, targetPath: args[2]! });
 }
 
+function compileArgs(args: readonly string[]): { readonly sourceRoot: string; readonly targetPath: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target" || !path.isAbsolute(args[2] ?? "")) usage("compile requires one absolute source project root and --target <absolute-file>");
+  return Object.freeze({ sourceRoot, targetPath: args[2]! });
+}
+
+function certifyArgs(args: readonly string[], command: "certify" | "certify-check"): { readonly sourceRoot: string; readonly targetDirectory: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target" || !path.isAbsolute(args[2] ?? "")) usage(`${command} requires one absolute source project root and --target <absolute-directory>`);
+  return Object.freeze({ sourceRoot, targetDirectory: args[2]! });
+}
+
+function projectBuildArgs(args: readonly string[], command: "build" | "verify"): { readonly sourceRoot: string; readonly language: "typescript" | "python" | "rust"; readonly targetRoot: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`${command} requires one absolute source project root`);
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !["--language", "--target-root"].includes(option) || !value || value.startsWith("--")) usage(`${command} requires valued --language and --target-root`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  if (values.size !== 2 || !values.has("--language") || !values.has("--target-root")) usage(`${command} requires --language and --target-root`);
+  const targetRoot = values.get("--target-root")!;
+  if (!path.isAbsolute(targetRoot)) usage("--target-root must be absolute");
+  return Object.freeze({ sourceRoot, language: normalizeLanguage(values.get("--language")), targetRoot });
+}
+
+function runArgs(args: readonly string[]): { readonly sourceRoot: string; readonly requestPath: string; readonly receiptPath: string; readonly provider: string | null } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage("run requires one absolute source project root");
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !["--request", "--receipt", "--provider"].includes(option) || !value || (option !== "--provider" && !path.isAbsolute(value))) usage("run requires absolute --request and --receipt files and an optional provider");
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  if (!values.has("--request") || !values.has("--receipt") || values.size > 3) usage("run requires absolute --request and --receipt files");
+  return Object.freeze({ sourceRoot, requestPath: values.get("--request")!, receiptPath: values.get("--receipt")!, provider: values.get("--provider") ?? null });
+}
+
+function postgresProvider(): PostgresTransactionalOutbox {
+  const required = ["PGHOST", "PGPORT", "PGDATABASE", "PGUSER", "PGPASSWORD"] as const;
+  for (const key of required) if (!process.env[key]) usage(`postgres provider requires ${key}`);
+  return new PostgresTransactionalOutbox({ host: process.env.PGHOST!, port: Number(process.env.PGPORT), database: process.env.PGDATABASE!, user: process.env.PGUSER!, password: process.env.PGPASSWORD! });
+}
+
 function isInstantiationTarget(root: string): boolean {
   return fs.existsSync(path.join(root, ".domainspec", "instantiations"));
 }
@@ -193,10 +265,11 @@ export function runCli(argv: readonly string[], io: CliIo = {
   try {
     const [command, ...args] = argv;
     if (command === "add") {
-      if (args[0] !== "operation" && args[0] !== "rule") usage("add requires a supported meta-type: operation or rule");
-      const result = args[0] === "operation" ? addOperation(addOperationArgs(args.slice(1))) : addRule(addRuleArgs(args.slice(1)));
+      const kind = args[0];
+      if (kind !== "operation" && kind !== "rule" && !THIN_COMMANDS[kind ?? ""]) usage("add requires a supported meta-type: operation, query, calculation, rule, policy, or mapping");
+      const result = kind === "operation" ? addOperation(addOperationArgs(args.slice(1))) : kind === "rule" ? addRule(addRuleArgs(args.slice(1))) : addThinBackend(addThinBackendArgs(THIN_COMMANDS[kind!]!, args.slice(1)));
       objectOutput(io, {
-        schema_version: args[0] === "operation" ? "domainspec.add-operation-command-result/v1" : "domainspec.add-rule-command-result/v1",
+        schema_version: `domainspec.add-${kind}-command-result/v1`,
         result: "pass",
         source_root: result.source_root,
         selector: result.selector,
@@ -227,6 +300,53 @@ export function runCli(argv: readonly string[], io: CliIo = {
         observation,
         authority_effect: "none",
       });
+      return 0;
+    }
+    if (command === "compile") {
+      const parsed = compileArgs(args);
+      const certificate = materializeCompiledProjectCertificate(parsed.sourceRoot, parsed.targetPath);
+      objectOutput(io, { schema_version: "domainspec.compile-command-result/v1", result: "pass", target_path: parsed.targetPath, certificate, authority_effect: "none" });
+      return 0;
+    }
+    if (command === "certify") {
+      const parsed = certifyArgs(args, command);
+      const certificate = certifyProject(parsed.sourceRoot, parsed.targetDirectory);
+      objectOutput(io, {
+        schema_version: "domainspec.certify-command-result/v1-candidate",
+        result: "pass",
+        target_directory: parsed.targetDirectory,
+        certificate,
+        authority_effect: "none",
+      });
+      return 0;
+    }
+    if (command === "certify-check") {
+      const parsed = certifyArgs(args, command);
+      const result = checkCertifiedProject(parsed.sourceRoot, parsed.targetDirectory);
+      objectOutput(io, result);
+      return result.current ? 0 : 1;
+    }
+    if (command === "build") {
+      const parsed = projectBuildArgs(args, "build");
+      const publication = publishProjectBuild(planProjectBuild(parsed.sourceRoot, parsed.language), parsed.targetRoot);
+      objectOutput(io, { schema_version: "domainspec.build-command-result/v1", result: "pass", ...publication, authority_effect: "none" });
+      return 0;
+    }
+    if (command === "verify") {
+      const parsed = projectBuildArgs(args, "verify");
+      const verification = verifyProjectBuild(parsed.sourceRoot, parsed.language, parsed.targetRoot);
+      objectOutput(io, verification);
+      return verification.result === "pass" ? 0 : 1;
+    }
+    if (command === "run") {
+      const parsed = runArgs(args);
+      let request: unknown;
+      try { request = JSON.parse(fs.readFileSync(parsed.requestPath, "utf8")); } catch { usage("--request must identify readable JSON"); }
+      const schemaVersion = (request as { schema_version?: unknown })?.schema_version;
+      const receipt = schemaVersion === "domainspec.durable-operation-invocation/v1"
+        ? materializeRuntimeReceipt(runDurableOperation(parsed.sourceRoot, request, parsed.provider === "postgres-transactional-outbox-v1" ? postgresProvider() : usage("durable run requires --provider postgres-transactional-outbox-v1")), parsed.receiptPath)
+        : materializeRuntimeReceipt(parsed.provider === null || parsed.provider === "in-memory-v1" ? runInMemoryProject(parsed.sourceRoot, request) : usage("in-memory run received an unsupported provider"), parsed.receiptPath);
+      objectOutput(io, { schema_version: "domainspec.run-command-result/v1", result: "pass", receipt_path: parsed.receiptPath, receipt, authority_effect: "none" });
       return 0;
     }
     if (command === "formalize" || command === "formalize-check") {
@@ -283,7 +403,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       }
       return 0;
     }
-    usage("expected command: add operation, add rule, instantiate, formalize, formalize-check, lint, or receipt");
+    usage("expected command: add, instantiate, compile, build, verify, run, formalize, formalize-check, certify, certify-check, lint, or receipt");
   } catch (error) {
     objectOutput({ ...io, stdout: io.stderr }, errorEnvelope(error));
     const candidate = error as { exitCode?: unknown };

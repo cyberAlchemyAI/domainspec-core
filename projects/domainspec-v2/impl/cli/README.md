@@ -8,10 +8,21 @@ its 39 realization rows, and exposes the following command forms:
 ```text
 domainspec-v2 add operation <source-project-root> --feature <feature> --name <operation> --description <text> --guard <guard> --failure-continuation <continuation> [--reads <csv>] [--writes <csv>] [--effects <csv>]
 domainspec-v2 add rule <source-project-root> --feature <feature> --name <rule> --description <text> --ontology-rule <selector> --parameters-json <json> --expression-json <json>
+domainspec-v2 add query <source-project-root> --feature <feature> --name <query> --description <text> --contract-json <domainspec.typed-query/v1-json>
+domainspec-v2 add calculation <source-project-root> --feature <feature> --name <calculation> --description <text> --contract-json <domainspec.typed-calculation/v1-json>
+domainspec-v2 add mapping <source-project-root> --feature <feature> --name <mapping> --description <text> --contract-json <domainspec.typed-mapping/v1-json>
+domainspec-v2 add policy <source-project-root> --feature <feature> --name <policy> --description <text> --contract-json <domainspec.typed-policy/v1-json>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root> --integration-profile provider-neutral-v1 --integration-binding-set <binding-set-id>
+domainspec-v2 compile <source-project-root> --target <absolute-new-certificate-file>
+domainspec-v2 build <source-project-root> --language <typescript|python|rust> --target-root <absolute-new-root>
+domainspec-v2 verify <source-project-root> --language <typescript|python|rust> --target-root <absolute-generated-root>
+domainspec-v2 run <source-project-root> --request <absolute-runtime-invocation-json> --receipt <absolute-new-runtime-receipt-json>
+domainspec-v2 run <source-project-root> --request <absolute-durable-operation-invocation-json> --receipt <absolute-new-runtime-receipt-json> --provider postgres-transactional-outbox-v1
 domainspec-v2 formalize <source-project-root> --target <absolute-new-lean-file>
 domainspec-v2 formalize-check <source-project-root> --target <absolute-lean-file>
+domainspec-v2 certify <source-project-root> --target <absolute-new-directory>
+domainspec-v2 certify-check <source-project-root> --target <absolute-certificate-directory>
 domainspec-v2 lint <source-or-instantiated-target-root>
 domainspec-v2 receipt <source-or-instantiated-target-root>
 ```
@@ -34,6 +45,57 @@ the `domainspec.typed-rule/v1` grammar. The prospective project must resolve
 every referenced node, property, variant, and Rule before publication. The
 three generators consume that typed closure; an untyped Rule fails explicitly
 instead of receiving a truthiness default.
+
+`add query`, `add calculation`, `add mapping`, and `add policy` author closed,
+data-only semantic contracts. Query filtering, projection, ordering, and limits;
+checked unsigned calculation arithmetic; total field mapping; and ordered policy
+selection are generated directly from those contracts in all three languages.
+Query `reads`, Mapping `maps`, and Policy `applies` edges are staged with the
+node and validated before the feature index becomes visible.
+
+`compile` emits a create-only certificate for the deterministic compiled graph.
+It records source and semantic graph digests, exact type and relationship sets,
+and the applicability predicates and witnesses for every DS-D8 obligation used
+by the project. `build` plans every compiled node from that same graph and
+publishes one collision-checked language tree plus a graph- and
+formalization-bound receipt through an atomic directory rename. `verify`
+recompiles and replans from source, requires the exact target inventory, and
+rejects source, receipt, artifact, or extra-file drift.
+
+`run` executes a closed `domainspec.runtime-invocation/v1` through the
+deterministic `in-memory-v1` provider. Each step names one compiled node and an
+explicit type-specific input; the interpreter consumes the certified compiled
+graph and does not load generated implementation bytes as its oracle. The
+create-only runtime receipt binds the request, source manifest, compiled
+certificate, per-step output digests, observed node/type coverage, and observed
+relationship edges. A complete backend invocation covers all 13 backend types
+and all 17 backend relationships. Independent conformance compares selected
+outputs with a separately handwritten target. This local runtime does not
+provide durability or authorize external effects.
+
+The curated API also exposes a bounded `runDurableOperation` bridge for the
+local `sqlite-transactional-outbox-v1` candidate. It executes one compiled
+Operation through the L2 semantic interpreter, resolves its exact `produces`
+Event edges, constructs stable event envelopes from caller-supplied identities,
+and hands state plus every envelope to one digest-identified transactional
+outbox port. Guard rejection performs no persistence; commit replay is reported
+as `already-committed`; and the receipt binds source, compiled certificate,
+semantic output, provider implementation, event identities, and only the
+guarantees actually observed. The existing AlchLang SQLite runtime supplies a
+compatibility-tested port without becoming a package dependency.
+
+The packaged PostgreSQL profile is selected explicitly with
+`--provider postgres-transactional-outbox-v1` and reads `PGHOST`, `PGPORT`,
+`PGDATABASE`, `PGUSER`, and `PGPASSWORD`. The runtime host must provide the
+native `psql` client on `PATH`; the package adds no PostgreSQL npm dependency.
+It applies additive state, outbox,
+attempt-history, inbox-deduplication, and consumer-effect tables; uses
+transaction-scoped aggregate fencing and `FOR UPDATE SKIP LOCKED`; persists
+retry, lease, delivery, and quarantine state; supports controlled dead-row
+requeue; and rejects stale lease owners. Database commit does not imply broker
+delivery, and duplicate-safe consumption remains an at-least-once contract.
+This is contained L3 evidence, not production readiness, deployment, or
+external-effect authority.
 
 `instantiate` decodes one of the 13 closed backend meta types, plans one
 deterministic language artifact, and publishes the artifact plus a
@@ -70,6 +132,27 @@ shape and proves that successful checked compilation returns all three facts;
 actual SHA-256 computation and source admission remain TypeScript/compiler
 responsibilities. These finite Lean proofs do not establish runtime
 conformance, business acceptance, publication, or external authority.
+
+`certify` composes the compiled-project certificate, its exact semantic compiled
+graph, a canonical checked interchange, an independent Lean JSON decoder plus exact TypeScript re-read,
+and the generated Lean proof unit under pinned
+`leanprover/lean4:v4.33.1`. It publishes one create-only directory containing
+`checked-interchange.json`, `proof/Current.lean` with its reusable modules, and
+`assurance-certificate.json`. Lean independently computes SHA-256 for the raw
+compiled graph, formal projection graph, compiled certificate, and complete
+interchange; lowers the decoded graph certificate through the existing
+`CheckedProjectionInput` compiler model; recomputes the complete node and edge
+projection from the embedded compiled graph; and checks the closed shape, source
+identities, unique node/edge/obligation/witness identities, semantic predicate
+and endpoint correspondence, cross-references, and denominators. Omitted or substituted source identities, nodes, edges,
+obligations, predicates, witnesses, denominators, or digests fail before
+the certificate is published. The result proves only the exact finite compiled
+project projection checked in that invocation; it is not a universal proof of
+the TypeScript compiler or runtime and grants no authority.
+`certify-check` privately rebuilds the bundle from current source under the same
+pinned toolchain and compares the complete file inventory and exact bytes. It
+does not modify the checked target and returns nonzero for any source,
+interchange, proof, certificate, toolchain, or surplus-file drift.
 
 The optional system-integration pair is explicit and closed: both options must
 be present or both absent. The CLI reads

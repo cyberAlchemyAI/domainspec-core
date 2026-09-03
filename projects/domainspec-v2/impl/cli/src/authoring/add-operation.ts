@@ -5,6 +5,7 @@ import path from "node:path";
 import { decodeBody, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { sha256, type SourceManifestV1 } from "../input/source-manifest.js";
 import { decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
+import { decodeTypedBackendContract, type TypedBackendContract } from "../typed-backend/contracts.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
@@ -41,6 +42,26 @@ export interface AddRuleInput {
 
 export interface AddRuleResult {
   readonly schema_version: "domainspec.add-rule-result/v1";
+  readonly source_root: string;
+  readonly selector: string;
+  readonly node_path: string;
+  readonly source_manifest: SourceManifestV1;
+  readonly authority_effect: "none";
+}
+
+export type ThinBackendKind = "Query" | "Calculation" | "Mapping" | "Policy";
+
+export interface AddThinBackendInput {
+  readonly sourceRoot: string;
+  readonly featureId: string;
+  readonly nodeId: string;
+  readonly description: string;
+  readonly kind: ThinBackendKind;
+  readonly typedContract: unknown;
+}
+
+export interface AddThinBackendResult {
+  readonly schema_version: "domainspec.add-thin-backend-result/v1";
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
@@ -89,7 +110,7 @@ interface AuthoringLock {
   readonly inode: number;
 }
 
-function acquireLock(root: string, operation: "add-operation" | "add-rule"): AuthoringLock {
+function acquireLock(root: string, operation: string): AuthoringLock {
   const lockPath = path.join(path.dirname(root), `.${path.basename(root)}.domainspec-authoring.lock`);
   let descriptor: number;
   try {
@@ -196,10 +217,11 @@ interface AuthorNodeInput {
   readonly sourceRoot: string;
   readonly featureId: string;
   readonly nodeId: string;
-  readonly kind: "Operation" | "Rule";
-  readonly metaTypeId: "DS-D1.4" | "DS-D1.7";
-  readonly transaction: "add-operation" | "add-rule";
+  readonly kind: "Operation" | "Rule" | ThinBackendKind;
+  readonly metaTypeId: "DS-D1.4" | "DS-D1.5" | "DS-D1.6" | "DS-D1.7" | "DS-D1.8" | "DS-D1.13";
+  readonly transaction: string;
   readonly body: Record<string, unknown>;
+  readonly edges?: readonly Readonly<{ relationship: "reads" | "maps" | "applies"; target: string }>[];
 }
 
 interface AuthorNodeResult {
@@ -222,7 +244,17 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
 
   const lock = acquireLock(root, input.transaction);
   let stageRoot: string | null = null;
-  let nodePublished = false;
+  const edgeSpecs = (input.edges ?? []).map(({ relationship, target }) => {
+    const [targetFeature, targetNode, extra] = target.split(":");
+    if (!targetFeature || !targetNode || extra !== undefined || targetFeature !== input.featureId) fail("MTCLI_AUTHORING_EDGE_SCOPE", "/contract-json", `${relationship} authoring requires a same-feature target`);
+    requireId(targetNode, "/contract-json");
+    const edgeId = `${input.nodeId}-${relationship}-${targetNode}`;
+    return Object.freeze({ relationship, targetNode, edgeId, relativePath: `specs/${input.featureId}/edges/${edgeId}.json` });
+  });
+  if (new Set(edgeSpecs.map(({ edgeId }) => edgeId)).size !== edgeSpecs.length) fail("MTCLI_AUTHORING_SET", "/contract-json", "duplicate authored relationship");
+  for (const edge of edgeSpecs) if (fs.existsSync(path.join(root, edge.relativePath))) fail("MTCLI_AUTHORING_EDGE_EXISTS", "/contract-json", `edge already exists:${edge.edgeId}`);
+  const publishedPaths: string[] = [];
+  const createdDirectories: string[] = [];
   try {
     const lockedManifest = validateProjectRoot(root);
     if (lockedManifest.manifest_sha256 !== initialManifest.manifest_sha256) {
@@ -244,13 +276,18 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
       schema_version: "domainspec.feature/v1",
       feature_id: input.featureId,
       nodes: [...feature.value.nodes, input.nodeId].sort(compareIds),
-      edges: [...feature.value.edges],
+      edges: [...feature.value.edges, ...edgeSpecs.map(({ edgeId }) => edgeId)].sort(compareIds),
     });
 
     stageRoot = fs.mkdtempSync(path.join(path.dirname(root), `.${path.basename(root)}.${input.transaction}-`));
     copyDeclaredSources(root, stageRoot, lockedManifest);
     fs.mkdirSync(path.dirname(path.join(stageRoot, nodeRelativePath)), { recursive: true, mode: 0o755 });
     fs.writeFileSync(path.join(stageRoot, nodeRelativePath), nodeDocument, { encoding: "utf8", flag: "wx", mode: 0o644 });
+    for (const edge of edgeSpecs) {
+      const stagedEdge = path.join(stageRoot, edge.relativePath);
+      fs.mkdirSync(path.dirname(stagedEdge), { recursive: true, mode: 0o755 });
+      fs.writeFileSync(stagedEdge, canonicalDocument({ schema_version: "domainspec.edge/v1", edge_id: edge.edgeId, feature_id: input.featureId, relationship: edge.relationship, source_node_id: input.nodeId, target_node_id: edge.targetNode, scope: "feature" }), { encoding: "utf8", flag: "wx", mode: 0o644 });
+    }
     fs.writeFileSync(path.join(stageRoot, feature.relativePath), featureDocument, { encoding: "utf8", flag: "w", mode: 0o644 });
 
     const prospectiveManifest = validateProjectRoot(stageRoot);
@@ -266,7 +303,17 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
     if (fs.existsSync(nodeAbsolutePath)) fail("MTCLI_AUTHORING_NODE_EXISTS", "/name", `node appeared during authoring:${input.featureId}:${input.nodeId}`);
 
     fs.writeFileSync(nodeAbsolutePath, nodeDocument, { encoding: "utf8", flag: "wx", mode: 0o644 });
-    nodePublished = true;
+    publishedPaths.push(nodeAbsolutePath);
+    for (const edge of edgeSpecs) {
+      const absolute = path.join(root, edge.relativePath);
+      const directory = path.dirname(absolute);
+      if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true, mode: 0o755 });
+        createdDirectories.push(directory);
+      }
+      fs.writeFileSync(absolute, canonicalDocument({ schema_version: "domainspec.edge/v1", edge_id: edge.edgeId, feature_id: input.featureId, relationship: edge.relationship, source_node_id: input.nodeId, target_node_id: edge.targetNode, scope: "feature" }), { encoding: "utf8", flag: "wx", mode: 0o644 });
+      publishedPaths.push(absolute);
+    }
 
     const featureTemporaryPath = path.join(
       path.dirname(feature.absolutePath),
@@ -280,7 +327,8 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
       throw error;
     }
 
-    nodePublished = false;
+    publishedPaths.length = 0;
+    createdDirectories.length = 0;
     return Object.freeze({
       source_root: root,
       selector: `${input.featureId}:${input.nodeId}`,
@@ -289,7 +337,10 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
       authority_effect: "none",
     });
   } catch (error) {
-    if (nodePublished) fs.rmSync(nodeAbsolutePath, { force: true });
+    for (const publishedPath of publishedPaths.reverse()) fs.rmSync(publishedPath, { force: true });
+    for (const directory of createdDirectories.reverse()) {
+      try { fs.rmdirSync(directory); } catch { /* preserve non-empty or concurrently owned directories */ }
+    }
     throw error;
   } finally {
     if (stageRoot !== null) fs.rmSync(stageRoot, { recursive: true, force: true });
@@ -333,5 +384,42 @@ export function addRule(input: AddRuleInput): AddRuleResult {
       transaction: "add-rule",
       body,
     }),
+  });
+}
+
+function thinBackendBody(input: AddThinBackendInput): Record<string, unknown> {
+  requireId(input.featureId, "/feature");
+  requireId(input.nodeId, "/name");
+  requireText(input.description, "/description");
+  const typed = decodeTypedBackendContract(input.kind, input.typedContract);
+  let body: Record<string, unknown>;
+  if (typed.schema_version === "domainspec.typed-query/v1") body = { description: input.description.trim(), reads: [typed.source], typed_contract: typed };
+  else if (typed.schema_version === "domainspec.typed-calculation/v1") body = { description: input.description.trim(), inputs: typed.inputs.map(({ name }) => name), typed_contract: typed };
+  else if (typed.schema_version === "domainspec.typed-mapping/v1") body = { description: input.description.trim(), source: typed.source, target: typed.target, typed_contract: typed };
+  else body = { description: input.description.trim(), strategies: [...new Set([...typed.cases.map(({ target }) => target), typed.default_target])], typed_contract: typed };
+  decodeBody(input.kind, body);
+  return body;
+}
+
+export function addThinBackend(input: AddThinBackendInput): AddThinBackendResult {
+  const body = thinBackendBody(input);
+  const identities: Record<ThinBackendKind, { readonly id: AuthorNodeInput["metaTypeId"]; readonly command: string }> = {
+    Query: { id: "DS-D1.5", command: "query" },
+    Calculation: { id: "DS-D1.6", command: "calculation" },
+    Policy: { id: "DS-D1.8", command: "policy" },
+    Mapping: { id: "DS-D1.13", command: "mapping" },
+  };
+  const identity = identities[input.kind];
+  const typed = body.typed_contract as TypedBackendContract;
+  const edges = typed.schema_version === "domainspec.typed-query/v1"
+    ? [{ relationship: "reads" as const, target: typed.source }]
+    : typed.schema_version === "domainspec.typed-mapping/v1"
+      ? [{ relationship: "maps" as const, target: typed.target }]
+      : typed.schema_version === "domainspec.typed-policy/v1"
+        ? [...new Set([...typed.cases.map(({ target }) => target), typed.default_target])].map((target) => ({ relationship: "applies" as const, target }))
+        : [];
+  return Object.freeze({
+    schema_version: "domainspec.add-thin-backend-result/v1",
+    ...authorNode({ sourceRoot: input.sourceRoot, featureId: input.featureId, nodeId: input.nodeId, kind: input.kind, metaTypeId: identity.id, transaction: `add-${identity.command}`, body, edges }),
   });
 }

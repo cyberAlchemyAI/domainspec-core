@@ -36,6 +36,23 @@ export {
 export { planInstantiation } from "./generation/plan-instantiation.js";
 export { publishInstantiation, PublicationError, type PublicationResult } from "./generation/publish-instantiation.js";
 export {
+  planProjectBuild,
+  publishProjectBuild,
+  verifyProjectBuild,
+  ProjectBuildError,
+  type ProjectBuildPlanV1,
+  type ProjectBuildReceiptV1,
+  type ProjectBuildVerificationV1,
+} from "./generation/project-build.js";
+export {
+  compileProject,
+  createCompiledProjectCertificate,
+  materializeCompiledProjectCertificate,
+  validateCompiledProjectCertificate,
+  CompilationCertificateError,
+  type CompiledProjectCertificateV1,
+} from "./compilation/certificate.js";
+export {
   checkLeanMetaTypeFormalization,
   createMetaTypeFormalizationProjection,
   formalizationProjectionSha256,
@@ -55,11 +72,27 @@ export {
 } from "./formalization/refinement.js";
 export { FORMALIZATION_LEAN_MODULE_FILENAMES, formalizationLeanModuleSources } from "./formalization/kernel.js";
 export {
+  createCheckedInterchange,
+  validateCheckedInterchange,
+  CheckedInterchangeError,
+  type CheckedInterchangeV1,
+} from "./assurance/checked-interchange.js";
+export {
+  certifyProject,
+  checkCertifiedProject,
+  CertificationError,
+  CERTIFY_LEAN_TOOLCHAIN,
+  CERTIFY_LEAN_VERSION,
+  type AssuranceCertificateV1,
+  type CertificationCheckV1,
+} from "./assurance/certify.js";
+export {
   loadCompiledProjectGraph,
   loadProjectNode,
   validateCompiledProjectGraphObligations,
   ProjectModelError,
   type CompiledProjectGraph,
+  type CompiledObligationApplicability,
   type CompiledRelationshipObligationWitness,
   type DecodedProjectNode,
 } from "./input/project-model.js";
@@ -83,6 +116,21 @@ export {
   validateSystemIntegrationManifest,
 } from "./system-integration/compiler.js";
 export { FROZEN_SYSTEM_INTEGRATION, validateFrozenSystemIntegrationProfile } from "./system-integration/profile.js";
+export { runInMemoryProject } from "./runtime/in-memory.js";
+export { runDurableOperation, type DurableCommitRequestV1, type DurableOperationInvocationV1, type DurableOperationReceiptV1, type TransactionalOutboxPortV1 } from "./runtime/durable.js";
+export { FetchPostgresOutboxHttpClient, HttpPostgresOutboxTransport, PostgresOutboxWorker, PostgresTransactionalOutbox, type PostgresOutboxConfig, type PostgresOutboxHttpClient, type PostgresOutboxRecord, type PostgresOutboxStatus, type PostgresOutboxTransport } from "./runtime/postgres-outbox.js";
+export { materializeRuntimeReceipt, validateRuntimeReceiptBinding } from "./runtime/receipt.js";
+export { compareIndependentRuntimeTarget, type IndependentRuntimeTarget, type RuntimeConformanceResultV1 } from "./runtime/conformance.js";
+export {
+  decodeRuntimeInvocation,
+  runtimeRequestSha256,
+  RuntimeContractError,
+  type RuntimeInvocationV1,
+  type RuntimeStepV1,
+  type RuntimeStepOutcomeV1,
+  type RuntimeCoverageV1,
+  type RuntimeReceiptV1,
+} from "./runtime/contracts.js";
 export type {
   SystemIntegrationBindingManifestV1,
   SystemIntegrationProfileV1,

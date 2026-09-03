@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 
 import type { CompiledProjectGraph } from "../input/project-model.js";
+import { canonicalJson } from "../input/source-manifest.js";
 
 const SHA256_PATTERN = /^[a-f0-9]{64}$/;
 
@@ -53,7 +54,7 @@ export function createCompilerRefinementOutput<Node, Edge>(
     nodes: projectedGraph.nodes,
     edges: projectedGraph.edges,
   });
-  const graphSha256 = sha256(JSON.stringify(projectedGraphBody));
+  const graphSha256 = sha256(canonicalJson(projectedGraphBody));
   requireSha256(graphSha256, "graph_sha256");
   requireSha256(graph.source_manifest.manifest_sha256, "source_manifest_sha256");
   requireSha256(graph.source_manifest.aggregate_sha256, "source_bytes_sha256");

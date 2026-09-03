@@ -5,6 +5,8 @@ import type { CompiledProjectGraph, DecodedRelationship, FieldSpec, InterfaceOpe
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import { FROZEN_RELATIONSHIP_AUTHORITY_V1 } from "../relationships/frozen-authority.generated.js";
 import type { FrozenRelationshipSignature } from "../relationships/types.js";
+import type { TypedRecordContract } from "../typed-operation/contracts.js";
+import { canonicalJson } from "../input/source-manifest.js";
 import {
   FORMALIZATION_LEAN_MODULE_FILENAMES,
   createFormalizationLeanModuleSet,
@@ -172,8 +174,11 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
   const graphNodes = graph.nodes.map((node): ProjectNodeProjection => {
     const transitions = node.kind === "State Machine" ? node.body.transitions as readonly StateTransitionSpec[] : [];
     const interfaceOperations = node.kind === "Interface" ? node.body.operations as readonly InterfaceOperationSpec[] : [];
+    const typedRecord = (node.kind === "Entity" || node.kind === "Value Object") && (node.body.typed_contract as { schema_version?: unknown } | undefined)?.schema_version === "domainspec.typed-record/v1"
+      ? node.body.typed_contract as unknown as TypedRecordContract
+      : null;
     const fields: readonly FieldSpec[] = node.kind === "Entity" || node.kind === "Value Object"
-      ? node.body.fields as readonly FieldSpec[]
+      ? typedRecord === null ? node.body.fields as readonly FieldSpec[] : []
       : node.kind === "Event"
         ? [node.body.occurrence_id as FieldSpec, ...node.body.payload as readonly FieldSpec[]]
         : node.kind === "Interface"
@@ -184,9 +189,9 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
       meta_type: LEAN_META_TYPE[node.kind] ?? fail("MTCLI_FORMALIZE_PROJECT_NODE", `missing Lean project meta-type:${node.kind}`),
       generated_creation_targets: Object.freeze([...(node.generated_relationship_projections.creation_targets ?? [])]),
       authored_forbidden_projection_attributes: Object.freeze([...node.authored_forbidden_projection_attributes]),
-      typed_field_ids: Object.freeze(fields.map(({ field_id }) => field_id)),
-      typed_field_type_refs: Object.freeze(fields.map(({ type_ref }) => type_ref.kind === "primitive" ? `primitive:${type_ref.name}` : `reference:${type_ref.selector}`)),
-      entity_identity_field: node.kind === "Entity" ? String(node.body.identity_field) : "",
+      typed_field_ids: Object.freeze(typedRecord === null ? fields.map(({ field_id }) => field_id) : typedRecord.properties.map(({ name }) => name)),
+      typed_field_type_refs: Object.freeze(typedRecord === null ? fields.map(({ type_ref }) => type_ref.kind === "primitive" ? `primitive:${type_ref.name}` : `reference:${type_ref.selector}`) : typedRecord.properties.map(({ type }) => `typed:${canonicalJson(type)}`)),
+      entity_identity_field: node.kind === "Entity" ? typedRecord?.properties.find(({ identity }) => identity)?.name ?? String(node.body.identity_field) : "",
       value_object_structural_equality: node.kind === "Value Object",
       enum_values: Object.freeze(node.kind === "Enum" ? [...node.body.values as readonly string[]] : []),
       event_type: node.kind === "Event" ? String(node.body.event_type) : "",
