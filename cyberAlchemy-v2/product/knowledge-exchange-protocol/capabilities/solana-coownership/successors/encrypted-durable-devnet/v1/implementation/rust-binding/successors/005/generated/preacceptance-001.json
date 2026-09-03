@@ -1,215 +1,113 @@
 {
-  "schema_version": "cav2-kep-sol2-rust-construction-binding-graph-repair-preacceptance/v1",
-  "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-CONSTRUCTION-BINDING-PREACCEPTANCE-005",
-  "route_id": "CA2-ROUTE-IMPLEMENT",
-  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "schema_version": "cav2-kep-sol2-rust-postimplementation-binding-preacceptance/v1",
+  "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-POSTIMPLEMENTATION-BINDING-PREACCEPTANCE-005",
+  "route_id": "CA2-ROUTE-DELEGATE",
   "candidate": {
-    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-005",
-    "lifecycle_status": "authored-preimplementation-candidate",
+    "binding_id": "CA2-D65-KEP-SOLANA-ENCRYPTED-DURABLE-DEVNET-RUST-005",
+    "lifecycle_status": "authored-postimplementation-candidate",
     "binding_material_digest_algorithm": "sha256-path-null-bytes-null/v1",
-    "binding_material_digest": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
+    "binding_material_digest": "14b7241107541ab1a24e732613ce614a27c220a362b2276efff4e01936571b0a",
     "artifacts": [
       {
         "path": "policy.json",
-        "sha256": "dca327731c2483eca7caac13172abb3aa4fbdbcc79e7da8826bba085fba5eddf"
+        "sha256": "545ca6ec3a3a2c098f09897e543244b5e0989140a94c8e91681de9142368f5f9"
       },
       {
         "path": "generated/implementation-binding.json",
-        "sha256": "08809a8ec226cf967706eccb8d198897d0e0a755bd443223acad3bc424368284"
+        "sha256": "9686d27b20c749676cf6c0b11d803ba763b2c585b5bd92669882f37cc09f7d72"
       }
     ]
   },
-  "supersession": {
-    "supersedes_binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-004",
-    "supersedes_accepted_material_digest": "c54bf1e9d6c8ae44674c12b7ab2c98ba3e59250633d53459e0366b35b850432e",
-    "cause": {
-      "defect_id": "KEP-SOL2-BINDING-004-SOLANA-WINCODE-SCHEMA-SPLIT",
-      "observed_failure": "The accepted binding 004 full test compile fails because solana-program-test 4.1.2 selects pubkey and address types using wincode 0.6 while solana-transaction and solana-runtime-transaction use wincode 0.5.",
-      "invalid_workaround": "Removing the solana-transaction wincode feature is invalid because transaction sign, try_sign, and new_signed_with_payer are feature-gated by wincode.",
-      "repair_basis": "The isolated exact graph selected below completed cargo check --all-targets and resolves one wincode 0.5.5 package.",
-      "repair_limit": "Change only the five declared Solana graph selections and the corresponding provider version label; preserve all other dependencies, targets, semantics, and authority ceilings."
-    },
-    "change_set": [
-      {
-        "dependency": "solana-program-test",
-        "from": {
-          "version": "=4.1.2",
-          "default_features": false,
-          "features": [
-            "agave-unstable-api"
-          ]
-        },
-        "to": {
-          "version": "=4.2.2",
-          "default_features": false,
-          "features": [
-            "agave-unstable-api"
-          ]
-        }
-      },
-      {
-        "dependency": "solana-transaction",
-        "from": {
-          "version": "=4.1.1",
-          "default_features": false,
-          "features": [
-            "wincode"
-          ]
-        },
-        "to": {
-          "version": "=4.1.4",
-          "default_features": false,
-          "features": [
-            "wincode"
-          ]
-        }
-      },
-      {
-        "dependency": "solana-instruction",
-        "from": {
-          "version": "=3.4.0",
-          "default_features": false,
-          "features": [
-            "std"
-          ]
-        },
-        "to": {
-          "version": "=3.4.1",
-          "default_features": false,
-          "features": [
-            "std"
-          ]
-        }
-      },
-      {
-        "dependency": "solana-pubkey",
-        "from": {
-          "version": "=4.2.0",
-          "default_features": false,
-          "features": [
-            "std"
-          ]
-        },
-        "to": {
-          "version": "=4.2.0",
-          "default_features": false,
-          "features": [
-            "std"
-          ]
-        }
-      },
-      {
-        "dependency": "solana-address",
-        "from": null,
-        "to": {
-          "version": "=2.6.1",
-          "kind": "runtime-and-test",
-          "default_features": false,
-          "features": []
-        }
-      }
-    ],
-    "all_other_construction_semantics": "byte-equivalent-after-successor-metadata-provider-label-and-dependency-graph-normalization"
-  },
-  "selected_dependency_digests": {
-    "accepted_binding_004_material": "c54bf1e9d6c8ae44674c12b7ab2c98ba3e59250633d53459e0366b35b850432e",
-    "accepted_implementation_material": "877caaa3865870a5310db88f5fe951b15b4e164e7185cb2d814459febdc22b3b",
-    "accepted_assessment_material": "e844154f1caae759a889f79f1e94447e86e9e47ac08f70142e1d92dc39ce6487",
-    "admitted_system_ontology_candidate_set": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168"
+  "selected_dependencies": {
+    "accepted_predecessor_binding_material": "809075ec3d64e44bcf36cde22c80d22b822b322ecc22eb423db128671552ad0f",
+    "admitted_system_ontology_candidate_set": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168",
+    "runtime_material": "f03fcc41c8205d836c109677eb2c259da70ef77b59b73c5d1dd2f9e1a014e6aa",
+    "stable_cycle": "94254f67eac65d1903be5ccbada9985018591dc2e2b790ca31043e408f2697e5",
+    "relation_evidence": "86326e0fb95140d0afb6de3a87333374c28b83e9260b55e7eb6a2823948bd19f",
+    "sbf": "68c41e9e74fe3a663783e6d710b52da8e47c5315508d355bde1fa48ffbe8f6bb"
   },
   "closure": {
-    "system_nodes": "89/89 selected",
-    "system_relations": "204/204 selected",
-    "proof_obligations": "13/13 selected",
-    "boundaries": "9/9 selected",
-    "exact_dependencies": "17/17 PASS",
-    "cached_manifests": "7/7 PASS",
-    "coherent_graph_packages": "8/8 PASS",
-    "forbidden_wincode_0_6": "absent PASS",
-    "planned_targets": "14/14 PASS",
-    "forbidden_external_capabilities": "9/9 PASS",
-    "graph_repair": "5/5 PASS",
-    "all_other_construction_semantics": "unchanged-from-binding-004 PASS"
+    "runtime_artifacts": "25/25 exact",
+    "system_nodes": "89/89 exact-byte mapped",
+    "system_relations": "204/204 relation-evidence joined",
+    "proof_obligations": "13/13 selectors bound without acceptance",
+    "boundaries": "9/9 bound",
+    "stable_cycles": "2/2 PASS_BOUNDED"
   },
   "checks": [
     {
-      "check_id": "accepted-binding-004-exact",
+      "check_id": "accepted-predecessor-exact",
       "status": "PASS"
     },
     {
-      "check_id": "selected-ontology-dependencies-exact",
+      "check_id": "successors-003-and-004-provenance-preserved",
       "status": "PASS"
     },
     {
-      "check_id": "cached-crate-manifests-exact",
+      "check_id": "admitted-system-ontology-exact",
       "status": "PASS"
     },
     {
-      "check_id": "wincode-feature-required",
+      "check_id": "runtime-material-exact",
       "status": "PASS"
     },
     {
-      "check_id": "isolated-coherent-graph-exact",
+      "check_id": "sbf-identity-and-local-load-exact",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "two-cycle-local-validation",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "relation-evidence-closure",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "selector-mapping-closure",
       "status": "PASS"
     },
     {
-      "check_id": "five-entry-graph-repair-exact",
-      "status": "PASS"
-    },
-    {
-      "check_id": "other-construction-semantics-preserved",
-      "status": "PASS"
-    },
-    {
-      "check_id": "successor-binding-acceptance",
+      "check_id": "binding-acceptance",
       "status": "not_evaluable",
-      "causal_blocker": "Human owner has not accepted this exact successor material digest."
+      "causal_blocker": "A separate owner decision is required."
     },
     {
-      "check_id": "implementation-conformance",
+      "check_id": "independent-review",
       "status": "not_evaluable",
-      "causal_blocker": "This construction-binding candidate grants no implementation or conformance claim."
+      "causal_blocker": "The parent has not yet joined the independent review helper."
     },
     {
-      "check_id": "production-security-approval",
+      "check_id": "aggregate-conformance",
       "status": "not_evaluable",
-      "causal_blocker": "Independent cryptographic security review remains absent."
+      "causal_blocker": "Binding acceptance, independent review, real finalized Devnet evidence, and a final owner decision remain absent."
     },
     {
-      "check_id": "devnet-evidence",
+      "check_id": "devnet-trial",
       "status": "not_evaluable",
-      "causal_blocker": "Credentials, wallets, RPC, deployment, and Devnet effects remain forbidden."
+      "causal_blocker": "Credentials, wallets, RPC, deployment, and signed submissions are not authorized by this candidate."
     }
   ],
   "author": {
     "path": "../author.py",
-    "sha256": "e0d259ab743dc834494785bf55f40ce8b2dee921853bb14ace44c1297946a714"
+    "sha256": "c99d15532dff960c288fa04520b25cc3d4935ae3ffb0c916de22d6f2847d1180"
   },
   "tests": {
     "path": "../tests/test_author.py",
-    "sha256": "ad0831e809338772e9653bd33b750832ccc73e5e49e0db8273d4c1c40bc75b6a"
-  },
-  "author_decision": {
-    "path": "author-decision.json",
-    "sha256": "730ece87a70ff577b8ed2c2d2f7c62456acfd01fe499f9c6093d73d7f77f0a79"
+    "sha256": "6535c6cf12cf1939886e7b2a987677320ec9c42642fb448bb35fe4a9db7171aa"
   },
   "decision_gate": {
-    "status": "ready-for-exact-successor-construction-binding-decision",
-    "required_digest": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
-    "admissible_option_ids": [
-      "ACCEPT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
-      "REJECT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
-      "DEFER-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING"
-    ],
-    "decision_limit": "Acceptance may bind only this exact dependency-graph repair candidate; it cannot accept implementation bytes, conformance, security, or external effects."
+    "status": "ready-for-separate-owner-binding-decision",
+    "required_candidate_material_digest": "14b7241107541ab1a24e732613ce614a27c220a362b2276efff4e01936571b0a",
+    "decision_limit": "Any acceptance may bind only this exact policy and generated binding candidate; it cannot approve aggregate conformance, production security, external effects, or publication."
   },
   "preacceptance": {
-    "status": "PASS",
+    "status": "PASS_BOUNDED",
     "authority_effect": "none"
   },
   "authority_effect": "none",
   "implementation_effect": "none",
   "enforcement_effect": "none",
   "external_effect": "none",
-  "claim_ceiling": "Exact successor Rust construction-binding candidate only. It repairs the accepted binding 004 Solana dependency graph into one coherent wincode 0.5 schema family and preserves all fourteen local FE-W3 and FE-W4 targets and semantics. It grants no acceptance, implementation, conformance, security, credential, wallet, RPC, deployment, Devnet, publication, or external-effect authority."
+  "claim_ceiling": "Exact-byte postimplementation Rust binding candidate for the frozen 25-file runtime, exact SBF identity, two-cycle bounded local evidence, and 204 relation-evidence joins. It does not accept the binding, discharge aggregate conformance, approve production security, authorize credentials or wallets, authorize any RPC, deployment, Devnet or Mainnet effect, or authorize publication or release."
 }

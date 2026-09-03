@@ -9,6 +9,8 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+pub mod encrypted_durable_devnet;
+
 pub const ADMITTED_SYSTEM_ONTOLOGY_DIGEST: &str =
     "32a354721df128dd3ba8b11e8f1a435914a8718952c93b5a7e69f12edae60a60";
 pub const ADMISSION_DECISION_ID: &str = "CA2-DECISION-KEP-SYSTEM-ONTOLOGY-ADMISSION-002";

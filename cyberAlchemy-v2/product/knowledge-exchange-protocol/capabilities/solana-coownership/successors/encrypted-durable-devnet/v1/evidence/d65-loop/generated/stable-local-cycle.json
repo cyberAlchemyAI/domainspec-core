@@ -1,0 +1,543 @@
+{
+  "authority_effect": "none",
+  "claim_ceiling": "Exact local bounded construction evidence only; no binding acceptance, Devnet effect, independent-review result, or aggregate conformance.",
+  "cycle_id": "CA2-KEP-SOL2-D65-LOCAL-STABLE-001",
+  "cycles": [
+    {
+      "commands": [
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/ontology/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "686abf497ad2ce1ebdfe3aba216f975d75c13241d721f5623d0220672b4926cf"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/author.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "e9b67bb697af3a3aea249bf260b2f7c2d7e033c100cca2700577e314466bbced"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "7013e826cc7f5062652ae26443f7bd03bda0af00085233bb6052b7f7990b7635"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "353dd38ff48b0487bdc9060431521464a7887e6ad77233f35ca8c1414bc66de9"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/author.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "c52cd4a8dcc57f5d281033034261c905cb4d55abb69de85c8a8b188ffb72ef09"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/evidence/relation-coverage/author.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "e92d5e1fa8006682f6c2326313af5571f99b0eacfd09a24e0e92f59a4007d33f"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--locked"
+          ],
+          "exit_code": 0,
+          "output_sha256": "08b9902960aa0a279d9a5cf6ec2599f05273b171521b500d3b5e4e14bd184740"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "output_sha256": "22325c7feec25e4049d1ccdfacc41124ddcb74c3a48bea8b7c1537f7c9d7f3aa"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "-p",
+            "cyberalchemy-kep-adapters",
+            "--test",
+            "postgres_conformance",
+            "--locked",
+            "--",
+            "--ignored"
+          ],
+          "exit_code": 0,
+          "output_sha256": "9da6f3071c3f792fc4d4fa218ca1ee6254557ecfd978bfe11419bdbc79681cb1",
+          "provider_identity": "docker.io/library/postgres:17-alpine@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73"
+        }
+      ],
+      "result": "PASS_BOUNDED",
+      "runtime_material": [
+        {
+          "path": "Cargo.lock",
+          "sha256": "f09c3077c1400852a3d596dfd9f70dff23ac1f0884316246d171e69cdb7f75c6"
+        },
+        {
+          "path": "Cargo.toml",
+          "sha256": "a6daba855955d17f50df56b60a58d8cbff8fa474fc041076ce78d9b9d64699c1"
+        },
+        {
+          "path": "adapters/Cargo.toml",
+          "sha256": "6d5dc4d79beba28fbd14e99750cefd171a2910abb06ed15ab6c586245cd0d027"
+        },
+        {
+          "path": "adapters/src/crypto.rs",
+          "sha256": "0b755dd2beea01b7cfa65b4edb79400e18cfbd67d0870d109ba772d160bfd4f0"
+        },
+        {
+          "path": "adapters/src/lib.rs",
+          "sha256": "e825dc7e66de120cd07cf17bf0e3fb710a92a1a220f76b2ad643bd6b42f89670"
+        },
+        {
+          "path": "adapters/src/sql.rs",
+          "sha256": "a07e0a56ed77785012974fd00bfe519553c1d8f579ee00a38cbba242c0981e1c"
+        },
+        {
+          "path": "adapters/tests/crypto_conformance.rs",
+          "sha256": "a1e2c33b259d5c7d513d12e40467d4659479cafeb1b433ca02a4e7b3d7bfb52b"
+        },
+        {
+          "path": "adapters/tests/postgres_conformance.rs",
+          "sha256": "5368c4bf4907bf41a6111546ec415256d9886523e0de41c2328ca2c1639e4f8b"
+        },
+        {
+          "path": "solana-program/Cargo.toml",
+          "sha256": "fcdb2db5f545e7cb2250c7c857ba6f451b2a0586353eea07374dbdf5ea3e77d3"
+        },
+        {
+          "path": "solana-program/src/lib.rs",
+          "sha256": "a359696302cd0d72894b8b8c9c557ad239455508328dac9cb4f729c324c817e0"
+        },
+        {
+          "path": "solana-program/tests/program_test.rs",
+          "sha256": "a218ee72d756dd0ed4feec639d400fb551823db00efce67fd2ff0716a592e81a"
+        },
+        {
+          "path": "solana-program/tests/sbf_program_test.rs",
+          "sha256": "764ed699feeb08ad15415d8e0fd7d65331f816c9af1508dc55b358b406c36fd7"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/evidence.rs",
+          "sha256": "bf4ffc4089985535f3b627f19a430606e807badb81f49a66ccf41c3b40476bb9"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/mod.rs",
+          "sha256": "2d6f5585470125db56ddc3a5b30dad38ba0fa33c8317e9b01796f3e8c23c85eb"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/model.rs",
+          "sha256": "4dc1275fe5591279c0b2605f1e029001170317d6e8993fe273555de60c2b407d"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/ports/cryptography.rs",
+          "sha256": "6955fb21a1fdd3f282afb0295f11056bc7b7808474ecda7dad68554d93d496cf"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/ports/durable_storage.rs",
+          "sha256": "116da0c0356b525e91756ce5027ef23ba3949c38134d033bd4490b44abfe55f2"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/ports/solana.rs",
+          "sha256": "3dbe038436d8ba56a1280c6843a675cfd0896310bf778a6955ad91f19d759fff"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/protocol.rs",
+          "sha256": "488d7e3fa281bca65498eefd340d9cd6e17bbd065dad6da24222699706d5604f"
+        },
+        {
+          "path": "src/lib.rs",
+          "sha256": "43e598accd4402bd2d1163aa7164c4bffdd92bc1a1177b3cc1b213f7fdc93a67"
+        },
+        {
+          "path": "tests/encrypted_durable_devnet.rs",
+          "sha256": "c86148a99f14746aadd0fa053c6d38dd1fcce97abd1a33833982add53fc3aa89"
+        },
+        {
+          "path": "tests/protocol.rs",
+          "sha256": "4dcd09d55ec47d8b7523d6227fe9bbcffd97d03c403e6b5b5cf57a34df14c6e8"
+        },
+        {
+          "path": "trial-cli/Cargo.toml",
+          "sha256": "ce094bb8a94bade80b4de503dcae6625746fe4e0da64818a88f9babb38d1049a"
+        },
+        {
+          "path": "trial-cli/src/executor.rs",
+          "sha256": "05990e52dbe04168fc19e9fb53b9507dbb74c876983cb64af3c662126e583ab7"
+        },
+        {
+          "path": "trial-cli/src/main.rs",
+          "sha256": "0c08e19537fcd4e5c5c00ed5f08a1cb05193b0f49260b2bbcb836c31dd9ab4d8"
+        },
+        {
+          "path": "trial-cli/src/setup.rs",
+          "sha256": "c831345efdea0e46af337a023ab76ff08527f6776d3d03539cdf4315174fd9c1"
+        }
+      ],
+      "runtime_material_digest": "df0bc2d138cfb10ed840eff7dd37ae64bfbe449ae417a75bf7e09ec223e47f98",
+      "runtime_material_file_count": 26,
+      "sbf": {
+        "absolute_minimum_deployment_submissions": 80,
+        "agave_archive_sha256": "5978d621fe2582fc2403fa13f3c06502020bcb42e806ddd4612150049d1a3fbb",
+        "agave_version": "3.1.11",
+        "build": {
+          "command": [
+            "cargo-build-sbf",
+            "--manifest-path",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime/solana-program/Cargo.toml",
+            "--sbf-out-dir",
+            "/tmp/ca2-kep-sbf"
+          ],
+          "exit_code": 0,
+          "output_sha256": "b1e5d6bc2b79c37cca4589db8758cbfbf0687e55b51cb0e41f343cb4d096e896"
+        },
+        "candidate_split_budget": {
+          "deployment_max_sign_attempts": 1,
+          "deployment_signed_submissions": 192,
+          "protocol_signed_submissions": 24,
+          "state": "fits-local-bound-pending-owner-authorization"
+        },
+        "exact_fixed_chunk_deployment_submission_bound": 130,
+        "load_test": {
+          "command": [
+            "cargo",
+            "test",
+            "-p",
+            "cyberalchemy-kep-solana-program",
+            "--test",
+            "sbf_program_test",
+            "--locked",
+            "--",
+            "--ignored"
+          ],
+          "exit_code": 0,
+          "output_sha256": "a602fcd11179e313bdf4fbb2434c4ed5c17ab003bbeec9dc90a93828b62d1192"
+        },
+        "original_total_submission_cap": 24,
+        "original_total_submission_cap_state": "BLOCK",
+        "sbf_sha256": "68c41e9e74fe3a663783e6d710b52da8e47c5315508d355bde1fa48ffbe8f6bb",
+        "sbf_size_bytes": 98016
+      },
+      "secret_surface_scan": {
+        "files_scanned": 10,
+        "result": "PASS_BOUNDED"
+      },
+      "selected_predecessors": {
+        "decisions/local-conformance-assessment-acceptance-001.json": "8fe41ab442f047b6ad5207056a55eaf1b4f86b2aa55a8966256596134ac139a7",
+        "decisions/rust-binding-acceptance-002.json": "56d3dbe773bee25ac59d245728c58db636090c8d3f68e779ae6f0ab27038207a",
+        "formal-evidence/local-conformance/001/generated/conformance-assessment.json": "d0f71ea337216455262ab68d889c7b7c9997eb9127e802a1d51bd23f677c4dab",
+        "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3"
+      }
+    },
+    {
+      "commands": [
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/ontology/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "686abf497ad2ce1ebdfe3aba216f975d75c13241d721f5623d0220672b4926cf"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/author.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "e9b67bb697af3a3aea249bf260b2f7c2d7e033c100cca2700577e314466bbced"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "7013e826cc7f5062652ae26443f7bd03bda0af00085233bb6052b7f7990b7635"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "353dd38ff48b0487bdc9060431521464a7887e6ad77233f35ca8c1414bc66de9"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/author.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "c52cd4a8dcc57f5d281033034261c905cb4d55abb69de85c8a8b188ffb72ef09"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/evidence/relation-coverage/author.py",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "e92d5e1fa8006682f6c2326313af5571f99b0eacfd09a24e0e92f59a4007d33f"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--check"
+          ],
+          "exit_code": 0,
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--workspace",
+            "--locked"
+          ],
+          "exit_code": 0,
+          "output_sha256": "2c24a22042b497eeb05bcd7d60ae9561e026a58bd6167293abb41c3f70b7d4bb"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit_code": 0,
+          "output_sha256": "a5887e1c4948c7b416c989ef310d2120aff52ab7094dcb1cb9b829543d9a1b3b"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "-p",
+            "cyberalchemy-kep-adapters",
+            "--test",
+            "postgres_conformance",
+            "--locked",
+            "--",
+            "--ignored"
+          ],
+          "exit_code": 0,
+          "output_sha256": "64bbed7c8f1b86c1d3b371d6ea7fc3fba85dcc0dca23d23d77e6544f197671ef",
+          "provider_identity": "docker.io/library/postgres:17-alpine@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73"
+        }
+      ],
+      "result": "PASS_BOUNDED",
+      "runtime_material": [
+        {
+          "path": "Cargo.lock",
+          "sha256": "f09c3077c1400852a3d596dfd9f70dff23ac1f0884316246d171e69cdb7f75c6"
+        },
+        {
+          "path": "Cargo.toml",
+          "sha256": "a6daba855955d17f50df56b60a58d8cbff8fa474fc041076ce78d9b9d64699c1"
+        },
+        {
+          "path": "adapters/Cargo.toml",
+          "sha256": "6d5dc4d79beba28fbd14e99750cefd171a2910abb06ed15ab6c586245cd0d027"
+        },
+        {
+          "path": "adapters/src/crypto.rs",
+          "sha256": "0b755dd2beea01b7cfa65b4edb79400e18cfbd67d0870d109ba772d160bfd4f0"
+        },
+        {
+          "path": "adapters/src/lib.rs",
+          "sha256": "e825dc7e66de120cd07cf17bf0e3fb710a92a1a220f76b2ad643bd6b42f89670"
+        },
+        {
+          "path": "adapters/src/sql.rs",
+          "sha256": "a07e0a56ed77785012974fd00bfe519553c1d8f579ee00a38cbba242c0981e1c"
+        },
+        {
+          "path": "adapters/tests/crypto_conformance.rs",
+          "sha256": "a1e2c33b259d5c7d513d12e40467d4659479cafeb1b433ca02a4e7b3d7bfb52b"
+        },
+        {
+          "path": "adapters/tests/postgres_conformance.rs",
+          "sha256": "5368c4bf4907bf41a6111546ec415256d9886523e0de41c2328ca2c1639e4f8b"
+        },
+        {
+          "path": "solana-program/Cargo.toml",
+          "sha256": "fcdb2db5f545e7cb2250c7c857ba6f451b2a0586353eea07374dbdf5ea3e77d3"
+        },
+        {
+          "path": "solana-program/src/lib.rs",
+          "sha256": "a359696302cd0d72894b8b8c9c557ad239455508328dac9cb4f729c324c817e0"
+        },
+        {
+          "path": "solana-program/tests/program_test.rs",
+          "sha256": "a218ee72d756dd0ed4feec639d400fb551823db00efce67fd2ff0716a592e81a"
+        },
+        {
+          "path": "solana-program/tests/sbf_program_test.rs",
+          "sha256": "764ed699feeb08ad15415d8e0fd7d65331f816c9af1508dc55b358b406c36fd7"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/evidence.rs",
+          "sha256": "bf4ffc4089985535f3b627f19a430606e807badb81f49a66ccf41c3b40476bb9"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/mod.rs",
+          "sha256": "2d6f5585470125db56ddc3a5b30dad38ba0fa33c8317e9b01796f3e8c23c85eb"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/model.rs",
+          "sha256": "4dc1275fe5591279c0b2605f1e029001170317d6e8993fe273555de60c2b407d"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/ports/cryptography.rs",
+          "sha256": "6955fb21a1fdd3f282afb0295f11056bc7b7808474ecda7dad68554d93d496cf"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/ports/durable_storage.rs",
+          "sha256": "116da0c0356b525e91756ce5027ef23ba3949c38134d033bd4490b44abfe55f2"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/ports/solana.rs",
+          "sha256": "3dbe038436d8ba56a1280c6843a675cfd0896310bf778a6955ad91f19d759fff"
+        },
+        {
+          "path": "src/encrypted_durable_devnet/protocol.rs",
+          "sha256": "488d7e3fa281bca65498eefd340d9cd6e17bbd065dad6da24222699706d5604f"
+        },
+        {
+          "path": "src/lib.rs",
+          "sha256": "43e598accd4402bd2d1163aa7164c4bffdd92bc1a1177b3cc1b213f7fdc93a67"
+        },
+        {
+          "path": "tests/encrypted_durable_devnet.rs",
+          "sha256": "c86148a99f14746aadd0fa053c6d38dd1fcce97abd1a33833982add53fc3aa89"
+        },
+        {
+          "path": "tests/protocol.rs",
+          "sha256": "4dcd09d55ec47d8b7523d6227fe9bbcffd97d03c403e6b5b5cf57a34df14c6e8"
+        },
+        {
+          "path": "trial-cli/Cargo.toml",
+          "sha256": "ce094bb8a94bade80b4de503dcae6625746fe4e0da64818a88f9babb38d1049a"
+        },
+        {
+          "path": "trial-cli/src/executor.rs",
+          "sha256": "05990e52dbe04168fc19e9fb53b9507dbb74c876983cb64af3c662126e583ab7"
+        },
+        {
+          "path": "trial-cli/src/main.rs",
+          "sha256": "0c08e19537fcd4e5c5c00ed5f08a1cb05193b0f49260b2bbcb836c31dd9ab4d8"
+        },
+        {
+          "path": "trial-cli/src/setup.rs",
+          "sha256": "c831345efdea0e46af337a023ab76ff08527f6776d3d03539cdf4315174fd9c1"
+        }
+      ],
+      "runtime_material_digest": "df0bc2d138cfb10ed840eff7dd37ae64bfbe449ae417a75bf7e09ec223e47f98",
+      "runtime_material_file_count": 26,
+      "sbf": {
+        "absolute_minimum_deployment_submissions": 80,
+        "agave_archive_sha256": "5978d621fe2582fc2403fa13f3c06502020bcb42e806ddd4612150049d1a3fbb",
+        "agave_version": "3.1.11",
+        "build": {
+          "command": [
+            "cargo-build-sbf",
+            "--manifest-path",
+            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime/solana-program/Cargo.toml",
+            "--sbf-out-dir",
+            "/tmp/ca2-kep-sbf"
+          ],
+          "exit_code": 0,
+          "output_sha256": "bee1a894be0274ebd14ac3ffe793e2e5c1ae6254ee5dc8f85d437e1ef7cb8e8c"
+        },
+        "candidate_split_budget": {
+          "deployment_max_sign_attempts": 1,
+          "deployment_signed_submissions": 192,
+          "protocol_signed_submissions": 24,
+          "state": "fits-local-bound-pending-owner-authorization"
+        },
+        "exact_fixed_chunk_deployment_submission_bound": 130,
+        "load_test": {
+          "command": [
+            "cargo",
+            "test",
+            "-p",
+            "cyberalchemy-kep-solana-program",
+            "--test",
+            "sbf_program_test",
+            "--locked",
+            "--",
+            "--ignored"
+          ],
+          "exit_code": 0,
+          "output_sha256": "7c4e4524b3d230eada40a09db82aa3ca3d8cde8f70464d345ece3c1d059aeb4b"
+        },
+        "original_total_submission_cap": 24,
+        "original_total_submission_cap_state": "BLOCK",
+        "sbf_sha256": "68c41e9e74fe3a663783e6d710b52da8e47c5315508d355bde1fa48ffbe8f6bb",
+        "sbf_size_bytes": 98016
+      },
+      "secret_surface_scan": {
+        "files_scanned": 10,
+        "result": "PASS_BOUNDED"
+      },
+      "selected_predecessors": {
+        "decisions/local-conformance-assessment-acceptance-001.json": "8fe41ab442f047b6ad5207056a55eaf1b4f86b2aa55a8966256596134ac139a7",
+        "decisions/rust-binding-acceptance-002.json": "56d3dbe773bee25ac59d245728c58db636090c8d3f68e779ae6f0ab27038207a",
+        "formal-evidence/local-conformance/001/generated/conformance-assessment.json": "d0f71ea337216455262ab68d889c7b7c9997eb9127e802a1d51bd23f677c4dab",
+        "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3"
+      }
+    }
+  ],
+  "deterministic_cycle_count": 2,
+  "devnet_state": "not_evaluable-not-authorized",
+  "result": "PASS_BOUNDED",
+  "schema_version": "cav2-kep-d65-local-cycle/v1-candidate"
+}

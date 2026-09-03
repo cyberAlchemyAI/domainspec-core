@@ -42,15 +42,16 @@ pub enum SolanaObservationError {
 
 /// Read-only observation boundary. It deliberately exposes no submit, sign,
 /// deploy, airdrop, wallet, keypair, or RPC operation.
+#[allow(async_fn_in_trait)]
 pub trait SolanaObservationPort {
-    fn observe_program_state(
+    async fn observe_program_state(
         &self,
         trial_id: Digest32,
         program_id: Digest32,
         artifact_version_id: Digest32,
     ) -> Result<ProgramObservation, SolanaObservationError>;
 
-    fn observe_network_cost(
+    async fn observe_network_cost(
         &self,
         trial_id: Digest32,
     ) -> Result<NetworkCostObservation, SolanaObservationError>;

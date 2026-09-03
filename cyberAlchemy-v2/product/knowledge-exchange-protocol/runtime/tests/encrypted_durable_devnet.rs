@@ -1,5 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
+use futures::executor::block_on;
+
 use cyberalchemy_knowledge_exchange_protocol::encrypted_durable_devnet::{
     cryptography::{
         encode_canonical_record, ByteIdentityProvider, CanonicalCborError, CanonicalRecordSchema,
@@ -174,7 +176,7 @@ struct MemoryStorage {
 }
 
 impl DurableStoragePort for MemoryStorage {
-    fn write(
+    async fn write(
         &mut self,
         layer: StorageLayer,
         bytes: &[u8],
@@ -189,7 +191,10 @@ impl DurableStoragePort for MemoryStorage {
         Ok(OpaqueStorageLocator { layer, token })
     }
 
-    fn retrieve(&self, locator: &OpaqueStorageLocator) -> Result<Vec<u8>, DurableStorageError> {
+    async fn retrieve(
+        &self,
+        locator: &OpaqueStorageLocator,
+    ) -> Result<Vec<u8>, DurableStorageError> {
         let mut bytes = self
             .values
             .get(&(locator.layer, locator.token.clone()))
@@ -209,7 +214,7 @@ struct StaticObservation {
 }
 
 impl SolanaObservationPort for StaticObservation {
-    fn observe_program_state(
+    async fn observe_program_state(
         &self,
         _trial_id: Digest32,
         _program_id: Digest32,
@@ -218,7 +223,7 @@ impl SolanaObservationPort for StaticObservation {
         Ok(self.program.clone())
     }
 
-    fn observe_network_cost(
+    async fn observe_network_cost(
         &self,
         _trial_id: Digest32,
     ) -> Result<NetworkCostObservation, SolanaObservationError> {
@@ -333,7 +338,7 @@ fn proof_kep_sol2_proof_crypto_known_answer_local_contract() {
             &profile,
             &context,
             plaintext,
-            &[recipient.clone()],
+            std::slice::from_ref(&recipient),
             &identity,
         )
         .unwrap();
@@ -342,7 +347,7 @@ fn proof_kep_sol2_proof_crypto_known_answer_local_contract() {
             &profile,
             &context,
             plaintext,
-            &[recipient.clone()],
+            std::slice::from_ref(&recipient),
             &identity,
         )
         .unwrap();
@@ -371,7 +376,7 @@ fn proof_kep_sol2_proof_crypto_known_answer_local_contract() {
 fn proof_kep_sol2_proof_three_layer_readiness() {
     let (identity, cryptography, profile, context, recipient) = crypto_fixture();
     let mut storage = MemoryStorage::default();
-    let prepared = prepare_and_persist_material(
+    let prepared = block_on(prepare_and_persist_material(
         &cryptography,
         &mut storage,
         &identity,
@@ -379,7 +384,7 @@ fn proof_kep_sol2_proof_three_layer_readiness() {
         &context,
         b"ontology knowledge fixture",
         &[recipient],
-    )
+    ))
     .unwrap();
     assert!(prepared.storage_readiness.is_ready());
     assert_eq!(3, prepared.storage_readiness.receipts.len());
@@ -400,15 +405,15 @@ fn proof_kep_sol2_proof_storage_failure_blocks() {
         Err(LocalProtocolError::DurableStorage(
             DurableStorageError::WriteFailed(StorageLayer::RecoveryJournal)
         )),
-        prepare_and_persist_material(
+        block_on(prepare_and_persist_material(
             &cryptography,
             &mut failed,
             &identity,
             &profile,
             &context,
             b"ontology knowledge fixture",
-            &[recipient.clone()],
-        )
+            std::slice::from_ref(&recipient),
+        ))
     );
 
     let mut corrupt = MemoryStorage {
@@ -419,7 +424,7 @@ fn proof_kep_sol2_proof_storage_failure_blocks() {
         Err(LocalProtocolError::DurableStorage(
             DurableStorageError::ByteIdentityMismatch(StorageLayer::ImmutableArchive)
         )),
-        prepare_and_persist_material(
+        block_on(prepare_and_persist_material(
             &cryptography,
             &mut corrupt,
             &identity,
@@ -427,7 +432,7 @@ fn proof_kep_sol2_proof_storage_failure_blocks() {
             &context,
             b"ontology knowledge fixture",
             &[recipient],
-        )
+        ))
     );
 }
 
@@ -442,15 +447,15 @@ fn prepared_fixture() -> (
 ) {
     let (identity, cryptography, profile, context, recipient) = crypto_fixture();
     let mut storage = MemoryStorage::default();
-    let prepared = prepare_and_persist_material(
+    let prepared = block_on(prepare_and_persist_material(
         &cryptography,
         &mut storage,
         &identity,
         &profile,
         &context,
         b"ontology knowledge fixture",
-        &[recipient.clone()],
-    )
+        std::slice::from_ref(&recipient),
+    ))
     .unwrap();
     (
         identity,
@@ -485,7 +490,7 @@ fn proof_kep_sol2_proof_finalized_activation_local_contract() {
     };
     assert_eq!(
         Err(LocalProtocolError::NotFinalized),
-        activate_finalized_delivery(&confirmed, &intent, &prepared)
+        block_on(activate_finalized_delivery(&confirmed, &intent, &prepared))
     );
     let finalized = StaticObservation {
         program: ProgramObservation {
@@ -494,7 +499,7 @@ fn proof_kep_sol2_proof_finalized_activation_local_contract() {
         },
         cost: confirmed.cost,
     };
-    let activated = activate_finalized_delivery(&finalized, &intent, &prepared).unwrap();
+    let activated = block_on(activate_finalized_delivery(&finalized, &intent, &prepared)).unwrap();
     assert_eq!(7, activated.state_revision);
     assert_eq!(
         prepared.material.ciphertext_identity,
@@ -508,7 +513,7 @@ fn proof_kep_sol2_proof_recipient_decryption_local_fixture() {
         prepared_fixture();
     assert_eq!(
         b"ontology knowledge fixture".to_vec(),
-        retrieve_and_open_for_recipient(
+        block_on(retrieve_and_open_for_recipient(
             &cryptography,
             &storage,
             &identity,
@@ -516,7 +521,7 @@ fn proof_kep_sol2_proof_recipient_decryption_local_fixture() {
             &context,
             &prepared,
             &recipient,
-        )
+        ))
         .unwrap()
     );
     let stranger = RecipientBinding {
@@ -527,7 +532,7 @@ fn proof_kep_sol2_proof_recipient_decryption_local_fixture() {
         Err(LocalProtocolError::Cryptography(
             CryptographyError::RecipientMismatch
         )),
-        retrieve_and_open_for_recipient(
+        block_on(retrieve_and_open_for_recipient(
             &cryptography,
             &storage,
             &identity,
@@ -535,7 +540,7 @@ fn proof_kep_sol2_proof_recipient_decryption_local_fixture() {
             &context,
             &prepared,
             &stranger,
-        )
+        ))
     );
 }
 
@@ -807,8 +812,8 @@ fn local_no_network_vertical_stops_before_devnet_claim() {
             rent_lamports: 0,
         },
     };
-    activate_finalized_delivery(&observer, &intent, &prepared).unwrap();
-    let opened = retrieve_and_open_for_recipient(
+    block_on(activate_finalized_delivery(&observer, &intent, &prepared)).unwrap();
+    let opened = block_on(retrieve_and_open_for_recipient(
         &cryptography,
         &storage,
         &identity,
@@ -816,12 +821,14 @@ fn local_no_network_vertical_stops_before_devnet_claim() {
         &context,
         &prepared,
         &recipient,
-    )
+    ))
     .unwrap();
     assert_eq!(b"ontology knowledge fixture", opened.as_slice());
     assert_eq!(
         0,
-        observer.observe_network_cost(d(10)).unwrap().fee_lamports
+        block_on(observer.observe_network_cost(d(10)))
+            .unwrap()
+            .fee_lamports
     );
 }
 

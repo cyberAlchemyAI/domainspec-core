@@ -1,174 +1,117 @@
 {
-  "schema_version": "cav2-kep-sol2-rust-construction-binding-full-projection-repair-preacceptance/v1",
-  "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-CONSTRUCTION-BINDING-PREACCEPTANCE-006",
-  "route_id": "CA2-ROUTE-IMPLEMENT",
-  "delegation_route_id": "CA2-ROUTE-DELEGATE",
+  "schema_version": "cav2-kep-sol2-rust-postimplementation-binding-preacceptance/v1",
+  "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-POSTIMPLEMENTATION-BINDING-PREACCEPTANCE-006",
+  "route_id": "CA2-ROUTE-DELEGATE",
   "candidate": {
-    "binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-006",
-    "lifecycle_status": "authored-preimplementation-candidate",
+    "binding_id": "CA2-D65-KEP-SOLANA-ENCRYPTED-DURABLE-DEVNET-RUST-006",
+    "lifecycle_status": "authored-postimplementation-candidate",
     "binding_material_digest_algorithm": "sha256-path-null-bytes-null/v1",
-    "binding_material_digest": "d143425e72617a07415d1f0fd6bc10e1ea60ee93e7587a6a22cba1d5131fb839",
+    "binding_material_digest": "b76e247fcb82e899099c4278054a48d544b44a54770b1d15b97f3468dfaddaaf",
     "artifacts": [
       {
         "path": "policy.json",
-        "sha256": "f62c94dddc616af9d08c8858e87fbd9f3450cef599db07431502909c2964bf76"
+        "sha256": "0d8a834899823ec06014bc6f1eb60732240de9a587611da29ed3add3000a9619"
       },
       {
         "path": "generated/implementation-binding.json",
-        "sha256": "c699af7d3a038b8eeb368a02b7cf5b573ad62364b71c65c7d1a2517b73458c3c"
+        "sha256": "c09deffe3e38f8f0cfdccf6b32ec918c40be489e63cb4b11c5888da0ed68a4ed"
       }
     ]
   },
-  "supersession": {
-    "supersedes_binding_id": "CA2-D65-KEP-SOL2-RUST-CONSTRUCTION-005",
-    "supersedes_accepted_material_digest": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
-    "cause": {
-      "defect_id": "KEP-SOL2-BINDING-005-SOLANA-SIGNER-LOWER-BOUND-CONFLICT",
-      "observed_failure": "Actual runtime cargo generate-lockfile fails because accepted binding 005 pins direct solana-signer =3.0.0 while solana-program-test 4.2.2 requires solana-signer ^3.0.1 and solana-transaction 4.1.4 with wincode requires solana-signer ^3.0.1.",
-      "omission": "Binding 005 validated only a five-entry repair projection and did not require its direct solana-signer and solana-keypair pins or the complete seventeen-entry accepted dependency projection in the probe closure.",
-      "repair_basis": "A fresh full seventeen-entry manifest with only solana-signer changed to =3.0.1 generated a 773-package lock and completed cargo check --all-targets --locked --offline.",
-      "repair_limit": "Change only direct solana-signer from =3.0.0 to =3.0.1; preserve the other sixteen dependencies, fourteen targets, workstreams, selectors, profiles, FE-W3 and FE-W4 semantics, and all authority ceilings."
-    },
-    "change_set": [
-      {
-        "dependency": "solana-signer",
-        "from": {
-          "version": "=3.0.0",
-          "kind": "test",
-          "default_features": false,
-          "features": []
-        },
-        "to": {
-          "version": "=3.0.1",
-          "kind": "test",
-          "default_features": false,
-          "features": []
-        }
-      }
-    ],
-    "all_other_construction_semantics": "byte-equivalent-after-successor-metadata-and-signer-pin-normalization"
-  },
-  "selected_dependency_digests": {
-    "accepted_binding_005_material": "af5de6c6a168c0e83e0a4246306b28aee23c262bebb24f5648c2a931a9d8aba3",
-    "accepted_implementation_material": "877caaa3865870a5310db88f5fe951b15b4e164e7185cb2d814459febdc22b3b",
-    "accepted_assessment_material": "e844154f1caae759a889f79f1e94447e86e9e47ac08f70142e1d92dc39ce6487",
-    "admitted_system_ontology_candidate_set": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168"
+  "selected_dependencies": {
+    "accepted_predecessor_binding_material": "809075ec3d64e44bcf36cde22c80d22b822b322ecc22eb423db128671552ad0f",
+    "admitted_system_ontology_candidate_set": "0af0efd436cf447e01fc1082fed3794f9690a9e2bc4367679a9c9385961ba168",
+    "runtime_material": "308ebff7979a343178d8b1c52e6e8acdb3e0214fc06b663f8c4c5386edc51edc",
+    "stable_cycle": "8f025a26feb39aca76211c8efe2716081db615010364be611f01df9831b7dade",
+    "relation_evidence": "86326e0fb95140d0afb6de3a87333374c28b83e9260b55e7eb6a2823948bd19f",
+    "sbf": "68c41e9e74fe3a663783e6d710b52da8e47c5315508d355bde1fa48ffbe8f6bb"
   },
   "closure": {
-    "system_nodes": "89/89 selected",
-    "system_relations": "204/204 selected",
-    "proof_obligations": "13/13 selected",
-    "boundaries": "9/9 selected",
-    "exact_dependencies": "17/17 PASS",
-    "unchanged_dependencies": "16/16 PASS",
-    "signer_repair": "1/1 PASS",
-    "cached_manifests": "4/4 PASS",
-    "isolated_solana_direct_projection": "7/7 PASS including signer and keypair",
-    "full_manifest_direct_projection": "17/17 PASS",
-    "full_manifest_locked_packages": "774/774 PASS including root; 773 resolved dependencies",
-    "full_manifest_offline_check": "PASS",
-    "planned_targets": "14/14 PASS",
-    "all_other_construction_semantics": "unchanged-from-accepted-binding-005 PASS"
+    "runtime_artifacts": "25/25 exact",
+    "system_nodes": "89/89 exact-byte mapped",
+    "system_relations": "204/204 relation-evidence joined",
+    "proof_obligations": "13/13 selectors bound without acceptance",
+    "boundaries": "9/9 bound",
+    "stable_cycles": "2/2 PASS_BOUNDED"
   },
   "checks": [
     {
-      "check_id": "accepted-binding-005-exact",
+      "check_id": "accepted-predecessor-exact",
       "status": "PASS"
     },
     {
-      "check_id": "selected-ontology-and-profiles-exact",
+      "check_id": "successors-003-through-005-provenance-preserved",
       "status": "PASS"
     },
     {
-      "check_id": "signer-lower-bound-cause-exact",
+      "check_id": "signed-authority-surface-exact",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "admitted-system-ontology-exact",
       "status": "PASS"
     },
     {
-      "check_id": "direct-signer-and-keypair-probe-closure",
+      "check_id": "runtime-material-exact",
       "status": "PASS"
     },
     {
-      "check_id": "full-seventeen-dependency-projection",
+      "check_id": "sbf-identity-and-local-load-exact",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "two-cycle-local-validation",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "relation-evidence-closure",
+      "status": "PASS_BOUNDED"
+    },
+    {
+      "check_id": "selector-mapping-closure",
       "status": "PASS"
     },
     {
-      "check_id": "full-manifest-offline-resolution",
-      "status": "PASS"
-    },
-    {
-      "check_id": "only-signer-pin-changed",
-      "status": "PASS"
-    },
-    {
-      "check_id": "other-construction-semantics-preserved",
-      "status": "PASS"
-    },
-    {
-      "check_id": "successor-binding-acceptance",
+      "check_id": "binding-acceptance",
       "status": "not_evaluable",
-      "causal_blocker": "Human owner has not accepted this exact successor material digest."
+      "causal_blocker": "A separate owner decision is required."
     },
     {
-      "check_id": "implementation-conformance",
+      "check_id": "independent-review",
       "status": "not_evaluable",
-      "causal_blocker": "This construction-binding candidate grants no implementation or conformance claim."
+      "causal_blocker": "The parent has not yet joined the independent review helper."
     },
     {
-      "check_id": "production-security-approval",
+      "check_id": "aggregate-conformance",
       "status": "not_evaluable",
-      "causal_blocker": "Independent cryptographic security review remains absent."
+      "causal_blocker": "Binding acceptance, independent review, real finalized Devnet evidence, and a final owner decision remain absent."
     },
     {
-      "check_id": "devnet-evidence",
+      "check_id": "devnet-trial",
       "status": "not_evaluable",
-      "causal_blocker": "Credentials, wallets, RPC, deployment, and Devnet effects remain forbidden."
+      "causal_blocker": "Credentials, wallets, RPC, deployment, and signed submissions are not authorized by this candidate."
     }
   ],
-  "resolution_evidence": {
-    "manifest": {
-      "path": "../full-manifest-probe/Cargo.toml",
-      "sha256": "29798b2f2a4bd09ad062d64a0444457646c838286061d1ce7e79bdaf495e37b8"
-    },
-    "lock": {
-      "path": "../full-manifest-probe/Cargo.lock",
-      "sha256": "f9ce2c74753778b0e79fbf79308e406729de24f5529c43a1476537866b571d55"
-    },
-    "source": {
-      "path": "../full-manifest-probe/src/lib.rs",
-      "sha256": "ebf894ea4025dec47dcf1b81ddfa54bdea0db46c43c50fea30c99b22b20d3e45"
-    },
-    "command": "cargo check --all-targets --locked --offline --manifest-path full-manifest-probe/Cargo.toml",
-    "result": "PASS"
-  },
   "author": {
     "path": "../author.py",
-    "sha256": "21bd07fbe273caa2dda33eaecb27388a7871b85282a6e20af7ca713430046c5b"
+    "sha256": "11b1a3e07b5af25a63b0fd1f527ee9591e0f1bfcf6dfb3e6973dfed87ff58cf4"
   },
   "tests": {
     "path": "../tests/test_author.py",
-    "sha256": "d72cda29b814d7b76f6454e711117d5200fb357fd0b9e59beed11eb9247d7d5e"
-  },
-  "author_decision": {
-    "path": "author-decision.json",
-    "sha256": "6b168faebf0a8b637398bce3d302895ef747b89617cd601ff3c9dd06356f1eb1"
+    "sha256": "63ea702de3ae6667d0207751bc337165f05a269664252b6e913e1bf2ac9ffe1a"
   },
   "decision_gate": {
-    "status": "ready-for-exact-successor-construction-binding-decision",
-    "required_digest": "d143425e72617a07415d1f0fd6bc10e1ea60ee93e7587a6a22cba1d5131fb839",
-    "admissible_option_ids": [
-      "ACCEPT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
-      "REJECT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING",
-      "DEFER-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING"
-    ],
-    "decision_limit": "Acceptance may bind only this exact signer-pin repair candidate; it cannot accept implementation bytes, conformance, security, or external effects."
+    "status": "ready-for-separate-owner-binding-decision",
+    "required_candidate_material_digest": "b76e247fcb82e899099c4278054a48d544b44a54770b1d15b97f3468dfaddaaf",
+    "decision_limit": "Any acceptance may bind only this exact policy and generated binding candidate; it cannot approve aggregate conformance, production security, external effects, or publication."
   },
   "preacceptance": {
-    "status": "PASS",
+    "status": "PASS_BOUNDED",
     "authority_effect": "none"
   },
   "authority_effect": "none",
   "implementation_effect": "none",
   "enforcement_effect": "none",
   "external_effect": "none",
-  "claim_ceiling": "Exact successor Rust construction-binding candidate only. It repairs accepted binding 005 solely by changing direct solana-signer =3.0.0 to =3.0.1 and preserves the other sixteen dependencies, Rust 1.94.0, all fourteen local FE-W3 and FE-W4 targets, workstreams, selectors, profiles, and semantics. Full-manifest offline resolution evidence does not grant acceptance, implementation, conformance, security, credential, wallet, RPC, deployment, Devnet, publication, or external-effect authority."
+  "claim_ceiling": "Exact-byte signed-authority Rust binding candidate for the frozen 25-file runtime, exact SBF identity, two-cycle bounded local evidence, and 204 relation-evidence joins. The production owner verification key remains a terminal credential boundary. It does not accept the binding, discharge aggregate conformance, approve production security, authorize credentials or wallets, authorize any RPC, deployment, Devnet or Mainnet effect, or authorize publication or release."
 }

@@ -39,6 +39,20 @@ pub struct RecipientBinding {
     pub key_fingerprint: Digest32,
 }
 
+/// Opaque reference to private key material held outside protocol state.
+///
+/// Handles may be logged only as opaque identifiers. They never contain a
+/// private key, content key, wallet secret, or credential.
+#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
+pub struct SecretHandle(pub String);
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RecipientKeyReference {
+    pub recipient: RecipientBinding,
+    pub public_key: [u8; 32],
+    pub private_key_handle: SecretHandle,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct OpaqueRecipientEnvelope {
     pub recipient: RecipientBinding,

@@ -4,7 +4,7 @@ use crate::Digest32;
 
 use super::model::{
     CryptographicContext, CryptographicProfile, PreparedMaterial, QualifiedByteIdentity,
-    RecipientBinding,
+    RecipientBinding, SecretHandle,
 };
 
 #[derive(Clone, Debug, PartialEq)]
@@ -180,6 +180,19 @@ pub enum CryptographyError {
     RecipientMismatch,
     AuthenticationFailed,
     InvalidMaterial,
+    CustodyUnavailable,
+    SecretHandleMismatch,
+}
+
+/// Custody boundary for secret material. Implementations resolve a handle
+/// inside a tightly scoped closure so protocol state cannot retain plaintext
+/// private keys or content keys.
+pub trait KeyCustodyPort {
+    fn with_secret<R>(
+        &self,
+        handle: &SecretHandle,
+        operation: impl FnOnce(&[u8]) -> Result<R, CryptographyError>,
+    ) -> Result<R, CryptographyError>;
 }
 
 pub trait CryptographyPort {

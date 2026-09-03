@@ -13,19 +13,27 @@ pub enum DurableStorageError {
     ByteIdentityMismatch(StorageLayer),
     IncompleteReadiness,
     LocatorLayerMismatch,
+    ProviderUnavailable(StorageLayer),
+    AppendOnlyViolation,
+    ImmutableArchiveViolation,
+    InvalidLocator,
 }
 
+#[allow(async_fn_in_trait)]
 pub trait DurableStoragePort {
-    fn write(
+    async fn write(
         &mut self,
         layer: StorageLayer,
         bytes: &[u8],
     ) -> Result<OpaqueStorageLocator, DurableStorageError>;
 
-    fn retrieve(&self, locator: &OpaqueStorageLocator) -> Result<Vec<u8>, DurableStorageError>;
+    async fn retrieve(
+        &self,
+        locator: &OpaqueStorageLocator,
+    ) -> Result<Vec<u8>, DurableStorageError>;
 }
 
-pub fn persist_and_verify_material(
+pub async fn persist_and_verify_material(
     storage: &mut impl DurableStoragePort,
     identity: &impl ByteIdentityProvider,
     schema_version: u16,
@@ -37,7 +45,7 @@ pub fn persist_and_verify_material(
     let mut retrievals = Vec::new();
 
     for layer in StorageLayer::REQUIRED {
-        let locator = storage.write(layer, bytes)?;
+        let locator = storage.write(layer, bytes).await?;
         if locator.layer != layer {
             return Err(DurableStorageError::LocatorLayerMismatch);
         }
@@ -46,7 +54,7 @@ pub fn persist_and_verify_material(
             locator: locator.clone(),
             byte_identity: expected.clone(),
         };
-        let retrieved = storage.retrieve(&locator)?;
+        let retrieved = storage.retrieve(&locator).await?;
         let observed = identity.identify(schema_version, &retrieved);
         if observed != expected {
             return Err(DurableStorageError::ByteIdentityMismatch(layer));
@@ -72,14 +80,14 @@ pub fn persist_and_verify_material(
     Ok((readiness, retrievals))
 }
 
-pub fn retrieve_verified(
+pub async fn retrieve_verified(
     storage: &impl DurableStoragePort,
     identity: &impl ByteIdentityProvider,
     schema_version: u16,
     locator: &OpaqueStorageLocator,
     expected: &QualifiedByteIdentity,
 ) -> Result<Vec<u8>, DurableStorageError> {
-    let bytes = storage.retrieve(locator)?;
+    let bytes = storage.retrieve(locator).await?;
     let observed = identity.identify(schema_version, &bytes);
     if &observed != expected {
         return Err(DurableStorageError::ByteIdentityMismatch(locator.layer));
@@ -175,14 +183,14 @@ pub enum StoredMaterialKind {
     Credential,
 }
 
-pub fn retrieve_active_material(
+pub async fn retrieve_active_material(
     storage: &impl DurableStoragePort,
     identity: &impl ByteIdentityProvider,
     schema_version: u16,
     locator: &OpaqueStorageLocator,
     expected: &QualifiedByteIdentity,
 ) -> Result<Vec<u8>, DurableStorageError> {
-    retrieve_verified(storage, identity, schema_version, locator, expected)
+    retrieve_verified(storage, identity, schema_version, locator, expected).await
 }
 
 pub fn enforce_locator_outside_object_identity(

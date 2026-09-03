@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Author exact successor binding 006 for the bounded signer-pin repair."""
+"""Author exact postimplementation successor binding candidate 006."""
 
 from __future__ import annotations
 
@@ -7,37 +7,19 @@ import argparse
 import copy
 import hashlib
 import json
-import os
 import sys
-import tomllib
 from pathlib import Path
 from typing import Any
 
 
 HERE = Path(__file__).resolve().parent
 V1_ROOT = HERE.parents[3]
-KEP_ROOT = V1_ROOT.parents[4]
+PRODUCT_ROOT = V1_ROOT.parents[4]
+RUNTIME_ROOT = PRODUCT_ROOT / "runtime"
 POLICY_PATH = HERE / "policy.json"
 BINDING_PATH = HERE / "generated" / "implementation-binding.json"
 PREACCEPTANCE_PATH = HERE / "generated" / "preacceptance-001.json"
-AUTHOR_DECISION_PATH = HERE / "generated" / "author-decision.json"
 TEST_PATH = HERE / "tests" / "test_author.py"
-
-EXPECTED_DEPENDENCY_NAMES = [
-    "chacha20poly1305", "getrandom", "hpke", "sha2", "sqlx", "tokio", "zeroize",
-    "solana-account-info", "solana-address", "solana-instruction", "solana-program-entrypoint",
-    "solana-program-error", "solana-pubkey", "solana-program-test", "solana-keypair",
-    "solana-signer", "solana-transaction",
-]
-EXPECTED_SOLANA_PROBE_NAMES = [
-    "solana-address", "solana-instruction", "solana-keypair", "solana-program-test",
-    "solana-pubkey", "solana-signer", "solana-transaction",
-]
-EXPECTED_REPAIR = {
-    "dependency": "solana-signer",
-    "from": {"version": "=3.0.0", "kind": "test", "default_features": False, "features": []},
-    "to": {"version": "=3.0.1", "kind": "test", "default_features": False, "features": []},
-}
 
 
 class BindingError(RuntimeError):
@@ -65,6 +47,13 @@ def require(condition: bool, message: str) -> None:
         raise BindingError(message)
 
 
+def exact_json(relative: str, expected_sha: str, label: str) -> tuple[Path, dict[str, Any]]:
+    path = V1_ROOT / relative
+    require(path.is_file(), f"missing {label}: {relative}")
+    require(sha256_file(path) == expected_sha, f"{label} drift: {relative}")
+    return path, load_json(path)
+
+
 def path_null_digest(entries: list[tuple[str, bytes]]) -> str:
     digest = hashlib.sha256()
     for relative, raw in sorted(entries):
@@ -75,206 +64,338 @@ def path_null_digest(entries: list[tuple[str, bytes]]) -> str:
     return digest.hexdigest()
 
 
-def exact_json(relative: str, expected_sha: str, label: str) -> tuple[Path, dict[str, Any]]:
-    path = V1_ROOT / relative
-    require(path.is_file(), f"missing {label}: {relative}")
-    require(sha256_file(path) == expected_sha, f"{label} drift: {relative}")
-    return path, load_json(path)
+def decision_material_digest(decision_path: Path, artifacts: list[dict[str, str]]) -> str:
+    entries: list[tuple[str, bytes]] = []
+    for item in artifacts:
+        path = (decision_path.parent / item["path"]).resolve()
+        require(path.is_file(), f"missing decision-bound artifact: {item['path']}")
+        raw = path.read_bytes()
+        require(sha256_bytes(raw) == item["sha256"], f"decision-bound artifact drift: {item['path']}")
+        entries.append((item["material_digest_path"], raw))
+    return path_null_digest(entries)
 
 
-def exact_file(path: Path, expected_sha: str, label: str) -> bytes:
-    require(path.is_file(), f"missing {label}: {path}")
-    raw = path.read_bytes()
-    require(sha256_bytes(raw) == expected_sha, f"{label} drift: {path}")
-    return raw
-
-
-def locate_cached_manifest(crate: str, version: str) -> Path:
-    cargo_home = Path(os.environ.get("CARGO_HOME", str(Path.home() / ".cargo")))
-    matches = sorted((cargo_home / "registry" / "src").glob(f"*/{crate}-{version}/Cargo.toml"))
-    require(len(matches) == 1, f"expected exactly one cached {crate} {version} manifest, found {len(matches)}")
-    return matches[0]
-
-
-def dependency_map(binding: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    dependencies = binding["rust_substrate"]["dependencies"]
-    mapped = {item["name"]: item for item in dependencies}
-    require(len(mapped) == len(dependencies), "dependency names are not unique")
-    return mapped
-
-
-def manifest_projection(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    projection: dict[str, dict[str, Any]] = {}
-    for table in ("dependencies", "dev-dependencies"):
-        for name, declaration in manifest.get(table, {}).items():
-            require(isinstance(declaration, dict), f"{table}.{name} must use an exact table declaration")
-            require(name not in projection, f"duplicate manifest dependency: {name}")
-            projection[name] = {
-                "version": declaration.get("version"),
-                "default_features": declaration.get("default-features", True),
-                "features": declaration.get("features", []),
-            }
-    return projection
-
-
-def binding_projection(binding: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    return {
-        name: {
-            "version": item["version"],
-            "default_features": item["default_features"],
-            "features": item["features"],
-        }
-        for name, item in dependency_map(binding).items()
-    }
-
-
-def projected_successor(prior: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    projection = copy.deepcopy(binding_projection(prior))
-    projection["solana-signer"] = {
-        "version": "=3.0.1",
-        "default_features": False,
-        "features": [],
-    }
-    return projection
-
-
-def verify_cached_manifest_contracts(manifests: dict[str, dict[str, Any]]) -> None:
-    program_test = manifests["solana-program-test"]
-    require(program_test["dependencies"]["solana-signer"]["version"] == "3.0.1", "program-test signer lower bound drift")
-    require(program_test["dependencies"]["solana-keypair"]["version"] == "3.1.2", "program-test keypair version drift")
-    require(program_test["dependencies"]["solana-transaction"]["version"] == ">=4.1.4,<4.2.0", "program-test transaction range drift")
-
-    transaction = manifests["solana-transaction"]
-    require(transaction["dependencies"]["solana-signer"]["version"] == "3.0.1", "transaction signer lower bound drift")
-    require(transaction["dependencies"]["solana-signer"]["optional"] is True, "transaction signer optionality drift")
-    require(transaction["dependencies"]["solana-signer"]["default-features"] is False, "transaction signer default-feature drift")
-    require("dep:solana-signer" in transaction["features"]["wincode"], "transaction wincode no longer selects signer")
-
-    keypair = manifests["solana-keypair"]
-    require(keypair["dependencies"]["solana-signer"]["version"] == "3.0.0", "keypair signer compatible range drift")
-    signer = manifests["solana-signer"]
-    require(signer["package"]["version"] == "3.0.1", "signer package version drift")
+def material_entries(stable_cycle: dict[str, Any], policy: dict[str, Any]) -> list[tuple[str, bytes]]:
+    entries: list[tuple[str, bytes]] = []
+    material = stable_cycle["runtime_material"]
+    require(len(material) == policy["frozen_local_evidence"]["runtime_material_file_count"], "runtime file count drift")
+    require(len({item["path"] for item in material}) == len(material), "duplicate runtime material path")
+    for item in material:
+        relative = item["path"]
+        require(not Path(relative).is_absolute() and ".." not in Path(relative).parts, f"runtime path escapes root: {relative}")
+        path = RUNTIME_ROOT / relative
+        require(path.is_file(), f"missing runtime material: {relative}")
+        raw = path.read_bytes()
+        require(sha256_bytes(raw) == item["sha256"], f"runtime material drift: {relative}")
+        entries.append((relative, raw))
+    return entries
 
 
 def verify_inputs(policy: dict[str, Any]) -> dict[str, Any]:
-    require(policy["exact_graph_repair"] == EXPECTED_REPAIR, "exact signer repair drift")
-    require(policy["current_runtime_projection"]["dependency_count"] == 17, "runtime full projection count drift")
-    require(policy["preservation"]["dependency_count"] == 17, "preserved dependency count drift")
-    require(policy["preservation"]["planned_target_count"] == 14, "planned target count drift")
+    predecessor = policy["accepted_predecessor_binding"]
+    _, predecessor_binding = exact_json(predecessor["binding_path"], predecessor["binding_sha256"], "accepted predecessor binding")
+    decision_path, predecessor_decision = exact_json(
+        predecessor["acceptance_decision_path"], predecessor["acceptance_decision_sha256"], "accepted predecessor decision"
+    )
+    require(predecessor_binding["binding_id"] == predecessor["binding_id"], "predecessor binding identity mismatch")
+    require(predecessor_decision["decision_id"] == predecessor["acceptance_decision_id"], "predecessor decision identity mismatch")
+    require(predecessor_decision["acceptance"]["lifecycle_status"] == "accepted", "predecessor binding is not accepted")
+    require(predecessor_decision["acceptance"]["accepted_binding_material_digest"] == predecessor["binding_material_digest"], "accepted predecessor digest mismatch")
+    require(decision_material_digest(decision_path, predecessor_decision["subject"]["artifacts"]) == predecessor["binding_material_digest"], "predecessor material digest does not reproduce")
 
-    prior = policy["accepted_predecessor"]
-    prior_policy_path, _ = exact_json(prior["policy_path"], prior["policy_sha256"], "binding 005 policy")
-    _, prior_binding = exact_json(prior["binding_path"], prior["binding_sha256"], "binding 005 candidate")
-    _, acceptance = exact_json(prior["acceptance_decision_path"], prior["acceptance_decision_sha256"], "binding 005 acceptance")
-    prior_material = path_null_digest([
-        ("policy.json", prior_policy_path.read_bytes()),
-        ("generated/implementation-binding.json", canonical_bytes(prior_binding)),
-    ])
-    require(prior_material == prior["binding_material_digest"], "binding 005 material digest does not reproduce")
-    require(prior_binding["binding_id"] == prior["binding_id"], "binding 005 identity mismatch")
-    require(acceptance["decision_id"] == prior["acceptance_decision_id"], "binding 005 acceptance identity mismatch")
-    require(acceptance["acceptance"]["lifecycle_status"] == "accepted", "binding 005 is not accepted")
-    require(acceptance["acceptance"]["accepted_binding_material_digest"] == prior_material, "binding 005 accepted digest mismatch")
+    provenance = policy["superseded_candidate_provenance"]
+    _, policy_005 = exact_json(provenance["policy_path"], provenance["policy_sha256"], "successor 005 policy provenance")
+    _, binding_005 = exact_json(provenance["binding_path"], provenance["binding_sha256"], "successor 005 binding provenance")
+    require(policy_005["binding_id"] == provenance["binding_id"] == binding_005["binding_id"], "successor 005 provenance identity mismatch")
+    require(binding_005["lifecycle_status"] == provenance["expected_lifecycle_status"], "successor 005 provenance posture drift")
 
-    ontology = policy["selected_ontology_dependency"]
-    selected = prior_binding["selected_dependencies"]["admitted_system_ontology"]
-    require(selected["ontology_id"] == ontology["ontology_id"], "selected ontology identity drift")
-    require(selected["candidate_set_digest"] == ontology["accepted_candidate_set_digest"], "selected ontology digest drift")
-    require(selected["selectors"] == ontology["selectors"], "selected ontology selectors drift")
-    require(prior_binding["selected_dependencies"]["semantic_profiles"] == ontology["semantic_profiles"], "semantic profile drift")
+    ontology = policy["admitted_system_ontology"]
+    _, system_ontology = exact_json(ontology["system_ontology_path"], ontology["system_ontology_sha256"], "admitted system ontology")
+    _, ontology_decision = exact_json(ontology["decision_path"], ontology["decision_sha256"], "system ontology admission")
+    require(system_ontology["ontology_id"] == ontology["ontology_id"], "system ontology identity mismatch")
+    require(ontology_decision["decision_id"] == ontology["decision_id"], "ontology decision identity mismatch")
+    require(ontology_decision["admission"]["lifecycle_status"] == "admitted", "system ontology is not admitted")
+    require(ontology_decision["admission"]["admitted_candidate_set_digest"] == ontology["candidate_set_digest"], "admitted ontology digest mismatch")
+    selectors = ontology["selectors"]
+    require(len(system_ontology["nodes"]) == selectors["system_nodes"] == 89, "system node selector drift")
+    require(len(system_ontology["relations"]) == selectors["system_relations"] == 204, "system relation selector drift")
+    require(len(system_ontology["proof_obligations"]) == selectors["proof_obligations"] == 13, "proof selector drift")
+    require(len(system_ontology["boundaries"]) == selectors["boundaries"] == 9, "boundary selector drift")
 
-    prior_dependencies = dependency_map(prior_binding)
-    require(list(prior_dependencies) == EXPECTED_DEPENDENCY_NAMES, "binding 005 full dependency order or closure drift")
-    require(len(prior_dependencies) == 17, "binding 005 dependency count drift")
-    require(prior_dependencies["solana-signer"] == {"name": "solana-signer", **EXPECTED_REPAIR["from"]}, "binding 005 signer selection drift")
+    frozen = policy["frozen_local_evidence"]
+    _, stable = exact_json(frozen["stable_cycle_path"], frozen["stable_cycle_sha256"], "stable local cycle")
+    cycles = stable["cycles"]
+    require(stable["result"] == frozen["required_cycle_result"], "stable aggregate result drift")
+    require(len(cycles) == frozen["required_cycle_count"], "stable cycle count drift")
+    require(all(cycle["result"] == frozen["required_cycle_result"] for cycle in cycles), "non-pass stable cycle")
+    require(all(cycle["runtime_material_digest"] == frozen["runtime_material_digest"] for cycle in cycles), "runtime digest differs between cycles")
+    require(all(cycle["runtime_material_file_count"] == frozen["runtime_material_file_count"] for cycle in cycles), "runtime file count differs between cycles")
+    require(all(cycle["runtime_material"] == cycles[0]["runtime_material"] for cycle in cycles), "runtime manifest differs between cycles")
+    entries = material_entries(cycles[-1], policy)
+    require(path_null_digest(entries) == frozen["runtime_material_digest"], "runtime material digest does not reproduce")
+    sbf = cycles[-1]["sbf"]
+    require(sbf["sbf_sha256"] == frozen["sbf_sha256"], "SBF digest drift")
+    require(sbf["sbf_size_bytes"] == frozen["sbf_size_bytes"], "SBF size drift")
+    require(sbf["build"]["exit_code"] == 0 and sbf["load_test"]["exit_code"] == 0, "SBF build or load test did not pass")
+    require(sbf["original_total_submission_cap_state"] == "BLOCK", "original submission-cap residue lost")
+    split = sbf["candidate_split_budget"]
+    require(split["deployment_signed_submissions"] == 192 and split["protocol_signed_submissions"] == 24, "split-budget bound drift")
+    require(split["state"] == "fits-local-bound-pending-owner-authorization", "split-budget authorization posture drift")
+    require(sbf["exact_fixed_chunk_deployment_submission_bound"] == frozen["exact_deployment_submission_count"], "exact deployment submission count drift")
 
-    runtime = policy["current_runtime_projection"]
-    runtime_raw = exact_file(KEP_ROOT / runtime["path"], runtime["sha256"], "actual runtime Cargo projection")
-    runtime_projection = manifest_projection(tomllib.loads(runtime_raw.decode("utf-8")))
-    require(len(runtime_projection) == 17 and set(runtime_projection) == set(EXPECTED_DEPENDENCY_NAMES), "actual runtime full dependency closure drift")
-    require(runtime_projection == binding_projection(prior_binding), "actual runtime does not project all 17 accepted binding 005 dependencies")
+    _, relations = exact_json(frozen["relation_evidence_path"], frozen["relation_evidence_sha256"], "relation evidence")
+    require(relations["system_ontology_candidate_set_digest"] == ontology["candidate_set_digest"], "relation evidence ontology drift")
+    require(relations["relation_count"] == relations["distinct_record_count"] == selectors["system_relations"], "relation evidence count drift")
+    records = relations["records"]
+    require(len(records) == 204 and len({item["relation_id"] for item in records}) == 204, "relation record identity closure failed")
+    require(all(item["bounded_result"] == "SUPPORTED_BOUNDED_LOCAL" for item in records), "relation evidence contains a non-supported bounded result")
+    relation_ids = {item["domainspec_edge_id"] for item in system_ontology["relations"]}
+    require(relation_ids == {item["relation_id"] for item in records}, "relation evidence does not join all ontology relations")
 
-    manifests: dict[str, dict[str, Any]] = {}
-    for evidence in policy["cached_manifest_evidence"]:
-        manifest_path = locate_cached_manifest(evidence["crate"], evidence["version"])
-        raw = exact_file(manifest_path, evidence["sha256"], f"cached {evidence['crate']} manifest")
-        parsed = tomllib.loads(raw.decode("utf-8"))
-        require(parsed["package"]["name"] == evidence["crate"], f"cached {evidence['crate']} identity drift")
-        require(parsed["package"]["version"] == evidence["version"], f"cached {evidence['crate']} version drift")
-        manifests[evidence["crate"]] = parsed
-    require(set(manifests) == {"solana-program-test", "solana-signer", "solana-keypair", "solana-transaction"}, "cached manifest closure drift")
-    verify_cached_manifest_contracts(manifests)
+    accepted_node_ids = {item["system_id"] for item in predecessor_binding["node_mappings"]}
+    accepted_relation_ids = {item["system_relation_id"] for item in predecessor_binding["relation_mappings"]}
+    require(accepted_node_ids == {item["system_id"] for item in system_ontology["nodes"]}, "accepted node mapping template drift")
+    require(accepted_relation_ids == {item["system_relation_id"] for item in system_ontology["relations"]}, "accepted relation mapping template drift")
 
-    expected_successor = projected_successor(prior_binding)
-    solana_probe = policy["isolated_solana_probe"]
-    require(solana_probe["required_direct_dependencies"] == EXPECTED_SOLANA_PROBE_NAMES, "isolated probe direct closure drift")
-    solana_manifest_raw = exact_file(Path(solana_probe["manifest_path"]), solana_probe["manifest_sha256"], "isolated Solana probe manifest")
-    solana_lock_raw = exact_file(Path(solana_probe["lock_path"]), solana_probe["lock_sha256"], "isolated Solana probe lock")
-    solana_projection = manifest_projection(tomllib.loads(solana_manifest_raw.decode("utf-8")))
-    require(list(solana_projection) == EXPECTED_SOLANA_PROBE_NAMES, "isolated probe omits signer, keypair, or another required direct dependency")
-    for name in EXPECTED_SOLANA_PROBE_NAMES:
-        require(solana_projection[name]["version"] == expected_successor[name]["version"], f"isolated probe {name} version drift")
-        require(solana_projection[name]["default_features"] == expected_successor[name]["default_features"], f"isolated probe {name} default-feature drift")
-        if name != "solana-instruction":
-            require(solana_projection[name]["features"] == expected_successor[name]["features"], f"isolated probe {name} feature drift")
-    solana_locked = {(item["name"], item["version"]) for item in tomllib.loads(solana_lock_raw.decode("utf-8"))["package"]}
-    for name in EXPECTED_SOLANA_PROBE_NAMES:
-        require((name, expected_successor[name]["version"].lstrip("=")) in solana_locked, f"isolated probe lock missing {name}")
+    return {
+        "predecessor_binding": predecessor_binding,
+        "system_ontology": system_ontology,
+        "stable": stable,
+        "relations": relations,
+        "runtime_entries": entries,
+    }
 
-    full_probe = policy["full_manifest_probe"]
-    require(full_probe["direct_dependency_count"] == 17, "full-manifest probe projection count drift")
-    require(full_probe["locked_package_count"] == 774, "full-manifest probe package closure drift")
-    require(full_probe["resolved_dependency_package_count"] == 773, "full-manifest resolved dependency count drift")
-    require(full_probe["observed_result"] == "PASS", "full-manifest probe observed result drift")
-    full_manifest_raw = exact_file(HERE / full_probe["manifest_path"], full_probe["manifest_sha256"], "full-manifest probe manifest")
-    full_lock_raw = exact_file(HERE / full_probe["lock_path"], full_probe["lock_sha256"], "full-manifest probe lock")
-    exact_file(HERE / full_probe["source_path"], full_probe["source_sha256"], "full-manifest probe source")
-    full_projection = manifest_projection(tomllib.loads(full_manifest_raw.decode("utf-8")))
-    require(len(full_projection) == 17 and set(full_projection) == set(EXPECTED_DEPENDENCY_NAMES), "full-manifest probe missing accepted dependency projection")
-    require(full_projection == expected_successor, "full-manifest probe is not the exact repaired 17-entry projection")
-    lock_packages = tomllib.loads(full_lock_raw.decode("utf-8"))["package"]
-    require(len(lock_packages) == 774, "full-manifest probe locked package count mismatch")
-    locked = {(item["name"], item["version"]) for item in lock_packages}
-    for name, selected_dependency in expected_successor.items():
-        require((name, selected_dependency["version"].lstrip("=")) in locked, f"full-manifest lock missing direct selection {name}")
-    roots = [item for item in lock_packages if item["name"] == "ca2_kep_sol2_binding_006_full_manifest_probe"]
-    require(len(roots) == 1, "full-manifest probe root package closure drift")
-    root_names = [item.split(" ", 1)[0] for item in roots[0]["dependencies"]]
-    require(len(root_names) == 17 and set(root_names) == set(EXPECTED_DEPENDENCY_NAMES), "full-manifest lock root does not project all 17 dependencies")
 
-    require(prior_binding["rust_substrate"]["minimum_rust_version"] == policy["preservation"]["minimum_rust_version"], "Rust version drift")
-    require(len(prior_binding["planned_targets"]) == 14, "planned target closure drift")
-    require(prior_binding["authority_effect"] == prior_binding["implementation_effect"] == prior_binding["external_effect"] == "none", "binding 005 effect ceiling drift")
-    return {"prior_binding": prior_binding}
+LAYER_TARGETS = {
+    "protocol-kernel-existing": ["src/lib.rs", "tests/protocol.rs"],
+    "protocol-model-extension": ["src/encrypted_durable_devnet/model.rs", "tests/encrypted_durable_devnet.rs"],
+    "protocol-workflow-extension": ["src/encrypted_durable_devnet/protocol.rs", "tests/encrypted_durable_devnet.rs"],
+    "cryptography-port": [
+        "src/encrypted_durable_devnet/ports/cryptography.rs", "adapters/Cargo.toml", "adapters/src/lib.rs",
+        "adapters/src/crypto.rs", "adapters/tests/crypto_conformance.rs",
+    ],
+    "durable-storage-port": [
+        "src/encrypted_durable_devnet/ports/durable_storage.rs", "adapters/Cargo.toml", "adapters/src/lib.rs",
+        "adapters/src/sql.rs", "adapters/tests/postgres_conformance.rs",
+    ],
+    "solana-port": [
+        "src/encrypted_durable_devnet/ports/solana.rs", "solana-program/Cargo.toml", "solana-program/src/lib.rs",
+        "solana-program/tests/program_test.rs", "solana-program/tests/sbf_program_test.rs", "trial-cli/Cargo.toml",
+        "trial-cli/src/executor.rs", "trial-cli/src/main.rs",
+    ],
+    "evidence-extension": [
+        "src/encrypted_durable_devnet/evidence.rs", "trial-cli/Cargo.toml", "trial-cli/src/executor.rs", "trial-cli/src/main.rs",
+    ],
+}
+
+
+def exact_targets(layer_id: str, artifacts: dict[str, str]) -> list[dict[str, str]]:
+    require(layer_id in LAYER_TARGETS, f"unknown implementation layer: {layer_id}")
+    targets = []
+    for path in LAYER_TARGETS[layer_id]:
+        require(path in artifacts, f"layer target missing from frozen runtime: {path}")
+        targets.append({"path": f"runtime/{path}", "sha256": artifacts[path]})
+    return targets
+
+
+def proof_provider_binding(proof_id: str) -> dict[str, Any]:
+    if proof_id == "KEP-SOL2-PROOF-END-TO-END-DEVNET":
+        return {"evidence_state": "not_evaluable", "causal_blocker": "No authorized real finalized Devnet trial exists."}
+    if proof_id == "KEP-SOL2-PROOF-SECURITY-REVIEW":
+        return {"evidence_state": "not_evaluable", "causal_blocker": "The independent review helper has not yet been joined or accepted."}
+    providers = ["two-cycle-local-runtime-validation", "protocol-local-formal-provider-receipt"]
+    if "CRYPTO" in proof_id or "RECIPIENT" in proof_id or "REISSUE" in proof_id:
+        providers.append("crypto-known-answer-harness")
+    if "STORAGE" in proof_id or "THREE-LAYER" in proof_id:
+        providers.append("postgres-three-layer-integration")
+    if "GRANT" in proof_id or "REISSUE" in proof_id or "FINALIZED" in proof_id:
+        providers.append("solana-program-test-and-sbf-load")
+    return {"evidence_state": "bound-local-candidate-evidence", "providers": providers}
 
 
 def build_binding(policy_override: dict[str, Any] | None = None) -> dict[str, Any]:
     policy = copy.deepcopy(policy_override) if policy_override is not None else load_json(POLICY_PATH)
-    prior = verify_inputs(policy)["prior_binding"]
-    binding = copy.deepcopy(prior)
-    binding["binding_id"] = policy["binding_id"]
-    binding["policy_id"] = policy["policy_id"]
-    binding["source_authorization"] = policy["source_authorization"]
-    binding["supersession"] = {
-        "supersedes_binding_id": policy["accepted_predecessor"]["binding_id"],
-        "supersedes_accepted_material_digest": policy["accepted_predecessor"]["binding_material_digest"],
-        "cause": policy["causal_defect"],
-        "change_set": [policy["exact_graph_repair"]],
-        "all_other_construction_semantics": "byte-equivalent-after-successor-metadata-and-signer-pin-normalization",
+    inputs = verify_inputs(policy)
+    predecessor = inputs["predecessor_binding"]
+    ontology = inputs["system_ontology"]
+    stable = inputs["stable"]
+    relations = inputs["relations"]
+    final_cycle = stable["cycles"][-1]
+    artifacts = {item["path"]: item["sha256"] for item in final_cycle["runtime_material"]}
+    records = {item["relation_id"]: item for item in relations["records"]}
+
+    node_mappings = []
+    for prior in predecessor["node_mappings"]:
+        node_mappings.append({
+            "system_id": prior["system_id"],
+            "domainspec_selector": prior["domainspec_selector"],
+            "domainspec_kind": prior["domainspec_kind"],
+            "semantic_bindings": prior["semantic_bindings"],
+            "layer_id": prior["layer_id"],
+            "implementation_targets": exact_targets(prior["layer_id"], artifacts),
+            "coverage_state": "exact-postimplementation-byte-binding-candidate",
+            "conformance_status": "candidate-not-accepted",
+        })
+
+    relation_mappings = []
+    for prior in predecessor["relation_mappings"]:
+        record = records[prior["domainspec_edge_id"]]
+        relation_mappings.append({
+            "system_relation_id": prior["system_relation_id"],
+            "domainspec_edge_id": prior["domainspec_edge_id"],
+            "relationship": prior["relationship"],
+            "source_system_id": prior["source_system_id"],
+            "target_system_id": prior["target_system_id"],
+            "semantic_bindings": prior["semantic_bindings"],
+            "source_layer_id": prior["source_layer_id"],
+            "target_layer_id": prior["target_layer_id"],
+            "relation_evidence": {
+                "matrix_id": relations["matrix_id"],
+                "case_id": record["case_id"],
+                "provider_id": record["provider_id"],
+                "record_digest": record["record_digest"],
+                "bounded_result": record["bounded_result"],
+            },
+            "coverage_state": "exact-relation-evidence-joined-candidate",
+            "conformance_status": "bounded-local-candidate-not-accepted",
+        })
+
+    proof_mappings = []
+    for proof in ontology["proof_obligations"]:
+        proof_mappings.append({
+            "proof_requirement_id": proof["proof_requirement_id"],
+            "bound_selectors": proof["domainspec_nodes"],
+            "provider_binding": proof_provider_binding(proof["proof_requirement_id"]),
+            "conformance_status": "not_evaluable",
+            "causal_blocker": "This candidate binds evidence but cannot accept proof discharge or aggregate conformance.",
+        })
+
+    boundary_bindings = [
+        {
+            "boundary_id": boundary_id,
+            "selector_count": len(selectors),
+            "runtime_material_digest": policy["frozen_local_evidence"]["runtime_material_digest"],
+            "binding_state": "exact-postimplementation-candidate",
+            "conformance_status": "not_evaluable",
+        }
+        for boundary_id, selectors in sorted(ontology["boundaries"].items())
+    ]
+
+    return {
+        "schema_version": "cav2-kep-sol2-rust-postimplementation-binding/v1-candidate",
+        "binding_id": policy["binding_id"],
+        "policy_id": policy["policy_id"],
+        "route_id": policy["route_id"],
+        "objective_route_id": policy["objective_route_id"],
+        "lifecycle_status": "authored-postimplementation-candidate",
+        "source_authorization": policy["source_authorization"],
+        "dependency_path_root": policy["dependency_path_root"],
+        "accepted_predecessor_binding": policy["accepted_predecessor_binding"],
+        "superseded_candidate_provenance": policy["superseded_candidate_provenance"],
+        "admitted_system_ontology": policy["admitted_system_ontology"],
+        "implementation_material": {
+            "digest_algorithm": policy["frozen_local_evidence"]["runtime_material_digest_algorithm"],
+            "path_root": policy["frozen_local_evidence"]["runtime_path_root"],
+            "digest": policy["frozen_local_evidence"]["runtime_material_digest"],
+            "artifact_count": len(final_cycle["runtime_material"]),
+            "artifacts": final_cycle["runtime_material"],
+        },
+        "implementation_substrate": {
+            "language": "rust",
+            "edition": "2021",
+            "workspace_crates": [
+                "cyberalchemy-knowledge-exchange-protocol", "cyberalchemy-kep-adapters",
+                "cyberalchemy-kep-solana-program", "cyberalchemy-kep-trial-cli",
+            ],
+            "workspace_manifest": {"path": "runtime/Cargo.toml", "sha256": artifacts["Cargo.toml"]},
+            "workspace_lock": {"path": "runtime/Cargo.lock", "sha256": artifacts["Cargo.lock"]},
+            "unsafe_code": "denied-by-protocol-kernel",
+        },
+        "sbf_identity": {
+            "sha256": policy["frozen_local_evidence"]["sbf_sha256"],
+            "size_bytes": policy["frozen_local_evidence"]["sbf_size_bytes"],
+            "agave_version": final_cycle["sbf"]["agave_version"],
+            "agave_archive_sha256": final_cycle["sbf"]["agave_archive_sha256"],
+            "build_result": "PASS_BOUNDED",
+            "local_load_result": "PASS_BOUNDED",
+        },
+        "local_evidence_binding": {
+            "stable_cycle_path": policy["frozen_local_evidence"]["stable_cycle_path"],
+            "stable_cycle_sha256": policy["frozen_local_evidence"]["stable_cycle_sha256"],
+            "cycle_count": len(stable["cycles"]),
+            "cycle_result": stable["result"],
+            "formal_provider_receipt_sha256": policy["frozen_local_evidence"]["formal_provider_receipt_sha256"],
+            "relation_evidence": {
+                "path": policy["frozen_local_evidence"]["relation_evidence_path"],
+                "sha256": policy["frozen_local_evidence"]["relation_evidence_sha256"],
+                "supported_bounded_local": relations["relation_count"],
+            },
+            "secret_surface_scan": final_cycle["secret_surface_scan"],
+        },
+        "node_mappings": node_mappings,
+        "relation_mappings": relation_mappings,
+        "proof_mappings": proof_mappings,
+        "boundary_bindings": boundary_bindings,
+        "coverage": {
+            "system_nodes_total": 89,
+            "exact_node_targets": len(node_mappings),
+            "system_relations_total": 204,
+            "relation_evidence_records_joined": len(relation_mappings),
+            "proof_obligations_total": 13,
+            "proof_selectors_bound": len(proof_mappings),
+            "boundaries_total": 9,
+            "exact_implementation_artifacts": len(final_cycle["runtime_material"]),
+        },
+        "deployment_budget_residue": {
+            "original_total_submission_cap": final_cycle["sbf"]["original_total_submission_cap"],
+            "original_total_submission_cap_state": final_cycle["sbf"]["original_total_submission_cap_state"],
+            "exact_fixed_chunk_deployment_submission_bound": final_cycle["sbf"]["exact_fixed_chunk_deployment_submission_bound"],
+            "candidate_split_budget": final_cycle["sbf"]["candidate_split_budget"],
+            "authorization_state": "not-authorized-by-this-candidate",
+        },
+        "signed_authority_boundary": {
+            "verification_algorithm": "Ed25519",
+            "verification_crate": "ed25519-dalek=2.2.0",
+            "verification_key_source": "compile-time CA2_OWNER_DECISION_VERIFYING_KEY_HEX outside the envelope",
+            "verification_key_material": "absent-terminal-credential-boundary",
+            "repository_root_source": "compiled CARGO_MANIFEST_DIR ancestry with exact trial-cli manifest-path equality",
+            "decision_paths": [
+                "decisions/rust-binding-acceptance-terminal.json",
+                "decisions/devnet-authorization-terminal.json",
+            ],
+            "signed_domains": [
+                "CA2-KEP-RUST-BINDING-ACCEPTANCE-V1",
+                "CA2-KEP-DEVNET-AUTHORIZATION-V1",
+            ],
+            "trial_executable_binding": {
+                "source_path": "runtime/trial-cli/src/main.rs",
+                "source_sha256": artifacts["trial-cli/src/main.rs"],
+                "manifest_path": "runtime/trial-cli/Cargo.toml",
+                "manifest_sha256": artifacts["trial-cli/Cargo.toml"],
+                "runtime_rule": "current executable SHA-256 must equal the signed envelope trial_cli_sha256",
+            },
+            "unsigned_or_envelope-only_authority": "rejected-by-frozen-runtime-candidate",
+            "production_owner_key_state": "not-provided-and-not-authorized",
+        },
+        "acceptance_gate": {
+            "binding_acceptance": "requires-separate-owner-decision",
+            "independent_review": "requires-parent-joined-review-receipt",
+            "aggregate_conformance": "not_evaluable",
+            "devnet_trial": "not_evaluable-and-not-authorized",
+        },
+        "successor_authorization": {
+            "accept_binding": "human-owner-only",
+            "credentials_or_wallets": "not-authorized",
+            "rpc_or_network": "not-authorized",
+            "deployment_or_devnet": "not-authorized",
+            "publication_or_release": "not-authorized",
+        },
+        "authority_effect": "none",
+        "implementation_effect": "none",
+        "enforcement_effect": "none",
+        "external_effect": "none",
+        "claim_ceiling": "Exact-byte signed-authority Rust binding candidate for the frozen 25-file runtime, exact SBF identity, two-cycle bounded local evidence, and 204 relation-evidence joins. The production owner verification key remains a terminal credential boundary. It does not accept the binding, discharge aggregate conformance, approve production security, authorize credentials or wallets, authorize any RPC, deployment, Devnet or Mainnet effect, or authorize publication or release.",
     }
-    dependency_map(binding)["solana-signer"]["version"] = "=3.0.1"
-    binding["construction_gate"]["binding_acceptance"] = "not_evaluable"
-    binding["construction_gate"]["implementation"] = "not-authorized-by-this-successor-candidate"
-    binding["construction_gate"]["candidate_bytes"] = "authored"
-    binding["construction_gate"]["local_tests"] = "candidate-author-and-resolution-probe-PASS"
-    binding["claim_ceiling"] = (
-        "Exact successor Rust construction-binding candidate only. It repairs accepted binding 005 solely by "
-        "changing direct solana-signer =3.0.0 to =3.0.1 and preserves the other sixteen dependencies, Rust 1.94.0, "
-        "all fourteen local FE-W3 and FE-W4 targets, workstreams, selectors, profiles, and semantics. Full-manifest "
-        "offline resolution evidence does not grant acceptance, implementation, conformance, security, credential, "
-        "wallet, RPC, deployment, Devnet, publication, or external-effect authority."
-    )
-    return binding
 
 
 def binding_material(binding_raw: bytes) -> tuple[str, list[dict[str, str]]]:
@@ -282,56 +403,17 @@ def binding_material(binding_raw: bytes) -> tuple[str, list[dict[str, str]]]:
         {"path": "policy.json", "sha256": sha256_file(POLICY_PATH)},
         {"path": "generated/implementation-binding.json", "sha256": sha256_bytes(binding_raw)},
     ]
-    material = path_null_digest([
-        ("policy.json", POLICY_PATH.read_bytes()),
-        ("generated/implementation-binding.json", binding_raw),
-    ])
-    return material, artifacts
+    entries = [("policy.json", POLICY_PATH.read_bytes()), ("generated/implementation-binding.json", binding_raw)]
+    return path_null_digest(entries), artifacts
 
 
-def build_author_decision(binding_raw: bytes) -> dict[str, Any]:
+def build_preacceptance(binding_raw: bytes) -> dict[str, Any]:
     binding = json.loads(binding_raw)
     material_digest, artifacts = binding_material(binding_raw)
     return {
-        "schema_version": "cav2-bounded-helper-construction-binding-author-decision/v1",
-        "decision_id": "CA2-AUTHOR-DECISION-KEP-SOL2-RUST-CONSTRUCTION-BINDING-006",
-        "decision_kind": "candidate-authorship-only",
+        "schema_version": "cav2-kep-sol2-rust-postimplementation-binding-preacceptance/v1",
+        "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-POSTIMPLEMENTATION-BINDING-PREACCEPTANCE-006",
         "route_id": binding["route_id"],
-        "delegation_route_id": binding["delegation_route_id"],
-        "disposition": "AUTHOR-CANDIDATE-AND-REQUEST-HUMAN-OWNER-DECISION",
-        "candidate": {
-            "binding_id": binding["binding_id"],
-            "binding_material_digest_algorithm": "sha256-path-null-bytes-null/v1",
-            "binding_material_digest": material_digest,
-            "artifacts": artifacts,
-        },
-        "authorship_findings": [
-            "accepted-binding-005-exact",
-            "selected-ontology-and-profiles-exact",
-            "solana-signer-causal-conflict-exact",
-            "direct-signer-and-keypair-probe-closure-exact",
-            "full-seventeen-dependency-projection-and-lock-exact",
-            "fourteen-target-workstream-and-FE-W3-FE-W4-preservation-exact",
-        ],
-        "self_acceptance": False,
-        "acceptance_status": "not_evaluable",
-        "implementation_status": "not-authorized-by-this-candidate",
-        "authority_effect": "none",
-        "implementation_effect": "none",
-        "enforcement_effect": "none",
-        "external_effect": "none",
-        "claim_ceiling": binding["claim_ceiling"],
-    }
-
-
-def build_preacceptance(binding_raw: bytes, author_decision_raw: bytes) -> dict[str, Any]:
-    binding = json.loads(binding_raw)
-    material_digest, artifacts = binding_material(binding_raw)
-    return {
-        "schema_version": "cav2-kep-sol2-rust-construction-binding-full-projection-repair-preacceptance/v1",
-        "receipt_id": "CA2-RECEIPT-KEP-SOL2-RUST-CONSTRUCTION-BINDING-PREACCEPTANCE-006",
-        "route_id": binding["route_id"],
-        "delegation_route_id": binding["delegation_route_id"],
         "candidate": {
             "binding_id": binding["binding_id"],
             "lifecycle_status": binding["lifecycle_status"],
@@ -339,60 +421,45 @@ def build_preacceptance(binding_raw: bytes, author_decision_raw: bytes) -> dict[
             "binding_material_digest": material_digest,
             "artifacts": artifacts,
         },
-        "supersession": binding["supersession"],
-        "selected_dependency_digests": {
-            "accepted_binding_005_material": binding["supersession"]["supersedes_accepted_material_digest"],
-            "accepted_implementation_material": binding["selected_dependencies"]["accepted_implementation"]["implementation_material_digest"],
-            "accepted_assessment_material": binding["selected_dependencies"]["accepted_local_assessment"]["assessment_material_digest"],
-            "admitted_system_ontology_candidate_set": binding["selected_dependencies"]["admitted_system_ontology"]["candidate_set_digest"],
+        "selected_dependencies": {
+            "accepted_predecessor_binding_material": binding["accepted_predecessor_binding"]["binding_material_digest"],
+            "admitted_system_ontology_candidate_set": binding["admitted_system_ontology"]["candidate_set_digest"],
+            "runtime_material": binding["implementation_material"]["digest"],
+            "stable_cycle": binding["local_evidence_binding"]["stable_cycle_sha256"],
+            "relation_evidence": binding["local_evidence_binding"]["relation_evidence"]["sha256"],
+            "sbf": binding["sbf_identity"]["sha256"],
         },
         "closure": {
-            "system_nodes": "89/89 selected",
-            "system_relations": "204/204 selected",
-            "proof_obligations": "13/13 selected",
-            "boundaries": "9/9 selected",
-            "exact_dependencies": "17/17 PASS",
-            "unchanged_dependencies": "16/16 PASS",
-            "signer_repair": "1/1 PASS",
-            "cached_manifests": "4/4 PASS",
-            "isolated_solana_direct_projection": "7/7 PASS including signer and keypair",
-            "full_manifest_direct_projection": "17/17 PASS",
-            "full_manifest_locked_packages": "774/774 PASS including root; 773 resolved dependencies",
-            "full_manifest_offline_check": "PASS",
-            "planned_targets": "14/14 PASS",
-            "all_other_construction_semantics": "unchanged-from-accepted-binding-005 PASS",
+            "runtime_artifacts": "25/25 exact",
+            "system_nodes": "89/89 exact-byte mapped",
+            "system_relations": "204/204 relation-evidence joined",
+            "proof_obligations": "13/13 selectors bound without acceptance",
+            "boundaries": "9/9 bound",
+            "stable_cycles": "2/2 PASS_BOUNDED",
         },
         "checks": [
-            {"check_id": "accepted-binding-005-exact", "status": "PASS"},
-            {"check_id": "selected-ontology-and-profiles-exact", "status": "PASS"},
-            {"check_id": "signer-lower-bound-cause-exact", "status": "PASS"},
-            {"check_id": "direct-signer-and-keypair-probe-closure", "status": "PASS"},
-            {"check_id": "full-seventeen-dependency-projection", "status": "PASS"},
-            {"check_id": "full-manifest-offline-resolution", "status": "PASS"},
-            {"check_id": "only-signer-pin-changed", "status": "PASS"},
-            {"check_id": "other-construction-semantics-preserved", "status": "PASS"},
-            {"check_id": "successor-binding-acceptance", "status": "not_evaluable", "causal_blocker": "Human owner has not accepted this exact successor material digest."},
-            {"check_id": "implementation-conformance", "status": "not_evaluable", "causal_blocker": "This construction-binding candidate grants no implementation or conformance claim."},
-            {"check_id": "production-security-approval", "status": "not_evaluable", "causal_blocker": "Independent cryptographic security review remains absent."},
-            {"check_id": "devnet-evidence", "status": "not_evaluable", "causal_blocker": "Credentials, wallets, RPC, deployment, and Devnet effects remain forbidden."},
+            {"check_id": "accepted-predecessor-exact", "status": "PASS"},
+            {"check_id": "successors-003-through-005-provenance-preserved", "status": "PASS"},
+            {"check_id": "signed-authority-surface-exact", "status": "PASS_BOUNDED"},
+            {"check_id": "admitted-system-ontology-exact", "status": "PASS"},
+            {"check_id": "runtime-material-exact", "status": "PASS"},
+            {"check_id": "sbf-identity-and-local-load-exact", "status": "PASS_BOUNDED"},
+            {"check_id": "two-cycle-local-validation", "status": "PASS_BOUNDED"},
+            {"check_id": "relation-evidence-closure", "status": "PASS_BOUNDED"},
+            {"check_id": "selector-mapping-closure", "status": "PASS"},
+            {"check_id": "binding-acceptance", "status": "not_evaluable", "causal_blocker": "A separate owner decision is required."},
+            {"check_id": "independent-review", "status": "not_evaluable", "causal_blocker": "The parent has not yet joined the independent review helper."},
+            {"check_id": "aggregate-conformance", "status": "not_evaluable", "causal_blocker": "Binding acceptance, independent review, real finalized Devnet evidence, and a final owner decision remain absent."},
+            {"check_id": "devnet-trial", "status": "not_evaluable", "causal_blocker": "Credentials, wallets, RPC, deployment, and signed submissions are not authorized by this candidate."},
         ],
-        "resolution_evidence": {
-            "manifest": {"path": "../full-manifest-probe/Cargo.toml", "sha256": sha256_file(HERE / "full-manifest-probe" / "Cargo.toml")},
-            "lock": {"path": "../full-manifest-probe/Cargo.lock", "sha256": sha256_file(HERE / "full-manifest-probe" / "Cargo.lock")},
-            "source": {"path": "../full-manifest-probe/src/lib.rs", "sha256": sha256_file(HERE / "full-manifest-probe" / "src" / "lib.rs")},
-            "command": "cargo check --all-targets --locked --offline --manifest-path full-manifest-probe/Cargo.toml",
-            "result": "PASS",
-        },
         "author": {"path": "../author.py", "sha256": sha256_file(Path(__file__))},
         "tests": {"path": "../tests/test_author.py", "sha256": sha256_file(TEST_PATH)},
-        "author_decision": {"path": "author-decision.json", "sha256": sha256_bytes(author_decision_raw)},
         "decision_gate": {
-            "status": "ready-for-exact-successor-construction-binding-decision",
-            "required_digest": material_digest,
-            "admissible_option_ids": ["ACCEPT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING", "REJECT-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING", "DEFER-EXACT-SUCCESSOR-RUST-CONSTRUCTION-BINDING"],
-            "decision_limit": "Acceptance may bind only this exact signer-pin repair candidate; it cannot accept implementation bytes, conformance, security, or external effects.",
+            "status": "ready-for-separate-owner-binding-decision",
+            "required_candidate_material_digest": material_digest,
+            "decision_limit": "Any acceptance may bind only this exact policy and generated binding candidate; it cannot approve aggregate conformance, production security, external effects, or publication.",
         },
-        "preacceptance": {"status": "PASS", "authority_effect": "none"},
+        "preacceptance": {"status": "PASS_BOUNDED", "authority_effect": "none"},
         "authority_effect": "none",
         "implementation_effect": "none",
         "enforcement_effect": "none",
@@ -407,44 +474,24 @@ def main() -> int:
     args = parser.parse_args()
     try:
         binding_raw = canonical_bytes(build_binding())
-        author_decision_raw = canonical_bytes(build_author_decision(binding_raw))
-        preacceptance_raw = canonical_bytes(build_preacceptance(binding_raw, author_decision_raw))
-        outputs = [
-            (BINDING_PATH, binding_raw, "generated binding"),
-            (AUTHOR_DECISION_PATH, author_decision_raw, "generated author decision"),
-            (PREACCEPTANCE_PATH, preacceptance_raw, "generated preacceptance"),
-        ]
+        preacceptance_raw = canonical_bytes(build_preacceptance(binding_raw))
         if args.check:
-            for path, raw, label in outputs:
-                require(path.is_file(), f"missing {label}")
-                require(path.read_bytes() == raw, f"{label} drift")
-            mode = "check"
+            require(BINDING_PATH.is_file(), "missing generated binding")
+            require(PREACCEPTANCE_PATH.is_file(), "missing generated preacceptance")
+            require(BINDING_PATH.read_bytes() == binding_raw, "generated binding drift")
+            require(PREACCEPTANCE_PATH.read_bytes() == preacceptance_raw, "generated preacceptance drift")
         else:
-            for path, raw, _ in outputs:
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(raw)
-            mode = "write"
+            BINDING_PATH.parent.mkdir(parents=True, exist_ok=True)
+            BINDING_PATH.write_bytes(binding_raw)
+            PREACCEPTANCE_PATH.write_bytes(preacceptance_raw)
         material_digest, _ = binding_material(binding_raw)
-        print(json.dumps({
-            "result": "pass",
-            "mode": mode,
-            "binding_id": json.loads(binding_raw)["binding_id"],
-            "binding_sha256": sha256_bytes(binding_raw),
-            "binding_material_digest": material_digest,
-            "author_decision_sha256": sha256_bytes(author_decision_raw),
-            "preacceptance_sha256": sha256_bytes(preacceptance_raw),
-            "full_manifest_direct_dependencies": 17,
-            "full_manifest_locked_packages": 774,
-            "full_manifest_resolved_dependencies": 773,
-            "authority_effect": "none",
-            "implementation_effect": "none",
-            "external_effect": "none",
-        }, indent=2))
+        print(f"PASS binding={material_digest} runtime={json.loads(binding_raw)['implementation_material']['digest']}")
         return 0
-    except (BindingError, KeyError, TypeError, ValueError, OSError, tomllib.TOMLDecodeError) as exc:
-        print(json.dumps({"result": "fail", "error": str(exc), "authority_effect": "none"}, indent=2), file=sys.stderr)
+    except (BindingError, KeyError, TypeError, ValueError, json.JSONDecodeError) as error:
+        print(f"BLOCK: {error}", file=sys.stderr)
         return 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

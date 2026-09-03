@@ -45,7 +45,7 @@ impl From<SolanaObservationError> for LocalProtocolError {
     }
 }
 
-pub fn prepare_and_persist_material(
+pub async fn prepare_and_persist_material(
     cryptography: &impl CryptographyPort,
     storage: &mut impl DurableStoragePort,
     identity: &impl ByteIdentityProvider,
@@ -56,7 +56,7 @@ pub fn prepare_and_persist_material(
 ) -> Result<PreparedDelivery, LocalProtocolError> {
     let material = cryptography.prepare(profile, context, plaintext, recipients, identity)?;
     let (storage_readiness, _) =
-        persist_and_verify_material(storage, identity, 1, &material.ciphertext)?;
+        persist_and_verify_material(storage, identity, 1, &material.ciphertext).await?;
     Ok(PreparedDelivery {
         material,
         storage_readiness,
@@ -83,7 +83,7 @@ pub fn construct_submission_intent(
     })
 }
 
-pub fn activate_finalized_delivery(
+pub async fn activate_finalized_delivery(
     observations: &impl SolanaObservationPort,
     intent: &SubmissionIntent,
     prepared: &PreparedDelivery,
@@ -93,11 +93,13 @@ pub fn activate_finalized_delivery(
     {
         return Err(LocalProtocolError::StorageNotReady);
     }
-    let observation = observations.observe_program_state(
-        intent.trial_id,
-        intent.program_id,
-        intent.artifact_version_id,
-    )?;
+    let observation = observations
+        .observe_program_state(
+            intent.trial_id,
+            intent.program_id,
+            intent.artifact_version_id,
+        )
+        .await?;
     validate_finalized_activation(observation, intent).map_err(|error| match error {
         SolanaObservationError::TrialMismatch => LocalProtocolError::TrialMismatch,
         SolanaObservationError::ProgramMismatch => LocalProtocolError::ProgramMismatch,
@@ -109,7 +111,7 @@ pub fn activate_finalized_delivery(
     })
 }
 
-pub fn retrieve_and_open_for_recipient(
+pub async fn retrieve_and_open_for_recipient(
     cryptography: &impl CryptographyPort,
     storage: &impl DurableStoragePort,
     identity: &impl ByteIdentityProvider,
@@ -128,7 +130,8 @@ pub fn retrieve_and_open_for_recipient(
         prepared.material.ciphertext_identity.schema_version,
         locator,
         &prepared.material.ciphertext_identity,
-    )?;
+    )
+    .await?;
     let mut material = prepared.material.clone();
     material.ciphertext = ciphertext;
     Ok(cryptography.open(profile, context, &material, recipient, identity)?)
@@ -176,19 +179,19 @@ impl ReissueState {
     }
 }
 
-pub fn reconcile_delivery(
+pub async fn reconcile_delivery(
     observations: &impl SolanaObservationPort,
     intent: &SubmissionIntent,
     prepared: &PreparedDelivery,
     reconciliation_observation_id: Digest32,
 ) -> Result<ActivatedDelivery, ReconciliationRequired> {
-    activate_finalized_delivery(observations, intent, prepared).map_err(|error| {
-        ReconciliationRequired {
+    activate_finalized_delivery(observations, intent, prepared)
+        .await
+        .map_err(|error| ReconciliationRequired {
             observation_id: reconciliation_observation_id,
             artifact_version_id: intent.artifact_version_id,
             reason_code: format!("{error:?}"),
-        }
-    })
+        })
 }
 
 pub fn enforce_failure_no_submission_or_activation(

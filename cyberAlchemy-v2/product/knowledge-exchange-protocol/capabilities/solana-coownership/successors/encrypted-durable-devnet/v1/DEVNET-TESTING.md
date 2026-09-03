@@ -1,265 +1,341 @@
-# Encrypted Durable Co-Ownership: Devnet Test Tutorial
+# Encrypted Durable Co-Ownership: Exact Devnet Trial
 
-Status: configuration tutorial; Devnet execution is not yet authorized
+Status: setup and execution procedure; this document does not authorize any
+external effect.
 
-This tutorial prepares one disposable, non-production Solana Devnet trial of
-`CA2-CAP-REALIZE-ENCRYPTED-DURABLE-DEVNET-COOWNERSHIP`. It does not authorize
-wallet creation, an airdrop, program deployment, transaction submission, or a
-database connection. Run the effectful sections only after the local gates in
-this document pass and the protocol owner authorizes the exact trial envelope.
-
-The trial proves a narrow result:
+This procedure exercises the exact v1 vertical:
 
 ```text
-encrypted artifact bytes
-  -> three-layer verified storage
-  -> finalized Devnet co-owner grant A -> {A, B}
-  -> B retrieves and decrypts the exact artifact version
-  -> optional B key-reissue request fulfilled by A under policy
-  -> evidence records exact identities, finality, and infrastructure cost
+definition fixture
+  -> XChaCha20-Poly1305 ciphertext
+  -> HPKE envelopes for A and B
+  -> PostgreSQL operational + recovery + archive layers
+  -> native Solana program deployment
+  -> finalized A -> {A, B} grant
+  -> durable retrieval and B decryption
+  -> B replacement-key request
+  -> A fulfillment and replacement-key decryption
+  -> bounded evidence
 ```
 
-It does not prove production readiness, Mainnet safety, availability, legal
-ownership, licensing, royalties, resale rights, or a knowledge price.
+The authenticated human conversation and CyberAlchemy operator workflow own
+authorization. The Rust executable validates the technical envelope; it does
+not claim that a field, digest, or command-line argument proves who authorized
+the run. Cryptographic governance provenance is deferred in
+`evidence/terminal/deferred-choices.json`.
 
-## 1. Do not configure Devnet until these local gates pass
+## 1. Set local paths
 
-The final local implementation must provide all of the following:
-
-- an accepted successor Rust binding for the exact provider and local
-  program-test surface;
-- XChaCha20-Poly1305 and RFC 9180 HPKE known-answer and negative-vector tests;
-- deterministic CBOR rejection tests;
-- provider-neutral SQL integration and storage failure-injection tests;
-- three-layer write, retrieval, identity, and restoration checks;
-- a local Solana `program-test` grant, rejection, replay, reissue, and finality
-  simulation;
-- a structural proof that plaintext, content keys, private keys, credentials,
-  and ciphertext bytes are absent from program-owned state; and
-- an independent security review of the exact dependency and threat-boundary
-  bytes selected for the trial.
-
-Until those gates close, use only offline/local test commands documented by the
-accepted implementation candidate. Do not create a Devnet wallet merely to
-work around an incomplete local gate.
-
-## 2. Install and verify the tools
-
-You need:
-
-- the Rust toolchain pinned by the repository;
-- the Solana CLI with `cargo build-sbf`, `solana`, and `solana-keygen`;
-- PostgreSQL 13 or newer for the first provider realization; and
-- a writable directory outside the repository for the SQL-independent archive
-  and trial evidence.
-
-Use the official [Solana installation guide](https://solana.com/docs/intro/installation)
-for the CLI. Verify tools without changing external state:
+Use the isolated worktree and external build/output directories:
 
 ```bash
-rustc --version
-cargo --version
-solana --version
-solana-keygen --version
-psql --version
+export KEP_REPO=/home/vrondelli/projects/domainspec-core-kep-d65
+export KEP_RUNTIME="$KEP_REPO/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime"
+export KEP_V1="$KEP_REPO/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1"
+export CARGO_TARGET_DIR=/tmp/ca2-kep-devnet-target
+export KEP_TRIAL_ROOT=/tmp/ca2-kep-devnet-001
+export KEP_SBF_DIR=/tmp/ca2-kep-sbf
+export PATH="/home/vrondelli/.cache/cyberalchemy-v2/solana/v3.1.11/solana-release/bin:$PATH"
 ```
 
-Record these versions in the trial evidence. Do not silently upgrade between
-the local proof run and the Devnet trial.
+`KEP_TRIAL_ROOT` must be absolute, outside the repository, and nonexistent.
+The preparation command deliberately refuses to overwrite an earlier attempt.
 
-## 3. Prepare an ignored configuration file
+## 2. Recheck the local construction
 
-Create this file outside the repository, for example
-`/absolute/private/path/kep-devnet.env`. Restrict it to the current user. Never
-commit it, paste it into chat, or include its values in evidence.
+This is local and creates no Solana effect:
 
 ```bash
-# Fixed semantic identities
-KEP_ENVIRONMENT_ID=solana-devnet
-KEP_CRYPTO_PROFILE_ID=KEP-SOL-CRYPTO-DEVNET-V1
-KEP_STORAGE_INSTANTIATION_ID=KEP-SOL-DST-INSTANTIATION-DEVNET-V1
-KEP_SOLANA_COMMITMENT=finalized
-
-# Operational SQL layer and append-only recovery journal
-# PostgreSQL is the first realization. The runtime contract remains SQLx Any
-# so another admitted SQL URL can be used without changing product meaning.
-KEP_SQL_URL=postgresql://USER:PASSWORD@127.0.0.1:5432/cyberalchemy_kep_devnet
-KEP_SQL_SCHEMA=cyberalchemy_kep_devnet
-
-# SQL-independent immutable archive and evidence output
-KEP_ARCHIVE_DIR=/absolute/private/path/kep-devnet/archive
-KEP_EVIDENCE_DIR=/absolute/private/path/kep-devnet/evidence
-
-# Devnet boundary
-KEP_SOLANA_RPC_URL=https://api.devnet.solana.com
-KEP_SOLANA_KEYPAIR_PATH=/absolute/private/path/kep-devnet/devnet-authority.json
-KEP_SOLANA_PROGRAM_KEYPAIR_PATH=/absolute/private/path/kep-devnet/program-keypair.json
-KEP_SOLANA_PROGRAM_SO=/absolute/path/to/target/deploy/cyberalchemy_kep.so
-
-# Fill after deployment
-KEP_SOLANA_PROGRAM_ID=
-KEP_TRIAL_ID=
+cd "$KEP_REPO"
+python3 "$KEP_V1/evidence/d65-loop/run.py" --repeat 2 --materialize
 ```
 
-The SQL password and keypair bytes are credentials. The evidence bundle may
-record their opaque binding identifiers and public keys, never their values.
+Continue only if it reports `PASS_BOUNDED`, both cycles have one runtime
+digest, PostgreSQL passes twice, the exact SBF loads twice, and relation
+coverage is 204/204.
 
-## 4. Configure the three storage layers
+An exact successor Rust binding must then be authored, independently reviewed,
+and accepted by the owner. Human acceptance binds the stated implementation
+and trial intent; the owner does not have to repeat a digest.
 
-The first trial uses three logical protection layers:
-
-1. `operational`: mutable SQL registry of qualified object identity and current
-   opaque locator metadata;
-2. `recovery-journal`: append-only SQL events stored separately from the live
-   tables; and
-3. `immutable-archive`: exact encrypted bytes in a SQL-independent archive.
-
-All layers must close on the same qualified byte identity. A same-host trial
-proves the mechanism only; it is not three independent disaster-recovery
-failure domains.
-
-Create a dedicated local PostgreSQL database and least-privilege trial role.
-Apply only the migration shipped and digest-bound by the accepted provider
-implementation. Do not manually create substitute tables when a migration is
-missing—the missing migration is a local blocker.
-
-The archive directory must:
-
-- be outside the Git worktree;
-- reject overwrite of an existing object identity;
-- contain only encrypted artifacts and recipient-envelope ciphertext;
-- never contain plaintext, content keys, private keys, database passwords, or
-  wallet material; and
-- support exact-byte retrieval after the operational SQL layer is unavailable.
-
-Before Devnet, run the provider's local readiness and restoration commands.
-The future implementation must print a receipt rather than secrets. Expected
-receipt fields are storage-realization ID, provider kind, migration digest,
-archive policy, object identities, verified layers, and `ready: true`.
-
-## 5. Create a disposable Devnet identity — effectful
-
-Stop here until the owner authorizes wallet creation and the exact keypair
-paths. Use new Devnet-only keys. Never reuse a Mainnet, exchange, personal, or
-customer wallet.
+## 3. Build the exact runner and SBF
 
 ```bash
-solana-keygen new --outfile "$KEP_SOLANA_KEYPAIR_PATH"
-solana-keygen new --outfile "$KEP_SOLANA_PROGRAM_KEYPAIR_PATH"
+cd "$KEP_RUNTIME"
+cargo build --release --locked -p cyberalchemy-kep-devnet-trial
 
-solana config set \
-  --url "$KEP_SOLANA_RPC_URL" \
-  --keypair "$KEP_SOLANA_KEYPAIR_PATH" \
-  --commitment finalized
+mkdir -p "$KEP_SBF_DIR"
+cargo-build-sbf \
+  --manifest-path "$KEP_RUNTIME/solana-program/Cargo.toml" \
+  --sbf-out-dir "$KEP_SBF_DIR"
 
-solana config get
-solana address
+export KEP_TRIAL_BIN="$CARGO_TARGET_DIR/release/cyberalchemy-kep-devnet-trial"
+export KEP_SBF="$KEP_SBF_DIR/cyberalchemy_kep_solana_program.so"
+sha256sum "$KEP_TRIAL_BIN" "$KEP_SBF"
+stat --format='%n %s bytes' "$KEP_TRIAL_BIN" "$KEP_SBF"
 ```
 
-Confirm that the URL is exactly Devnet before funding. Solana documents the
-public Devnet endpoint as `https://api.devnet.solana.com`; it is rate-limited
-and Devnet may reset. See [Clusters and public RPC endpoints](https://solana.com/docs/references/clusters).
+Do not substitute a different `.so` after constructing the envelope.
 
-## 6. Obtain test SOL — effectful
+## 4. Create every disposable identity — local credential effect
 
-An airdrop changes external state even though Devnet SOL has no real monetary
-value. Run it only inside the authorized trial:
+Run this only after explicitly deciding to create disposable local credentials
+at `KEP_TRIAL_ROOT`. It creates seven distinct Solana keypairs, three distinct
+raw X25519 HPKE keypairs, and one harmless definition fixture. Private files
+are mode `0600`; no RPC call, airdrop, or deployment occurs.
 
 ```bash
-solana airdrop 2
-solana balance
+"$KEP_TRIAL_BIN" prepare "$KEP_TRIAL_ROOT" \
+  > "$KEP_TRIAL_ROOT-preparation-receipt.json"
+jq . "$KEP_TRIAL_ROOT-preparation-receipt.json"
 ```
 
-If the public faucet is rate-limited, stop and record the failure. Do not switch
-RPC providers, wallets, or clusters without a successor authorization.
+The created Solana roles are:
 
-## 7. Build and deploy the exact program — effectful
+- `payer`: receives Devnet SOL and pays transaction/rent costs;
+- `originator`: owner A and grant/reissue authority;
+- `recipient`: owner B;
+- `outsider`: negative signer cases;
+- `program`: new program address;
+- `buffer`: one-attempt native deployment buffer;
+- `upgrade-authority`: isolated Devnet program authority.
 
-Build only the accepted source revision and record the source and `.so` SHA-256
-digests before deployment:
+The HPKE roles are originator A, recipient B, and B's replacement key B2.
+These keys are never reused as Solana keys.
+
+Inspect only public identities:
 
 ```bash
-cargo build-sbf
-sha256sum "$KEP_SOLANA_PROGRAM_SO"
-
-solana program deploy \
-  "$KEP_SOLANA_PROGRAM_SO" \
-  --program-id "$KEP_SOLANA_PROGRAM_KEYPAIR_PATH"
+jq '.solana_public_keys' "$KEP_TRIAL_ROOT-preparation-receipt.json"
+wc -c "$KEP_TRIAL_ROOT"/*.pub
 ```
 
-Set `KEP_SOLANA_PROGRAM_ID` to the returned program ID and verify it:
+Each `.pub` must be 32 bytes. Do not print `.key` or `.json` keypair contents.
+You may replace `knowledge-definition.txt` with another test-only definition
+before constructing the envelope. Never use customer or confidential material.
+
+## 5. Start the first PostgreSQL realization — local infrastructure effect
+
+The current binding requires a loopback PostgreSQL URL. One database contains
+three separate protocol-owned schemas; the adapter creates and validates them.
 
 ```bash
-solana program show "$KEP_SOLANA_PROGRAM_ID"
+export KEP_DB_CONTAINER=ca2-kep-devnet-postgres-001
+export KEP_DB_PASSWORD="$(openssl rand -hex 24)"
+
+docker run --detach --rm --pull=never \
+  --name "$KEP_DB_CONTAINER" \
+  --env POSTGRES_PASSWORD="$KEP_DB_PASSWORD" \
+  --publish 127.0.0.1:55432:5432 \
+  docker.io/library/postgres:17-alpine@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73
+
+until docker exec "$KEP_DB_CONTAINER" pg_isready -U postgres; do sleep 1; done
+export KEP_POSTGRES_TRIAL_URL="postgres://postgres:${KEP_DB_PASSWORD}@127.0.0.1:55432/postgres"
 ```
 
-The Solana CLI deployment flow and its required program authority are described
-in [Deploying Programs](https://solana.com/docs/programs/deploying). Do not
-transfer authority, make the program immutable, upgrade it, or close it during
-this trial unless those operations are separately authorized.
+Keep the password in the current shell only. Do not put the URL in the
+repository, envelope, evidence, terminal output, or chat.
 
-## 8. Run the protocol trial — effectful
+## 6. Construct the exact technical envelope
 
-The accepted implementation will supply the exact command. It must consume the
-configuration above and perform this sequence:
+Set `KEP_ACCEPTED_BINDING` from the accepted successor binding record. This is
+provenance metadata, not a request for the owner to repeat or approve a digest.
 
-1. generate disposable A and B protocol identities, keeping signing and HPKE
-   key roles separate;
-2. encrypt one test-only artifact version under a new encryption epoch;
-3. write and independently retrieve the encrypted artifact and B envelope from
-   all required storage layers;
-4. refuse transaction construction unless storage readiness is complete;
-5. submit the A-authorized no-price grant that preserves A and adds B;
-6. wait for `finalized`, then reconcile program state, revision, commitment,
-   storage retrieval, and program/trial identity;
-7. allow B to retrieve and decrypt the exact bytes;
-8. exercise stale revision, replay, wrong binding, and unfinalized-state
-   negatives without changing accepted state;
-9. optionally request and fulfill one lost-key reissue without changing the
-   artifact, epoch, owners, policy, or economic state; and
-10. record network fee, rent, and storage cost strictly as infrastructure cost,
-    never knowledge consideration.
+```bash
+export KEP_ACCEPTED_BINDING=REPLACE_WITH_ACCEPTED_SUCCESSOR_BINDING_DIGEST
+export KEP_TRIAL_BIN_SHA="$(sha256sum "$KEP_TRIAL_BIN" | awk '{print $1}')"
+export KEP_SBF_SHA="$(sha256sum "$KEP_SBF" | awk '{print $1}')"
+export KEP_SBF_SIZE="$(stat --format='%s' "$KEP_SBF")"
+export KEP_ENVELOPE="$KEP_TRIAL_ROOT/terminal-envelope.json"
 
-Do not run an improvised client if the exact trial command or its expected
-binary digest is absent. That absence means the repository has not yet reached
-the Devnet gate.
+python3 - <<'PY'
+import json, os
+from pathlib import Path
 
-## 9. Evidence to retain
+r = Path(os.environ["KEP_TRIAL_ROOT"])
+document = {
+    "schema_version": 2,
+    "accepted_binding_digest": os.environ["KEP_ACCEPTED_BINDING"],
+    "trial_cli_sha256": os.environ["KEP_TRIAL_BIN_SHA"],
+    "authorization_model": "operator-mediated-explicit-human-authorization",
+    "cryptographic_governance_provenance": "deferred",
+    "cluster": "solana-devnet",
+    "rpc_class": "public-no-paid-fallback",
+    "rpc_url": "https://api.devnet.solana.com",
+    "expected_genesis_hash": "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG",
+    "max_protocol_signed_transactions": 24,
+    "max_deployment_signed_transactions": 192,
+    "deployment_max_sign_attempts": 1,
+    "funding_mode": "prefunded-only",
+    "minimum_prefunded_lamports": 2_000_000_000,
+    "maximum_prefunded_lamports": 10_000_000_000,
+    "sbf_path": os.environ["KEP_SBF"],
+    "sbf_sha256": os.environ["KEP_SBF_SHA"],
+    "sbf_size_bytes": int(os.environ["KEP_SBF_SIZE"]),
+    "external_inputs": {
+        "payer_keypair_path": str(r / "payer.json"),
+        "originator_keypair_path": str(r / "originator.json"),
+        "recipient_keypair_path": str(r / "recipient.json"),
+        "outsider_keypair_path": str(r / "outsider.json"),
+        "program_keypair_path": str(r / "program.json"),
+        "buffer_keypair_path": str(r / "buffer.json"),
+        "upgrade_authority_keypair_path": str(r / "upgrade-authority.json"),
+        "plaintext_fixture_path": str(r / "knowledge-definition.txt"),
+        "originator_hpke_public_path": str(r / "originator-hpke.pub"),
+        "originator_hpke_private_path": str(r / "originator-hpke.key"),
+        "recipient_hpke_public_path": str(r / "recipient-hpke.pub"),
+        "recipient_hpke_private_path": str(r / "recipient-hpke.key"),
+        "replacement_hpke_public_path": str(r / "replacement-hpke.pub"),
+        "replacement_hpke_private_path": str(r / "replacement-hpke.key"),
+        "attempt_journal_path": str(r / "attempt-journal.jsonl"),
+        "evidence_output_path": str(r / "trial-evidence.json")
+    },
+    "disposable_keypairs_outside_repository": True,
+    "paid_provider_fallback": False,
+    "mainnet_allowed": False,
+    "enumerated_case_ids": [
+        "storage-three-layer-ready", "initialize-positive",
+        "grant-wrong-signer", "grant-stale-revision", "grant-positive",
+        "grant-finalized-fetch", "recipient-decryption",
+        "reissue-request-outsider", "reissue-request-positive",
+        "reissue-request-replay", "reissue-self-fulfillment",
+        "reissue-fulfill-positive", "reissue-state-isolation",
+        "replacement-recipient-decryption", "cost-observation"
+    ]
+}
+Path(os.environ["KEP_ENVELOPE"]).write_text(
+    json.dumps(document, indent=2, sort_keys=True) + "\n"
+)
+PY
 
-The trial evidence bundle must contain only public or non-secret observations:
+chmod 600 "$KEP_ENVELOPE"
+export CA2_DEVNET_PACKET_DIGEST="$(sha256sum "$KEP_ENVELOPE" | awk '{print $1}')"
+```
 
-- source, build, binding, implementation, migration, and program digests;
-- Solana CLI version, cluster genesis hash, RPC class, program ID, loader ID,
-  upgrade posture, transaction signatures, slots, and finalized observations;
-- trial ID, artifact-version ID, encryption-epoch ID, public identity bindings,
-  revisions, replay-domain IDs, and qualified byte commitments;
-- storage-realization ID, opaque locators, layer receipts, verified retrievals,
-  and recovery result;
-- proof-by-proof PASS, FAIL, partial, or `not_evaluable` results with causal
-  blockers; and
-- fees, rent, storage, and retrieval costs classified as infrastructure cost.
+The packet digest detects accidental envelope changes. It does not authenticate
+human authorization.
 
-Never retain plaintext, content keys, recipient private keys, wallet secret
-keys, seed phrases, database passwords, full connection URLs, or undeclared
-customer material.
+## 7. Fund the disposable payer under a separate authorization
 
-## 10. Exact authorization bundle required from the owner
+The protocol runner never requests an airdrop. Before constructing the final
+trial authorization, separately authorize and fund the newly-created disposable
+payer, wait for finalized balance, and preserve the funding signature as
+preparation evidence. A funding failure does not consume the protocol trial
+because the trial has not started.
 
-Before the first Devnet command, present one immutable trial envelope containing:
+Do not reuse a payer from a consumed or ambiguous trial. Do not place a private
+key in the repository, terminal output, evidence, or chat. After funding, verify
+that the finalized balance is within the envelope's minimum and maximum bounds.
 
-- accepted local binding and implementation digests;
-- accepted crypto, SQL, local program-test, and security-review evidence;
-- exact source/build/program/migration digests;
-- Devnet RPC URL and observed genesis hash;
-- public wallet address and keypair path, but not key bytes;
-- requested airdrop ceiling;
-- program ID and upgrade posture;
-- SQL provider class and opaque credential reference;
-- archive and evidence directory identities;
-- allowed instructions, maximum transaction count, and maximum test-SOL spend;
-- retention and cleanup posture; and
-- explicit permission for wallet use, RPC, airdrop, deployment, transaction
-  submission, finalized observation, and evidence capture.
+## 8. Request the one explicit Devnet trial authorization
 
-Acceptance of a local implementation or this tutorial is not that permission.
+Before running the next section, ask the owner to authorize this bounded scope:
 
+```text
+Authorize one disposable Knowledge Exchange Protocol trial on public Solana
+Devnet using the prepared terminal envelope. Permit the loopback PostgreSQL
+connection, verification of the separately prefunded disposable payer, one
+exact native SBF deployment with at most 192 signed deployment submissions and one signing
+attempt per deployment transaction, at most 24 protocol submissions, the 15
+enumerated cases, finalized reads, and external evidence writes. Do not permit
+Mainnet, paid RPC fallback, customer material, retry after ambiguous effect,
+publication, release, or reuse of these credentials.
+```
+
+The owner may approve that intent in ordinary language. They do not need to
+repeat any digest. Record the decision through the CyberAlchemy operator
+workflow, then verify that the envelope still describes the approved scope.
+
+## 9. Execute exactly once — public Devnet effect
+
+Read-only cluster check:
+
+```bash
+solana genesis-hash --url https://api.devnet.solana.com
+```
+
+It must report `EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG`. Then run exactly once:
+
+```bash
+cd "$KEP_RUNTIME"
+"$KEP_TRIAL_BIN" "$KEP_ENVELOPE" \
+  > "$KEP_TRIAL_ROOT/runner-output.json"
+jq . "$KEP_TRIAL_ROOT/runner-output.json"
+```
+
+The runner itself:
+
+- validates envelope, executable, SBF, cluster, case list and budgets;
+- connects only to loopback PostgreSQL;
+- verifies the disposable payer's finalized prefunded balance before storage or
+  signed network effects;
+- proves A, B and B2 decryptability before any signed network effect;
+- stores and verifies ciphertext/envelopes in all three SQL layers;
+- never requests an airdrop;
+- deploys the exact SBF with the native loader in exactly one attempt;
+- submits positive and negative grant/reissue cases;
+- waits for finalized state and retrieves stored bytes after reconnecting; and
+- writes `trial-evidence.json` without plaintext or private keys.
+
+Do not run `solana airdrop` after the trial begins and do not separately run
+`solana program deploy`; the runner owns only the bounded deployment and
+protocol operations and records them in the attempt journal.
+
+## 10. Failure and reconciliation
+
+At the first effectful error, stop. Never rerun the execution command when
+`attempt-journal.jsonl` exists. Reconcile without resubmission:
+
+```bash
+"$KEP_TRIAL_BIN" reconcile "$KEP_ENVELOPE" \
+  > "$KEP_TRIAL_ROOT/reconciliation.json"
+jq . "$KEP_TRIAL_ROOT/reconciliation.json"
+```
+
+Reconciliation has three bounded outcomes:
+
+- `PENDING` when a signed transaction is not finalized, an unsigned typed
+  failure is ambiguous or unclassified, or zero signatures have no explicit
+  terminal pre-effect evidence;
+- `PROVEN_PRE_EFFECT_STOP` only when an exact journal record proves the runner
+  stopped at a recognized pre-signing rejection; and
+- `RECONCILED` only when at least one recorded signature has a terminal
+  finalized status and no ambiguity remains.
+
+The parser evaluates the journal's typed `failure_stage` and `failure_class`;
+zero recorded signatures can never produce `RECONCILED`. The receipt also
+reports the finalized payer balance and the number of proven pre-effect stops.
+Preserve the entire trial directory and request a new decision after any
+non-successful execution, including `PENDING` or `PROVEN_PRE_EFFECT_STOP`. Do
+not change RPC provider, recreate a key, delete the journal, or try another
+deployment.
+
+## 11. Verify and retain evidence
+
+```bash
+jq '{result, cluster, program, funding, storage, finalized_grant_revision,
+     finalized_reissue_revision, recipient_decryption,
+     replacement_recipient_decryption, protocol_signed_submissions,
+     knowledge_consideration_lamports}' \
+  "$KEP_TRIAL_ROOT/trial-evidence.json"
+
+sha256sum \
+  "$KEP_ENVELOPE" \
+  "$KEP_TRIAL_ROOT/attempt-journal.jsonl" \
+  "$KEP_TRIAL_ROOT/trial-evidence.json"
+```
+
+Expected bounded observations include finalized grant and reissue revisions,
+successful B and B2 decryption, three-layer storage readiness, exact remote SBF
+identity, infrastructure fees/rent, and zero knowledge consideration.
+
+Preserve the journal and evidence. Stop PostgreSQL when finished:
+
+```bash
+docker stop "$KEP_DB_CONTAINER"
+unset KEP_DB_PASSWORD KEP_POSTGRES_TRIAL_URL
+```
+
+Do not delete the disposable keys until the evidence has been joined and the
+final conformance decision is complete. No successful Devnet trial implies
+Mainnet readiness, production security, availability, publication, or release.

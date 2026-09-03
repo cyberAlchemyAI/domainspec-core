@@ -1,55 +1,62 @@
-# Durable Knowledge Storage Capability
+# Durable Knowledge Storage Capability Start
 
-This package contains the completed provider-neutral CAV2-D65 construction
-chain for durable encrypted knowledge material:
+Status: candidate definitions only
+Authority effect: none
 
-```text
-accepted canonical definitions
-  -> adopted Product Capability
-  -> admitted capability-local business ontology
-  -> admitted DomainSpec v2 source
-  -> admitted deterministic graph and system ontology
-  -> exact Rust implementation binding
-  -> accepted local-reference conformance evidence
-```
-
-The generic runtime flow is:
+This package begins the D65 construction path for provider-neutral durable
+knowledge storage. Responsibility is separated as follows:
 
 ```text
-classified encrypted bytes
-  -> qualified content identity
-  -> atomic persist under exact binding
-  -> bounded write receipt
-  -> retrieve candidate bytes
-  -> verify identity and context
-  -> verified retrieval or typed failure
+Durable Storage
+  -> owns generic definitions and required semantic slots
+  -> later owns the reusable Product Capability
+
+Solana Co-Ownership
+  -> later instantiates the adopted Durable Storage capability
+  -> reuses or specializes definitions in a successor Solana set
+  -> fills commitment, readiness, failure, policy, and cost values
+
+Storage implementation binding
+  -> later selects provider, adapter, environment, and credential references
 ```
 
-Envelope reissue follows a fail-closed sequence:
+The generic storage flow is:
 
 ```text
-write replacement
-  -> verify replacement
-  -> activate replacement
-  -> retain prior object until a separately governed retirement policy applies
+encrypted artifact or recipient-envelope bytes
+  -> immutable durable object
+  -> content-addressed identity
+  -> write receipt
+  -> verified retrieval
+  -> later protocol commitment
 ```
 
-The Rust crate includes a local-filesystem reference realization. This proves
-only the admitted system meaning under its local test observations. It does not
-select a production provider or establish production availability, retention,
-recovery, cryptographic security, publication, or deployment.
-
-Solana remains a consumer specialization. Four exact Solana predecessor records
-are present because the accepted Durable Storage definition pack cites them as
-source evidence. The existing Solana model is not silently changed or admitted
-as a Durable Storage instantiation by this package.
-
-Run the complete exact-byte audit from the repository root:
+It also fixes the failure boundary:
 
 ```text
-PYTHONDONTWRITEBYTECODE=1 python3 cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/durable-storage/validate-d65.py
+missing bytes | mismatched bytes | stale binding | unauthorized retrieval
+  -> typed storage failure
+  -> no dependent consumer effect
 ```
 
-Current result: exact local-reference D65 conformance accepted. Production
-provider selection and Solana consumer instantiation remain separate successor
-decisions.
+The definitions deliberately do not choose IPFS, Arweave, S3-compatible object
+storage, a database, a local filesystem, replication counts, retention periods,
+availability targets, credentials, or production deployment.
+
+The currently accepted Solana definition set predates this contract and remains
+unchanged. It does not yet instantiate durable storage. After this generic
+definition set and its Product Capability are accepted, Solana requires a
+separately reviewed successor candidate; the existing DomainSpec system-
+ontology candidate must remain unadmitted until that successor is authored.
+
+Current D65 state:
+
+```text
+durable-storage definitions: authored candidate
+Product Capability: not_evaluable until definition acceptance
+business ontology: not_evaluable
+DomainSpec v2 source: not_evaluable
+compiled system ontology: not_evaluable
+implementation binding: not_evaluable
+runtime evidence: not_evaluable
+```
