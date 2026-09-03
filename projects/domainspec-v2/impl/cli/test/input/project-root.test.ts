@@ -217,7 +217,7 @@ test("symbolic project roots and symbolic declared sources fail", () => {
     fs.symlinkSync("nodes-real", nodesPath, "dir");
     expectCode(() => resolveProjectRoot(componentRoot), "SFC_INPUT_SYMLINK");
   } finally {
-    if (fs.existsSync(link) || fs.lstatSync(link, { throwIfNoEntry: false })?.isSymbolicLink()) fs.rmSync(link, { force: true });
+    if (fs.lstatSync(link, { throwIfNoEntry: false })?.isSymbolicLink()) fs.unlinkSync(link);
     removeRoot(root);
     removeRoot(componentRoot);
   }

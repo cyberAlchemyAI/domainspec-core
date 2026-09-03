@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { metaTypeIdForLabel } from "../meta-types/catalog.js";
+import { FROZEN_META_TYPE_CATALOG, metaTypeIdForLabel } from "../meta-types/catalog.js";
 import {
   RELATIONSHIP_AUTHORITY_SHA256,
   RELATIONSHIP_SIGNATURES,
@@ -10,14 +10,17 @@ import {
   relationshipSignature,
 } from "../relationships/authority.js";
 import { resolveProjectRoot } from "./project-root.js";
-import { sha256, type SourceManifestV1 } from "./source-manifest.js";
+import { canonicalJson, sha256, type SourceManifestV1 } from "./source-manifest.js";
 import {
   decodeTypedOperationContract,
   decodeTypedRecordContract,
   decodeTypedRuleContract,
   decodeTypedSumContract,
+  TypedContractError,
+  type TypedType,
 } from "../typed-operation/contracts.js";
 import { compileTypedOperationClosure, compileTypedRuleClosure, type TypedClosureSourceNode, type TypedSemanticClosureV1 } from "../typed-operation/closure.js";
+import { decodeCalculationSemantics, decodeMappingFields, decodePolicyDecisions, type MappingField } from "../static-semantics/contracts.js";
 
 export { RELATIONSHIP_AUTHORITY_SHA256, RELATIONSHIP_SIGNATURES } from "../relationships/authority.js";
 
@@ -25,7 +28,24 @@ const SELECTOR_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):([a-z][a-z0-9]*(?:-[a
 const NODE_ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const COMPENSATION_DEPENDENCY_PATTERN = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)*):depends-on:([a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
 
-type BodyFieldKind = "string" | "string-array" | "record-fields" | "field-spec" | "field-spec-array" | "interface-operation-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation";
+// Exact-byte compatibility for immutable typed Value Object predecessors that
+// predate L1's no-identity/invariant-reference admission rule. This is not a
+// project, path, or ontology exemption: any byte change loses compatibility.
+const LEGACY_TYPED_VALUE_OBJECT_SOURCE_SHA256 = new Set([
+  "0d0cb4af4fe34d8b99750f6bb39b3f3463aba07be22a27fc1649e80917983442",
+  "26f9c3217096bed9d3e3a7b9e0edcbe8f196bbf4ac32a0c4251e2f5262c36a3a",
+  "3a5b7bd1c90ced228666b105d8157d9af1075d5d5a93c5e1870a08af7d6241be",
+  "58337de28063fc3e55cf609b64cecdfd70f60940d98c595ec773015b1260c595",
+  "665e0b1c981dc824cfb806bf188409e97af9cc010ac8e18f4fec779381853aef",
+  "68dfe1a6d441c6a6f7719663b764f38a3377b44333d2cf3956b5816876ec5d9d",
+  "903e4d3338ce4724cc975c6772b0ef1cba8786cf76935bec99d9373738a536c2",
+  "a5ba613a16e65193848864b497d7e0a01a8ac6385dfd30a200d0fc8b059635a0",
+  "d04569313462038598a1a045ed3c4e35b3510c5ee4a68e4175d71965ec615d51",
+  "d08be186e89686a43110c8ce279d9e49546eb210e19b0b8aad9de26613f64f1d",
+  "f59e12aad5efa12375cca82f56b36d73e532fb8795c7a7d4ad7e9a9ef2c9df34",
+]);
+
+type BodyFieldKind = "string" | "string-array" | "record-fields" | "field-spec" | "field-spec-array" | "interface-operation-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation" | "calculation-semantics" | "policy-decisions" | "mapping-fields";
 
 interface BodyContract {
   readonly required: readonly string[];
@@ -44,9 +64,9 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
     fields: { description: "string", reads: "string-array", writes: "string-array", effects: "string-array", guard: "string", failure_continuation: "string", typed_contract: "typed-operation" },
   },
   Query: { required: ["description", "reads"], optional: ["typed_contract"], fields: { description: "string", reads: "string-array", typed_contract: "typed-operation" } },
-  Calculation: { required: ["description", "inputs"], optional: [], fields: { description: "string", inputs: "string-array" } },
+  Calculation: { required: ["description", "inputs", "semantics"], optional: [], fields: { description: "string", inputs: "string-array", semantics: "calculation-semantics" }, nonemptyArrays: ["inputs"] },
   Rule: { required: ["description", "predicate"], optional: ["typed_contract"], fields: { description: "string", predicate: "string", typed_contract: "typed-rule" } },
-  Policy: { required: ["description", "strategies"], optional: [], fields: { description: "string", strategies: "string-array" }, nonemptyArrays: ["strategies"] },
+  Policy: { required: ["description", "strategies", "decisions", "default_strategy"], optional: [], fields: { description: "string", strategies: "string-array", decisions: "policy-decisions", default_strategy: "string" }, nonemptyArrays: ["strategies"] },
   Workflow: {
     required: ["description", "steps", "compensations"],
     optional: ["compensation_dependencies"],
@@ -55,7 +75,7 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
   },
   Interface: { required: ["description", "boundary_kind", "version", "compatibility", "operations"], optional: [], fields: { description: "string", boundary_kind: "string", version: "string", compatibility: "string", operations: "interface-operation-array" }, nonemptyArrays: ["operations"] },
   Event: { required: ["description", "event_type", "version", "occurrence_id", "occurred_at_policy", "payload"], optional: [], fields: { description: "string", event_type: "string", version: "string", occurrence_id: "field-spec", occurred_at_policy: "string", payload: "field-spec-array" } },
-  Mapping: { required: ["description", "source", "target"], optional: [], fields: { description: "string", source: "string", target: "string" } },
+  Mapping: { required: ["description", "source", "target", "direction", "totality", "fields"], optional: [], fields: { description: "string", source: "string", target: "string", direction: "string", totality: "string", fields: "mapping-fields" } },
   "State Machine": { required: ["description", "states", "initial", "transitions"], optional: [], fields: { description: "string", states: "string-array", initial: "string", transitions: "state-transition-array" }, nonemptyArrays: ["states", "transitions"] },
 });
 
@@ -154,6 +174,21 @@ export interface CompiledRelationshipObligationWitness {
   }>;
 }
 
+export interface CompiledObligationApplicability {
+  readonly obligation_id: string;
+  readonly classification: "applicable" | "inapplicable";
+  readonly relationship_ids: readonly string[];
+  readonly source_selector: string;
+  readonly reason: string;
+}
+
+export interface CompiledObligationOutcome {
+  readonly witness_id: string;
+  readonly obligation_id: string;
+  readonly family: CompiledRelationshipObligationWitness["family"];
+  readonly outcome: "pass";
+}
+
 export interface CompiledProjectGraph {
   readonly schema_version: "domainspec.compiled-project-graph/v1-candidate";
   readonly project_root: string;
@@ -161,7 +196,9 @@ export interface CompiledProjectGraph {
   readonly source_manifest: SourceManifestV1;
   readonly nodes: readonly CompiledProjectGraphNode[];
   readonly relationships: readonly DecodedRelationship[];
+  readonly obligation_applicability: readonly CompiledObligationApplicability[];
   readonly obligation_witnesses: readonly CompiledRelationshipObligationWitness[];
+  readonly obligation_outcomes: readonly CompiledObligationOutcome[];
   readonly authority_effect: "none";
 }
 
@@ -346,6 +383,12 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
       decoded[key] = requireFieldSpecArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
     } else if (fieldKind === "interface-operation-array") {
       decoded[key] = requireInterfaceOperationArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
+    } else if (fieldKind === "calculation-semantics") {
+      decoded[key] = decodeCalculationSemantics(raw, value.inputs as readonly string[], `${pointer}/${key}`);
+    } else if (fieldKind === "policy-decisions") {
+      decoded[key] = decodePolicyDecisions(raw, value.strategies as readonly string[], `${pointer}/${key}`);
+    } else if (fieldKind === "mapping-fields") {
+      decoded[key] = decodeMappingFields(raw, `${pointer}/${key}`);
     } else {
       decoded[key] = requireStateTransitionArray(raw, `${pointer}/${key}`, contract.nonemptyArrays?.includes(key) ?? false);
     }
@@ -353,6 +396,10 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
   if ((kind === "Entity" || kind === "Value Object") && decoded.typed_contract) {
     const names = (decoded.typed_contract as ReturnType<typeof decodeTypedRecordContract>).properties.map(({ name }) => name);
     if (JSON.stringify(names) !== JSON.stringify(decoded.fields)) fail("MTCLI_TYPED_FIELD_PARITY", `${pointer}/fields`, "typed property names must exactly match fields");
+  }
+  if (kind === "Entity" && decoded.typed_contract) {
+    const identities = (decoded.typed_contract as ReturnType<typeof decodeTypedRecordContract>).properties.filter(({ identity }) => identity);
+    if (identities.length !== 1) fail("MTCLI_TYPED_IDENTITY", `${pointer}/typed_contract/properties`, "typed Entity requires exactly one identity property");
   }
   if (kind === "Enum" && decoded.typed_contract) {
     const names = (decoded.typed_contract as ReturnType<typeof decodeTypedSumContract>).variants.map(({ name }) => name);
@@ -384,6 +431,19 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
     if (!["external", "internal"].includes(decoded.boundary_kind as string)) fail("MTCLI_INTERFACE_BOUNDARY", `${pointer}/boundary_kind`, "boundary_kind must be external or internal");
     if (!/^[1-9][0-9]*$/.test(decoded.version as string)) fail("MTCLI_INTERFACE_VERSION", `${pointer}/version`, "Interface version must be a positive integer string");
     if (!["exact", "backward"].includes(decoded.compatibility as string)) fail("MTCLI_INTERFACE_COMPATIBILITY", `${pointer}/compatibility`, "compatibility must be exact or backward");
+  }
+  if (kind === "Policy") {
+    const strategies = decoded.strategies as readonly string[];
+    if (!strategies.includes(decoded.default_strategy as string)) fail("MTCLI_POLICY_STRATEGY", `${pointer}/default_strategy`, "default_strategy must name one declared strategy");
+  }
+  if (kind === "Mapping" && !["inbound", "outbound", "bidirectional"].includes(decoded.direction as string)) {
+    fail("MTCLI_MAPPING_DIRECTION", `${pointer}/direction`, "direction must be inbound, outbound, or bidirectional");
+  }
+  if (kind === "Mapping") {
+    if (!["total", "partial"].includes(decoded.totality as string)) fail("MTCLI_MAPPING_TOTALITY", `${pointer}/totality`, "totality must be total or partial");
+    if (decoded.totality === "total" && (decoded.fields as readonly { readonly source_field: string | null; readonly default_value: unknown; readonly required: boolean }[]).some((field) => field.source_field !== null && field.required && field.default_value === null)) {
+      fail("MTCLI_MAPPING_TOTALITY", `${pointer}/fields`, "total Mapping cannot contain a required source without a default");
+    }
   }
   if (kind === "State Machine") {
     const states = decoded.states as readonly string[];
@@ -428,6 +488,22 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
 
 export function validateSelectedNodeRelationships(node: DecodedProjectNode): void {
   const selector = `${node.feature_id}:${node.node_id}`;
+  const exactOutgoingTargets = (relationshipId: "calculates" | "applies" | "maps"): readonly string[] => node.relationships
+    .filter((relationship) => relationship.relationship === relationshipId && `${relationship.source.feature_id}:${relationship.source.node_id}` === selector)
+    .map(({ target }) => `${target.feature_id}:${target.node_id}`);
+  if (node.kind === "Calculation") {
+    if (exactOutgoingTargets("calculates").length === 0) fail("MTCLI_CALCULATION_RELATIONSHIP", "/relationships", "Calculation requires at least one outgoing calculates relationship");
+    return;
+  }
+  if (node.kind === "Policy") {
+    if (exactOutgoingTargets("applies").length === 0) fail("MTCLI_POLICY_RELATIONSHIP", "/relationships", "Policy requires at least one outgoing applies relationship");
+    return;
+  }
+  if (node.kind === "Mapping") {
+    const targets = exactOutgoingTargets("maps");
+    if (targets.length !== 1 || targets[0] !== node.body.target) fail("MTCLI_MAPPING_RELATIONSHIP", "/relationships", "Mapping requires one outgoing maps relationship matching body.target");
+    return;
+  }
   if (node.kind === "Interface") {
     const requiredRefs = new Set((node.body.operations as readonly InterfaceOperationSpec[]).map(({ operation_ref }) => operation_ref));
     const observedRefs = new Set(node.relationships
@@ -484,6 +560,20 @@ interface NodeRecord extends DecodedEndpoint {
   readonly body: Record<string, unknown>;
   readonly decoded_body: DecodedBody | null;
   readonly relative_path: string;
+  readonly source_sha256: string;
+}
+
+function validateTypedValueObjectAdmission(body: DecodedBody, sourceSha256: string, pointer: string): void {
+  const contract = body.typed_contract as ReturnType<typeof decodeTypedRecordContract> | undefined;
+  if (!contract) return;
+  const identityIndexes = contract.properties.flatMap(({ identity }, index) => identity ? [index] : []);
+  const invariantRefs = body.invariant_refs as readonly string[] | undefined;
+  if (identityIndexes.length === 0 && invariantRefs !== undefined && invariantRefs.length > 0) return;
+  if (LEGACY_TYPED_VALUE_OBJECT_SOURCE_SHA256.has(sourceSha256)) return;
+  if (identityIndexes.length > 0) {
+    fail("MTCLI_TYPED_IDENTITY", `${pointer}/typed_contract/properties/${identityIndexes[0]}/identity`, "typed Value Object properties cannot designate Entity identity");
+  }
+  fail("MTCLI_VALUE_OBJECT_COMPLETE", `${pointer}/invariant_refs`, "typed Value Object requires at least one Rule invariant reference");
 }
 
 function readNodes(projectRoot: string, manifest: SourceManifestV1): Map<string, NodeRecord> {
@@ -497,6 +587,9 @@ function readNodes(projectRoot: string, manifest: SourceManifestV1): Map<string,
     const decodedBody = BODY_CONTRACTS[value.kind]
       ? decodeBody(value.kind, value.body, `/${source.relative_path}/body`)
       : null;
+    if (value.kind === "Value Object" && decodedBody !== null) {
+      validateTypedValueObjectAdmission(decodedBody, source.sha256, `/${source.relative_path}/body`);
+    }
     nodes.set(`${value.feature_id}:${value.node_id}`, {
       feature_id: value.feature_id,
       node_id: value.node_id,
@@ -504,6 +597,7 @@ function readNodes(projectRoot: string, manifest: SourceManifestV1): Map<string,
       body: value.body,
       decoded_body: decodedBody,
       relative_path: source.relative_path,
+      source_sha256: source.sha256,
     });
   }
   return nodes;
@@ -607,6 +701,32 @@ function relationshipsFor(selector: string, relationships: readonly DecodedRelat
   ));
 }
 
+function mappingFieldTypes(node: NodeRecord): ReadonlyMap<string, string> {
+  const body = node.decoded_body!;
+  const contract = body.typed_contract as ReturnType<typeof decodeTypedRecordContract> | undefined;
+  if ((node.kind === "Entity" || node.kind === "Value Object") && contract?.schema_version === "domainspec.typed-record/v1") {
+    return new Map(contract.properties.map((property) => [property.name, `typed:${canonicalJson(property.type)}`]));
+  }
+  if (node.kind === "Entity" || node.kind === "Value Object") {
+    return new Map((body.fields as readonly FieldSpec[]).map((field) => [field.field_id, `field:${canonicalJson(field.type_ref)}`]));
+  }
+  if (node.kind === "Interface") {
+    return new Map((body.operations as readonly InterfaceOperationSpec[]).flatMap(({ request, result }) => [...request, ...result]).map((field) => [field.field_id, `field:${canonicalJson(field.type_ref)}`]));
+  }
+  return new Map();
+}
+
+function namedTypedSelectors(type: TypedType): readonly string[] {
+  if (type.kind === "named") return [type.selector];
+  if (type.kind === "set" || type.kind === "list" || type.kind === "optional") return namedTypedSelectors(type.element);
+  if (type.kind === "sum") return type.variants.flatMap(({ payload }) => payload === null ? [] : namedTypedSelectors(payload));
+  return [];
+}
+
+function generatedTypeName(selector: string): string {
+  return selector.split(/[^A-Za-z0-9]+/).filter(Boolean).map((word) => `${word[0]?.toUpperCase() ?? ""}${word.slice(1)}`).join("") || "DomainNode";
+}
+
 function validateBackendRelationshipClosures(
   projectRoot: string,
   projectId: string,
@@ -615,10 +735,27 @@ function validateBackendRelationshipClosures(
   relationships: readonly DecodedRelationship[],
 ): void {
   for (const [selector, node] of nodes) {
-    if (!["Entity", "Value Object", "Enum", "Event", "Interface", "Workflow", "State Machine"].includes(node.kind)) continue;
+    if (!["Entity", "Value Object", "Enum", "Calculation", "Policy", "Event", "Interface", "Mapping", "Workflow", "State Machine"].includes(node.kind)) continue;
     if (node.decoded_body === null) fail("MTCLI_INPUT_BODY", `/${node.relative_path}/body`, `${node.kind} body was not decoded`);
     const body = node.decoded_body;
     const hasTypedContract = body.typed_contract !== undefined;
+    if ((node.kind === "Entity" || node.kind === "Value Object") && hasTypedContract) {
+      const contract = body.typed_contract as ReturnType<typeof decodeTypedRecordContract>;
+      const namedSelectors = [...new Set(contract.properties.flatMap(({ type }) => namedTypedSelectors(type)))].sort();
+      const generatedNames = new Map<string, string>();
+      for (const typedSelector of namedSelectors) {
+        const target = nodes.get(typedSelector);
+        if (!target || !["Entity", "Value Object", "Enum", "Event"].includes(target.kind)) {
+          throw new TypedContractError("MTCLI_TYPED_CLOSURE_MISSING", `/${node.relative_path}/body/typed_contract`, `typed named reference must resolve to an Entity, Value Object, Enum, or Event node:${typedSelector}`);
+        }
+        const name = generatedTypeName(typedSelector);
+        const prior = generatedNames.get(name);
+        if (prior !== undefined && prior !== typedSelector) {
+          fail("MTCLI_TYPE_IDENTIFIER_COLLISION", `/${node.relative_path}/body/typed_contract`, `typed selectors collide after target identifier normalization:${prior},${typedSelector}`);
+        }
+        generatedNames.set(name, typedSelector);
+      }
+    }
     const fieldSets: readonly (readonly FieldSpec[])[] = hasTypedContract
       ? []
       : node.kind === "Entity" || node.kind === "Value Object"
@@ -635,7 +772,7 @@ function validateBackendRelationshipClosures(
         fail("MTCLI_TYPE_REFERENCE", `/${node.relative_path}/body/fields/${index}/type_ref`, "typed reference must resolve to an Entity, Value Object, Enum, or Event node");
       }
     }
-    if (node.kind === "Value Object" && !hasTypedContract) for (const [index, invariantRef] of (body.invariant_refs as readonly string[]).entries()) {
+    if (node.kind === "Value Object") for (const [index, invariantRef] of ((body.invariant_refs as readonly string[] | undefined) ?? []).entries()) {
       const invariant = nodes.get(invariantRef);
       if (!invariant || invariant.kind !== "Rule") fail("MTCLI_VALUE_OBJECT_INVARIANT_REFERENCE", `/${node.relative_path}/body/invariant_refs/${index}`, "invariant reference must resolve to a Rule node");
     }
@@ -646,6 +783,28 @@ function validateBackendRelationshipClosures(
       const target = nodes.get(operation.operation_ref);
       if (!target || !["Operation", "Query"].includes(target.kind)) {
         fail("MTCLI_INTERFACE_OPERATION_REFERENCE", `/${node.relative_path}/body/operations/${index}/operation_ref`, "Interface operation reference must resolve to an Operation or Query node");
+      }
+    }
+    if (node.kind === "Policy") for (const [index, decision] of (body.decisions as readonly { readonly rule_ref: string }[]).entries()) {
+      const target = nodes.get(decision.rule_ref);
+      if (!target || target.kind !== "Rule") fail("MTCLI_POLICY_RULE", `/${node.relative_path}/body/decisions/${index}/rule_ref`, "Policy decision must resolve to a Rule node");
+    }
+    if (node.kind === "Mapping") {
+      const endpoints: NodeRecord[] = [];
+      for (const key of ["source", "target"] as const) {
+        const target = nodes.get(String(body[key]));
+        if (!target || !["Entity", "Interface"].includes(target.kind)) fail("MTCLI_MAPPING_ENDPOINT", `/${node.relative_path}/body/${key}`, "Mapping endpoint must resolve to an Entity or Interface node");
+        endpoints.push(target);
+      }
+      const sourceFields = mappingFieldTypes(endpoints[0]!);
+      const targetFields = mappingFieldTypes(endpoints[1]!);
+      for (const [index, field] of (body.fields as readonly MappingField[]).entries()) {
+        if (!targetFields.has(field.target_field)) fail("MTCLI_MAPPING_TARGET_FIELD", `/${node.relative_path}/body/fields/${index}/target_field`, `Mapping target field is absent:${field.target_field}`);
+        if (field.source_field !== null && !sourceFields.has(field.source_field)) fail("MTCLI_MAPPING_SOURCE_FIELD", `/${node.relative_path}/body/fields/${index}/source_field`, `Mapping source field is absent:${field.source_field}`);
+        if (field.conversion === "identity" && field.source_field !== null) {
+          const sourceType = sourceFields.get(field.source_field); const targetType = targetFields.get(field.target_field);
+          if (sourceType !== targetType) fail("MTCLI_MAPPING_TYPE", `/${node.relative_path}/body/fields/${index}`, "identity Mapping requires equal source and target field types");
+        }
       }
     }
     if (node.kind === "State Machine") {
@@ -660,7 +819,7 @@ function validateBackendRelationshipClosures(
         }
       }
     }
-    if (!["Workflow", "State Machine", "Interface"].includes(node.kind)) continue;
+    if (!["Calculation", "Policy", "Mapping", "Workflow", "State Machine", "Interface"].includes(node.kind)) continue;
     validateSelectedNodeRelationships(Object.freeze({
       project_root: projectRoot,
       project_id: projectId,
@@ -735,6 +894,118 @@ function compileObligationWitnesses(relationships: readonly DecodedRelationship[
   }).sort((left, right) => left.witness_id.localeCompare(right.witness_id)));
 }
 
+const BACKEND_META_TYPE_LABELS = new Set(FROZEN_META_TYPE_CATALOG.backend_meta_types.map(({ label }) => label));
+const BACKEND_RELATIONSHIP_SIGNATURES = Object.freeze(RELATIONSHIP_SIGNATURES.filter((signature) =>
+  signature.source_types.every((type) => BACKEND_META_TYPE_LABELS.has(type)) &&
+  signature.target_types.every((type) => BACKEND_META_TYPE_LABELS.has(type))
+));
+
+if (BACKEND_RELATIONSHIP_SIGNATURES.length !== 17) {
+  fail("MTCLI_COMPILED_OBLIGATION", "/relationships", `backend relationship denominator drift:${BACKEND_RELATIONSHIP_SIGNATURES.length}`);
+}
+
+function compileObligationApplicability(
+  nodes: readonly CompiledProjectGraphNode[],
+  relationships: readonly DecodedRelationship[],
+): readonly CompiledObligationApplicability[] {
+  const obligationIds = [...new Set(BACKEND_RELATIONSHIP_SIGNATURES.flatMap(({ validation_obligations }) => validation_obligations))].sort();
+  return Object.freeze(obligationIds.map((obligationId): CompiledObligationApplicability => {
+    const signatures = BACKEND_RELATIONSHIP_SIGNATURES.filter(({ validation_obligations }) => validation_obligations.includes(obligationId));
+    const relationshipIds = Object.freeze(signatures.map(({ id }) => id).sort());
+    const matching = relationships.filter(({ relationship }) => relationshipIds.includes(relationship)).sort((left, right) => left.edge_id.localeCompare(right.edge_id));
+    if (matching.length > 0) {
+      const first = matching[0]!;
+      return Object.freeze({
+        obligation_id: obligationId,
+        classification: "applicable",
+        relationship_ids: relationshipIds,
+        source_selector: `${first.source.feature_id}:${first.source.node_id}`,
+        reason: `witnessed by authored relationship:${first.edge_id}`,
+      });
+    }
+    const sourceTypes = new Set(signatures.flatMap(({ source_types }) => source_types));
+    const candidate = nodes.find(({ kind }) => sourceTypes.has(kind));
+    return Object.freeze({
+      obligation_id: obligationId,
+      classification: "inapplicable",
+      relationship_ids: relationshipIds,
+      source_selector: candidate?.selector ?? `relationship-authority:${relationshipIds[0]}#${obligationId}`,
+      reason: `no authored instance of backend relationships:${relationshipIds.join(",")}`,
+    });
+  }));
+}
+
+function obligationFailure(witness: CompiledRelationshipObligationWitness, reason: string): never {
+  fail("MTCLI_COMPILED_OBLIGATION_ENFORCEMENT", `/obligation_witnesses/${witness.witness_id}`, reason);
+}
+
+export function evaluateCompiledObligationWitness(
+  graph: Pick<CompiledProjectGraph, "nodes" | "relationships">,
+  witness: CompiledRelationshipObligationWitness,
+): CompiledObligationOutcome {
+  const edge = graph.relationships.find(({ edge_id }) => edge_id === witness.edge_id);
+  if (!edge) obligationFailure(witness, `witness edge is absent:${witness.edge_id}`);
+  const deprecatedAlias = witness.family === "deprecation" ? deprecatedRelationship(edge.relationship) : null;
+  const signature = relationshipSignature(deprecatedAlias?.replacement ?? edge.relationship);
+  if (!signature || !signature.validation_obligations.includes(witness.obligation_id)) obligationFailure(witness, "witness is not governed by its claimed relationship obligation");
+  const expectedFamily = /^reject_non_.+_(?:source|target)$/.test(witness.obligation_id) ? "endpoint"
+    : ["admit_same_and_cross_feature_scope", "reject_cross_feature_scope", "reject_enforces_cross_label", "require_admitted_workflow_scope"].includes(witness.obligation_id) ? "scope"
+      : ["reject_multiple_sources_per_target", "reject_multiple_targets_per_source"].includes(witness.obligation_id) ? "multiplicity"
+        : ["reject_authored_generated_projection", "derive_creation_targets_from_edge"].includes(witness.obligation_id) ? "generated-projection"
+          : witness.obligation_id === "reject_inverse_collapse_with_owns" ? "inverse-collapse"
+            : witness.obligation_id === "reject_deprecated_queries_alias" ? "deprecation" : null;
+  if (expectedFamily === null || expectedFamily !== witness.family) obligationFailure(witness, "witness family does not match the executable obligation branch");
+  const expectedPredicate = Object.freeze({
+    relationship_id: signature.id,
+    allowed_source_types: Object.freeze([...signature.source_types]),
+    allowed_target_types: Object.freeze([...signature.target_types]),
+    allowed_scopes: Object.freeze([...signature.feature_scope]),
+    multiplicity: signature.multiplicity,
+    inverse_kind: signature.inverse.kind,
+    generated_projection_attribute: signature.generated_source_projection?.attribute ?? null,
+  });
+  if (canonicalJson(witness.predicate) !== canonicalJson(expectedPredicate)) obligationFailure(witness, "witness predicate differs from the frozen relationship signature");
+  const actualWitness = Object.freeze({
+    scope: edge.scope,
+    source_selector: `${edge.source.feature_id}:${edge.source.node_id}`,
+    source_type: edge.source.kind,
+    target_selector: `${edge.target.feature_id}:${edge.target.node_id}`,
+    target_type: edge.target.kind,
+  });
+  if (canonicalJson(witness.witness) !== canonicalJson(actualWitness)) obligationFailure(witness, "witness endpoints differ from the compiled edge");
+  const sourceNode = graph.nodes.find(({ selector }) => selector === actualWitness.source_selector);
+  const targetNode = graph.nodes.find(({ selector }) => selector === actualWitness.target_selector);
+  if (!sourceNode || !targetNode || sourceNode.kind !== edge.source.kind || targetNode.kind !== edge.target.kind) obligationFailure(witness, "compiled edge endpoint does not resolve to a node of the claimed type");
+
+  if (witness.family === "endpoint") {
+    if (!signature.source_types.includes(edge.source.kind) || !signature.target_types.includes(edge.target.kind)) obligationFailure(witness, "relationship endpoint violates its admitted type set");
+  } else if (witness.family === "scope") {
+    const sameFeature = edge.source.feature_id === edge.target.feature_id;
+    const admitted = signature.feature_scope.includes(sameFeature ? "same-feature" : "cross-feature");
+    if (!admitted || (edge.scope === "feature") !== sameFeature) obligationFailure(witness, "relationship scope is not admitted by the frozen signature");
+    if (witness.obligation_id === "reject_enforces_cross_label" && edge.source.kind === edge.target.kind) obligationFailure(witness, "enforces endpoints collapse distinct labels");
+  } else if (witness.family === "multiplicity") {
+    const peers = graph.relationships.filter(({ relationship }) => relationship === edge.relationship);
+    const sameSource = peers.filter(({ source }) => source.feature_id === edge.source.feature_id && source.node_id === edge.source.node_id);
+    const sameTarget = peers.filter(({ target }) => target.feature_id === edge.target.feature_id && target.node_id === edge.target.node_id);
+    if (witness.obligation_id === "reject_multiple_targets_per_source" && sameSource.length !== 1) obligationFailure(witness, "relationship source has multiple targets");
+    if (witness.obligation_id === "reject_multiple_sources_per_target" && sameTarget.length !== 1) obligationFailure(witness, "relationship target has multiple sources");
+  } else if (witness.family === "generated-projection") {
+    const attribute = signature.generated_source_projection?.attribute;
+    if (!attribute) obligationFailure(witness, "generated-projection obligation lacks a projection declaration");
+    if (sourceNode.authored_forbidden_projection_attributes.includes(attribute)) obligationFailure(witness, "generated projection was authored rather than derived");
+    const expectedTargets = graph.relationships.filter(({ relationship, source }) => relationship === edge.relationship && `${source.feature_id}:${source.node_id}` === sourceNode.selector)
+      .map(({ target }) => `${target.feature_id}:${target.node_id}`).sort();
+    if (canonicalJson(sourceNode.generated_relationship_projections[attribute] ?? []) !== canonicalJson(expectedTargets)) obligationFailure(witness, "generated projection does not equal outgoing relationship targets");
+  } else if (witness.family === "inverse-collapse") {
+    const inverse = graph.relationships.find((candidate) => candidate.relationship === "owns" && candidate.source.feature_id === edge.target.feature_id && candidate.source.node_id === edge.target.node_id && candidate.target.feature_id === edge.source.feature_id && candidate.target.node_id === edge.source.node_id);
+    if (inverse) obligationFailure(witness, "belongs-to duplicates the generated inverse of owns");
+  } else if (witness.family === "deprecation") {
+    if (deprecatedAlias) obligationFailure(witness, `deprecated relationship alias entered the compiled graph:${edge.relationship}->${deprecatedAlias.replacement}`);
+  }
+  return Object.freeze({ witness_id: witness.witness_id, obligation_id: witness.obligation_id, family: witness.family, outcome: "pass" });
+}
+
 export function validateCompiledProjectGraphObligations(graph: CompiledProjectGraph): CompiledProjectGraph {
   const expectedWitnesses = compileObligationWitnesses(graph.relationships);
   if (JSON.stringify(expectedWitnesses) !== JSON.stringify(graph.obligation_witnesses)) {
@@ -747,6 +1018,14 @@ export function validateCompiledProjectGraphObligations(graph: CompiledProjectGr
     if (JSON.stringify(expectedIds) !== JSON.stringify(node.applicable_obligation_ids)) {
       fail("MTCLI_COMPILED_OBLIGATION", `/nodes/${node.selector}/applicable_obligation_ids`, "compiled node omitted or changed an applicable DS-D8 obligation ID");
     }
+  }
+  const expectedApplicability = compileObligationApplicability(graph.nodes, graph.relationships);
+  if (canonicalJson(expectedApplicability) !== canonicalJson(graph.obligation_applicability)) {
+    fail("MTCLI_COMPILED_OBLIGATION", "/obligation_applicability", "compiled graph omitted or changed a backend DS-D8 applicability classification");
+  }
+  const outcomes = Object.freeze(graph.obligation_witnesses.map((witness) => evaluateCompiledObligationWitness(graph, witness)));
+  if (canonicalJson(outcomes) !== canonicalJson(graph.obligation_outcomes)) {
+    fail("MTCLI_COMPILED_OBLIGATION", "/obligation_outcomes", "compiled graph omitted or changed an executable DS-D8 witness outcome");
   }
   return graph;
 }
@@ -793,6 +1072,8 @@ export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectG
       });
     })
     .sort((left, right) => left.selector.localeCompare(right.selector));
+  const applicability = compileObligationApplicability(nodes, model.relationships);
+  const outcomes = Object.freeze(obligationWitnesses.map((witness) => evaluateCompiledObligationWitness({ nodes, relationships: model.relationships }, witness)));
   return validateCompiledProjectGraphObligations(Object.freeze({
     schema_version: "domainspec.compiled-project-graph/v1-candidate",
     project_root: model.project_root,
@@ -800,7 +1081,9 @@ export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectG
     source_manifest: model.source_manifest,
     nodes: Object.freeze(nodes),
     relationships: model.relationships,
+    obligation_applicability: applicability,
     obligation_witnesses: obligationWitnesses,
+    obligation_outcomes: outcomes,
     authority_effect: "none",
   }));
 }
@@ -842,7 +1125,7 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
   const metaTypeId = metaTypeIdForLabel(selected.kind);
   const body = selected.decoded_body ?? decodeBody(selected.kind, selected.body, `/${selected.relative_path}/body`);
   const projectRelationships = model.relationships;
-  const selectedTypedContract = body.typed_contract;
+  const selectedTypedContract = ["Operation", "Query", "Rule"].includes(selected.kind) ? body.typed_contract : undefined;
   const closureSources: TypedClosureSourceNode[] = [];
   if (selectedTypedContract !== undefined) {
     for (const candidate of nodes.values()) {

@@ -2,9 +2,16 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { decodeBody, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
+import { decodeBody, loadCompiledProjectGraph, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { sha256, type SourceManifestV1 } from "../input/source-manifest.js";
-import { decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
+import {
+  decodeTypedOperationContract,
+  decodeTypedRuleContract,
+  type RuleExpression,
+  type TypedOperationContract,
+  type TypedParameter,
+} from "../typed-operation/contracts.js";
+import type { CalculationSemantics, MappingField, PolicyDecision } from "../static-semantics/contracts.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
@@ -26,6 +33,7 @@ export interface AddOperationResult {
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
+  readonly relationship_paths: readonly string[];
   readonly source_manifest: SourceManifestV1;
   readonly authority_effect: "none";
 }
@@ -46,9 +54,47 @@ export interface AddRuleResult {
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
+  readonly relationship_paths: readonly string[];
   readonly source_manifest: SourceManifestV1;
   readonly authority_effect: "none";
 }
+
+export interface AddQueryInput {
+  readonly sourceRoot: string;
+  readonly featureId: string;
+  readonly nodeId: string;
+  readonly description: string;
+  readonly reads: readonly string[];
+  readonly typedContract: TypedOperationContract;
+}
+
+export interface AddQueryResult {
+  readonly schema_version: "domainspec.add-query-result/v1";
+  readonly publication_protocol: "domainspec.atomic-authored-node/v1";
+  readonly source_root: string;
+  readonly selector: string;
+  readonly node_path: string;
+  readonly relationship_paths: readonly string[];
+  readonly source_manifest: SourceManifestV1;
+  readonly authority_effect: "none";
+}
+
+interface AddStaticResultBase {
+  readonly publication_protocol: "domainspec.atomic-authored-node/v1";
+  readonly source_root: string;
+  readonly selector: string;
+  readonly node_path: string;
+  readonly relationship_paths: readonly string[];
+  readonly source_manifest: SourceManifestV1;
+  readonly authority_effect: "none";
+}
+
+export interface AddCalculationInput { readonly sourceRoot: string; readonly featureId: string; readonly nodeId: string; readonly description: string; readonly inputs: readonly string[]; readonly semantics: CalculationSemantics; readonly calculates: readonly string[]; }
+export interface AddCalculationResult extends AddStaticResultBase { readonly schema_version: "domainspec.add-calculation-result/v1"; }
+export interface AddPolicyInput { readonly sourceRoot: string; readonly featureId: string; readonly nodeId: string; readonly description: string; readonly strategies: readonly string[]; readonly decisions: readonly PolicyDecision[]; readonly defaultStrategy: string; readonly applies: readonly string[]; }
+export interface AddPolicyResult extends AddStaticResultBase { readonly schema_version: "domainspec.add-policy-result/v1"; }
+export interface AddMappingInput { readonly sourceRoot: string; readonly featureId: string; readonly nodeId: string; readonly description: string; readonly sourceNodeId: string; readonly targetNodeId: string; readonly direction: "inbound" | "outbound" | "bidirectional"; readonly totality: "total" | "partial"; readonly fields: readonly MappingField[]; }
+export interface AddMappingResult extends AddStaticResultBase { readonly schema_version: "domainspec.add-mapping-result/v1"; }
 
 export class SourceAuthoringError extends Error {
   readonly exitCode = 22;
@@ -91,7 +137,7 @@ interface AuthoringLock {
   readonly inode: number;
 }
 
-function acquireLock(root: string, operation: "add-operation" | "add-rule"): AuthoringLock {
+function acquireLock(root: string, operation: "add-operation" | "add-query" | "add-rule" | "add-calculation" | "add-policy" | "add-mapping"): AuthoringLock {
   const lockPath = path.join(path.dirname(root), `.${path.basename(root)}.domainspec-authoring.lock`);
   let descriptor: number;
   try {
@@ -194,14 +240,51 @@ function validateRuleInput(input: AddRuleInput): Record<string, unknown> {
   };
 }
 
+function validateQueryInput(input: AddQueryInput): Record<string, unknown> {
+  requireId(input.featureId, "/feature");
+  requireId(input.nodeId, "/name");
+  requireText(input.description, "/description");
+  requireSet(input.reads, "/reads");
+  if (input.reads.length === 0) fail("MTCLI_QUERY_READS", "/reads", "Query must read at least one Entity");
+  input.reads.forEach((read, index) => requireId(read, `/reads/${index}`));
+  const typedContract = decodeTypedOperationContract(input.typedContract);
+  if (typedContract.writes.length !== 0 || typedContract.effects.length !== 0) {
+    fail("MTCLI_QUERY_READ_ONLY", "/typed-contract", "Query writes and effects must be empty");
+  }
+  const expectedReads = input.reads.map((read) => `${input.featureId}:${read}`).sort(compareIds);
+  if (JSON.stringify([...typedContract.reads].sort(compareIds)) !== JSON.stringify(expectedReads)) {
+    fail("MTCLI_QUERY_READS", "/typed-contract/reads", "typed Query reads must exactly match authored reads targets");
+  }
+  const graph = loadCompiledProjectGraph(input.sourceRoot);
+  for (const read of input.reads) {
+    const selector = `${input.featureId}:${read}`;
+    const target = graph.nodes.find((node) => node.selector === selector);
+    if (!target || target.kind !== "Entity") {
+      fail("MTCLI_RELATIONSHIP_ENDPOINT", "/reads", `reads requires an Entity target:${target?.kind ?? "missing"}`);
+    }
+  }
+  return {
+    description: input.description.trim(),
+    reads: [...input.reads].sort(compareIds),
+    typed_contract: typedContract,
+  };
+}
+
+interface AuthorRelationshipInput {
+  readonly edgeId: string;
+  readonly relationship: "reads" | "calculates" | "applies" | "maps";
+  readonly targetNodeId: string;
+}
+
 interface AuthorNodeInput {
   readonly sourceRoot: string;
   readonly featureId: string;
   readonly nodeId: string;
-  readonly kind: "Operation" | "Rule";
-  readonly metaTypeId: "DS-D1.4" | "DS-D1.7";
-  readonly transaction: "add-operation" | "add-rule";
+  readonly kind: "Operation" | "Query" | "Calculation" | "Rule" | "Policy" | "Mapping";
+  readonly metaTypeId: "DS-D1.4" | "DS-D1.5" | "DS-D1.6" | "DS-D1.7" | "DS-D1.8" | "DS-D1.13";
+  readonly transaction: "add-operation" | "add-query" | "add-calculation" | "add-rule" | "add-policy" | "add-mapping";
   readonly body: Record<string, unknown>;
+  readonly relationships: readonly AuthorRelationshipInput[];
 }
 
 interface AuthorNodeResult {
@@ -209,6 +292,7 @@ interface AuthorNodeResult {
   readonly source_root: string;
   readonly selector: string;
   readonly node_path: string;
+  readonly relationship_paths: readonly string[];
   readonly source_manifest: SourceManifestV1;
   readonly authority_effect: "none";
 }
@@ -222,10 +306,35 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
   const nodeRelativePath = `specs/${input.featureId}/nodes/${input.nodeId}.json`;
   const nodeAbsolutePath = path.join(root, nodeRelativePath);
   if (fs.existsSync(nodeAbsolutePath)) fail("MTCLI_AUTHORING_NODE_EXISTS", "/name", `node already exists:${input.featureId}:${input.nodeId}`);
+  const relationshipDocuments = input.relationships.map((relationship) => {
+    requireId(relationship.edgeId, "/relationships/edge-id");
+    requireId(relationship.targetNodeId, "/relationships/target-node-id");
+    const relativePath = `specs/${input.featureId}/edges/${relationship.edgeId}.json`;
+    return Object.freeze({
+      relativePath,
+      absolutePath: path.join(root, relativePath),
+      document: canonicalDocument({
+        schema_version: "domainspec.edge/v1",
+        edge_id: relationship.edgeId,
+        feature_id: input.featureId,
+        relationship: relationship.relationship,
+        source_node_id: input.nodeId,
+        target_node_id: relationship.targetNodeId,
+        scope: "feature",
+      }),
+    });
+  });
+  for (const relationship of relationshipDocuments) {
+    if (fs.existsSync(relationship.absolutePath)) fail("MTCLI_AUTHORING_EDGE_EXISTS", "/relationships", `edge already exists:${relationship.relativePath}`);
+  }
 
   const lock = acquireLock(root, input.transaction);
   let stageRoot: string | null = null;
-  let nodePublished = false;
+  const publishedPaths: { readonly path: string; readonly dev: number; readonly ino: number; readonly sha256: string }[] = [];
+  const rememberPublishedPath = (publishedPath: string): void => {
+    const identity = fs.lstatSync(publishedPath);
+    publishedPaths.push(Object.freeze({ path: publishedPath, dev: identity.dev, ino: identity.ino, sha256: sha256(fs.readFileSync(publishedPath)) }));
+  };
   try {
     const lockedManifest = validateProjectRoot(root);
     if (lockedManifest.manifest_sha256 !== initialManifest.manifest_sha256) {
@@ -235,6 +344,9 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
 
     const feature = readFeature(root, input.featureId);
     if (feature.value.nodes.includes(input.nodeId)) fail("MTCLI_AUTHORING_NODE_EXISTS", "/name", `feature already declares:${input.nodeId}`);
+    for (const relationship of input.relationships) {
+      if (feature.value.edges.includes(relationship.edgeId)) fail("MTCLI_AUTHORING_EDGE_EXISTS", "/relationships", `feature already declares:${relationship.edgeId}`);
+    }
 
     const nodeDocument = canonicalDocument({
       schema_version: "domainspec.node/v1",
@@ -247,13 +359,18 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
       schema_version: "domainspec.feature/v1",
       feature_id: input.featureId,
       nodes: [...feature.value.nodes, input.nodeId].sort(compareIds),
-      edges: [...feature.value.edges],
+      edges: [...feature.value.edges, ...input.relationships.map(({ edgeId }) => edgeId)].sort(compareIds),
     });
 
     stageRoot = fs.mkdtempSync(path.join(path.dirname(root), `.${path.basename(root)}.${input.transaction}-`));
     copyDeclaredSources(root, stageRoot, lockedManifest);
     fs.mkdirSync(path.dirname(path.join(stageRoot, nodeRelativePath)), { recursive: true, mode: 0o755 });
     fs.writeFileSync(path.join(stageRoot, nodeRelativePath), nodeDocument, { encoding: "utf8", flag: "wx", mode: 0o644 });
+    for (const relationship of relationshipDocuments) {
+      const stagedPath = path.join(stageRoot, relationship.relativePath);
+      fs.mkdirSync(path.dirname(stagedPath), { recursive: true, mode: 0o755 });
+      fs.writeFileSync(stagedPath, relationship.document, { encoding: "utf8", flag: "wx", mode: 0o644 });
+    }
     fs.writeFileSync(path.join(stageRoot, feature.relativePath), featureDocument, { encoding: "utf8", flag: "w", mode: 0o644 });
 
     const prospectiveManifest = validateProjectRoot(stageRoot);
@@ -267,9 +384,16 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
       fail("MTCLI_AUTHORING_SOURCE_DRIFT", "/source-root", "source project changed during authoring transaction");
     }
     if (fs.existsSync(nodeAbsolutePath)) fail("MTCLI_AUTHORING_NODE_EXISTS", "/name", `node appeared during authoring:${input.featureId}:${input.nodeId}`);
+    for (const relationship of relationshipDocuments) {
+      if (fs.existsSync(relationship.absolutePath)) fail("MTCLI_AUTHORING_EDGE_EXISTS", "/relationships", `edge appeared during authoring:${relationship.relativePath}`);
+    }
 
     fs.writeFileSync(nodeAbsolutePath, nodeDocument, { encoding: "utf8", flag: "wx", mode: 0o644 });
-    nodePublished = true;
+    rememberPublishedPath(nodeAbsolutePath);
+    for (const relationship of relationshipDocuments) {
+      fs.writeFileSync(relationship.absolutePath, relationship.document, { encoding: "utf8", flag: "wx", mode: 0o644 });
+      rememberPublishedPath(relationship.absolutePath);
+    }
 
     const featureTemporaryPath = path.join(
       path.dirname(feature.absolutePath),
@@ -283,17 +407,25 @@ function authorNode(input: AuthorNodeInput): AuthorNodeResult {
       throw error;
     }
 
-    nodePublished = false;
+    publishedPaths.length = 0;
     return Object.freeze({
       publication_protocol: "domainspec.atomic-authored-node/v1" as const,
       source_root: root,
       selector: `${input.featureId}:${input.nodeId}`,
       node_path: nodeRelativePath,
+      relationship_paths: Object.freeze(relationshipDocuments.map(({ relativePath }) => relativePath).sort(compareIds)),
       source_manifest: prospectiveManifest,
       authority_effect: "none",
     });
   } catch (error) {
-    if (nodePublished) fs.rmSync(nodeAbsolutePath, { force: true });
+    for (const published of publishedPaths.reverse()) {
+      try {
+        const current = fs.lstatSync(published.path);
+        if (current.dev === published.dev && current.ino === published.ino && sha256(fs.readFileSync(published.path)) === published.sha256) fs.unlinkSync(published.path);
+      } catch (cleanupError) {
+        if ((cleanupError as NodeJS.ErrnoException).code !== "ENOENT") throw cleanupError;
+      }
+    }
     throw error;
   } finally {
     if (stageRoot !== null) fs.rmSync(stageRoot, { recursive: true, force: true });
@@ -312,6 +444,7 @@ export function addOperation(input: AddOperationInput): AddOperationResult {
       kind: "Operation",
       metaTypeId: "DS-D1.4",
       transaction: "add-operation",
+      relationships: [],
       body: {
         description: input.description.trim(),
         reads: [...input.reads],
@@ -336,6 +469,64 @@ export function addRule(input: AddRuleInput): AddRuleResult {
       metaTypeId: "DS-D1.7",
       transaction: "add-rule",
       body,
+      relationships: [],
     }),
   });
+}
+
+export function addQuery(input: AddQueryInput): AddQueryResult {
+  const body = validateQueryInput(input);
+  const relationships = input.reads.map((targetNodeId) => Object.freeze({
+    edgeId: `${input.nodeId}-reads-${targetNodeId}`,
+    relationship: "reads" as const,
+    targetNodeId,
+  }));
+  return Object.freeze({
+    schema_version: "domainspec.add-query-result/v1",
+    ...authorNode({
+      sourceRoot: input.sourceRoot,
+      featureId: input.featureId,
+      nodeId: input.nodeId,
+      kind: "Query",
+      metaTypeId: "DS-D1.5",
+      transaction: "add-query",
+      body,
+      relationships,
+    }),
+  });
+}
+
+function requireTargets(sourceRoot: string, featureId: string, nodeIds: readonly string[], kinds: readonly string[], pointer: string): void {
+  requireSet(nodeIds, pointer);
+  const graph = loadCompiledProjectGraph(sourceRoot);
+  for (const [index, nodeId] of nodeIds.entries()) {
+    requireId(nodeId, `${pointer}/${index}`);
+    const target = graph.nodes.find(({ selector }) => selector === `${featureId}:${nodeId}`);
+    if (!target || !kinds.includes(target.kind)) fail("MTCLI_RELATIONSHIP_ENDPOINT", pointer, `expected ${kinds.join("|")} target:${nodeId}`);
+  }
+}
+
+export function addCalculation(input: AddCalculationInput): AddCalculationResult {
+  requireId(input.featureId, "/feature"); requireId(input.nodeId, "/name"); requireText(input.description, "/description");
+  if (input.calculates.length === 0) fail("MTCLI_CALCULATION_RELATIONSHIP", "/calculates", "Calculation requires an Operation target");
+  requireTargets(input.sourceRoot, input.featureId, input.calculates, ["Operation"], "/calculates");
+  const body = decodeBody("Calculation", { description: input.description.trim(), inputs: input.inputs, semantics: input.semantics });
+  return Object.freeze({ schema_version: "domainspec.add-calculation-result/v1", ...authorNode({ sourceRoot: input.sourceRoot, featureId: input.featureId, nodeId: input.nodeId, kind: "Calculation", metaTypeId: "DS-D1.6", transaction: "add-calculation", body, relationships: input.calculates.map((targetNodeId) => Object.freeze({ edgeId: `${input.nodeId}-calculates-${targetNodeId}`, relationship: "calculates" as const, targetNodeId })) }) });
+}
+
+export function addPolicy(input: AddPolicyInput): AddPolicyResult {
+  requireId(input.featureId, "/feature"); requireId(input.nodeId, "/name"); requireText(input.description, "/description");
+  if (input.applies.length === 0) fail("MTCLI_POLICY_RELATIONSHIP", "/applies", "Policy requires an Operation or Calculation target");
+  requireTargets(input.sourceRoot, input.featureId, input.applies, ["Operation", "Calculation"], "/applies");
+  const graph = loadCompiledProjectGraph(input.sourceRoot);
+  for (const decision of input.decisions) if (!graph.nodes.some(({ selector, kind }) => selector === decision.rule_ref && kind === "Rule")) fail("MTCLI_POLICY_RULE", "/decisions", `Policy Rule is missing:${decision.rule_ref}`);
+  const body = decodeBody("Policy", { description: input.description.trim(), strategies: input.strategies, decisions: input.decisions, default_strategy: input.defaultStrategy });
+  return Object.freeze({ schema_version: "domainspec.add-policy-result/v1", ...authorNode({ sourceRoot: input.sourceRoot, featureId: input.featureId, nodeId: input.nodeId, kind: "Policy", metaTypeId: "DS-D1.8", transaction: "add-policy", body, relationships: input.applies.map((targetNodeId) => Object.freeze({ edgeId: `${input.nodeId}-applies-${targetNodeId}`, relationship: "applies" as const, targetNodeId })) }) });
+}
+
+export function addMapping(input: AddMappingInput): AddMappingResult {
+  requireId(input.featureId, "/feature"); requireId(input.nodeId, "/name"); requireText(input.description, "/description");
+  requireTargets(input.sourceRoot, input.featureId, [input.sourceNodeId, input.targetNodeId], ["Entity", "Interface"], "/mapping-endpoints");
+  const body = decodeBody("Mapping", { description: input.description.trim(), source: `${input.featureId}:${input.sourceNodeId}`, target: `${input.featureId}:${input.targetNodeId}`, direction: input.direction, totality: input.totality, fields: input.fields });
+  return Object.freeze({ schema_version: "domainspec.add-mapping-result/v1", ...authorNode({ sourceRoot: input.sourceRoot, featureId: input.featureId, nodeId: input.nodeId, kind: "Mapping", metaTypeId: "DS-D1.13", transaction: "add-mapping", body, relationships: [Object.freeze({ edgeId: `${input.nodeId}-maps-${input.targetNodeId}`, relationship: "maps", targetNodeId: input.targetNodeId })] }) });
 }

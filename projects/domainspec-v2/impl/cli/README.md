@@ -7,9 +7,16 @@ its 39 realization rows, and exposes the following command forms:
 
 ```text
 domainspec-v2 add operation <source-project-root> --feature <feature> --name <operation> --description <text> --guard <guard> --failure-continuation <continuation> [--reads <csv>] [--writes <csv>] [--effects <csv>]
+domainspec-v2 add query <source-project-root> --feature <feature> --name <query> --description <text> --reads <csv> --typed-contract-json <json>
+domainspec-v2 add calculation <source-project-root> --feature <feature> --name <calculation> --description <text> --inputs <csv> --semantics-json <json> --calculates <operation-csv>
 domainspec-v2 add rule <source-project-root> --feature <feature> --name <rule> --description <text> --ontology-rule <selector> --parameters-json <json> --expression-json <json>
+domainspec-v2 add policy <source-project-root> --feature <feature> --name <policy> --description <text> --strategies <csv> --decisions-json <json> --default-strategy <strategy> --applies <operation-or-calculation-csv>
+domainspec-v2 add mapping <source-project-root> --feature <feature> --name <mapping> --description <text> --source <entity-or-interface> --target <entity-or-interface> --direction <inbound|outbound|bidirectional> --totality <total|partial> --fields-json <json>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root>
 domainspec-v2 instantiate <source-project-root> --node <feature>:<node> --language <typescript|python|rust> --target-root <absolute-new-root> --integration-profile provider-neutral-v1 --integration-binding-set <binding-set-id>
+domainspec-v2 instantiate-project <source-project-root> --languages typescript,python,rust --target-root <absolute-new-root>
+domainspec-v2 instantiate-project <source-project-root> --languages typescript --target-root <absolute-new-root>
+domainspec-v2 verify-project <source-project-root> --target-root <absolute-new-root>
 domainspec-v2 formalize <source-project-root> --target <absolute-new-lean-file>
 domainspec-v2 formalize-check <source-project-root> --target <absolute-lean-file>
 domainspec-v2 lint <source-or-instantiated-target-root>
@@ -35,12 +42,36 @@ every referenced node, property, variant, and Rule before publication. The
 three generators consume that typed closure; an untyped Rule fails explicitly
 instead of receiving a truthiness default.
 
+`add calculation`, `add policy`, and `add mapping` author closed static
+semantics rather than descriptive placeholders. Calculations bind named numeric
+inputs, an expression tree, explicit rounding, and finite/error behavior.
+Policies bind ordered Rule conditions, a closed strategy set, and an explicit
+default while rejecting ambiguous simultaneous matches. Mappings bind exact
+source and target fields, conversions, defaults, requiredness, direction, and
+totality; incompatible identity conversions fail during project compilation.
+
 `instantiate` decodes one of the 13 closed backend meta types, plans one
 deterministic language artifact, and publishes the artifact plus a
 baseline-bound receipt through a single atomic directory rename. It never
 updates an existing target. `lint` and `receipt` independently re-read an
 instantiated target, reproduce the expected generator output for the selected
 frozen row, and reject undeclared files or semantic drift.
+
+`instantiate-project` plans every compiled node for one or more explicitly
+selected languages from one immutable source identity. It stages all artifacts privately, claims
+the target with an exclusive directory create, installs artifacts without
+replacement, and links a digest-bound receipt last. A private claim token
+prevents rollback from deleting a hostile replacement. `verify-project` runs
+the complete source, compiled-graph, DS-D8 obligation, artifact, receipt,
+formalization-currentness, and isolated exact-source replay checks in one
+command. Generated TypeScript, Python, and Rust files are passed to `tsc`,
+`python3 -m py_compile`, and `rustc` respectively, and every generated Cargo
+manifest is parsed by `cargo metadata`; a missing or rejecting
+toolchain fails the command. `DOMAINSPEC_TSC`, `DOMAINSPEC_PYTHON`,
+`DOMAINSPEC_RUSTC`, and `DOMAINSPEC_CARGO` may bind exact absolute executables;
+otherwise the four
+commands must resolve on `PATH`. Its receipt exposes eight explicit passing checks
+and zero skipped or inferred checks; it remains evidence-only.
 
 `formalize` decodes and validates the entire authored project before it creates
 one generated Lean module plus three reusable checked-refinement modules. The
@@ -73,6 +104,15 @@ shape and proves that successful checked compilation returns all three facts;
 actual SHA-256 computation and source admission remain TypeScript/compiler
 responsibilities. These finite Lean proofs do not establish runtime
 conformance, business acceptance, publication, or external authority.
+
+The graph-bound certificate also records node and edge denominators, the frozen
+13-type and 17-relationship denominators, every applicable backend obligation
+ID, every passing executable witness outcome, compiler/tool versions, baseline
+identity, relationship-authority digest, and an explicit no-authority ceiling.
+The compiler classifies all 28 backend DS-D8 obligation IDs as applicable or
+inapplicable with a source selector and reason; endpoint, scope, multiplicity,
+generated-projection, inverse-collapse, and deprecation witnesses are
+reevaluated before the graph is accepted.
 
 The optional system-integration pair is explicit and closed: both options must
 be present or both absent. The CLI reads
@@ -119,8 +159,14 @@ vocabulary. Primitive references are limited to `string`, `boolean`,
 `integer`, `decimal`, `timestamp`, and `uuid`; named references must resolve to
 an Entity, Value Object, Enum, or Event in the compiled project graph. Entities
 designate one required identity field and compare identity independently of
-mutable state. Value Objects require a complete field set, no identity, exact
-Rule invariant references, and structural equality. Events declare their
+mutable state. Value Objects require a complete field set, no Entity-style
+runtime object identity semantics, recursive structural equality, defensive
+deep copies at construction and snapshot boundaries, zero identity-marked
+typed properties, and at least one exact Rule invariant reference. A closed
+exact-source-digest bridge preserves immutable pre-L1 typed Value Object
+predecessors only; any byte change removes that compatibility. Typed-record
+property metadata is otherwise preserved without changing equality into Entity
+identity. Events declare their
 event type, positive integer version, required occurrence identity,
 occurred-at policy, and typed payload. Interfaces declare external/internal
 boundary kind, version, exact/backward compatibility direction, and typed
@@ -138,8 +184,8 @@ The supported target environment is Linux x64 in the repository Node toolchain
 container with Node.js `v26.8.1` and npm `11.19.0`. The development workspace
 uses the same container with pnpm `10.34.5`; this private CLI package has its
 own npm `11.19.0` lock and package boundary. Clean-package validation packs the
-compiled output into an isolated temporary consumer and compares two generated
-targets byte for byte. These checks are implementation evidence only; they do
+compiled output into isolated temporary consumers, exercises both whole-project
+commands, and compares their plans and generated targets byte for byte. These checks are implementation evidence only; they do
 not publish, release, deploy, or claim production readiness.
 
 ## Closed Governance-kernel instantiation

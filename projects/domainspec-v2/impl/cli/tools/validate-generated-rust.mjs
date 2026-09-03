@@ -15,13 +15,13 @@ const samples = {
   Enum: { description: "Enum", values: ["one", "two"] },
   Operation: { description: "Operation", reads: ["entity"], writes: ["entity.state"], effects: ["Changed"], guard: "allowed", failure_continuation: "return-error" },
   Query: { description: "Query", reads: ["entity"] },
-  Calculation: { description: "Calculation", inputs: ["left", "right"] },
+  Calculation: { description: "Calculation", inputs: ["left", "right"], semantics: { schema_version: "domainspec.calculation-semantics/v1", result: "number", expression: { op: "add", terms: [{ op: "input", name: "left" }, { op: "input", name: "right" }] }, rounding: { mode: "none", scale: 0 } } },
   Rule: { description: "Rule", predicate: "candidate" },
-  Policy: { description: "Policy", strategies: ["first"] },
+  Policy: { description: "Policy", strategies: ["first"], decisions: [{ rule_ref: "feature:valid", strategy: "first" }], default_strategy: "first" },
   Workflow: { description: "Workflow", steps: ["operate"], compensations: ["undo"] },
   Interface: { description: "Interface", boundary_kind: "internal", version: "1", compatibility: "exact", operations: [{ operation_id: "operate", operation_ref: "feature:operate", request: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }], result: [{ field_id: "accepted", type_ref: { kind: "primitive", name: "boolean" }, required: true }] }] },
   Event: { description: "Event", event_type: "event", version: "1", occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, occurred_at_policy: "required", payload: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }] },
-  Mapping: { description: "Mapping", source: "Source", target: "Target" },
+  Mapping: { description: "Mapping", source: "feature:entity", target: "feature:entity", direction: "outbound", totality: "partial", fields: [{ target_field: "value", source_field: "value", default_value: null, required: true, conversion: "identity" }] },
   "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: null, effect_event_ref: null }] },
 };
 
@@ -41,7 +41,13 @@ try {
   const compiled = [];
   for (const metaType of FROZEN_META_TYPE_CATALOG.backend_meta_types) {
     const nodeId = metaType.label.toLowerCase().replaceAll(" ", "-");
-    const relationships = metaType.label === "Workflow" ? Object.freeze([
+    const relationships = metaType.label === "Calculation" ? Object.freeze([
+      Object.freeze({ edge_id: "calculation-calculates-operate", relationship: "calculates", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Calculation" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) }),
+    ]) : metaType.label === "Policy" ? Object.freeze([
+      Object.freeze({ edge_id: "policy-applies-operate", relationship: "applies", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Policy" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) }),
+    ]) : metaType.label === "Mapping" ? Object.freeze([
+      Object.freeze({ edge_id: "mapping-maps-entity", relationship: "maps", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Mapping" }), target: Object.freeze({ feature_id: "feature", node_id: "entity", kind: "Entity" }) }),
+    ]) : metaType.label === "Workflow" ? Object.freeze([
       Object.freeze({ edge_id: "workflow-operate", relationship: "orchestrates", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Workflow" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) }),
       Object.freeze({ edge_id: "workflow-undo", relationship: "orchestrates", scope: "feature", source: Object.freeze({ feature_id: "feature", node_id: nodeId, kind: "Workflow" }), target: Object.freeze({ feature_id: "feature", node_id: "undo", kind: "Operation" }) }),
     ]) : metaType.label === "Interface" ? Object.freeze([

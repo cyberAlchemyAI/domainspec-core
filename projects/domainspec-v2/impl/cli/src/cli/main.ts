@@ -3,16 +3,20 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { addOperation, addRule, type AddOperationInput, type AddRuleInput } from "../authoring/add-operation.js";
-import { decodeRuleExpression, decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
+import { addCalculation, addMapping, addOperation, addPolicy, addQuery, addRule, type AddCalculationInput, type AddMappingInput, type AddOperationInput, type AddPolicyInput, type AddQueryInput, type AddRuleInput } from "../authoring/add-operation.js";
+import { decodeRuleExpression, decodeTypedOperationContract, decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
 import { observeTarget, observeTargetReceipt } from "../conformance/observe-target.js";
 import { readInstantiationReceipt } from "../conformance/receipt.js";
 import { planInstantiation } from "../generation/plan-instantiation.js";
 import { publishInstantiation } from "../generation/publish-instantiation.js";
+import { planProjectInstantiation } from "../generation/project-instantiation.js";
+import { publishProjectInstantiation } from "../generation/publish-project.js";
 import { checkLeanMetaTypeFormalization, materializeLeanMetaTypeFormalization } from "../formalization/projection.js";
 import { loadCompiledProjectGraph, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { normalizeLanguage } from "../meta-types/catalog.js";
 import { loadSystemIntegrationSelection } from "../system-integration/compiler.js";
+import { decodeCalculationSemantics, decodeMappingFields, decodePolicyDecisions } from "../static-semantics/contracts.js";
+import { verifyProject } from "../verification/verify-project.js";
 
 export interface CliIo {
   readonly stdout: (value: string) => void;
@@ -125,6 +129,71 @@ function addRuleArgs(args: readonly string[]): AddRuleInput {
   });
 }
 
+function addQueryArgs(args: readonly string[]): AddQueryInput {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage("add query requires one absolute source project root");
+  const values = new Map<string, string>();
+  const allowedOptions = ["--feature", "--name", "--description", "--reads", "--typed-contract-json"];
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index];
+    const value = args[index + 1];
+    if (!option || !allowedOptions.includes(option) || value === undefined || value.startsWith("--")) usage("add query received an unsupported or unvalued option");
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  for (const required of allowedOptions) if (!values.has(required)) usage(`add query requires ${required}`);
+  return Object.freeze({
+    sourceRoot,
+    featureId: values.get("--feature")!,
+    nodeId: values.get("--name")!,
+    description: values.get("--description")!,
+    reads: parseCsvSet(values.get("--reads"), "--reads"),
+    typedContract: decodeTypedOperationContract(parseJsonOption(values.get("--typed-contract-json")!, "--typed-contract-json")),
+  });
+}
+
+function valuedOptions(args: readonly string[], command: string, allowed: readonly string[]): ReadonlyMap<string, string> {
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !allowed.includes(option) || value === undefined || value.startsWith("--")) usage(`${command} received an unsupported or unvalued option`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  for (const required of allowed) if (!values.has(required)) usage(`${command} requires ${required}`);
+  return values;
+}
+
+function staticSourceRoot(args: readonly string[], command: string): string {
+  const root = args[0];
+  if (!root || !path.isAbsolute(root)) usage(`${command} requires one absolute source project root`);
+  return root;
+}
+
+function addCalculationArgs(args: readonly string[]): AddCalculationInput {
+  const sourceRoot = staticSourceRoot(args, "add calculation");
+  const values = valuedOptions(args, "add calculation", ["--feature", "--name", "--description", "--inputs", "--semantics-json", "--calculates"]);
+  const inputs = parseCsvSet(values.get("--inputs"), "--inputs");
+  return Object.freeze({ sourceRoot, featureId: values.get("--feature")!, nodeId: values.get("--name")!, description: values.get("--description")!, inputs, semantics: decodeCalculationSemantics(parseJsonOption(values.get("--semantics-json")!, "--semantics-json"), inputs), calculates: parseCsvSet(values.get("--calculates"), "--calculates") });
+}
+
+function addPolicyArgs(args: readonly string[]): AddPolicyInput {
+  const sourceRoot = staticSourceRoot(args, "add policy");
+  const values = valuedOptions(args, "add policy", ["--feature", "--name", "--description", "--strategies", "--decisions-json", "--default-strategy", "--applies"]);
+  const strategies = parseCsvSet(values.get("--strategies"), "--strategies");
+  return Object.freeze({ sourceRoot, featureId: values.get("--feature")!, nodeId: values.get("--name")!, description: values.get("--description")!, strategies, decisions: decodePolicyDecisions(parseJsonOption(values.get("--decisions-json")!, "--decisions-json"), strategies), defaultStrategy: values.get("--default-strategy")!, applies: parseCsvSet(values.get("--applies"), "--applies") });
+}
+
+function addMappingArgs(args: readonly string[]): AddMappingInput {
+  const sourceRoot = staticSourceRoot(args, "add mapping");
+  const values = valuedOptions(args, "add mapping", ["--feature", "--name", "--description", "--source", "--target", "--direction", "--totality", "--fields-json"]);
+  const direction = values.get("--direction");
+  if (direction !== "inbound" && direction !== "outbound" && direction !== "bidirectional") usage("--direction must be inbound, outbound, or bidirectional");
+  const totality = values.get("--totality");
+  if (totality !== "total" && totality !== "partial") usage("--totality must be total or partial");
+  return Object.freeze({ sourceRoot, featureId: values.get("--feature")!, nodeId: values.get("--name")!, description: values.get("--description")!, sourceNodeId: values.get("--source")!, targetNodeId: values.get("--target")!, direction, totality, fields: decodeMappingFields(parseJsonOption(values.get("--fields-json")!, "--fields-json")) });
+}
+
 interface InstantiateArgs {
   readonly sourceRoot: string;
   readonly node: string;
@@ -163,12 +232,31 @@ function instantiateArgs(args: readonly string[]): InstantiateArgs {
   });
 }
 
+function instantiateProjectArgs(args: readonly string[]): { readonly sourceRoot: string; readonly languages: readonly ("typescript" | "python" | "rust")[]; readonly targetRoot: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage("instantiate-project requires one absolute source project root");
+  const values = valuedOptions(args, "instantiate-project", ["--languages", "--target-root"]);
+  const languages = parseCsvSet(values.get("--languages"), "--languages").map((language) => normalizeLanguage(language));
+  if (languages.length < 1 || languages.length > 3 || new Set(languages).size !== languages.length) usage("instantiate-project requires one or more unique supported languages");
+  const targetRoot = values.get("--target-root")!;
+  if (!path.isAbsolute(targetRoot)) usage("--target-root must be absolute");
+  return Object.freeze({ sourceRoot, languages: Object.freeze(languages), targetRoot });
+}
+
 function formalizeArgs(args: readonly string[], command: "formalize" | "formalize-check"): { readonly sourceRoot: string; readonly targetPath: string } {
   const sourceRoot = args[0];
   if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target" || !path.isAbsolute(args[2] ?? "")) {
     usage(`${command} requires one absolute source project root and --target <absolute-file>`);
   }
   return Object.freeze({ sourceRoot, targetPath: args[2]! });
+}
+
+function verifyProjectArgs(args: readonly string[]): { readonly sourceRoot: string; readonly targetRoot: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target-root" || !path.isAbsolute(args[2] ?? "")) {
+    usage("verify-project requires one absolute source project root and --target-root <absolute-directory>");
+  }
+  return Object.freeze({ sourceRoot, targetRoot: args[2]! });
 }
 
 function isInstantiationTarget(root: string): boolean {
@@ -193,15 +281,26 @@ export function runCli(argv: readonly string[], io: CliIo = {
   try {
     const [command, ...args] = argv;
     if (command === "add") {
-      if (args[0] !== "operation" && args[0] !== "rule") usage("add requires a supported meta-type: operation or rule");
-      const result = args[0] === "operation" ? addOperation(addOperationArgs(args.slice(1))) : addRule(addRuleArgs(args.slice(1)));
+      if (!args[0] || !["operation", "query", "calculation", "rule", "policy", "mapping"].includes(args[0])) usage("add requires a supported meta-type: operation, query, calculation, rule, policy, or mapping");
+      const result = args[0] === "operation"
+        ? addOperation(addOperationArgs(args.slice(1)))
+        : args[0] === "query"
+          ? addQuery(addQueryArgs(args.slice(1)))
+          : args[0] === "calculation"
+            ? addCalculation(addCalculationArgs(args.slice(1)))
+            : args[0] === "rule"
+              ? addRule(addRuleArgs(args.slice(1)))
+              : args[0] === "policy"
+                ? addPolicy(addPolicyArgs(args.slice(1)))
+                : addMapping(addMappingArgs(args.slice(1)));
       objectOutput(io, {
-        schema_version: args[0] === "operation" ? "domainspec.add-operation-command-result/v1" : "domainspec.add-rule-command-result/v1",
+        schema_version: `domainspec.add-${args[0]}-command-result/v1`,
         result: "pass",
         publication_protocol: result.publication_protocol,
         source_root: result.source_root,
         selector: result.selector,
         node_path: result.node_path,
+        relationship_paths: result.relationship_paths,
         source_manifest_sha256: result.source_manifest.manifest_sha256,
         source_count: result.source_manifest.source_count,
         authority_effect: result.authority_effect,
@@ -228,6 +327,18 @@ export function runCli(argv: readonly string[], io: CliIo = {
         observation,
         authority_effect: "none",
       });
+      return 0;
+    }
+    if (command === "instantiate-project") {
+      const parsed = instantiateProjectArgs(args);
+      const plan = planProjectInstantiation(parsed.sourceRoot, parsed.languages);
+      const publication = publishProjectInstantiation(plan, parsed.targetRoot);
+      objectOutput(io, { schema_version: "domainspec.instantiate-project-command-result/v1", result: "pass", target_root: publication.target_root, receipt_path: publication.receipt_path, project_plan_sha256: plan.project_plan_sha256, receipt_sha256: publication.receipt.receipt_sha256, graph_certificate: plan.graph_certificate, artifact_count: plan.artifacts.length, authority_effect: "none" });
+      return 0;
+    }
+    if (command === "verify-project") {
+      const parsed = verifyProjectArgs(args);
+      objectOutput(io, verifyProject(parsed.sourceRoot, parsed.targetRoot));
       return 0;
     }
     if (command === "formalize" || command === "formalize-check") {
@@ -284,7 +395,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       }
       return 0;
     }
-    usage("expected command: add operation, add rule, instantiate, formalize, formalize-check, lint, or receipt");
+    usage("expected command: add <meta-type>, instantiate, instantiate-project, verify-project, formalize, formalize-check, lint, or receipt");
   } catch (error) {
     objectOutput({ ...io, stdout: io.stderr }, errorEnvelope(error));
     const candidate = error as { exitCode?: unknown };

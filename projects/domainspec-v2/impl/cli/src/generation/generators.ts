@@ -2,8 +2,10 @@ import { canonicalJson } from "../input/source-manifest.js";
 import type { FieldSpec, InterfaceOperationSpec, StateTransitionSpec, TypeRef } from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import type { SupportedLanguage } from "../meta-types/types.js";
+import type { CalculationExpression, MappingField, PolicyDecision } from "../static-semantics/contracts.js";
+import type { TypedRecordContract, TypedType } from "../typed-operation/contracts.js";
 import type { GeneratorInput, GeneratorRegistration } from "./contracts.js";
-import { renderTypedRustOperation, renderTypedRustRule } from "../typed-operation/rust.js";
+import { renderTypedRustOperation, renderTypedRustQuery, renderTypedRustRule } from "../typed-operation/rust.js";
 
 const EXTENSIONS = Object.freeze({ typescript: "ts", python: "py", rust: "rs" } as const);
 const LOWER_IDENTIFIER_KEYWORDS = new Set([
@@ -258,6 +260,617 @@ def _domainspec_evaluate(selector: str, environment: dict[str, object]) -> bool:
 
 def ${fn}(parameters: dict[str, object]) -> bool:
     return _domainspec_evaluate(_DOMAINSPEC_RULE_ROOT, parameters)
+`;
+}
+
+function typedQueryProjection(input: GeneratorInput): Readonly<{
+  closureSha256: string;
+  operation: unknown;
+  properties: Readonly<Record<string, string>>;
+  rules: Readonly<Record<string, unknown>>;
+}> {
+  const closure = input.typed_closure;
+  if (input.kind !== "Query" || closure?.schema_version !== "domainspec.typed-operation-closure/v1") throw new Error("typed Query requires an operation-rooted semantic closure");
+  return Object.freeze({
+    closureSha256: closure.closure_sha256,
+    operation: closure.operation,
+    properties: Object.freeze(Object.fromEntries(closure.properties.map((row) => {
+      const field = row.domainspec_selector.split("#")[1];
+      if (field === undefined) throw new Error(`typed Query property binding lacks a field:${row.domainspec_selector}`);
+      return [row.ontology_property, field];
+    }))),
+    rules: Object.freeze(Object.fromEntries(closure.nodes.flatMap((node) => node.typed_contract.schema_version === "domainspec.typed-rule/v1" ? [[node.selector, node.typed_contract]] : []))),
+  });
+}
+
+function renderTypeScriptTypedQuery(input: GeneratorInput, fn: string, header: string): string {
+  const projection = typedQueryProjection(input);
+  return `${header}// domainspec-query-semantics: "domainspec.typed-operation/v1"
+export const DOMAINSPEC_QUERY_CLOSURE_SHA256 = ${JSON.stringify(projection.closureSha256)};
+const domainspecQueryOperation: any = Object.freeze(${canonicalJson(projection.operation)});
+const domainspecQueryProperties: Readonly<Record<string, string>> = Object.freeze(${canonicalJson(projection.properties)});
+const domainspecQueryRules: Readonly<Record<string, any>> = Object.freeze(${canonicalJson(projection.rules)});
+function domainspecQueryStable(value: unknown): string {
+  if (value instanceof Set) return JSON.stringify([...value].map(domainspecQueryStable).sort());
+  if (Array.isArray(value)) return JSON.stringify(value.map(domainspecQueryStable));
+  if (value !== null && typeof value === "object") return JSON.stringify(Object.fromEntries(Object.entries(value as Record<string, unknown>).sort(([left], [right]) => left.localeCompare(right)).map(([key, child]) => [key, domainspecQueryStable(child)])));
+  return JSON.stringify(value) ?? "undefined";
+}
+function domainspecQueryValue(expression: any, environment: Readonly<Record<string, unknown>>): any {
+  if (expression.op === "literal") return expression.value;
+  if (expression.op === "variant") return expression.selector;
+  if (expression.op === "to_set") return new Set((domainspecQueryValue(expression.value, environment) as readonly unknown[]).map(domainspecQueryStable));
+  let current: any = environment[expression.root];
+  for (const property of expression.properties as readonly string[]) {
+    const field = domainspecQueryProperties[property];
+    if (field === undefined) throw new Error("unresolved Query property:" + property);
+    current = Array.isArray(current) ? current.map((entry) => entry?.[field]) : current?.[field];
+  }
+  return current;
+}
+function domainspecQueryEqual(left: unknown, right: unknown): boolean { return domainspecQueryStable(left) === domainspecQueryStable(right); }
+function domainspecQueryCollection(value: unknown): readonly unknown[] { return value instanceof Set ? [...value] : Array.isArray(value) ? value : (() => { throw new Error("Query Rule quantifier requires a collection"); })(); }
+function domainspecQueryExpression(expression: any, environment: Readonly<Record<string, unknown>>): boolean {
+  if (expression.op === "all" || expression.op === "any") return expression.op === "all" ? expression.terms.every((term: any) => domainspecQueryExpression(term, environment)) : expression.terms.some((term: any) => domainspecQueryExpression(term, environment));
+  if (expression.op === "not") return !domainspecQueryExpression(expression.term, environment);
+  if (["eq", "lt", "set_equal", "contains"].includes(expression.op)) {
+    const left = domainspecQueryValue(expression.left, environment); const right = domainspecQueryValue(expression.right, environment);
+    if (expression.op === "lt") return typeof left === "number" && typeof right === "number" && left < right;
+    if (expression.op === "contains") return (left instanceof Set && left.has(domainspecQueryStable(right))) || (Array.isArray(left) && left.some((entry) => domainspecQueryEqual(entry, right)));
+    return domainspecQueryEqual(left, right);
+  }
+  if (["exactly_one", "exists", "unique"].includes(expression.op)) {
+    const values = domainspecQueryCollection(domainspecQueryValue(expression.collection, environment));
+    if (expression.op === "unique") return new Set(values.map((value) => domainspecQueryStable(domainspecQueryValue(expression.where.left, { ...environment, [expression.binding]: value })))).size === values.length;
+    const matches = values.filter((value) => domainspecQueryExpression(expression.where, { ...environment, [expression.binding]: value })).length;
+    return expression.op === "exactly_one" ? matches === 1 : matches > 0;
+  }
+  if (expression.op === "rule_ref") return domainspecQueryEvaluate(expression.selector, Object.fromEntries(expression.arguments.map((argument: any) => [argument.parameter, domainspecQueryValue(argument.value, environment)])));
+  throw new Error("unsupported Query Rule operator:" + String(expression.op));
+}
+function domainspecQueryEvaluate(selector: string, environment: Readonly<Record<string, unknown>>): boolean {
+  const contract = domainspecQueryRules[selector];
+  if (contract === undefined) throw new Error("unresolved Query Rule reference:" + selector);
+  if (!contract.parameters.every((parameter: any) => Object.hasOwn(environment, parameter.name))) throw new Error("missing Query Rule parameter:" + selector);
+  return domainspecQueryExpression(contract.expression, environment);
+}
+function domainspecQueryResult(constructor: any, environment: Readonly<Record<string, unknown>>): Readonly<Record<string, unknown>> {
+  if (Object.hasOwn(constructor, "payload")) return Object.freeze(constructor.payload === null
+    ? { variant: constructor.variant }
+    : { variant: constructor.variant, payload: domainspecQueryValue(constructor.payload, environment) });
+  return Object.freeze(constructor.payload_variant === null
+    ? { variant: constructor.variant }
+    : { variant: constructor.variant, payload: Object.freeze({ variant: constructor.payload_variant }) });
+}
+export function ${fn}(parameters: Readonly<Record<string, unknown>>): Readonly<Record<string, unknown>> {
+  if (!domainspecQueryOperation.inputs.every((parameter: any) => Object.hasOwn(parameters, parameter.name))) throw new Error("missing Query input");
+  return domainspecQueryResult(domainspecQueryEvaluate(domainspecQueryOperation.guard, parameters) ? domainspecQueryOperation.success_result : domainspecQueryOperation.failure_result, parameters);
+}
+`;
+}
+
+function renderPythonTypedQuery(input: GeneratorInput, fn: string, header: string): string {
+  const projection = typedQueryProjection(input);
+  return `${header}# domainspec-query-semantics: "domainspec.typed-operation/v1"
+import json
+
+DOMAINSPEC_QUERY_CLOSURE_SHA256 = ${JSON.stringify(projection.closureSha256)}
+_DOMAINSPEC_QUERY_OPERATION = json.loads(${JSON.stringify(canonicalJson(projection.operation))})
+_DOMAINSPEC_QUERY_PROPERTIES = json.loads(${JSON.stringify(canonicalJson(projection.properties))})
+_DOMAINSPEC_QUERY_RULES = json.loads(${JSON.stringify(canonicalJson(projection.rules))})
+
+def _domainspec_query_stable(value: object) -> str:
+    if isinstance(value, set): return json.dumps(sorted(_domainspec_query_stable(item) for item in value), separators=(",", ":"))
+    if isinstance(value, list): return json.dumps([_domainspec_query_stable(item) for item in value], separators=(",", ":"))
+    if isinstance(value, dict): return json.dumps({key: _domainspec_query_stable(value[key]) for key in sorted(value)}, separators=(",", ":"))
+    return json.dumps(value, separators=(",", ":"))
+
+def _domainspec_query_value(expression: dict[str, object], environment: dict[str, object]) -> object:
+    operation = expression["op"]
+    if operation == "literal": return expression["value"]
+    if operation == "variant": return expression["selector"]
+    if operation == "to_set": return {_domainspec_query_stable(item) for item in _domainspec_query_value(expression["value"], environment)}
+    current = environment[expression["root"]]
+    for property_selector in expression["properties"]:
+        field = _DOMAINSPEC_QUERY_PROPERTIES[property_selector]
+        current = [entry[field] for entry in current] if isinstance(current, list) else current[field]
+    return current
+
+def _domainspec_query_expression(expression: dict[str, object], environment: dict[str, object]) -> bool:
+    operation = expression["op"]
+    if operation in ("all", "any"):
+        values = (_domainspec_query_expression(term, environment) for term in expression["terms"])
+        return all(values) if operation == "all" else any(values)
+    if operation == "not": return not _domainspec_query_expression(expression["term"], environment)
+    if operation in ("eq", "lt", "set_equal", "contains"):
+        left = _domainspec_query_value(expression["left"], environment); right = _domainspec_query_value(expression["right"], environment)
+        if operation == "lt": return isinstance(left, (int, float)) and isinstance(right, (int, float)) and left < right
+        if operation == "contains": return _domainspec_query_stable(right) in left if isinstance(left, set) else any(_domainspec_query_stable(item) == _domainspec_query_stable(right) for item in left)
+        return _domainspec_query_stable(left) == _domainspec_query_stable(right)
+    if operation in ("exactly_one", "exists", "unique"):
+        collection = _domainspec_query_value(expression["collection"], environment)
+        if not isinstance(collection, (list, set, tuple)): raise ValueError("Query Rule quantifier requires a collection")
+        if operation == "unique":
+            keys = [_domainspec_query_stable(_domainspec_query_value(expression["where"]["left"], {**environment, expression["binding"]: item})) for item in collection]
+            return len(set(keys)) == len(keys)
+        matches = sum(1 for item in collection if _domainspec_query_expression(expression["where"], {**environment, expression["binding"]: item}))
+        return matches == 1 if operation == "exactly_one" else matches > 0
+    if operation == "rule_ref": return _domainspec_query_evaluate(expression["selector"], {argument["parameter"]: _domainspec_query_value(argument["value"], environment) for argument in expression["arguments"]})
+    raise ValueError(f"unsupported Query Rule operator:{operation}")
+
+def _domainspec_query_evaluate(selector: str, environment: dict[str, object]) -> bool:
+    contract = _DOMAINSPEC_QUERY_RULES.get(selector)
+    if contract is None: raise ValueError(f"unresolved Query Rule reference:{selector}")
+    if any(parameter["name"] not in environment for parameter in contract["parameters"]): raise ValueError(f"missing Query Rule parameter:{selector}")
+    return _domainspec_query_expression(contract["expression"], environment)
+
+def _domainspec_query_result(constructor: dict[str, object], environment: dict[str, object]) -> dict[str, object]:
+    if "payload" in constructor:
+        return {"variant": constructor["variant"]} if constructor["payload"] is None else {"variant": constructor["variant"], "payload": _domainspec_query_value(constructor["payload"], environment)}
+    return {"variant": constructor["variant"]} if constructor["payload_variant"] is None else {"variant": constructor["variant"], "payload": {"variant": constructor["payload_variant"]}}
+
+def ${fn}(parameters: dict[str, object]) -> dict[str, object]:
+    if any(parameter["name"] not in parameters for parameter in _DOMAINSPEC_QUERY_OPERATION["inputs"]): raise ValueError("missing Query input")
+    constructor = _DOMAINSPEC_QUERY_OPERATION["success_result"] if _domainspec_query_evaluate(_DOMAINSPEC_QUERY_OPERATION["guard"], parameters) else _DOMAINSPEC_QUERY_OPERATION["failure_result"]
+    return _domainspec_query_result(constructor, parameters)
+`;
+}
+
+function calculationExpression(body: Readonly<Record<string, unknown>>): CalculationExpression {
+  return (body.semantics as { readonly expression: CalculationExpression }).expression;
+}
+
+function policyDecisions(body: Readonly<Record<string, unknown>>): readonly PolicyDecision[] {
+  return body.decisions as readonly PolicyDecision[];
+}
+
+function mappingFields(body: Readonly<Record<string, unknown>>): readonly MappingField[] {
+  return body.fields as readonly MappingField[];
+}
+
+function typedRecord(body: Readonly<Record<string, unknown>>): TypedRecordContract {
+  return body.typed_contract as TypedRecordContract;
+}
+
+function typescriptTypedType(type: TypedType): string {
+  if (type.kind === "scalar") return ({ String: "string", Bool: "boolean", UInt64: "number" } as const)[type.name];
+  if (type.kind === "named") return `DomainspecRef<${JSON.stringify(type.selector)}>`;
+  if (type.kind === "set") return `ReadonlySet<${typescriptTypedType(type.element)}>`;
+  if (type.kind === "list") return `readonly ${typescriptTypedType(type.element)}[]`;
+  if (type.kind === "optional") return `${typescriptTypedType(type.element)} | null`;
+  return type.variants.map(({ name, payload }) => payload === null
+    ? `Readonly<{ readonly variant: ${JSON.stringify(name)} }>`
+    : `Readonly<{ readonly variant: ${JSON.stringify(name)}; readonly payload: ${typescriptTypedType(payload)} }>`).join(" | ");
+}
+
+function pythonTypedType(type: TypedType): string {
+  if (type.kind === "scalar") return ({ String: "str", Bool: "bool", UInt64: "int" } as const)[type.name];
+  if (type.kind === "named") return `Annotated[str, ${JSON.stringify(`domainspec-ref:${type.selector}`)}]`;
+  if (type.kind === "set") return `frozenset[${pythonTypedType(type.element)}]`;
+  if (type.kind === "list") return `tuple[${pythonTypedType(type.element)}, ...]`;
+  if (type.kind === "optional") return `${pythonTypedType(type.element)} | None`;
+  return `Annotated[dict[str, object], ${JSON.stringify(`domainspec-sum:${canonicalJson(type)}`)}]`;
+}
+
+function rustTypedType(type: TypedType): string {
+  if (type.kind === "scalar") return ({ String: "String", Bool: "bool", UInt64: "u64" } as const)[type.name];
+  if (type.kind === "named") return `DomainspecRef${pascal(type.selector)}`;
+  if (type.kind === "set") return `std::collections::BTreeSet<${rustTypedType(type.element)}>`;
+  if (type.kind === "list") return `Vec<${rustTypedType(type.element)}>`;
+  if (type.kind === "optional") return `Option<${rustTypedType(type.element)}>`;
+  return "DomainspecSumValue";
+}
+
+function rustRecordType(type: TypedType, rootName: string, pathName: string, definitions: string[]): string {
+  if (type.kind === "scalar" || type.kind === "named") return rustTypedType(type);
+  if (type.kind === "set") return `std::collections::BTreeSet<${rustRecordType(type.element, rootName, `${pathName}Item`, definitions)}>`;
+  if (type.kind === "list") return `Vec<${rustRecordType(type.element, rootName, `${pathName}Item`, definitions)}>`;
+  if (type.kind === "optional") return `Option<${rustRecordType(type.element, rootName, `${pathName}Value`, definitions)}>`;
+  const sumName = `${rootName}${pascal(pathName)}Sum`;
+  const variants = type.variants.map((variant) => variant.payload === null
+    ? `    ${pascal(variant.name)},`
+    : `    ${pascal(variant.name)}(${rustRecordType(variant.payload, rootName, `${pathName}${pascal(variant.name)}Payload`, definitions)}),`).join("\n");
+  definitions.push(`#[derive(Clone, Debug, PartialEq)]\npub enum ${sumName} {\n${variants}\n}`);
+  return sumName;
+}
+
+function namedTypedSelectors(type: TypedType): readonly string[] {
+  if (type.kind === "named") return [type.selector];
+  if (type.kind === "set" || type.kind === "list" || type.kind === "optional") return namedTypedSelectors(type.element);
+  if (type.kind === "sum") return type.variants.flatMap(({ payload }) => payload === null ? [] : namedTypedSelectors(payload));
+  return [];
+}
+
+function renderTypeScriptTypedRecord(input: GeneratorInput, name: string, header: string): string {
+  const contract = typedRecord(input.body);
+  const identity = contract.properties.find(({ identity }) => identity)?.name;
+  const comparisons = contract.properties.map(({ name: field }) => `domainspecStructuralEqual(this.#fields.${field}, other.#fields.${field})`).join(" && ") || "true";
+  const structuralEquality = input.kind === "Value Object" ? `function domainspecStructuralEqual(left: unknown, right: unknown): boolean {
+  if (Object.is(left, right)) return true;
+  if (Array.isArray(left) || Array.isArray(right)) return Array.isArray(left) && Array.isArray(right) && left.length === right.length && left.every((value, index) => domainspecStructuralEqual(value, right[index]));
+  if (left instanceof Set || right instanceof Set) {
+    if (!(left instanceof Set) || !(right instanceof Set) || left.size !== right.size) return false;
+    const unmatched = [...right];
+    for (const value of left) {
+      const match = unmatched.findIndex((candidate) => domainspecStructuralEqual(value, candidate));
+      if (match < 0) return false;
+      unmatched.splice(match, 1);
+    }
+    return unmatched.length === 0;
+  }
+  if (left !== null && right !== null && typeof left === "object" && typeof right === "object") {
+    const leftRecord = left as Readonly<Record<string, unknown>>;
+    const rightRecord = right as Readonly<Record<string, unknown>>;
+    const leftKeys = Object.keys(leftRecord).sort();
+    const rightKeys = Object.keys(rightRecord).sort();
+    return leftKeys.length === rightKeys.length && leftKeys.every((key, index) => key === rightKeys[index] && domainspecStructuralEqual(leftRecord[key], rightRecord[key]));
+  }
+  return false;
+}
+function domainspecCloneValue<T>(value: T): T {
+  if (Array.isArray(value)) return Object.freeze(value.map((entry) => domainspecCloneValue(entry))) as T;
+  if (value instanceof Set) return new Set([...value].map((entry) => domainspecCloneValue(entry))) as T;
+  if (value !== null && typeof value === "object") {
+    const result: Record<string, unknown> = {};
+    for (const key of Object.keys(value).sort()) result[key] = domainspecCloneValue((value as Record<string, unknown>)[key]);
+    return Object.freeze(result) as T;
+  }
+  return value;
+}
+` : "";
+  return `${header}// domainspec-record-semantics: "domainspec.typed-record/v1"
+// domainspec-ontology-node: ${JSON.stringify(contract.ontology_node)}
+type DomainspecRef<Selector extends string> = string & { readonly __domainspecRef: Selector };
+${structuralEquality}export interface ${name}Fields {
+${contract.properties.map((property) => `  readonly ${property.name}: ${typescriptTypedType(property.type)};`).join("\n")}
+}
+export class ${name} {
+  ${input.kind === "Value Object" ? `readonly #fields: Readonly<${name}Fields>;
+  constructor(fields: Readonly<${name}Fields>) { this.#fields = domainspecCloneValue(fields); }
+  equals(other: ${name}): boolean { return ${comparisons}; }
+  snapshot(): Readonly<${name}Fields> { return domainspecCloneValue(this.#fields); }` : `constructor(private readonly fields: Readonly<${name}Fields>) { this.fields = Object.freeze({ ...fields }); }
+  sameIdentity(other: ${name}): boolean { return ${identity ? `Object.is(this.fields.${identity}, other.fields.${identity})` : "false"}; }
+  snapshot(): Readonly<${name}Fields> { return this.fields; }`}
+}
+`;
+}
+
+function renderPythonTypedRecord(input: GeneratorInput, name: string, header: string): string {
+  const contract = typedRecord(input.body);
+  return `${header}# domainspec-record-semantics: "domainspec.typed-record/v1"
+# domainspec-ontology-node: ${JSON.stringify(contract.ontology_node)}
+from dataclasses import dataclass
+from typing import Annotated
+
+@dataclass(frozen=True)
+class ${name}:
+${contract.properties.map((property) => `    ${property.name}: ${pythonTypedType(property.type)}`).join("\n")}
+
+    def ${input.kind === "Entity" ? "same_identity" : "equals"}(self, other: "${name}") -> bool:
+        return ${input.kind === "Entity" ? `self.${contract.properties.find(({ identity }) => identity)?.name} == other.${contract.properties.find(({ identity }) => identity)?.name}` : "self == other"}
+`;
+}
+
+function renderRustTypedRecord(input: GeneratorInput, name: string, header: string): string {
+  const contract = typedRecord(input.body);
+  const selectors = [...new Set(contract.properties.flatMap(({ type }) => namedTypedSelectors(type)))].sort();
+  const sumDefinitions: string[] = [];
+  const properties = contract.properties.map((property) => Object.freeze({ property, rustType: rustRecordType(property.type, name, property.name, sumDefinitions) }));
+  const definitions = [...selectors.map((selector) => `#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]\npub struct DomainspecRef${pascal(selector)}(pub String);`), ...sumDefinitions].join("\n");
+  const identity = contract.properties.find(({ identity }) => identity)?.name;
+  return `${header}// domainspec-record-semantics: "domainspec.typed-record/v1"
+// domainspec-ontology-node: ${JSON.stringify(contract.ontology_node)}
+${definitions}
+#[derive(Clone, Debug, PartialEq)]
+pub struct ${name} {
+${properties.map(({ property, rustType }) => `    pub ${property.name}: ${rustType},`).join("\n")}
+}
+impl ${name} {
+    pub fn ${input.kind === "Entity" ? "same_identity" : "equals"}(&self, other: &Self) -> bool { ${input.kind === "Entity" ? `self.${identity} == other.${identity}` : "self == other"} }
+}
+`;
+}
+
+function roundingMode(input: GeneratorInput): Readonly<{ mode: string; scale: number }> {
+  return (input.body.semantics as { readonly rounding: Readonly<{ readonly mode: string; readonly scale: number }> }).rounding;
+}
+
+function typescriptRounded(expression: string, input: GeneratorInput): string {
+  const { mode, scale } = roundingMode(input); if (mode === "none") return expression;
+  const factor = 10 ** scale; const fn = mode === "toward-zero" ? "trunc" : mode;
+  if (mode === "half-away-from-zero") return `((value) => Math.sign(value) * Math.round(Math.abs(value) * ${factor}) / ${factor})(${expression})`;
+  return `Math.${fn}(${expression} * ${factor}) / ${factor}`;
+}
+
+function pythonRounded(expression: string, input: GeneratorInput): string {
+  const { mode, scale } = roundingMode(input); if (mode === "none") return expression;
+  const factor = 10 ** scale;
+  if (mode === "half-away-from-zero") return `_domainspec_calculation_half_away(${expression}, ${factor})`;
+  const fn = mode === "toward-zero" ? "trunc" : mode;
+  return `math.${fn}(${expression} * ${factor}) / ${factor}`;
+}
+
+function rustRounded(expression: string, input: GeneratorInput): string {
+  const { mode, scale } = roundingMode(input); if (mode === "none") return expression;
+  const factor = rustNumber(10 ** scale); const fn = mode === "toward-zero" ? "trunc" : mode === "half-away-from-zero" ? "round" : mode;
+  return `{ let value = (${expression})?; Ok::<f64, &'static str>((value * ${factor}).${fn}() / ${factor}) }`;
+}
+
+function renderTypeScriptCalculationExpression(expression: CalculationExpression): string {
+  if (expression.op === "literal") return JSON.stringify(expression.value);
+  if (expression.op === "input") return `domainspecCalculationInput(inputs, ${JSON.stringify(expression.name)})`;
+  if ("terms" in expression) {
+    if (expression.op === "add") return `(${expression.terms.map(renderTypeScriptCalculationExpression).join(" + ")})`;
+    if (expression.op === "multiply") return `(${expression.terms.map(renderTypeScriptCalculationExpression).join(" * ")})`;
+    return `Math.${expression.op}(${expression.terms.map(renderTypeScriptCalculationExpression).join(", ")})`;
+  }
+  if (expression.op === "subtract") return `(${renderTypeScriptCalculationExpression(expression.left)} - ${renderTypeScriptCalculationExpression(expression.right)})`;
+  const left = renderTypeScriptCalculationExpression(expression.left);
+  const right = renderTypeScriptCalculationExpression(expression.right);
+  return `(() => { const denominator = ${right}; if (denominator === 0) throw new Error("Calculation division by zero"); return ${left} / denominator; })()`;
+}
+
+function renderPythonCalculationExpression(expression: CalculationExpression): string {
+  if (expression.op === "literal") return JSON.stringify(expression.value);
+  if (expression.op === "input") return `_domainspec_calculation_input(inputs, ${JSON.stringify(expression.name)})`;
+  if ("terms" in expression) {
+    if (expression.op === "add") return `(${expression.terms.map(renderPythonCalculationExpression).join(" + ")})`;
+    if (expression.op === "multiply") return `(${expression.terms.map(renderPythonCalculationExpression).join(" * ")})`;
+    return `${expression.op}(${expression.terms.map(renderPythonCalculationExpression).join(", ")})`;
+  }
+  if (expression.op === "subtract") return `(${renderPythonCalculationExpression(expression.left)} - ${renderPythonCalculationExpression(expression.right)})`;
+  return `_domainspec_calculation_divide(${renderPythonCalculationExpression(expression.left)}, ${renderPythonCalculationExpression(expression.right)})`;
+}
+
+function rustNumber(value: number): string {
+  return Number.isInteger(value) ? `${value}.0` : String(value);
+}
+
+function renderRustCalculationExpression(expression: CalculationExpression): string {
+  if (expression.op === "literal") return `Ok::<f64, &'static str>(${rustNumber(expression.value)})`;
+  if (expression.op === "input") return `Ok::<f64, &'static str>(inputs.${snake(expression.name)})`;
+  if ("terms" in expression) {
+    if (expression.op === "add" || expression.op === "multiply") {
+      const operator = expression.op === "add" ? " + " : " * ";
+      return `Ok::<f64, &'static str>(${expression.terms.map((term) => `(${renderRustCalculationExpression(term)})?`).join(operator)})`;
+    }
+    const [first, ...rest] = expression.terms;
+    return `Ok::<f64, &'static str>((${renderRustCalculationExpression(first!)})?${rest.map((term) => `.${expression.op}((${renderRustCalculationExpression(term)})?)`).join("")})`;
+  }
+  if (expression.op === "subtract") return `Ok::<f64, &'static str>((${renderRustCalculationExpression(expression.left)})? - (${renderRustCalculationExpression(expression.right)})?)`;
+  return `{ let denominator = (${renderRustCalculationExpression(expression.right)})?; if denominator == 0.0 { Err("Calculation division by zero") } else { Ok::<f64, &'static str>((${renderRustCalculationExpression(expression.left)})? / denominator) } }`;
+}
+
+function pythonScalar(value: string | number | boolean | null): string {
+  if (value === null) return "None";
+  if (typeof value === "boolean") return value ? "True" : "False";
+  return JSON.stringify(value);
+}
+
+function rustStaticString(value: string): string {
+  let result = "\"";
+  for (let index = 0; index < value.length;) {
+    const codePoint = value.codePointAt(index)!;
+    index += codePoint > 0xffff ? 2 : 1;
+    if (codePoint === 0x22) result += "\\\"";
+    else if (codePoint === 0x5c) result += "\\\\";
+    else if (codePoint === 0x00) result += "\\0";
+    else if (codePoint === 0x09) result += "\\t";
+    else if (codePoint === 0x0a) result += "\\n";
+    else if (codePoint === 0x0d) result += "\\r";
+    else if (codePoint >= 0xd800 && codePoint <= 0xdfff) throw new Error("Rust string literal rejects unpaired UTF-16 surrogate");
+    else if (codePoint < 0x20 || (codePoint >= 0x7f && codePoint <= 0x9f)) result += `\\u{${codePoint.toString(16)}}`;
+    else result += String.fromCodePoint(codePoint);
+  }
+  return `${result}\"`;
+}
+
+function rustMappingScalar(value: string | number | boolean | null): string {
+  if (value === null) return "DomainspecMappingValue::Null";
+  if (typeof value === "string") return `DomainspecMappingValue::String(${rustStaticString(value)}.to_owned())`;
+  if (typeof value === "boolean") return `DomainspecMappingValue::Bool(${String(value)})`;
+  return `DomainspecMappingValue::Number(${rustNumber(value)})`;
+}
+
+function renderTypeScriptCalculation(input: GeneratorInput, fn: string, header: string): string {
+  const expression = typescriptRounded(renderTypeScriptCalculationExpression(calculationExpression(input.body)), input);
+  return `${header}// domainspec-calculation-semantics: "domainspec.calculation-semantics/v1"
+function domainspecCalculationInput(inputs: Readonly<Record<string, number>>, name: string): number {
+  const value = inputs[name];
+  if (typeof value !== "number" || !Number.isFinite(value)) throw new Error("missing or non-finite Calculation input:" + name);
+  return value;
+}
+export function ${fn}(inputs: Readonly<Record<string, number>>): number {
+  const result = ${expression};
+  if (!Number.isFinite(result)) throw new Error("non-finite Calculation result");
+  return result;
+}
+`;
+}
+
+function renderPythonCalculation(input: GeneratorInput, fn: string, header: string): string {
+  const expression = pythonRounded(renderPythonCalculationExpression(calculationExpression(input.body)), input);
+  return `${header}# domainspec-calculation-semantics: "domainspec.calculation-semantics/v1"
+import math
+
+def _domainspec_calculation_input(inputs: dict[str, float], name: str) -> float:
+    value = inputs.get(name)
+    if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value): raise ValueError(f"missing or non-finite Calculation input:{name}")
+    return float(value)
+
+def _domainspec_calculation_divide(left: float, right: float) -> float:
+    if right == 0: raise ValueError("Calculation division by zero")
+    return left / right
+
+def _domainspec_calculation_half_away(value: float, factor: float) -> float:
+    return math.copysign(math.floor(abs(value) * factor + 0.5) / factor, value)
+
+def ${fn}(inputs: dict[str, float]) -> float:
+    result = ${expression}
+    if not math.isfinite(result): raise ValueError("non-finite Calculation result")
+    return result
+`;
+}
+
+function renderRustCalculation(input: GeneratorInput, name: string, fn: string, header: string): string {
+  const expression = rustRounded(renderRustCalculationExpression(calculationExpression(input.body)), input);
+  const inputs = strings(input.body.inputs);
+  const fields = inputs.map((entry) => `    pub ${snake(entry)}: f64,`).join("\n");
+  const finiteChecks = inputs.map((entry) => `    if !inputs.${snake(entry)}.is_finite() { return Err(${rustStaticString(`missing or non-finite Calculation input:${entry}`)}); }`).join("\n");
+  return `${header}// domainspec-calculation-semantics: "domainspec.calculation-semantics/v1"
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct ${name}Inputs {
+${fields}
+}
+pub fn ${fn}(inputs: &${name}Inputs) -> Result<f64, &'static str> {
+${finiteChecks}
+    let result = (${expression})?;
+    if !result.is_finite() { return Err("non-finite Calculation result"); }
+    Ok(result)
+}
+`;
+}
+
+function renderTypeScriptPolicy(input: GeneratorInput, name: string, fn: string, header: string): string {
+  const decisions = policyDecisions(input.body);
+  const candidates = decisions.map(({ rule_ref, strategy }) => `  if (evaluateRule(${JSON.stringify(rule_ref)})) matches.push(${JSON.stringify(strategy)});`).join("\n");
+  return `${header}export const ${name}Strategies = Object.freeze(${JSON.stringify(strings(input.body.strategies))});
+// domainspec-policy-decision-order: ${canonicalJson(decisions)}
+export function ${fn}(evaluateRule: (ruleRef: string) => boolean): string {
+  const matches: string[] = [];
+${candidates}
+  if (matches.length > 1) throw new Error("ambiguous Policy selection");
+  if (matches.length === 1) return matches[0]!;
+  return ${JSON.stringify(text(input.body.default_strategy, ""))};
+}
+`;
+}
+
+function renderPythonPolicy(input: GeneratorInput, name: string, fn: string, header: string): string {
+  const decisions = policyDecisions(input.body);
+  const branches = decisions.map(({ rule_ref, strategy }) => `    if evaluate_rule(${JSON.stringify(rule_ref)}): matches.append(${JSON.stringify(strategy)})`).join("\n");
+  return `${header}${name.toUpperCase()}_STRATEGIES = tuple(${JSON.stringify(strings(input.body.strategies))})
+# domainspec-policy-decision-order: ${canonicalJson(decisions)}
+def ${fn}(evaluate_rule) -> str:
+    matches: list[str] = []
+${branches}
+    if len(matches) > 1: raise ValueError("ambiguous Policy selection")
+    if len(matches) == 1: return matches[0]
+    return ${JSON.stringify(text(input.body.default_strategy, ""))}
+`;
+}
+
+function renderRustPolicy(input: GeneratorInput, name: string, fn: string, header: string): string {
+  const decisions = policyDecisions(input.body);
+  const branches = decisions.map(({ rule_ref, strategy }) => `    if evaluate_rule(${rustStaticString(rule_ref)}) { matches.push(${rustStaticString(strategy)}); }`).join("\n");
+  return `${header}pub const ${snake(name).toUpperCase()}_STRATEGIES: &[&str] = ${rustSlice(strings(input.body.strategies))};
+// domainspec-policy-decision-order: ${canonicalJson(decisions)}
+pub fn ${fn}(evaluate_rule: impl Fn(&str) -> bool) -> Result<&'static str, &'static str> {
+    let mut matches = Vec::new();
+${branches}
+    if matches.len() > 1 { return Err("ambiguous Policy selection"); }
+    Ok(matches.first().copied().unwrap_or(${rustStaticString(text(input.body.default_strategy, ""))}))
+}
+`;
+}
+
+function renderTypeScriptMapping(input: GeneratorInput, fn: string, header: string): string {
+  const statements = mappingFields(input.body).map((field) => {
+    const target = JSON.stringify(field.target_field);
+    if (field.source_field === null) return `  target[${target}] = domainspecMappingConvert(${JSON.stringify(field.default_value)}, ${JSON.stringify(field.conversion)});`;
+    const source = JSON.stringify(field.source_field);
+    const missing = field.default_value !== null
+      ? ` else target[${target}] = domainspecMappingConvert(${JSON.stringify(field.default_value)}, ${JSON.stringify(field.conversion)});`
+      : field.required ? ` else throw new Error(${JSON.stringify(`missing Mapping source field:${field.source_field}`)});` : "";
+    return `  if (Object.hasOwn(source, ${source})) target[${target}] = domainspecMappingConvert(source[${source}], ${JSON.stringify(field.conversion)});${missing}`;
+  }).join("\n");
+  return `${header}// domainspec-mapping-fields: ${canonicalJson(mappingFields(input.body))}
+// domainspec-mapping-totality: ${JSON.stringify(text(input.body.totality, "partial"))}
+function domainspecMappingConvert(value: unknown, conversion: string): unknown {
+  if (conversion === "identity") return value;
+  if (conversion === "string") return String(value);
+  if (conversion === "number") { const result = typeof value === "number" ? value : Number(value); if (!Number.isFinite(result)) throw new Error("Mapping number conversion failed"); return result; }
+  if (conversion === "boolean") { if (typeof value === "boolean") return value; if (value === "true" || value === 1) return true; if (value === "false" || value === 0) return false; throw new Error("Mapping boolean conversion failed"); }
+  throw new Error("unknown Mapping conversion");
+}
+export function ${fn}(source: Readonly<Record<string, unknown>>): Readonly<Record<string, unknown>> {
+  const target: Record<string, unknown> = {};
+${statements}
+  return Object.freeze(target);
+}
+`;
+}
+
+function renderPythonMapping(input: GeneratorInput, fn: string, header: string): string {
+  const statements = mappingFields(input.body).map((field) => {
+    const target = JSON.stringify(field.target_field);
+    if (field.source_field === null) return `    target[${target}] = _domainspec_mapping_convert(${pythonScalar(field.default_value)}, ${JSON.stringify(field.conversion)})`;
+    const source = JSON.stringify(field.source_field);
+    const missing = field.default_value !== null
+      ? `\n    else: target[${target}] = _domainspec_mapping_convert(${pythonScalar(field.default_value)}, ${JSON.stringify(field.conversion)})`
+      : field.required ? `\n    else: raise ValueError(${JSON.stringify(`missing Mapping source field:${field.source_field}`)})` : "";
+    return `    if ${source} in source: target[${target}] = _domainspec_mapping_convert(source[${source}], ${JSON.stringify(field.conversion)})${missing}`;
+  }).join("\n");
+  return `${header}# domainspec-mapping-fields: ${canonicalJson(mappingFields(input.body))}
+# domainspec-mapping-totality: ${JSON.stringify(text(input.body.totality, "partial"))}
+import math
+
+def _domainspec_mapping_convert(value: object, conversion: str) -> object:
+    if conversion == "identity": return value
+    if conversion == "string": return str(value)
+    if conversion == "number":
+        try: result = float(value)
+        except (TypeError, ValueError): raise ValueError("Mapping number conversion failed")
+        if not math.isfinite(result): raise ValueError("Mapping number conversion failed")
+        return result
+    if conversion == "boolean":
+        if isinstance(value, bool): return value
+        if value == "true" or value == 1: return True
+        if value == "false" or value == 0: return False
+        raise ValueError("Mapping boolean conversion failed")
+    raise ValueError("unknown Mapping conversion")
+
+def ${fn}(source: dict[str, object]) -> dict[str, object]:
+    target: dict[str, object] = {}
+${statements}
+    return target
+`;
+}
+
+function renderRustMapping(input: GeneratorInput, fn: string, header: string): string {
+  const statements = mappingFields(input.body).map((field) => {
+    const target = rustStaticString(field.target_field);
+    if (field.source_field === null) return `    target.insert(${target}.to_owned(), domainspec_mapping_convert(&${rustMappingScalar(field.default_value)}, ${rustStaticString(field.conversion)})?);`;
+    const source = rustStaticString(field.source_field);
+    const missing = field.default_value !== null
+      ? ` else { target.insert(${target}.to_owned(), domainspec_mapping_convert(&${rustMappingScalar(field.default_value)}, ${rustStaticString(field.conversion)})?); }`
+      : field.required ? ` else { return Err(${rustStaticString(`missing Mapping source field:${field.source_field}`)}.to_owned()); }` : "";
+    return `    if let Some(value) = source.get(${source}) { target.insert(${target}.to_owned(), domainspec_mapping_convert(value, ${rustStaticString(field.conversion)})?); }${missing}`;
+  }).join("\n");
+  return `${header}// domainspec-mapping-fields: ${canonicalJson(mappingFields(input.body))}
+// domainspec-mapping-totality: ${JSON.stringify(text(input.body.totality, "partial"))}
+use std::collections::BTreeMap;
+#[derive(Clone, Debug, PartialEq)]
+pub enum DomainspecMappingValue { String(String), Number(f64), Bool(bool), Null }
+impl DomainspecMappingValue {
+    pub fn display(&self) -> String {
+        match self { Self::String(value) => value.clone(), Self::Number(value) => value.to_string(), Self::Bool(value) => value.to_string(), Self::Null => "null".to_owned() }
+    }
+}
+fn domainspec_mapping_convert(value: &DomainspecMappingValue, conversion: &str) -> Result<DomainspecMappingValue, String> {
+    match conversion {
+        "identity" => Ok(value.clone()),
+        "string" => Ok(DomainspecMappingValue::String(value.display())),
+        "number" => match value { DomainspecMappingValue::Number(value) if value.is_finite() => Ok(DomainspecMappingValue::Number(*value)), DomainspecMappingValue::String(value) => value.parse::<f64>().ok().filter(|value| value.is_finite()).map(DomainspecMappingValue::Number).ok_or_else(|| "Mapping number conversion failed".to_owned()), DomainspecMappingValue::Bool(value) => Ok(DomainspecMappingValue::Number(if *value { 1.0 } else { 0.0 })), _ => Err("Mapping number conversion failed".to_owned()) },
+        "boolean" => match value { DomainspecMappingValue::Bool(value) => Ok(DomainspecMappingValue::Bool(*value)), DomainspecMappingValue::String(value) if value == "true" || value == "false" => Ok(DomainspecMappingValue::Bool(value == "true")), DomainspecMappingValue::Number(value) if *value == 0.0 || *value == 1.0 => Ok(DomainspecMappingValue::Bool(*value == 1.0)), _ => Err("Mapping boolean conversion failed".to_owned()) },
+        _ => Err("unknown Mapping conversion".to_owned()),
+    }
+}
+pub fn ${fn}(source: &BTreeMap<String, DomainspecMappingValue>) -> Result<BTreeMap<String, DomainspecMappingValue>, String> {
+    let mut target = BTreeMap::new();
+${statements}
+    Ok(target)
+}
 `;
 }
 
@@ -707,7 +1320,7 @@ function renderTypeScript(input: GeneratorInput): string {
   const header = provenance(input, "//");
   switch (input.kind) {
     case "Entity": {
-      if (body.typed_contract !== undefined) return `${header}#[derive(Clone, Debug, PartialEq)]\npub struct ${name} { pub id: String, pub state: String }\n`;
+      if (body.typed_contract !== undefined) return renderTypeScriptTypedRecord(input, name, header);
       const fields = fieldSpecs(body.fields);
       const identity = camel(text(body.identity_field, "identity"));
       return `${header}${l1Marker(input, "//")}// domainspec-entity-identity: ${JSON.stringify(text(body.identity_field, ""))}
@@ -723,7 +1336,7 @@ export class ${name} {
 `;
     }
     case "Value Object": {
-      if (body.typed_contract !== undefined) return `${header}#[derive(Clone, Debug, PartialEq, Eq)]\npub struct ${name}(pub String);\n`;
+      if (body.typed_contract !== undefined) return renderTypeScriptTypedRecord(input, name, header);
       const fields = fieldSpecs(body.fields);
       const comparisons = fields.map(({ field_id }) => `Object.is(this.fields.${camel(field_id)}, other.fields.${camel(field_id)})`).join(" && ") || "true";
       return `${header}${l1Marker(input, "//")}// domainspec-value-object-structural-equality: true
@@ -749,15 +1362,17 @@ export class ${name} {
       return `${header}// domainspec-operation-sets: ${contract}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nexport const ${name}Contract = Object.freeze(${canonicalJson({ creation_targets: strings(body.creation_targets), reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects), relationships: input.relationships })});\nexport function ${fn}(state: Readonly<Record<string, unknown>>, changes: Readonly<Record<string, unknown>>, guard: () => boolean) {\n  if (!guard()) return { ok: false as const, continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))} };\n  const readSet = Object.freeze(Object.fromEntries(${name}Contract.reads.map((key) => [key, state[key]])));\n  const nextState = Object.freeze(${name}Contract.writes.reduce<Record<string, unknown>>((next, key) => ({ ...next, [key]: changes[key] }), { ...state }));\n  const outbox = ${name}Contract.effects.map((type) => Object.freeze({ type, operation: ${JSON.stringify(input.node_id)} }));\n  return { ok: true as const, reads: readSet, state: nextState, outbox };\n}\nexport function ${fn}Observed(state: Readonly<Record<string, unknown>>, changes: Readonly<Record<string, unknown>>, guard: () => boolean, observe: (phase: "operation.enter" | "operation.success" | "operation.failure") => void) {\n  observe("operation.enter");\n  const outcome = ${fn}(state, changes, guard);\n  observe(outcome.ok ? "operation.success" : "operation.failure");\n  return outcome;\n}\n`;
     }
     case "Query":
-      return `${header}export function ${fn}(state: Readonly<Record<string, unknown>>): Readonly<Record<string, unknown>> {\n  return Object.freeze({ ...state });\n}\n`;
+      return input.typed_closure?.schema_version === "domainspec.typed-operation-closure/v1"
+        ? renderTypeScriptTypedQuery(input, fn, header)
+        : `${header}export function ${fn}(state: Readonly<Record<string, unknown>>): Readonly<Record<string, unknown>> {\n  return Object.freeze({ ...state });\n}\n`;
     case "Calculation":
-      return `${header}export function ${fn}(inputs: readonly number[]): number {\n  return inputs.reduce((total, value) => total + value, 0);\n}\n`;
+      return renderTypeScriptCalculation(input, fn, header);
     case "Rule":
       return input.typed_closure?.schema_version === "domainspec.typed-rule-closure/v1"
         ? renderTypeScriptTypedRule(input, fn, header)
         : `${header}export function ${fn}(_candidate: unknown): boolean {\n  throw new Error("Rule requires authored domainspec.typed-rule/v1 semantics");\n}\n`;
     case "Policy":
-      return `${header}export const ${name}Strategies = Object.freeze(${JSON.stringify(strings(body.strategies))});\nexport function ${fn}(index = 0): string { return ${name}Strategies[index] ?? ${name}Strategies[0] ?? ""; }\n`;
+      return renderTypeScriptPolicy(input, name, fn, header);
     case "Workflow":
       return renderTypeScriptWorkflow(input, name, fn, header);
     case "Interface": {
@@ -802,7 +1417,7 @@ export function ${fn}Compatible(candidate: Readonly<{ type: string; version: str
 `;
     }
     case "Mapping":
-      return `${header}export function ${fn}(source: unknown): { readonly target: unknown } { return Object.freeze({ target: source }); }\n`;
+      return renderTypeScriptMapping(input, fn, header);
     case "State Machine": {
       const transitions = stateTransitions(body.transitions);
       const rejectionCodes = ["invalid-current-state", "undeclared-transition", "source-mismatch", "guard-rejected"];
@@ -840,6 +1455,7 @@ function renderPython(input: GeneratorInput): string {
   const header = provenance(input, "#");
   switch (input.kind) {
     case "Entity": {
+      if (body.typed_contract !== undefined) return renderPythonTypedRecord(input, name, header);
       const fields = fieldSpecs(body.fields);
       const identity = snake(text(body.identity_field, "identity"));
       return `${header}${l1Marker(input, "#")}# domainspec-entity-identity: ${JSON.stringify(text(body.identity_field, ""))}
@@ -858,6 +1474,7 @@ ${pythonFields(fields)}
 `;
     }
     case "Value Object": {
+      if (body.typed_contract !== undefined) return renderPythonTypedRecord(input, name, header);
       const fields = fieldSpecs(body.fields);
       return `${header}${l1Marker(input, "#")}# domainspec-value-object-structural-equality: true
 # domainspec-value-object-invariant-refs: ${canonicalJson(strings(body.invariant_refs))}
@@ -877,15 +1494,17 @@ ${pythonFields(fields)}
     case "Operation":
       return `${header}# domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n# domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n# domainspec-guard-before-mutation: true\n# domainspec-atomic-state-outbox: true\n# domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n# domainspec-operation-core-instrumentation-free: true\n# domainspec-operation-instrumentation-owner: "outer-wrapper"\n${fn.toUpperCase()}_CREATION_TARGETS = tuple(${JSON.stringify(strings(body.creation_targets))})\n${name.toUpperCase()}_RELATIONSHIPS = tuple(${canonicalJson(input.relationships)})\n\ndef ${fn}(state: dict[str, object], changes: dict[str, object], guard: bool) -> dict[str, object]:\n    if not guard:\n        return {"ok": False, "continuation": ${JSON.stringify(text(body.failure_continuation, "return-error"))}}\n    read_set = {key: state.get(key) for key in ${JSON.stringify(strings(body.reads))}}\n    next_state = dict(state)\n    for key in ${JSON.stringify(strings(body.writes))}:\n        next_state[key] = changes.get(key)\n    outbox = [{"type": effect, "operation": ${JSON.stringify(input.node_id)}} for effect in ${JSON.stringify(strings(body.effects))}]\n    return {"ok": True, "reads": read_set, "state": next_state, "outbox": outbox}\n\ndef ${fn}_observed(state: dict[str, object], changes: dict[str, object], guard: bool, observe):\n    observe("operation.enter")\n    outcome = ${fn}(state, changes, guard)\n    observe("operation.success" if outcome["ok"] else "operation.failure")\n    return outcome\n`;
     case "Query":
-      return `${header}def ${fn}(state: dict[str, object]) -> dict[str, object]:\n    return dict(state)\n`;
+      return input.typed_closure?.schema_version === "domainspec.typed-operation-closure/v1"
+        ? renderPythonTypedQuery(input, fn, header)
+        : `${header}def ${fn}(state: dict[str, object]) -> dict[str, object]:\n    return dict(state)\n`;
     case "Calculation":
-      return `${header}def ${fn}(inputs: list[float]) -> float:\n    return sum(inputs)\n`;
+      return renderPythonCalculation(input, fn, header);
     case "Rule":
       return input.typed_closure?.schema_version === "domainspec.typed-rule-closure/v1"
         ? renderPythonTypedRule(input, fn, header)
         : `${header}def ${fn}(_candidate: object) -> bool:\n    raise ValueError("Rule requires authored domainspec.typed-rule/v1 semantics")\n`;
     case "Policy":
-      return `${header}${name.toUpperCase()}_STRATEGIES = tuple(${JSON.stringify(strings(body.strategies))})\n\ndef ${fn}(index: int = 0) -> str:\n    return ${name.toUpperCase()}_STRATEGIES[index]\n`;
+      return renderPythonPolicy(input, name, fn, header);
     case "Workflow":
       return renderPythonWorkflow(input, name, fn, header);
     case "Interface": {
@@ -939,7 +1558,7 @@ def ${fn}_compatible(candidate_type: str, candidate_version: str) -> bool:
 `;
     }
     case "Mapping":
-      return `${header}def ${fn}(source: object) -> dict[str, object]:\n    return {"target": source}\n`;
+      return renderPythonMapping(input, fn, header);
     case "State Machine": {
       const transitions = stateTransitions(body.transitions);
       const rejectionCodes = ["invalid-current-state", "undeclared-transition", "source-mismatch", "guard-rejected"];
@@ -986,6 +1605,7 @@ function renderRust(input: GeneratorInput): string {
   const header = provenance(input, "//");
   switch (input.kind) {
     case "Entity": {
+      if (body.typed_contract !== undefined) return renderRustTypedRecord(input, name, header);
       const fields = fieldSpecs(body.fields);
       const identity = snake(text(body.identity_field, "identity"));
       return `${header}${l1Marker(input, "//")}// domainspec-entity-identity: ${JSON.stringify(text(body.identity_field, ""))}
@@ -999,6 +1619,7 @@ impl ${name} {
 `;
     }
     case "Value Object": {
+      if (body.typed_contract !== undefined) return renderRustTypedRecord(input, name, header);
       const fields = fieldSpecs(body.fields);
       return `${header}${l1Marker(input, "//")}// domainspec-value-object-structural-equality: true
 // domainspec-value-object-invariant-refs: ${canonicalJson(strings(body.invariant_refs))}
@@ -1020,17 +1641,17 @@ impl ${name} {
       return `${header}// domainspec-operation-sets: ${canonicalJson({ reads: strings(body.reads), writes: strings(body.writes), effects: strings(body.effects) })}\n// domainspec-operation-guard: ${JSON.stringify(text(body.guard, "guard"))}\n// domainspec-guard-before-mutation: true\n// domainspec-atomic-state-outbox: true\n// domainspec-failure-continuation: ${JSON.stringify(text(body.failure_continuation, "return-error"))}\n// domainspec-operation-core-instrumentation-free: true\n// domainspec-operation-instrumentation-owner: "outer-wrapper"\nuse std::collections::BTreeMap;\npub const ${snake(name).toUpperCase()}_CREATION_TARGETS: &[&str] = ${rustSlice(strings(body.creation_targets))};\npub const ${snake(name).toUpperCase()}_RELATIONSHIPS_JSON: &str = ${JSON.stringify(canonicalJson(input.relationships))};\n#[derive(Clone, Debug, PartialEq)]\npub struct ${name}Outcome { pub reads: BTreeMap<String, String>, pub state: BTreeMap<String, String>, pub outbox: Vec<String> }\npub fn ${fn}(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool) -> Result<${name}Outcome, &'static str> {\n    if !guard { return Err(${JSON.stringify(text(body.failure_continuation, "return-error"))}); }\n    let reads = ${rustArray(strings(body.reads))}.iter().filter_map(|key| state.get(*key).map(|value| ((*key).to_owned(), value.clone()))).collect();\n    let mut next_state = state.clone();\n    for key in ${rustArray(strings(body.writes))} { if let Some(value) = changes.get(key) { next_state.insert(key.to_owned(), value.clone()); } }\n    let outbox: Vec<String> = ${rustArray(strings(body.effects))}.iter().map(|value| (*value).to_owned()).collect();\n    Ok(${name}Outcome { reads, state: next_state, outbox })\n}\npub fn ${fn}_observed(state: &BTreeMap<String, String>, changes: &BTreeMap<String, String>, guard: bool, observe: &mut impl FnMut(&str)) -> Result<${name}Outcome, &'static str> {\n    observe("operation.enter");\n    let outcome = ${fn}(state, changes, guard);\n    observe(if outcome.is_ok() { "operation.success" } else { "operation.failure" });\n    outcome\n}\n`;
     case "Query":
       if (input.typed_closure?.schema_version === "domainspec.typed-operation-closure/v1") {
-        return `${header}// domainspec-query-reads: ${canonicalJson(strings(body.reads))}\n// domainspec-query-effects: []\n// domainspec-query-provider-neutral: true\n${renderTypedRustOperation(input.typed_closure)}`;
+        return `${header}// domainspec-query-reads: ${canonicalJson(strings(body.reads))}\n// domainspec-query-effects: []\n// domainspec-query-provider-neutral: true\n${renderTypedRustQuery(input.typed_closure)}`;
       }
       return `${header}pub fn ${fn}(state: &str) -> String { state.to_owned() }\n`;
     case "Calculation":
-      return `${header}pub fn ${fn}(inputs: &[f64]) -> f64 { inputs.iter().sum() }\n`;
+      return renderRustCalculation(input, name, fn, header);
     case "Rule":
       return input.typed_closure?.schema_version === "domainspec.typed-rule-closure/v1"
         ? `${header}${renderTypedRustRule(input.typed_closure)}`
         : `${header}pub fn ${fn}(_candidate: bool) -> bool { panic!("Rule requires authored domainspec.typed-rule/v1 semantics") }\n`;
     case "Policy":
-      return `${header}pub const ${snake(name).toUpperCase()}_STRATEGIES: &[&str] = ${rustSlice(strings(body.strategies))};\npub fn ${fn}(index: usize) -> &'static str { ${snake(name).toUpperCase()}_STRATEGIES.get(index).copied().unwrap_or("") }\n`;
+      return renderRustPolicy(input, name, fn, header);
     case "Workflow":
       return renderRustWorkflow(input, name, fn, header);
     case "Interface": {
@@ -1075,7 +1696,7 @@ pub fn ${fn}_compatible(candidate_type: &str, candidate_version: &str) -> bool {
 `;
     }
     case "Mapping":
-      return `${header}pub fn ${fn}(source: &str) -> String { source.to_owned() }\n`;
+      return renderRustMapping(input, fn, header);
     case "State Machine": {
       const transitions = stateTransitions(body.transitions);
       const constant = snake(name).toUpperCase();

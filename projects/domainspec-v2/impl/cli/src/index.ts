@@ -35,6 +35,8 @@ export {
 } from "./conformance/receipt.js";
 export { planInstantiation } from "./generation/plan-instantiation.js";
 export { publishInstantiation, PublicationError, type PublicationResult } from "./generation/publish-instantiation.js";
+export { planProjectInstantiation, ProjectInstantiationError, type ProjectInstantiationPlanV1 } from "./generation/project-instantiation.js";
+export { publishProjectInstantiation, type ProjectPublicationReceiptV1, type ProjectPublicationResult } from "./generation/publish-project.js";
 export {
   checkLeanMetaTypeFormalization,
   createMetaTypeFormalizationProjection,
@@ -48,6 +50,8 @@ export {
   type ObligationFamily,
 } from "./formalization/projection.js";
 export {
+  CompilerRefinementError,
+  validateGraphBoundCertificate,
   type CompilerRefinementOutput,
   type FormalizationSourceIdentity,
   type GraphBoundCertificate,
@@ -57,9 +61,12 @@ export { FORMALIZATION_LEAN_MODULE_FILENAMES, formalizationLeanModuleSources } f
 export {
   loadCompiledProjectGraph,
   loadProjectNode,
+  evaluateCompiledObligationWitness,
   validateCompiledProjectGraphObligations,
   ProjectModelError,
   type CompiledProjectGraph,
+  type CompiledObligationApplicability,
+  type CompiledObligationOutcome,
   type CompiledRelationshipObligationWitness,
   type DecodedProjectNode,
 } from "./input/project-model.js";

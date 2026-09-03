@@ -1,10 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import type { CompiledProjectGraph, DecodedRelationship, FieldSpec, InterfaceOperationSpec, StateTransitionSpec } from "../input/project-model.js";
+import { validateCompiledProjectGraphObligations, type CompiledProjectGraph, type DecodedRelationship, type FieldSpec, type InterfaceOperationSpec, type StateTransitionSpec } from "../input/project-model.js";
+import { canonicalJson } from "../input/source-manifest.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
 import { FROZEN_RELATIONSHIP_AUTHORITY_V1 } from "../relationships/frozen-authority.generated.js";
 import type { FrozenRelationshipSignature } from "../relationships/types.js";
+import type { TypedRecordContract } from "../typed-operation/contracts.js";
 import {
   FORMALIZATION_LEAN_MODULE_FILENAMES,
   createFormalizationLeanModuleSet,
@@ -150,6 +152,7 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
   leanModuleSet: FormalizationLeanModuleSet,
 ): MetaTypeFormalizationProjection {
   if (graph.schema_version !== "domainspec.compiled-project-graph/v1-candidate" || graph.authority_effect !== "none") fail("MTCLI_FORMALIZE_GRAPH", "formalize requires the decoded, non-effectful project graph");
+  validateCompiledProjectGraphObligations(graph);
   const backend = FROZEN_META_TYPE_CATALOG.backend_meta_types.map(({ label }) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "backend" as const }));
   const ui = UI_META_TYPES.map((label) => ({ label, lean_constructor: LEAN_META_TYPE[label] ?? fail("MTCLI_FORMALIZE_META_TYPE", `missing Lean constructor:${label}`), partition: "ui-supporting-context" as const }));
   const relationships = FROZEN_RELATIONSHIP_AUTHORITY_V1.signatures.map((signature) => ({
@@ -172,21 +175,32 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
   const graphNodes = graph.nodes.map((node): ProjectNodeProjection => {
     const transitions = node.kind === "State Machine" ? node.body.transitions as readonly StateTransitionSpec[] : [];
     const interfaceOperations = node.kind === "Interface" ? node.body.operations as readonly InterfaceOperationSpec[] : [];
-    const fields: readonly FieldSpec[] = node.kind === "Entity" || node.kind === "Value Object"
-      ? node.body.fields as readonly FieldSpec[]
+    const recordContract = (node.kind === "Entity" || node.kind === "Value Object") && (node.body.typed_contract as { readonly schema_version?: string } | undefined)?.schema_version === "domainspec.typed-record/v1"
+      ? node.body.typed_contract as TypedRecordContract
+      : null;
+    const fields: readonly FieldSpec[] = recordContract !== null
+      ? []
+      : node.kind === "Entity" || node.kind === "Value Object"
+        ? node.body.fields as readonly FieldSpec[]
       : node.kind === "Event"
         ? [node.body.occurrence_id as FieldSpec, ...node.body.payload as readonly FieldSpec[]]
         : node.kind === "Interface"
           ? interfaceOperations.flatMap(({ request, result }) => [...request, ...result])
           : [];
+    const typedFieldIds = recordContract?.properties.map(({ name }) => name) ?? fields.map(({ field_id }) => field_id);
+    const typedFieldTypeRefs = recordContract?.properties.map(({ type }) => `typed:${canonicalJson(type)}`)
+      ?? fields.map(({ type_ref }) => type_ref.kind === "primitive" ? `primitive:${type_ref.name}` : `reference:${type_ref.selector}`);
+    const entityIdentity = node.kind === "Entity"
+      ? recordContract?.properties.find(({ identity }) => identity)?.name ?? String(node.body.identity_field)
+      : "";
     return Object.freeze({
       selector: node.selector, feature_id: node.feature_id, node_id: node.node_id,
       meta_type: LEAN_META_TYPE[node.kind] ?? fail("MTCLI_FORMALIZE_PROJECT_NODE", `missing Lean project meta-type:${node.kind}`),
       generated_creation_targets: Object.freeze([...(node.generated_relationship_projections.creation_targets ?? [])]),
       authored_forbidden_projection_attributes: Object.freeze([...node.authored_forbidden_projection_attributes]),
-      typed_field_ids: Object.freeze(fields.map(({ field_id }) => field_id)),
-      typed_field_type_refs: Object.freeze(fields.map(({ type_ref }) => type_ref.kind === "primitive" ? `primitive:${type_ref.name}` : `reference:${type_ref.selector}`)),
-      entity_identity_field: node.kind === "Entity" ? String(node.body.identity_field) : "",
+      typed_field_ids: Object.freeze(typedFieldIds),
+      typed_field_type_refs: Object.freeze(typedFieldTypeRefs),
+      entity_identity_field: entityIdentity,
       value_object_structural_equality: node.kind === "Value Object",
       enum_values: Object.freeze(node.kind === "Enum" ? [...node.body.values as readonly string[]] : []),
       event_type: node.kind === "Event" ? String(node.body.event_type) : "",

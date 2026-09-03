@@ -232,6 +232,8 @@ test("typed closure fails on missing dependencies, read-edge drift, and cycles",
   const cycle = copiedAuthSource();
   try {
     mutateNode(missing, "authorization-request", (node) => {
+      for (const property of node.body.typed_contract.properties) property.identity = false;
+      node.body.invariant_refs = ["auth-exact-permission:authorization-admissible"];
       node.body.typed_contract.properties[2].type.selector = "auth-exact-permission:missing-permission";
     });
     expectCode(() => loadProjectNode(missing, "auth-exact-permission:authorize"), "MTCLI_TYPED_CLOSURE_MISSING");

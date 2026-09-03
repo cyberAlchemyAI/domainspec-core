@@ -32,19 +32,19 @@ const bodySamples: Readonly<Record<string, Record<string, unknown>>> = {
   Enum: { description: "Enum", values: ["one", "two"] },
   Operation: { description: "Operation", reads: ["entity"], writes: ["entity.state"], effects: ["Changed"], guard: "allowed", failure_continuation: "return-error" },
   Query: { description: "Query", reads: ["entity"] },
-  Calculation: { description: "Calculation", inputs: ["left", "right"] },
+  Calculation: { description: "Calculation", inputs: ["left", "right"], semantics: { schema_version: "domainspec.calculation-semantics/v1", result: "number", expression: { op: "add", terms: [{ op: "input", name: "left" }, { op: "input", name: "right" }] }, rounding: { mode: "none", scale: 0 } } },
   Rule: { description: "Rule", predicate: "candidate != null" },
-  Policy: { description: "Policy", strategies: ["first"] },
+  Policy: { description: "Policy", strategies: ["first", "fallback"], decisions: [{ rule_ref: "feature:valid", strategy: "first" }], default_strategy: "fallback" },
   Workflow: { description: "Workflow", steps: ["operate"], compensations: ["undo"] },
   Interface: { description: "Interface", boundary_kind: "internal", version: "1", compatibility: "exact", operations: [{ operation_id: "operate", operation_ref: "feature:operate", request: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }], result: [{ field_id: "accepted", type_ref: { kind: "primitive", name: "boolean" }, required: true }] }] },
   Event: { description: "Event", event_type: "event", version: "1", occurrence_id: { field_id: "occurrence-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }, occurred_at_policy: "required", payload: [{ field_id: "entity-id", type_ref: { kind: "primitive", name: "uuid" }, required: true }] },
-  Mapping: { description: "Mapping", source: "Source", target: "Target" },
+  Mapping: { description: "Mapping", source: "feature:entity", target: "feature:entity", direction: "outbound", totality: "partial", fields: [{ target_field: "value", source_field: "value", default_value: null, required: true, conversion: "identity" }] },
   "State Machine": { description: "Machine", states: ["new", "done"], initial: "new", transitions: [{ transition_id: "finish", source_state: "new", target_state: "done", guard_ref: null, effect_event_ref: null }] },
 };
 
 function node(kind: string, id: string): DecodedProjectNode {
   const type = FROZEN_META_TYPE_CATALOG.backend_meta_types.find(({ label }) => label === kind)!;
-  const relationships = kind === "Workflow" ? Object.freeze([
+  const relationships = kind === "Calculation" ? Object.freeze([Object.freeze({ edge_id: "calculation-calculates-operation", relationship: "calculates", scope: "feature" as const, source: Object.freeze({ feature_id: "feature", node_id: id, kind: "Calculation" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) })]) : kind === "Policy" ? Object.freeze([Object.freeze({ edge_id: "policy-applies-operation", relationship: "applies", scope: "feature" as const, source: Object.freeze({ feature_id: "feature", node_id: id, kind: "Policy" }), target: Object.freeze({ feature_id: "feature", node_id: "operate", kind: "Operation" }) })]) : kind === "Mapping" ? Object.freeze([Object.freeze({ edge_id: "mapping-maps-entity", relationship: "maps", scope: "feature" as const, source: Object.freeze({ feature_id: "feature", node_id: id, kind: "Mapping" }), target: Object.freeze({ feature_id: "feature", node_id: "entity", kind: "Entity" }) })]) : kind === "Workflow" ? Object.freeze([
     Object.freeze({
       edge_id: "workflow-operate",
       relationship: "orchestrates",

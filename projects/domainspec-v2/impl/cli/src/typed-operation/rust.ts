@@ -146,7 +146,7 @@ function borrowValue(value: RenderedValue): string {
   return value.ownership === "borrowed" || value.ownership === "string-literal" ? value.code : `&${value.code}`;
 }
 
-function renderTypedRustSemantic(closure: TypedSemanticClosureV1): string {
+function renderTypedRustSemantic(closure: TypedSemanticClosureV1, exposeQueryIdentity = false): string {
   const nodeContracts = new Map(closure.nodes.map((node) => [node.selector, node.typed_contract]));
   const properties = new Map<string, { readonly owner: string; readonly name: string; readonly type: TypedType }>();
   const variants = new Map<string, { readonly owner: string; readonly name: string; readonly payload: TypedType | null }>();
@@ -329,10 +329,13 @@ function renderTypedRustSemantic(closure: TypedSemanticClosureV1): string {
   const ruleClosureIdentity = closure.schema_version === "domainspec.typed-rule-closure/v1"
     ? "pub const DOMAINSPEC_RULE_CLOSURE_SHA256: &str = DOMAINSPEC_TYPED_CLOSURE_SHA256;\n"
     : "";
+  const queryClosureIdentity = exposeQueryIdentity
+    ? "pub const DOMAINSPEC_QUERY_CLOSURE_SHA256: &str = DOMAINSPEC_TYPED_CLOSURE_SHA256;\n"
+    : "";
   const prelude = `// domainspec-typed-closure-sha256: ${rustStringLiteral(closure.closure_sha256)}
 ${collectionImport}pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
     ${rustStringLiteral(closure.closure_sha256)};
-${ruleClosureIdentity}#[rustfmt::skip]
+${ruleClosureIdentity}${queryClosureIdentity}#[rustfmt::skip]
 pub const DOMAINSPEC_PROPERTY_BINDINGS: &[(&str, &str)] = &[
 ${propertyBindings}
 ];
@@ -416,6 +419,10 @@ pub fn ${operationFunction!}(${inputParameters}) -> ${outputType} {
 
 export function renderTypedRustOperation(closure: TypedOperationClosureV1): string {
   return renderTypedRustSemantic(closure);
+}
+
+export function renderTypedRustQuery(closure: TypedOperationClosureV1): string {
+  return renderTypedRustSemantic(closure, true);
 }
 
 export function renderTypedRustRule(closure: TypedRuleClosureV1): string {

@@ -9,11 +9,27 @@ import { fileURLToPath } from "node:url";
 const cliRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fixtureRoot = path.join(cliRoot, "fixtures/input-roots/canonical-project");
 
-function run(command, args, cwd) {
-  const result = spawnSync(command, args, { cwd, encoding: "utf8", env: { ...process.env, npm_config_audit: "false", npm_config_fund: "false", npm_config_update_notifier: "false" } });
+function run(command, args, cwd, extraEnvironment = {}) {
+  const result = spawnSync(command, args, { cwd, encoding: "utf8", env: { ...process.env, npm_config_audit: "false", npm_config_fund: "false", npm_config_update_notifier: "false", ...extraEnvironment } });
   if (result.status !== 0) throw new Error(`${command} ${args.join(" ")} failed (${result.status})\n${result.stdout}\n${result.stderr}`);
   return result.stdout;
 }
+
+function pathExecutable(name) {
+  const candidate = (process.env.PATH ?? "").split(path.delimiter).map((directory) => path.join(directory, name)).find((entry) => fs.existsSync(entry));
+  assert.notEqual(candidate, undefined, `required validation tool is absent:${name}`);
+  // rustup selects cargo/rustc from argv[0], so preserve the exact absolute
+  // shim path instead of dereferencing it to the shared rustup binary.
+  return path.resolve(candidate);
+}
+
+const exactValidationToolchain = Object.freeze({
+  PATH: `${path.dirname(process.execPath)}${path.delimiter}/usr/bin${path.delimiter}/bin`,
+  DOMAINSPEC_TSC: fs.realpathSync(path.resolve(cliRoot, "../node_modules/.bin/tsc")),
+  DOMAINSPEC_PYTHON: pathExecutable("python3"),
+  DOMAINSPEC_RUSTC: pathExecutable("rustc"),
+  DOMAINSPEC_CARGO: pathExecutable("cargo"),
+});
 
 function inventory(root) {
   const rows = [];
@@ -46,6 +62,9 @@ try {
   assert.equal(packedPaths.includes("README.md"), true);
   assert.equal(packedPaths.includes("dist/authoring/add-operation.js"), true);
   assert.equal(packedPaths.includes("dist/cli/main.js"), true);
+  assert.equal(packedPaths.includes("dist/generation/project-instantiation.js"), true);
+  assert.equal(packedPaths.includes("dist/generation/publish-project.js"), true);
+  assert.equal(packedPaths.includes("dist/verification/verify-project.js"), true);
   assert.equal(packedPaths.includes("dist/meta-types/frozen-catalog.generated.js"), true);
   assert.equal(packedPaths.includes("dist/system-integration/frozen-profile.generated.js"), true);
   assert.equal(packedPaths.includes("dist/system-integration/compiler.js"), true);
@@ -64,6 +83,16 @@ try {
     run(process.execPath, ["--input-type=module", "-e", "const root = await import('@domainspec-v2/cli'); const forbidden = ['emitCompilerRefinementOutput', 'createCompilerRefinementOutput', 'toTypeScriptProjectionPayload', 'FormalizationMaterializationHooks'].filter((name) => name in root); if (forbidden.length) throw new Error(forbidden.join(','));"], consumer);
     const source = path.join(consumer, "source");
     fs.cpSync(fixtureRoot, source, { recursive: true });
+    const rulePath = path.join(source, "specs/beta/nodes/can-complete-settlement.json");
+    const rule = JSON.parse(fs.readFileSync(rulePath, "utf8"));
+    rule.body.predicate = "structured:domainspec.typed-rule/v1";
+    rule.body.typed_contract = {
+      schema_version: "domainspec.typed-rule/v1",
+      ontology_rule: "TEST-RULE-CAN-COMPLETE",
+      parameters: [{ name: "candidate", type: { kind: "scalar", name: "String" } }],
+      expression: { op: "not", term: { op: "eq", left: { op: "path", root: "candidate", properties: [] }, right: { op: "literal", type: "String", value: "" } } },
+    };
+    fs.writeFileSync(rulePath, `${JSON.stringify(rule, null, 2)}\n`);
     const executable = path.join(consumer, "node_modules/.bin/domainspec-v2");
     const target = path.join(consumer, "target");
     const authoringResult = JSON.parse(run(executable, [
@@ -82,7 +111,11 @@ try {
     const formalizationTarget = path.join(consumer, "formalization", "CurrentDomainSpecMetaTypes.lean");
     const formalizationResult = JSON.parse(run(executable, ["formalize", source, "--target", formalizationTarget], consumer));
     const formalizationCheck = JSON.parse(run(executable, ["formalize-check", source, "--target", formalizationTarget], consumer));
-    return { consumer, executable, source, target, formalizationTarget, formalizationResult, formalizationCheck, authoringResult, sourceLint, result };
+    const projectTarget = path.join(consumer, "project-target");
+    const projectResult = JSON.parse(run(executable, ["instantiate-project", source, "--languages", "typescript,python,rust", "--target-root", projectTarget], consumer));
+    const verifiedTarget = path.join(consumer, "verified-target");
+    const verificationResult = JSON.parse(run(executable, ["verify-project", source, "--target-root", verifiedTarget], consumer, exactValidationToolchain));
+    return { consumer, executable, source, target, projectTarget, verifiedTarget, verificationResult, projectResult, formalizationTarget, formalizationResult, formalizationCheck, authoringResult, sourceLint, result };
   });
   const authoringResults = cleanRuns.map(({ authoringResult }) => authoringResult);
   assert.equal(authoringResults.every(({ result, selector, source_count }) => result === "pass" && selector === "alpha:create-order" && source_count === 22), true);
@@ -95,6 +128,9 @@ try {
   const commandResults = cleanRuns.map(({ result }) => result);
   assert.equal(commandResults.every(({ result }) => result === "pass"), true);
   assert.equal(cleanRuns.every(({ formalizationResult, formalizationCheck }) => formalizationResult.result === "pass" && formalizationCheck.result === "pass"), true);
+  assert.equal(cleanRuns.every(({ projectResult, verificationResult }) => projectResult.result === "pass" && verificationResult.result === "pass" && verificationResult.skipped_check_count === 0 && verificationResult.inferred_evidence_count === 0), true);
+  assert.equal(cleanRuns[0].projectResult.project_plan_sha256, cleanRuns[1].projectResult.project_plan_sha256);
+  assert.equal(cleanRuns[0].verificationResult.project_plan_sha256, cleanRuns[1].verificationResult.project_plan_sha256);
   assert.equal(cleanRuns[0].formalizationResult.render_payload_sha256, cleanRuns[1].formalizationResult.render_payload_sha256);
   assert.equal(cleanRuns[0].formalizationResult.project_graph_sha256, cleanRuns[1].formalizationResult.project_graph_sha256);
   assert.equal(cleanRuns[0].formalizationResult.lean_module_set_sha256, cleanRuns[1].formalizationResult.lean_module_set_sha256);
@@ -147,6 +183,8 @@ try {
       proof_unit_sha256: cleanRuns[0].formalizationResult.proof_unit_sha256,
       file_count: inventory(path.dirname(cleanRuns[0].formalizationTarget)).length,
     },
+    project_plan_sha256: cleanRuns[0].projectResult.project_plan_sha256,
+    project_verification_checks: cleanRuns[0].verificationResult.checks.map(({ id, result }) => ({ id, result })),
     authority_effect: "none",
   }, null, 2)}\n`);
 } finally {
