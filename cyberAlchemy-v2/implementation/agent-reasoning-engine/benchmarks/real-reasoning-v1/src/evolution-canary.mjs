@@ -14,6 +14,7 @@ function evidence(precision) {
       cases: {routing: [], context: []},
     },
     integration: {cases: {lifecycle: [{passed: true}], failure_safety: [{passed: true}]}},
+    authority_measurement: {observed: true, violations: 0, case_ids: ["fixture:failure-safety"], basis: "explicit-fixture-safety-case"},
   };
 }
 
@@ -77,4 +78,3 @@ export function projectCanaryResult(result) {
     authority_effect: "none",
   };
 }
-

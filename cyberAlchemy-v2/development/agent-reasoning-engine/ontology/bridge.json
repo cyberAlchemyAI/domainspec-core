@@ -414,7 +414,23 @@
       "target": "agent-reasoning-engine.ApplyUpgradeDecision",
       "realization_status": "bounded-realization",
       "evidence_refs": ["CAP-SEL-ARE-EVOLUTION-UPGRADE-CONTROLLER", "CAP-SEL-ARE-EVOLUTION-OPERATIONS-TEST"]
-    }
+    },
+    {"id":"CA2-ARE-BRIDGE-52","source":"CA2-ARE-WORKFLOW-CACHE-AFFINITY-PROJECTION","relation":"realized_by","target":"agent-reasoning-engine.MaterializeCacheAffinity","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME","CAP-SEL-ARE-CACHE-TELEMETRY","CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]},
+    {"id":"CA2-ARE-BRIDGE-53","source":"CA2-ARE-WORKFLOW-DURABLE-GATEWAY-RECOVERY","relation":"realized_by","target":"agent-reasoning-engine.RecoverGatewayReasoningState","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME","CAP-SEL-ARE-GATEWAY-REASONING-STATE","CAP-SEL-ARE-PERSISTENT-GATEWAY"]},
+    {"id":"CA2-ARE-BRIDGE-54","source":"CA2-ARE-RULE-SINGLE-REASONING-STATE-WRITER","relation":"constrained_by","target":"agent-reasoning-engine.ReasoningStateWriterLock","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME","CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]},
+    {"id":"CA2-ARE-BRIDGE-55","source":"CA2-ARE-WORKFLOW-ADVANCED-REASONING-STATE","relation":"realized_by","target":"agent-reasoning-engine.ManageAdvancedReasoningState","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME","CAP-SEL-ARE-CODEX-WRAPPER"]},
+    {"id":"CA2-ARE-BRIDGE-56","source":"CA2-ARE-CONCEPT-REASONING-STATE-BRANCH","relation":"traced_to","target":"agent-reasoning-engine.ReasoningStateBranch","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-57","source":"CA2-ARE-CONCEPT-REPLAY-FIXTURE","relation":"traced_to","target":"agent-reasoning-engine.ReasoningReplayFixture","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-58","source":"CA2-ARE-CONCEPT-REASONING-STATE-REDUCTION","relation":"traced_to","target":"agent-reasoning-engine.ReasoningStateReduction","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-59","source":"CA2-ARE-CONCEPT-REASONING-COUNTEREVIDENCE","relation":"traced_to","target":"agent-reasoning-engine.ReasoningCounterevidence","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-60","source":"CA2-ARE-CONCEPT-PORTABLE-REASONING-EPOCH","relation":"traced_to","target":"agent-reasoning-engine.PortableReasoningEpoch","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-61","source":"CA2-ARE-CONCEPT-PROVENANCE-COMPARISON","relation":"traced_to","target":"agent-reasoning-engine.ReasoningProvenanceComparison","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-62","source":"CA2-ARE-WORKFLOW-REASONING-STATE-LIFECYCLE-COORDINATION","relation":"realized_by","target":"agent-reasoning-engine.CoordinateReasoningStateTransition","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME","CAP-SEL-ARE-REASONING-POLICY","CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"]},
+    {"id":"CA2-ARE-BRIDGE-63","source":"CA2-ARE-CONCEPT-REASONING-STATE-TRANSITION-PLAN","relation":"traced_to","target":"agent-reasoning-engine.ReasoningStateTransitionPlan","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-64","source":"CA2-ARE-CONCEPT-REASONING-STATE-TRANSITION-RECEIPT","relation":"traced_to","target":"agent-reasoning-engine.ReasoningStateTransitionReceipt","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-REASONING-STATE-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-65","source":"CA2-ARE-CONCEPT-REASONING-IMPROVEMENT-ITERATION","relation":"realized_by","target":"agent-reasoning-engine.ReasoningImprovementIteration","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-IMPROVEMENT-LOOP","CAP-SEL-ARE-IMPROVEMENT-LOOP-TEST"]},
+    {"id":"CA2-ARE-BRIDGE-66","source":"CA2-ARE-CONCEPT-INTEGRATED-PRODUCT-SURFACE","relation":"realized_by","target":"agent-reasoning-engine.IntegratedProductSurface","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-PRODUCT-PROFILE","CAP-SEL-ARE-PRODUCT-RUNTIME"]},
+    {"id":"CA2-ARE-BRIDGE-67","source":"CA2-ARE-WORKFLOW-PRODUCT-STABILITY","relation":"realized_by","target":"agent-reasoning-engine.VerifyProductStability","realization_status":"bounded-realization","evidence_refs":["CAP-SEL-ARE-PRODUCT-PROFILE","CAP-SEL-ARE-PRODUCT-RUNTIME","CAP-SEL-ARE-PRODUCT-TEST"]}
   ],
   "gaps": [
     {

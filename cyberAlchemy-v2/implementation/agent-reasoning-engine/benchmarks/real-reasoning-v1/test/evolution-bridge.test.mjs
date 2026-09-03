@@ -14,6 +14,7 @@ function evidence(precision) {
     sampling_mode: "fast",
     core: {result_id: `core:${precision}`, summary: {route_accuracy: 0.99, definition_recall: 0.97, context_precision: precision, false_direct_ambiguities: 0, determinism_mismatches: 0}, metrics: {route: {p95_ms: 1}, request_selection: {p95_ms: 2}, preflight: {p95_ms: 20}}, cases: {routing: [], context: []}},
     integration: {cases: {lifecycle: [{passed: true}], failure_safety: [{passed: true}]}},
+    authority_measurement: {observed: true, violations: 0, case_ids: ["fixture:failure-safety"], basis: "explicit-fixture-safety-case"},
   };
 }
 

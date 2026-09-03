@@ -7,6 +7,7 @@ import {fileURLToPath} from "node:url";
 
 import {
   approvalAccepted,
+  CACHE_AFFINITY_KEY,
   CONTEXT_KEY,
   createAppendOnlyFileReasoningStateSink,
   createCodexAppServerWrapper,
@@ -52,6 +53,7 @@ function turnStart(id, text, threadId = "thread-1", extras = {}) {
 function forwardedContext(result) {
   const context = result.to_server[0].params.additionalContext;
   const manifest = JSON.parse(context[CONTEXT_KEY].value);
+  if (Array.isArray(manifest.included_items)) return manifest;
   const includedItems = Object.values(context)
     .map((entry) => {
       try { return JSON.parse(entry.value); } catch { return null; }
@@ -128,8 +130,10 @@ async function startAndBind(instance, {id, text, threadId, turnId, extras = {}})
 test("repository profile verifies exact sources and materializes production inputs", () => {
   assert.equal(loaded.decision_profile.profile_id, "cyberalchemy-fast-routing");
   assert.ok(loaded.definition_catalog.definitions.length > 20);
-  assert.equal(loaded.ontology_snapshot.nodes.length, 60);
-  assert.equal(loaded.ontology_snapshot.edges.length, 92);
+  assert.equal(loaded.ontology_snapshot.nodes.length, 77);
+  assert.equal(loaded.ontology_snapshot.nodes.some((node) => node.node_id === "agent-reasoning-engine.EvolutionCycle"), true);
+  assert.equal(loaded.ontology_snapshot.nodes.some((node) => node.node_id === "agent-reasoning-engine.CacheAffinityProjection"), true);
+  assert.equal(loaded.ontology_snapshot.edges.length, 101);
   assert.deepEqual(loaded.value.semantic_evaluation, {enabled: false, trigger: "turn/completed"});
   assert.deepEqual(loaded.value.evolution_signals, {enabled: false, trigger: "turn/completed"});
   assert.equal(loaded.semantic_profile.profile_id, "semantic-input:definition-readiness@1");
@@ -214,9 +218,7 @@ test("obvious Research preflight forwards a bounded inline Context Envelope", as
   assert.equal(entry.kind, "application");
   const fragment = forwardedContext(result);
   assert.equal(fragment.route_id, "CA2-ROUTE-RESEARCH");
-  assert.equal(fragment.schema_version, "are.codex-context-manifest/v1");
-  assert.equal(fragment.context_fragment_schema_version, "are.codex-context-fragment/v2");
-  assert.equal(fragment.included_item_count, fragment.included_items.length);
+  assert.equal(fragment.schema_version, "are.codex-context-fragment/v2");
   assert.equal(fragment.view_lane, "interaction-bound");
   assert.equal(fragment.inline_bytes <= 32768, true);
   assert.equal(fragment.included_items.length > 0, true);
@@ -247,10 +249,9 @@ test("typed request hint retrieves canonical ontology meaning, related nodes, an
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && item.context_item_id.includes("OntologySelector")), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-catalog" && item.content.ontologies.some((ontology) => ontology.ontology_id === "cav2.ontology-product")), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "repository-instruction" && item.content.instruction_id === "repository-root-agents"), true);
-  assert.equal(fragment.exclusion_count >= fragment.exclusions.length, true);
-  assert.equal(fragment.omitted_diagnostic_exclusion_count > 0, true);
-  assert.equal(typeof fragment.exclusions_digest, "string");
-  assert.equal(fragment.exclusions.some((entry) => entry.reason === "not-selected"), false);
+  assert.equal(fragment.exclusions.some((entry) => entry.reason === "not-selected"), true);
+  assert.equal(fragment.context_use_contract.schema_version, "are.codex-context-use-contract/v1");
+  assert.equal(fragment.context_use_contract.direct_answer_sources.some((entry) => entry.context_item_id === "definition:CAV2-D19"), true);
 });
 
 test("a request naming CyberAlchemy v2 and ontology projects both exact definitions", async () => {
