@@ -3,7 +3,7 @@ import test from "node:test";
 
 import {loadBenchmark} from "../src/corpus.mjs";
 import {packageRoot} from "../src/common.mjs";
-import {compareCandidate, diagnoseImprovement, runImprovementLoop} from "../src/improvement-loop.mjs";
+import {compareCandidate, diagnoseImprovement, runImprovementLoop, verifyImprovementReport} from "../src/improvement-loop.mjs";
 
 function evidence(overrides = {}) {
   const routeAccuracy = overrides.route_accuracy ?? 0.90;
@@ -17,7 +17,8 @@ function evidence(overrides = {}) {
       metrics: {route: {p95_ms: overrides.route_p95 ?? 1}, request_selection: {p95_ms: 2}, preflight: {p95_ms: 20}},
       cases: {routing: [], context: [{scenario_id: "CONTEXT-006", passed: contextPass}, {scenario_id: "CONTEXT-010", passed: contextPass}]}
     },
-    integration: {cases: {lifecycle: [{scenario_id: "L", passed: overrides.lifecycle ?? true}], failure_safety: [{scenario_id: "F", passed: overrides.failure ?? true}]}}
+    integration: {cases: {lifecycle: [{scenario_id: "L", passed: overrides.lifecycle ?? true}], failure_safety: [{scenario_id: "F", passed: overrides.failure ?? true}]}},
+    authority_measurement: {observed: overrides.authority_observed ?? true, violations: overrides.authority ?? 0, case_ids: ["F"], basis: "test"}
   };
 }
 
@@ -34,6 +35,12 @@ test("candidate comparison rejects safety regression even when target improves",
   assert.ok(comparison.reason_codes.includes("improvement.safety-regression"));
 });
 
+test("candidate comparison rejects missing or violated authority evidence", () => {
+  const benchmark = loadBenchmark(packageRoot);
+  assert.ok(compareCandidate(benchmark.profile, "objective-disambiguation", evidence(), evidence({context_pass: true, definition_recall: 0.72, authority: 1})).reason_codes.includes("improvement.safety-regression"));
+  assert.ok(compareCandidate(benchmark.profile, "objective-disambiguation", evidence(), evidence({context_pass: true, definition_recall: 0.72, authority_observed: false})).reason_codes.includes("improvement.safety-regression"));
+});
+
 test("fast diagnosis binds evidence and recommends only an unmet target", async () => {
   const result = await diagnoseImprovement(loadBenchmark(packageRoot), {fast: true});
   assert.equal(result.status, "DIAGNOSED");
@@ -45,15 +52,27 @@ test("fast diagnosis binds evidence and recommends only an unmet target", async 
   }
   assert.equal(result.sampling_mode, "fast");
   assert.ok(result.evidence.core);
+  assert.equal(verifyImprovementReport(result).ok, true);
+  const tampered = structuredClone(result);
+  tampered.status = "STABLE";
+  assert.equal(verifyImprovementReport(tampered).ok, false);
 });
 
 test("stability loop requires two consecutive KEEP results", async () => {
   const benchmark = loadBenchmark(packageRoot);
   const statuses = ["KEEP", "KEEP"];
-  const result = await runImprovementLoop(benchmark, {iteration_id: "baseline"}, "objective-disambiguation", {max_attempts: 5, evaluator: async () => ({iteration_id: `attempt:${statuses.length}`, status: statuses.shift(), comparison: {}})});
+  const result = await runImprovementLoop(benchmark, {iteration_id: "baseline"}, "objective-disambiguation", {max_attempts: 5, evaluator: async () => ({iteration_id: `attempt:${statuses.length}`, iteration_digest: "a".repeat(64), candidate_digest: "candidate:stable", status: statuses.shift(), comparison: {}})});
   assert.equal(result.status, "STABLE");
   assert.equal(result.attempts.length, 2);
   assert.equal(result.achieved_pass_streak, 2);
+});
+
+test("stability loop rejects a streak across different candidate bytes", async () => {
+  const benchmark = loadBenchmark(packageRoot);
+  const digests = ["candidate:one", "candidate:two"];
+  const result = await runImprovementLoop(benchmark, {iteration_id: "baseline"}, "objective-disambiguation", {max_attempts: 5, evaluator: async () => ({iteration_id: `attempt:${digests.length}`, iteration_digest: "b".repeat(64), candidate_digest: digests.shift(), status: "KEEP", comparison: {}})});
+  assert.equal(result.status, "REJECT");
+  assert.equal(result.achieved_pass_streak, 0);
 });
 
 test("stability loop stops on the first rejected candidate", async () => {

@@ -127,12 +127,43 @@ The first three mechanisms are now bounded candidate implementations in
 `implementation/agent-reasoning-engine/packages/reasoning-state-runtime` and
 the Codex app-server wrapper: an append-only Reasoning State Ledger, required
 risk-aligned checkpoints, and exact outbound request reconstruction. The
-repository default is process-memory; an explicit file-log option provides
-append-only JSONL plus `fsync`. The successor recovery vertical now verifies a
+direct wrapper default is process-memory; the persistent gateway derives one
+append-only JSONL plus `fsync` log per declared consumer. The successor recovery vertical now verifies a
 complete log, rebuilds disposable indexes, selects its final checkpoint, and
-continues the exact event chain before Codex accepts a new turn. Cross-process
-writer coordination, repair, reduction, and durable CyberAlchemy Session
-semantics remain open, so this is not yet the complete product promise.
+continues the exact event chain before Codex accepts a new turn. An atomic
+single-writer lock prevents concurrent mutation and clean shutdown releases it;
+stale-lock adjudication, repair, physical compaction, automatic reduction or
+import policy, and durable CyberAlchemy Session semantics remain open, so this
+is not yet the complete product promise.
+
+The advanced reusable-state vertical now provides content-addressed branches,
+exact replay-derived fixtures, append-only non-destructive reductions,
+risk-scaled checkpoint selection, currentness-bound counterevidence, portable
+epochs under exact compatibility, and provenance comparison that explains why
+two apparently similar requests cannot reuse state. These are explicit opt-in
+operations; no model autonomously summarizes, compacts, imports, or promotes
+the resulting state.
+
+The lifecycle coordinator now turns those primitives into one deterministic
+transition contract: assess, plan, explicitly execute, and verify `reuse`,
+`branch`, `reduce`, `checkpoint`, or `portable-export`, otherwise block. The
+real-reasoning improvement loop is its first consumer. Benchmark baselines and
+candidate closures are exact-bound, authority posture is measured from
+failure-safety observations, outside-allowlist drift rejects the candidate,
+and stability requires two observations of the same candidate digest.
+
+The cache-affinity vertical projects a canonical stable request header and the
+reusable explicit reasoning state before the volatile current-turn suffix. It
+measures exact/common reused bytes, estimated reusable tokens, projection time,
+and invalidation reasons. Provider cache hits and actual savings remain
+unobserved and can never substitute for dependency currentness or provenance.
+
+The completed-turn frontier vertical now seals the explicit semantic result,
+continuation result, completion identity, and context bindings into the same
+recoverable Reasoning State source before automatic continuation. After a
+restart, the wrapper can replay that exact decision without rediscovering it or
+starting a second successor. Delivery acknowledgement remains a separate gap,
+so recovery uses an explicit at-most-once posture rather than guessing.
 
 The completed-turn frontier vertical now seals the explicit semantic result,
 continuation result, completion identity, and context bindings into the same
@@ -217,9 +248,11 @@ published, or deployed.
 The persistent gateway now separates transport from the reasoning wrapper. It
 supports direct stdio, the official managed-daemon proxy, and an isolated
 loopback WebSocket app-server backend. Declared plan and human/chat consumers
-receive separate wrapper instances and upstream connections; reconnect retains
-only the same in-memory consumer session, while lane substitution and concurrent
-attachment fail closed. The repository does not install or start a managed
+receive separate wrapper instances, upstream connections, and collision-resistant
+per-consumer reasoning logs; reconnect retains the same live session, while a
+clean process restart recovers checkpointed reasoning epochs and completion
+frontiers. Lane substitution, concurrent attachment, and a second writer for
+one log fail closed. The repository does not install or start a managed
 daemon and does not modify Codex Desktop configuration.
 
 Historical specifications, decisions, promotion receipts, and implementation

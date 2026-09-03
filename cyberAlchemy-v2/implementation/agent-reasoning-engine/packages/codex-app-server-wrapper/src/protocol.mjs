@@ -18,7 +18,7 @@ export const EVIDENCE_METHODS = Object.freeze([
   TURN_COMPLETED,
 ]);
 export const CONTEXT_KEY = "cyberalchemy.are.context-basis";
-export const CONTEXT_ITEM_KEY_PREFIX = "cyberalchemy.are.context-item/";
+export const CACHE_AFFINITY_KEY = "cyberalchemy.are.cache-affinity";
 export const DIRECTIVE_NOTIFICATION = "cyberalchemy/decision";
 export const SUCCESSOR_NOTIFICATION = "cyberalchemy/successor";
 export const SEMANTIC_NOTIFICATION = "cyberalchemy/semantic";
@@ -75,6 +75,38 @@ export function extractTurnIdentity(message) {
   };
 }
 
+const DIRECT_ANSWER_KINDS = new Set(["definition", "ontology-catalog"]);
+const REQUEST_MATCH = "request-term-match";
+
+function contextUseRole(item) {
+  if (item.item_kind === "definition") return "canonical-term-meaning";
+  if (item.item_kind === "ontology-catalog") return "repository-ontology-inventory";
+  return "request-matched-structural-meaning";
+}
+
+function contextUseContract(items) {
+  const requestMatched = items.filter((item) => item.relevance_basis === REQUEST_MATCH);
+  const preferred = requestMatched.filter((item) => DIRECT_ANSWER_KINDS.has(item.item_kind));
+  const primary = preferred.length > 0 ? preferred : requestMatched;
+  const primaryIds = new Set(primary.map((item) => item.context_item_id));
+  return freezeResult({
+    schema_version: "are.codex-context-use-contract/v1",
+    direct_answer_sources: primary.map((item) => ({
+      context_item_id: item.context_item_id,
+      use_role: contextUseRole(item),
+    })),
+    supporting_context_item_ids: items
+      .filter((item) => !primaryIds.has(item.context_item_id) && item.item_kind !== "request")
+      .map((item) => item.context_item_id),
+    instructions: [
+      "Use direct_answer_sources before supporting context when they directly answer the request.",
+      "When reporting provenance, cite the exact context_item_id of every context item materially used; do not substitute a supporting ontology node for a directly applicable definition or catalog.",
+      "Context relevance and cache reuse do not establish freshness, correctness, or authority.",
+    ],
+    authority_effect: "none",
+  });
+}
+
 export function contextFragment(lifecycle) {
   const composition = lifecycle.composition;
   const envelope = lifecycle.context_envelope.value;
@@ -82,8 +114,6 @@ export function contextFragment(lifecycle) {
   const route = composition.value.route_decision;
   const basis = composition.value.necessary_context_basis;
   const view = composition.value.context_window_view;
-  const allExclusions = envelope.exclusions ?? [];
-  const exclusions = allExclusions.filter((entry) => entry.reason !== "not-selected" && !String(entry.reason ?? "").startsWith("diagnostic-only-"));
   return freezeResult({
     schema_version: "are.codex-context-fragment/v2",
     request_context_digest: route.request_context_digest,
@@ -100,11 +130,9 @@ export function contextFragment(lifecycle) {
     refresh_disposition: refresh.disposition,
     inline_bytes: envelope.inline_bytes,
     max_inline_bytes: envelope.max_inline_bytes,
+    context_use_contract: contextUseContract(envelope.included_items),
     included_items: envelope.included_items,
-    exclusions,
-    exclusion_count: allExclusions.length,
-    omitted_diagnostic_exclusion_count: allExclusions.length - exclusions.length,
-    exclusions_digest: digestValue(allExclusions),
+    exclusions: envelope.exclusions,
     contradictions: envelope.contradictions,
     gaps: envelope.gaps,
     residue: envelope.residue,
@@ -113,34 +141,20 @@ export function contextFragment(lifecycle) {
   });
 }
 
-export function addContextFragment(message, fragment) {
+export function addContextFragment(message, fragment, cacheAffinity = null) {
   const params = isRecord(message.params) ? message.params : {};
   const additionalContext = isRecord(params.additionalContext) ? params.additionalContext : {};
-  const includedItems = Array.isArray(fragment.included_items) ? fragment.included_items : [];
-  const {included_items: _IncludedItems, ...fragmentFields} = fragment;
-  const manifest = {
-    ...fragmentFields,
-    schema_version: "are.codex-context-manifest/v1",
-    context_fragment_schema_version: fragment.schema_version,
-    included_item_count: includedItems.length,
-    included_item_refs: includedItems.map((item) => ({
-      context_item_id: item.context_item_id,
-      item_digest: item.item_digest,
-      item_kind: item.item_kind,
-    })),
-  };
-  const itemFragments = Object.fromEntries(includedItems.map((item) => [
-    `${CONTEXT_ITEM_KEY_PREFIX}${item.context_item_id}`,
-    {kind: "application", value: canonicalJson(item)},
-  ]));
+  const remainingContext = Object.fromEntries(Object.entries(additionalContext).filter(([key]) => key !== CONTEXT_KEY && key !== CACHE_AFFINITY_KEY));
   return freezeResult({
     ...message,
     params: {
       ...params,
       additionalContext: {
-        ...additionalContext,
-        [CONTEXT_KEY]: {kind: "application", value: canonicalJson(manifest)},
-        ...itemFragments,
+        ...(isRecord(cacheAffinity?.projection) ? {
+          [CACHE_AFFINITY_KEY]: {kind: "application", value: cacheAffinity.projection.wire_value},
+        } : {}),
+        ...remainingContext,
+        [CONTEXT_KEY]: {kind: "application", value: canonicalJson(fragment)},
       },
     },
   });

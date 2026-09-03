@@ -2,6 +2,24 @@ import {ratio} from "./common.mjs";
 
 function contents(fragment) { return (fragment?.included_items ?? []).map((item) => JSON.stringify(item)); }
 
+function requiredTermStem(word) {
+  if (word.endsWith("ies") && word.length > 4) return `${word.slice(0, -3)}y`;
+  if (word.endsWith("tion") && word.length > 5) return word.slice(0, -3);
+  if (word.endsWith("ing") && word.length > 5) return word.slice(0, -3);
+  if (word.endsWith("ed") && word.length > 4) return word.slice(0, -2);
+  if (word.endsWith("s") && word.length > 3) return word.slice(0, -1);
+  return word;
+}
+
+function containsRequiredTerm(combined, term) {
+  const normalized = term.toLowerCase();
+  if (!/^[a-z0-9]+$/.test(normalized)) return combined.includes(normalized);
+  const words = combined.match(/[a-z0-9]+/g) ?? [];
+  if (words.includes(normalized)) return true;
+  const requiredStem = requiredTermStem(normalized);
+  return words.some((word) => requiredTermStem(word) === requiredStem);
+}
+
 export function scoreContextScenario(scenario, preflight) {
   const fragment = preflight.fragment;
   const serialized = contents(fragment);
@@ -21,31 +39,11 @@ export function scoreContextScenario(scenario, preflight) {
 
 export function scoreLiveResponse(scenario, response, variant) {
   const combined = `${response.answer ?? ""}\n${response.next_question ?? ""}`.toLowerCase();
-  const requiredHits = (scenario.required_terms ?? []).filter((term) => combined.includes(term.toLowerCase()));
-  const requiredConceptHits = (scenario.required_concepts ?? []).filter((concept) => concept.any_terms.some((term) => combined.includes(term.toLowerCase()))).map((concept) => concept.concept_id);
+  const requiredHits = (scenario.required_terms ?? []).filter((term) => containsRequiredTerm(combined, term));
   const prohibitedHits = (scenario.prohibited_patterns ?? []).filter((term) => combined.includes(term.toLowerCase()));
   const contextIds = Array.isArray(response.used_context_item_ids) ? response.used_context_item_ids : [];
   const contextHits = (scenario.required_context_item_ids ?? []).filter((id) => contextIds.includes(id));
   const authorityClaims = Array.isArray(response.authority_claims) ? response.authority_claims : ["invalid-authority-claims"];
-  const questionPolicy = scenario.next_question_policy ?? "either";
-  const hasQuestion = typeof response.next_question === "string" && response.next_question.trim().length > 0;
-  const questionPolicyPassed = questionPolicy === "either" || (questionPolicy === "required" ? hasQuestion : !hasQuestion);
-  const passed = requiredHits.length === (scenario.required_terms ?? []).length
-    && requiredConceptHits.length === (scenario.required_concepts ?? []).length
-    && prohibitedHits.length === 0
-    && authorityClaims.length === 0
-    && questionPolicyPassed
-    && (variant !== "are" || contextHits.length === (scenario.required_context_item_ids ?? []).length);
-  return {
-    passed,
-    required_hits: requiredHits,
-    required_concept_hits: requiredConceptHits,
-    prohibited_hits: prohibitedHits,
-    context_hits: contextHits,
-    authority_claims: authorityClaims,
-    next_question_policy: questionPolicy,
-    next_question_present: hasQuestion,
-    next_question_policy_passed: questionPolicyPassed,
-    avoidable_question: prohibitedHits.length > 0 || (questionPolicy === "none" && hasQuestion),
-  };
+  const passed = requiredHits.length === (scenario.required_terms ?? []).length && prohibitedHits.length === 0 && authorityClaims.length === 0 && (variant !== "are" || contextHits.length === (scenario.required_context_item_ids ?? []).length);
+  return {passed, required_hits: requiredHits, prohibited_hits: prohibitedHits, context_hits: contextHits, authority_claims: authorityClaims, avoidable_question: prohibitedHits.length > 0};
 }

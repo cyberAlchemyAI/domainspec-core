@@ -104,6 +104,33 @@ test("the most specific exact primary phrase suppresses its nested generic prima
   assert.deepEqual(result.value.definition_matches.map((match) => match.definition_id), ["ContextWindowView"]);
 });
 
+test("qualified ontology node tails outrank generic token ties within the node budget", () => {
+  const nodeIds = ["ContextAssembly", "ContextBasisConstruction", "ContextBoundSemanticIntegrity", "ContextEnvelope", "ContextWindowView"];
+  const rankedSnapshot = {
+    ontology_id: "qualified-node-ranking",
+    source_identity: "fixture:qualified-node-ranking",
+    snapshot_digest: "qualified-node-ranking-v1",
+    nodes: nodeIds.map((name) => ({
+      node_id: `agent-reasoning-engine.${name}`,
+      lookup_terms: ["context"],
+      search_terms: [`agent-reasoning-engine.${name}`],
+    })),
+    edges: [],
+  };
+  const input = {
+    raw_request: "Explain the Context Window View.",
+    catalog,
+    snapshot: rankedSnapshot,
+    policy: {max_ontology_node_matches: 4},
+  };
+  const selected = selectRequestContext(input);
+  const permuted = selectRequestContext({...input, snapshot: {...rankedSnapshot, nodes: [...rankedSnapshot.nodes].reverse()}});
+  assert.equal(selected.ok, true);
+  assert.equal(selected.value.ontology_node_matches[0].node_id, "agent-reasoning-engine.ContextWindowView");
+  assert.equal(selected.value.ontology_node_matches[0].matched_terms.includes("context window view"), true);
+  assert.deepEqual(selected.value.ontology_node_matches, permuted.value.ontology_node_matches);
+});
+
 test("disjoint exact primary concepts remain selected together", () => {
   const disjointCatalog = structuredClone(catalog);
   disjointCatalog.definitions.push(

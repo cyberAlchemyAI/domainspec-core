@@ -26,6 +26,11 @@ function searchableTerms(values) {
   return uniqueStrings(terms);
 }
 
+function qualifiedIdentifierTail(value) {
+  const parts = String(value ?? "").split(/[.#/:]/).filter(Boolean);
+  return parts.at(-1) ?? "";
+}
+
 function scoreTerms(requestText, requestWords, terms) {
   let score = 0;
   const matched = [];
@@ -87,7 +92,10 @@ export function selectRequestContext(input) {
 
   const nodeMatches = (input.snapshot.nodes ?? []).flatMap((node) => {
     if (!isRecord(node) || !nonEmptyString(node.node_id)) return [];
-    const terms = Array.isArray(node.lookup_terms) ? node.lookup_terms : searchableTerms([node.node_id, ...(node.search_terms ?? [])]);
+    const terms = uniqueStrings([
+      ...(Array.isArray(node.lookup_terms) ? node.lookup_terms : []),
+      ...searchableTerms([qualifiedIdentifierTail(node.node_id), ...(node.search_terms ?? [])]),
+    ]);
     const match = scoreTerms(requestText, requestWordSet, terms);
     return match.score > 0 ? [{node_id: node.node_id, ...match}] : [];
   }).sort((a, b) => b.score - a.score || a.node_id.localeCompare(b.node_id)).slice(0, maxNodes);

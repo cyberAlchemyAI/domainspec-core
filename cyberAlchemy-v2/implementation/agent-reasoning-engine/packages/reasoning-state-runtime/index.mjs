@@ -5,8 +5,10 @@ import {
   mkdirSync,
   openSync,
   readFileSync,
+  unlinkSync,
   writeSync,
 } from "node:fs";
+import {randomUUID} from "node:crypto";
 import {dirname, resolve} from "node:path";
 
 import {
@@ -26,9 +28,23 @@ export const REASONING_STATE_INDEX_SCHEMA = "are.reasoning-state-derived-index/v
 export const REASONING_STATE_LOG_VERIFICATION_SCHEMA = "are.reasoning-state-log-verification/v1";
 export const REASONING_STATE_RECOVERY_SCHEMA = "are.reasoning-state-recovery-assessment/v1";
 export const REASONING_STATE_FRONTIER_SCHEMA = "are.reasoning-state-frontier/v1";
+export const REASONING_CACHE_AFFINITY_PROJECTION_SCHEMA = "are.reasoning-cache-affinity-projection/v1";
+export const REASONING_CACHE_AFFINITY_ASSESSMENT_SCHEMA = "are.reasoning-cache-affinity-assessment/v1";
+export const REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA = "are.reasoning-cache-telemetry-observation/v1";
+export const REASONING_STATE_BRANCH_SCHEMA = "are.reasoning-state-branch/v1";
+export const REASONING_REPLAY_FIXTURE_SCHEMA = "are.reasoning-replay-fixture/v1";
+export const REASONING_STATE_REDUCTION_SCHEMA = "are.reasoning-state-reduction/v1";
+export const REASONING_CHECKPOINT_POLICY_SCHEMA = "are.reasoning-checkpoint-policy/v1";
+export const REASONING_COUNTEREVIDENCE_SCHEMA = "are.reasoning-counterevidence/v1";
+export const PORTABLE_REASONING_EPOCH_SCHEMA = "are.portable-reasoning-epoch/v1";
+export const REASONING_PROVENANCE_COMPARISON_SCHEMA = "are.reasoning-provenance-comparison/v1";
+export const REASONING_STATE_TRANSITION_ASSESSMENT_SCHEMA = "are.reasoning-state-transition-assessment/v1";
+export const REASONING_STATE_TRANSITION_PLAN_SCHEMA = "are.reasoning-state-transition-plan/v1";
+export const REASONING_STATE_TRANSITION_RECEIPT_SCHEMA = "are.reasoning-state-transition-receipt/v1";
 
 const ledgers = new WeakSet();
 const sinks = new WeakSet();
+const writerLocks = new WeakSet();
 const CHECKPOINT_KINDS = new Set(["before-model-request", "before-effect", "before-continuation", "after-turn-completion", "manual"]);
 
 function freeze(value) {
@@ -89,6 +105,58 @@ export function createMemoryReasoningStateSink() {
   });
   sinks.add(sink);
   return sink;
+}
+
+export function acquireReasoningStateWriterLock({path, owner_id = "are-reasoning-state-writer"} = {}) {
+  if (!text(path)) return fail("writer-lock", ["reasoning.writer-lock-path-required"]);
+  if (!text(owner_id)) return fail("writer-lock", ["reasoning.writer-lock-owner-required"]);
+  const absolutePath = resolve(path);
+  const lockPath = `${absolutePath}.writer.lock`;
+  mkdirSync(dirname(lockPath), {recursive: true});
+  let descriptor;
+  try {
+    descriptor = openSync(lockPath, "wx", 0o600);
+  } catch (error) {
+    if (error?.code === "EEXIST") return fail("writer-lock", ["reasoning.writer-lock-held"], [{lock_path: lockPath}]);
+    return fail("writer-lock", ["reasoning.writer-lock-create-failed"], [{lock_path: lockPath, code: error?.code ?? null}]);
+  }
+  const material = canonicalizeJson({
+    schema_version: "are.reasoning-state-writer-lock/v1",
+    owner_id: owner_id.trim(),
+    ledger_path: absolutePath,
+    process_id: process.pid,
+    nonce: randomUUID(),
+    authority_effect: "none",
+  });
+  const lockRecord = freeze({...material, lock_digest: digest(material)});
+  try {
+    writeSync(descriptor, `${canonicalJson(lockRecord)}\n`, null, "utf8");
+    fsyncSync(descriptor);
+  } catch (error) {
+    closeSync(descriptor);
+    unlinkSync(lockPath);
+    return fail("writer-lock", ["reasoning.writer-lock-write-failed"], [{lock_path: lockPath, code: error?.code ?? null}]);
+  }
+  let released = false;
+  const lock = Object.freeze({
+    path: lockPath,
+    record: lockRecord,
+    release() {
+      if (released) return sinkResult("writer-lock-release", "already-released", {lock_path: lockPath});
+      let current;
+      try { current = JSON.parse(readFileSync(lockPath, "utf8").trim()); } catch {
+        return fail("writer-lock-release", ["reasoning.writer-lock-record-unreadable"], [{lock_path: lockPath}]);
+      }
+      if (current.lock_digest !== lockRecord.lock_digest) return fail("writer-lock-release", ["reasoning.writer-lock-owner-mismatch"], [{lock_path: lockPath}]);
+      closeSync(descriptor);
+      unlinkSync(lockPath);
+      released = true;
+      return sinkResult("writer-lock-release", "released", {lock_path: lockPath});
+    },
+    inspect: () => freeze({lock_path: lockPath, owner_id: lockRecord.owner_id, process_id: lockRecord.process_id, lock_digest: lockRecord.lock_digest, released, authority_effect: "none"}),
+  });
+  writerLocks.add(lock);
+  return Object.freeze({ok: true, lock, value: lockRecord, authority_effect: "none"});
 }
 
 export function createAppendOnlyFileReasoningStateSink({path, create_parent = true, initial_record_count = 0} = {}) {
@@ -311,6 +379,328 @@ export function replayReasoningStateEpoch(ledger, epoch) {
     authority_effect: "none",
   });
   return freeze({ok: true, value: {...material, replay_digest: digest(material)}, authority_effect: "none"});
+}
+
+export function createReasoningStateBranch(ledger, input = {}) {
+  const state = ledgerState(ledger);
+  const baseEpoch = input.base_epoch;
+  const verified = verifyReasoningStateEpoch(baseEpoch, Array.isArray(baseEpoch?.event_digests) ? baseEpoch.event_digests.map((value) => state.eventsByDigest.get(value)) : []);
+  if (!verified.ok) return fail("branch-create", verified.reason_codes);
+  if (!text(input.branch_ref)) return fail("branch-create", ["reasoning.branch-ref-required"]);
+  const additional = Array.isArray(input.additional_event_digests) ? [...new Set(input.additional_event_digests)] : [];
+  if (additional.some((value) => !state.eventsByDigest.has(value))) return fail("branch-create", ["reasoning.branch-event-missing"]);
+  const branchMaterial = canonicalizeJson({
+    schema_version: REASONING_STATE_BRANCH_SCHEMA,
+    base_epoch_id: baseEpoch.epoch_id,
+    base_epoch_digest: baseEpoch.epoch_digest,
+    branch_ref: input.branch_ref.trim(),
+    additional_event_digests: additional,
+    branch_basis: record(input.branch_basis) ? input.branch_basis : {},
+    authority_effect: "none",
+  });
+  const branch = freeze({...branchMaterial, branch_digest: digest(branchMaterial), branch_id: `reasoning-branch:${digest(branchMaterial)}`});
+  const appended = appendReasoningStateEvent(ledger, {
+    event_kind: "reasoning-branch-created",
+    idempotency_key: branch.branch_id,
+    content: branch,
+    provenance_refs: [`reasoning-epoch:${baseEpoch.epoch_digest}`],
+  });
+  if (!appended.ok) return appended;
+  const sealed = sealReasoningStateEpoch(ledger, {
+    event_digests: [...baseEpoch.event_digests, ...additional.filter((value) => !baseEpoch.event_digests.includes(value)), appended.event.event_digest],
+    consumer_ref: input.consumer_ref ?? baseEpoch.consumer_ref,
+    request_ref: input.request_ref ?? baseEpoch.request_ref,
+    selected_dependencies: input.selected_dependencies ?? baseEpoch.selected_dependencies,
+    context_envelope_digest: input.context_envelope_digest ?? baseEpoch.context_envelope_digest,
+    frontier: {kind: "reasoning-branch", branch_id: branch.branch_id, branch_digest: branch.branch_digest},
+  });
+  return sealed.ok ? freeze({ok: true, disposition: appended.disposition, branch, event: appended.event, epoch: sealed.value, authority_effect: "none"}) : sealed;
+}
+
+function replayFixtureMaterial(fixture) {
+  const {fixture_digest: _fixtureDigest, ...material} = fixture;
+  return material;
+}
+
+export function deriveReasoningReplayFixture(ledger, epoch, options = {}) {
+  const replayed = replayReasoningStateEpoch(ledger, epoch);
+  if (!replayed.ok) return replayed;
+  const material = canonicalizeJson({
+    schema_version: REASONING_REPLAY_FIXTURE_SCHEMA,
+    fixture_ref: text(options.fixture_ref) ? options.fixture_ref.trim() : `fixture:${epoch.epoch_digest}`,
+    source_epoch: epoch,
+    events: replayed.value.events,
+    expected_replay_digest: replayed.value.replay_digest,
+    external_calls: 0,
+    generated_from_verified_state: true,
+    authority_effect: "none",
+  });
+  const fixture = freeze({...material, fixture_digest: digest(material)});
+  return freeze({ok: true, value: fixture, digest: fixture.fixture_digest, authority_effect: "none"});
+}
+
+export function verifyReasoningReplayFixture(fixture) {
+  const reasons = [];
+  if (!record(fixture) || fixture.schema_version !== REASONING_REPLAY_FIXTURE_SCHEMA) reasons.push("reasoning.fixture-schema-invalid");
+  if (record(fixture) && digest(replayFixtureMaterial(fixture)) !== fixture.fixture_digest) reasons.push("reasoning.fixture-digest-invalid");
+  if (!verifyReasoningStateEpoch(fixture?.source_epoch, fixture?.events).ok) reasons.push("reasoning.fixture-epoch-binding-invalid");
+  if (record(fixture?.source_epoch) && Array.isArray(fixture?.events)) {
+    const replayMaterial = canonicalizeJson({schema_version: "are.reasoning-state-replay/v1", ledger_id: fixture.source_epoch.ledger_id, epoch_id: fixture.source_epoch.epoch_id, epoch_digest: fixture.source_epoch.epoch_digest, events: fixture.events, external_calls: 0, authority_effect: "none"});
+    if (digest(replayMaterial) !== fixture.expected_replay_digest) reasons.push("reasoning.fixture-replay-digest-invalid");
+  }
+  return reasons.length ? fail("fixture-verification", reasons) : freeze({ok: true, value: fixture, digest: fixture.fixture_digest, external_calls: 0, authority_effect: "none"});
+}
+
+export function appendReasoningStateReduction(ledger, input = {}) {
+  const state = ledgerState(ledger);
+  const sourceEpoch = input.source_epoch;
+  const verified = verifyReasoningStateEpoch(sourceEpoch, Array.isArray(sourceEpoch?.event_digests) ? sourceEpoch.event_digests.map((value) => state.eventsByDigest.get(value)) : []);
+  if (!verified.ok) return fail("reduction-append", verified.reason_codes);
+  const retained = Array.isArray(input.retained_event_digests) ? [...new Set(input.retained_event_digests)] : [];
+  if (retained.length === 0 || retained.some((value) => !sourceEpoch.event_digests.includes(value))) return fail("reduction-append", ["reasoning.reduction-retained-events-invalid"]);
+  const omitted = sourceEpoch.event_digests.filter((value) => !retained.includes(value));
+  const material = canonicalizeJson({
+    schema_version: REASONING_STATE_REDUCTION_SCHEMA,
+    source_epoch_id: sourceEpoch.epoch_id,
+    source_epoch_digest: sourceEpoch.epoch_digest,
+    retained_event_digests: retained,
+    omitted_event_digests: omitted,
+    reduction_basis: record(input.reduction_basis) ? input.reduction_basis : {},
+    destructive: false,
+    generative_summary: false,
+    authority_effect: "none",
+  });
+  const reduction = freeze({...material, reduction_digest: digest(material)});
+  const appended = appendReasoningStateEvent(ledger, {event_kind: "reasoning-state-reduced", idempotency_key: `reasoning-reduction:${reduction.reduction_digest}`, content: reduction, provenance_refs: [`reasoning-epoch:${sourceEpoch.epoch_digest}`]});
+  if (!appended.ok) return appended;
+  const sealed = sealReasoningStateEpoch(ledger, {event_digests: [...retained, appended.event.event_digest], consumer_ref: input.consumer_ref ?? sourceEpoch.consumer_ref, request_ref: input.request_ref ?? sourceEpoch.request_ref, selected_dependencies: sourceEpoch.selected_dependencies, context_envelope_digest: sourceEpoch.context_envelope_digest, frontier: {kind: "reasoning-reduction", source_epoch_digest: sourceEpoch.epoch_digest, reduction_digest: reduction.reduction_digest}});
+  return sealed.ok ? freeze({ok: true, disposition: appended.disposition, reduction, event: appended.event, epoch: sealed.value, authority_effect: "none"}) : sealed;
+}
+
+export function selectReasoningCheckpointPolicy(input = {}) {
+  const boundary = input.boundary ?? "observation";
+  const defaults = {
+    observation: {risk: "low", checkpoint_required: false, minimum_durability: "process-memory", checkpoint_kind: "manual"},
+    "model-request": {risk: "moderate", checkpoint_required: true, minimum_durability: "process-memory", checkpoint_kind: "before-model-request"},
+    continuation: {risk: "high", checkpoint_required: true, minimum_durability: "append-only-file-fsync", checkpoint_kind: "before-continuation"},
+    effect: {risk: "critical", checkpoint_required: true, minimum_durability: "append-only-file-fsync", checkpoint_kind: "before-effect"},
+  };
+  if (!Object.hasOwn(defaults, boundary)) return fail("checkpoint-policy", ["reasoning.checkpoint-boundary-invalid"]);
+  const selected = canonicalizeJson({...defaults[boundary], schema_version: REASONING_CHECKPOINT_POLICY_SCHEMA, boundary, policy_ref: text(input.policy_ref) ? input.policy_ref.trim() : "are-default-risk-scaled-checkpoints/v1", authority_effect: "none"});
+  return freeze({ok: true, value: {...selected, policy_digest: digest(selected)}, authority_effect: "none"});
+}
+
+export function checkpointReasoningStateByRisk(ledger, input = {}) {
+  const policy = selectReasoningCheckpointPolicy(input);
+  if (!policy.ok) return policy;
+  if (!policy.value.checkpoint_required) return freeze({ok: true, disposition: "not-required", policy: policy.value, checkpoint: null, authority_effect: "none"});
+  const durability = ledgerState(ledger).sink.durability;
+  if (policy.value.minimum_durability === "append-only-file-fsync" && durability !== "append-only-file-fsync") return fail("checkpoint-by-risk", ["reasoning.checkpoint-durability-insufficient"], [{required: policy.value.minimum_durability, actual: durability, boundary: policy.value.boundary}]);
+  const checkpointed = checkpointReasoningState(ledger, {checkpoint_kind: policy.value.checkpoint_kind, epoch: input.epoch, subject_digest: input.subject_digest});
+  return checkpointed.ok ? freeze({ok: true, disposition: "checkpointed", policy: policy.value, checkpoint: checkpointed.value, flush: checkpointed.flush, authority_effect: "none"}) : checkpointed;
+}
+
+export function appendReasoningCounterevidence(ledger, input = {}) {
+  const reasons = [];
+  if (!text(input.claim_ref)) reasons.push("reasoning.counterevidence-claim-required");
+  if (!text(input.evidence_ref)) reasons.push("reasoning.counterevidence-ref-required");
+  if (!text(input.source_identity) || !text(input.source_digest)) reasons.push("reasoning.counterevidence-source-binding-required");
+  if (reasons.length) return fail("counterevidence-append", reasons);
+  const material = canonicalizeJson({schema_version: REASONING_COUNTEREVIDENCE_SCHEMA, claim_ref: input.claim_ref.trim(), evidence_ref: input.evidence_ref.trim(), source_identity: input.source_identity.trim(), source_digest: input.source_digest.trim(), posture: text(input.posture) ? input.posture.trim() : "counterevidence", temporal_scope: record(input.temporal_scope) ? input.temporal_scope : {}, content: record(input.content) ? input.content : {}, authority_effect: "none"});
+  const counterevidence = freeze({...material, counterevidence_digest: digest(material)});
+  const appended = appendReasoningStateEvent(ledger, {event_kind: "counterevidence-recorded", idempotency_key: `counterevidence:${counterevidence.counterevidence_digest}`, content: counterevidence, provenance_refs: [counterevidence.source_identity]});
+  return appended.ok ? freeze({ok: true, disposition: appended.disposition, counterevidence, event: appended.event, authority_effect: "none"}) : appended;
+}
+
+export function selectReusableCounterevidence(ledger, input = {}) {
+  const state = ledgerState(ledger);
+  if (!text(input.claim_ref)) return fail("counterevidence-select", ["reasoning.counterevidence-claim-required"]);
+  const current = new Map((Array.isArray(input.current_sources) ? input.current_sources : []).filter((item) => text(item?.source_identity) && text(item?.source_digest)).map((item) => [item.source_identity, item.source_digest]));
+  const selected = [];
+  const invalidated = [];
+  for (const event of state.events.filter((value) => value.event_kind === "counterevidence-recorded" && value.content.claim_ref === input.claim_ref.trim())) {
+    const entry = {event_digest: event.event_digest, counterevidence: event.content};
+    if (current.get(event.content.source_identity) === event.content.source_digest) selected.push(entry);
+    else invalidated.push({...entry, reason: current.has(event.content.source_identity) ? "counterevidence.source-changed" : "counterevidence.source-missing"});
+  }
+  const material = canonicalizeJson({schema_version: "are.reusable-counterevidence-selection/v1", claim_ref: input.claim_ref.trim(), selected, invalidated, authority_effect: "none"});
+  return freeze({ok: true, value: {...material, selection_digest: digest(material)}, authority_effect: "none"});
+}
+
+function portableEpochMaterial(bundle) {
+  const {bundle_digest: _bundleDigest, ...material} = bundle;
+  return material;
+}
+
+export function exportPortableReasoningEpoch(ledger, epoch, input = {}) {
+  if (!record(input.compatibility_profile)) return fail("portable-epoch-export", ["reasoning.portable-compatibility-profile-required"]);
+  const replayed = replayReasoningStateEpoch(ledger, epoch);
+  if (!replayed.ok) return replayed;
+  const material = canonicalizeJson({schema_version: PORTABLE_REASONING_EPOCH_SCHEMA, source_ledger_id: epoch.ledger_id, source_epoch: epoch, events: replayed.value.events, compatibility_profile: input.compatibility_profile, compatibility_digest: digest(input.compatibility_profile), authority_effect: "none"});
+  const bundle = freeze({...material, bundle_digest: digest(material)});
+  return freeze({ok: true, value: bundle, digest: bundle.bundle_digest, authority_effect: "none"});
+}
+
+export function verifyPortableReasoningEpoch(bundle, compatibilityProfile = null) {
+  const reasons = [];
+  if (!record(bundle) || bundle.schema_version !== PORTABLE_REASONING_EPOCH_SCHEMA) reasons.push("reasoning.portable-schema-invalid");
+  if (record(bundle) && digest(portableEpochMaterial(bundle)) !== bundle.bundle_digest) reasons.push("reasoning.portable-digest-invalid");
+  if (!verifyReasoningStateEpoch(bundle?.source_epoch, bundle?.events).ok) reasons.push("reasoning.portable-epoch-binding-invalid");
+  if (record(bundle?.compatibility_profile) && digest(bundle.compatibility_profile) !== bundle.compatibility_digest) reasons.push("reasoning.portable-compatibility-digest-invalid");
+  if (compatibilityProfile !== null && digest(compatibilityProfile) !== bundle?.compatibility_digest) reasons.push("reasoning.portable-compatibility-mismatch");
+  return reasons.length ? fail("portable-epoch-verification", reasons) : freeze({ok: true, value: bundle, digest: bundle.bundle_digest, authority_effect: "none"});
+}
+
+export function importPortableReasoningEpoch(ledger, bundle, input = {}) {
+  const verified = verifyPortableReasoningEpoch(bundle, input.compatibility_profile);
+  if (!verified.ok) return verified;
+  const appended = appendReasoningStateEvent(ledger, {event_kind: "portable-reasoning-epoch-imported", idempotency_key: `portable-epoch:${bundle.bundle_digest}`, content: {source_ledger_id: bundle.source_ledger_id, source_epoch_id: bundle.source_epoch.epoch_id, source_epoch_digest: bundle.source_epoch.epoch_digest, bundle_digest: bundle.bundle_digest, compatibility_digest: bundle.compatibility_digest, authority_effect: "none"}, provenance_refs: [`reasoning-epoch:${bundle.source_epoch.epoch_digest}`]});
+  if (!appended.ok) return appended;
+  const sealed = sealReasoningStateEpoch(ledger, {event_digests: [appended.event.event_digest], consumer_ref: input.consumer_ref ?? null, request_ref: input.request_ref ?? bundle.source_epoch.request_ref, selected_dependencies: bundle.source_epoch.selected_dependencies, context_envelope_digest: bundle.source_epoch.context_envelope_digest, frontier: {kind: "portable-import", source_epoch_digest: bundle.source_epoch.epoch_digest, bundle_digest: bundle.bundle_digest}});
+  return sealed.ok ? freeze({ok: true, disposition: appended.disposition, source_bundle_digest: bundle.bundle_digest, event: appended.event, epoch: sealed.value, authority_effect: "none"}) : sealed;
+}
+
+export function compareReasoningProvenance(leftEpoch, rightEpoch) {
+  const reasons = [];
+  if (!verifyReasoningStateEpoch(leftEpoch).ok || !verifyReasoningStateEpoch(rightEpoch).ok) return fail("provenance-comparison", ["reasoning.provenance-epoch-invalid"]);
+  if (leftEpoch.context_envelope_digest !== rightEpoch.context_envelope_digest) reasons.push("provenance.context-envelope-changed");
+  if (digest(canonicalOrder(leftEpoch.selected_dependencies ?? [])) !== digest(canonicalOrder(rightEpoch.selected_dependencies ?? []))) reasons.push("provenance.selected-dependencies-changed");
+  if (digest(leftEpoch.frontier ?? {}) !== digest(rightEpoch.frontier ?? {})) reasons.push("provenance.frontier-changed");
+  if (digest(leftEpoch.event_digests) !== digest(rightEpoch.event_digests)) reasons.push("provenance.event-selection-changed");
+  if (leftEpoch.consumer_ref !== rightEpoch.consumer_ref) reasons.push("provenance.consumer-changed");
+  if (leftEpoch.request_ref !== rightEpoch.request_ref) reasons.push("provenance.request-changed");
+  const material = canonicalizeJson({schema_version: REASONING_PROVENANCE_COMPARISON_SCHEMA, left_epoch_digest: leftEpoch.epoch_digest, right_epoch_digest: rightEpoch.epoch_digest, same_provenance: reasons.length === 0, reuse_eligible: reasons.length === 0, difference_reasons: reasons.sort(), authority_effect: "none"});
+  return freeze({ok: true, value: {...material, comparison_digest: digest(material)}, authority_effect: "none"});
+}
+
+const TRANSITION_ACTIONS = new Set(["auto", "reuse", "branch", "reduce", "checkpoint", "portable-export"]);
+
+export function assessReasoningStateTransition(input = {}) {
+  const currentEpoch = input.current_epoch;
+  const verified = verifyReasoningStateEpoch(currentEpoch);
+  if (!verified.ok) return fail("transition-assessment", ["reasoning.transition-current-epoch-invalid", ...verified.reason_codes]);
+  const requestedAction = input.requested_action ?? "auto";
+  if (!TRANSITION_ACTIONS.has(requestedAction)) return fail("transition-assessment", ["reasoning.transition-action-invalid"]);
+  const maximumEvents = input.maximum_event_count ?? Number.MAX_SAFE_INTEGER;
+  if (!Number.isSafeInteger(maximumEvents) || maximumEvents < 1) return fail("transition-assessment", ["reasoning.transition-event-budget-invalid"]);
+  const checkpointPolicy = selectReasoningCheckpointPolicy({boundary: input.boundary ?? "observation", policy_ref: input.checkpoint_policy_ref});
+  if (!checkpointPolicy.ok) return checkpointPolicy;
+  let comparison = null;
+  if (input.candidate_epoch !== undefined && input.candidate_epoch !== null) {
+    comparison = compareReasoningProvenance(currentEpoch, input.candidate_epoch);
+    if (!comparison.ok) return fail("transition-assessment", comparison.reason_codes);
+  }
+  const overBudget = currentEpoch.event_digests.length > maximumEvents;
+  let selectedAction = requestedAction;
+  const reasons = [];
+  if (requestedAction === "auto") {
+    if (overBudget) selectedAction = "reduce";
+    else if (comparison && !comparison.value.reuse_eligible) selectedAction = "branch";
+    else if (checkpointPolicy.value.checkpoint_required) selectedAction = "checkpoint";
+    else selectedAction = "reuse";
+  }
+  if (overBudget && selectedAction !== "reduce") reasons.push("reasoning.transition-event-budget-exceeded");
+  if (selectedAction === "reduce" && (!Array.isArray(input.retained_event_digests) || input.retained_event_digests.length === 0)) reasons.push("reasoning.transition-reduction-selection-required");
+  if (selectedAction === "branch" && (!text(input.branch_ref) || !Array.isArray(input.additional_event_digests) || input.additional_event_digests.length === 0)) reasons.push("reasoning.transition-branch-input-required");
+  if (selectedAction === "portable-export" && !record(input.compatibility_profile)) reasons.push("reasoning.transition-compatibility-profile-required");
+  const material = canonicalizeJson({
+    schema_version: REASONING_STATE_TRANSITION_ASSESSMENT_SCHEMA,
+    current_epoch_digest: currentEpoch.epoch_digest,
+    candidate_epoch_digest: input.candidate_epoch?.epoch_digest ?? null,
+    requested_action: requestedAction,
+    selected_action: reasons.length > 0 ? "block" : selectedAction,
+    boundary: checkpointPolicy.value.boundary,
+    checkpoint_policy: checkpointPolicy.value,
+    maximum_event_count: maximumEvents,
+    current_event_count: currentEpoch.event_digests.length,
+    provenance_comparison: comparison?.value ?? null,
+    reason_codes: reasons.sort(),
+    authority_effect: "none",
+  });
+  return freeze({ok: reasons.length === 0, disposition: reasons.length === 0 ? "planned" : "block", value: {...material, assessment_digest: digest(material)}, reason_codes: reasons.sort(), authority_effect: "none"});
+}
+
+function transitionPlanMaterial(plan) {
+  const {plan_digest: _planDigest, plan_id: _planId, ...material} = plan;
+  return material;
+}
+
+export function planReasoningStateTransition(input = {}) {
+  const assessment = assessReasoningStateTransition(input);
+  if (!assessment.ok) return assessment;
+  const material = canonicalizeJson({
+    schema_version: REASONING_STATE_TRANSITION_PLAN_SCHEMA,
+    assessment: assessment.value,
+    current_epoch: input.current_epoch,
+    candidate_epoch: input.candidate_epoch ?? null,
+    branch_ref: text(input.branch_ref) ? input.branch_ref.trim() : null,
+    additional_event_digests: Array.isArray(input.additional_event_digests) ? [...input.additional_event_digests] : [],
+    retained_event_digests: Array.isArray(input.retained_event_digests) ? [...input.retained_event_digests] : [],
+    compatibility_profile: record(input.compatibility_profile) ? input.compatibility_profile : null,
+    transition_basis: record(input.transition_basis) ? input.transition_basis : {},
+    authority_effect: "none",
+  });
+  const planDigest = digest(material);
+  const plan = freeze({...material, plan_id: `reasoning-transition:${planDigest}`, plan_digest: planDigest});
+  return freeze({ok: true, disposition: "planned", value: plan, digest: planDigest, authority_effect: "none"});
+}
+
+export function verifyReasoningStateTransitionPlan(plan) {
+  const reasons = [];
+  if (!record(plan) || plan.schema_version !== REASONING_STATE_TRANSITION_PLAN_SCHEMA) reasons.push("reasoning.transition-plan-schema-invalid");
+  if (record(plan)) {
+    const expected = digest(transitionPlanMaterial(plan));
+    if (plan.plan_digest !== expected) reasons.push("reasoning.transition-plan-digest-invalid");
+    if (plan.plan_id !== `reasoning-transition:${expected}`) reasons.push("reasoning.transition-plan-id-invalid");
+  }
+  if (!verifyReasoningStateEpoch(plan?.current_epoch).ok) reasons.push("reasoning.transition-plan-current-epoch-invalid");
+  if (plan?.authority_effect !== "none" || plan?.assessment?.authority_effect !== "none") reasons.push("reasoning.transition-plan-authority-invalid");
+  return reasons.length > 0 ? fail("transition-plan-verification", reasons) : freeze({ok: true, value: plan, digest: plan.plan_digest, authority_effect: "none"});
+}
+
+function transitionReceiptMaterial(receipt) {
+  const {receipt_digest: _receiptDigest, receipt_id: _receiptId, ...material} = receipt;
+  return material;
+}
+
+export function executeReasoningStateTransition(ledger, plan) {
+  const verified = verifyReasoningStateTransitionPlan(plan);
+  if (!verified.ok) return verified;
+  const action = plan.assessment.selected_action;
+  let result;
+  if (action === "reuse") result = freeze({ok: true, disposition: "reused", epoch: plan.current_epoch, authority_effect: "none"});
+  else if (action === "branch") result = createReasoningStateBranch(ledger, {base_epoch: plan.current_epoch, branch_ref: plan.branch_ref, additional_event_digests: plan.additional_event_digests, branch_basis: plan.transition_basis});
+  else if (action === "reduce") result = appendReasoningStateReduction(ledger, {source_epoch: plan.current_epoch, retained_event_digests: plan.retained_event_digests, reduction_basis: plan.transition_basis});
+  else if (action === "checkpoint") result = checkpointReasoningStateByRisk(ledger, {boundary: plan.assessment.boundary, epoch: plan.current_epoch, subject_digest: plan.plan_digest});
+  else if (action === "portable-export") result = exportPortableReasoningEpoch(ledger, plan.current_epoch, {compatibility_profile: plan.compatibility_profile});
+  else return fail("transition-execution", ["reasoning.transition-action-invalid"]);
+  if (!result.ok) return result;
+  const outputEpoch = result.epoch ?? null;
+  let checkpoint = null;
+  if (outputEpoch && plan.assessment.checkpoint_policy.checkpoint_required) {
+    const checkpointed = checkpointReasoningStateByRisk(ledger, {boundary: plan.assessment.boundary, epoch: outputEpoch, subject_digest: plan.plan_digest});
+    if (!checkpointed.ok) return checkpointed;
+    checkpoint = checkpointed.checkpoint;
+  }
+  const material = canonicalizeJson({schema_version: REASONING_STATE_TRANSITION_RECEIPT_SCHEMA, plan, action, disposition: result.disposition ?? "completed", input_epoch_digest: plan.current_epoch.epoch_digest, output_epoch_digest: outputEpoch?.epoch_digest ?? plan.current_epoch.epoch_digest, result, result_digest: digest(result), checkpoint_digest: checkpoint?.checkpoint_digest ?? result.checkpoint?.checkpoint_digest ?? null, authority_effect: "none"});
+  const receiptDigest = digest(material);
+  const receipt = freeze({...material, receipt_id: `reasoning-transition-receipt:${receiptDigest}`, receipt_digest: receiptDigest});
+  return freeze({ok: true, disposition: "completed", result, receipt, digest: receiptDigest, authority_effect: "none"});
+}
+
+export function verifyReasoningStateTransitionReceipt(receipt) {
+  const reasons = [];
+  if (!record(receipt) || receipt.schema_version !== REASONING_STATE_TRANSITION_RECEIPT_SCHEMA) reasons.push("reasoning.transition-receipt-schema-invalid");
+  if (!verifyReasoningStateTransitionPlan(receipt?.plan).ok) reasons.push("reasoning.transition-receipt-plan-invalid");
+  if (!record(receipt?.result) || receipt?.result_digest !== digest(receipt?.result)) reasons.push("reasoning.transition-receipt-result-invalid");
+  if (record(receipt?.result?.epoch) && receipt.output_epoch_digest !== receipt.result.epoch.epoch_digest) reasons.push("reasoning.transition-receipt-output-epoch-invalid");
+  if (record(receipt)) {
+    const expected = digest(transitionReceiptMaterial(receipt));
+    if (receipt.receipt_digest !== expected) reasons.push("reasoning.transition-receipt-digest-invalid");
+    if (receipt.receipt_id !== `reasoning-transition-receipt:${expected}`) reasons.push("reasoning.transition-receipt-id-invalid");
+  }
+  if (receipt?.authority_effect !== "none") reasons.push("reasoning.transition-receipt-authority-invalid");
+  return reasons.length > 0 ? fail("transition-receipt-verification", reasons) : freeze({ok: true, value: receipt, digest: receipt.receipt_digest, authority_effect: "none"});
 }
 
 export function checkpointReasoningState(ledger, input = {}) {
@@ -617,7 +1007,7 @@ export function recoverReasoningStateLedger(input, options = {}) {
 
 function requestConfiguration(params) {
   if (!record(params)) return {};
-  const excluded = new Set(["input", "additionalContext"]);
+  const excluded = new Set(["input", "additionalContext", "provider", "model", "tools", "developerInstructions", "systemInstructions"]);
   return Object.fromEntries(Object.entries(params).filter(([key]) => !excluded.has(key)));
 }
 
@@ -636,6 +1026,176 @@ export function createRequestSeriesHeader(message, overrides = {}) {
     authority_effect: "none",
   });
   return freeze({...material, request_header_digest: digest(material)});
+}
+
+function exactCommonPrefixBytes(left, right) {
+  const leftBytes = Buffer.from(left ?? "", "utf8");
+  const rightBytes = Buffer.from(right ?? "", "utf8");
+  const upper = Math.min(leftBytes.length, rightBytes.length);
+  let index = 0;
+  while (index < upper && leftBytes[index] === rightBytes[index]) index += 1;
+  return index;
+}
+
+function cacheStableHeader(header) {
+  return canonicalizeJson({
+    schema_version: header.schema_version,
+    protocol: header.protocol,
+    method: header.method,
+    provider_ref: header.provider_ref,
+    model_ref: header.model_ref,
+    system_digest: header.system_digest,
+    tools_digest: header.tools_digest,
+    configuration_digest: header.configuration_digest,
+    request_header_digest: header.request_header_digest,
+    authority_effect: "none",
+  });
+}
+
+function cacheInvalidationReasons(previous, current) {
+  if (!record(previous)) return ["cache-affinity.no-prior-projection"];
+  const reasons = [];
+  const fields = [
+    ["system_digest", "cache-affinity.system-changed"],
+    ["tools_digest", "cache-affinity.tools-changed"],
+    ["configuration_digest", "cache-affinity.configuration-changed"],
+    ["provider_ref", "cache-affinity.provider-changed"],
+    ["model_ref", "cache-affinity.model-changed"],
+  ];
+  for (const [field, reason] of fields) {
+    if (previous.stable_request_prefix?.[field] !== current.stable_request_prefix?.[field]) reasons.push(reason);
+  }
+  if (previous.reusable_reasoning_digest !== current.reusable_reasoning_digest) reasons.push("cache-affinity.reasoning-state-changed");
+  if (reasons.length === 0 && previous.exact_prefix_digest !== current.exact_prefix_digest) reasons.push("cache-affinity.prefix-bytes-changed");
+  return reasons;
+}
+
+export function materializeCacheAffinityProjection(input = {}) {
+  const started = process.hrtime.bigint();
+  const header = input.request_header;
+  if (!record(header) || header.schema_version !== REASONING_REQUEST_HEADER_SCHEMA) {
+    return fail("cache-affinity-projection", ["cache-affinity.request-header-invalid"]);
+  }
+  const {request_header_digest: headerDigest, ...headerMaterial} = header;
+  if (digest(headerMaterial) !== headerDigest) return fail("cache-affinity-projection", ["cache-affinity.request-header-digest-invalid"]);
+  if (!record(input.reusable_reasoning_state)) return fail("cache-affinity-projection", ["cache-affinity.reusable-reasoning-state-required"]);
+  if (!record(input.volatile_current_turn_suffix)) return fail("cache-affinity-projection", ["cache-affinity.volatile-suffix-required"]);
+
+  const stableRequestPrefix = cacheStableHeader(header);
+  const reusableReasoningState = canonicalizeJson({...input.reusable_reasoning_state, authority_effect: "none"});
+  const volatileCurrentTurnSuffix = canonicalizeJson({...input.volatile_current_turn_suffix, authority_effect: "none"});
+  const stableBytes = canonicalJson(stableRequestPrefix);
+  const reasoningBytes = canonicalJson(reusableReasoningState);
+  const volatileBytes = canonicalJson(volatileCurrentTurnSuffix);
+  const exactReusablePrefix = `${stableBytes}\n${reasoningBytes}\n`;
+  const wireValue = `${exactReusablePrefix}${volatileBytes}`;
+  const material = canonicalizeJson({
+    schema_version: REASONING_CACHE_AFFINITY_PROJECTION_SCHEMA,
+    stable_request_prefix: stableRequestPrefix,
+    reusable_reasoning_state: reusableReasoningState,
+    reusable_reasoning_digest: digest(reusableReasoningState),
+    volatile_current_turn_suffix: volatileCurrentTurnSuffix,
+    stable_prefix_bytes: Buffer.byteLength(stableBytes),
+    reusable_reasoning_bytes: Buffer.byteLength(reasoningBytes),
+    exact_reusable_prefix_bytes: Buffer.byteLength(exactReusablePrefix),
+    volatile_suffix_bytes: Buffer.byteLength(volatileBytes),
+    total_projection_bytes: Buffer.byteLength(wireValue),
+    exact_prefix_digest: sha256HexText(exactReusablePrefix),
+    wire_digest: sha256HexText(wireValue),
+    wire_value: wireValue,
+    estimated_reusable_tokens: Math.ceil(Buffer.byteLength(exactReusablePrefix) / 4),
+    authority_effect: "none",
+  });
+  const projection = freeze({...material, projection_digest: digest(material)});
+  const previous = input.previous_projection;
+  const exactReuse = record(previous) && previous.exact_prefix_digest === projection.exact_prefix_digest;
+  const reusedPrefixBytes = exactReuse
+    ? projection.exact_reusable_prefix_bytes
+    : record(previous) ? exactCommonPrefixBytes(previous.wire_value, projection.wire_value) : 0;
+  const invalidationReasons = exactReuse ? [] : cacheInvalidationReasons(previous, projection);
+  const assessmentMaterial = canonicalizeJson({
+    schema_version: REASONING_CACHE_AFFINITY_ASSESSMENT_SCHEMA,
+    projection_digest: projection.projection_digest,
+    prior_projection_digest: record(previous) ? previous.projection_digest ?? null : null,
+    posture: exactReuse ? "eligible-reuse" : record(previous) ? "invalidated" : "cold",
+    exact_prefix_reuse: exactReuse,
+    reusable_prefix_bytes: projection.exact_reusable_prefix_bytes,
+    reused_prefix_bytes: reusedPrefixBytes,
+    estimated_reused_tokens: exactReuse ? projection.estimated_reusable_tokens : Math.floor(reusedPrefixBytes / 4),
+    cache_hit_posture: "unobserved",
+    observed_time_savings_ms: null,
+    observed_token_savings: null,
+    invalidation_reasons: [...invalidationReasons].sort(),
+    projection_time_ns: Number(process.hrtime.bigint() - started),
+    claim_ceiling: "Cache-affinity eligibility and exact byte comparison only; no cache hit, freshness, provenance, correctness, or authority claim.",
+    authority_effect: "none",
+  });
+  const assessment = freeze({...assessmentMaterial, assessment_digest: digest(assessmentMaterial)});
+  return freeze({ok: true, projection, assessment, authority_effect: "none"});
+}
+
+export function bindCacheTelemetryObservation(input = {}) {
+  const projection = input.projection;
+  const assessment = input.assessment;
+  if (!record(projection) || projection.schema_version !== REASONING_CACHE_AFFINITY_PROJECTION_SCHEMA || !text(projection.projection_digest) || !text(projection.exact_prefix_digest)) {
+    return fail("cache-telemetry", ["cache-telemetry.projection-invalid"]);
+  }
+  if (!record(assessment) || assessment.schema_version !== REASONING_CACHE_AFFINITY_ASSESSMENT_SCHEMA || assessment.projection_digest !== projection.projection_digest) {
+    return fail("cache-telemetry", ["cache-telemetry.assessment-binding-invalid"]);
+  }
+  const usage = input.provider_usage;
+  if (usage === null || usage === undefined) {
+    const material = canonicalizeJson({
+      schema_version: REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA,
+      projection_digest: projection.projection_digest,
+      assessment_digest: assessment.assessment_digest,
+      exact_prefix_digest: projection.exact_prefix_digest,
+      cache_hit_posture: "unobserved",
+      observed_input_tokens: null,
+      observed_cached_input_tokens: null,
+      observed_token_savings: null,
+      observed_latency_ms: null,
+      observed_time_savings_ms: null,
+      reason_codes: ["cache-telemetry.provider-usage-unavailable"],
+      claim_ceiling: "No provider cache telemetry was supplied; cache eligibility remains distinct from an observed cache hit.",
+      authority_effect: "none",
+    });
+    return freeze({ok: true, value: {...material, observation_digest: digest(material)}, authority_effect: "none"});
+  }
+  const reasons = [];
+  if (!record(usage) || usage.schema_version !== "are.provider-cache-usage/v1") reasons.push("cache-telemetry.provider-usage-invalid");
+  if (usage?.projection_digest !== projection.projection_digest || usage?.exact_prefix_digest !== projection.exact_prefix_digest) reasons.push("cache-telemetry.projection-binding-mismatch");
+  if (usage?.provider_ref !== projection.stable_request_prefix?.provider_ref) reasons.push("cache-telemetry.provider-binding-mismatch");
+  if (usage?.model_ref !== projection.stable_request_prefix?.model_ref) reasons.push("cache-telemetry.model-binding-mismatch");
+  for (const field of ["input_tokens", "cached_input_tokens"]) {
+    if (!Number.isSafeInteger(usage?.[field]) || usage[field] < 0) reasons.push(`cache-telemetry.${field.replaceAll("_", "-")}-invalid`);
+  }
+  if (Number.isSafeInteger(usage?.input_tokens) && Number.isSafeInteger(usage?.cached_input_tokens) && usage.cached_input_tokens > usage.input_tokens) reasons.push("cache-telemetry.cached-input-exceeds-input");
+  for (const field of ["latency_ms", "baseline_latency_ms"]) {
+    if (usage?.[field] !== undefined && (typeof usage[field] !== "number" || !Number.isFinite(usage[field]) || usage[field] < 0)) reasons.push(`cache-telemetry.${field.replaceAll("_", "-")}-invalid`);
+  }
+  if (reasons.length > 0) return fail("cache-telemetry", reasons);
+  const observedTimeSavings = usage.baseline_latency_ms === undefined || usage.latency_ms === undefined
+    ? null
+    : Math.max(0, usage.baseline_latency_ms - usage.latency_ms);
+  const material = canonicalizeJson({
+    schema_version: REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA,
+    projection_digest: projection.projection_digest,
+    assessment_digest: assessment.assessment_digest,
+    exact_prefix_digest: projection.exact_prefix_digest,
+    provider_ref: usage.provider_ref,
+    model_ref: usage.model_ref,
+    cache_hit_posture: usage.cached_input_tokens > 0 ? "observed-hit" : "observed-miss",
+    observed_input_tokens: usage.input_tokens,
+    observed_cached_input_tokens: usage.cached_input_tokens,
+    observed_token_savings: usage.cached_input_tokens,
+    observed_latency_ms: usage.latency_ms ?? null,
+    observed_time_savings_ms: observedTimeSavings,
+    reason_codes: [],
+    claim_ceiling: "Exact provider usage bound to one cache-affinity projection; no freshness, correctness, provenance, or authority claim.",
+    authority_effect: "none",
+  });
+  return freeze({ok: true, value: {...material, observation_digest: digest(material)}, authority_effect: "none"});
 }
 
 function dispatchMaterial(dispatch) {

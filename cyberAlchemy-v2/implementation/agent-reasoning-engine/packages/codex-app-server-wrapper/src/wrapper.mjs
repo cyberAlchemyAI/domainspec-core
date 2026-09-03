@@ -7,14 +7,18 @@ import {evaluateSemanticCompletion} from "./semantic-completion.mjs";
 import {emitCompletionImprovementSignals} from "./evolution-signals.mjs";
 import {deriveReasoningReceiptConstraints} from "./reasoning-receipt-constraints.mjs";
 import {
+  acquireReasoningStateWriterLock,
+  bindCacheTelemetryObservation,
   createReasoningStateLedger,
   createRequestSeriesHeader,
+  materializeCacheAffinityProjection,
   materializeReasoningDispatch,
   recoverReasoningStateLedger,
   verifyReasoningDispatch,
 } from "../../reasoning-state-runtime/index.mjs";
 import {
   admitJsonRpcMessage,
+  addContextFragment,
   denyApprovalResult,
   directiveNotification,
   EFFECT_METHODS,
@@ -52,15 +56,28 @@ export function createCodexAppServerWrapper(options) {
   const reasoningLedgerId = options.loaded_profile.reasoning_state?.ledger_id ?? `are-reasoning-state:${options.loaded_profile.profile_id}`;
   let reasoningRecovery = null;
   let reasoningLedger = options.reasoning_ledger ?? null;
+  let reasoningWriterLock = null;
+  let closed = false;
   if (reasoningLedger === null && options.reasoning_sink) {
     reasoningLedger = createReasoningStateLedger({ledger_id: reasoningLedgerId, sink: options.reasoning_sink});
   }
   if (reasoningLedger === null && options.loaded_profile.reasoning_state?.storage_mode === "append-only-file-fsync") {
+    if (options.loaded_profile.reasoning_state.single_writer === true) {
+      const acquired = acquireReasoningStateWriterLock({
+        path: options.loaded_profile.reasoning_state.log_path,
+        owner_id: `${reasoningLedgerId}:${process.pid}`,
+      });
+      if (!acquired.ok) throw new TypeError(`Reasoning state writer lock failed: ${acquired.reason_codes.join(",")}`);
+      reasoningWriterLock = acquired.lock;
+    }
     const recovered = recoverReasoningStateLedger({
       path: options.loaded_profile.reasoning_state.log_path,
       ledger_id: reasoningLedgerId,
     });
-    if (!recovered.ok) throw new TypeError(`Reasoning state recovery failed: ${recovered.reason_codes.join(",")}`);
+    if (!recovered.ok) {
+      reasoningWriterLock?.release();
+      throw new TypeError(`Reasoning state recovery failed: ${recovered.reason_codes.join(",")}`);
+    }
     reasoningLedger = recovered.ledger;
     reasoningRecovery = recovered.assessment;
   }
@@ -87,9 +104,19 @@ export function createCodexAppServerWrapper(options) {
   const semanticCompletions = new Map();
   const evolutionSignalEmissions = new Map();
   const completionFrontiers = new Map();
+  const cacheAffinityByConsumer = new Map();
   const internalRequests = new Set();
   let activeDecisionProfile = options.decision_profile;
   let internalSequence = 0;
+
+  for (const event of reasoningLedger.snapshot()) {
+    const persisted = event.content?.cache_affinity_state;
+    if (event.event_kind !== "dispatch-materialized"
+      || !nonEmptyString(event.content?.consumer_ref)
+      || !isRecord(persisted?.projection)
+      || !isRecord(persisted?.assessment)) continue;
+    cacheAffinityByConsumer.set(event.content.consumer_ref, freezeResult({projection: persisted.projection, assessment: persisted.assessment, authority_effect: "none"}));
+  }
 
   function turnKey(threadId, turnId) {
     return `${threadId}:${turnId}`;
@@ -193,15 +220,59 @@ export function createCodexAppServerWrapper(options) {
     if (!sealed.ok) return fail("reasoning-dispatch", sealed.reason_codes, sealed.residue);
     const header = createRequestSeriesHeader(result.forwarded_message, options.request_series_header ?? {});
     if (header.ok === false) return fail("reasoning-dispatch", header.reason_codes, header.residue);
-    const dispatch = materializeReasoningDispatch({epoch: sealed.value, message: result.forwarded_message, request_header: header});
+    const reusableItems = (envelope?.included_items ?? []).filter((item) => item.item_kind !== "request");
+    const volatileItems = (envelope?.included_items ?? []).filter((item) => item.item_kind === "request");
+    const cacheAffinity = materializeCacheAffinityProjection({
+      request_header: header,
+      reusable_reasoning_state: {
+        route_id: routeDecision?.selected?.route_id ?? null,
+        capability_ref: routeDecision?.selected?.capability_ref ?? null,
+        selected_dependencies: (envelope?.selected_dependencies ?? []).filter((dependency) => !["request", "selection", "route"].includes(dependency.dependency_kind)),
+        included_items: reusableItems,
+        exclusions: envelope?.exclusions ?? [],
+        contradictions: envelope?.contradictions ?? [],
+        gaps: envelope?.gaps ?? [],
+        residue: envelope?.residue ?? [],
+        claim_ceiling: envelope?.claim_ceiling ?? null,
+      },
+      volatile_current_turn_suffix: {
+        request_id: requestContext?.request_id ?? String(message.id),
+        request_context_digest: routeDecision?.request_context_digest ?? null,
+        decision_digest: routeDecision?.decision_digest ?? result.directive.decision_digest,
+        view_id: result.directive.view_id,
+        context_epoch_id: envelope?.context_epoch_id ?? null,
+        context_envelope_digest: result.context_envelope?.digest ?? null,
+        freshness_state: envelope?.freshness_state ?? null,
+        refresh_disposition: result.refresh_assessment?.value?.disposition ?? null,
+        request_items: volatileItems,
+      },
+      previous_projection: cacheAffinityByConsumer.get(binding.view_key)?.projection ?? null,
+    });
+    if (!cacheAffinity.ok) return fail("reasoning-dispatch", cacheAffinity.reason_codes, cacheAffinity.residue);
+    const forwardedMessage = addContextFragment(result.forwarded_message, result.fragment, cacheAffinity);
+    const dispatch = materializeReasoningDispatch({epoch: sealed.value, message: forwardedMessage, request_header: header});
     if (!dispatch.ok) return fail("reasoning-dispatch", dispatch.reason_codes, dispatch.residue);
-    const verified = verifyReasoningDispatch(dispatch.value, {epoch: sealed.value, message: result.forwarded_message});
+    const verified = verifyReasoningDispatch(dispatch.value, {epoch: sealed.value, message: forwardedMessage});
     if (!verified.ok) return fail("reasoning-dispatch", verified.reason_codes, [verified.verification]);
     const dispatchEvent = reasoningLedger.append({
       event_kind: "dispatch-materialized",
       content: {
+        consumer_ref: binding.view_key,
         dispatch: dispatch.value,
         verification_digest: verified.value.verification_digest,
+        cache_affinity_state: {
+          projection: {
+            schema_version: cacheAffinity.projection.schema_version,
+            projection_digest: cacheAffinity.projection.projection_digest,
+            stable_request_prefix: cacheAffinity.projection.stable_request_prefix,
+            reusable_reasoning_digest: cacheAffinity.projection.reusable_reasoning_digest,
+            exact_prefix_digest: cacheAffinity.projection.exact_prefix_digest,
+            exact_reusable_prefix_bytes: cacheAffinity.projection.exact_reusable_prefix_bytes,
+            estimated_reusable_tokens: cacheAffinity.projection.estimated_reusable_tokens,
+          },
+          assessment: cacheAffinity.assessment,
+          authority_effect: "none",
+        },
       },
       provenance_refs: [
         `reasoning-epoch:${sealed.value.epoch_digest}`,
@@ -211,12 +282,15 @@ export function createCodexAppServerWrapper(options) {
     if (!dispatchEvent.ok) return fail("reasoning-dispatch", dispatchEvent.reason_codes, dispatchEvent.residue);
     const checkpoint = reasoningLedger.checkpoint({checkpoint_kind: "before-model-request", epoch: sealed.value, subject_digest: dispatch.value.dispatch_digest});
     if (!checkpoint.ok) return fail("reasoning-dispatch", checkpoint.reason_codes, checkpoint.residue);
+    cacheAffinityByConsumer.set(binding.view_key, cacheAffinity);
     return freezeResult({
       ok: true,
       epoch: sealed.value,
       dispatch: dispatch.value,
       verification: verified.value,
       checkpoint: checkpoint.value,
+      cache_affinity: cacheAffinity,
+      forwarded_message: forwardedMessage,
       authority_effect: "none",
     });
   }
@@ -239,6 +313,56 @@ export function createCodexAppServerWrapper(options) {
       decision_digest: state.preflight_decision_digest,
     });
     return state;
+  }
+
+  function recordCacheTelemetry(input = {}) {
+    if (!nonEmptyString(input.consumer_ref)) return fail("cache-telemetry", ["cache-telemetry.consumer-ref-required"]);
+    const current = cacheAffinityByConsumer.get(input.consumer_ref.trim());
+    if (!current) return fail("cache-telemetry", ["cache-telemetry.current-projection-required"]);
+    const observed = bindCacheTelemetryObservation({projection: current.projection, assessment: current.assessment, provider_usage: input.provider_usage ?? null});
+    if (!observed.ok) return observed;
+    const appended = reasoningLedger.append({
+      event_kind: "cache-telemetry-observed",
+      idempotency_key: `cache-telemetry:${observed.value.observation_digest}`,
+      content: {consumer_ref: input.consumer_ref.trim(), observation: observed.value, authority_effect: "none"},
+      provenance_refs: [`cache-affinity-projection:${current.projection.projection_digest}`],
+    });
+    if (!appended.ok) return fail("cache-telemetry", appended.reason_codes, appended.residue);
+    cacheAffinityByConsumer.set(input.consumer_ref.trim(), freezeResult({...current, telemetry: observed.value, authority_effect: "none"}));
+    ledger.record({
+      event_kind: "cache-telemetry-observed",
+      direction: "wrapper",
+      cache_affinity_projection_digest: current.projection.projection_digest,
+      cache_affinity_assessment_digest: current.assessment.assessment_digest,
+      cache_telemetry_observation_digest: observed.value.observation_digest,
+      cache_hit_posture: observed.value.cache_hit_posture,
+      observed_input_tokens: observed.value.observed_input_tokens,
+      observed_cached_input_tokens: observed.value.observed_cached_input_tokens,
+      observed_token_savings: observed.value.observed_token_savings,
+      observed_time_savings_ms: observed.value.observed_time_savings_ms,
+    });
+    return freezeResult({ok: true, disposition: observed.value.cache_hit_posture, observation: observed.value, authority_effect: "none"});
+  }
+
+  function prepareForEviction(input = {}) {
+    const blockers = [];
+    if (pendingApprovals.size > 0) blockers.push("session.pending-approval");
+    if (pendingTurnStates.size > 0) blockers.push("session.pending-turn-start");
+    if (activeTurnStates.size > 0) blockers.push("session.active-turn");
+    if (internalRequests.size > 0) blockers.push("session.pending-internal-request");
+    if (blockers.length > 0) return fail("session-eviction", blockers);
+    const reason = nonEmptyString(input.reason) ? input.reason.trim() : "session-lifecycle-expiry";
+    const material = freezeResult({schema_version: "are.codex-session-eviction-preparation/v1", reason, consumer_id: input.consumer_id ?? null, lane: input.lane ?? null, authority_effect: "none"});
+    const checkpoint = checkpointBoundary({
+      checkpoint_kind: "manual",
+      event_kind: "session-eviction-prepared",
+      content: material,
+      subject_digest: digestValue(material),
+      consumer_ref: input.consumer_id ?? "codex-session",
+      request_ref: `session-eviction:${reason}`,
+    });
+    if (!checkpoint.ok) return checkpoint;
+    return freezeResult({ok: true, disposition: "checkpointed-for-eviction", reason, preparation_digest: digestValue(material), epoch_id: checkpoint.epoch.epoch_id, epoch_digest: checkpoint.epoch.epoch_digest, checkpoint_digest: checkpoint.checkpoint.checkpoint_digest, authority_effect: "none"});
   }
 
   function bindTurnResponse(message) {
@@ -466,6 +590,17 @@ export function createCodexAppServerWrapper(options) {
       dispatch_digest: reasoning.dispatch.dispatch_digest,
       dispatch_verification_digest: reasoning.verification.verification_digest,
       request_header_digest: reasoning.dispatch.request_header_digest,
+      cache_affinity_projection_digest: reasoning.cache_affinity.projection.projection_digest,
+      cache_affinity_assessment_digest: reasoning.cache_affinity.assessment.assessment_digest,
+      cache_affinity_posture: reasoning.cache_affinity.assessment.posture,
+      exact_prefix_reuse: reasoning.cache_affinity.assessment.exact_prefix_reuse,
+      reusable_prefix_bytes: reasoning.cache_affinity.assessment.reusable_prefix_bytes,
+      reused_prefix_bytes: reasoning.cache_affinity.assessment.reused_prefix_bytes,
+      cache_hit_posture: reasoning.cache_affinity.assessment.cache_hit_posture,
+      estimated_reused_tokens: reasoning.cache_affinity.assessment.estimated_reused_tokens,
+      observed_time_savings_ms: reasoning.cache_affinity.assessment.observed_time_savings_ms,
+      observed_token_savings: reasoning.cache_affinity.assessment.observed_token_savings,
+      cache_invalidation_reasons: reasoning.cache_affinity.assessment.invalidation_reasons,
     });
     ledger.record({
       event_kind: "turn-start-forwarded",
@@ -473,11 +608,11 @@ export function createCodexAppServerWrapper(options) {
       method: TURN_START,
       rpc_id: message.id,
       thread_id: threadId,
-      message_digest: digestValue(result.forwarded_message),
+      message_digest: digestValue(reasoning.forwarded_message),
       decision_digest: result.directive.decision_digest,
     });
     rememberTurnStart(message, result, reasoning);
-    return {...emptyActions(), to_server: [result.forwarded_message]};
+    return {...emptyActions(), to_server: [reasoning.forwarded_message]};
   }
 
   async function assessSemanticCompletion(message) {
@@ -824,8 +959,16 @@ export function createCodexAppServerWrapper(options) {
   return Object.freeze({
     processClientMessage,
     processServerMessage,
+    prepareForEviction,
+    recordCacheTelemetry,
     ledger,
-    close: () => reasoningLedger.close(),
+    close: () => {
+      if (closed) return freezeResult({ok: true, disposition: "already-closed", authority_effect: "none"});
+      const ledgerResult = reasoningLedger.close();
+      const lockResult = reasoningWriterLock?.release() ?? null;
+      closed = true;
+      return freezeResult({ok: ledgerResult?.ok !== false && lockResult?.ok !== false, disposition: "closed", ledger: ledgerResult, writer_lock: lockResult, authority_effect: "none"});
+    },
     inspectState: () => freezeResult({
       pending_approval_ids: [...pendingApprovals.keys()].sort(),
       proposal_thread_ids: [...proposalsByThread.keys()].sort(),
@@ -838,8 +981,10 @@ export function createCodexAppServerWrapper(options) {
       evolution_signal_turn_ids: [...evolutionSignalEmissions.keys()].sort(),
       completion_turn_ids: [...completionByTurn.keys()].sort(),
       completion_frontier_turn_ids: [...completionFrontiers.keys()].sort(),
+      cache_affinity_consumers: [...cacheAffinityByConsumer.entries()].map(([consumer, value]) => ({consumer, posture: value.assessment.posture, exact_prefix_reuse: value.assessment.exact_prefix_reuse, reusable_prefix_bytes: value.assessment.reusable_prefix_bytes, reused_prefix_bytes: value.assessment.reused_prefix_bytes, invalidation_reasons: value.assessment.invalidation_reasons, projection_digest: value.projection.projection_digest, exact_prefix_digest: value.projection.exact_prefix_digest, provider_ref: value.projection.stable_request_prefix.provider_ref, model_ref: value.projection.stable_request_prefix.model_ref, assessment_digest: value.assessment.assessment_digest, cache_hit_posture: value.telemetry?.cache_hit_posture ?? value.assessment.cache_hit_posture, observed_input_tokens: value.telemetry?.observed_input_tokens ?? null, observed_cached_input_tokens: value.telemetry?.observed_cached_input_tokens ?? null, observed_token_savings: value.telemetry?.observed_token_savings ?? value.assessment.observed_token_savings, observed_time_savings_ms: value.telemetry?.observed_time_savings_ms ?? value.assessment.observed_time_savings_ms, cache_telemetry_observation_digest: value.telemetry?.observation_digest ?? null})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
       runtime_journal: ledger.inspect(),
       reasoning_state: reasoningLedger.inspect(),
+      reasoning_state_writer_lock: reasoningWriterLock?.inspect() ?? null,
       authority_effect: "none",
     }),
   });
