@@ -63,6 +63,8 @@ type ProjectGraphProjection = Readonly<{
   graph_sha256: string;
   nodes: readonly ProjectNodeProjection[];
   edges: readonly ProjectEdgeProjection[];
+  obligation_applicability: CompiledProjectGraph["obligation_applicability"];
+  obligation_outcomes: CompiledProjectGraph["obligation_outcomes"];
 }>;
 type MetaTypeProjection = Readonly<{ label: string; lean_constructor: string; partition: "backend" | "ui-supporting-context" }>;
 type RelationshipProjection = Readonly<{
@@ -249,6 +251,8 @@ function createMetaTypeFormalizationProjectionWithModuleSet(
     source_bytes_sha256: graph.source_manifest.aggregate_sha256,
     nodes: graphNodes,
     edges: graphEdges,
+    obligation_applicability: graph.obligation_applicability,
+    obligation_outcomes: graph.obligation_outcomes,
   };
   const refinement = createCompilerRefinementOutput(graph, { nodes: graphNodes, edges: graphEdges });
   const graphSha256 = refinement.certificate.graph_sha256;

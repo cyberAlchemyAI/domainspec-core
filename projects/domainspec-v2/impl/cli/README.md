@@ -19,6 +19,8 @@ domainspec-v2 instantiate-project <source-project-root> --languages typescript -
 domainspec-v2 verify-project <source-project-root> --target-root <absolute-new-root>
 domainspec-v2 formalize <source-project-root> --target <absolute-new-lean-file>
 domainspec-v2 formalize-check <source-project-root> --target <absolute-lean-file>
+domainspec-v2 certify <source-project-root> --target <absolute-new-directory>
+domainspec-v2 certify-check <source-project-root> --target <absolute-certificate-directory>
 domainspec-v2 lint <source-or-instantiated-target-root>
 domainspec-v2 receipt <source-or-instantiated-target-root>
 ```

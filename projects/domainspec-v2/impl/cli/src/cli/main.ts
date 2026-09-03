@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { addCalculation, addMapping, addOperation, addPolicy, addQuery, addRule, type AddCalculationInput, type AddMappingInput, type AddOperationInput, type AddPolicyInput, type AddQueryInput, type AddRuleInput } from "../authoring/add-operation.js";
+import { addCalculation, addMapping, addOperation, addPolicy, addQuery, addRule, addThinBackend, type AddCalculationInput, type AddMappingInput, type AddOperationInput, type AddPolicyInput, type AddQueryInput, type AddRuleInput, type AddThinBackendInput, type ThinBackendKind } from "../authoring/add-operation.js";
 import { decodeRuleExpression, decodeTypedOperationContract, decodeTypedRuleContract, type RuleExpression, type TypedParameter } from "../typed-operation/contracts.js";
 import { observeTarget, observeTargetReceipt } from "../conformance/observe-target.js";
 import { readInstantiationReceipt } from "../conformance/receipt.js";
@@ -11,12 +11,19 @@ import { planInstantiation } from "../generation/plan-instantiation.js";
 import { publishInstantiation } from "../generation/publish-instantiation.js";
 import { planProjectInstantiation } from "../generation/project-instantiation.js";
 import { publishProjectInstantiation } from "../generation/publish-project.js";
+import { materializeCompiledProjectCertificate } from "../compilation/certificate.js";
+import { planProjectBuild, publishProjectBuild, verifyProjectBuild } from "../generation/project-build.js";
 import { checkLeanMetaTypeFormalization, materializeLeanMetaTypeFormalization } from "../formalization/projection.js";
 import { loadCompiledProjectGraph, loadProjectNode, validateProjectRoot } from "../input/project-model.js";
 import { normalizeLanguage } from "../meta-types/catalog.js";
 import { loadSystemIntegrationSelection } from "../system-integration/compiler.js";
 import { decodeCalculationSemantics, decodeMappingFields, decodePolicyDecisions } from "../static-semantics/contracts.js";
 import { verifyProject } from "../verification/verify-project.js";
+import { runInMemoryProject } from "../runtime/in-memory.js";
+import { materializeRuntimeReceipt } from "../runtime/receipt.js";
+import { runDurableOperation } from "../runtime/durable.js";
+import { PostgresTransactionalOutbox } from "../runtime/postgres-outbox.js";
+import { certifyProject, checkCertifiedProject } from "../assurance/certify.js";
 
 export interface CliIo {
   readonly stdout: (value: string) => void;
@@ -194,6 +201,24 @@ function addMappingArgs(args: readonly string[]): AddMappingInput {
   return Object.freeze({ sourceRoot, featureId: values.get("--feature")!, nodeId: values.get("--name")!, description: values.get("--description")!, sourceNodeId: values.get("--source")!, targetNodeId: values.get("--target")!, direction, totality, fields: decodeMappingFields(parseJsonOption(values.get("--fields-json")!, "--fields-json")) });
 }
 
+const THIN_COMMANDS: Readonly<Record<string, ThinBackendKind>> = Object.freeze({ query: "Query", calculation: "Calculation", mapping: "Mapping", policy: "Policy" });
+
+function addThinBackendArgs(kind: ThinBackendKind, args: readonly string[]): AddThinBackendInput {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`add ${kind.toLowerCase()} requires one absolute source project root`);
+  const values = new Map<string, string>();
+  const allowed = ["--feature", "--name", "--description", "--contract-json", "--calculates"];
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !allowed.includes(option) || value === undefined || value.startsWith("--")) usage(`add ${kind.toLowerCase()} received an unsupported or unvalued option`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  for (const option of ["--feature", "--name", "--description", "--contract-json"]) if (!values.has(option)) usage(`add ${kind.toLowerCase()} requires ${option}`);
+  if (kind !== "Calculation" && values.has("--calculates")) usage("--calculates is only valid for Calculation");
+  return Object.freeze({ sourceRoot, featureId: values.get("--feature")!, nodeId: values.get("--name")!, description: values.get("--description")!, kind, typedContract: parseJsonOption(values.get("--contract-json")!, "--contract-json"), calculates: parseCsvSet(values.get("--calculates"), "--calculates") });
+}
+
 interface InstantiateArgs {
   readonly sourceRoot: string;
   readonly node: string;
@@ -259,6 +284,54 @@ function verifyProjectArgs(args: readonly string[]): { readonly sourceRoot: stri
   return Object.freeze({ sourceRoot, targetRoot: args[2]! });
 }
 
+function compileArgs(args: readonly string[]): { readonly sourceRoot: string; readonly targetPath: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target" || !path.isAbsolute(args[2] ?? "")) usage("compile requires one absolute source project root and --target <absolute-file>");
+  return Object.freeze({ sourceRoot, targetPath: args[2]! });
+}
+
+function certifyArgs(args: readonly string[], command: "certify" | "certify-check"): { readonly sourceRoot: string; readonly targetDirectory: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot) || args.length !== 3 || args[1] !== "--target" || !path.isAbsolute(args[2] ?? "")) usage(`${command} requires one absolute source project root and --target <absolute-directory>`);
+  return Object.freeze({ sourceRoot, targetDirectory: args[2]! });
+}
+
+function projectBuildArgs(args: readonly string[], command: "build" | "verify"): { readonly sourceRoot: string; readonly language: "typescript" | "python" | "rust"; readonly targetRoot: string } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`${command} requires one absolute source project root`);
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !["--language", "--target-root"].includes(option) || !value || value.startsWith("--")) usage(`${command} requires valued --language and --target-root`);
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  if (values.size !== 2 || !values.has("--language") || !values.has("--target-root")) usage(`${command} requires --language and --target-root`);
+  const targetRoot = values.get("--target-root")!;
+  if (!path.isAbsolute(targetRoot)) usage("--target-root must be absolute");
+  return Object.freeze({ sourceRoot, language: normalizeLanguage(values.get("--language")), targetRoot });
+}
+
+function runArgs(args: readonly string[]): { readonly sourceRoot: string; readonly requestPath: string; readonly receiptPath: string; readonly provider: string | null } {
+  const sourceRoot = args[0];
+  if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage("run requires one absolute source project root");
+  const values = new Map<string, string>();
+  for (let index = 1; index < args.length; index += 2) {
+    const option = args[index]; const value = args[index + 1];
+    if (!option || !["--request", "--receipt", "--provider"].includes(option) || !value || (option !== "--provider" && !path.isAbsolute(value))) usage("run requires absolute --request and --receipt files and an optional provider");
+    if (values.has(option)) usage(`duplicate option:${option}`);
+    values.set(option, value);
+  }
+  if (!values.has("--request") || !values.has("--receipt") || values.size > 3) usage("run requires absolute --request and --receipt files");
+  return Object.freeze({ sourceRoot, requestPath: values.get("--request")!, receiptPath: values.get("--receipt")!, provider: values.get("--provider") ?? null });
+}
+
+function postgresProvider(): PostgresTransactionalOutbox {
+  const required = ["PGHOST", "PGPORT", "PGDATABASE", "PGUSER", "PGPASSWORD"] as const;
+  for (const key of required) if (!process.env[key]) usage(`postgres provider requires ${key}`);
+  return new PostgresTransactionalOutbox({ host: process.env.PGHOST!, port: Number(process.env.PGPORT), database: process.env.PGDATABASE!, user: process.env.PGUSER!, password: process.env.PGPASSWORD! });
+}
+
 function isInstantiationTarget(root: string): boolean {
   return fs.existsSync(path.join(root, ".domainspec", "instantiations"));
 }
@@ -282,7 +355,9 @@ export function runCli(argv: readonly string[], io: CliIo = {
     const [command, ...args] = argv;
     if (command === "add") {
       if (!args[0] || !["operation", "query", "calculation", "rule", "policy", "mapping"].includes(args[0])) usage("add requires a supported meta-type: operation, query, calculation, rule, policy, or mapping");
-      const result = args[0] === "operation"
+      const result = THIN_COMMANDS[args[0]] && args.includes("--contract-json")
+        ? addThinBackend(addThinBackendArgs(THIN_COMMANDS[args[0]]!, args.slice(1)))
+        : args[0] === "operation"
         ? addOperation(addOperationArgs(args.slice(1)))
         : args[0] === "query"
           ? addQuery(addQueryArgs(args.slice(1)))
@@ -341,6 +416,45 @@ export function runCli(argv: readonly string[], io: CliIo = {
       objectOutput(io, verifyProject(parsed.sourceRoot, parsed.targetRoot));
       return 0;
     }
+    if (command === "compile") {
+      const parsed = compileArgs(args);
+      const certificate = materializeCompiledProjectCertificate(parsed.sourceRoot, parsed.targetPath);
+      objectOutput(io, { schema_version: "domainspec.compile-command-result/v1", result: "pass", target_path: parsed.targetPath, certificate, authority_effect: "none" });
+      return 0;
+    }
+    if (command === "certify" || command === "certify-check") {
+      const parsed = certifyArgs(args, command);
+      if (command === "certify") {
+        const certificate = certifyProject(parsed.sourceRoot, parsed.targetDirectory);
+        objectOutput(io, { schema_version: "domainspec.certify-command-result/v1-candidate", result: "pass", target_directory: parsed.targetDirectory, certificate, authority_effect: "none" });
+        return 0;
+      }
+      const result = checkCertifiedProject(parsed.sourceRoot, parsed.targetDirectory);
+      objectOutput(io, result);
+      return result.current ? 0 : 1;
+    }
+    if (command === "build" || command === "verify") {
+      const parsed = projectBuildArgs(args, command);
+      if (command === "build") {
+        const publication = publishProjectBuild(planProjectBuild(parsed.sourceRoot, parsed.language), parsed.targetRoot);
+        objectOutput(io, { schema_version: "domainspec.build-command-result/v1", result: "pass", ...publication, authority_effect: "none" });
+        return 0;
+      }
+      const verification = verifyProjectBuild(parsed.sourceRoot, parsed.language, parsed.targetRoot);
+      objectOutput(io, verification);
+      return verification.result === "pass" ? 0 : 1;
+    }
+    if (command === "run") {
+      const parsed = runArgs(args);
+      let request: unknown;
+      try { request = JSON.parse(fs.readFileSync(parsed.requestPath, "utf8")); } catch { usage("--request must identify readable JSON"); }
+      const schemaVersion = (request as { schema_version?: unknown })?.schema_version;
+      const receipt = schemaVersion === "domainspec.durable-operation-invocation/v1"
+        ? materializeRuntimeReceipt(runDurableOperation(parsed.sourceRoot, request, parsed.provider === "postgres-transactional-outbox-v1" ? postgresProvider() : usage("durable run requires --provider postgres-transactional-outbox-v1")), parsed.receiptPath)
+        : materializeRuntimeReceipt(parsed.provider === null || parsed.provider === "in-memory-v1" ? runInMemoryProject(parsed.sourceRoot, request) : usage("in-memory run received an unsupported provider"), parsed.receiptPath);
+      objectOutput(io, { schema_version: "domainspec.run-command-result/v1", result: "pass", receipt_path: parsed.receiptPath, receipt, authority_effect: "none" });
+      return 0;
+    }
     if (command === "formalize" || command === "formalize-check") {
       const parsed = formalizeArgs(args, command);
       const projectGraph = loadCompiledProjectGraph(parsed.sourceRoot);
@@ -395,7 +509,7 @@ export function runCli(argv: readonly string[], io: CliIo = {
       }
       return 0;
     }
-    usage("expected command: add <meta-type>, instantiate, instantiate-project, verify-project, formalize, formalize-check, lint, or receipt");
+    usage("expected command: add <meta-type>, instantiate, instantiate-project, verify-project, compile, build, verify, run, formalize, formalize-check, certify, certify-check, lint, or receipt");
   } catch (error) {
     objectOutput({ ...io, stdout: io.stderr }, errorEnvelope(error));
     const candidate = error as { exitCode?: unknown };

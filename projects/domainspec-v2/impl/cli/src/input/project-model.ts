@@ -21,6 +21,16 @@ import {
 } from "../typed-operation/contracts.js";
 import { compileTypedOperationClosure, compileTypedRuleClosure, type TypedClosureSourceNode, type TypedSemanticClosureV1 } from "../typed-operation/closure.js";
 import { decodeCalculationSemantics, decodeMappingFields, decodePolicyDecisions, type MappingField } from "../static-semantics/contracts.js";
+import {
+  decodeTypedBackendContract,
+  type BackendPredicate,
+  type BackendValue,
+  type NumericExpression,
+  type TypedCalculationContract,
+  type TypedMappingContract,
+  type TypedPolicyContract,
+  type TypedQueryContract,
+} from "../typed-backend/contracts.js";
 
 export { RELATIONSHIP_AUTHORITY_SHA256, RELATIONSHIP_SIGNATURES } from "../relationships/authority.js";
 
@@ -45,7 +55,7 @@ const LEGACY_TYPED_VALUE_OBJECT_SOURCE_SHA256 = new Set([
   "f59e12aad5efa12375cca82f56b36d73e532fb8795c7a7d4ad7e9a9ef2c9df34",
 ]);
 
-type BodyFieldKind = "string" | "string-array" | "record-fields" | "field-spec" | "field-spec-array" | "interface-operation-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation" | "calculation-semantics" | "policy-decisions" | "mapping-fields";
+type BodyFieldKind = "string" | "string-array" | "record-fields" | "field-spec" | "field-spec-array" | "interface-operation-array" | "state-transition-array" | "typed-record" | "typed-sum" | "typed-rule" | "typed-operation" | "typed-query" | "typed-calculation" | "typed-mapping" | "typed-policy" | "calculation-semantics" | "policy-decisions" | "mapping-fields";
 
 interface BodyContract {
   readonly required: readonly string[];
@@ -63,10 +73,10 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
     optional: ["typed_contract"],
     fields: { description: "string", reads: "string-array", writes: "string-array", effects: "string-array", guard: "string", failure_continuation: "string", typed_contract: "typed-operation" },
   },
-  Query: { required: ["description", "reads"], optional: ["typed_contract"], fields: { description: "string", reads: "string-array", typed_contract: "typed-operation" } },
-  Calculation: { required: ["description", "inputs", "semantics"], optional: [], fields: { description: "string", inputs: "string-array", semantics: "calculation-semantics" }, nonemptyArrays: ["inputs"] },
+  Query: { required: ["description", "reads"], optional: ["typed_contract"], fields: { description: "string", reads: "string-array", typed_contract: "typed-query" } },
+  Calculation: { required: ["description", "inputs"], optional: ["semantics", "typed_contract"], fields: { description: "string", inputs: "string-array", semantics: "calculation-semantics", typed_contract: "typed-calculation" }, nonemptyArrays: ["inputs"] },
   Rule: { required: ["description", "predicate"], optional: ["typed_contract"], fields: { description: "string", predicate: "string", typed_contract: "typed-rule" } },
-  Policy: { required: ["description", "strategies", "decisions", "default_strategy"], optional: [], fields: { description: "string", strategies: "string-array", decisions: "policy-decisions", default_strategy: "string" }, nonemptyArrays: ["strategies"] },
+  Policy: { required: ["description", "strategies"], optional: ["decisions", "default_strategy", "typed_contract"], fields: { description: "string", strategies: "string-array", decisions: "policy-decisions", default_strategy: "string", typed_contract: "typed-policy" }, nonemptyArrays: ["strategies"] },
   Workflow: {
     required: ["description", "steps", "compensations"],
     optional: ["compensation_dependencies"],
@@ -75,7 +85,7 @@ export const BODY_CONTRACTS: Readonly<Record<string, BodyContract>> = Object.fre
   },
   Interface: { required: ["description", "boundary_kind", "version", "compatibility", "operations"], optional: [], fields: { description: "string", boundary_kind: "string", version: "string", compatibility: "string", operations: "interface-operation-array" }, nonemptyArrays: ["operations"] },
   Event: { required: ["description", "event_type", "version", "occurrence_id", "occurred_at_policy", "payload"], optional: [], fields: { description: "string", event_type: "string", version: "string", occurrence_id: "field-spec", occurred_at_policy: "string", payload: "field-spec-array" } },
-  Mapping: { required: ["description", "source", "target", "direction", "totality", "fields"], optional: [], fields: { description: "string", source: "string", target: "string", direction: "string", totality: "string", fields: "mapping-fields" } },
+  Mapping: { required: ["description", "source", "target"], optional: ["direction", "totality", "fields", "typed_contract"], fields: { description: "string", source: "string", target: "string", direction: "string", totality: "string", fields: "mapping-fields", typed_contract: "typed-mapping" } },
   "State Machine": { required: ["description", "states", "initial", "transitions"], optional: [], fields: { description: "string", states: "string-array", initial: "string", transitions: "state-transition-array" }, nonemptyArrays: ["states", "transitions"] },
 });
 
@@ -377,6 +387,16 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
       decoded[key] = decodeTypedRuleContract(raw, `${pointer}/${key}`);
     } else if (fieldKind === "typed-operation") {
       decoded[key] = decodeTypedOperationContract(raw, `${pointer}/${key}`);
+    } else if (fieldKind === "typed-query") {
+      decoded[key] = isObject(raw) && raw.schema_version === "domainspec.typed-operation/v1"
+        ? decodeTypedOperationContract(raw, `${pointer}/${key}`)
+        : decodeTypedBackendContract("Query", raw, `${pointer}/${key}`);
+    } else if (fieldKind === "typed-calculation") {
+      decoded[key] = decodeTypedBackendContract("Calculation", raw, `${pointer}/${key}`);
+    } else if (fieldKind === "typed-mapping") {
+      decoded[key] = decodeTypedBackendContract("Mapping", raw, `${pointer}/${key}`);
+    } else if (fieldKind === "typed-policy") {
+      decoded[key] = decodeTypedBackendContract("Policy", raw, `${pointer}/${key}`);
     } else if (fieldKind === "field-spec") {
       decoded[key] = requireFieldSpec(raw, `${pointer}/${key}`);
     } else if (fieldKind === "field-spec-array") {
@@ -432,14 +452,15 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
     if (!/^[1-9][0-9]*$/.test(decoded.version as string)) fail("MTCLI_INTERFACE_VERSION", `${pointer}/version`, "Interface version must be a positive integer string");
     if (!["exact", "backward"].includes(decoded.compatibility as string)) fail("MTCLI_INTERFACE_COMPATIBILITY", `${pointer}/compatibility`, "compatibility must be exact or backward");
   }
-  if (kind === "Policy") {
+  const typedSchema = (decoded.typed_contract as { readonly schema_version?: string } | undefined)?.schema_version;
+  if (kind === "Policy" && typedSchema !== "domainspec.typed-policy/v1") {
     const strategies = decoded.strategies as readonly string[];
     if (!strategies.includes(decoded.default_strategy as string)) fail("MTCLI_POLICY_STRATEGY", `${pointer}/default_strategy`, "default_strategy must name one declared strategy");
   }
-  if (kind === "Mapping" && !["inbound", "outbound", "bidirectional"].includes(decoded.direction as string)) {
+  if (kind === "Mapping" && typedSchema !== "domainspec.typed-mapping/v1" && !["inbound", "outbound", "bidirectional"].includes(decoded.direction as string)) {
     fail("MTCLI_MAPPING_DIRECTION", `${pointer}/direction`, "direction must be inbound, outbound, or bidirectional");
   }
-  if (kind === "Mapping") {
+  if (kind === "Mapping" && typedSchema !== "domainspec.typed-mapping/v1") {
     if (!["total", "partial"].includes(decoded.totality as string)) fail("MTCLI_MAPPING_TOTALITY", `${pointer}/totality`, "totality must be total or partial");
     if (decoded.totality === "total" && (decoded.fields as readonly { readonly source_field: string | null; readonly default_value: unknown; readonly required: boolean }[]).some((field) => field.source_field !== null && field.required && field.default_value === null)) {
       fail("MTCLI_MAPPING_TOTALITY", `${pointer}/fields`, "total Mapping cannot contain a required source without a default");
@@ -488,6 +509,26 @@ export function decodeBody(kind: string, value: unknown, pointer = "/body"): Dec
 
 export function validateSelectedNodeRelationships(node: DecodedProjectNode): void {
   const selector = `${node.feature_id}:${node.node_id}`;
+  const typedSchema = (node.body.typed_contract as { readonly schema_version?: string } | undefined)?.schema_version;
+  if (node.kind === "Query" && typedSchema === "domainspec.typed-query/v1") {
+    const contract = node.body.typed_contract as TypedQueryContract;
+    const observed = node.relationships.filter((edge) => edge.relationship === "reads" && `${edge.source.feature_id}:${edge.source.node_id}` === selector).map(({ target }) => `${target.feature_id}:${target.node_id}`).sort();
+    if (canonicalJson(observed) !== canonicalJson([contract.source])) fail("MTCLI_BACKEND_RELATIONSHIP", "/relationships", "typed Query must have exactly one reads edge to its authored source");
+    return;
+  }
+  if (node.kind === "Mapping" && typedSchema === "domainspec.typed-mapping/v1") {
+    const contract = node.body.typed_contract as TypedMappingContract;
+    const observed = node.relationships.filter((edge) => edge.relationship === "maps" && `${edge.source.feature_id}:${edge.source.node_id}` === selector).map(({ target }) => `${target.feature_id}:${target.node_id}`).sort();
+    if (canonicalJson(observed) !== canonicalJson([contract.target])) fail("MTCLI_BACKEND_RELATIONSHIP", "/relationships", "typed Mapping must have exactly one maps edge to its authored target");
+    return;
+  }
+  if (node.kind === "Policy" && typedSchema === "domainspec.typed-policy/v1") {
+    const contract = node.body.typed_contract as TypedPolicyContract;
+    const required = [...new Set([...contract.cases.map(({ target }) => target), contract.default_target])].sort();
+    const observed = node.relationships.filter((edge) => edge.relationship === "applies" && `${edge.source.feature_id}:${edge.source.node_id}` === selector).map(({ target }) => `${target.feature_id}:${target.node_id}`).sort();
+    if (canonicalJson(observed) !== canonicalJson(required)) fail("MTCLI_BACKEND_RELATIONSHIP", "/relationships", "typed Policy applies edges must exactly match authored targets");
+    return;
+  }
   const exactOutgoingTargets = (relationshipId: "calculates" | "applies" | "maps"): readonly string[] => node.relationships
     .filter((relationship) => relationship.relationship === relationshipId && `${relationship.source.feature_id}:${relationship.source.node_id}` === selector)
     .map(({ target }) => `${target.feature_id}:${target.node_id}`);
@@ -654,6 +695,27 @@ function validateRelationshipGraph(edges: readonly DecodedRelationship[]): void 
       );
     }
   }
+
+  for (const signature of RELATIONSHIP_SIGNATURES) {
+    const selected = edges.filter(({ relationship }) => relationship === signature.id);
+    if (signature.multiplicity === "many_to_many") continue;
+    const outgoing = new Map<string, string>();
+    const incoming = new Map<string, string>();
+    for (const edge of selected) {
+      const source = `${edge.source.feature_id}:${edge.source.node_id}`;
+      const target = `${edge.target.feature_id}:${edge.target.node_id}`;
+      if (signature.multiplicity === "one_to_one" || signature.multiplicity === "many_to_one") {
+        const prior = outgoing.get(source);
+        if (prior && prior !== target) fail("MTCLI_RELATIONSHIP_MULTIPLICITY", `/relationships/${edge.edge_id}`, `${signature.id} source exceeds ${signature.multiplicity}`);
+        outgoing.set(source, target);
+      }
+      if (signature.multiplicity === "one_to_one" || signature.multiplicity === "one_to_many" || signature.multiplicity === "one_to_many_ordered") {
+        const prior = incoming.get(target);
+        if (prior && prior !== source) fail("MTCLI_RELATIONSHIP_MULTIPLICITY", `/relationships/${edge.edge_id}`, `${signature.id} target exceeds ${signature.multiplicity}`);
+        incoming.set(target, source);
+      }
+    }
+  }
 }
 
 function decodeProjectEdges(projectRoot: string, manifest: SourceManifestV1, nodes: Map<string, NodeRecord>): readonly DecodedRelationship[] {
@@ -727,6 +789,86 @@ function generatedTypeName(selector: string): string {
   return selector.split(/[^A-Za-z0-9]+/).filter(Boolean).map((word) => `${word[0]?.toUpperCase() ?? ""}${word.slice(1)}`).join("") || "DomainNode";
 }
 
+function recordFieldNames(node: NodeRecord, pointer: string): ReadonlySet<string> {
+  if (!node.decoded_body || !["Entity", "Value Object"].includes(node.kind)) fail("MTCLI_BACKEND_REFERENCE", pointer, "expected Entity or Value Object record");
+  const typed = node.decoded_body.typed_contract as { readonly schema_version?: string; readonly properties?: readonly { readonly name: string }[] } | undefined;
+  if (typed?.schema_version === "domainspec.typed-record/v1") return new Set((typed.properties ?? []).map(({ name }) => name));
+  return new Set((node.decoded_body.fields as readonly FieldSpec[]).map(({ field_id }) => field_id.replaceAll("-", "_")));
+}
+
+function visitBackendValue(value: BackendValue, fields: ReadonlySet<string>, parameters: ReadonlySet<string>, pointer: string): void {
+  if (value.kind === "field" && !fields.has(value.name)) fail("MTCLI_BACKEND_FIELD", pointer, `unknown field:${value.name}`);
+  if (value.kind === "parameter" && !parameters.has(value.name)) fail("MTCLI_BACKEND_PARAMETER", pointer, `unknown parameter:${value.name}`);
+}
+
+function validateBackendPredicate(predicate: BackendPredicate, fields: ReadonlySet<string>, parameters: ReadonlySet<string>, pointer: string): void {
+  if (predicate.op === "all" || predicate.op === "any") {
+    predicate.terms.forEach((term, index) => validateBackendPredicate(term, fields, parameters, `${pointer}/terms/${index}`));
+  } else if (predicate.op === "not") {
+    validateBackendPredicate(predicate.term, fields, parameters, `${pointer}/term`);
+  } else {
+    if (!("left" in predicate)) fail("MTCLI_BACKEND_PREDICATE", pointer, "invalid comparison predicate");
+    visitBackendValue(predicate.left, fields, parameters, `${pointer}/left`);
+    visitBackendValue(predicate.right, fields, parameters, `${pointer}/right`);
+  }
+}
+
+function validateNumericExpression(expression: NumericExpression, parameters: ReadonlySet<string>, pointer: string): void {
+  if (expression.op === "input") {
+    if (!parameters.has(expression.name)) fail("MTCLI_BACKEND_PARAMETER", pointer, `unknown Calculation input:${expression.name}`);
+  } else if (expression.op !== "literal") {
+    validateNumericExpression(expression.left, parameters, `${pointer}/left`);
+    validateNumericExpression(expression.right, parameters, `${pointer}/right`);
+  }
+}
+
+function validateThinBackendNode(node: NodeRecord, nodes: Map<string, NodeRecord>): void {
+  const body = node.decoded_body;
+  if (!body?.typed_contract) return;
+  const schema = (body.typed_contract as { readonly schema_version?: string }).schema_version;
+  const pointer = `/${node.relative_path}/body/typed_contract`;
+  if (node.kind === "Query" && schema === "domainspec.typed-query/v1") {
+    const contract = body.typed_contract as TypedQueryContract;
+    const source = nodes.get(contract.source);
+    if (!source || source.kind !== "Entity") fail("MTCLI_BACKEND_REFERENCE", `${pointer}/source`, "Query source must resolve to an Entity");
+    const fields = recordFieldNames(source, `${pointer}/source`);
+    const parameters = new Set(contract.inputs.map(({ name }) => name));
+    contract.projection.forEach((field, index) => { if (!fields.has(field)) fail("MTCLI_BACKEND_FIELD", `${pointer}/projection/${index}`, `unknown projected field:${field}`); });
+    if (contract.order_by && !fields.has(contract.order_by.field)) fail("MTCLI_BACKEND_FIELD", `${pointer}/order_by/field`, `unknown order field:${contract.order_by.field}`);
+    if (contract.filter) validateBackendPredicate(contract.filter, fields, parameters, `${pointer}/filter`);
+  } else if (node.kind === "Calculation" && schema === "domainspec.typed-calculation/v1") {
+    const contract = body.typed_contract as TypedCalculationContract;
+    const parameters = new Set(contract.inputs.map(({ name, type }) => {
+      if (type.kind !== "scalar" || type.name !== "UInt64") fail("MTCLI_BACKEND_TYPE", `${pointer}/inputs`, "Calculation inputs must be UInt64");
+      return name;
+    }));
+    validateNumericExpression(contract.expression, parameters, `${pointer}/expression`);
+  } else if (node.kind === "Mapping" && schema === "domainspec.typed-mapping/v1") {
+    const contract = body.typed_contract as TypedMappingContract;
+    const source = nodes.get(contract.source);
+    const target = nodes.get(contract.target);
+    if (!source || !target) fail("MTCLI_BACKEND_REFERENCE", pointer, "Mapping source and target must resolve");
+    const sourceFields = recordFieldNames(source, `${pointer}/source`);
+    const targetFields = recordFieldNames(target, `${pointer}/target`);
+    for (const [index, field] of contract.fields.entries()) {
+      if (!targetFields.has(field.target)) fail("MTCLI_BACKEND_FIELD", `${pointer}/fields/${index}/target`, `unknown target field:${field.target}`);
+      if (field.source !== null && !sourceFields.has(field.source)) fail("MTCLI_BACKEND_FIELD", `${pointer}/fields/${index}/source`, `unknown source field:${field.source}`);
+    }
+    if (contract.total && new Set(contract.fields.map(({ target: field }) => field)).size !== targetFields.size) fail("MTCLI_BACKEND_MAPPING", `${pointer}/fields`, "total Mapping must cover every target field");
+  } else if (node.kind === "Policy" && schema === "domainspec.typed-policy/v1") {
+    const contract = body.typed_contract as TypedPolicyContract;
+    const parameters = new Set(contract.inputs.map(({ name }) => name));
+    const emptyFields = new Set<string>();
+    for (const [index, candidate] of contract.cases.entries()) {
+      const target = nodes.get(candidate.target);
+      if (!target || !["Operation", "Calculation"].includes(target.kind)) fail("MTCLI_BACKEND_REFERENCE", `${pointer}/cases/${index}/target`, "Policy target must resolve to Operation or Calculation");
+      validateBackendPredicate(candidate.when, emptyFields, parameters, `${pointer}/cases/${index}/when`);
+    }
+    const fallback = nodes.get(contract.default_target);
+    if (!fallback || !["Operation", "Calculation"].includes(fallback.kind)) fail("MTCLI_BACKEND_REFERENCE", `${pointer}/default_target`, "Policy default target must resolve to Operation or Calculation");
+  }
+}
+
 function validateBackendRelationshipClosures(
   projectRoot: string,
   projectId: string,
@@ -735,7 +877,8 @@ function validateBackendRelationshipClosures(
   relationships: readonly DecodedRelationship[],
 ): void {
   for (const [selector, node] of nodes) {
-    if (!["Entity", "Value Object", "Enum", "Calculation", "Policy", "Event", "Interface", "Mapping", "Workflow", "State Machine"].includes(node.kind)) continue;
+    validateThinBackendNode(node, nodes);
+    if (!["Entity", "Value Object", "Enum", "Query", "Calculation", "Policy", "Event", "Interface", "Mapping", "Workflow", "State Machine"].includes(node.kind)) continue;
     if (node.decoded_body === null) fail("MTCLI_INPUT_BODY", `/${node.relative_path}/body`, `${node.kind} body was not decoded`);
     const body = node.decoded_body;
     const hasTypedContract = body.typed_contract !== undefined;
@@ -785,11 +928,11 @@ function validateBackendRelationshipClosures(
         fail("MTCLI_INTERFACE_OPERATION_REFERENCE", `/${node.relative_path}/body/operations/${index}/operation_ref`, "Interface operation reference must resolve to an Operation or Query node");
       }
     }
-    if (node.kind === "Policy") for (const [index, decision] of (body.decisions as readonly { readonly rule_ref: string }[]).entries()) {
+    if (node.kind === "Policy" && (body.typed_contract as { readonly schema_version?: string } | undefined)?.schema_version !== "domainspec.typed-policy/v1") for (const [index, decision] of (body.decisions as readonly { readonly rule_ref: string }[]).entries()) {
       const target = nodes.get(decision.rule_ref);
       if (!target || target.kind !== "Rule") fail("MTCLI_POLICY_RULE", `/${node.relative_path}/body/decisions/${index}/rule_ref`, "Policy decision must resolve to a Rule node");
     }
-    if (node.kind === "Mapping") {
+    if (node.kind === "Mapping" && (body.typed_contract as { readonly schema_version?: string } | undefined)?.schema_version !== "domainspec.typed-mapping/v1") {
       const endpoints: NodeRecord[] = [];
       for (const key of ["source", "target"] as const) {
         const target = nodes.get(String(body[key]));
@@ -819,7 +962,7 @@ function validateBackendRelationshipClosures(
         }
       }
     }
-    if (!["Calculation", "Policy", "Mapping", "Workflow", "State Machine", "Interface"].includes(node.kind)) continue;
+    if (!["Query", "Calculation", "Policy", "Mapping", "Workflow", "State Machine", "Interface"].includes(node.kind)) continue;
     validateSelectedNodeRelationships(Object.freeze({
       project_root: projectRoot,
       project_id: projectId,
@@ -1125,9 +1268,10 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
   const metaTypeId = metaTypeIdForLabel(selected.kind);
   const body = selected.decoded_body ?? decodeBody(selected.kind, selected.body, `/${selected.relative_path}/body`);
   const projectRelationships = model.relationships;
-  const selectedTypedContract = ["Operation", "Query", "Rule"].includes(selected.kind) ? body.typed_contract : undefined;
+  const selectedTypedContract = body.typed_contract;
+  const selectedTypedSchema = (selectedTypedContract as { readonly schema_version?: string } | undefined)?.schema_version;
   const closureSources: TypedClosureSourceNode[] = [];
-  if (selectedTypedContract !== undefined) {
+  if (selectedTypedSchema === "domainspec.typed-operation/v1" || selectedTypedSchema === "domainspec.typed-rule/v1") {
     for (const candidate of nodes.values()) {
       const candidateBody = candidate.decoded_body ?? decodeBody(candidate.kind, candidate.body, `/${candidate.relative_path}/body`);
       closureSources.push(Object.freeze({
@@ -1138,7 +1282,7 @@ export function loadProjectNode(projectRoot: unknown, selector: unknown): Decode
       }));
     }
   }
-  const typedClosure = selectedTypedContract === undefined
+  const typedClosure = selectedTypedSchema !== "domainspec.typed-operation/v1" && selectedTypedSchema !== "domainspec.typed-rule/v1"
     ? null
     : selected.kind === "Rule"
       ? compileTypedRuleClosure(selector, closureSources, projectRelationships)

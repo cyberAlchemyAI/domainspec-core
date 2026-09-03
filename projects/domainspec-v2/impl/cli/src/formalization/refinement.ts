@@ -91,7 +91,7 @@ export function createCompilerRefinementOutput<Node, Edge>(
     obligation_applicability: graph.obligation_applicability,
     obligation_outcomes: graph.obligation_outcomes,
   });
-  const graphSha256 = sha256(JSON.stringify(projectedGraphBody));
+  const graphSha256 = sha256(canonicalJson(projectedGraphBody));
   requireSha256(graphSha256, "graph_sha256");
   requireSha256(graph.source_manifest.manifest_sha256, "source_manifest_sha256");
   requireSha256(graph.source_manifest.aggregate_sha256, "source_bytes_sha256");

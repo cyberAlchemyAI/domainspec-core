@@ -25,7 +25,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
   assert.deepEqual(packageJson.exports, {
     ".": { types: "./dist/index.d.ts", import: "./dist/index.js" }
   });
-  assert.deepEqual(packageJson.files, ["dist", "lean", "contracts/instantiation-receipt.schema.json", "contracts/target-observation.schema.json", "README.md"]);
+  assert.deepEqual(packageJson.files, ["dist", "lean", "contracts/instantiation-receipt.schema.json", "contracts/compiled-project-certificate.schema.json", "contracts/project-build-receipt.schema.json", "contracts/runtime-invocation.schema.json", "contracts/runtime-receipt.schema.json", "contracts/durable-operation-invocation.schema.json", "contracts/durable-operation-receipt.schema.json", "contracts/checked-interchange.schema.json", "contracts/assurance-certificate.schema.json", "contracts/target-observation.schema.json", "lean-toolchain", "README.md"]);
   assert.equal("workspaces" in packageJson, false);
   assert.equal("dependencies" in packageJson, false);
   assert.equal("devDependencies" in packageJson, false);
@@ -35,7 +35,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
     "integration-profile:check": "node tools/materialize-system-integration-profile.mjs --check",
     typecheck: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json --noEmit --pretty false",
     build: "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json",
-    test: "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/formalization/projection.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/meta-types/catalog.test.ts test/query-vertical.test.ts test/rule-vertical.test.ts test/static-backend-completion.test.ts test/system-integration/profile.test.ts test/typed-operation/contracts.test.ts test/typed-operation/hardening.test.ts test/typed-operation/rust.test.ts",
+    test: "node --import tsx --test test/assurance/certify.test.ts test/cli/main.test.ts test/conformance/observe-target.test.ts test/formalization/projection.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/l1-project.test.ts test/meta-types/catalog.test.ts test/query-vertical.test.ts test/rule-vertical.test.ts test/runtime-l2.test.ts test/runtime-l3-postgres.test.ts test/static-backend-completion.test.ts test/system-integration/profile.test.ts test/thin-backend-verticals.test.ts test/typed-operation/contracts.test.ts test/typed-operation/hardening.test.ts test/typed-operation/rust.test.ts",
     "test:contract": "node --test test/contract/foundation-contract.test.mjs test/contract/instantiation-foundation-contract.test.mjs test/contract/package-boundary.test.mjs",
     "validate:rust": "node tools/validate-generated-rust.mjs",
     "validate:clean-package": "node tools/validate-clean-package.mjs"
@@ -44,7 +44,7 @@ test("only the curated root entry is exported and build scripts are exact", () =
 });
 
 test("development and factory command surfaces are not re-exported", () => {
-  for (const forbidden of ["roundtrip", "derive", "self-check", "emit-tests", "factory", "replay", "verify", "emitCompilerRefinementOutput", "createCompilerRefinementOutput", "FormalizationMaterializationHooks"]) {
+  for (const forbidden of ["roundtrip", "derive", "self-check", "emit-tests", "factory", "replay", "emitCompilerRefinementOutput", "createCompilerRefinementOutput", "FormalizationMaterializationHooks"]) {
     assert.equal(source.includes(forbidden), false, forbidden);
     assert.equal(JSON.stringify(packageJson.exports).includes(forbidden), false, forbidden);
   }

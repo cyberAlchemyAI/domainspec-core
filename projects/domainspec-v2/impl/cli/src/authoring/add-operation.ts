@@ -12,6 +12,7 @@ import {
   type TypedParameter,
 } from "../typed-operation/contracts.js";
 import type { CalculationSemantics, MappingField, PolicyDecision } from "../static-semantics/contracts.js";
+import { decodeTypedBackendContract, type TypedBackendContract } from "../typed-backend/contracts.js";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 
@@ -95,6 +96,18 @@ export interface AddPolicyInput { readonly sourceRoot: string; readonly featureI
 export interface AddPolicyResult extends AddStaticResultBase { readonly schema_version: "domainspec.add-policy-result/v1"; }
 export interface AddMappingInput { readonly sourceRoot: string; readonly featureId: string; readonly nodeId: string; readonly description: string; readonly sourceNodeId: string; readonly targetNodeId: string; readonly direction: "inbound" | "outbound" | "bidirectional"; readonly totality: "total" | "partial"; readonly fields: readonly MappingField[]; }
 export interface AddMappingResult extends AddStaticResultBase { readonly schema_version: "domainspec.add-mapping-result/v1"; }
+
+export type ThinBackendKind = "Query" | "Calculation" | "Mapping" | "Policy";
+export interface AddThinBackendInput {
+  readonly sourceRoot: string;
+  readonly featureId: string;
+  readonly nodeId: string;
+  readonly description: string;
+  readonly kind: ThinBackendKind;
+  readonly typedContract: unknown;
+  readonly calculates: readonly string[];
+}
+export interface AddThinBackendResult extends AddStaticResultBase { readonly schema_version: "domainspec.add-thin-backend-result/v1"; }
 
 export class SourceAuthoringError extends Error {
   readonly exitCode = 22;
@@ -529,4 +542,58 @@ export function addMapping(input: AddMappingInput): AddMappingResult {
   requireTargets(input.sourceRoot, input.featureId, [input.sourceNodeId, input.targetNodeId], ["Entity", "Interface"], "/mapping-endpoints");
   const body = decodeBody("Mapping", { description: input.description.trim(), source: `${input.featureId}:${input.sourceNodeId}`, target: `${input.featureId}:${input.targetNodeId}`, direction: input.direction, totality: input.totality, fields: input.fields });
   return Object.freeze({ schema_version: "domainspec.add-mapping-result/v1", ...authorNode({ sourceRoot: input.sourceRoot, featureId: input.featureId, nodeId: input.nodeId, kind: "Mapping", metaTypeId: "DS-D1.13", transaction: "add-mapping", body, relationships: [Object.freeze({ edgeId: `${input.nodeId}-maps-${input.targetNodeId}`, relationship: "maps", targetNodeId: input.targetNodeId })] }) });
+}
+
+function sameFeatureTarget(featureId: string, selector: string, pointer: string): string {
+  const [targetFeature, targetNode, extra] = selector.split(":");
+  if (!targetFeature || !targetNode || extra !== undefined || targetFeature !== featureId) {
+    fail("MTCLI_AUTHORING_EDGE_SCOPE", pointer, "typed backend authoring requires same-feature targets");
+  }
+  requireId(targetNode, pointer);
+  return targetNode;
+}
+
+export function addThinBackend(input: AddThinBackendInput): AddThinBackendResult {
+  requireId(input.featureId, "/feature");
+  requireId(input.nodeId, "/name");
+  requireText(input.description, "/description");
+  const typed = decodeTypedBackendContract(input.kind, input.typedContract);
+  let body: Record<string, unknown>;
+  let relationships: readonly AuthorRelationshipInput[];
+  if (typed.schema_version === "domainspec.typed-query/v1") {
+    const targetNodeId = sameFeatureTarget(input.featureId, typed.source, "/contract-json/source");
+    body = { description: input.description.trim(), reads: [typed.source], typed_contract: typed };
+    relationships = [{ edgeId: `${input.nodeId}-reads-${targetNodeId}`, relationship: "reads", targetNodeId }];
+  } else if (typed.schema_version === "domainspec.typed-calculation/v1") {
+    body = { description: input.description.trim(), inputs: typed.inputs.map(({ name }) => name), typed_contract: typed };
+    if (input.calculates.length === 0) fail("MTCLI_CALCULATION_RELATIONSHIP", "/calculates", "typed Calculation requires at least one explicit Operation target");
+    relationships = input.calculates.map((target) => {
+      const targetNodeId = sameFeatureTarget(input.featureId, target.includes(":") ? target : `${input.featureId}:${target}`, "/calculates");
+      return { edgeId: `${input.nodeId}-calculates-${targetNodeId}`, relationship: "calculates" as const, targetNodeId };
+    });
+  } else if (typed.schema_version === "domainspec.typed-mapping/v1") {
+    const targetNodeId = sameFeatureTarget(input.featureId, typed.target, "/contract-json/target");
+    sameFeatureTarget(input.featureId, typed.source, "/contract-json/source");
+    body = { description: input.description.trim(), source: typed.source, target: typed.target, typed_contract: typed };
+    relationships = [{ edgeId: `${input.nodeId}-maps-${targetNodeId}`, relationship: "maps", targetNodeId }];
+  } else {
+    const targets = [...new Set([...typed.cases.map(({ target }) => target), typed.default_target])];
+    body = { description: input.description.trim(), strategies: targets, typed_contract: typed };
+    relationships = targets.map((target) => {
+      const targetNodeId = sameFeatureTarget(input.featureId, target, "/contract-json");
+      return { edgeId: `${input.nodeId}-applies-${targetNodeId}`, relationship: "applies" as const, targetNodeId };
+    });
+  }
+  decodeBody(input.kind, body);
+  const identities: Record<ThinBackendKind, { readonly id: AuthorNodeInput["metaTypeId"]; readonly transaction: AuthorNodeInput["transaction"] }> = {
+    Query: { id: "DS-D1.5", transaction: "add-query" },
+    Calculation: { id: "DS-D1.6", transaction: "add-calculation" },
+    Policy: { id: "DS-D1.8", transaction: "add-policy" },
+    Mapping: { id: "DS-D1.13", transaction: "add-mapping" },
+  };
+  const identity = identities[input.kind];
+  return Object.freeze({
+    schema_version: "domainspec.add-thin-backend-result/v1",
+    ...authorNode({ sourceRoot: input.sourceRoot, featureId: input.featureId, nodeId: input.nodeId, kind: input.kind, metaTypeId: identity.id, transaction: identity.transaction, body, relationships }),
+  });
 }
