@@ -66,6 +66,14 @@
     "context_basis_receipt": {
       "path": "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/generated/SWU-ARE-CONTEXT-001-receipt.json",
       "sha256": "5e4c8339a3c42056547a83b0dd5b040863465943343fd8489c24dc971a18444b"
+    },
+    "reasoning_policy_profile": {
+      "path": "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/reasoning-policy-runtime/profiles/default-v1.json",
+      "sha256": "84ff566090e65f15276abe4c07c4b834f2f3a4c3082356e6bd94136cca95e7ce"
+    },
+    "semantic_input_profile": {
+      "path": "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/semantic-input-runtime/profiles/definition-readiness-v1/profile.json",
+      "sha256": "e259d9e6ae8dce562aaa3be10acd1d28e54514aa5b2c8ab4c17fb1b9430502a0"
     }
   },
   "context": {
@@ -109,6 +117,16 @@
     "enabled": false,
     "trigger": "turn/completed"
   },
+  "cache_telemetry": {
+    "enabled": true,
+    "usage_paths": ["result.usage", "params.turn.usage"],
+    "fields": {
+      "input_tokens": "input_tokens",
+      "cached_input_tokens": "cached_input_tokens",
+      "latency_ms": "latency_ms",
+      "baseline_latency_ms": "baseline_latency_ms"
+  }
+  },
   "runtime_journal": {
     "journal_id": "are-codex-runtime:domainspec-core",
     "max_events": 4096,
@@ -132,6 +150,11 @@
     "reasoning_state": {
       "mode": "file-per-consumer",
       "directory": "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/.runtime/reasoning-state",
+      "single_writer": true
+    },
+    "session_store": {
+      "mode": "append-only-file-fsync",
+      "path": "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/.runtime/gateway-sessions.jsonl",
       "single_writer": true
     },
     "allowed_clients": [

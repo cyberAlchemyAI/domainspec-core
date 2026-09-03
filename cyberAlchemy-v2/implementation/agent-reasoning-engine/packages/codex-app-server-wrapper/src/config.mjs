@@ -2,6 +2,7 @@ import {readFileSync} from "node:fs";
 import {isAbsolute, resolve} from "node:path";
 import {loadVerifiedDecisionProfile} from "../../request-decision-router/index.mjs";
 import {loadSemanticInputProfile} from "../../semantic-input-runtime/index.mjs";
+import {loadReasoningPolicy} from "../../reasoning-policy-runtime/index.mjs";
 import {sha256HexText} from "../../intent-route-resolver/index.mjs";
 import {fail, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
 import {materializeDefinitionCatalog, materializeOntologySnapshot} from "./source-adapters.mjs";
@@ -255,6 +256,9 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     : {enabled: false, trigger: "turn/completed"};
   if (evolutionSignals.enabled !== true && evolutionSignals.enabled !== false) return fail("config", ["config.evolution-signals-enabled-invalid"]);
   if (evolutionSignals.trigger !== "turn/completed") return fail("config", ["config.evolution-signals-trigger-unsupported"]);
+  const cacheTelemetry = isRecord(profile.cache_telemetry) ? profile.cache_telemetry : {enabled: false, usage_paths: []};
+  if (cacheTelemetry.enabled !== true && cacheTelemetry.enabled !== false) return fail("config", ["config.cache-telemetry-enabled-invalid"]);
+  if (!Array.isArray(cacheTelemetry.usage_paths) || cacheTelemetry.usage_paths.some((path) => !nonEmptyString(path))) return fail("config", ["config.cache-telemetry-usage-paths-invalid"]);
   const runtimeJournal = isRecord(profile.runtime_journal)
     ? profile.runtime_journal
     : {journal_id: `are-codex-runtime:${profile.profile_id}`, max_events: 4096, max_closed_turns: 256};
@@ -270,6 +274,10 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   if (!nonEmptyString(reasoningState.ledger_id)) return fail("config", ["config.reasoning-state-ledger-id-invalid"]);
   if (!["process-memory", "append-only-file-fsync"].includes(reasoningState.storage_mode)) return fail("config", ["config.reasoning-state-storage-mode-invalid"]);
   if (reasoningState.storage_mode === "append-only-file-fsync" && !nonEmptyString(reasoningState.log_path)) return fail("config", ["config.reasoning-state-log-path-required"]);
+  const reasoningPolicySource = readBoundJson(repositoryRoot, sources.reasoning_policy_profile);
+  if (!reasoningPolicySource.ok) return reasoningPolicySource;
+  const loadedReasoningPolicy = loadReasoningPolicy(reasoningPolicySource.path, repositoryRoot);
+  if (!loadedReasoningPolicy.ok) return fail("config", loadedReasoningPolicy.reason_codes ?? ["config.reasoning-policy-unverified"]);
   const gateway = isRecord(profile.gateway) ? profile.gateway : {
     backend_mode: "direct-stdio",
     max_clients: 8,
@@ -306,6 +314,10 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   if (!["process-memory", "file-per-consumer"].includes(gatewayReasoningState.mode)) return fail("config", ["config.gateway-reasoning-state-mode-invalid"]);
   if (gatewayReasoningState.mode === "file-per-consumer" && !nonEmptyString(gatewayReasoningState.directory)) return fail("config", ["config.gateway-reasoning-state-directory-required"]);
   if (gatewayReasoningState.mode === "file-per-consumer" && gatewayReasoningState.single_writer !== true) return fail("config", ["config.gateway-reasoning-state-single-writer-required"]);
+  const gatewaySessionStore = isRecord(gateway.session_store) ? gateway.session_store : {mode: "process-memory", path: null, single_writer: false};
+  if (!["process-memory", "append-only-file-fsync"].includes(gatewaySessionStore.mode)) return fail("config", ["config.gateway-session-store-mode-invalid"]);
+  if (gatewaySessionStore.mode === "append-only-file-fsync" && !nonEmptyString(gatewaySessionStore.path)) return fail("config", ["config.gateway-session-store-path-required"]);
+  if (gatewaySessionStore.mode === "append-only-file-fsync" && gatewaySessionStore.single_writer !== true) return fail("config", ["config.gateway-session-store-single-writer-required"]);
   if (!Array.isArray(gateway.allowed_clients) || gateway.allowed_clients.length === 0) return fail("config", ["config.gateway-clients-required"]);
   const gatewayClients = [];
   const gatewayConsumerIds = new Set();
@@ -317,7 +329,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     gatewayClients.push({consumer_id: client.consumer_id, lane: client.lane, window_ref: client.lane === "plan-bound" ? client.window_ref : null, request_id: client.lane === "plan-bound" ? client.request_id : null});
   }
   let semanticProfile = null;
-  if (semanticEvaluation.enabled === true) {
+  if (isRecord(sources.semantic_input_profile)) {
     const semanticProfileSource = readBoundJson(repositoryRoot, sources.semantic_input_profile);
     if (!semanticProfileSource.ok) return semanticProfileSource;
     const loadedSemanticProfile = loadSemanticInputProfile(semanticProfileSource.path, repositoryRoot);
@@ -337,6 +349,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
       context_projection: profile.context_projection ?? {max_inline_bytes: 32768},
       semantic_evaluation: freezeResult({enabled: semanticEvaluation.enabled, trigger: semanticEvaluation.trigger}),
       evolution_signals: freezeResult({enabled: evolutionSignals.enabled, trigger: evolutionSignals.trigger}),
+      cache_telemetry: freezeResult({enabled: cacheTelemetry.enabled, usage_paths: cacheTelemetry.usage_paths, fields: isRecord(cacheTelemetry.fields) ? cacheTelemetry.fields : {}}),
       runtime_journal: freezeResult({
         journal_id: runtimeJournal.journal_id,
         max_events: runtimeJournal.max_events,
@@ -349,6 +362,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
         single_writer: reasoningState.single_writer === true,
         checkpoints: freezeResult({before_model_request: true, before_effect: true, before_continuation: true}),
       }),
+      reasoning_policy: loadedReasoningPolicy.value,
       gateway: freezeResult({
         backend_mode: gateway.backend_mode,
         max_clients: gateway.max_clients,
@@ -364,6 +378,11 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
           mode: gatewayReasoningState.mode,
           directory: nonEmptyString(gatewayReasoningState.directory) ? absolute(repositoryRoot, gatewayReasoningState.directory) : null,
           single_writer: gatewayReasoningState.mode === "file-per-consumer",
+        }),
+        session_store: freezeResult({
+          mode: gatewaySessionStore.mode,
+          path: nonEmptyString(gatewaySessionStore.path) ? absolute(repositoryRoot, gatewaySessionStore.path) : null,
+          single_writer: gatewaySessionStore.mode === "append-only-file-fsync",
         }),
         allowed_clients: gatewayClients.sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
       }),

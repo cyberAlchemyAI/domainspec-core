@@ -119,8 +119,8 @@ function planProposal(proposalId, semanticDependency = undefined, overrides = {}
   };
 }
 
-async function startAndBind(instance, {id, text, threadId, turnId}) {
-  const started = await instance.processClientMessage(turnStart(id, text, threadId));
+async function startAndBind(instance, {id, text, threadId, turnId, extras = {}}) {
+  const started = await instance.processClientMessage(turnStart(id, text, threadId, extras));
   assert.equal(started.to_server.length, 1);
   await instance.processServerMessage(turnResponse(id, turnId));
 }
@@ -132,19 +132,36 @@ test("repository profile verifies exact sources and materializes production inpu
   assert.equal(loaded.ontology_snapshot.edges.length, 92);
   assert.deepEqual(loaded.value.semantic_evaluation, {enabled: false, trigger: "turn/completed"});
   assert.deepEqual(loaded.value.evolution_signals, {enabled: false, trigger: "turn/completed"});
+  assert.equal(loaded.semantic_profile.profile_id, "semantic-input:definition-readiness@1");
   assert.deepEqual(loaded.value.runtime_journal, {journal_id: "are-codex-runtime:domainspec-core", max_events: 4096, max_closed_turns: 256});
   assert.deepEqual(loaded.value.gateway, {
     backend_mode: "daemon-proxy",
     max_clients: 8,
     max_buffered_messages_per_client: 256,
     reconnect: true,
+    detach_timeout_ms: 300000,
+    idle_timeout_ms: 1800000,
+    max_retained_bytes_per_session: 4194304,
+    max_reasoning_log_bytes_per_session: 67108864,
+    expiration_tombstone_ttl_ms: 3600000,
+    eviction_retry_ms: 1000,
+    reasoning_state: {
+      mode: "file-per-consumer",
+      directory: resolve(packageRoot, ".runtime/reasoning-state"),
+      single_writer: true,
+    },
+    session_store: {
+      mode: "append-only-file-fsync",
+      path: resolve(packageRoot, ".runtime/gateway-sessions.jsonl"),
+      single_writer: true,
+    },
     allowed_clients: [
       {consumer_id: "codex:benchmark", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:human-chat", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:plan", lane: "plan-bound", window_ref: "plan:persistent-codex", request_id: "request:persistent-codex-plan"},
     ],
   });
-  assert.equal(loaded.semantic_profile, null);
+  assert.equal(loaded.semantic_profile.profile_id, "semantic-input:definition-readiness@1");
 });
 
 test("an explicitly enabled repository profile exact-loads its semantic profile", () => {
@@ -280,6 +297,68 @@ test("turn/start seals, reconstructs, verifies, and checkpoints reasoning state 
   assert.equal(state.sink.flush_count, 1);
 });
 
+test("turn/start places the reusable reasoning projection before volatile context and measures exact reuse", async () => {
+  const instance = wrapper();
+  const first = await instance.processClientMessage(turnStart(1011, "Research reusable reasoning state.", "thread-cache"));
+  const second = await instance.processClientMessage(turnStart(1012, "Research reusable reasoning state.", "thread-cache"));
+  assert.equal(first.to_server.length, 1);
+  assert.equal(second.to_server.length, 1);
+  const firstContext = first.to_server[0].params.additionalContext;
+  const secondContext = second.to_server[0].params.additionalContext;
+  assert.equal(Object.keys(firstContext)[0], CACHE_AFFINITY_KEY);
+  assert.equal(Object.keys(secondContext)[0], CACHE_AFFINITY_KEY);
+  assert.equal(firstContext[CACHE_AFFINITY_KEY].value.includes("are.reasoning-request-series-header/v1"), true);
+  assert.equal(firstContext[CACHE_AFFINITY_KEY].value.includes("reusable_reasoning_state"), false);
+  const states = instance.inspectState().cache_affinity_consumers;
+  assert.equal(states.length, 1);
+  assert.equal(states[0].posture, "eligible-reuse");
+  assert.equal(states[0].exact_prefix_reuse, true);
+  assert.equal(states[0].reused_prefix_bytes >= states[0].reusable_prefix_bytes, true);
+  const events = instance.ledger.snapshot().filter((event) => event.event_kind === "reasoning-dispatch-verified");
+  assert.equal(events[0].cache_affinity_posture, "cold");
+  assert.equal(events[1].cache_affinity_posture, "eligible-reuse");
+  assert.equal(events[1].cache_hit_posture, "unobserved");
+  assert.equal(events[1].observed_token_savings, null);
+});
+
+test("measured provider cache usage is bound to the exact current projection", async () => {
+  const instance = wrapper();
+  await instance.processClientMessage(turnStart(1013, "Research reusable reasoning state.", "thread-cache-measured"));
+  const projection = instance.inspectState().cache_affinity_consumers[0];
+  const observed = instance.recordCacheTelemetry({
+    consumer_ref: projection.consumer,
+    provider_usage: {
+      schema_version: "are.provider-cache-usage/v1",
+      projection_digest: projection.projection_digest,
+      exact_prefix_digest: projection.exact_prefix_digest,
+      provider_ref: projection.provider_ref,
+      model_ref: projection.model_ref,
+      input_tokens: 1400,
+      cached_input_tokens: 1100,
+      latency_ms: 82,
+      baseline_latency_ms: 127,
+    },
+  });
+  assert.equal(observed.ok, true);
+  assert.equal(observed.disposition, "observed-hit");
+  assert.equal(observed.observation.observed_token_savings, 1100);
+  assert.equal(observed.observation.observed_time_savings_ms, 45);
+  const state = instance.inspectState().cache_affinity_consumers[0];
+  assert.equal(state.cache_hit_posture, "observed-hit");
+  assert.equal(state.observed_cached_input_tokens, 1100);
+  const event = instance.ledger.snapshot().find((candidate) => candidate.event_kind === "cache-telemetry-observed");
+  assert.equal(event.cache_telemetry_observation_digest, observed.observation.observation_digest);
+});
+
+test("provider usage on the turn response is automatically bound and checkpointed", async () => {
+  const instance = wrapper();
+  await instance.processClientMessage(turnStart(1014, "Research reusable reasoning state.", "thread-cache-auto"));
+  await instance.processServerMessage({jsonrpc: "2.0", id: 1014, result: {turn: {id: "turn-cache-auto"}, usage: {input_tokens: 900, cached_input_tokens: 700, latency_ms: 70, baseline_latency_ms: 100}}});
+  const state = instance.inspectState();
+  assert.equal(state.cache_affinity_consumers[0].cache_hit_posture, "observed-hit");
+  assert.equal(state.cache_affinity_consumers[0].observed_token_savings, 700);
+  assert.equal(state.reasoning_state.checkpoint_count, 2);
+});
 test("file-backed turn/start persists the verified dispatch sequence before forwarding", async () => {
   const directory = mkdtempSync("/tmp/are-wrapper-reasoning-state-");
   temporaryPaths.push(directory);
@@ -612,6 +691,32 @@ test("opt-in evolution signals emit immutable compact records exactly once per c
   assert.equal(event.signal_count, 1);
   assert.equal(Object.hasOwn(event, "completion_message"), false);
   assert.equal(Object.hasOwn(event, "context_contents"), false);
+});
+
+test("the configured definition-readiness domain evaluates only when explicitly enabled", async () => {
+  const profile = structuredClone(loaded.value);
+  profile.semantic_evaluation = {enabled: true, trigger: "turn/completed"};
+  const sourceRef = "are://definition-readiness/structural-observations";
+  const value = {definition_present: true, canonical_source_bound: true, term_unambiguous: true, downstream_impact_declared: true, selected_source_drift: false};
+  const sourceDigest = digestValue(value);
+  const instance = wrapper({
+    loaded_profile: profile,
+    semantic_profile: loaded.semantic_profile,
+    semantic_input_provider: () => ({
+      owner_ref: "cyberalchemy-definition-owner@local",
+      created_at: "2026-09-03T10:00:00.000Z",
+      as_of: "2026-09-03T10:00:01.000Z",
+      observation_sources: [{source_ref: sourceRef, value, digest: sourceDigest}],
+      observation_candidates: Object.entries(value).map(([field, fieldValue], index) => ({schema_version: "are.observation-candidate/v1", candidate_id: `definition-ready:${index}`, field, value: fieldValue, issuer_ref: "cyberalchemy-definition-owner@local", source_ref: sourceRef, source_digest: sourceDigest, validator_ref: "definition-readiness-structural-validator@1", temporal_scope: {observed_at: "2026-09-03T10:00:01.000Z"}, proposed_posture: "admitted"})),
+      challenge_state: {required_lanes: []},
+    }),
+  });
+  const hint = {schema_version: "are.request-context-hint/v1", raw_request: "Define a bounded reasoning epoch.", objective_kind: "define"};
+  await startAndBind(instance, {id: 6001, text: "Define a bounded reasoning epoch.", threadId: "thread-definition-ready", turnId: "turn-definition-ready", extras: {additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}}}});
+  const result = await instance.processServerMessage(completed("thread-definition-ready", "turn-definition-ready"));
+  const notification = result.to_client.find((message) => message.method === SEMANTIC_NOTIFICATION);
+  assert.equal(notification.params.disposition, "evaluated");
+  assert.equal(notification.params.semantic_outcome, "RecommendedUnderSnapshot");
 });
 
 test("opt-in turn/completed performs one context-bound semantic evaluation", async () => {

@@ -1,6 +1,6 @@
 # ARE Real Reasoning Benchmark v1
 
-This candidate harness measures observable reasoning-engine behavior across routing, request-aware context retrieval, context-view lifecycle, fail-closed boundaries, and optional real Codex conversations. It does not attempt to inspect hidden chain-of-thought and grants no authority.
+This candidate harness measures observable reasoning-engine behavior across routing, request-aware context retrieval, context-view lifecycle, fail-closed boundaries, exact-prefix cache reuse, and optional real Codex conversations. Cache comparisons accept only provider-reported usage bound to the same projection and prefix; absent fields remain unobserved. It does not attempt to inspect hidden chain-of-thought and grants no authority.
 
 ## Run
 

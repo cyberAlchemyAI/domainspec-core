@@ -27,7 +27,9 @@ export {
   REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA,
   planReasoningStateTransition,
   getReasoningStateFrontier,
+  getReasoningStateEpoch,
   listReasoningStateFrontiers,
+  listReasoningStateEpochs,
   rebuildReasoningStateIndexes,
   recoverReasoningStateLedger,
   selectReasoningCheckpointPolicy,
@@ -41,6 +43,12 @@ export {
   verifyPortableReasoningEpoch,
   verifyReasoningStateLog,
 } from "../reasoning-state-runtime/index.mjs";
+export {
+  assessReasoningEvolution,
+  composeReasoningEvolution,
+  loadReasoningPolicy,
+  materializeContextReductionPlan,
+} from "../reasoning-policy-runtime/index.mjs";
 export {CODEX_SEMANTIC_COMPLETION_SCHEMA, evaluateSemanticCompletion} from "./src/semantic-completion.mjs";
 export {CODEX_EVOLUTION_SIGNAL_EMISSION_SCHEMA, emitCompletionImprovementSignals} from "./src/evolution-signals.mjs";
 export {
@@ -61,6 +69,13 @@ export {
   GATEWAY_REQUEST_META_KEY,
 } from "./src/gateway.mjs";
 export {deriveGatewayReasoningStateProfile} from "./src/gateway-reasoning-state.mjs";
+export {CACHE_TELEMETRY_EXTRACTION_SCHEMA, compareProviderCacheObservations, extractProviderCacheUsage, PROVIDER_CACHE_USAGE_SCHEMA} from "./src/cache-telemetry.mjs";
+export {
+  createFileGatewaySessionStore,
+  createMemoryGatewaySessionStore,
+  GATEWAY_SESSION_EVENT_SCHEMA,
+  GATEWAY_SESSION_INDEX_SCHEMA,
+} from "./src/gateway-session-store.mjs";
 export {runGatewayClientProxy} from "./src/gateway-client.mjs";
 export {connectGatewayRpcTransport} from "./src/gateway-client.mjs";
 export {AppServerRpcError, createAppServerRpcClient, spawnAppServerRpcTransport} from "./src/rpc-client.mjs";

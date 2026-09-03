@@ -39,6 +39,12 @@
     "request_timeout_ms": 180000,
     "completion_timeout_ms": 300000
   },
+  "cache_measurement": {
+    "source": "provider-reported-usage-only",
+    "identity_requirement": "exact-projection-and-prefix",
+    "absent_posture": "unobserved",
+    "metrics": ["cached_input_token_delta", "latency_delta_ms"]
+  },
   "external_retrieval": {
     "adapter": "agent-retrieval-bench-jsonl/v2",
     "upstream_source": {

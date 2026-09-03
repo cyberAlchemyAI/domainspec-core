@@ -2,9 +2,10 @@
 
 This directory is the supported product surface for the integrated ARE
 stability candidate. It composes deterministic routing, request-aware Context
-Envelopes, append-only reusable Reasoning State, opt-in semantic evaluation,
-authenticated Codex app-server continuity, exact cache-affinity telemetry, and
-the real-reasoning benchmark.
+Envelopes, automatically evolved append-only Reasoning State, an exact-bound
+opt-in definition-readiness semantic domain, authenticated restartable Codex
+app-server continuity, measured cache-affinity telemetry, and the
+real-reasoning benchmark.
 
 Use Node `26.8.1` and begin with:
 
@@ -25,8 +26,11 @@ node bin/are.mjs gateway \
 `node bin/are.mjs benchmark --mode core` and `node bin/are.mjs define ...`
 expose the benchmark and Define integration through the same product entrypoint.
 
-The default product performs no semantic evaluation or effects. Cache affinity
-is an optimization, provider cache use is reported only when explicitly
-observed, and session expiration never truncates the append-only ledger. This
+The default product performs no semantic evaluation or effects. The configured
+definition-readiness domain activates only when explicitly enabled. Cache
+affinity is an optimization, provider cache use is reported only from configured
+provider fields, and session expiration never truncates an append-only ledger.
+Restart recovery replays completed stable requests and blocks unknown crash-time
+outcomes instead of redispatching them. This
 engineering stability candidate does not itself grant acceptance, publication,
 deployment, or external-effect authority.

@@ -8,7 +8,7 @@ test("integrated ARE product has an exact runtime, verified profile, and complet
   assert.equal(health.status, "PASS", health.reason_codes.join(","));
   assert.equal(health.node.exact_match, true);
   assert.equal(health.repository_profile.verified, true);
-  assert.equal(health.components.length, 10);
+  assert.equal(health.components.length, 11);
   assert.equal(health.components.every((component) => component.present && component.package_name), true);
   assert.equal(health.integrations.every((integration) => integration.present), true);
   assert.equal(health.authority_effect, "none");

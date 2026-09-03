@@ -16,6 +16,8 @@ import {
   recoverReasoningStateLedger,
   verifyReasoningDispatch,
 } from "../../reasoning-state-runtime/index.mjs";
+import {composeReasoningEvolution} from "../../reasoning-policy-runtime/index.mjs";
+import {extractProviderCacheUsage} from "./cache-telemetry.mjs";
 import {
   admitJsonRpcMessage,
   addContextFragment,
@@ -105,6 +107,7 @@ export function createCodexAppServerWrapper(options) {
   const evolutionSignalEmissions = new Map();
   const completionFrontiers = new Map();
   const cacheAffinityByConsumer = new Map();
+  const reasoningEpochByConsumer = new Map();
   const internalRequests = new Set();
   let activeDecisionProfile = options.decision_profile;
   let internalSequence = 0;
@@ -116,6 +119,10 @@ export function createCodexAppServerWrapper(options) {
       || !isRecord(persisted?.projection)
       || !isRecord(persisted?.assessment)) continue;
     cacheAffinityByConsumer.set(event.content.consumer_ref, freezeResult({projection: persisted.projection, assessment: persisted.assessment, authority_effect: "none"}));
+    const recoveredEpoch = isRecord(event.content.reasoning_epoch)
+      ? event.content.reasoning_epoch
+      : reasoningLedger.getEpoch?.(event.content.dispatch?.epoch_digest);
+    if (isRecord(recoveredEpoch)) reasoningEpochByConsumer.set(event.content.consumer_ref, recoveredEpoch);
   }
 
   function turnKey(threadId, turnId) {
@@ -158,6 +165,9 @@ export function createCodexAppServerWrapper(options) {
       reasoning_epoch: reasoning.epoch,
       reasoning_epoch_id: reasoning.epoch.epoch_id,
       reasoning_epoch_digest: reasoning.epoch.epoch_digest,
+      reasoning_evolution_disposition: reasoning.reasoning_evolution.disposition,
+      reasoning_evolution_result_digest: reasoning.reasoning_evolution.result_digest,
+      consumer_ref: reasoning.epoch.consumer_ref,
       reasoning_dispatch_digest: reasoning.dispatch.dispatch_digest,
       reasoning_checkpoint_digest: reasoning.checkpoint.checkpoint_digest,
       authority_effect: "none",
@@ -209,8 +219,14 @@ export function createCodexAppServerWrapper(options) {
       },
     });
     if (!contextEvent.ok) return fail("reasoning-dispatch", contextEvent.reason_codes, contextEvent.residue);
+    const currentReasoningEpoch = reasoningEpochByConsumer.get(binding.view_key) ?? null;
+    const candidateEventDigests = [...new Set([
+      ...(currentReasoningEpoch?.event_digests ?? []),
+      requestEvent.event.event_digest,
+      contextEvent.event.event_digest,
+    ])];
     const sealed = reasoningLedger.seal({
-      event_digests: [requestEvent.event.event_digest, contextEvent.event.event_digest],
+      event_digests: candidateEventDigests,
       consumer_ref: binding.view_key,
       request_ref: requestContext?.request_id ?? String(message.id),
       selected_dependencies: envelope?.selected_dependencies ?? [],
@@ -218,6 +234,19 @@ export function createCodexAppServerWrapper(options) {
       frontier: {kind: "model-request-ready", lane: binding.lane},
     });
     if (!sealed.ok) return fail("reasoning-dispatch", sealed.reason_codes, sealed.residue);
+    const evolution = composeReasoningEvolution({
+      ledger: reasoningLedger,
+      profile: options.loaded_profile.reasoning_policy,
+      current_epoch: currentReasoningEpoch,
+      candidate_epoch: sealed.value,
+      events: reasoningLedger.snapshot(),
+      lane: binding.lane,
+      refresh_assessment: result.refresh_assessment,
+      exploration: message.params?._are?.reasoning?.exploration === true,
+      branch_ref: message.params?._are?.reasoning?.branch_ref,
+    });
+    if (!evolution.ok) return fail("reasoning-evolution", evolution.reason_codes, evolution.residue);
+    const selectedEpoch = evolution.epoch;
     const header = createRequestSeriesHeader(result.forwarded_message, options.request_series_header ?? {});
     if (header.ok === false) return fail("reasoning-dispatch", header.reason_codes, header.residue);
     const reusableItems = (envelope?.included_items ?? []).filter((item) => item.item_kind !== "request");
@@ -250,14 +279,17 @@ export function createCodexAppServerWrapper(options) {
     });
     if (!cacheAffinity.ok) return fail("reasoning-dispatch", cacheAffinity.reason_codes, cacheAffinity.residue);
     const forwardedMessage = addContextFragment(result.forwarded_message, result.fragment, cacheAffinity);
-    const dispatch = materializeReasoningDispatch({epoch: sealed.value, message: forwardedMessage, request_header: header});
+    const dispatch = materializeReasoningDispatch({epoch: selectedEpoch, message: forwardedMessage, request_header: header});
     if (!dispatch.ok) return fail("reasoning-dispatch", dispatch.reason_codes, dispatch.residue);
-    const verified = verifyReasoningDispatch(dispatch.value, {epoch: sealed.value, message: forwardedMessage});
+    const verified = verifyReasoningDispatch(dispatch.value, {epoch: selectedEpoch, message: forwardedMessage});
     if (!verified.ok) return fail("reasoning-dispatch", verified.reason_codes, [verified.verification]);
     const dispatchEvent = reasoningLedger.append({
       event_kind: "dispatch-materialized",
       content: {
         consumer_ref: binding.view_key,
+        reasoning_epoch: selectedEpoch,
+        reasoning_evolution: evolution.decision,
+        reasoning_evolution_result_digest: evolution.result_digest,
         dispatch: dispatch.value,
         verification_digest: verified.value.verification_digest,
         cache_affinity_state: {
@@ -275,17 +307,19 @@ export function createCodexAppServerWrapper(options) {
         },
       },
       provenance_refs: [
-        `reasoning-epoch:${sealed.value.epoch_digest}`,
+        `reasoning-epoch:${selectedEpoch.epoch_digest}`,
         `context-envelope:${result.context_envelope?.digest ?? "unknown"}`,
       ],
     });
     if (!dispatchEvent.ok) return fail("reasoning-dispatch", dispatchEvent.reason_codes, dispatchEvent.residue);
-    const checkpoint = reasoningLedger.checkpoint({checkpoint_kind: "before-model-request", epoch: sealed.value, subject_digest: dispatch.value.dispatch_digest});
+    const checkpoint = reasoningLedger.checkpoint({checkpoint_kind: "before-model-request", epoch: selectedEpoch, subject_digest: dispatch.value.dispatch_digest});
     if (!checkpoint.ok) return fail("reasoning-dispatch", checkpoint.reason_codes, checkpoint.residue);
     cacheAffinityByConsumer.set(binding.view_key, cacheAffinity);
+    reasoningEpochByConsumer.set(binding.view_key, selectedEpoch);
     return freezeResult({
       ok: true,
-      epoch: sealed.value,
+      epoch: selectedEpoch,
+      reasoning_evolution: evolution,
       dispatch: dispatch.value,
       verification: verified.value,
       checkpoint: checkpoint.value,
@@ -328,6 +362,10 @@ export function createCodexAppServerWrapper(options) {
       provenance_refs: [`cache-affinity-projection:${current.projection.projection_digest}`],
     });
     if (!appended.ok) return fail("cache-telemetry", appended.reason_codes, appended.residue);
+    const telemetryEpoch = reasoningLedger.seal({event_digests: [appended.event.event_digest], consumer_ref: input.consumer_ref.trim(), request_ref: `cache-telemetry:${observed.value.observation_digest}`, frontier: {kind: "cache-telemetry-observed"}});
+    if (!telemetryEpoch.ok) return fail("cache-telemetry", telemetryEpoch.reason_codes, telemetryEpoch.residue);
+    const telemetryCheckpoint = reasoningLedger.checkpoint({checkpoint_kind: "manual", epoch: telemetryEpoch.value, subject_digest: observed.value.observation_digest});
+    if (!telemetryCheckpoint.ok) return fail("cache-telemetry", telemetryCheckpoint.reason_codes, telemetryCheckpoint.residue);
     cacheAffinityByConsumer.set(input.consumer_ref.trim(), freezeResult({...current, telemetry: observed.value, authority_effect: "none"}));
     ledger.record({
       event_kind: "cache-telemetry-observed",
@@ -725,7 +763,13 @@ export function createCodexAppServerWrapper(options) {
     const admitted = admitJsonRpcMessage(message);
     if (!admitted.ok) return {...emptyActions(), to_client: [jsonRpcError(message?.id, -32600, "Invalid app-server JSON-RPC message", admitted)]};
 
-    if (admitted.kind === "response") bindTurnResponse(message);
+    const boundTurnState = admitted.kind === "response" ? bindTurnResponse(message) : null;
+    if (boundTurnState?.consumer_ref) {
+      const current = cacheAffinityByConsumer.get(boundTurnState.consumer_ref);
+      const extracted = extractProviderCacheUsage(message, current?.projection, options.loaded_profile.cache_telemetry);
+      if (extracted.ok && extracted.disposition === "observed") recordCacheTelemetry({consumer_ref: boundTurnState.consumer_ref, provider_usage: extracted.provider_usage});
+      else if (!extracted.ok) ledger.record({event_kind: "cache-telemetry-rejected", direction: "wrapper", rpc_id: message.id, cache_invalidation_reasons: extracted.reason_codes});
+    }
 
     if (admitted.kind === "response" && internalRequests.has(String(message.id))) {
       internalRequests.delete(String(message.id));
@@ -982,6 +1026,7 @@ export function createCodexAppServerWrapper(options) {
       completion_turn_ids: [...completionByTurn.keys()].sort(),
       completion_frontier_turn_ids: [...completionFrontiers.keys()].sort(),
       cache_affinity_consumers: [...cacheAffinityByConsumer.entries()].map(([consumer, value]) => ({consumer, posture: value.assessment.posture, exact_prefix_reuse: value.assessment.exact_prefix_reuse, reusable_prefix_bytes: value.assessment.reusable_prefix_bytes, reused_prefix_bytes: value.assessment.reused_prefix_bytes, invalidation_reasons: value.assessment.invalidation_reasons, projection_digest: value.projection.projection_digest, exact_prefix_digest: value.projection.exact_prefix_digest, provider_ref: value.projection.stable_request_prefix.provider_ref, model_ref: value.projection.stable_request_prefix.model_ref, assessment_digest: value.assessment.assessment_digest, cache_hit_posture: value.telemetry?.cache_hit_posture ?? value.assessment.cache_hit_posture, observed_input_tokens: value.telemetry?.observed_input_tokens ?? null, observed_cached_input_tokens: value.telemetry?.observed_cached_input_tokens ?? null, observed_token_savings: value.telemetry?.observed_token_savings ?? value.assessment.observed_token_savings, observed_time_savings_ms: value.telemetry?.observed_time_savings_ms ?? value.assessment.observed_time_savings_ms, cache_telemetry_observation_digest: value.telemetry?.observation_digest ?? null})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
+      reasoning_evolution_consumers: [...reasoningEpochByConsumer.entries()].map(([consumer, epoch]) => ({consumer, epoch_id: epoch.epoch_id, epoch_digest: epoch.epoch_digest, event_count: epoch.event_digests.length})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
       runtime_journal: ledger.inspect(),
       reasoning_state: reasoningLedger.inspect(),
       reasoning_state_writer_lock: reasoningWriterLock?.inspect() ?? null,

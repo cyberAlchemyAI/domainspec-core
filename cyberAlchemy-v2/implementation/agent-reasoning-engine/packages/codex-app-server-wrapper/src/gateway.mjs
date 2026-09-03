@@ -4,6 +4,7 @@ import {createServer} from "node:net";
 
 import {spawnCodexBackend} from "./backend.mjs";
 import {digestValue, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
+import {createFileGatewaySessionStore, createMemoryGatewaySessionStore} from "./gateway-session-store.mjs";
 import {jsonLine, jsonRpcError, parseJsonLine} from "./protocol.mjs";
 
 export const GATEWAY_CONNECT_SCHEMA = "are.codex-gateway-connect/v1";
@@ -87,7 +88,7 @@ function createLineReader(stream, onLine, onOverflow, initial = "") {
   return () => stream.off("data", onData);
 }
 
-function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, maxBufferedMessages, reconnectEnabled, continuityMode, detachTimeoutMs, idleTimeoutMs, maxRetainedBytes, maxReasoningLogBytes, evictionRetryMs, onBackendStderr, onClosed, onExpired}) {
+function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, maxBufferedMessages, reconnectEnabled, continuityMode, detachTimeoutMs, idleTimeoutMs, maxRetainedBytes, maxReasoningLogBytes, evictionRetryMs, onBackendStderr, onClosed, onExpired, onDurableEvent = () => ({ok: true}), initialStableRequests = []}) {
   const child = spawnCodexBackend(backend, spawnImpl, WebSocketImpl);
   let client = null;
   let detachReader = null;
@@ -121,6 +122,21 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
   let evictionAttemptCount = 0;
   let lastEvictionBlock = null;
   let expirationReceipt = null;
+  for (const recovered of initialStableRequests) {
+    if (!nonEmptyString(recovered?.request_key) || !nonEmptyString(recovered?.binding_digest)) continue;
+    stableRequests.set(recovered.request_key, {
+      request_key: recovered.request_key,
+      method: recovered.method,
+      binding_digest: recovered.binding_digest,
+      wrapper_id: null,
+      client_id: null,
+      upstream_id: null,
+      status: recovered.status === "complete" ? "complete" : "outcome-unknown",
+      response: recovered.response ?? null,
+      response_digest: recovered.response_digest ?? null,
+      recovered: true,
+    });
+  }
 
   function touch() {
     lastActivityAt = Date.now();
@@ -312,6 +328,7 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     }
     acknowledgedThrough = through;
     for (const sequence of [...deliveries.keys()]) if (sequence <= through) deliveries.delete(sequence);
+    onDurableEvent("delivery-acknowledged", {through_sequence: through});
     touch();
     return true;
   }
@@ -340,6 +357,8 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     if (existing) {
       if (existing.binding_digest !== bindingDigest) {
         emitClient(stableRequestError(message.id, "gateway.request-binding-mismatch", requestKey, existing.binding_digest, bindingDigest));
+      } else if (existing.status === "outcome-unknown") {
+        emitClient(stableRequestError(message.id, "gateway.dispatch-outcome-unknown", requestKey, existing.binding_digest, bindingDigest));
       } else {
         deduplicatedRequestCount += 1;
         attachmentRequestKeys.add(requestKey);
@@ -355,6 +374,13 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     const entry = {request_key: requestKey, method: message.method, binding_digest: bindingDigest, wrapper_id: message.id, client_id: message.id, upstream_id: upstreamId, status: "preparing", response: null, response_digest: null};
     stableRequests.set(requestKey, entry);
     upstreamRequests.set(String(upstreamId), entry);
+    const persisted = onDurableEvent("dispatch-intent", {request_key: requestKey, method: message.method, binding_digest: bindingDigest});
+    if (persisted?.ok === false) {
+      stableRequests.delete(requestKey);
+      upstreamRequests.delete(String(upstreamId));
+      emitClient(stableRequestError(message.id, "gateway.dispatch-intent-not-durable", requestKey));
+      return {intercepted: true};
+    }
     return {intercepted: false, entry};
   }
 
@@ -437,6 +463,7 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
           stable.entry.status = "complete";
           stable.entry.response = candidate;
           stable.entry.response_digest = digestValue(candidate);
+          onDurableEvent("dispatch-outcome", {request_key: stable.entry.request_key, response: candidate, response_digest: stable.entry.response_digest});
           upstreamRequests.delete(String(stable.entry.upstream_id));
           emitClient(candidate, stable.entry.request_key);
         } else emitClient(candidate);
@@ -470,6 +497,7 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
           stable.status = "complete";
           stable.response = {...message};
           stable.response_digest = digestValue(stable.response);
+          onDurableEvent("dispatch-outcome", {request_key: stable.request_key, response: stable.response, response_digest: stable.response_digest});
           upstreamRequests.delete(String(stable.upstream_id));
           emitClient(response, stable.request_key);
         } else emitClient(message);
@@ -635,6 +663,10 @@ export function createPersistentGateway(options = {}) {
   }
   const runtimeEpochId = options.runtime_epoch_id ?? `are-gateway-runtime:${randomUUID()}`;
   const reconnectEnabled = options.reconnect !== false;
+  const ownsSessionStore = !options.session_store;
+  const sessionStore = options.session_store ?? (nonEmptyString(options.session_store_path)
+    ? createFileGatewaySessionStore({path: options.session_store_path, store_id: options.session_store_id ?? "are-codex-gateway-sessions:v1"})
+    : createMemoryGatewaySessionStore({store_id: options.session_store_id ?? `are-codex-gateway-sessions:${runtimeEpochId}`}));
   const sessions = new Map();
   const expiredSessions = new Map();
   const authorizeClient = options.authorize_client ?? (() => true);
@@ -647,6 +679,7 @@ export function createPersistentGateway(options = {}) {
 
   function recordExpiration(consumerId, session, receipt) {
     expiredSessions.set(consumerId, {session, receipt, retain_until: Date.now() + expirationTombstoneTtlMs});
+    sessionStore.append({event_kind: "session-expired", consumer_id: consumerId, content: {expiration: receipt}});
   }
 
   function pruneExpirations() {
@@ -679,6 +712,12 @@ export function createPersistentGateway(options = {}) {
       const metadata = handshake.value;
       pruneExpirations();
       let session = sessions.get(metadata.consumer_id);
+      const durableSession = sessionStore.getSession(metadata.consumer_id);
+      if (!session && durableSession?.status === "active" && durableSession.lane !== metadata.lane) {
+        send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.consumer-lane-mismatch", authority_effect: "none"});
+        socket.end();
+        return;
+      }
       if (session && session.metadata.lane !== metadata.lane) {
         send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.consumer-lane-mismatch", authority_effect: "none"});
         socket.end();
@@ -687,8 +726,21 @@ export function createPersistentGateway(options = {}) {
       if (!session) {
         if (metadata.continuity?.resume_token) {
           const expired = expiredSessions.get(metadata.consumer_id);
-          const authenticatedExpiration = expired && digestValue(metadata.continuity.resume_token) === expired.receipt.resume_token_digest;
-          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: authenticatedExpiration ? "gateway.session-expired" : "gateway.resume-session-missing", ...(authenticatedExpiration ? {expiration: expired.receipt} : {}), authority_effect: "none"});
+          const tokenDigest = digestValue(metadata.continuity.resume_token);
+          const durableExpired = durableSession?.status === "expired" && tokenDigest === durableSession.resume_token_digest;
+          const authenticatedExpiration = (expired && tokenDigest === expired.receipt.resume_token_digest) || durableExpired;
+          if (authenticatedExpiration) {
+            send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-expired", expiration: expired?.receipt ?? durableSession.expiration, authority_effect: "none"});
+            socket.end();
+            return;
+          }
+          if (durableSession?.status !== "active" || tokenDigest !== durableSession.resume_token_digest) {
+            send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.resume-session-missing", authority_effect: "none"});
+            socket.end();
+            return;
+          }
+        } else if (durableSession?.status === "active") {
+          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.resume-authentication-required", authority_effect: "none"});
           socket.end();
           return;
         }
@@ -716,6 +768,8 @@ export function createPersistentGateway(options = {}) {
             onBackendStderr: options.on_backend_stderr ?? (() => {}),
             onClosed: closeSession,
             onExpired: recordExpiration,
+            onDurableEvent: (eventKind, content) => sessionStore.append({event_kind: eventKind, consumer_id: metadata.consumer_id, content}),
+            initialStableRequests: durableSession?.status === "active" ? durableSession.requests : [],
           });
         } catch (error) {
           send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-start-failed", detail: error.message, authority_effect: "none"});
@@ -723,6 +777,16 @@ export function createPersistentGateway(options = {}) {
           return;
         }
         sessions.set(metadata.consumer_id, session);
+        const resumable = nonEmptyString(session.inspect().resume_token_digest);
+        const persisted = resumable
+          ? sessionStore.append({event_kind: "session-started", consumer_id: metadata.consumer_id, content: {lane: metadata.lane, resume_token_digest: session.inspect().resume_token_digest, recovered: durableSession?.status === "active"}})
+          : {ok: true};
+        if (!persisted.ok) {
+          session.stop("gateway.session-start-not-durable");
+          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-start-not-durable", authority_effect: "none"});
+          socket.end();
+          return;
+        }
       }
       const attached = session.attach(socket, metadata.continuity);
       if (!attached.ok) {
@@ -759,6 +823,7 @@ export function createPersistentGateway(options = {}) {
     started = false;
     expiredSessions.clear();
     removeSocketPath(options.listen_path);
+    if (ownsSessionStore) sessionStore.close();
   }
 
   const api = Object.freeze({
@@ -774,6 +839,7 @@ export function createPersistentGateway(options = {}) {
       started,
       sessions: [...sessions.values()].map((session) => session.inspect()).sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
       expired_sessions: [...expiredSessions.values()].map((entry) => entry.receipt).sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
+      durable_session_index: sessionStore.inspect(),
       authority_effect: "none",
       });
     },
