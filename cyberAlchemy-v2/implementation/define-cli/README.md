@@ -7,6 +7,8 @@ The primary command performs one bounded in-memory lifecycle:
 
 ```text
 broad domain / subject / context / project opening
+  -> persistent ARE gateway
+  -> shared app-server RPC client
   -> conversational discovery through the Codex app-server wrapper
   -> explicit scope review and confirmation
   -> candidate meaning options
@@ -35,9 +37,16 @@ $NODE cyberAlchemy-v2/implementation/define-cli/bin/define.mjs \
   "We are building a knowledge system for clinical research teams and the language is becoming inconsistent"
 ```
 
-The conversational path creates an ephemeral read-only Codex thread. It does not persist the
-conversation. Use `--output <path>` to atomically retain the final pack, and `--json` to print
-the complete result instead of the compact human summary.
+The conversational path connects to the persistent ARE gateway at
+`$XDG_RUNTIME_DIR/are-codex/gateway.sock` (or `/run/user/<uid>/are-codex/gateway.sock`) and
+creates an ephemeral read-only Codex thread on the `codex:human-chat` interaction lane. The
+gateway preserves its consumer runtime across transport reconnects; Define itself does not
+create durable conversation storage. Use `--gateway-socket <path>` for a different gateway.
+
+`--direct` is an explicit diagnostic fallback that spawns the strict app-server wrapper for
+this process. It does not permit protocol drift and is not the normal conversational path.
+Use `--output <path>` to atomically retain the final pack, and `--json` to print the complete
+result instead of the compact human summary.
 
 ## Advanced scripted run
 

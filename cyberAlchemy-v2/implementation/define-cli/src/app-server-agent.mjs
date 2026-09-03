@@ -4,6 +4,7 @@ import {resolve} from "node:path";
 import {
   connectGatewayRpcTransport,
   createAppServerRpcClient,
+  REQUEST_CONTEXT_KEY,
   spawnAppServerRpcTransport,
 } from "../../agent-reasoning-engine/packages/codex-app-server-wrapper/index.mjs";
 
@@ -82,10 +83,17 @@ export function createAppServerDefineAgent(options = {}) {
         transport = await createTransport();
         client = createAppServerRpcClient({transport});
       }
-      await client.initialize({
-        clientInfo: {name: "cyberalchemy-define-cli", version: "0.2.0-candidate"},
-        capabilities: {experimentalApi: true},
-      });
+      const connection = typeof client.ready === "function" ? await client.ready() : null;
+      try {
+        await client.initialize({
+          clientInfo: {name: "cyberalchemy-define-cli", version: "0.2.0-candidate"},
+          capabilities: {experimentalApi: true},
+        });
+      } catch (error) {
+        const alreadyInitialized = error?.details?.message === "Already initialized"
+          || String(error?.message ?? "").endsWith(": Already initialized");
+        if (connection?.resumed !== true || !alreadyInitialized) throw error;
+      }
       const params = {cwd: repositoryRoot, ephemeral: true, approvalPolicy: "never", sandbox: "read-only"};
       if (options.model) params.model = options.model;
       const started = await client.startThread(params);
@@ -107,15 +115,26 @@ export function createAppServerDefineAgent(options = {}) {
         "Conversational agreement does not confirm scope. Mark scope_ready true when the scope can be shown, but the terminal controller owns the separate confirmation step.",
         "After scope confirmation, identify a small bounded set of meaning options for one-by-one review.",
         "Candidate meanings are proposals only. Never claim a source, owner, permission, or canonical status that was not supplied.",
+        "Use retrieved ARE Context Items to avoid asking for definitions, ontology identities, or repository instructions already present. Preserve each item's authority posture and never treat a catalog entry as admission.",
         "Do not use tools. Return only the JSON object required by the output schema.",
       ],
       conversation: payload,
+    };
+    const requestContextHint = {
+      schema_version: "are.request-context-hint/v1",
+      raw_request: String(payload.user_input ?? "").trim() || "Continue the current Define conversation.",
+      objective_kind: "define",
+      requested_effects: [],
+      target_refs: ["CA2-CAP-DEFINE-SHARED-MEANING"],
+      constraints: ["candidate-meaning-only", "no-tools"],
+      evidence_refs: ["define-conversation-user-input"],
     };
     const result = await client.runTurn({
       threadId,
       input: [{type: "text", text: "Define the supplied conversational context."}],
       additionalContext: {
         [APPLICATION_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(applicationContext)},
+        [REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(requestContextHint)},
       },
       outputSchema,
       approvalPolicy: "never",
