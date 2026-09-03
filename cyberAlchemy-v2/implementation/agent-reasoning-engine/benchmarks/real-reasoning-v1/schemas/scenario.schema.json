@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "are.real-reasoning-scenario/v1",
+  "type": "object",
+  "required": ["schema_version", "scenario_id", "request"],
+  "properties": {
+    "schema_version": {"const": "are.benchmark-scenario/v1"},
+    "scenario_id": {"type": "string", "minLength": 1},
+    "request": {"type": "string", "minLength": 1},
+    "objective_kind": {"type": ["string", "null"]},
+    "expected_kind": {"enum": ["direct", "gate", "block", "no-match"]},
+    "expected_route": {"type": ["string", "null"]},
+    "required_definition_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "required_context_kinds": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "additionalProperties": true
+}

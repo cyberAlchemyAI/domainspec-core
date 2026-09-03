@@ -51,6 +51,42 @@ test("explicit objective kind is stronger than absent lexical signals", () => {
   assert.equal(result.selected.route_id, "CA2-ROUTE-VALIDATE");
 });
 
+test("explicit objective suppresses incidental lexical candidates", () => {
+  const goalDefinition = routeRequest(context("What is a Goal?", "define"), profile);
+  assert.equal(goalDefinition.kind, "direct");
+  assert.equal(goalDefinition.selected.route_id, "CA2-ROUTE-DEFINE");
+  assert.deepEqual(goalDefinition.suppressed_lexical_candidates, ["CA2-ROUTE-PLAN"]);
+  assert.deepEqual(goalDefinition.reason_codes, ["selection.explicit-objective-priority"]);
+
+  const researchDefinition = routeRequest(context("Define a research DAO rewards system.", "define"), profile);
+  assert.equal(researchDefinition.kind, "direct");
+  assert.equal(researchDefinition.selected.route_id, "CA2-ROUTE-DEFINE");
+  assert.deepEqual(researchDefinition.suppressed_lexical_candidates, ["CA2-ROUTE-RESEARCH"]);
+});
+
+test("explicit objective does not suppress structured effect conflicts or exclusions", () => {
+  const effectConflict = context("Explain this architecture.", "explain");
+  effectConflict.requested_effects = ["publication"];
+  const gated = routeRequest(effectConflict, profile);
+  assert.equal(gated.kind, "gate");
+  assert.deepEqual(gated.candidates, ["CA2-ROUTE-PUBLISH", "CA2-ROUTE-UNDERSTAND"]);
+
+  const negatedAction = routeRequest(context("Explain only; do not implement.", "explain"), profile);
+  assert.equal(negatedAction.kind, "direct");
+  assert.equal(negatedAction.selected.route_id, "CA2-ROUTE-UNDERSTAND");
+  assert.equal(negatedAction.evaluated_routes.find((route) => route.route_id === "CA2-ROUTE-IMPLEMENT").posture, "rejected");
+
+  const explicitExclusion = routeRequest(context("Implement the repair read only.", "implement"), profile);
+  assert.equal(explicitExclusion.kind, "block");
+  assert.ok(explicitExclusion.evaluated_routes.find((route) => route.route_id === "CA2-ROUTE-IMPLEMENT").reason_codes.includes("route.explicit-exclusion"));
+});
+
+test("negated lexical actions never become positive route evidence", () => {
+  const result = routeRequest(context("Do not implement this."), profile);
+  assert.equal(result.kind, "block");
+  assert.deepEqual(result.evaluated_routes.find((route) => route.route_id === "CA2-ROUTE-IMPLEMENT").matched_signals, []);
+});
+
 test("unverified profiles cannot route or classify continuation", () => {
   const unverified = JSON.parse(JSON.stringify(profile));
   assert.equal(routeRequest(context("Explain this."), unverified).kind, "block");

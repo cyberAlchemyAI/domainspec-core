@@ -51,6 +51,7 @@ export function selectedDependenciesFromComposition(composition) {
     {dependency_id: `route:${route.selected?.route_id ?? "unresolved"}`, dependency_kind: "route", digest: route.decision_digest},
     {dependency_id: "definition-closure", dependency_kind: "closure", digest: value.definition_closure?.digest},
     {dependency_id: "ontology-selector-lock", dependency_kind: "selector-lock", digest: value.ontology_selector_lock?.digest},
+    {dependency_id: "request-context-selection", dependency_kind: "selection", digest: value.request_context_selection?.digest},
     {dependency_id: "authority-posture", dependency_kind: "posture", digest: digestValue(basis.authority_posture ?? null)},
     {dependency_id: "effect-posture", dependency_kind: "posture", digest: digestValue(basis.effect_posture ?? null)},
   ];
@@ -62,6 +63,12 @@ export function selectedDependenciesFromComposition(composition) {
   }
   for (const edge of lock.edges ?? []) {
     dependencies.push({dependency_id: `ontology-edge:${edge.edge_id}`, dependency_kind: "ontology-edge", digest: edge.source_digest, source_ref: edge.source_ref ?? null});
+  }
+  for (const instruction of basis.instructions ?? []) {
+    dependencies.push({dependency_id: `instruction:${instruction.instruction_id}`, dependency_kind: "instruction", digest: instruction.source_digest, source_ref: instruction.source_ref ?? null});
+  }
+  for (const item of basis.supplemental_context_items ?? []) {
+    dependencies.push({dependency_id: `context-item:${item.context_item_id}`, dependency_kind: item.item_kind ?? "supplemental-context", digest: item.source_digest, source_ref: item.source_ref ?? null});
   }
   return dependencies
     .filter((dependency) => nonEmptyString(dependency.digest))
@@ -82,6 +89,49 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
   const sourceEpoch = nonEmptyString(view.source_epoch) ? view.source_epoch : "unresolved";
   const temporalScope = "source-epoch";
   const items = [];
+  const selection = value.request_context_selection?.value ?? {};
+  const requestDefinitionIds = new Set((selection.definition_matches ?? []).map((match) => match.definition_id));
+  const requestNodeIds = new Set((selection.ontology_node_matches ?? []).map((match) => match.node_id));
+  const requestEdgeIds = new Set((selection.ontology_edge_matches ?? []).map((match) => match.edge_id));
+
+  items.push(contextItem({
+    context_item_id: `request:${basis.request.request_id}`,
+    item_kind: "request",
+    source_ref: `request:${basis.request.request_id}`,
+    source_digest: basis.request.digest,
+    authority_posture: "attributed-request",
+    relevance_basis: "current-request",
+    temporal_scope: "turn",
+    transform_refs: ["request-admission/v1"],
+    content: {request_id: basis.request.request_id, raw_request: basis.request.raw_request, objective_kind: basis.request.objective_kind},
+  }));
+
+  for (const instruction of basis.instructions ?? []) {
+    items.push(contextItem({
+      context_item_id: `instruction:${instruction.instruction_id}`,
+      item_kind: "repository-instruction",
+      source_ref: instruction.source_ref,
+      source_digest: instruction.source_digest,
+      authority_posture: instruction.authority_posture,
+      relevance_basis: "repository-scope-instruction",
+      temporal_scope: temporalScope,
+      transform_refs: ["exact-text-projection/v1"],
+      content: {instruction_id: instruction.instruction_id, text: instruction.content},
+    }));
+  }
+  for (const item of basis.supplemental_context_items ?? []) {
+    items.push(contextItem({
+      context_item_id: item.context_item_id,
+      item_kind: item.item_kind ?? "supplemental-context",
+      source_ref: item.source_ref,
+      source_digest: item.source_digest,
+      authority_posture: item.authority_posture ?? basis.authority_posture,
+      relevance_basis: "request-term-match",
+      temporal_scope: temporalScope,
+      transform_refs: item.transform_refs ?? ["supplemental-context-projection/v1"],
+      content: item.content,
+    }));
+  }
 
   for (const definition of closure.definitions ?? []) {
     items.push(contextItem({
@@ -90,7 +140,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       source_ref: definition.source_ref,
       source_digest: definition.digest,
       authority_posture: definition.authority_posture,
-      relevance_basis: closure.seed_definition_ids?.includes(definition.definition_id) ? "definition-closure-seed" : "definition-closure-required-relation",
+      relevance_basis: requestDefinitionIds.has(definition.definition_id) ? "request-term-match" : closure.seed_definition_ids?.includes(definition.definition_id) ? "definition-closure-seed" : "definition-closure-required-relation",
       temporal_scope: temporalScope,
       transform_refs: ["definition-closure/v1"],
       content: {definition_id: definition.definition_id, version_or_revision: definition.version_or_revision, text: definition.definition_text ?? null},
@@ -103,7 +153,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       source_ref: `ontology#node:${node.node_id}`,
       source_digest: node.source_digest,
       authority_posture: "basis-posture",
-      relevance_basis: node.selection_reason ?? "selector-lock-required-node",
+      relevance_basis: requestNodeIds.has(node.node_id) ? "request-term-match" : node.selection_reason ?? "selector-lock-required-node",
       temporal_scope: temporalScope,
       transform_refs: ["lock/v1"],
       content: {node_id: node.node_id, node_type: node.node_type, intent: node.content?.intent ?? node.content?.meaning ?? null},
@@ -116,11 +166,40 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       source_ref: `ontology#edge:${edge.edge_id}`,
       source_digest: edge.source_digest,
       authority_posture: "basis-posture",
-      relevance_basis: edge.selection_reason ?? "selector-lock-required-edge",
+      relevance_basis: requestEdgeIds.has(edge.edge_id) ? "request-related-edge" : edge.selection_reason ?? "selector-lock-required-edge",
       temporal_scope: temporalScope,
       transform_refs: ["lock/v1"],
       content: {edge_id: edge.edge_id, edge_type: edge.edge_type, from_node_id: edge.from_node_id, to_node_id: edge.to_node_id},
     }));
+  }
+  for (const [index, constraint] of (basis.constraints ?? []).entries()) {
+    items.push(contextItem({
+      context_item_id: `constraint:${String(index).padStart(4, "0")}:${digestValue(constraint).slice(0, 16)}`,
+      item_kind: "constraint",
+      source_ref: `request:${basis.request.request_id}`,
+      source_digest: digestValue(constraint),
+      authority_posture: basis.authority_posture,
+      relevance_basis: "declared-request-constraint",
+      temporal_scope: "turn",
+      transform_refs: ["context-basis/v1"],
+      content: constraint,
+    }));
+  }
+  for (const [kind, entries] of [["contradiction", basis.contradictions], ["gap", basis.gaps], ["residue", basis.residue]]) {
+    for (const entry of entries ?? []) {
+      const entryDigest = digestValue(entry);
+      items.push(contextItem({
+        context_item_id: `${kind}:${entryDigest.slice(0, 24)}`,
+        item_kind: kind,
+        source_ref: null,
+        source_digest: entryDigest,
+        authority_posture: basis.authority_posture,
+        relevance_basis: `declared-${kind}`,
+        temporal_scope: temporalScope,
+        transform_refs: ["context-basis/v1"],
+        content: entry,
+      }));
+    }
   }
   items.sort((a, b) => a.context_item_id.localeCompare(b.context_item_id));
   const inlineBytes = Buffer.byteLength(canonicalJson(items), "utf8");

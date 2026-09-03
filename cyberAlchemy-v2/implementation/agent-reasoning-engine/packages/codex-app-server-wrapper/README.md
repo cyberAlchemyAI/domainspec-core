@@ -25,6 +25,16 @@ uncheckpointed logs fail startup; existing bytes are never rewritten or
 silently truncated. Recovery metadata is recorded without copying event
 contents into the diagnostic journal.
 
+At `turn/completed`, the wrapper seals the exact semantic result, continuation
+result, completion identity, and relevant context identities into a Reasoning
+State Frontier before any automatic successor is forwarded. A recovered
+frontier replays the prior client-visible decision with zero semantic provider,
+evaluator, continuation-provider, effect, or successor calls. Reusing the same
+turn identity with different completion bytes blocks. Automatic continuation is
+therefore at-most-once across recovery: a crash after the completion checkpoint
+but before forwarding is not silently retried, and delivery reconciliation
+remains explicit residue.
+
 The ledger contains explicit system reasoning products, not hidden model
 chain-of-thought. Its epochs, dispatch records, and checkpoints have
 `authority_effect: none` and do not authorize effects or continuations.
@@ -39,7 +49,7 @@ transport reconnects. A second live attachment for the same consumer, lane
 substitution, unknown consumers, oversized messages, and detached-buffer
 overflow fail closed.
 
-The currently bound `0.152.1` server accepts JSON-RPC 2.0 client messages but
+The currently bound `0.153.0-alpha.5` server accepts JSON-RPC 2.0 client messages but
 omits the `jsonrpc` member on its own responses and notifications. The wrapper
 admits both exact framings while rejecting any explicit non-2.0 version.
 Because the wrapper projects the envelope through `turn/start.additionalContext`,
@@ -50,9 +60,19 @@ negotiated.
 For every `turn/start`, it reloads and structurally verifies the configured live
 context sources, constructs an ARE Context Basis, assesses selected-dependency
 freshness, and projects an immutable inline Context Envelope before forwarding
-the request. Direct requests receive the bounded meanings of selected
-definitions and selector-locked ontology records through the
+the request. A client may supply an exact `are.request-context-hint/v1` so the
+human utterance and explicit capability objective remain distinct; malformed
+hints block. Deterministic request-term selection adds matching canonical
+definitions, ontology nodes and bounded related edges to a minimal baseline.
+The repository profile also binds root `AGENTS.md` as an exact
+`repository-instruction` item and projects the read-only ontology registry as a
+compact `ontology-catalog` item only for matching requests. Direct requests
+therefore receive the bounded meanings of selected definitions, instructions,
+catalog records, and selector-locked ontology records through the
 protocol-supported `params.additionalContext` field, not only their digests.
+The carrier uses one compact envelope manifest plus one stable, source-keyed
+fragment per selected Context Item. This keeps provenance and envelope identity
+visible without burying useful meanings inside one large opaque JSON value.
 The default inline budget is 32 KiB. Optional diagnostics are excluded first
 and recorded; mandatory overflow blocks without truncation or model-generated
 summarization. Gates and blocks are not forwarded.
@@ -155,6 +175,13 @@ node bin/are-codex-client-proxy.mjs \
 window identity. Exact reconnect resumes the same gateway session; process
 restart creates a new runtime epoch. No journal or context state is durable.
 
+Programmatic consumers use `connectGatewayRpcTransport` with
+`createAppServerRpcClient`. The shared client owns JSON-line parsing, request
+correlation, bounded notification waits, streamed agent-text collection, and
+default approval refusal. `spawnAppServerRpcTransport` provides an explicit
+strict direct-process transport for diagnostics and tests; it does not bypass
+the wrapper's version gate.
+
 Run the controlled version-bound semantic continuation matrix with:
 
 ```sh
@@ -163,7 +190,14 @@ npm run canary:semantic
 
 It exercises recommendation, insufficient evidence, owner escalation,
 tampering, disabled evaluation, and interaction precedence against a real
-`codex app-server` while requesting no tools, network access, or effects.
+`codex app-server` while requesting no tools, network access, or effects. The
+matrix reuses one app-server and one ephemeral thread so startup/index loading
+is measured once while each scenario retains its own turn, semantic posture,
+continuation decision, and receipt evidence. Each RPC request and completion
+wait is bounded, redacted progress is emitted on stderr, and an infrastructure
+timeout stops the remaining matrix. Override the defaults with
+`ARE_CANARY_REQUEST_TIMEOUT_MS` and `ARE_CANARY_EVENT_TIMEOUT_MS` when the
+local state index has known startup latency.
 
 Run the isolated persistent transport canary with `npm run canary:gateway`.
 It exercises two exact plan-bound turns across a disconnect/reconnect and two

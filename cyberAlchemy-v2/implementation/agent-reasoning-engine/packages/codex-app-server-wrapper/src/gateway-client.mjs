@@ -13,6 +13,7 @@ export function connectGatewayRpcTransport(options = {}) {
   let connected = false;
   let closing = false;
   let failed = false;
+  let failureError = null;
   let receipt = null;
   let resolveReady;
   let rejectReady;
@@ -24,10 +25,10 @@ export function connectGatewayRpcTransport(options = {}) {
   function fail(code, detail) {
     if (closing || failed) return;
     failed = true;
-    const error = new Error(`${code}${detail ? `:${detail}` : ""}`);
-    error.code = code;
-    if (!connected) rejectReady(error);
-    else failure.emit("failure", error);
+    failureError = new Error(`${code}${detail ? `:${detail}` : ""}`);
+    failureError.code = code;
+    if (!connected) rejectReady(failureError);
+    else failure.emit("failure", failureError);
     if (!socket.destroyed) socket.destroy();
   }
 
@@ -71,6 +72,7 @@ export function connectGatewayRpcTransport(options = {}) {
     output,
     failure,
     ready,
+    get_failure: () => failureError,
     close,
     inspect: () => ({kind: "persistent-gateway", connected, closing, failed, receipt, authority_effect: "none"}),
   });

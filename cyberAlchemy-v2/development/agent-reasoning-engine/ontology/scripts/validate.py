@@ -221,8 +221,18 @@ def validate_generated(errors: list[str], sources: dict[str, Any], bridge: dict[
         errors.append("generated system ontology projection-builder binding drift")
     if contract.get("validator_sha256") != sha256_file(Path(__file__).resolve()):
         errors.append("generated system ontology validator binding drift")
-    if contract.get("context_management_realization") != "bounded-recoverable-reasoning-state-checkpointed-dispatch-codex-gateway-candidate" or contract.get("whole_engine_realization") != "absent":
+    if contract.get("context_management_realization") != "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate" or contract.get("whole_engine_realization") != "absent":
         errors.append("generated system ontology overclaims complete realization")
+    semantic_integrity = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "context-bound-semantic-integrity@1"), None)
+    if not semantic_integrity:
+        errors.append("generated system ontology lacks context-bound semantic integrity realization")
+    elif any([
+        semantic_integrity.get("cross_record_binding_verification") is not True,
+        semantic_integrity.get("context_identity_receipt_binding") is not True,
+        semantic_integrity.get("historical_unbound_receipt_compatibility") is not True,
+        semantic_integrity.get("authority_effect") != "none",
+    ]):
+        errors.append("generated context-bound semantic integrity realization posture drift")
     recovery = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "reasoning-state-recovery@1"), None)
     if not recovery:
         errors.append("generated system ontology lacks reasoning-state recovery realization")
@@ -237,6 +247,19 @@ def validate_generated(errors: list[str], sources: dict[str, Any], bridge: dict[
         recovery.get("authority_effect") != "none",
     ]):
         errors.append("generated reasoning-state recovery realization posture drift")
+    frontier = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "completed-turn-reasoning-frontier@1"), None)
+    if not frontier:
+        errors.append("generated system ontology lacks completed-turn frontier realization")
+    elif any([
+        frontier.get("append_only_frontier") is not True,
+        frontier.get("exact_subject_binding") is not True,
+        frontier.get("after_completion_checkpoint") is not True,
+        frontier.get("recovery_replay_external_calls") != 0,
+        frontier.get("automatic_successor_delivery") != "at-most-once-no-retry-after-recovery",
+        frontier.get("delivery_acknowledgement") is not False,
+        frontier.get("authority_effect") != "none",
+    ]):
+        errors.append("generated completed-turn frontier realization posture drift")
     for key in ["implementation_binding_status", "static_conformance_status", "runtime_evidence_status"]:
         if contract.get(key) != "not_evaluable":
             errors.append(f"generated implementation contract must keep {key}=not_evaluable")
@@ -328,8 +351,8 @@ def evaluate(
         "bridge_edge_count": len(bridge.get("edges", [])),
         "gap_count": len(bridge.get("gaps", [])),
         "residue_count": residue_count,
-        "bounded_partial_realizations": 13,
-        "context_management_realization": "bounded-recoverable-reasoning-state-checkpointed-dispatch-codex-gateway-candidate",
+        "bounded_partial_realizations": 15,
+        "context_management_realization": "bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
         "whole_engine_realization": "absent",
         "domainspec_profile_admission": "not-granted",
         "implementation_binding_status": "not_evaluable",

@@ -4,7 +4,7 @@
   "feature_id": "agent-reasoning-engine",
   "kind": "Operation",
   "intent": "Derive exactly one typed semantic outcome from an admitted frozen context and finite rule catalog while abstaining on missing support or unresolved ownership.",
-  "body": {"state_change": "yes", "formal_return_type": "boolean", "semantic_refs": ["CA2-CAP-REASON-AND-MANAGE-CONTEXT"], "required_conditions": ["context envelope is frozen", "catalog and evaluator identities are fixed", "applicability and defeaters are reproducible", "missing support cannot become a positive outcome", "one reasoning receipt preserves derivation and residue"], "result_posture": "semantic recommendation under captured inputs only", "authority_effect": "none"},
+  "body": {"state_change": "yes", "formal_return_type": "boolean", "semantic_refs": ["CA2-CAP-REASON-AND-MANAGE-CONTEXT", "CA2-ARE-RULE-CONTEXT-BEFORE-JUDGMENT"], "required_conditions": ["context envelope is frozen", "bound frame, entry gate, authority snapshot, and context binding agree exactly", "catalog and evaluator identities are fixed", "applicability and defeaters are reproducible", "missing support cannot become a positive outcome", "one reasoning receipt preserves context identity, derivation, and residue"], "result_posture": "semantic recommendation under captured inputs only", "authority_effect": "none"},
   "connections": [
     {"edge_id": "agent-reasoning-engine.edge.semantic-reduction-reads-envelope", "type": "reads", "to": "agent-reasoning-engine.ContextEnvelope"},
     {"edge_id": "agent-reasoning-engine.edge.semantic-reduction-reads-runtime-journal", "type": "reads", "to": "agent-reasoning-engine.RuntimeJournal"},

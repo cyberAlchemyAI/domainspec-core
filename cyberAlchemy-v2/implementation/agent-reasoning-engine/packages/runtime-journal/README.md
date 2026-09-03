@@ -10,6 +10,11 @@ establish a durable repository session, or provide cross-process or
 cross-session recovery. Callers supply observation times; ambient clock state
 does not participate in canonical identities.
 
+The Codex wrapper may project its completed semantic and continuation result
+into a separately owned checkpointed Reasoning State Frontier. That durable
+idempotency boundary does not turn this diagnostic journal into a persistent
+source and does not reconstruct its evicted event stream.
+
 Public operations are `createInMemoryRuntimeJournal`, `appendRuntimeEvent`,
 `cutRuntimeJournal`, `verifyRuntimeJournalCut`, `replayRuntimeJournal`, and
 `evictClosedJournalSegments`.

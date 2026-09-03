@@ -6,8 +6,10 @@
   "intent": "Bind one context epoch, derivation, support, defeaters, challenge closure, outcome, and residue without granting authority.",
   "body": {"fields": [
     {"name": "receipt_id", "type": "string", "identity": true},
+    {"name": "context_epoch_id", "type": "string", "identity": false},
     {"name": "context_envelope_digest", "type": "sha256", "identity": false},
-    {"name": "input_digests", "type": "sha256[]", "identity": false},
+    {"name": "context_envelope_binding_digest", "type": "sha256", "identity": false},
+    {"name": "input_digests", "type": "object", "identity": false},
     {"name": "derivation_steps", "type": "string[]", "identity": false},
     {"name": "support_refs", "type": "string[]", "identity": false},
     {"name": "defeater_refs", "type": "string[]", "identity": false},

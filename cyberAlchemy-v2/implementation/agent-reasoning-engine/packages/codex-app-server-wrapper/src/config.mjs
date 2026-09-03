@@ -47,6 +47,18 @@ function readLiveJson(repositoryRoot, binding) {
   }
 }
 
+function readLiveText(repositoryRoot, binding) {
+  if (!isRecord(binding) || !nonEmptyString(binding.path)) return fail("config", ["config.source-binding-invalid"]);
+  const path = absolute(repositoryRoot, binding.path);
+  let text;
+  try {
+    text = readFileSync(path, "utf8");
+  } catch {
+    return fail("config", ["config.source-unreadable"], [{path: binding.path}]);
+  }
+  return {ok: true, text, path, source_identity: binding.path, source_digest: sha256HexText(text)};
+}
+
 function loadLiveContextSources(profile, repositoryRoot) {
   const sources = profile.sources ?? {};
   const decisionSource = readLiveJson(repositoryRoot, sources.decision_profile);
@@ -61,6 +73,12 @@ function loadLiveContextSources(profile, repositoryRoot) {
     definitionSources.push({document: loaded.document, source_identity: loaded.source_identity, source_digest: loaded.source_digest});
     sourceSnapshot.push({source_identity: loaded.source_identity, source_digest: loaded.source_digest});
   }
+  for (const binding of Array.isArray(sources.canonical_definition_sources) ? sources.canonical_definition_sources : []) {
+    const loaded = readLiveText(repositoryRoot, binding);
+    if (!loaded.ok) return loaded;
+    definitionSources.push({format: "canonical-definitions-markdown/v1", text: loaded.text, source_identity: loaded.source_identity, source_digest: loaded.source_digest});
+    sourceSnapshot.push({source_identity: loaded.source_identity, source_digest: loaded.source_digest});
+  }
   const catalog = materializeDefinitionCatalog({sources: definitionSources});
   if (!catalog.ok) return catalog;
   const ontologySource = readLiveJson(repositoryRoot, sources.system_ontology);
@@ -73,12 +91,49 @@ function loadLiveContextSources(profile, repositoryRoot) {
     required_edge_ids_by_node: profile.context?.required_edge_ids_by_node,
   });
   if (!snapshot.ok) return snapshot;
+  const instructions = [];
+  for (const [index, binding] of (sources.instruction_sources ?? []).entries()) {
+    const loaded = readLiveText(repositoryRoot, binding);
+    if (!loaded.ok) return loaded;
+    instructions.push({
+      instruction_id: nonEmptyString(binding.instruction_id) ? binding.instruction_id.trim() : `repository-instruction:${index}`,
+      source_ref: loaded.source_identity,
+      source_digest: loaded.source_digest,
+      authority_posture: binding.authority_posture ?? "repository-instruction",
+      content: loaded.text,
+    });
+    sourceSnapshot.push({source_identity: loaded.source_identity, source_digest: loaded.source_digest});
+  }
+  const supplementalContextItems = [];
+  for (const binding of sources.context_sources ?? []) {
+    const loaded = readLiveJson(repositoryRoot, binding);
+    if (!loaded.ok) return loaded;
+    if (binding.format !== "ontology-registry/v1" || loaded.document.schema_version !== "cav2-ontology-runtime-registry/v1" || !Array.isArray(loaded.document.entries)) {
+      return fail("config", ["config.context-source-format-invalid"], [{path: binding.path}]);
+    }
+    supplementalContextItems.push({
+      context_item_id: binding.context_item_id ?? "ontology-catalog:repository",
+      item_kind: "ontology-catalog",
+      source_ref: loaded.source_identity,
+      source_digest: loaded.source_digest,
+      authority_posture: "diagnostic-catalog-not-admission",
+      match_terms: binding.match_terms ?? ["ontology", "ontologies", "ontology catalog"],
+      transform_refs: ["ontology-registry-catalog-projection/v1"],
+      content: {
+        registry_id: loaded.document.registry_id,
+        ontologies: loaded.document.entries.map((entry) => ({ontology_id: entry.ontology_id, package_root: entry.package_root, owner_route: entry.owner_route, authority_effect: entry.authority_effect})),
+      },
+    });
+    sourceSnapshot.push({source_identity: loaded.source_identity, source_digest: loaded.source_digest});
+  }
   sourceSnapshot.sort((a, b) => a.source_identity.localeCompare(b.source_identity));
   return {
     ok: true,
     decision_profile: decisionProfile.value,
     definition_catalog: catalog.value,
     ontology_snapshot: snapshot.value,
+    instructions: freezeResult(instructions.sort((a, b) => a.instruction_id.localeCompare(b.instruction_id))),
+    supplemental_context_items: freezeResult(supplementalContextItems.sort((a, b) => a.context_item_id.localeCompare(b.context_item_id))),
     source_snapshot: freezeResult(sourceSnapshot),
     authority_effect: "none",
   };
@@ -86,7 +141,7 @@ function loadLiveContextSources(profile, repositoryRoot) {
 
 function probeLiveContextSignature(profile, repositoryRoot) {
   const sources = profile.sources ?? {};
-  const bindings = [sources.decision_profile, ...(sources.definition_sources ?? []), sources.system_ontology];
+  const bindings = [sources.decision_profile, ...(sources.definition_sources ?? []), ...(sources.canonical_definition_sources ?? []), sources.system_ontology, ...(sources.instruction_sources ?? []), ...(sources.context_sources ?? [])];
   const entries = [];
   for (const binding of bindings) {
     if (!isRecord(binding) || !nonEmptyString(binding.path)) return fail("config", ["config.source-binding-invalid"]);
@@ -149,14 +204,46 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     if (!ontologySource.ok) return ontologySource;
     const snapshot = materializeOntologySnapshot({document: ontologySource.document, source_identity: sources.system_ontology.path, source_digest: ontologySource.sha256, required_edge_ids_by_node: profile.context?.required_edge_ids_by_node});
     if (!snapshot.ok) return snapshot;
-    live = {ok: true, decision_profile: decisionProfile.value, definition_catalog: catalog.value, ontology_snapshot: snapshot.value, source_snapshot: freezeResult([]), authority_effect: "none"};
+    live = {ok: true, decision_profile: decisionProfile.value, definition_catalog: catalog.value, ontology_snapshot: snapshot.value, instructions: freezeResult([]), supplemental_context_items: freezeResult([]), source_snapshot: freezeResult([]), authority_effect: "none"};
   }
   if (!live.ok) return live;
 
+  const exactSources = {};
   for (const bindingName of ["interface", "protocol_observation", "continuation_selection", "context_basis_receipt"]) {
     const loaded = readBoundJson(repositoryRoot, sources[bindingName]);
     if (!loaded.ok) return loaded;
+    exactSources[bindingName] = loaded;
   }
+  if (sources.protocol_projection !== undefined) {
+    const loaded = readBoundJson(repositoryRoot, sources.protocol_projection);
+    if (!loaded.ok) return loaded;
+    exactSources.protocol_projection = loaded;
+  }
+  const protocolBinding = profile.protocol_binding;
+  const observation = exactSources.protocol_observation.document;
+  const protocolReasons = [];
+  if (!isRecord(observation) || !["are.codex-app-server-protocol-observation/v1", "are.codex-app-server-protocol-observation/v2"].includes(observation.schema_version) || observation.authority_effect !== "none") {
+    protocolReasons.push("config.protocol-observation-invalid");
+  }
+  if (!isRecord(protocolBinding)) protocolReasons.push("config.protocol-binding-invalid");
+  else if (isRecord(observation)) {
+    if (protocolBinding.interface_sha256 !== exactSources.interface.sha256) protocolReasons.push("config.protocol-interface-binding-drift");
+    if (protocolBinding.observation_sha256 !== exactSources.protocol_observation.sha256) protocolReasons.push("config.protocol-observation-binding-drift");
+    if (protocolBinding.observed_codex_version !== observation.observed_codex_version) protocolReasons.push("config.protocol-observed-version-drift");
+    if (protocolBinding.selected_projection_sha256 !== observation.selected_projection_sha256) protocolReasons.push("config.protocol-selected-projection-drift");
+    if (observation.compatible_interface_sha256 !== undefined && observation.compatible_interface_sha256 !== exactSources.interface.sha256) protocolReasons.push("config.protocol-compatible-interface-drift");
+    if (observation.selected_projection_ref !== undefined && !exactSources.protocol_projection) protocolReasons.push("config.protocol-projection-source-required");
+    if (exactSources.protocol_projection) {
+      const projection = exactSources.protocol_projection.document;
+      if (!isRecord(projection) || projection.schema_version !== "are.codex-app-server-selected-projection/v1" || projection.authority_effect !== "none") protocolReasons.push("config.protocol-projection-invalid");
+      else {
+        if (protocolBinding.selected_projection_sha256 !== exactSources.protocol_projection.sha256) protocolReasons.push("config.protocol-projection-binding-drift");
+        if (projection.observed_codex_version !== observation.observed_codex_version) protocolReasons.push("config.protocol-projection-version-drift");
+        if (JSON.stringify(projection.selectors) !== JSON.stringify(observation.observed_surfaces)) protocolReasons.push("config.protocol-projection-selector-drift");
+      }
+    }
+  }
+  if (protocolReasons.length > 0) return fail("config", protocolReasons);
 
   const semanticEvaluation = isRecord(profile.semantic_evaluation)
     ? profile.semantic_evaluation
@@ -217,7 +304,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     value: freezeResult({
       schema_version: "are.codex-wrapper-loaded-profile/v4",
       profile_id: profile.profile_id,
-      protocol_binding: profile.protocol_binding,
+      protocol_binding: protocolBinding,
       context: profile.context,
       turn_bindings: profile.turn_bindings,
       effect_defaults: profile.effect_defaults,
@@ -246,6 +333,8 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     decision_profile: live.decision_profile,
     definition_catalog: live.definition_catalog,
     ontology_snapshot: live.ontology_snapshot,
+    instructions: live.instructions,
+    supplemental_context_items: live.supplemental_context_items,
     source_snapshot: live.source_snapshot,
     context_source_provider: createLiveContextSourceProvider(profile, repositoryRoot, live),
     semantic_profile: semanticProfile,

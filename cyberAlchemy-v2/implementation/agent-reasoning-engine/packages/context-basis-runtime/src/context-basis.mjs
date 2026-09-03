@@ -26,6 +26,8 @@ export function constructNecessaryContextBasis(input) {
     request: {
       request_id: input.request_context.request_id,
       digest: input.request_context_digest.trim(),
+      raw_request: input.request_context.raw_request,
+      objective_kind: input.request_context.objective_kind ?? null,
     },
     route_decision: {
       route_id: input.capability_selection.selected.route_id,
@@ -48,6 +50,8 @@ export function constructNecessaryContextBasis(input) {
     contradictions: Array.isArray(input.contradictions) ? input.contradictions : [],
     gaps: Array.isArray(input.gaps) ? input.gaps : [],
     residue: Array.isArray(input.residue) ? input.residue : [],
+    instructions: Array.isArray(input.instructions) ? input.instructions : [],
+    supplemental_context_items: Array.isArray(input.supplemental_context_items) ? input.supplemental_context_items : [],
     authority_effect: "none",
   });
   return deepFreeze({schema_version: SCHEMA_VERSION, ok: true, value, digest: digestValue(value), authority_effect: "none"});

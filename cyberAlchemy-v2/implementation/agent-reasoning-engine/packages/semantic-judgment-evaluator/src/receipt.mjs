@@ -13,6 +13,8 @@ function observationIds(observations, posture) {
 }
 
 export function assembleReasoningReceipt(request, semantic) {
+  const contextBinding = request.context_envelope_binding;
+  const contextBound = contextBinding && typeof contextBinding === "object";
   const receipt = sealRecord({
     record_type: "ReasoningReceipt",
     schema_version: SCHEMA_VERSION,
@@ -28,6 +30,11 @@ export function assembleReasoningReceipt(request, semantic) {
       effort_profile: request.effort_profile.digest,
       entry_gate: request.entry_gate.digest,
       frame: request.frame.digest,
+      ...(contextBound ? {
+        context_envelope: contextBinding.context_envelope_digest,
+        context_envelope_binding: contextBinding.digest,
+        context_items: [...contextBinding.context_item_digests].sort(),
+      } : {}),
       observations: request.observations
         .map((observation) => observation.digest)
         .sort(),
@@ -48,6 +55,11 @@ export function assembleReasoningReceipt(request, semantic) {
     terminal_outcome: semantic.outcome,
     unresolved_residue: semantic.residue,
     entry_gate_decision_digest: request.entry_gate.digest,
+    ...(contextBound ? {
+      context_epoch_id: contextBinding.context_epoch_id,
+      context_envelope_digest: contextBinding.context_envelope_digest,
+      context_envelope_binding_digest: contextBinding.digest,
+    } : {}),
     claim_ceiling:
       "A recommendation under captured inputs only; not premise truth, proof, approval, promotion, confidence, authority, or permission.",
   });

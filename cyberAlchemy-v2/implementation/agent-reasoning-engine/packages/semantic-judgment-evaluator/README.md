@@ -6,6 +6,13 @@ persists the reasoning receipt before any exact-effect decision, supports
 byte-identical historical replay, and exposes only a fixed in-memory effect test
 double.
 
+For context-bound evaluation, the reducer verifies the sealed relationship
+between the Context Envelope binding, bound Problem Frame, entry gate, authority
+snapshot, Context Item digests, freshness, and claim ceiling before applying any
+catalog rule. The resulting Reasoning Receipt carries the context epoch,
+envelope digest, binding digest, and selected Context Item digests. Unbound
+historical requests retain their prior receipt shape and exact bytes.
+
 It is evidence for one bounded semantic relation. It is not a general reasoning
 engine, an authority resolver, an actor runtime, a confidence calculator, or an
 effect permission system.

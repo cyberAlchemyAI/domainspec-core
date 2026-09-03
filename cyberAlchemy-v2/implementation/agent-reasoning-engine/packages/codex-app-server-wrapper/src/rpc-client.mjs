@@ -15,18 +15,24 @@ export function spawnAppServerRpcTransport(options = {}) {
   const child = (options.spawn_impl ?? spawn)(options.command, options.args ?? [], {stdio: ["pipe", "pipe", "pipe"], env: options.env ?? process.env});
   const failure = new EventEmitter();
   let stderr = "";
+  let stdoutTail = "";
   let closing = false;
   let failed = false;
+  let failureError = null;
   child.stderr.on("data", (chunk) => { stderr = `${stderr}${chunk}`.slice(-16384); });
+  child.stdout.on("data", (chunk) => { stdoutTail = `${stdoutTail}${chunk}`.slice(-16384); });
   child.on("error", (error) => {
     if (closing || failed) return;
     failed = true;
-    failure.emit("failure", new AppServerRpcError("rpc.transport-spawn-failed", `App-server transport failed to start: ${error.message}`, {cause: error.message}));
+    failureError = new AppServerRpcError("rpc.transport-spawn-failed", `App-server transport failed to start: ${error.message}`, {cause: error.message});
+    failure.emit("failure", failureError);
   });
-  child.on("exit", (code, signal) => {
+  child.on("close", (code, signal) => {
     if (closing || failed) return;
     failed = true;
-    failure.emit("failure", new AppServerRpcError("rpc.transport-exited", `App-server transport exited: ${signal ?? code}${stderr ? `: ${stderr.trim()}` : ""}`, {code, signal, stderr}));
+    const diagnostic = stderr.trim() || stdoutTail.trim();
+    failureError = new AppServerRpcError("rpc.transport-exited", `App-server transport exited: ${signal ?? code}${diagnostic ? `: ${diagnostic}` : ""}`, {code, signal, stderr, stdout_tail: stdoutTail});
+    failure.emit("failure", failureError);
   });
   async function close() {
     if (closing) return;
@@ -40,6 +46,7 @@ export function spawnAppServerRpcTransport(options = {}) {
     output: child.stdout,
     failure,
     ready: Promise.resolve({kind: "spawned-stdio", authority_effect: "none"}),
+    get_failure: () => failureError,
     close,
     inspect: () => ({kind: "spawned-stdio", closing, failed, stderr, exit_code: child.exitCode, authority_effect: "none"}),
   });
@@ -147,6 +154,8 @@ export function createAppServerRpcClient(options = {}) {
   });
   lines.on("error", failAll);
   transport.failure?.on("failure", failAll);
+  const retainedTransportFailure = transport.get_failure?.();
+  if (retainedTransportFailure) failAll(retainedTransportFailure);
 
   async function request(method, params, requestOptions = {}) {
     await transport.ready;
@@ -165,6 +174,10 @@ export function createAppServerRpcClient(options = {}) {
         reject(error);
       }
     });
+  }
+
+  async function ready() {
+    return transport.ready;
   }
 
   function waitForNotification(predicate, waitOptions = {}) {
@@ -210,6 +223,7 @@ export function createAppServerRpcClient(options = {}) {
   }
 
   return Object.freeze({
+    ready,
     request,
     initialize,
     startThread,

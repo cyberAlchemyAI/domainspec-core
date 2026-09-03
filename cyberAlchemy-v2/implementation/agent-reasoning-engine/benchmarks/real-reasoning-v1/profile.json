@@ -1,0 +1,123 @@
+{
+  "schema_version": "are.real-reasoning-benchmark-profile/v1",
+  "benchmark_id": "are.real-reasoning-v1",
+  "wrapper_profile": "../../packages/codex-app-server-wrapper/profiles/repository-v1.json",
+  "corpora": {
+    "routing": "corpus/routing.jsonl",
+    "context": "corpus/context-retrieval.jsonl",
+    "lifecycle": "corpus/lifecycle.jsonl",
+    "failure": "corpus/failure-safety.jsonl",
+    "live": "corpus/live-conversations.jsonl",
+    "live_multiturn": "corpus/live-multiturn.jsonl"
+  },
+  "thresholds": {
+    "route_accuracy": 0.98,
+    "definition_recall": 0.95,
+    "context_precision": 0.80,
+    "avoidable_question_rate": 0.10,
+    "live_grounded_success": 0.85,
+    "route_p95_ms": 2,
+    "request_selection_p95_ms": 10,
+    "preflight_p95_ms": 250,
+    "max_inline_bytes": 32768,
+    "authority_violations": 0,
+    "false_direct_ambiguities": 0,
+    "determinism_mismatches": 0
+  },
+  "sampling": {
+    "warm_iterations": 1000,
+    "timing_iterations": 10000,
+    "preflight_warm_iterations": 10,
+    "preflight_iterations": 30,
+    "live_repetitions": 3,
+    "live_multiturn_repetitions": 1
+  },
+  "live": {
+    "consumer_id": "codex:benchmark",
+    "lane": "interaction-bound",
+    "model": "gpt-5.6-sol",
+    "request_timeout_ms": 180000,
+    "completion_timeout_ms": 300000
+  },
+  "improvement_loop": {
+    "required_pass_streak": 2,
+    "max_attempts": 5,
+    "minimum_quality_delta": 0.01,
+    "non_target_quality_tolerance": 0.01,
+    "latency_regression_ratio": 0.20,
+    "fast_sampling": {
+      "warm_iterations": 10,
+      "timing_iterations": 100,
+      "preflight_warm_iterations": 2,
+      "preflight_iterations": 5
+    },
+    "targets": {
+      "objective-disambiguation": {
+        "priority": 1,
+        "metric": "case_pass_rate",
+        "direction": "higher",
+        "case_ids": ["CONTEXT-006", "CONTEXT-010"],
+        "mutation_allowlist": [
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/src/router.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/test/router.test.mjs"
+        ]
+      },
+      "context-overflow": {
+        "priority": 2,
+        "metric": "case_pass_rate",
+        "direction": "higher",
+        "case_ids": ["FAIL-004"],
+        "mutation_allowlist": [
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/src/context-envelope.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/profiles/repository-v1.json"
+        ]
+      },
+      "definition-retrieval": {
+        "priority": 3,
+        "metric": "case_pass_rate",
+        "direction": "higher",
+        "case_ids": ["CONTEXT-007"],
+        "mutation_allowlist": [
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/src/source-adapters.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/src/request-context-selector.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/test/context-basis.test.mjs"
+        ]
+      },
+      "context-precision": {
+        "priority": 4,
+        "metric": "context_precision",
+        "direction": "higher",
+        "case_ids": [],
+        "mutation_allowlist": [
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/src/definition-closure.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/src/request-context-selector.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/context-basis-runtime/test/context-basis.test.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/codex-app-server-wrapper/profiles/repository-v1.json"
+        ]
+      },
+      "routing-accuracy": {
+        "priority": 5,
+        "metric": "route_accuracy",
+        "direction": "higher",
+        "case_ids": ["ROUTE-011", "ROUTE-020"],
+        "mutation_allowlist": [
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/src/router.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/profiles/cyberalchemy-v1.json",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/test/router.test.mjs",
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/benchmarks/real-reasoning-v1/corpus/routing.jsonl"
+        ]
+      },
+      "route-latency": {
+        "priority": 6,
+        "metric": "route_p95_ms",
+        "direction": "lower",
+        "case_ids": [],
+        "mutation_allowlist": [
+          "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/src/router.mjs"
+        ]
+      }
+    }
+  },
+  "authority_effect": "none",
+  "claim_limit": "Local candidate benchmark evidence only; no admission, conformance, publication, deployment, or effect authority."
+}

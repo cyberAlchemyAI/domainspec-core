@@ -35,7 +35,6 @@ export function resolveDefinitionClosure(input) {
   if (!nonEmptyString(catalog.source_digest)) reasons.push("definition.catalog-source-digest-required");
   if (!Array.isArray(catalog.definitions)) reasons.push("definition.catalog-definitions-required");
   const seeds = uniqueStrings(input.seed_definition_ids);
-  if (seeds.length === 0) reasons.push("definition.seed-required");
   if (reasons.length > 0) return fail("definition-closure", reasons);
 
   const supportedRelations = new Set(uniqueStrings(catalog.normative_relation_classes));

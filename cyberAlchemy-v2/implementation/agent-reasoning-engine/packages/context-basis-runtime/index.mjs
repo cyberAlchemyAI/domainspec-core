@@ -8,3 +8,4 @@ export {composeContextBasis} from "./src/compose.mjs";
 export {assembleContextEnvelope} from "./src/context-envelope.mjs";
 export {assessContextRefresh} from "./src/context-refresh.mjs";
 export {composeContextLifecycle} from "./src/lifecycle.mjs";
+export {selectRequestContext} from "./src/request-context-selector.mjs";

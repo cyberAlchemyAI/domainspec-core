@@ -10,6 +10,7 @@ import {
   composeContextBasis,
   lockOntologySelectors,
   resolveDefinitionClosure,
+  selectRequestContext,
 } from "../index.mjs";
 import {loadVerifiedDecisionProfile} from "../../request-decision-router/index.mjs";
 import {canonicalJson} from "../../intent-route-resolver/index.mjs";
@@ -58,6 +59,66 @@ test("obvious Research routes directly without Goal fallback", () => {
   assert.equal(result.value.route_decision.candidates.includes("CA2-ROUTE-PLAN"), false);
 });
 
+test("request context selection resolves matching definitions and ontology structure without model or runtime calls", () => {
+  const result = selectRequestContext({
+    raw_request: "Explain the request context ontology.",
+    catalog,
+    snapshot,
+    policy: {max_definition_matches: 4, max_ontology_node_matches: 4, max_ontology_edge_matches: 4},
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.value.definition_matches.some((match) => match.definition_id === "RequestContext"), true);
+  assert.equal(result.value.ontology_node_matches.some((match) => match.node_id === "Request"), true);
+  assert.equal(result.value.model_calls, 0);
+  assert.equal(result.value.filesystem_calls, 0);
+  assert.equal(result.value.ontology_runtime_calls, 0);
+});
+
+test("exact primary definition terms remain selectable when their token is a fuzzy-match stop word", () => {
+  const projectCatalog = structuredClone(catalog);
+  projectCatalog.definitions.push({definition_id: "Project", primary_term: "Project", aliases: ["Project"], lookup_terms: ["project"]});
+  const exact = selectRequestContext({raw_request: "What is a Project?", catalog: projectCatalog, snapshot});
+  assert.equal(exact.value.definition_matches.some((match) => match.definition_id === "Project"), true);
+
+  const substring = selectRequestContext({raw_request: "Which projector should I use?", catalog: projectCatalog, snapshot});
+  assert.equal(substring.value.definition_matches.some((match) => match.definition_id === "Project"), false);
+});
+
+test("exact primary definition matches suppress weaker alias-token competitors", () => {
+  const competingCatalog = structuredClone(catalog);
+  competingCatalog.definitions.push(
+    {definition_id: "ProductCapability", primary_term: "Product Capability", aliases: ["Product Capability"], lookup_terms: ["product capability", "product", "capability"]},
+    {definition_id: "CapabilityOwnership", primary_term: "Capability Ownership", aliases: ["Capability Ownership"], lookup_terms: ["capability ownership", "capability", "ownership"]},
+  );
+  const result = selectRequestContext({raw_request: "What is a Product Capability?", catalog: competingCatalog, snapshot});
+  assert.deepEqual(result.value.definition_matches.map((match) => match.definition_id), ["ProductCapability"]);
+});
+
+test("the most specific exact primary phrase suppresses its nested generic primary term", () => {
+  const nestedCatalog = structuredClone(catalog);
+  nestedCatalog.definitions.push(
+    {definition_id: "Context", primary_term: "Context", aliases: ["Context"], lookup_terms: ["context"]},
+    {definition_id: "ContextWindowView", primary_term: "Context Window View", aliases: ["Context Window View"], lookup_terms: ["context window view", "context", "window", "view"]},
+  );
+  const result = selectRequestContext({raw_request: "Explain the Context Window View.", catalog: nestedCatalog, snapshot});
+  assert.deepEqual(result.value.definition_matches.map((match) => match.definition_id), ["ContextWindowView"]);
+});
+
+test("disjoint exact primary concepts remain selected together", () => {
+  const disjointCatalog = structuredClone(catalog);
+  disjointCatalog.definitions.push(
+    {definition_id: "CyberAlchemyV2", primary_term: "CyberAlchemy v2", aliases: ["CyberAlchemy v2"], lookup_terms: ["cyberalchemy v2"]},
+    {definition_id: "Ontology", primary_term: "Ontology", aliases: ["Ontology"], lookup_terms: ["ontology"]},
+  );
+  const result = selectRequestContext({
+    raw_request: "I want to understand the ontology already present in CyberAlchemy v2.",
+    catalog: disjointCatalog,
+    snapshot,
+    policy: {max_definition_matches: 2},
+  });
+  assert.deepEqual(result.value.definition_matches.map((match) => match.definition_id), ["CyberAlchemyV2", "Ontology"]);
+});
+
 test("ambiguous routing gates before closure and selector work", () => {
   const result = composeContextBasis(composition({request_context: request("Research and validate this evidence.")}));
   assert.equal(result.ok, false);
@@ -73,6 +134,13 @@ test("definition closure is a permutation-stable least fixed point", () => {
   assert.equal(first.ok, true);
   assert.equal(first.digest, permuted.digest);
   assert.deepEqual(first.value.definitions.map((item) => item.definition_id), ["CapabilitySelection", "ContextWindowView", "NecessaryContextBasis", "RequestContext", "ResearchStrategy"]);
+});
+
+test("definition closure permits an empty request-relative seed set", () => {
+  const result = resolveDefinitionClosure({catalog, seed_definition_ids: [], universal_relation_classes: ["requires"], route_relation_classes: []});
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.value.definitions, []);
+  assert.deepEqual(result.value.traversed_relations, []);
 });
 
 test("cycles terminate by full canonical definition identity", () => {
@@ -184,12 +252,16 @@ test("canonical output bytes and digest are stable across clean compositions", (
 });
 
 test("context lifecycle emits frozen inline definitions and selector-locked ontology items", () => {
-  const result = lifecycle({contradictions: [{ref: "conflict:1"}], exclusions: [{ref: "optional:1", reason: "not-required"}], gaps: [{ref: "gap:1"}], residue: [{ref: "residue:1"}]});
+  const result = lifecycle({constraints: ["constraint:1"], contradictions: [{ref: "conflict:1"}], exclusions: [{ref: "optional:1", reason: "not-required"}], gaps: [{ref: "gap:1"}], residue: [{ref: "residue:1"}]});
   assert.equal(result.ok, true);
   const envelope = result.value.context_envelope.value;
   assert.equal(envelope.schema_version, "are.context-envelope/v1");
   assert.equal(envelope.included_items.some((item) => item.item_kind === "definition" && item.content.text?.includes("preserved request")), true);
   assert.equal(envelope.included_items.some((item) => item.item_kind === "ontology-node" && item.content.intent === "The necessary context basis."), true);
+  assert.equal(envelope.included_items.some((item) => item.item_kind === "request" && item.content.raw_request.includes("Research current")), true);
+  assert.equal(envelope.included_items.some((item) => item.item_kind === "constraint"), true);
+  assert.equal(envelope.included_items.some((item) => item.item_kind === "gap"), true);
+  assert.equal(envelope.included_items.some((item) => item.item_kind === "residue"), true);
   assert.deepEqual(envelope.contradictions, [{ref: "conflict:1"}]);
   assert.deepEqual(envelope.gaps, [{ref: "gap:1"}]);
   assert.deepEqual(envelope.residue, [{ref: "residue:1"}]);

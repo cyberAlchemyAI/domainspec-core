@@ -10,8 +10,10 @@ import {createDecisionEngine, digest} from "./engine.mjs";
 import {TurnEvidenceLedger} from "./turn-evidence-ledger.mjs";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const observation = JSON.parse(readFileSync(resolve(packageRoot, "evidence/codex-app-server-protocol-observation.v1.json"), "utf8"));
-const approvalMethods = new Set(observation.observed_surfaces.server_requests.filter((method) => method.endsWith("/requestApproval")));
+const observationCandidates = [
+  "codex-app-server-protocol-observation.v1.json",
+  "codex-app-server-protocol-observation.windows-0.151.json",
+].map((name) => JSON.parse(readFileSync(resolve(packageRoot, "evidence", name), "utf8")));
 
 function argument(name, fallback = null) {
   const index = process.argv.indexOf(name);
@@ -35,15 +37,17 @@ function fileSha256(path) {
   });
 }
 
-if (!allowProtocolDrift) {
-  let actual;
-  try { actual = await fileSha256(upstream); } catch (error) {
-    throw new Error(`ARE_CODEX_UPSTREAM_BINARY_UNREADABLE:${upstream}:${error.message}`);
-  }
-  if (actual !== observation.observed_binary_sha256) {
-    throw new Error(`ARE_CODEX_PROTOCOL_DRIFT:${actual}:${observation.observed_binary_sha256}`);
-  }
+let actualUpstreamSha256 = null;
+try { actualUpstreamSha256 = await fileSha256(upstream); } catch (error) {
+  if (!allowProtocolDrift) throw new Error(`ARE_CODEX_UPSTREAM_BINARY_UNREADABLE:${upstream}:${error.message}`);
 }
+const observation = observationCandidates.find(
+  (candidate) => candidate.observed_binary_sha256 === actualUpstreamSha256,
+) ?? observationCandidates[0];
+if (!allowProtocolDrift && actualUpstreamSha256 !== observation.observed_binary_sha256) {
+  throw new Error(`ARE_CODEX_PROTOCOL_DRIFT:${actualUpstreamSha256}:${observationCandidates.map((candidate) => candidate.observed_binary_sha256).join(",")}`);
+}
+const approvalMethods = new Set(observation.observed_surfaces.server_requests.filter((method) => method.endsWith("/requestApproval")));
 
 function writeJson(stream, message) {
   stream.write(`${JSON.stringify(message)}\n`);
@@ -172,11 +176,11 @@ clientInput.on("line", (line) => {
     });
     notify("are/preflight/completed", evaluated.decision);
     if (!evaluated.forwarded) {
+      record("turn.not-forwarded", {request_id: message.id, directive_kind: evaluated.decision.kind});
       writeJson(process.stdout, {
         id: message.id,
         error: {code: -32071, message: `ARE_${evaluated.decision.kind.toUpperCase()}`, data: evaluated.decision},
       });
-      record("turn.not-forwarded", {request_id: message.id, directive_kind: evaluated.decision.kind});
       return;
     }
     pendingTurnRequests.set(key(message.id), {

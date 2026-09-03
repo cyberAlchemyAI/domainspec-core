@@ -57,6 +57,13 @@ continues the exact event chain before Codex accepts a new turn. Cross-process
 writer coordination, repair, reduction, and durable CyberAlchemy Session
 semantics remain open, so this is not yet the complete product promise.
 
+The completed-turn frontier vertical now seals the explicit semantic result,
+continuation result, completion identity, and context bindings into the same
+recoverable Reasoning State source before automatic continuation. After a
+restart, the wrapper can replay that exact decision without rediscovering it or
+starting a second successor. Delivery acknowledgement remains a separate gap,
+so recovery uses an explicit at-most-once posture rather than guessing.
+
 Its first-class candidate construction package is
 [`ontology/`](ontology/README.md). That package separates:
 
@@ -89,8 +96,11 @@ reuse and interaction-bound succession distinct.
 
 The semantic evaluator now has a bounded additive integration with the frozen
 Context Envelope. It verifies the envelope and Context Items, derives a sealed
-context-bound Problem Frame, evaluates under the existing finite catalog, and
-binds the context epoch and selected dependencies into the Reasoning Receipt.
+context-bound Problem Frame, verifies exact agreement among that frame, its
+entry gate, authority snapshot, Context Envelope binding, selected Context Item
+digests, freshness, and claim ceiling, then evaluates under the existing finite
+catalog. Context-bound receipts preserve the context epoch, envelope, binding,
+and selected-item identities; historical unbound receipt bytes remain unchanged.
 
 The separate semantic-input runtime now selects exactly one configured semantic
 domain, reloads exact-bound authority, catalog, and validator providers, admits

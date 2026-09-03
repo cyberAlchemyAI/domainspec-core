@@ -12,6 +12,14 @@ Its events retain their original evidence and authority posture. Sealing or
 reusing an epoch does not admit evidence, authorize an effect, or promote a
 claim.
 
+A Reasoning State Frontier is an explicit, content-addressed state record for a
+completed reasoning boundary. `sealReasoningStateFrontier` appends that record,
+seals its single-event epoch, and flushes an `after-turn-completion` checkpoint
+as one fail-closed operation. Recovery admits a frontier into its disposable
+index only when the event, epoch, subject digest, and matching completion
+checkpoint all verify. The frontier contains inspectable semantic and
+continuation products; it is not hidden model chain-of-thought.
+
 Two sinks are included. The memory sink is deterministic and useful for tests
 or explicitly process-local operation. The append-only file sink writes one
 canonical JSON record per line and calls `fsync` at a checkpoint. Existing
@@ -39,6 +47,10 @@ Public operations include:
 - `rebuildReasoningStateIndexes`
 - `selectRecoverableCheckpoint`
 - `recoverReasoningStateLedger`
+- `sealReasoningStateFrontier`
+- `verifyReasoningStateFrontier`
+- `getReasoningStateFrontier`
+- `listReasoningStateFrontiers`
 - `createRequestSeriesHeader`
 - `materializeReasoningDispatch`
 - `verifyReasoningDispatch`

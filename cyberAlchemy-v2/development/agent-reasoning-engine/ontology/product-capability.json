@@ -5,7 +5,7 @@
   "definition_ref": "CAV2-D67",
   "product_ref": "CA2-PRODUCT-CYBERALCHEMY",
   "business_ontology_ref": "CA2-ARE-BUSINESS-ONTOLOGY",
-  "outcome": "Enable CyberAlchemy-v2 to route each request to the nearest uniquely supported capability, construct the necessary request-relative Context Basis, preserve and reuse the explicit provenance-bound reasoning state that produced context, recover checkpointed state by verifying its append-only log and rebuilding disposable indexes, reconstruct and checkpoint the exact model dispatch, derive typed semantic judgments, expose residue and invalidation, and keep every result non-authorizing until a separate owner gate permits one exact effect.",
+  "outcome": "Enable CyberAlchemy-v2 to route each request to the nearest uniquely supported capability, construct the necessary request-relative Context Basis, preserve and reuse the explicit provenance-bound reasoning state that produced context, recover checkpointed state by verifying its append-only log and rebuilding disposable indexes, seal and recover the semantic and continuation frontier that completed a turn, reconstruct and checkpoint the exact model dispatch, derive typed semantic judgments, expose residue and invalidation, and keep every result non-authorizing until a separate owner gate permits one exact effect.",
   "outcome_refs": [
     "CA2-ARE-OUTCOME-BOUNDED-REASONING",
     "CA2-ARE-OUTCOME-CONTEXT-INTEGRITY",
@@ -15,7 +15,7 @@
     "CA2-ARE-OUTCOME-FAST-DIRECT-ROUTING",
     "CA2-ARE-OUTCOME-NECESSARY-CONTEXT-BASIS"
   ],
-  "scope": "Manage the context and semantic-reasoning lifecycle for one bounded CyberAlchemy-v2 problem: preserve the request and intent; perform fast non-authorizing route selection; construct the Necessary Context Basis and Context Window View; append explicit reasoning products; seal exact reusable Reasoning State epochs; verify and recover checkpointed logs through disposable derived indexes; materialize, reconstruct, verify, and checkpoint outbound model requests; retain provenance, contradictions, exclusions, and gaps; derive one typed outcome; record residue; and distinguish historical replay from refreshed current-state evaluation.",
+  "scope": "Manage the context and semantic-reasoning lifecycle for one bounded CyberAlchemy-v2 problem: preserve the request and intent; perform fast non-authorizing route selection; construct the Necessary Context Basis and Context Window View; append explicit reasoning products; seal exact reusable Reasoning State epochs and completed-turn frontiers; verify and recover checkpointed logs and frontiers through disposable derived indexes; materialize, reconstruct, verify, and checkpoint outbound model requests; retain provenance, contradictions, exclusions, and gaps; derive one typed outcome; record residue; and distinguish historical replay from refreshed current-state evaluation.",
   "exclusions": [
     "general-purpose truth discovery or proof of real-world truth",
     "repository objective routing owned by CA2-ROUTE-ENTRY",
@@ -27,6 +27,7 @@
     "claiming to preserve or expose hidden model chain-of-thought",
     "treating identical prompt bytes or provider cache affinity as proof of identical reasoning provenance, freshness, or authority",
     "silently truncating, repairing, or skipping malformed or uncheckpointed reasoning-state log bytes during recovery",
+    "silently retrying an automatic successor when recovery cannot prove whether post-checkpoint delivery occurred",
     "treating model confidence, agent agreement, token use, schema validation, or receipt existence as authority",
     "authorizing implementation, publication, deployment, or any real effect",
     "claiming the two bounded local libraries constitute the complete engine"
@@ -53,6 +54,7 @@
     "CA2-CAP-CONTRACT-ARE-REASONING-CHECKPOINT",
     "CA2-CAP-CONTRACT-ARE-REASONING-STATE-DERIVED-INDEX",
     "CA2-CAP-CONTRACT-ARE-REASONING-STATE-RECOVERY-ASSESSMENT",
+    "CA2-CAP-CONTRACT-ARE-REASONING-STATE-FRONTIER",
     "CA2-CAP-CONTRACT-ARE-REASONING-RESULT",
     "CA2-CAP-CONTRACT-ARE-CONTINUATION-DECISION"
   ],
@@ -69,6 +71,8 @@
     ,"CA2-CAP-POLICY-ARE-REASONING-STATE-REUSE"
     ,"CA2-CAP-POLICY-ARE-RISK-ALIGNED-CHECKPOINTS"
     ,"CA2-CAP-POLICY-ARE-RECOVERY-FAIL-CLOSED"
+    ,"CA2-CAP-POLICY-ARE-COMPLETION-FRONTIER"
+    ,"CA2-CAP-POLICY-ARE-CONTEXT-BOUND-SEMANTIC-INTEGRITY"
   ],
   "owner_routes": [
     {
@@ -119,6 +123,8 @@
     "CA2-CAP-BIND-ARE-REQUEST-DECISION-ROUTER"
     ,"CA2-CAP-BIND-ARE-REASONING-STATE-FIRST-THREE"
     ,"CA2-CAP-BIND-ARE-REASONING-STATE-RECOVERY"
+    ,"CA2-CAP-BIND-ARE-COMPLETED-TURN-FRONTIER"
+    ,"CA2-CAP-BIND-ARE-CONTEXT-BOUND-SEMANTIC-INTEGRITY"
   ],
   "obligation_registry_ref": "CA2-CAP-OBLIGATIONS-ARE",
   "evidence_refs": [
@@ -148,6 +154,9 @@
     ,"CAP-SEL-ARE-REASONING-STATE-RUNTIME"
     ,"CAP-SEL-ARE-CODEX-WRAPPER"
     ,"CAP-SEL-ARE-JOURNALED-CODEX-WRAPPER"
+    ,"CAP-SEL-ARE-EVALUATOR-REDUCER"
+    ,"CAP-SEL-ARE-EVALUATOR-RECEIPT-ASSEMBLER"
+    ,"CAP-SEL-ARE-EVALUATOR-CONTEXT-TEST"
   ],
   "revision_history": [
     {
@@ -178,6 +187,18 @@
       "revision": 5,
       "date": "2026-09-02",
       "change": "Added bounded fail-closed recovery of checkpointed append-only Reasoning State logs, deterministic disposable-index rebuilding, startup source rechecking, and Codex pre-message recovery without log repair, cross-process coordination, Session semantics, or authority effects.",
+      "owner_route": "CyberAlchemy v2 product owner plus Agent Reasoning Engine owners"
+    },
+    {
+      "revision": 6,
+      "date": "2026-09-03",
+      "change": "Added a bounded completed-turn Reasoning State Frontier that checkpoints explicit semantic and continuation products before automatic continuation and replays them after recovery with zero semantic, continuation, effect, or successor calls; downstream delivery acknowledgement remains unresolved.",
+      "owner_route": "CyberAlchemy v2 product owner plus Agent Reasoning Engine owners"
+    },
+    {
+      "revision": 7,
+      "date": "2026-09-03",
+      "change": "Added fail-closed cross-record integrity for context-bound semantic requests and conditional Context Envelope identities in Reasoning Receipts while preserving exact historical unbound receipt bytes.",
       "owner_route": "CyberAlchemy v2 product owner plus Agent Reasoning Engine owners"
     }
   ],
