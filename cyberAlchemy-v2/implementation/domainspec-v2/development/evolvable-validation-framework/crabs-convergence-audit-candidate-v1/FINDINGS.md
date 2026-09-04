@@ -1,8 +1,8 @@
 # CRABS ordered-set convergence finding
 
-Status: evidence-backed finding for one bounded case  
-Subject: CRABS commit `9e3a0a6fbaa3f163d0afc5afa94a65fbc5be1937`  
-Finding: ordered-set merge is not commutative for the tested two-singleton case  
+Status: evidence-backed finding for one bounded case
+Subject: CRABS commit `9e3a0a6fbaa3f163d0afc5afa94a65fbc5be1937`
+Finding: ordered-set merge is not commutative for the tested two-singleton case
 Authority effect: none
 
 ## Plain-language result

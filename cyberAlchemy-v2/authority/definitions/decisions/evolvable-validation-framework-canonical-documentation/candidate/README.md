@@ -1,7 +1,7 @@
 # EVF Canonical-Documentation Candidate
 
-Status: candidate; not canonical  
-Owner route: `CA2-ROUTE-DEFINITIONS`  
+Status: candidate; not canonical
+Owner route: `CA2-ROUTE-DEFINITIONS`
 Authority effect: none
 
 This package proposes a single normative documentation source for the

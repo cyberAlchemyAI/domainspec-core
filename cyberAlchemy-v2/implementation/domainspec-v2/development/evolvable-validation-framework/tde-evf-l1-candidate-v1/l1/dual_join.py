@@ -83,4 +83,3 @@ def build_join(
         "claim_ceiling": "Consistency or conflict between exact bounded provider observations only.",
     }
     return {**payload, "join_digest": digest_value(payload)}
-

@@ -1,11 +1,11 @@
 # Evolvable Validation Framework
 
-Status: canonical-documentation candidate; not promoted  
-Candidate ID: `CAV2-EVF-CANONICAL-DOC-CANDIDATE-V1`  
-Meaning owner: DomainSpec v2 product owner  
-Candidate steward: `CTX-DSV2-EVF`  
-Definitions route: `CA2-ROUTE-DEFINITIONS`  
-Proposed promoted target: `cyberAlchemy-v2/specs/evolvable-validation-framework/EVF.md`  
+Status: canonical-documentation candidate; not promoted
+Candidate ID: `CAV2-EVF-CANONICAL-DOC-CANDIDATE-V1`
+Meaning owner: DomainSpec v2 product owner
+Candidate steward: `CTX-DSV2-EVF`
+Definitions route: `CA2-ROUTE-DEFINITIONS`
+Proposed promoted target: `cyberAlchemy-v2/specs/evolvable-validation-framework/EVF.md`
 Authority effect: none
 
 ## Authority Posture

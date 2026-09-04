@@ -1,6 +1,6 @@
 # TDE to EVF L0 candidate
 
-Status: prototype candidate; unapproved  
+Status: prototype candidate; unapproved
 Authority effect: none
 
 This candidate implements the smallest ownership-correct handoff:

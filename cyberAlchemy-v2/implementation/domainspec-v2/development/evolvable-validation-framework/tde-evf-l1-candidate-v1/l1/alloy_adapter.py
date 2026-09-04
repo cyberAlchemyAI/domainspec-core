@@ -80,4 +80,3 @@ def materialize(translation: dict[str, Any], root: Path) -> tuple[Path, Path]:
     output.mkdir(parents=True)
     model.write_bytes(translation["model"])
     return model, output
-

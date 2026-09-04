@@ -1,6 +1,6 @@
 # TDE to EVF L2 hardening candidate
 
-Status: prototype candidate; unapproved  
+Status: prototype candidate; unapproved
 Authority effect: none
 
 L2 preserves the L0 obligation and L1 Souffle/Alloy meanings. It adds one

@@ -1,7 +1,7 @@
 # Evolvable Validation Framework Guide
 
-Status: candidate; not canonical  
-Owner: DomainSpec v2 EVF construction context (`CTX-DSV2-EVF`)  
+Status: candidate; not canonical
+Owner: DomainSpec v2 EVF construction context (`CTX-DSV2-EVF`)
 Authority effect: none
 
 Normative source candidate:

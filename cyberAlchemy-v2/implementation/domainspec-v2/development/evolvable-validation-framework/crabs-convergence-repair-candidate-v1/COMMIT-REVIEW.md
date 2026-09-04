@@ -1,7 +1,7 @@
 # Review guide: deterministic CRABS ordered-set merge
 
-Commit: [`477799721668652988bf98a4a9067d08f5bdaebf`](https://github.com/vijayee/CRABS/commit/477799721668652988bf98a4a9067d08f5bdaebf)  
-Branch: [`codex/ordered-set-convergence-repair`](https://github.com/vijayee/CRABS/tree/codex/ordered-set-convergence-repair)  
+Commit: [`477799721668652988bf98a4a9067d08f5bdaebf`](https://github.com/vijayee/CRABS/commit/477799721668652988bf98a4a9067d08f5bdaebf)
+Branch: [`codex/ordered-set-convergence-repair`](https://github.com/vijayee/CRABS/tree/codex/ordered-set-convergence-repair)
 Suggested review title: **Make ordered-set merge deterministic across replicas**
 
 ## Summary

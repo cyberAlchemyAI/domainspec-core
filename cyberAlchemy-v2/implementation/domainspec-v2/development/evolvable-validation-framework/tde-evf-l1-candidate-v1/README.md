@@ -1,6 +1,6 @@
 # TDE to EVF L1 candidate
 
-Status: prototype candidate; unapproved  
+Status: prototype candidate; unapproved
 Authority effect: none
 
 This candidate preserves the L0 TDE-neutral obligation and adds an independent

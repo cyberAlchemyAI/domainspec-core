@@ -26,7 +26,7 @@ index d3e806e..a0536fb 100644
 @@ -10,6 +10,31 @@
  #include <stdlib.h>
  #include <string.h>
- 
+
 +typedef struct {
 +  crabs_ot_op_id_t id;
 +  bool has_anchor;
@@ -65,7 +65,7 @@ index d3e806e..a0536fb 100644
      elem->value = get_memory(value_size);
 @@ -136,13 +162,190 @@ static void _insert_after(crabs_ot_ordered_set_t* set,
  }
- 
+
  // Helper: unlink element (doesn't free)
 -static void _unlink(crabs_ot_ordered_set_t* set, crabs_ordered_element_t* elem) {
 -  if (elem->prev != NULL) elem->prev->next = elem->next;
@@ -259,12 +259,12 @@ index d3e806e..a0536fb 100644
 +  free(placements); free(stack); free(emitted); free(nodes);
 +  return emitted_count == count;
  }
- 
+
  // ============================================================
 @@ -157,22 +360,28 @@ crabs_ordered_element_t* crabs_ot_ordered_set_apply_insert(
      &op->id, op->payload, op->payload_size);
    if (elem == NULL) return NULL;
- 
+
 +  crabs_ordered_element_t* after = NULL;
    // Use position map to find insertion point
    if (set->ot_data != NULL && set->ot_data->position_map != NULL) {
@@ -296,7 +296,7 @@ index d3e806e..a0536fb 100644
 @@ -255,6 +464,14 @@ crabs_ordered_element_t* crabs_ot_ordered_set_apply_move(
    }
    set->count++;
- 
+
 +  // A MOVE is a last-writer-wins update of the complete order known here.
 +  crabs_ordered_element_t* anchor = NULL;
 +  for (crabs_ordered_element_t* current = set->head;
@@ -307,16 +307,16 @@ index d3e806e..a0536fb 100644
 +
    return elem;
  }
- 
+
 @@ -298,6 +515,8 @@ crabs_ot_ordered_set_t* crabs_ot_ordered_set_merge(
      crabs_ot_ordered_set_t* dest, const crabs_ot_ordered_set_t* src) {
    if (dest == NULL || src == NULL) return dest;
- 
+
 +  if (!_merge_preflight(dest, src)) return NULL;
 +
    // Merge position maps
    crabs_ot_ordered_set_merge_position_maps(dest, src);
- 
+
 @@ -309,6 +528,9 @@ crabs_ot_ordered_set_t* crabs_ot_ordered_set_merge(
        crabs_ordered_element_t* new_elem = crabs_ordered_element_create(
          &e->id, e->value, e->value_size);
@@ -338,11 +338,11 @@ index d3e806e..a0536fb 100644
 +      }
      }
    }
- 
+
 -  return dest;
 +  return _materialize(dest) ? dest : NULL;
  }
- 
+
  void crabs_ot_ordered_set_merge_position_maps(
 @@ -329,4 +556,4 @@ void crabs_ot_ordered_set_merge_position_maps(
      dest->ot_data->position_map = crabs_bst_merge(
@@ -368,7 +368,7 @@ index 1361054..ad77d6e 100644
 @@ -114,4 +117,4 @@ crabs_ot_ordered_set_t* crabs_ot_ordered_set_merge(
  void crabs_ot_ordered_set_merge_position_maps(
    crabs_ot_ordered_set_t* dest, const crabs_ot_ordered_set_t* src);
- 
+
 -#endif // CRABS_OT_ORDERED_SET_H
 \ No newline at end of file
 +#endif // CRABS_OT_ORDERED_SET_H
@@ -389,7 +389,7 @@ index a098f86..d100cec 100644
 @@ -424,7 +427,8 @@ static void _serialize_ot_type_state(write_buf_t* buf, const data_item_t* item)
    }
  }
- 
+
 -static bool _deserialize_ot_type_state(read_buf_t* buf, data_item_t* item) {
 +static bool _deserialize_ot_type_state(read_buf_t* buf, data_item_t* item,
 +                                       uint32_t version) {
@@ -397,9 +397,9 @@ index a098f86..d100cec 100644
      case DATA_TYPE_OT_ORDERED_SET: {
        crabs_ot_ordered_set_t* set = (crabs_ot_ordered_set_t*)item->value;
 @@ -452,6 +456,27 @@ static bool _deserialize_ot_type_state(read_buf_t* buf, data_item_t* item) {
- 
+
          elem->deleted = (deleted != 0);
- 
+
 +        if (version >= 8) {
 +          uint8_t has_anchor;
 +          if (!_read_uint8(buf, &has_anchor)) {
@@ -425,13 +425,13 @@ index a098f86..d100cec 100644
            set->head = elem;
            tail = elem;
 @@ -1008,7 +1033,7 @@ static bool _deserialize_data_item(read_buf_t* buf, data_item_t* item, uint32_t
- 
+
    // For OT types, deserialize type-specific state (elements, spans, tree nodes)
    if (item->type >= DATA_TYPE_OT_ORDERED_SET && item->type <= DATA_TYPE_OT_ORDERED_MAP) {
 -    if (!_deserialize_ot_type_state(buf, item)) return false;
 +    if (!_deserialize_ot_type_state(buf, item, version)) return false;
    }
- 
+
    // invariant_count
 diff --git a/src/Serialization/serialization.h b/src/Serialization/serialization.h
 index a923a1a..3abf65a 100644
@@ -443,13 +443,13 @@ index a923a1a..3abf65a 100644
  #define CRABS_SERIAL_MAGIC      0x42415243  // "CRAB" in little-endian
 -#define CRABS_SERIAL_VERSION    7           // v7: recurring schedules (interval/repeat_count/end_at)
 +#define CRABS_SERIAL_VERSION    8           // v8: ordered-set placement metadata
- 
+
  // ============================================================
  // Serialized buffer
 @@ -82,4 +82,4 @@ crabs_bst_node_t*    crabs_deserialize_bst(const uint8_t* data, size_t len);
  serialized_buffer_t* crabs_serialize_ot_data(const crabs_ot_data_item_t* item);
  crabs_ot_data_item_t* crabs_deserialize_ot_data(const uint8_t* data, size_t len, uint32_t ot_type_id);
- 
+
 -#endif // CRABS_SERIALIZATION_H
 \ No newline at end of file
 +#endif // CRABS_SERIALIZATION_H
@@ -463,12 +463,12 @@ index d561ada..b72fb38 100644
    move_op.visible_pos_2 = 2;
 +  crabs_ot_op_id_init(&move_op.id, "n1", 4, 1001);
    crabs_ot_ordered_set_apply_move(set, &move_op);
- 
+
    EXPECT_EQ(crabs_ot_ordered_set_count(set), 3u);
 @@ -343,6 +344,54 @@ TEST(OTOrderedSet, MergeAddsElements) {
    crabs_ot_ordered_set_destroy(src);
  }
- 
+
 +TEST(OTOrderedSet, MergeIsCommutativeForDistinctSingletons) {
 +  crabs_ot_ordered_set_t* ab = crabs_ot_ordered_set_create();
 +  crabs_ot_ordered_set_t* ba = crabs_ot_ordered_set_create();
@@ -532,13 +532,13 @@ index ca5021e..6e110a7 100644
 --- a/test/test_ot_serialization.cpp
 +++ b/test/test_ot_serialization.cpp
 @@ -255,6 +255,9 @@ TEST(OTSerialization, StateWithOrderedSetRoundTrip) {
- 
+
    crabs_ot_ordered_set_t* r_set = (crabs_ot_ordered_set_t*)r_item->value;
    EXPECT_EQ(crabs_ot_ordered_set_count(r_set), 1u);
 +  ASSERT_NE(r_set->head, nullptr);
 +  EXPECT_FALSE(r_set->head->has_anchor);
 +  EXPECT_TRUE(crabs_ot_op_id_equal(&r_set->head->placement_id, &op.id));
- 
+
    state_destroy(restored);
    state_destroy(original);
 @@ -554,4 +557,4 @@ TEST(OTSerialization, OtDataEmptyItem) {

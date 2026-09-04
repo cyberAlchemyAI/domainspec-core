@@ -1,8 +1,8 @@
 # CRABS ordered-set repair plan
 
-Status: planning candidate; implementation not authorized  
-Finding addressed: `R8-O-1`, bounded by the EVF obligation in this package  
-Product-construction frontier: select the intended convergent ordering semantics  
+Status: planning candidate; implementation not authorized
+Finding addressed: `R8-O-1`, bounded by the EVF obligation in this package
+Product-construction frontier: select the intended convergent ordering semantics
 Authority effect: none
 
 ## Repair objective

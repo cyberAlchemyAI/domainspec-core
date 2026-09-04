@@ -58,4 +58,3 @@ def materialize(translation: dict[str, Any], root: Path) -> tuple[Path, Path]:
     query = root / "reachability.dl"
     query.write_bytes(translation["query"])
     return facts, output
-

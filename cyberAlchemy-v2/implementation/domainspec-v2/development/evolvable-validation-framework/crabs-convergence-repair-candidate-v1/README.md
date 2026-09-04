@@ -1,10 +1,10 @@
 # CRABS ordered-set convergence repair candidate
 
-Status: implemented prototype candidate; not approved  
-Base CRABS commit: `9e3a0a6fbaa3f163d0afc5afa94a65fbc5be1937`  
-Candidate commit: `477799721668652988bf98a4a9067d08f5bdaebf`  
-Branch: `codex/ordered-set-convergence-repair`  
-Repair digest: `23dd76e385a968f1116e2c5975609f9abf1674e6056d2828b0921bd898578a5b`  
+Status: implemented prototype candidate; not approved
+Base CRABS commit: `9e3a0a6fbaa3f163d0afc5afa94a65fbc5be1937`
+Candidate commit: `477799721668652988bf98a4a9067d08f5bdaebf`
+Branch: `codex/ordered-set-convergence-repair`
+Repair digest: `23dd76e385a968f1116e2c5975609f9abf1674e6056d2828b0921bd898578a5b`
 Authority effect: none
 
 ## Plain answer

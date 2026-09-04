@@ -82,4 +82,3 @@ Complete L0, then use the residual path model to select only the missing
 evidence kinds for L1. Do not perform another Devnet submission until one exact
 current implementation candidate and one exact effect envelope are separately
 reviewed.
-

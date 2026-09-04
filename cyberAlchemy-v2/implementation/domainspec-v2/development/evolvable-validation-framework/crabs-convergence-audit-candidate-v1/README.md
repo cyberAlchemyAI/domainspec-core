@@ -1,7 +1,7 @@
 # CRABS convergence audit candidate
 
-Status: prototype construction candidate; unapproved  
-Subject: CRABS commit `9e3a0a6fbaa3f163d0afc5afa94a65fbc5be1937`  
+Status: prototype construction candidate; unapproved
+Subject: CRABS commit `9e3a0a6fbaa3f163d0afc5afa94a65fbc5be1937`
 Authority effect: none
 
 This package checks one narrow claim: whether the current CRABS ordered-set
