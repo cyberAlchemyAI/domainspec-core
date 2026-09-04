@@ -50,7 +50,20 @@ test("compile certificate and whole-project builds are reproducible and source-s
     assert.equal(receipt.artifacts.length, 17);
     const receiptPath = path.join(target, ".domainspec/project-build.json");
     const schemas = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../contracts");
-    const schemaCheck = spawnSync("python3", ["-c", "import json,sys\nfrom jsonschema import Draft202012Validator,RefResolver\nc=json.load(open(sys.argv[1]));r=json.load(open(sys.argv[2]));v=json.load(open(sys.argv[3]));Draft202012Validator(c).validate(v['compiled_certificate']);resolver=RefResolver.from_schema(r,store={c['$id']:c});Draft202012Validator(r,resolver=resolver).validate(v)", path.join(schemas, "compiled-project-certificate.schema.json"), path.join(schemas, "project-build-receipt.schema.json"), receiptPath], { encoding: "utf8" });
+    const schemaScript = [
+      "import json,sys",
+      "from jsonschema import Draft202012Validator",
+      "from referencing import Registry,Resource",
+      "certificate_schema=json.load(open(sys.argv[1]))",
+      "receipt_schema=json.load(open(sys.argv[2]))",
+      "value=json.load(open(sys.argv[3]))",
+      "registry=Registry().with_resources([(certificate_schema['$id'],Resource.from_contents(certificate_schema)),(receipt_schema['$id'],Resource.from_contents(receipt_schema))])",
+      "Draft202012Validator.check_schema(certificate_schema)",
+      "Draft202012Validator.check_schema(receipt_schema)",
+      "Draft202012Validator(certificate_schema,registry=registry).validate(value['compiled_certificate'])",
+      "Draft202012Validator(receipt_schema,registry=registry).validate(value)",
+    ].join("\n");
+    const schemaCheck = spawnSync("python3", ["-c", schemaScript, path.join(schemas, "compiled-project-certificate.schema.json"), path.join(schemas, "project-build-receipt.schema.json"), receiptPath], { encoding: "utf8" });
     assert.equal(schemaCheck.status, 0, schemaCheck.stderr);
 
     const generated = path.join(target, receipt.artifacts[0].relative_path);

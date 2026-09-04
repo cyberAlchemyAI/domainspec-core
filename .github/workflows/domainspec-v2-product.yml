@@ -5,19 +5,47 @@ on:
     paths:
       - "projects/domainspec-v2/impl/cli/**"
       - "projects/domainspec-v2/impl/system-integration/**"
+      - "projects/domainspec-v2/impl/architecture-conformance/**"
+      - "projects/domainspec-v2/impl/package.json"
+      - "projects/domainspec-v2/development/first-production-release/decisions/**"
+      - "projects/domainspec-v2/development/meta-type-instantiation-cli/**"
       - "projects/domainspec-v2/README.md"
       - "projects/domainspec-v2/ARCHITECTURE.md"
       - "projects/domainspec-v2/formalization/README.md"
-      - ".github/workflows/domainspec-v2-product.yml"
+      - "projects/auth-foundation/implementation/operation-source/**"
+      - "projects/auth-foundation/implementation/trusted-input-source/**"
+      - "cyberAlchemy-v2/development/examples/smallest-governance-program/domainspec/**"
+      - "cyberAlchemy-v2/language/realization-bindings.json"
+      - "cyberAlchemy-v2/ontology/governance/product/nodes.json"
+      - "toolchains/node-typescript/**"
       - "package.json"
       - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/domainspec-v2-product.yml"
+      - "tools/validate_ci_contract.py"
   push:
     branches: [master]
     paths:
       - "projects/domainspec-v2/impl/cli/**"
       - "projects/domainspec-v2/impl/system-integration/**"
+      - "projects/domainspec-v2/impl/architecture-conformance/**"
+      - "projects/domainspec-v2/impl/package.json"
+      - "projects/domainspec-v2/development/first-production-release/decisions/**"
+      - "projects/domainspec-v2/development/meta-type-instantiation-cli/**"
+      - "projects/domainspec-v2/README.md"
+      - "projects/domainspec-v2/ARCHITECTURE.md"
+      - "projects/domainspec-v2/formalization/README.md"
+      - "projects/auth-foundation/implementation/operation-source/**"
+      - "projects/auth-foundation/implementation/trusted-input-source/**"
+      - "cyberAlchemy-v2/development/examples/smallest-governance-program/domainspec/**"
+      - "cyberAlchemy-v2/language/realization-bindings.json"
+      - "cyberAlchemy-v2/ontology/governance/product/nodes.json"
+      - "toolchains/node-typescript/**"
       - "package.json"
       - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/domainspec-v2-product.yml"
+      - "tools/validate_ci_contract.py"
   workflow_dispatch:
 
 permissions:
@@ -25,32 +53,62 @@ permissions:
 
 jobs:
   verify-product:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v6
-        with:
-          version: 10.34.5
-          run_install: false
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Validate CI configuration contract
+        run: python3 tools/validate_ci_contract.py
+      - name: Install standalone pnpm
+        env:
+          PNPM_VERSION: "10.34.5"
+          PNPM_SHA256: 69a535476f407fb0f64427913c2b592ca2ed6bf93f92e2cb82a32349e31f36eb
+        run: |
+          pnpm_binary="$RUNNER_TEMP/pnpm"
+          curl --proto '=https' --tlsv1.2 --fail --location --silent --show-error \
+            --output "$pnpm_binary" \
+            "https://github.com/pnpm/pnpm/releases/download/v${PNPM_VERSION}/pnpm-linux-x64"
+          printf '%s  %s\n' "$PNPM_SHA256" "$pnpm_binary" | sha256sum --check
+          chmod 0755 "$pnpm_binary"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          "$pnpm_binary" --version
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 26.8.1
           cache: pnpm
-      - uses: dtolnay/rust-toolchain@stable
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12.14"
+          cache: pip
+          cache-dependency-path: projects/domainspec-v2/impl/cli/requirements-ci.txt
+      - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
         with:
           toolchain: "1.94.0"
           components: rustfmt
-      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9 # v1.5.0
-        with:
-          auto-config: false
-          lake-package-directory: projects/domainspec-v2/impl/cli
+      - name: Install standalone Lean toolchain
+        env:
+          ELAN_VERSION: v4.2.4
+          ELAN_ARCHIVE_SHA256: 42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63
+        run: |
+          elan_archive="$RUNNER_TEMP/elan-x86_64-unknown-linux-gnu.tar.gz"
+          curl --proto '=https' --tlsv1.2 --fail --location --silent --show-error \
+            --output "$elan_archive" \
+            "https://github.com/leanprover/elan/releases/download/${ELAN_VERSION}/elan-x86_64-unknown-linux-gnu.tar.gz"
+          printf '%s  %s\n' "$ELAN_ARCHIVE_SHA256" "$elan_archive" | sha256sum --check
+          tar -xzf "$elan_archive" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/elan-init" -y --no-modify-path \
+            --default-toolchain "$(cat projects/domainspec-v2/impl/cli/lean-toolchain)"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          "$HOME/.elan/bin/lean" --version
       - name: Install product validation dependencies
         run: |
-          pnpm install --frozen-lockfile
-          python3 -m pip install --disable-pip-version-check jsonschema
+          pnpm install --frozen-lockfile --filter @domainspec-v2/impl
+          python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r projects/domainspec-v2/impl/cli/requirements-ci.txt
+      - name: Install PostgreSQL client
+        run: |
           sudo apt-get update
-          sudo apt-get install -y postgresql-client
+          sudo apt-get install --no-install-recommends -y postgresql-client
       - name: Verify Stable 1.0 product
         working-directory: projects/domainspec-v2/impl/cli
         run: |
@@ -62,17 +120,27 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v6
-        with:
-          version: 10.34.5
-          run_install: false
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install standalone pnpm
+        env:
+          PNPM_VERSION: "10.34.5"
+          PNPM_SHA256: 69a535476f407fb0f64427913c2b592ca2ed6bf93f92e2cb82a32349e31f36eb
+        run: |
+          pnpm_binary="$RUNNER_TEMP/pnpm"
+          curl --proto '=https' --tlsv1.2 --fail --location --silent --show-error \
+            --output "$pnpm_binary" \
+            "https://github.com/pnpm/pnpm/releases/download/v${PNPM_VERSION}/pnpm-linux-x64"
+          printf '%s  %s\n' "$PNPM_SHA256" "$pnpm_binary" | sha256sum --check
+          chmod 0755 "$pnpm_binary"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          "$pnpm_binary" --version
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 26.8.1
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
       - name: Install qualification dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --filter @domainspec-v2/impl
       - name: Run pinned real-tool recipe qualification twice
         working-directory: projects/domainspec-v2/impl/cli
         run: >-
@@ -81,7 +149,7 @@ jobs:
           --expected-baseline "$GITHUB_WORKSPACE/projects/domainspec-v2/impl/cli/fixtures/qualification/l1-baseline.json"
       - name: Upload qualification certificate and run evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: domainspec-recipe-qualification-l1
           path: ${{ runner.temp }}/domainspec-recipe-qualification-l1

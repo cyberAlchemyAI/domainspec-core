@@ -11,6 +11,7 @@ import { createCompleteL1Project } from "./helpers/l1-project.ts";
 import { validateRuntimeReceiptBinding } from "../src/runtime/receipt.ts";
 
 const node = process.execPath;
+const POSTGRES_IMAGE = "postgres:16@sha256:71e27bf60b70bded003791b5573f8b808365613f341df20ffcf0c1ed7bc13ddf";
 function invocation(aggregateId: string, eventId: string) { return { schema_version: "domainspec.durable-operation-invocation/v1", invocation_id: `run-${aggregateId}`, selector: "alpha:settle", operation_input: { state: { customer: aggregateId, "customer.settlement-status": "pending" }, changes: { "customer.settlement-status": "settled" }, guard: true }, transaction: { aggregate_type: "Settlement", aggregate_id: aggregateId, expected_version: 0, occurred_at: "2026-09-03T12:00:00.000Z", event_ids: { "alpha:settlement-requested": eventId }, event_payloads: { "alpha:settlement-requested": { aggregate_id: aggregateId } }, max_attempts: 2 } }; }
 
 test("SQS outbox transport records provider acceptance without claiming delivery", async () => {
@@ -28,9 +29,17 @@ test("SQS outbox transport records provider acceptance without claiming delivery
 });
 
 test("PostgreSQL profile passes transaction, replay, leases, retry, quarantine, restart, and CLI seams", async () => {
-  const name = `domainspec-pg-${process.pid}`; const started = spawnSync("docker", ["run", "--rm", "-d", "--name", name, "-e", "POSTGRES_PASSWORD=domainspec-test", "-e", "POSTGRES_DB=domainspec", "-p", "127.0.0.1::5432", "postgres:16"], { encoding: "utf8" });
-  assert.equal(started.status, 0, started.stderr); const fixture = createCompleteL1Project(); const output = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-postgres-"));
+  const name = `domainspec-pg-${process.pid}`;
+  let containerStarted = false;
+  let fixtureParent: string | null = null;
+  let output: string | null = null;
   try {
+    const started = spawnSync("docker", ["run", "--rm", "-d", "--name", name, "-e", "POSTGRES_PASSWORD=domainspec-test", "-e", "POSTGRES_DB=domainspec", "-p", "127.0.0.1::5432", POSTGRES_IMAGE], { encoding: "utf8" });
+    assert.equal(started.status, 0, started.stderr);
+    containerStarted = true;
+    const fixture = createCompleteL1Project();
+    fixtureParent = fixture.parent;
+    output = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-postgres-"));
     const portOutput = spawnSync("docker", ["port", name, "5432/tcp"], { encoding: "utf8" }); assert.equal(portOutput.status, 0, portOutput.stderr); const port = Number(portOutput.stdout.trim().split(":").at(-1));
     let ready = false; for (let attempt = 0; attempt < 60; attempt++) { const check = spawnSync("pg_isready", ["-h", "127.0.0.1", "-p", String(port), "-U", "postgres", "-d", "domainspec"]); if (check.status === 0) { ready = true; break; } Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 250); } assert.equal(ready, true, "PostgreSQL did not become ready");
     const config = { host: "127.0.0.1", port, database: "domainspec", user: "postgres", password: "domainspec-test", maxAttempts: 2 }; const store = new PostgresTransactionalOutbox(config); assert.equal(store.publish_max_attempts, 2); assert.equal(store.deduplication_owner_ref, POSTGRES_OUTBOX_DEDUPLICATION_OWNER);
@@ -45,5 +54,9 @@ test("PostgreSQL profile passes transaction, replay, leases, retry, quarantine, 
     const requestPath = path.join(output, "request.json"), receiptPath = path.join(output, "receipt.json"); fs.writeFileSync(requestPath, `${JSON.stringify(invocation("settlement-pg-cli", "event-pg-cli"), null, 2)}\n`);
     const cli = spawnSync(node, ["--import", "tsx", path.resolve("src/cli/main.ts"), "run", fixture.root, "--request", requestPath, "--receipt", receiptPath, "--provider", "postgres-transactional-outbox-v1"], { cwd: path.resolve("."), encoding: "utf8", env: { ...process.env, PGHOST: config.host, PGPORT: String(port), PGDATABASE: config.database, PGUSER: config.user, PGPASSWORD: config.password, OUTBOX_MAX_ATTEMPTS: "2" } }); assert.equal(cli.status, 0, `${cli.stdout}\n${cli.stderr}`); const receipt = JSON.parse(fs.readFileSync(receiptPath, "utf8")); assert.equal(receipt.provider, "postgres-transactional-outbox-v1"); assert.equal(receipt.commit_status, "committed"); assert.equal(store.records().length, 2);
     const schema = spawnSync("python3", ["-c", "import json,sys;from jsonschema import Draft202012Validator;Draft202012Validator(json.load(open(sys.argv[1]))).validate(json.load(open(sys.argv[2])));Draft202012Validator(json.load(open(sys.argv[3]))).validate(json.load(open(sys.argv[4])))", path.resolve("contracts/durable-operation-invocation.schema.json"), requestPath, path.resolve("contracts/durable-operation-receipt.schema.json"), receiptPath], { encoding: "utf8" }); assert.equal(schema.status, 0, schema.stderr);
-  } finally { spawnSync("docker", ["rm", "-f", name]); fs.rmSync(output, { recursive: true, force: true }); fs.rmSync(fixture.parent, { recursive: true, force: true }); }
+  } finally {
+    if (containerStarted) spawnSync("docker", ["rm", "-f", name]);
+    if (output !== null) fs.rmSync(output, { recursive: true, force: true });
+    if (fixtureParent !== null) fs.rmSync(fixtureParent, { recursive: true, force: true });
+  }
 });

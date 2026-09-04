@@ -72,7 +72,7 @@ exit 32
 
 function schemaValidate(schema: string, value: unknown, root: string): void {
   const valuePath = path.join(root, `${path.basename(schema)}.value.json`); writeJson(valuePath, value);
-  const script = "import json,jsonschema,sys,pathlib; schema_path=pathlib.Path(sys.argv[1]); resolver=jsonschema.RefResolver(schema_path.as_uri(), json.load(open(schema_path))); jsonschema.Draft202012Validator(resolver.referrer,resolver=resolver).validate(json.load(open(sys.argv[2])))";
+  const script = "import json,sys; from jsonschema import Draft202012Validator; schema=json.load(open(sys.argv[1])); Draft202012Validator.check_schema(schema); Draft202012Validator(schema).validate(json.load(open(sys.argv[2])))";
   const result = spawnSync("python3", ["-c", script, path.resolve("contracts", schema), valuePath], { cwd: path.resolve("."), encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
 }
@@ -172,4 +172,36 @@ test("L1 OCI adapters expose immutable identities and reject forbidden invocatio
   assert.equal(spawnSync(terraform, ["apply"], { encoding: "utf8" }).status, 64);
   assert.equal(spawnSync(docker, ["buildx", "bake", "--push"], { encoding: "utf8" }).status, 64);
   assert.equal(spawnSync(docker, ["push", "forbidden"], { encoding: "utf8" }).status, 64);
+});
+
+test("Docker qualification streams its checked tree across a nested daemon boundary", () => {
+  const parent = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-qualification-nested-docker-"));
+  const bin = path.join(parent, "bin"); const target = path.join(parent, "target"); const log = path.join(parent, "docker.log"); const tarList = path.join(parent, "tar.list");
+  const fakeDocker = path.join(bin, "docker");
+  write(path.join(target, "images/docker-bake.hcl"), "group \"default\" { targets = [] }\n");
+  write(fakeDocker, `#!/bin/sh
+set -eu
+printf '%s\\n' "$*" >> "$FAKE_DOCKER_LOG"
+case "$1" in
+  create) printf '%s\\n' 'qualification-container' ;;
+  start) tar -tf - > "$FAKE_TAR_LIST"; grep -qx './images/docker-bake.hcl' "$FAKE_TAR_LIST" ;;
+  rm) exit 0 ;;
+  *) exit 90 ;;
+esac
+`);
+  fs.chmodSync(fakeDocker, 0o755);
+  try {
+    const adapter = path.resolve("tools/recipe-qualification/docker");
+    const result = spawnSync(adapter, ["buildx", "bake", "--file", "images/docker-bake.hcl", "--check"], {
+      cwd: target,
+      encoding: "utf8",
+      env: { ...process.env, PATH: `${bin}:${process.env.PATH ?? ""}`, FAKE_DOCKER_LOG: log, FAKE_TAR_LIST: tarList },
+    });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(fs.readFileSync(log, "utf8"), /^create .*--interactive/m);
+    assert.match(fs.readFileSync(log, "utf8"), /^start --attach --interactive qualification-container$/m);
+    assert.match(fs.readFileSync(log, "utf8"), /^rm --force qualification-container$/m);
+    assert.match(fs.readFileSync(tarList, "utf8"), /^\.\/images\/docker-bake\.hcl$/m);
+    assert.doesNotMatch(fs.readFileSync(adapter, "utf8"), /--volume "\$PWD:\/workspace"/);
+  } finally { fs.rmSync(parent, { recursive: true, force: true }); }
 });

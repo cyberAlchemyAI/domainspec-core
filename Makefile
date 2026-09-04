@@ -2,7 +2,7 @@
 REMOTE ?= origin
 TARGET_BRANCH ?= master
 
-.PHONY: bootstrap config status sync publication-check bump-check doctor help
+.PHONY: bootstrap config status sync publication-check bump-check doctor ci-contract-check help
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  %-20s %s\n", $$1, $$2}'
@@ -84,3 +84,6 @@ doctor: ## Diagnose detached HEADs / dirty submodules / orphaned gitlinks
 		|| echo "  ORPHAN: $$p"; \
 	done
 	@echo "(clean if nothing listed under dirty / orphan)"
+
+ci-contract-check: ## Validate GitHub workflow setup and dependency boundaries
+	python3 tools/validate_ci_contract.py

@@ -6,7 +6,7 @@ cd "$ROOT_DIR"
 
 if [[ ! -d "implementation/domainspec" ]] || [[ ! -d "validation/poker-team" ]]; then
   echo "[error] expected submodules at implementation/domainspec and validation/poker-team" >&2
-  echo "[hint] run: git submodule update --init --recursive" >&2
+  echo "[hint] run: git submodule update --init --depth=1 implementation/domainspec validation/poker-team" >&2
   exit 2
 fi
 

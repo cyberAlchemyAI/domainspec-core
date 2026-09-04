@@ -8,23 +8,56 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check-drift:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
 
     steps:
-      - name: Checkout (with submodules)
-        uses: actions/checkout@v4
+      - name: Checkout root repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          submodules: recursive
+          submodules: false
+
+      - name: Validate CI configuration contract
+        run: python3 tools/validate_ci_contract.py
+
+      - name: Initialize required validation submodules
+        run: >-
+          git submodule update --init --depth=1
+          implementation/domainspec
+          validation/poker-team
+
+      - name: Install standalone pnpm
+        env:
+          PNPM_VERSION: "10.34.5"
+          PNPM_SHA256: 69a535476f407fb0f64427913c2b592ca2ed6bf93f92e2cb82a32349e31f36eb
+        run: |
+          pnpm_binary="$RUNNER_TEMP/pnpm"
+          curl --proto '=https' --tlsv1.2 --fail --location --silent --show-error \
+            --output "$pnpm_binary" \
+            "https://github.com/pnpm/pnpm/releases/download/v${PNPM_VERSION}/pnpm-linux-x64"
+          printf '%s  %s\n' "$PNPM_SHA256" "$pnpm_binary" | sha256sum --check
+          chmod 0755 "$pnpm_binary"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+          "$pnpm_binary" --version
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 26.8.1
+          cache: pnpm
+          cache-dependency-path: implementation/domainspec/pnpm-lock.yaml
+
+      - name: Install DomainSpec code-tag dependencies
+        working-directory: implementation/domainspec
+        run: pnpm install --frozen-lockfile --filter domainspec-runtime-workspace
 
       - name: Run governance drift check
-        run: |
-          chmod +x tools/check_github_drift.sh
-          tools/check_github_drift.sh
+        run: bash tools/check_github_drift.sh
 
       - name: Run DomainSpec code-tag validation
         working-directory: implementation/domainspec
-        run: |
-          corepack enable
-          pnpm run check:code-tags
+        run: pnpm run check:code-tags

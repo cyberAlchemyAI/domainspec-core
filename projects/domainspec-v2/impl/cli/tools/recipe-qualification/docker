@@ -13,9 +13,27 @@ case "$*" in
   *) printf '%s\n' 'unsupported DomainSpec Docker adapter invocation' >&2; exit 64 ;;
 esac
 
-exec docker run --rm --network bridge \
+container_id=''
+cleanup() {
+  if [ -n "$container_id" ]; then
+    docker rm --force "$container_id" >/dev/null 2>&1 || true
+  fi
+}
+trap cleanup 0
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+# Stream the checked tree through the Docker API instead of bind-mounting PWD.
+# A bind source is resolved by the daemon host, so it breaks when this adapter
+# itself runs in a CI container (for example, act or a containerized runner).
+container_id=$(docker create --interactive --network bridge \
   --env DOCKER_HOST=unix:///var/run/docker.sock \
   --volume /var/run/docker.sock:/var/run/docker.sock \
-  --volume "$PWD:/workspace" \
   --workdir /workspace \
-  "$image" "$@"
+  --entrypoint /bin/sh \
+  "$image" \
+  -c 'mkdir -p /workspace && tar -xf - -C /workspace && exec docker "$@"' \
+  domainspec-docker-adapter "$@")
+
+tar -C "$PWD" -cf - . | docker start --attach --interactive "$container_id"
