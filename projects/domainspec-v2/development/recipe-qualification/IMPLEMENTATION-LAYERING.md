@@ -392,9 +392,11 @@ Implemented candidate binding:
   clean Ubuntu 24.04 job after product verification and uploads both run
   receipts, certificates, and raw logs.
 
-Current evidence proves repeated local real-tool equivalence. The CI binding is
-implemented but remains unevaluated until the workflow runs successfully on
-the hosted runner; source validation cannot manufacture that external result.
+Hosted GitHub run `33829382844` passed both product verification and the L1
+qualification job for predecessor commit
+`390538c8138cf6bdbba04a4c7f85a695cfc1f876`, including two real-tool runs and
+artifact upload. That evidence remains bound to that immutable predecessor;
+each successor commit requires its own hosted run.
 
 ### L2 — Release Preparation
 
@@ -412,6 +414,23 @@ Preserves:
 - no registry publication, GitHub release, tag, or signing publication;
 - exact subject and toolchain binding;
 - no claim beyond release-candidate evidence.
+
+Implemented candidate binding:
+
+- `contracts/release-candidate-manifest.schema.json` closes the candidate
+  source, package, qualification, artifact, claim-ceiling, and self-digest
+  shape;
+- `tools/build-release-candidate.mjs` rejects dirty or mismatched Git source,
+  packs the exact dependency-free Stable 1.0 package, emits an exact package
+  inventory, SPDX 2.3 SBOM, unsigned SLSA-format provenance candidate,
+  normalized qualification evidence, and complete checksums;
+- `tools/verify-release-candidate.mjs` is copied into the bundle and verifies
+  it offline without a repository checkout;
+- the test suite proves two-build byte identity, two isolated tarball
+  consumers, source sensitivity, and hostile package/evidence rejection;
+- the GitHub qualification job prepares and uploads the bundle only after L1
+  succeeds. A new hosted run and independent review remain unevaluated until
+  the implementation is committed.
 
 ### L3 — Qualification Productization
 
@@ -481,7 +500,7 @@ profile. None of the commands accepts an arbitrary command string.
 | Compiled graph/system ontology | blocked by source | Compile deterministic qualification model | graph/source-sensitivity evidence |
 | Implementation | blocked by compiled model | Build W1-W2 contracts, planner, adapters, certificates | L0 suite and independent review |
 | CI qualification | blocked by L0 | Bind W3 without changing semantics | local/CI equivalence certificate |
-| Release evidence | deferred | Build W4 after L1 | independent offline reconstruction |
+| Release evidence | implemented candidate | Run W4 on one clean committed successor | independent offline reconstruction and review |
 
 ## Operational Support Lane
 
@@ -491,7 +510,7 @@ profile. None of the commands accepts an arbitrary command string.
 | Produce or select Terraform provider lock strategy | DomainSpec recipe target owner | L0 planner/adapters | Ambient provider resolution breaks deterministic qualification | required for W1 exit |
 | Pin Buildx/BuildKit environment | DomainSpec release/toolchain owner | L0 adapters | Exact adapter behavior must be attributable | required for W2 |
 | Define CI cache and network policy | Platform/CI owner | L1 | Clean-runner repeatability depends on explicit provider acquisition | deferred until W3 |
-| Select SBOM and provenance toolchain | Release owner | L2 | Exact release evidence format and tool identity are unresolved | deferred until W4 |
+| Select SBOM and provenance toolchain | Release owner | L2 | SPDX 2.3 and unsigned SLSA provenance v1 are implemented candidate formats; signing remains unresolved | implementation candidate; owner selection still required for release |
 | Provision publication credentials | Release owner | none | Qualification does not publish | explicitly out of scope |
 | Provision AWS credentials/state backend | Deployment owner | none | Qualification does not plan against or mutate AWS | explicitly out of scope |
 
@@ -521,10 +540,9 @@ profile. None of the commands accepts an arbitrary command string.
 
 ## Recommended Next Layer
 
-Begin W0, not CI editing. Freeze the definition candidates, Product Capability
-boundary, ontology identifiers, DomainSpec meta-type composition, result
-aggregation rules, and provider-lock decision. Only then implement L0 contracts
-and the pure planner.
+Run the implemented L2 candidate on one clean commit, compare the hosted bundle
+with an independent offline reconstruction, and complete correctness/security
+review. Only a later owner decision may select those exact bytes for release.
 
 The most important deferred scope is any action that builds, pushes, plans
 against a live environment, applies infrastructure, publishes a package, or

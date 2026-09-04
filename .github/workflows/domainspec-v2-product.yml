@@ -147,11 +147,26 @@ jobs:
           node --import tsx tools/run-recipe-qualification-l1.ts
           --output-root "$RUNNER_TEMP/domainspec-recipe-qualification-l1"
           --expected-baseline "$GITHUB_WORKSPACE/projects/domainspec-v2/impl/cli/fixtures/qualification/l1-baseline.json"
+      - name: Build isolated unsigned no-publication release candidate
+        working-directory: projects/domainspec-v2/impl/cli
+        run: >-
+          npm run release-candidate:prepare --
+          --qualification-evidence-root "$RUNNER_TEMP/domainspec-recipe-qualification-l1"
+          --output-root "$RUNNER_TEMP/domainspec-v2-release-candidate-1.0.0"
+          --source-commit "$GITHUB_SHA"
       - name: Upload qualification certificate and run evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: domainspec-recipe-qualification-l1
           path: ${{ runner.temp }}/domainspec-recipe-qualification-l1
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload Stable 1.0 release-candidate evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: domainspec-v2-release-candidate-1.0.0
+          path: ${{ runner.temp }}/domainspec-v2-release-candidate-1.0.0
           if-no-files-found: error
           retention-days: 14

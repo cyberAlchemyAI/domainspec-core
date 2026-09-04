@@ -217,6 +217,9 @@ def validate_domainspec_workflow(root: Path, text: str, violations: list[str]) -
         "python -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r projects/domainspec-v2/impl/cli/requirements-ci.txt",
         "sudo apt-get install --no-install-recommends -y postgresql-client",
         "if-no-files-found: error",
+        "npm run release-candidate:prepare --",
+        '--source-commit "$GITHUB_SHA"',
+        "name: domainspec-v2-release-candidate-1.0.0",
     )
     for fragment in required_fragments:
         if fragment not in text:
@@ -237,6 +240,12 @@ def validate_domainspec_workflow(root: Path, text: str, violations: list[str]) -
         if package_json.get("packageManager") != "npm@11.19.0":
             violations.append(f"{DOMAINSPEC_WORKFLOW}: CLI package manager must be npm@11.19.0")
         scripts = package_json.get("scripts", {})
+        if scripts.get("release-candidate:prepare") != "node tools/build-release-candidate.mjs":
+            violations.append(f"{DOMAINSPEC_WORKFLOW}: release-candidate builder command is not exact")
+        if scripts.get("release-candidate:verify") != "node tools/verify-release-candidate.mjs":
+            violations.append(f"{DOMAINSPEC_WORKFLOW}: release-candidate verifier command is not exact")
+        if "contracts/release-candidate-manifest.schema.json" not in package_json.get("files", []):
+            violations.append(f"{DOMAINSPEC_WORKFLOW}: release-candidate manifest contract is absent from package files")
         admitted_test_commands = " ".join(str(command) for name, command in scripts.items() if name == "test" or name.startswith("test:"))
         test_root = package.parent / "test"
         for test_path in sorted((*test_root.rglob("*.test.ts"), *test_root.rglob("*.test.mjs"))):
@@ -355,6 +364,7 @@ def main() -> int:
             "domainspec-python-dependencies-are-hash-locked",
             "domainspec-postgres-image-is-digest-pinned",
             "domainspec-docker-adapter-is-nested-daemon-portable",
+            "domainspec-release-candidate-is-clean-source-bound-and-uploaded",
             "pnpm-bootstrap-is-standalone-and-checksum-pinned",
             "drift-submodules-are-exact",
             "drift-recovery-hint-is-exact",

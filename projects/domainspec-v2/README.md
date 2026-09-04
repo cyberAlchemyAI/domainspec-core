@@ -20,6 +20,13 @@ lives under [`impl/`](impl/). The stable product is the compiler, generator,
 verifier, and certifier in [`impl/cli/`](impl/cli/); runtime APIs remain
 experimental. v2 also remains the research-tower program described below.
 
+Stable 1.0 release-candidate evidence is prepared by the clean-source,
+no-publication vertical in
+[`development/stable-1-release-candidate/IMPLEMENTATION-LAYERING.md`](development/stable-1-release-candidate/IMPLEMENTATION-LAYERING.md).
+It produces an installable package, exact inventory, SBOM, unsigned provenance,
+qualification evidence, checksums, and an offline verifier; it grants no
+publication, release, deployment, or production authority.
+
 ## Architecture and guide
 
 - [Product Thesis](PRODUCT-THESIS.md) — the canonical statement of the problem,

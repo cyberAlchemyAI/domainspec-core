@@ -98,6 +98,32 @@ isolated real-tool qualifications and compare their certificate bytes with the
 committed baseline. Raw receipts may differ because cache and registry output
 is observational; the normalized semantic certificate must not.
 
+## Stable 1.0 release-candidate preparation
+
+From a clean checkout with pinned dependencies installed and an absolute L1
+qualification evidence root, prepare and then independently verify the
+unsigned candidate bundle. The builder compiles from a fresh archive of the
+selected commit, so ambient ignored `dist/` bytes cannot enter the package:
+
+```bash
+npm run release-candidate:prepare -- \
+  --qualification-evidence-root /absolute/qualification \
+  --output-root /absolute/release-candidate \
+  --source-commit "$(git rev-parse HEAD)"
+
+npm run release-candidate:verify -- \
+  --bundle-root /absolute/release-candidate \
+  --expected-source-commit "$(git rev-parse HEAD)"
+```
+
+The bundle contains the exact npm tarball, packed-file inventory, SPDX 2.3
+SBOM, unsigned in-toto/SLSA provenance candidate, normalized qualification
+evidence, complete checksums, and a standalone offline verifier. Preparation
+rejects dirty or mismatched Git source and binds the workspace lock. It does
+not publish, tag, sign, release,
+plan/apply infrastructure, access credentials, or deploy. The unsigned bundle
+does not prove publisher identity or release authorization.
+
 `add operation` authors one closed `domainspec.node/v1` Operation in an
 existing validated source project. The feature and name are lowercase
 kebab-case identities; the language profiles derive their filenames and

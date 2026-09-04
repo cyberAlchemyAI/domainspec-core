@@ -205,6 +205,7 @@ try {
   assert.equal(packedPaths.includes("contracts/deployment-recipe-manifest.schema.json"), true);
   assert.equal(packedPaths.includes("contracts/deployment-recipe-receipt.schema.json"), true);
   for (const contract of ["profile", "plan", "certificate", "run-receipt"]) assert.equal(packedPaths.includes(`contracts/recipe-qualification-${contract}.schema.json`), true, contract);
+  assert.equal(packedPaths.includes("contracts/release-candidate-manifest.schema.json"), true);
   assert.equal(packedPaths.includes("tools/recipe-qualification/terraform"), true);
   assert.equal(packedPaths.includes("tools/recipe-qualification/docker"), true);
   const shippedAdapters = new Set(["tools/recipe-qualification/terraform", "tools/recipe-qualification/docker"]);

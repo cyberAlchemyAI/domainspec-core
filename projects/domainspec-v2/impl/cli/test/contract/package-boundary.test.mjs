@@ -36,6 +36,7 @@ test("stable root and explicitly experimental runtime subpath are exported", () 
     "contracts/recipe-qualification-plan.schema.json",
     "contracts/recipe-qualification-certificate.schema.json",
     "contracts/recipe-qualification-run-receipt.schema.json",
+    "contracts/release-candidate-manifest.schema.json",
     "tools/recipe-qualification/terraform",
     "tools/recipe-qualification/docker",
     "README.md",

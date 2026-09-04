@@ -1,14 +1,28 @@
 # DomainSpec v2 — First Production Release Roadmap
 
-Status: **auditor-approved roadmap; not roadmap-ready for execution; production unauthorized**
+Status: **historical Body War application-release roadmap; production unauthorized**
 
-Scope: private repository-local DomainSpec-v2 CLI, first target `0.1.0`
+Scope: historical private Body War application-release program, original target `0.1.0`
+
+> **Stable compiler-product supersession:** this roadmap predates the separate
+> `@domainspec-v2/cli@1.0.0` compiler-product boundary and must not be used as
+> its current implementation-status ledger. Stable 1.0 release preparation is
+> tracked by
+> [`stable-1-release-candidate/IMPLEMENTATION-LAYERING.md`](../stable-1-release-candidate/IMPLEMENTATION-LAYERING.md).
+> The historical Body War pilot, application acceptance, and deployment gates
+> below remain unfulfilled and are not silently satisfied by compiler CI.
 
 Witness: bounded Body War SuggestedTrack / Parque Taquaral scenario
 
 Continuation authority: `projects/domainspec-v2/.craft/ledger.yml`
 
-This is the canonical operational projection of the accepted product contract and the expanded-frontier research. It does not promote definitions, establish conformance, accept a pilot, or authorize a release. Detailed evidence, proof commands, exact target paths, dissent, and open questions remain in [findings.md](research/2026-07-12-expanded-capability-frontiers/findings.md). The old roadmap findings remain immutable history.
+This is the preserved operational projection of the accepted historical Body
+War product contract and expanded-frontier research. It does not describe the
+current Stable 1.0 compiler-product implementation status, promote definitions,
+establish conformance, accept a pilot, or authorize a release. Detailed
+evidence, proof commands, exact target paths, dissent, and open questions remain
+in [findings.md](research/2026-07-12-expanded-capability-frontiers/findings.md).
+The old roadmap findings remain immutable history.
 
 ## Release claim
 
