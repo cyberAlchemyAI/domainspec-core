@@ -6,5 +6,5 @@
 - Ready frontier: none
 - Selected unit: none
 - Mutation ready: false
-- Blockers: cbmc-construction-raw-drift:c-newer-loops.stdout, cbmc-construction-raw-drift:c-newer-properties.stdout, task-session-request-schema-not-bound
+- Blockers: command-cwd-mismatch, task-session-request-schema-not-bound
 - Authority effect: none
