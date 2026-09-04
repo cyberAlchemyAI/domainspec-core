@@ -6,5 +6,5 @@
 - Ready frontier: none
 - Selected unit: none
 - Mutation ready: false
-- Blockers: command-cwd-mismatch, task-session-request-schema-not-bound
+- Blockers: task-session-request-schema-not-bound
 - Authority effect: none
