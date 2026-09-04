@@ -44,7 +44,9 @@ use solana_sdk::{
 use solana_sdk_ids::system_program;
 use zeroize::Zeroizing;
 
-use crate::{hex_lower, DevnetEnvelope, TrialGateError};
+use crate::{
+    hex_lower, validate_envelope, DeploymentContinuationEnvelope, DevnetEnvelope, TrialGateError,
+};
 
 const DEPLOY_CHUNK_SIZE: usize = 768;
 const SOLANA_PACKET_DATA_SIZE: u64 = 1_232;
@@ -73,6 +75,10 @@ pub(crate) struct TrialEvidence {
     storage_cost_observation: &'static str,
     knowledge_consideration_lamports: u64,
     protocol_signed_submissions: u16,
+    packet_digest: String,
+    attempt_journal_record_count: u64,
+    attempt_journal_root_sha256: String,
+    attempt_journal_integrity: &'static str,
     authority_effect: &'static str,
     observed_external_effect: &'static str,
     authorization_attestation: &'static str,
@@ -137,22 +143,61 @@ struct DeploymentResult {
 }
 
 struct FileCustody {
-    paths: BTreeMap<SecretHandle, String>,
+    secrets: BTreeMap<SecretHandle, Zeroizing<Vec<u8>>>,
 }
 
 struct AttemptJournal {
     file: std::sync::Mutex<File>,
+    state: std::sync::Mutex<JournalState>,
+    packet_digest: String,
+}
+
+#[derive(Debug)]
+struct JournalState {
+    next_sequence: u64,
+    previous_record_sha256: String,
+}
+
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct AttemptRecord {
+    schema_version: String,
+    packet_digest: String,
+    sequence: u64,
+    previous_record_sha256: String,
+    effect_id: String,
+    stage: String,
+    observed_effect: String,
+    signature: Option<String>,
+    detail_sha256: Option<String>,
+    failure_stage: Option<String>,
+    failure_class: Option<String>,
+    record_sha256: String,
 }
 
 #[derive(Serialize)]
-struct AttemptRecord<'a> {
+struct AttemptRecordPayload<'a> {
     schema_version: &'static str,
+    packet_digest: &'a str,
+    sequence: u64,
+    previous_record_sha256: &'a str,
     effect_id: &'a str,
     stage: &'a str,
+    observed_effect: &'a str,
     signature: Option<&'a str>,
-    detail_sha256: Option<String>,
+    detail_sha256: Option<&'a str>,
     failure_stage: Option<&'a str>,
     failure_class: Option<&'a str>,
+}
+
+const EMPTY_JOURNAL_ROOT: &str = "0000000000000000000000000000000000000000000000000000000000000000";
+const JOURNAL_SCHEMA: &str = "cav2-kep-attempt-journal/v3";
+
+fn attempt_record_sha256(payload: &AttemptRecordPayload<'_>) -> Result<String, TrialGateError> {
+    let mut hasher = Sha256::new();
+    hasher.update(b"CA2-KEP-ATTEMPT-JOURNAL-v3\0");
+    hasher.update(serde_json::to_vec(payload).map_err(|_| TrialGateError::EvidenceWrite)?);
+    Ok(hex_lower(&hasher.finalize()))
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize)]
@@ -198,7 +243,7 @@ impl SanitizedRpcFailure {
 }
 
 impl AttemptJournal {
-    fn create(path: &str) -> Result<Self, TrialGateError> {
+    fn create(path: &str, packet_digest: &str) -> Result<Self, TrialGateError> {
         let file = OpenOptions::new()
             .create_new(true)
             .append(true)
@@ -212,16 +257,30 @@ impl AttemptJournal {
             })?;
         Ok(Self {
             file: std::sync::Mutex::new(file),
+            state: std::sync::Mutex::new(JournalState {
+                next_sequence: 0,
+                previous_record_sha256: EMPTY_JOURNAL_ROOT.to_owned(),
+            }),
+            packet_digest: packet_digest.to_owned(),
         })
     }
 
-    fn open_existing(path: &str) -> Result<Self, TrialGateError> {
+    fn open_existing(
+        path: &str,
+        packet_digest: &str,
+        analysis: &JournalAnalysis,
+    ) -> Result<Self, TrialGateError> {
         let file = OpenOptions::new()
             .append(true)
             .open(path)
             .map_err(|_| TrialGateError::ReconciliationRequired)?;
         Ok(Self {
             file: std::sync::Mutex::new(file),
+            state: std::sync::Mutex::new(JournalState {
+                next_sequence: analysis.record_count,
+                previous_record_sha256: analysis.journal_root_sha256.clone(),
+            }),
+            packet_digest: packet_digest.to_owned(),
         })
     }
 
@@ -232,14 +291,59 @@ impl AttemptJournal {
         signature: Option<&str>,
         detail: Option<&[u8]>,
     ) -> Result<(), TrialGateError> {
-        let record = AttemptRecord {
-            schema_version: "cav2-kep-attempt-journal/v2",
+        self.record_with_effect(
             effect_id,
             stage,
+            "external-journal-write",
             signature,
-            detail_sha256: detail.map(|value| hex_lower(&Sha256::digest(value))),
-            failure_stage: None,
-            failure_class: None,
+            detail,
+            None,
+        )
+    }
+
+    fn record_with_effect(
+        &self,
+        effect_id: &str,
+        stage: &str,
+        observed_effect: &str,
+        signature: Option<&str>,
+        detail: Option<&[u8]>,
+        failure: Option<&SanitizedRpcFailure>,
+    ) -> Result<(), TrialGateError> {
+        let detail_sha256 = failure
+            .map(|value| value.detail_sha256.clone())
+            .or_else(|| detail.map(|value| hex_lower(&Sha256::digest(value))));
+        let mut state = self
+            .state
+            .lock()
+            .map_err(|_| TrialGateError::EvidenceWrite)?;
+        let payload = AttemptRecordPayload {
+            schema_version: JOURNAL_SCHEMA,
+            packet_digest: &self.packet_digest,
+            sequence: state.next_sequence,
+            previous_record_sha256: &state.previous_record_sha256,
+            effect_id,
+            stage,
+            observed_effect,
+            signature,
+            detail_sha256: detail_sha256.as_deref(),
+            failure_stage: failure.map(|value| value.stage),
+            failure_class: failure.map(|value| value.class),
+        };
+        let record_sha256 = attempt_record_sha256(&payload)?;
+        let record = AttemptRecord {
+            schema_version: JOURNAL_SCHEMA.to_owned(),
+            packet_digest: self.packet_digest.clone(),
+            sequence: state.next_sequence,
+            previous_record_sha256: state.previous_record_sha256.clone(),
+            effect_id: effect_id.to_owned(),
+            stage: stage.to_owned(),
+            observed_effect: observed_effect.to_owned(),
+            signature: signature.map(str::to_owned),
+            detail_sha256,
+            failure_stage: failure.map(|value| value.stage.to_owned()),
+            failure_class: failure.map(|value| value.class.to_owned()),
+            record_sha256: record_sha256.clone(),
         };
         let mut raw = serde_json::to_vec(&record).map_err(|_| TrialGateError::EvidenceWrite)?;
         raw.push(b'\n');
@@ -249,7 +353,18 @@ impl AttemptJournal {
             .map_err(|_| TrialGateError::EvidenceWrite)?;
         file.write_all(&raw)
             .and_then(|()| file.sync_all())
-            .map_err(|_| TrialGateError::EvidenceWrite)
+            .map_err(|_| TrialGateError::EvidenceWrite)?;
+        state.next_sequence += 1;
+        state.previous_record_sha256 = record_sha256;
+        Ok(())
+    }
+
+    fn snapshot(&self) -> Result<(u64, String), TrialGateError> {
+        let state = self
+            .state
+            .lock()
+            .map_err(|_| TrialGateError::EvidenceWrite)?;
+        Ok((state.next_sequence, state.previous_record_sha256.clone()))
     }
 
     fn record_rpc_failure(
@@ -259,24 +374,14 @@ impl AttemptJournal {
         signature: Option<&str>,
         failure: &SanitizedRpcFailure,
     ) -> Result<(), TrialGateError> {
-        let record = AttemptRecord {
-            schema_version: "cav2-kep-attempt-journal/v2",
+        self.record_with_effect(
             effect_id,
             stage,
+            "public-solana-finalized-read+external-journal-write",
             signature,
-            detail_sha256: Some(failure.detail_sha256.clone()),
-            failure_stage: Some(failure.stage),
-            failure_class: Some(failure.class),
-        };
-        let mut raw = serde_json::to_vec(&record).map_err(|_| TrialGateError::EvidenceWrite)?;
-        raw.push(b'\n');
-        let mut file = self
-            .file
-            .lock()
-            .map_err(|_| TrialGateError::EvidenceWrite)?;
-        file.write_all(&raw)
-            .and_then(|()| file.sync_all())
-            .map_err(|_| TrialGateError::EvidenceWrite)
+            None,
+            Some(failure),
+        )
     }
 }
 
@@ -290,6 +395,10 @@ pub(crate) struct ReconciliationReceipt {
     still_pending: usize,
     unsigned_ambiguous_effects: usize,
     proven_pre_effect_stops: usize,
+    packet_digest: String,
+    attempt_journal_record_count: u64,
+    attempt_journal_root_sha256: String,
+    attempt_journal_integrity: &'static str,
     payer_balance_lamports: u64,
     resubmissions: u8,
     authority_effect: &'static str,
@@ -298,31 +407,188 @@ pub(crate) struct ReconciliationReceipt {
     authorization_attestation: &'static str,
 }
 
-#[derive(Debug, Deserialize)]
-struct ObservedAttemptRecord {
-    stage: String,
-    signature: Option<String>,
-    #[serde(default)]
-    failure_stage: Option<String>,
-    #[serde(default)]
-    failure_class: Option<String>,
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+struct DeploymentContinuationPlan {
+    total_sbf_chunks: u16,
+    finalized_prefix_chunks: u16,
+    first_unwritten_chunk_index: u16,
+    predecessor_deployment_submissions: u16,
+    remaining_write_submissions: u16,
+    final_deploy_submissions: u16,
+    exact_additional_deployment_submissions: u16,
+    protocol_submissions: u16,
+}
+
+#[derive(Debug, Serialize)]
+pub(crate) struct DeploymentContinuationValidationReceipt {
+    schema_version: &'static str,
+    result: &'static str,
+    continuation_packet_digest: String,
+    candidate_binding_digest: String,
+    predecessor_packet_digest: String,
+    predecessor_attempt_journal_sha256: String,
+    predecessor_attempt_journal_record_count: u64,
+    predecessor_attempt_journal_root_sha256: String,
+    predecessor_journal_integrity: &'static str,
+    predecessor_reconciliation: &'static str,
+    plan: DeploymentContinuationPlan,
+    replayed_predecessor_submissions: u16,
+    authority_effect: &'static str,
+    external_effect: &'static str,
+    claim_ceiling: &'static str,
+}
+
+#[derive(Debug, Serialize)]
+pub(crate) struct DeploymentContinuationEvidence {
+    schema_version: &'static str,
+    result: &'static str,
+    continuation_packet_digest: String,
+    candidate_binding_digest: String,
+    predecessor_packet_digest: String,
+    predecessor_attempt_journal_sha256: String,
+    predecessor_attempt_journal_root_sha256: String,
+    plan: DeploymentContinuationPlan,
+    replayed_predecessor_submissions: u16,
+    transactions: Vec<CaseEvidence>,
+    program_id: String,
+    programdata_address: String,
+    remote_sbf_sha256: String,
+    payer_balance_lamports_before: u64,
+    payer_balance_lamports_after: u64,
+    continuation_attempt_journal_record_count: u64,
+    continuation_attempt_journal_root_sha256: String,
+    protocol_submissions: u16,
+    authority_effect: &'static str,
+    observed_external_effect: &'static str,
+    authorization_attestation: &'static str,
+    claim_ceiling: &'static str,
+}
+
+struct VerifiedContinuationPredecessor {
+    predecessor: DevnetEnvelope,
+    analysis: JournalAnalysis,
+    plan: DeploymentContinuationPlan,
+}
+
+#[derive(Clone, Copy)]
+enum ContinuationPathMode {
+    Fresh,
+    Reconcile,
+}
+
+#[derive(Debug, Serialize)]
+pub(crate) struct DeploymentContinuationReconciliationReceipt {
+    schema_version: &'static str,
+    result: &'static str,
+    continuation_packet_digest: String,
+    predecessor_packet_digest: String,
+    signatures_checked: usize,
+    finalized_successes: usize,
+    finalized_failures: usize,
+    still_pending: usize,
+    unsigned_ambiguous_effects: usize,
+    continuation_attempt_journal_record_count: u64,
+    continuation_attempt_journal_root_sha256: String,
+    payer_balance_lamports: u64,
+    resubmissions: u8,
+    protocol_submissions: u8,
+    authority_effect: &'static str,
+    observed_external_effect: &'static str,
+    authorization_attestation: &'static str,
 }
 
 #[derive(Debug, Default, Eq, PartialEq)]
 struct JournalAnalysis {
     signatures: BTreeSet<String>,
+    deployment_effect_by_signature: BTreeMap<String, String>,
+    deployment_signatures_by_effect: BTreeMap<String, BTreeSet<String>>,
+    deployment_attempted_effects: BTreeSet<String>,
+    deployment_finalized_effects: BTreeSet<String>,
+    reconciled_finalized_signatures: BTreeSet<String>,
+    reconciled_failed_or_pending_signatures: BTreeSet<String>,
     unsigned_ambiguous_effects: usize,
     proven_pre_effect_stops: usize,
+    record_count: u64,
+    journal_root_sha256: String,
 }
 
-fn analyze_attempt_journal(raw: &str) -> Result<JournalAnalysis, TrialGateError> {
-    let mut analysis = JournalAnalysis::default();
+fn analyze_attempt_journal(
+    raw: &str,
+    packet_digest: &str,
+) -> Result<JournalAnalysis, TrialGateError> {
+    let mut analysis = JournalAnalysis {
+        journal_root_sha256: EMPTY_JOURNAL_ROOT.to_owned(),
+        ..JournalAnalysis::default()
+    };
     for line in raw.lines().filter(|line| !line.trim().is_empty()) {
-        let record: ObservedAttemptRecord =
+        let record: AttemptRecord =
             serde_json::from_str(line).map_err(|_| TrialGateError::ReconciliationRequired)?;
-        if let Some(signature) = record.signature {
-            analysis.signatures.insert(signature);
-            continue;
+        if record.schema_version != JOURNAL_SCHEMA
+            || record.packet_digest != packet_digest
+            || record.sequence != analysis.record_count
+            || record.previous_record_sha256 != analysis.journal_root_sha256
+        {
+            return Err(TrialGateError::ReconciliationRequired);
+        }
+        let payload = AttemptRecordPayload {
+            schema_version: JOURNAL_SCHEMA,
+            packet_digest: &record.packet_digest,
+            sequence: record.sequence,
+            previous_record_sha256: &record.previous_record_sha256,
+            effect_id: &record.effect_id,
+            stage: &record.stage,
+            observed_effect: &record.observed_effect,
+            signature: record.signature.as_deref(),
+            detail_sha256: record.detail_sha256.as_deref(),
+            failure_stage: record.failure_stage.as_deref(),
+            failure_class: record.failure_class.as_deref(),
+        };
+        let expected_record_sha256 = attempt_record_sha256(&payload)?;
+        if record.record_sha256 != expected_record_sha256 {
+            return Err(TrialGateError::ReconciliationRequired);
+        }
+        analysis.record_count += 1;
+        analysis.journal_root_sha256 = record.record_sha256;
+        if let Some(signature) = record.signature.as_ref() {
+            analysis.signatures.insert(signature.clone());
+            if record.effect_id.starts_with("deployment-") {
+                analysis
+                    .deployment_attempted_effects
+                    .insert(record.effect_id.clone());
+                analysis
+                    .deployment_signatures_by_effect
+                    .entry(record.effect_id.clone())
+                    .or_default()
+                    .insert(signature.clone());
+                match analysis
+                    .deployment_effect_by_signature
+                    .insert(signature.clone(), record.effect_id.clone())
+                {
+                    Some(previous) if previous != record.effect_id => {
+                        return Err(TrialGateError::ReconciliationRequired);
+                    }
+                    _ => {}
+                }
+                if record.stage == "finalized-success" {
+                    analysis
+                        .deployment_finalized_effects
+                        .insert(record.effect_id.clone());
+                }
+            } else if record.effect_id == "reconciliation" {
+                match record.stage.as_str() {
+                    "reconciled-finalized-success" => {
+                        analysis
+                            .reconciled_finalized_signatures
+                            .insert(signature.clone());
+                    }
+                    "reconciled-finalized-failure" | "reconciled-still-pending" => {
+                        analysis
+                            .reconciled_failed_or_pending_signatures
+                            .insert(signature.clone());
+                    }
+                    _ => {}
+                }
+            }
         }
 
         match (
@@ -352,7 +618,238 @@ fn analyze_attempt_journal(raw: &str) -> Result<JournalAnalysis, TrialGateError>
             (None, None) => {}
         }
     }
+    for signature in &analysis.reconciled_finalized_signatures {
+        if let Some(effect_id) = analysis.deployment_effect_by_signature.get(signature) {
+            analysis
+                .deployment_finalized_effects
+                .insert(effect_id.clone());
+        }
+    }
     Ok(analysis)
+}
+
+fn deployment_continuation_plan(
+    analysis: &JournalAnalysis,
+    sbf_size_bytes: u64,
+) -> Result<DeploymentContinuationPlan, TrialGateError> {
+    if analysis.signatures.is_empty()
+        || analysis.reconciled_finalized_signatures != analysis.signatures
+        || !analysis.reconciled_failed_or_pending_signatures.is_empty()
+        || analysis.unsigned_ambiguous_effects != 0
+        || analysis.deployment_attempted_effects != analysis.deployment_finalized_effects
+        || analysis
+            .deployment_signatures_by_effect
+            .values()
+            .any(|signatures| signatures.len() != 1)
+        || !analysis
+            .deployment_finalized_effects
+            .contains("deployment-buffer-create")
+        || analysis
+            .deployment_attempted_effects
+            .contains("deployment-finalize")
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+
+    let total_chunks_u64 = sbf_size_bytes.div_ceil(DEPLOY_CHUNK_SIZE as u64);
+    let total_sbf_chunks =
+        u16::try_from(total_chunks_u64).map_err(|_| TrialGateError::DeploymentBudgetImpossible)?;
+    let mut finalized_indices = BTreeSet::new();
+    for effect_id in &analysis.deployment_finalized_effects {
+        if effect_id == "deployment-buffer-create" {
+            continue;
+        }
+        let encoded = effect_id
+            .strip_prefix("deployment-write-")
+            .ok_or(TrialGateError::ContinuationProof)?;
+        let index: u16 = encoded
+            .parse()
+            .map_err(|_| TrialGateError::ContinuationProof)?;
+        if effect_id != &format!("deployment-write-{index:03}")
+            || index >= total_sbf_chunks
+            || !finalized_indices.insert(index)
+        {
+            return Err(TrialGateError::ContinuationProof);
+        }
+    }
+    for expected in 0..u16::try_from(finalized_indices.len())
+        .map_err(|_| TrialGateError::DeploymentBudgetImpossible)?
+    {
+        if !finalized_indices.contains(&expected) {
+            return Err(TrialGateError::ContinuationProof);
+        }
+    }
+    let first_unwritten_chunk_index = u16::try_from(finalized_indices.len())
+        .map_err(|_| TrialGateError::DeploymentBudgetImpossible)?;
+    if first_unwritten_chunk_index == 0 || first_unwritten_chunk_index >= total_sbf_chunks {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let predecessor_deployment_submissions = first_unwritten_chunk_index
+        .checked_add(1)
+        .ok_or(TrialGateError::DeploymentBudgetImpossible)?;
+    let remaining_write_submissions = total_sbf_chunks - first_unwritten_chunk_index;
+    let exact_additional_deployment_submissions = remaining_write_submissions
+        .checked_add(1)
+        .ok_or(TrialGateError::DeploymentBudgetImpossible)?;
+    Ok(DeploymentContinuationPlan {
+        total_sbf_chunks,
+        finalized_prefix_chunks: first_unwritten_chunk_index,
+        first_unwritten_chunk_index,
+        predecessor_deployment_submissions,
+        remaining_write_submissions,
+        final_deploy_submissions: 1,
+        exact_additional_deployment_submissions,
+        protocol_submissions: 0,
+    })
+}
+
+fn verified_continuation_predecessor(
+    envelope: &DeploymentContinuationEnvelope,
+    path_mode: ContinuationPathMode,
+) -> Result<VerifiedContinuationPredecessor, TrialGateError> {
+    let repository = trusted_repository_root()?;
+    let predecessor_path = Path::new(&envelope.predecessor_terminal_envelope_path)
+        .canonicalize()
+        .map_err(|_| TrialGateError::ContinuationProof)?;
+    let predecessor_journal_path = Path::new(&envelope.predecessor_attempt_journal_path)
+        .canonicalize()
+        .map_err(|_| TrialGateError::ContinuationProof)?;
+    // The predecessor terminal envelope is non-secret governed evidence and may
+    // be preserved in the repository. The effect journal and credentials must
+    // remain external.
+    if predecessor_journal_path.starts_with(&repository) {
+        return Err(TrialGateError::RepositoryBoundary);
+    }
+    let predecessor_bytes =
+        fs::read(&predecessor_path).map_err(|_| TrialGateError::ContinuationProof)?;
+    let predecessor_sha256 = hex_lower(&Sha256::digest(&predecessor_bytes));
+    if predecessor_sha256 != envelope.predecessor_terminal_envelope_sha256
+        || predecessor_sha256 != envelope.predecessor_packet_digest
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let predecessor: DevnetEnvelope = serde_json::from_slice(&predecessor_bytes)
+        .map_err(|_| TrialGateError::ContinuationProof)?;
+    validate_envelope(&predecessor).map_err(|_| TrialGateError::ContinuationProof)?;
+    let bound_journal_path = Path::new(&predecessor.external_inputs.attempt_journal_path)
+        .canonicalize()
+        .map_err(|_| TrialGateError::ContinuationProof)?;
+    if bound_journal_path != predecessor_journal_path
+        || predecessor.sbf_path != envelope.sbf_path
+        || predecessor.sbf_sha256 != envelope.sbf_sha256
+        || predecessor.sbf_size_bytes != envelope.sbf_size_bytes
+        || predecessor.external_inputs.payer_keypair_path != envelope.payer_keypair_path
+        || predecessor.external_inputs.program_keypair_path != envelope.program_keypair_path
+        || predecessor.external_inputs.buffer_keypair_path != envelope.buffer_keypair_path
+        || predecessor.external_inputs.upgrade_authority_keypair_path
+            != envelope.upgrade_authority_keypair_path
+        || predecessor.candidate_binding_digest == envelope.candidate_binding_digest
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let journal_bytes =
+        fs::read(&predecessor_journal_path).map_err(|_| TrialGateError::ContinuationProof)?;
+    if hex_lower(&Sha256::digest(&journal_bytes)) != envelope.predecessor_attempt_journal_sha256 {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let journal_raw =
+        std::str::from_utf8(&journal_bytes).map_err(|_| TrialGateError::ContinuationProof)?;
+    let analysis = analyze_attempt_journal(journal_raw, &envelope.predecessor_packet_digest)
+        .map_err(|_| TrialGateError::ContinuationProof)?;
+    if analysis.journal_root_sha256 != envelope.predecessor_attempt_journal_root_sha256 {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let plan = deployment_continuation_plan(&analysis, envelope.sbf_size_bytes)?;
+    if plan.first_unwritten_chunk_index != envelope.first_unwritten_chunk_index
+        || plan.exact_additional_deployment_submissions
+            != envelope.max_additional_deployment_signed_transactions
+        || u32::from(plan.predecessor_deployment_submissions)
+            + u32::from(plan.exact_additional_deployment_submissions)
+            > u32::from(predecessor.max_deployment_signed_transactions)
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    validate_continuation_paths(envelope, &repository, path_mode)?;
+    Ok(VerifiedContinuationPredecessor {
+        predecessor,
+        analysis,
+        plan,
+    })
+}
+
+fn validate_continuation_paths(
+    envelope: &DeploymentContinuationEnvelope,
+    repository: &Path,
+    path_mode: ContinuationPathMode,
+) -> Result<(), TrialGateError> {
+    let existing = [
+        &envelope.sbf_path,
+        &envelope.payer_keypair_path,
+        &envelope.program_keypair_path,
+        &envelope.buffer_keypair_path,
+        &envelope.upgrade_authority_keypair_path,
+    ];
+    for selected in existing {
+        let path = Path::new(selected)
+            .canonicalize()
+            .map_err(|_| TrialGateError::ExternalMaterial)?;
+        if path.starts_with(repository) {
+            return Err(TrialGateError::RepositoryBoundary);
+        }
+    }
+    let journal = Path::new(&envelope.continuation_attempt_journal_path);
+    let evidence = Path::new(&envelope.continuation_evidence_output_path);
+    if journal == evidence || journal == Path::new(&envelope.predecessor_attempt_journal_path) {
+        return Err(TrialGateError::EvidenceWrite);
+    }
+    match path_mode {
+        ContinuationPathMode::Fresh if journal.exists() || evidence.exists() => {
+            return Err(TrialGateError::EvidenceWrite);
+        }
+        ContinuationPathMode::Reconcile if !journal.exists() || evidence.exists() => {
+            return Err(TrialGateError::ReconciliationRequired);
+        }
+        ContinuationPathMode::Fresh | ContinuationPathMode::Reconcile => {}
+    }
+    for output in [journal, evidence] {
+        let parent = output
+            .parent()
+            .ok_or(TrialGateError::RepositoryBoundary)?
+            .canonicalize()
+            .map_err(|_| TrialGateError::RepositoryBoundary)?;
+        if parent.starts_with(repository) {
+            return Err(TrialGateError::RepositoryBoundary);
+        }
+    }
+    Ok(())
+}
+
+pub(crate) fn validate_deployment_continuation(
+    envelope: &DeploymentContinuationEnvelope,
+    packet_digest: &str,
+) -> Result<DeploymentContinuationValidationReceipt, TrialGateError> {
+    let verified = verified_continuation_predecessor(envelope, ContinuationPathMode::Fresh)?;
+    Ok(DeploymentContinuationValidationReceipt {
+        schema_version: "cav2-kep-deployment-continuation-validation/v1",
+        result: "PASS_BOUNDED_NO_EFFECT",
+        continuation_packet_digest: packet_digest.to_owned(),
+        candidate_binding_digest: envelope.candidate_binding_digest.clone(),
+        predecessor_packet_digest: envelope.predecessor_packet_digest.clone(),
+        predecessor_attempt_journal_sha256: envelope
+            .predecessor_attempt_journal_sha256
+            .clone(),
+        predecessor_attempt_journal_record_count: verified.analysis.record_count,
+        predecessor_attempt_journal_root_sha256: verified
+            .analysis
+            .journal_root_sha256,
+        predecessor_journal_integrity: "verified-packet-bound-sha256-chain",
+        predecessor_reconciliation: "all-recorded-signatures-finalized-success",
+        plan: verified.plan,
+        replayed_predecessor_submissions: 0,
+        authority_effect: "none",
+        external_effect: "none",
+        claim_ceiling: "Offline continuation-envelope and predecessor-journal validation only; no RPC, credential use, signing, submission, deployment, admission, or publication.",
+    })
 }
 
 fn reconciliation_result(
@@ -390,6 +887,7 @@ fn validate_prefunded_balance(
 
 pub(crate) fn reconcile(
     envelope: &DevnetEnvelope,
+    packet_digest: &str,
 ) -> Result<ReconciliationReceipt, TrialGateError> {
     let repository = trusted_repository_root()?;
     let journal_path = Path::new(&envelope.external_inputs.attempt_journal_path)
@@ -400,8 +898,8 @@ pub(crate) fn reconcile(
     }
     let raw =
         fs::read_to_string(&journal_path).map_err(|_| TrialGateError::ReconciliationRequired)?;
-    let analysis = analyze_attempt_journal(&raw)?;
-    let signatures = analysis.signatures;
+    let analysis = analyze_attempt_journal(&raw, packet_digest)?;
+    let signatures = analysis.signatures.clone();
     let unsigned_ambiguous_effects = analysis.unsigned_ambiguous_effects;
     let proven_pre_effect_stops = analysis.proven_pre_effect_stops;
     let rpc =
@@ -416,6 +914,8 @@ pub(crate) fn reconcile(
         journal_path
             .to_str()
             .ok_or(TrialGateError::ReconciliationRequired)?,
+        packet_digest,
+        &analysis,
     )?;
     let payer = keypair(&envelope.external_inputs.payer_keypair_path)?;
     let payer_balance_lamports = rpc.get_balance(&payer.pubkey()).map_err(|error| {
@@ -440,35 +940,42 @@ pub(crate) fn reconcile(
             })? {
             Some(Ok(())) => {
                 successes += 1;
-                journal.record(
+                journal.record_with_effect(
                     "reconciliation",
                     "reconciled-finalized-success",
+                    "public-solana-finalized-read+external-journal-write",
                     Some(encoded),
+                    None,
                     None,
                 )?;
             }
             Some(Err(error)) => {
                 failures += 1;
-                journal.record(
+                journal.record_with_effect(
                     "reconciliation",
                     "reconciled-finalized-failure",
+                    "public-solana-finalized-read+external-journal-write",
                     Some(encoded),
                     Some(error.to_string().as_bytes()),
+                    None,
                 )?;
             }
             None => {
                 pending += 1;
-                journal.record(
+                journal.record_with_effect(
                     "reconciliation",
                     "reconciled-still-pending",
+                    "public-solana-finalized-read+external-journal-write",
                     Some(encoded),
+                    None,
                     None,
                 )?;
             }
         }
     }
+    let (attempt_journal_record_count, attempt_journal_root_sha256) = journal.snapshot()?;
     Ok(ReconciliationReceipt {
-        schema_version: "cav2-kep-devnet-reconciliation/v2",
+        schema_version: "cav2-kep-devnet-reconciliation/v3",
         result: reconciliation_result(
             signatures.len(),
             pending,
@@ -481,10 +988,127 @@ pub(crate) fn reconcile(
         still_pending: pending,
         unsigned_ambiguous_effects,
         proven_pre_effect_stops,
+        packet_digest: packet_digest.to_owned(),
+        attempt_journal_record_count,
+        attempt_journal_root_sha256,
+        attempt_journal_integrity: "verified-packet-bound-sha256-chain",
         payer_balance_lamports,
         resubmissions: 0,
         authority_effect: "none",
         local_effect: "appended-reconciliation-observations-to-external-journal",
+        observed_external_effect: "read-finalized-solana-signature-statuses-no-resubmission",
+        authorization_attestation: "external-not-attested-by-runner",
+    })
+}
+
+pub(crate) fn reconcile_deployment_continuation(
+    envelope: &DeploymentContinuationEnvelope,
+    packet_digest: &str,
+) -> Result<DeploymentContinuationReconciliationReceipt, TrialGateError> {
+    verified_continuation_predecessor(envelope, ContinuationPathMode::Reconcile)?;
+    let journal_path = Path::new(&envelope.continuation_attempt_journal_path)
+        .canonicalize()
+        .map_err(|_| TrialGateError::ReconciliationRequired)?;
+    let raw =
+        fs::read_to_string(&journal_path).map_err(|_| TrialGateError::ReconciliationRequired)?;
+    let analysis = analyze_attempt_journal(&raw, packet_digest)?;
+    let signatures = analysis.signatures.clone();
+    let rpc =
+        RpcClient::new_with_commitment(envelope.rpc_url.clone(), CommitmentConfig::finalized());
+    let genesis = rpc.get_genesis_hash().map_err(|error| {
+        SanitizedRpcFailure::from_error("continuation-reconcile-genesis-hash", &error)
+            .into_gate_error()
+    })?;
+    if genesis.to_string() != envelope.expected_genesis_hash {
+        return Err(TrialGateError::Solana);
+    }
+    let journal = AttemptJournal::open_existing(
+        journal_path
+            .to_str()
+            .ok_or(TrialGateError::ReconciliationRequired)?,
+        packet_digest,
+        &analysis,
+    )?;
+    let payer = keypair(&envelope.payer_keypair_path)?;
+    let payer_balance_lamports = rpc.get_balance(&payer.pubkey()).map_err(|error| {
+        SanitizedRpcFailure::from_error("continuation-reconcile-payer-balance", &error)
+            .into_gate_error()
+    })?;
+    let mut successes = 0;
+    let mut failures = 0;
+    let mut pending = 0;
+    for encoded in &signatures {
+        let signature = encoded
+            .parse()
+            .map_err(|_| TrialGateError::ReconciliationRequired)?;
+        match rpc
+            .get_signature_status_with_commitment_and_history(
+                &signature,
+                CommitmentConfig::finalized(),
+                true,
+            )
+            .map_err(|error| {
+                SanitizedRpcFailure::from_error("continuation-reconcile-signature-status", &error)
+                    .into_gate_error()
+            })? {
+            Some(Ok(())) => {
+                successes += 1;
+                journal.record_with_effect(
+                    "reconciliation",
+                    "reconciled-finalized-success",
+                    "public-solana-finalized-read+external-journal-write",
+                    Some(encoded),
+                    None,
+                    None,
+                )?;
+            }
+            Some(Err(error)) => {
+                failures += 1;
+                journal.record_with_effect(
+                    "reconciliation",
+                    "reconciled-finalized-failure",
+                    "public-solana-finalized-read+external-journal-write",
+                    Some(encoded),
+                    Some(error.to_string().as_bytes()),
+                    None,
+                )?;
+            }
+            None => {
+                pending += 1;
+                journal.record_with_effect(
+                    "reconciliation",
+                    "reconciled-still-pending",
+                    "public-solana-finalized-read+external-journal-write",
+                    Some(encoded),
+                    None,
+                    None,
+                )?;
+            }
+        }
+    }
+    let (continuation_attempt_journal_record_count, continuation_attempt_journal_root_sha256) =
+        journal.snapshot()?;
+    Ok(DeploymentContinuationReconciliationReceipt {
+        schema_version: "cav2-kep-deployment-continuation-reconciliation/v1",
+        result: reconciliation_result(
+            signatures.len(),
+            pending,
+            analysis.unsigned_ambiguous_effects,
+            analysis.proven_pre_effect_stops,
+        ),
+        continuation_packet_digest: packet_digest.to_owned(),
+        predecessor_packet_digest: envelope.predecessor_packet_digest.clone(),
+        signatures_checked: signatures.len(),
+        finalized_successes: successes,
+        finalized_failures: failures,
+        still_pending: pending,
+        unsigned_ambiguous_effects: analysis.unsigned_ambiguous_effects,
+        continuation_attempt_journal_record_count,
+        continuation_attempt_journal_root_sha256,
+        payer_balance_lamports,
+        resubmissions: 0,
+        protocol_submissions: 0,
+        authority_effect: "none",
         observed_external_effect: "read-finalized-solana-signature-statuses-no-resubmission",
         authorization_attestation: "external-not-attested-by-runner",
     })
@@ -496,16 +1120,14 @@ impl KeyCustodyPort for FileCustody {
         handle: &SecretHandle,
         operation: impl FnOnce(&[u8]) -> Result<R, CryptographyError>,
     ) -> Result<R, CryptographyError> {
-        let path = self
-            .paths
+        let secret = self
+            .secrets
             .get(handle)
             .ok_or(CryptographyError::SecretHandleMismatch)?;
-        let secret =
-            Zeroizing::new(fs::read(path).map_err(|_| CryptographyError::CustodyUnavailable)?);
         if secret.len() != 32 {
             return Err(CryptographyError::InvalidMaterial);
         }
-        operation(&secret)
+        operation(secret.as_slice())
     }
 }
 
@@ -549,6 +1171,14 @@ fn raw32(path: &str) -> Result<[u8; 32], TrialGateError> {
         .map_err(|_| TrialGateError::ExternalMaterial)?
         .try_into()
         .map_err(|_| TrialGateError::ExternalMaterial)
+}
+
+fn secret_snapshot(path: &str) -> Result<Zeroizing<Vec<u8>>, TrialGateError> {
+    let secret = Zeroizing::new(fs::read(path).map_err(|_| TrialGateError::ExternalMaterial)?);
+    if secret.len() != 32 {
+        return Err(TrialGateError::ExternalMaterial);
+    }
+    Ok(secret)
 }
 
 fn keypair(path: &str) -> Result<Keypair, TrialGateError> {
@@ -641,15 +1271,18 @@ fn prepare_material(envelope: &DevnetEnvelope) -> Result<PreparedTrial, TrialGat
     let b_handle = SecretHandle("recipient-hpke-v1".to_owned());
     let b2_handle = SecretHandle("recipient-hpke-v2".to_owned());
     let custody = FileCustody {
-        paths: BTreeMap::from([
+        secrets: BTreeMap::from([
             (
                 a_handle.clone(),
-                inputs.originator_hpke_private_path.clone(),
+                secret_snapshot(&inputs.originator_hpke_private_path)?,
             ),
-            (b_handle.clone(), inputs.recipient_hpke_private_path.clone()),
+            (
+                b_handle.clone(),
+                secret_snapshot(&inputs.recipient_hpke_private_path)?,
+            ),
             (
                 b2_handle.clone(),
-                inputs.replacement_hpke_private_path.clone(),
+                secret_snapshot(&inputs.replacement_hpke_private_path)?,
             ),
         ]),
     };
@@ -674,13 +1307,16 @@ fn prepare_material(envelope: &DevnetEnvelope) -> Result<PreparedTrial, TrialGat
     };
     cryptography
         .keys()
-        .register(a.key_binding_id, a_public, a_handle);
+        .register(a.key_binding_id, a_public, a_handle)
+        .map_err(|_| TrialGateError::Cryptography)?;
     cryptography
         .keys()
-        .register(b.key_binding_id, b_public, b_handle);
+        .register(b.key_binding_id, b_public, b_handle)
+        .map_err(|_| TrialGateError::Cryptography)?;
     cryptography
         .keys()
-        .register(b2.key_binding_id, b2_public, b2_handle);
+        .register(b2.key_binding_id, b2_public, b2_handle)
+        .map_err(|_| TrialGateError::Cryptography)?;
     let identity = Sha256Identity;
     let mut opaque_artifact_id = [0_u8; 32];
     getrandom::fill(&mut opaque_artifact_id).map_err(|_| TrialGateError::Cryptography)?;
@@ -762,6 +1398,29 @@ fn locator_commitment(readiness: &[StorageReadiness]) -> [u8; 32] {
     hasher.finalize().into()
 }
 
+fn decryption_observation_digest(
+    label: &[u8],
+    material: &PreparedMaterial,
+    recipient: &RecipientBinding,
+    envelope_digest: &Digest32,
+    finalized_revision: u64,
+) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(b"CA2-KEP-DECRYPTION-OBSERVATION-v2\0");
+    hasher.update(label);
+    hasher.update(material.context.artifact_version_id.as_bytes());
+    hasher.update(material.context.policy_id.as_bytes());
+    hasher.update(material.context.encryption_epoch.to_be_bytes());
+    hasher.update(material.ciphertext_identity.digest.as_bytes());
+    hasher.update(recipient.recipient_id.as_bytes());
+    hasher.update(recipient.key_binding_id.as_bytes());
+    hasher.update(recipient.key_binding_version.to_be_bytes());
+    hasher.update(recipient.key_fingerprint.as_bytes());
+    hasher.update(envelope_digest.as_bytes());
+    hasher.update(finalized_revision.to_be_bytes());
+    hex_lower(&hasher.finalize())
+}
+
 fn protocol_instruction(
     program_id: Pubkey,
     data: ProtocolInstruction,
@@ -836,41 +1495,56 @@ fn submit_success(
     ) {
         Ok(signature) => signature,
         Err(error) => {
-            journal.record(
+            journal.record_with_effect(
                 case_id,
                 "ambiguous-send-error",
+                "public-solana-transaction-submit+external-journal-write",
                 Some(&local_signature),
                 Some(error.to_string().as_bytes()),
+                None,
             )?;
             return Err(TrialGateError::Solana);
         }
     };
-    journal.record(case_id, "submitted", Some(&signature.to_string()), None)?;
+    journal.record_with_effect(
+        case_id,
+        "submitted",
+        "public-solana-transaction-submit+external-journal-write",
+        Some(&signature.to_string()),
+        None,
+        None,
+    )?;
     let outcome = match wait_for_finalized(rpc, &signature) {
         Ok(outcome) => outcome,
         Err(error) => {
-            journal.record(
+            journal.record_with_effect(
                 case_id,
                 "ambiguous-finality-timeout-or-query-error",
+                "public-solana-finalized-read+external-journal-write",
                 Some(&signature.to_string()),
+                None,
                 None,
             )?;
             return Err(error);
         }
     };
     if outcome.is_err() {
-        journal.record(
+        journal.record_with_effect(
             case_id,
             "finalized-failure",
+            "public-solana-finalized-read+external-journal-write",
             Some(&signature.to_string()),
             outcome.err().as_deref().map(str::as_bytes),
+            None,
         )?;
         return Err(TrialGateError::Solana);
     }
-    journal.record(
+    journal.record_with_effect(
         case_id,
         "finalized-success",
+        "public-solana-finalized-read+external-journal-write",
         Some(&signature.to_string()),
+        None,
         None,
     )?;
     let statuses = rpc
@@ -918,23 +1592,34 @@ fn submit_rejection(
     ) {
         Ok(signature) => signature,
         Err(error) => {
-            journal.record(
+            journal.record_with_effect(
                 case_id,
                 "ambiguous-send-error",
+                "public-solana-transaction-submit+external-journal-write",
                 Some(&local_signature),
                 Some(error.to_string().as_bytes()),
+                None,
             )?;
             return Err(TrialGateError::Solana);
         }
     };
-    journal.record(case_id, "submitted", Some(&signature.to_string()), None)?;
+    journal.record_with_effect(
+        case_id,
+        "submitted",
+        "public-solana-transaction-submit+external-journal-write",
+        Some(&signature.to_string()),
+        None,
+        None,
+    )?;
     let outcome = match wait_for_finalized(rpc, &signature) {
         Ok(outcome) => outcome,
         Err(error) => {
-            journal.record(
+            journal.record_with_effect(
                 case_id,
                 "ambiguous-finality-timeout-or-query-error",
+                "public-solana-finalized-read+external-journal-write",
                 Some(&signature.to_string()),
+                None,
                 None,
             )?;
             return Err(error);
@@ -943,11 +1628,13 @@ fn submit_rejection(
     let error = outcome
         .err()
         .ok_or(TrialGateError::NegativeCaseUnexpectedlySucceeded)?;
-    journal.record(
+    journal.record_with_effect(
         case_id,
         "finalized-expected-failure",
+        "public-solana-finalized-read+external-journal-write",
         Some(&signature.to_string()),
         Some(error.as_bytes()),
+        None,
     )?;
     let statuses = rpc
         .get_signature_statuses_with_history(&[signature])
@@ -1139,9 +1826,293 @@ fn deploy(
     })
 }
 
-pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, TrialGateError> {
+#[allow(deprecated)]
+pub(crate) fn continue_deployment(
+    envelope: &DeploymentContinuationEnvelope,
+    packet_digest: &str,
+) -> Result<DeploymentContinuationEvidence, TrialGateError> {
+    let verified = verified_continuation_predecessor(envelope, ContinuationPathMode::Fresh)?;
+    let plan = verified.plan.clone();
+    let journal =
+        AttemptJournal::create(&envelope.continuation_attempt_journal_path, packet_digest)?;
+    let predecessor_binding = serde_json::to_vec(&serde_json::json!({
+        "predecessor_packet_digest": envelope.predecessor_packet_digest,
+        "predecessor_attempt_journal_sha256": envelope.predecessor_attempt_journal_sha256,
+        "predecessor_attempt_journal_root_sha256": envelope.predecessor_attempt_journal_root_sha256,
+        "first_unwritten_chunk_index": plan.first_unwritten_chunk_index,
+    }))
+    .map_err(|_| TrialGateError::EvidenceWrite)?;
+    journal.record(
+        "deployment-continuation",
+        "predecessor-proof-verified-before-effect",
+        None,
+        Some(&predecessor_binding),
+    )?;
+
+    let sbf = fs::read(&envelope.sbf_path).map_err(|_| TrialGateError::SbfIdentity)?;
+    let payer = keypair(&envelope.payer_keypair_path)?;
+    let program = keypair(&envelope.program_keypair_path)?;
+    let buffer = keypair(&envelope.buffer_keypair_path)?;
+    let upgrade_authority = keypair(&envelope.upgrade_authority_keypair_path)?;
+    let identities = [
+        payer.pubkey(),
+        program.pubkey(),
+        buffer.pubkey(),
+        upgrade_authority.pubkey(),
+    ];
+    if identities.iter().collect::<BTreeSet<_>>().len() != identities.len() {
+        return Err(TrialGateError::ExternalMaterial);
+    }
+
+    let rpc =
+        RpcClient::new_with_commitment(envelope.rpc_url.clone(), CommitmentConfig::finalized());
+    let genesis = rpc.get_genesis_hash().map_err(|error| {
+        SanitizedRpcFailure::from_error("continuation-genesis-hash", &error).into_gate_error()
+    })?;
+    if genesis.to_string() != envelope.expected_genesis_hash {
+        return Err(TrialGateError::Solana);
+    }
+    let payer_balance_lamports_before = rpc.get_balance(&payer.pubkey()).map_err(|error| {
+        SanitizedRpcFailure::from_error("continuation-payer-balance", &error).into_gate_error()
+    })?;
+    validate_prefunded_balance(
+        payer_balance_lamports_before,
+        verified.predecessor.minimum_prefunded_lamports,
+        verified.predecessor.maximum_prefunded_lamports,
+    )?;
+    if rpc
+        .get_account_with_commitment(&program.pubkey(), CommitmentConfig::finalized())
+        .map_err(|_| TrialGateError::Solana)?
+        .value
+        .is_some()
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let buffer_account = rpc
+        .get_account_with_commitment(&buffer.pubkey(), CommitmentConfig::finalized())
+        .map_err(|_| TrialGateError::Solana)?
+        .value
+        .ok_or(TrialGateError::ContinuationProof)?;
+    if buffer_account.executable
+        || buffer_account.owner != solana_sdk_ids::bpf_loader_upgradeable::id()
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    let buffer_metadata_size = UpgradeableLoaderState::size_of_buffer_metadata();
+    let buffer_state: UpgradeableLoaderState = bincode::deserialize(
+        buffer_account
+            .data
+            .get(..buffer_metadata_size)
+            .ok_or(TrialGateError::ContinuationProof)?,
+    )
+    .map_err(|_| TrialGateError::ContinuationProof)?;
+    match buffer_state {
+        UpgradeableLoaderState::Buffer {
+            authority_address: Some(authority),
+        } if authority == upgrade_authority.pubkey() => {}
+        _ => return Err(TrialGateError::ContinuationProof),
+    }
+    let remote_buffer = buffer_account
+        .data
+        .get(buffer_metadata_size..)
+        .ok_or(TrialGateError::ContinuationProof)?;
+    let prefix_end = usize::from(plan.first_unwritten_chunk_index)
+        .checked_mul(DEPLOY_CHUNK_SIZE)
+        .ok_or(TrialGateError::DeploymentBudgetImpossible)?;
+    if remote_buffer.len() != sbf.len()
+        || prefix_end > sbf.len()
+        || remote_buffer.get(..prefix_end) != sbf.get(..prefix_end)
+        || remote_buffer
+            .get(prefix_end..)
+            .ok_or(TrialGateError::ContinuationProof)?
+            .iter()
+            .any(|byte| *byte != 0)
+    {
+        return Err(TrialGateError::ContinuationProof);
+    }
+    journal.record_with_effect(
+        "deployment-continuation",
+        "finalized-buffer-prefix-verified",
+        "public-solana-finalized-read+external-journal-write",
+        None,
+        Some(&Sha256::digest(&remote_buffer[..prefix_end])),
+        None,
+    )?;
+
+    let mut budget = SubmissionBudget {
+        used: 0,
+        limit: envelope.max_additional_deployment_signed_transactions,
+    };
+    let mut transactions = Vec::new();
+    for (index, chunk) in sbf
+        .chunks(DEPLOY_CHUNK_SIZE)
+        .enumerate()
+        .skip(usize::from(plan.first_unwritten_chunk_index))
+    {
+        let write = loader_instruction::write(
+            &buffer.pubkey(),
+            &upgrade_authority.pubkey(),
+            u32::try_from(index * DEPLOY_CHUNK_SIZE)
+                .map_err(|_| TrialGateError::DeploymentBudgetImpossible)?,
+            chunk.to_vec(),
+        );
+        transactions.push(submit_success(
+            &rpc,
+            &journal,
+            &mut budget,
+            &format!("deployment-write-{index:03}"),
+            signed_transaction(&rpc, write, &payer, &[&upgrade_authority])?,
+        )?);
+    }
+    let program_rent = rpc
+        .get_minimum_balance_for_rent_exemption(UpgradeableLoaderState::size_of_program())
+        .map_err(|_| TrialGateError::Solana)?;
+    let finalize = loader_instruction::deploy_with_max_program_len(
+        &payer.pubkey(),
+        &program.pubkey(),
+        &buffer.pubkey(),
+        &upgrade_authority.pubkey(),
+        program_rent,
+        sbf.len(),
+    )
+    .map_err(|_| TrialGateError::Solana)?;
+    transactions.push(submit_success(
+        &rpc,
+        &journal,
+        &mut budget,
+        "deployment-finalize",
+        signed_instructions(&rpc, &finalize, &payer, &[&program, &upgrade_authority])?,
+    )?);
+    if budget.used != plan.exact_additional_deployment_submissions {
+        return Err(TrialGateError::DeploymentBudgetImpossible);
+    }
+
+    let program_account = rpc
+        .get_account_with_commitment(&program.pubkey(), CommitmentConfig::finalized())
+        .map_err(|_| TrialGateError::Solana)?
+        .value
+        .ok_or(TrialGateError::Solana)?;
+    if !program_account.executable
+        || program_account.owner != solana_sdk_ids::bpf_loader_upgradeable::id()
+    {
+        return Err(TrialGateError::Solana);
+    }
+    let programdata_address = get_program_data_address(&program.pubkey());
+    let program_state: UpgradeableLoaderState =
+        bincode::deserialize(&program_account.data).map_err(|_| TrialGateError::Solana)?;
+    if program_state
+        != (UpgradeableLoaderState::Program {
+            programdata_address,
+        })
+    {
+        return Err(TrialGateError::Solana);
+    }
+    let programdata = rpc
+        .get_account_with_commitment(&programdata_address, CommitmentConfig::finalized())
+        .map_err(|_| TrialGateError::Solana)?
+        .value
+        .ok_or(TrialGateError::Solana)?;
+    let metadata_size = UpgradeableLoaderState::size_of_programdata_metadata();
+    let metadata: UpgradeableLoaderState = bincode::deserialize(
+        programdata
+            .data
+            .get(..metadata_size)
+            .ok_or(TrialGateError::Solana)?,
+    )
+    .map_err(|_| TrialGateError::Solana)?;
+    match metadata {
+        UpgradeableLoaderState::ProgramData {
+            upgrade_authority_address: Some(authority),
+            ..
+        } if authority == upgrade_authority.pubkey() => {}
+        _ => return Err(TrialGateError::Solana),
+    }
+    let remote_sbf = programdata
+        .data
+        .get(metadata_size..)
+        .ok_or(TrialGateError::Solana)?;
+    if remote_sbf != sbf {
+        return Err(TrialGateError::Solana);
+    }
+    journal.record_with_effect(
+        "deployment-continuation",
+        "exact-remote-sbf-verified",
+        "public-solana-finalized-read+external-journal-write",
+        None,
+        Some(&Sha256::digest(remote_sbf)),
+        None,
+    )?;
+    let payer_balance_lamports_after = rpc.get_balance(&payer.pubkey()).map_err(|error| {
+        SanitizedRpcFailure::from_error("continuation-ending-balance", &error).into_gate_error()
+    })?;
+    let (continuation_attempt_journal_record_count, continuation_attempt_journal_root_sha256) =
+        journal.snapshot()?;
+    Ok(DeploymentContinuationEvidence {
+        schema_version: "cav2-kep-deployment-continuation-evidence/v1-candidate",
+        result: "PASS_BOUNDED_DEVNET_DEPLOYMENT_CONTINUATION",
+        continuation_packet_digest: packet_digest.to_owned(),
+        candidate_binding_digest: envelope.candidate_binding_digest.clone(),
+        predecessor_packet_digest: envelope.predecessor_packet_digest.clone(),
+        predecessor_attempt_journal_sha256: envelope
+            .predecessor_attempt_journal_sha256
+            .clone(),
+        predecessor_attempt_journal_root_sha256: envelope
+            .predecessor_attempt_journal_root_sha256
+            .clone(),
+        plan,
+        replayed_predecessor_submissions: 0,
+        transactions,
+        program_id: program.pubkey().to_string(),
+        programdata_address: programdata_address.to_string(),
+        remote_sbf_sha256: hex_lower(&Sha256::digest(remote_sbf)),
+        payer_balance_lamports_before,
+        payer_balance_lamports_after,
+        continuation_attempt_journal_record_count,
+        continuation_attempt_journal_root_sha256,
+        protocol_submissions: 0,
+        authority_effect: "none",
+        observed_external_effect: "bounded-public-devnet-deployment-continuation-only",
+        authorization_attestation: "external-not-attested-by-runner",
+        claim_ceiling: "Exact deployment continuation only; no protocol cases, PostgreSQL, Mainnet, production security, availability, admission, publication, or release claim.",
+    })
+}
+
+pub(crate) fn write_continuation_evidence(
+    envelope: &DeploymentContinuationEnvelope,
+    evidence: &DeploymentContinuationEvidence,
+) -> Result<(), TrialGateError> {
+    let raw = serde_json::to_vec_pretty(evidence).map_err(|_| TrialGateError::EvidenceWrite)?;
+    for path in [
+        &envelope.payer_keypair_path,
+        &envelope.program_keypair_path,
+        &envelope.buffer_keypair_path,
+        &envelope.upgrade_authority_keypair_path,
+    ] {
+        let secret = Zeroizing::new(fs::read(path).map_err(|_| TrialGateError::ExternalMaterial)?);
+        if !secret.is_empty()
+            && raw
+                .windows(secret.len())
+                .any(|window| window == secret.as_slice())
+        {
+            return Err(TrialGateError::EvidenceLeak);
+        }
+    }
+    fs::write(
+        &envelope.continuation_evidence_output_path,
+        [raw, b"\n".to_vec()].concat(),
+    )
+    .map_err(|_| TrialGateError::EvidenceWrite)
+}
+
+pub(crate) async fn execute(
+    envelope: &DevnetEnvelope,
+    packet_digest: &str,
+) -> Result<TrialEvidence, TrialGateError> {
     ensure_external_paths(envelope)?;
-    let journal = AttemptJournal::create(&envelope.external_inputs.attempt_journal_path)?;
+    let journal = AttemptJournal::create(
+        &envelope.external_inputs.attempt_journal_path,
+        packet_digest,
+    )?;
     journal.record("trial", "operator-invoked-execution-start", None, None)?;
     let database_url = env::var("KEP_POSTGRES_TRIAL_URL").map_err(|_| TrialGateError::Storage)?;
     let parsed_database_url =
@@ -1258,9 +2229,11 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         .iter()
         .find(|item| item.recipient == b_binding)
         .ok_or(TrialGateError::Cryptography)?;
-    journal.record(
+    journal.record_with_effect(
         "storage-initial-material",
         "write-before-effect",
+        "loopback-postgresql-read-write+external-journal-write",
+        None,
         None,
         None,
     )?;
@@ -1273,11 +2246,13 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         b_readiness.clone(),
     ];
     let durable_locator_commitment = locator_commitment(&readiness);
-    journal.record(
+    journal.record_with_effect(
         "storage-initial-material",
         "three-layer-verified",
+        "loopback-postgresql-read-write+external-journal-write",
         None,
         Some(&durable_locator_commitment),
+        None,
     )?;
 
     let funded_balance = prefunded_balance;
@@ -1498,19 +2473,23 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         return Err(TrialGateError::Cryptography);
     }
 
-    journal.record(
+    journal.record_with_effect(
         "storage-replacement-envelope",
         "write-before-effect",
+        "loopback-postgresql-read-write+external-journal-write",
+        None,
         None,
         None,
     )?;
     let replacement_readiness = persist(&mut storage, &replacement_envelope.envelope_bytes).await?;
     readiness.push(replacement_readiness.clone());
-    journal.record(
+    journal.record_with_effect(
         "storage-replacement-envelope",
         "three-layer-verified",
+        "loopback-postgresql-read-write+external-journal-write",
         None,
         Some(replacement_envelope.envelope_identity.digest.as_bytes()),
+        None,
     )?;
     let op_request_bad = commitment(b"request-outsider-v1");
     let (request, _) = Pubkey::find_program_address(
@@ -1750,9 +2729,15 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         ObservationEvidence {
             case_id: "recipient-decryption",
             expected: "B opens restart-retrieved ciphertext and envelope",
-            observed: "exact-fixture-match",
+            observed: "runner-local-decrypt-and-exact-compare",
             input_sha256: hex_lower(material.ciphertext_identity.digest.as_bytes()),
-            output_sha256: hex_lower(material.context.plaintext_commitment.as_bytes()),
+            output_sha256: decryption_observation_digest(
+                b"recipient-v1",
+                &material,
+                &b_binding,
+                &b_envelope.envelope_identity.digest,
+                grant_state.revision,
+            ),
         },
         ObservationEvidence {
             case_id: "reissue-state-isolation",
@@ -1764,7 +2749,7 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         ObservationEvidence {
             case_id: "replacement-recipient-decryption",
             expected: "B2 opens restart-retrieved ciphertext and replacement envelope",
-            observed: "exact-fixture-match",
+            observed: "runner-local-decrypt-and-exact-compare",
             input_sha256: hex_lower(
                 replacement_material
                     .envelopes
@@ -1774,7 +2759,18 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
                     .digest
                     .as_bytes(),
             ),
-            output_sha256: hex_lower(material.context.plaintext_commitment.as_bytes()),
+            output_sha256: decryption_observation_digest(
+                b"recipient-v2",
+                &replacement_material,
+                &b2_binding,
+                &replacement_material
+                    .envelopes
+                    .last()
+                    .ok_or(TrialGateError::Cryptography)?
+                    .envelope_identity
+                    .digest,
+                reissue_state.revision,
+            ),
         },
         ObservationEvidence {
             case_id: "cost-observation",
@@ -1808,8 +2804,9 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         return Err(TrialGateError::ExternalMaterial);
     }
     journal.record("trial", "complete-before-evidence-write", None, None)?;
+    let (attempt_journal_record_count, attempt_journal_root_sha256) = journal.snapshot()?;
     Ok(TrialEvidence {
-        schema_version: "cav2-kep-devnet-trial-evidence/v1-candidate",
+        schema_version: "cav2-kep-devnet-trial-evidence/v2-candidate",
         result: "PASS_BOUNDED_DEVNET",
         cluster: "solana-devnet",
         genesis_hash: genesis.to_string(),
@@ -1847,6 +2844,10 @@ pub(crate) async fn execute(envelope: &DevnetEnvelope) -> Result<TrialEvidence, 
         storage_cost_observation: "local-postgresql-no-billed-knowledge-consideration",
         knowledge_consideration_lamports: 0,
         protocol_signed_submissions: budget.used,
+        packet_digest: packet_digest.to_owned(),
+        attempt_journal_record_count,
+        attempt_journal_root_sha256,
+        attempt_journal_integrity: "verified-packet-bound-sha256-chain",
         authority_effect: "none",
         observed_external_effect: "bounded-public-devnet-effects-executed",
         authorization_attestation: "external-not-attested-by-runner",
@@ -1900,6 +2901,140 @@ pub(crate) fn write_evidence(
 mod tests {
     use super::*;
 
+    const TEST_PACKET: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
+    fn journal_line(
+        stage: &str,
+        signature: Option<&str>,
+        failure_stage: Option<&str>,
+        failure_class: Option<&str>,
+    ) -> String {
+        let payload = AttemptRecordPayload {
+            schema_version: JOURNAL_SCHEMA,
+            packet_digest: TEST_PACKET,
+            sequence: 0,
+            previous_record_sha256: EMPTY_JOURNAL_ROOT,
+            effect_id: "test-effect",
+            stage,
+            observed_effect: "external-journal-write",
+            signature,
+            detail_sha256: None,
+            failure_stage,
+            failure_class,
+        };
+        let record = AttemptRecord {
+            schema_version: JOURNAL_SCHEMA.to_owned(),
+            packet_digest: TEST_PACKET.to_owned(),
+            sequence: 0,
+            previous_record_sha256: EMPTY_JOURNAL_ROOT.to_owned(),
+            effect_id: "test-effect".to_owned(),
+            stage: stage.to_owned(),
+            observed_effect: "external-journal-write".to_owned(),
+            signature: signature.map(str::to_owned),
+            detail_sha256: None,
+            failure_stage: failure_stage.map(str::to_owned),
+            failure_class: failure_class.map(str::to_owned),
+            record_sha256: attempt_record_sha256(&payload).expect("hash journal record"),
+        };
+        serde_json::to_string(&record).expect("serialize journal record")
+    }
+
+    fn append_journal_record(
+        raw: &mut String,
+        sequence: &mut u64,
+        previous: &mut String,
+        effect_id: &str,
+        stage: &str,
+        signature: Option<&str>,
+    ) {
+        let payload = AttemptRecordPayload {
+            schema_version: JOURNAL_SCHEMA,
+            packet_digest: TEST_PACKET,
+            sequence: *sequence,
+            previous_record_sha256: previous,
+            effect_id,
+            stage,
+            observed_effect: "external-journal-write",
+            signature,
+            detail_sha256: None,
+            failure_stage: None,
+            failure_class: None,
+        };
+        let record_sha256 = attempt_record_sha256(&payload).expect("hash journal record");
+        let record = AttemptRecord {
+            schema_version: JOURNAL_SCHEMA.to_owned(),
+            packet_digest: TEST_PACKET.to_owned(),
+            sequence: *sequence,
+            previous_record_sha256: previous.clone(),
+            effect_id: effect_id.to_owned(),
+            stage: stage.to_owned(),
+            observed_effect: "external-journal-write".to_owned(),
+            signature: signature.map(str::to_owned),
+            detail_sha256: None,
+            failure_stage: None,
+            failure_class: None,
+            record_sha256: record_sha256.clone(),
+        };
+        raw.push_str(&serde_json::to_string(&record).expect("serialize journal record"));
+        raw.push('\n');
+        *sequence += 1;
+        *previous = record_sha256;
+    }
+
+    fn deployment_journal(finalized_write_indices: &[u16], reconcile: bool) -> String {
+        let mut raw = String::new();
+        let mut sequence = 0;
+        let mut previous = EMPTY_JOURNAL_ROOT.to_owned();
+        let mut effects = vec!["deployment-buffer-create".to_owned()];
+        effects.extend(
+            finalized_write_indices
+                .iter()
+                .map(|index| format!("deployment-write-{index:03}")),
+        );
+        let mut signatures = Vec::new();
+        for (ordinal, effect_id) in effects.iter().enumerate() {
+            let signature = format!("signature-{ordinal:03}");
+            append_journal_record(
+                &mut raw,
+                &mut sequence,
+                &mut previous,
+                effect_id,
+                "signed-before-submit",
+                Some(&signature),
+            );
+            append_journal_record(
+                &mut raw,
+                &mut sequence,
+                &mut previous,
+                effect_id,
+                "submitted",
+                Some(&signature),
+            );
+            append_journal_record(
+                &mut raw,
+                &mut sequence,
+                &mut previous,
+                effect_id,
+                "finalized-success",
+                Some(&signature),
+            );
+            signatures.push(signature);
+        }
+        if reconcile {
+            for signature in signatures {
+                append_journal_record(
+                    &mut raw,
+                    &mut sequence,
+                    &mut previous,
+                    "reconciliation",
+                    "reconciled-finalized-success",
+                    Some(&signature),
+                );
+            }
+        }
+        raw
+    }
+
     #[test]
     fn sanitized_rpc_failure_classifies_rate_limit_without_retaining_raw_detail() {
         let raw = "HTTP status 429 Too Many Requests: secret-provider-message";
@@ -1919,8 +3054,13 @@ mod tests {
 
     #[test]
     fn actual_transport_ambiguity_record_remains_pending() {
-        let raw = r#"{"stage":"prefunded-balance-query-failed","signature":null,"failure_stage":"execution-prefunded-balance","failure_class":"transport-ambiguous"}"#;
-        let analysis = analyze_attempt_journal(raw).expect("journal parses");
+        let raw = journal_line(
+            "prefunded-balance-query-failed",
+            None,
+            Some("execution-prefunded-balance"),
+            Some("transport-ambiguous"),
+        );
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
         assert_eq!(0, analysis.signatures.len());
         assert_eq!(1, analysis.unsigned_ambiguous_effects);
         assert_eq!(0, analysis.proven_pre_effect_stops);
@@ -1937,8 +3077,13 @@ mod tests {
 
     #[test]
     fn unclassified_unsigned_failure_remains_pending() {
-        let raw = r#"{"stage":"genesis-hash-query-failed","signature":null,"failure_stage":"execution-genesis-hash","failure_class":"unclassified-rpc-or-transport"}"#;
-        let analysis = analyze_attempt_journal(raw).expect("journal parses");
+        let raw = journal_line(
+            "genesis-hash-query-failed",
+            None,
+            Some("execution-genesis-hash"),
+            Some("unclassified-rpc-or-transport"),
+        );
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
         assert_eq!(1, analysis.unsigned_ambiguous_effects);
         assert_eq!(
             "PENDING",
@@ -1948,8 +3093,13 @@ mod tests {
 
     #[test]
     fn known_genesis_rejection_is_a_proven_pre_effect_stop() {
-        let raw = r#"{"stage":"genesis-hash-query-failed","signature":null,"failure_stage":"execution-genesis-hash","failure_class":"rpc-rejection"}"#;
-        let analysis = analyze_attempt_journal(raw).expect("journal parses");
+        let raw = journal_line(
+            "genesis-hash-query-failed",
+            None,
+            Some("execution-genesis-hash"),
+            Some("rpc-rejection"),
+        );
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
         assert_eq!(0, analysis.unsigned_ambiguous_effects);
         assert_eq!(1, analysis.proven_pre_effect_stops);
         assert_eq!(
@@ -1960,8 +3110,8 @@ mod tests {
 
     #[test]
     fn known_balance_bound_rejection_is_a_proven_pre_effect_stop() {
-        let raw = r#"{"stage":"prefunded-balance-insufficient","signature":null,"failure_stage":null,"failure_class":null}"#;
-        let analysis = analyze_attempt_journal(raw).expect("journal parses");
+        let raw = journal_line("prefunded-balance-insufficient", None, None, None);
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
         assert_eq!(1, analysis.proven_pre_effect_stops);
         assert_eq!(
             "PROVEN_PRE_EFFECT_STOP",
@@ -1971,16 +3121,24 @@ mod tests {
 
     #[test]
     fn zero_signatures_without_terminal_evidence_remains_pending() {
-        let raw = r#"{"stage":"operator-invoked-execution-start","signature":null,"failure_stage":null,"failure_class":null}"#;
-        let analysis = analyze_attempt_journal(raw).expect("journal parses");
-        assert_eq!(JournalAnalysis::default(), analysis);
+        let raw = journal_line("operator-invoked-execution-start", None, None, None);
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
+        assert!(analysis.signatures.is_empty());
+        assert_eq!(0, analysis.unsigned_ambiguous_effects);
+        assert_eq!(0, analysis.proven_pre_effect_stops);
+        assert_eq!(1, analysis.record_count);
         assert_eq!("PENDING", reconciliation_result(0, 0, 0, 0));
     }
 
     #[test]
     fn signed_attempt_requires_a_final_status_before_reconciliation() {
-        let raw = r#"{"stage":"signed-before-submit","signature":"1111111111111111111111111111111111111111111111111111111111111111","failure_stage":null,"failure_class":null}"#;
-        let analysis = analyze_attempt_journal(raw).expect("journal parses");
+        let raw = journal_line(
+            "signed-before-submit",
+            Some("1111111111111111111111111111111111111111111111111111111111111111"),
+            None,
+            None,
+        );
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
         assert_eq!(1, analysis.signatures.len());
         assert_eq!(
             "PENDING",
@@ -1990,6 +3148,165 @@ mod tests {
             "RECONCILED",
             reconciliation_result(analysis.signatures.len(), 0, 0, 0)
         );
+    }
+
+    #[test]
+    fn journal_rejects_record_mutation_and_wrong_packet() {
+        let raw = journal_line("operator-invoked-execution-start", None, None, None);
+        let mutated = raw.replace(
+            "operator-invoked-execution-start",
+            "operator-invoked-execution-stop",
+        );
+        assert!(matches!(
+            analyze_attempt_journal(&mutated, TEST_PACKET),
+            Err(TrialGateError::ReconciliationRequired)
+        ));
+        assert!(matches!(
+            analyze_attempt_journal(
+                &raw,
+                "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            ),
+            Err(TrialGateError::ReconciliationRequired)
+        ));
+    }
+
+    #[test]
+    fn journal_rejects_sequence_or_predecessor_substitution() {
+        let raw = journal_line("operator-invoked-execution-start", None, None, None);
+        let sequence_mutation = raw.replace("\"sequence\":0", "\"sequence\":1");
+        assert!(matches!(
+            analyze_attempt_journal(&sequence_mutation, TEST_PACKET),
+            Err(TrialGateError::ReconciliationRequired)
+        ));
+        let predecessor_mutation = raw.replace(EMPTY_JOURNAL_ROOT, TEST_PACKET);
+        assert!(matches!(
+            analyze_attempt_journal(&predecessor_mutation, TEST_PACKET),
+            Err(TrialGateError::ReconciliationRequired)
+        ));
+    }
+
+    #[test]
+    fn continuation_plan_starts_at_first_unwritten_chunk_without_replay() {
+        let finalized: Vec<u16> = (0..56).collect();
+        let raw = deployment_journal(&finalized, true);
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
+        let plan = deployment_continuation_plan(&analysis, 98_016).expect("plan is proven");
+        assert_eq!(128, plan.total_sbf_chunks);
+        assert_eq!(56, plan.finalized_prefix_chunks);
+        assert_eq!(56, plan.first_unwritten_chunk_index);
+        assert_eq!(57, plan.predecessor_deployment_submissions);
+        assert_eq!(72, plan.remaining_write_submissions);
+        assert_eq!(73, plan.exact_additional_deployment_submissions);
+        assert_eq!(0, plan.protocol_submissions);
+    }
+
+    #[test]
+    fn reconciliation_promotes_the_ambiguous_last_write_without_replaying_it() {
+        let mut raw = String::new();
+        let mut sequence = 0;
+        let mut previous = EMPTY_JOURNAL_ROOT.to_owned();
+        let mut signatures = Vec::new();
+        for ordinal in 0..57_u16 {
+            let effect_id = if ordinal == 0 {
+                "deployment-buffer-create".to_owned()
+            } else {
+                format!("deployment-write-{:03}", ordinal - 1)
+            };
+            let signature = format!("signature-{ordinal:03}");
+            for stage in ["signed-before-submit", "submitted"] {
+                append_journal_record(
+                    &mut raw,
+                    &mut sequence,
+                    &mut previous,
+                    &effect_id,
+                    stage,
+                    Some(&signature),
+                );
+            }
+            let terminal_stage = if ordinal == 56 {
+                "ambiguous-finality-timeout-or-query-error"
+            } else {
+                "finalized-success"
+            };
+            append_journal_record(
+                &mut raw,
+                &mut sequence,
+                &mut previous,
+                &effect_id,
+                terminal_stage,
+                Some(&signature),
+            );
+            signatures.push(signature);
+        }
+        for signature in signatures {
+            append_journal_record(
+                &mut raw,
+                &mut sequence,
+                &mut previous,
+                "reconciliation",
+                "reconciled-finalized-success",
+                Some(&signature),
+            );
+        }
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
+        let plan = deployment_continuation_plan(&analysis, 98_016).expect("plan is proven");
+        assert_eq!(56, plan.first_unwritten_chunk_index);
+        assert_eq!(73, plan.exact_additional_deployment_submissions);
+    }
+
+    #[test]
+    fn continuation_plan_rejects_a_finalized_chunk_gap() {
+        let raw = deployment_journal(&[0, 2], true);
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
+        assert!(matches!(
+            deployment_continuation_plan(&analysis, 98_016),
+            Err(TrialGateError::ContinuationProof)
+        ));
+    }
+
+    #[test]
+    fn continuation_plan_rejects_two_signatures_for_one_deployment_effect() {
+        let mut raw = deployment_journal(&[0], true);
+        let last: AttemptRecord =
+            serde_json::from_str(raw.lines().last().expect("journal has a terminal record"))
+                .expect("terminal record parses");
+        let mut sequence = raw.lines().count() as u64;
+        let mut previous = last.record_sha256;
+        let replay_signature = "signature-replay";
+        for stage in ["signed-before-submit", "submitted", "finalized-success"] {
+            append_journal_record(
+                &mut raw,
+                &mut sequence,
+                &mut previous,
+                "deployment-write-000",
+                stage,
+                Some(replay_signature),
+            );
+        }
+        append_journal_record(
+            &mut raw,
+            &mut sequence,
+            &mut previous,
+            "reconciliation",
+            "reconciled-finalized-success",
+            Some(replay_signature),
+        );
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
+        assert!(matches!(
+            deployment_continuation_plan(&analysis, 98_016),
+            Err(TrialGateError::ContinuationProof)
+        ));
+    }
+
+    #[test]
+    fn continuation_plan_rejects_progress_before_reconciliation() {
+        let finalized: Vec<u16> = (0..56).collect();
+        let raw = deployment_journal(&finalized, false);
+        let analysis = analyze_attempt_journal(&raw, TEST_PACKET).expect("journal parses");
+        assert!(matches!(
+            deployment_continuation_plan(&analysis, 98_016),
+            Err(TrialGateError::ContinuationProof)
+        ));
     }
 
     #[test]

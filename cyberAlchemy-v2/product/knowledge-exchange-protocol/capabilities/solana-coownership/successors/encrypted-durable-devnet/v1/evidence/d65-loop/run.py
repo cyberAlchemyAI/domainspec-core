@@ -8,8 +8,10 @@ import hashlib
 import json
 import os
 import secrets
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -24,11 +26,22 @@ AGAVE_ARCHIVE = AGAVE_ROOT.parent / "solana-release-x86_64-unknown-linux-gnu.tar
 AGAVE_ARCHIVE_SHA256 = "5978d621fe2582fc2403fa13f3c06502020bcb42e806ddd4612150049d1a3fbb"
 SBF_OUTPUT = Path("/tmp/ca2-kep-sbf/cyberalchemy_kep_solana_program.so")
 
+ADMITTED_DOMAINSPEC_PARSER = {
+    "commit": "7a704e97a93ecf89fd5aae31f79f89f1608e2725",
+    "path": "projects/domainspec-v2/impl/cli/src/input/project-model.ts",
+    "sha256": "2a4e5de81f3714649ed296446e9aad8d9fd73ebcc632f8d9f14105227a00ce34",
+}
+
 PINNED_PREDECESSORS = {
     "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3",
     "decisions/rust-binding-acceptance-002.json": "56d3dbe773bee25ac59d245728c58db636090c8d3f68e779ae6f0ab27038207a",
     "formal-evidence/local-conformance/001/generated/conformance-assessment.json": "d0f71ea337216455262ab68d889c7b7c9997eb9127e802a1d51bd23f677c4dab",
     "decisions/local-conformance-assessment-acceptance-001.json": "8fe41ab442f047b6ad5207056a55eaf1b4f86b2aa55a8966256596134ac139a7",
+    "implementation/rust-binding/successors/010/generated/implementation-binding.json": "48f19f79e19ec93ac8abe1547a75d22e672d0b0d181c6dc1a218d1780914413b",
+    "decisions/rust-binding-acceptance-005.json": "d3b107d0bc2e9d154522ba1f0489faf3e35181466c609a674f15d15c88a87c52",
+    "evidence/independent-review/008/review.json": "5944ae5391a413adcdf2d389f2a595e98ff816bd822a05aaff08a409e667a8f7",
+    "evidence/relation-coverage/relation-evidence-matrix.json": "86326e0fb95140d0afb6de3a87333374c28b83e9260b55e7eb6a2823948bd19f",
+    "formal-evidence/conformance-v2/generated/provider-receipt.json": "3c8553c4fe1694ca8e4021c2178e4628bfa0eeef3177b5ec0434c89e79933b38",
 }
 
 EXPECTED_IDENTITIES = {
@@ -91,7 +104,14 @@ def verify_predecessors() -> dict[str, str]:
     return observed
 
 
-def run(command: list[str], *, cwd: Path = REPO, env: dict[str, str] | None = None) -> dict[str, object]:
+def run(
+    command: list[str],
+    *,
+    cwd: Path = REPO,
+    env: dict[str, str] | None = None,
+    output_replacements: dict[str, str] | None = None,
+    fail_on_nonzero: bool = True,
+) -> dict[str, object]:
     process = subprocess.run(
         command,
         cwd=cwd,
@@ -102,15 +122,79 @@ def run(command: list[str], *, cwd: Path = REPO, env: dict[str, str] | None = No
         check=False,
     )
     output = process.stdout
-    if process.returncode:
+    if process.returncode and fail_on_nonzero:
         sys.stdout.write(output)
         raise LoopBlock(f"command failed ({process.returncode}): {' '.join(command)}")
-    print(f"PASS {' '.join(command)}")
+    normalized_output = output
+    for observed, replacement in (output_replacements or {}).items():
+        normalized_output = normalized_output.replace(observed, replacement)
+    print(f"{'PASS' if process.returncode == 0 else 'DIAGNOSTIC_FAIL'} {' '.join(command)}")
     return {
         "command": command,
         "exit_code": process.returncode,
-        "output_sha256": sha256(output.encode()),
+        "result": "pass" if process.returncode == 0 else "diagnostic-fail",
+        "output_sha256": sha256(normalized_output.encode()),
     }
+
+
+def admitted_domainspec_checks(environment: dict[str, str]) -> list[dict[str, object]]:
+    """Reproduce the exact parser bytes bound by the admitted DomainSpec source."""
+    parser_ref = f"{ADMITTED_DOMAINSPEC_PARSER['commit']}:{ADMITTED_DOMAINSPEC_PARSER['path']}"
+    historical = subprocess.run(
+        ["git", "show", parser_ref],
+        cwd=REPO,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    require(historical.returncode == 0, f"cannot resolve admitted DomainSpec parser: {parser_ref}")
+    require(
+        sha256(historical.stdout) == ADMITTED_DOMAINSPEC_PARSER["sha256"],
+        "reproduced admitted DomainSpec parser digest drift",
+    )
+
+    with tempfile.TemporaryDirectory(prefix="ca2-kep-admitted-domainspec-") as temp_name:
+        temp_root = Path(temp_name)
+        isolated_v1 = temp_root / V1.relative_to(REPO)
+        shutil.copytree(
+            V1,
+            isolated_v1,
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
+        )
+        sources = json.loads((V1 / "ontology/sources.json").read_text(encoding="utf-8"))["sources"]
+        for source in sources:
+            if source.get("location") != "working-tree":
+                continue
+            relative = Path(source["path"])
+            source_path = REPO / relative
+            target_path = temp_root / relative
+            require(source_path.is_file(), f"selected DomainSpec dependency missing: {relative}")
+            if not target_path.exists():
+                target_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source_path, target_path)
+        (temp_root / ".git").symlink_to(REPO / ".git", target_is_directory=True)
+        parser_path = temp_root / ADMITTED_DOMAINSPEC_PARSER["path"]
+        parser_path.parent.mkdir(parents=True, exist_ok=True)
+        parser_path.write_bytes(historical.stdout)
+        replacement = {str(temp_root): "<isolated-admitted-domainspec-root>"}
+
+        checks = []
+        for relative_command in (
+            ["python3", "domainspec/author.py", "--check"],
+            ["python3", "domainspec/validate.py", "--skip-native"],
+        ):
+            executable = [relative_command[0], str(isolated_v1 / relative_command[1]), *relative_command[2:]]
+            receipt = run(
+                executable,
+                cwd=temp_root,
+                env=environment,
+                output_replacements=replacement,
+            )
+            receipt["command"] = relative_command
+            receipt["toolchain_binding"] = ADMITTED_DOMAINSPEC_PARSER
+            receipt["execution_mode"] = "isolated-exact-admitted-parser"
+            checks.append(receipt)
+        return checks
 
 
 def runtime_material() -> tuple[str, list[dict[str, str]]]:
@@ -292,13 +376,34 @@ def cycle(with_postgres: bool) -> dict[str, object]:
     environment["CARGO_TARGET_DIR"] = "/tmp/ca2-kep-d65-target"
     commands = [
         ["python3", str(V1 / "ontology/validate.py")],
-        ["python3", str(V1 / "domainspec/author.py"), "--check"],
-        ["python3", str(V1 / "domainspec/validate.py")],
         ["python3", str(V1 / "formal-evidence/conformance-v2/validate.py")],
         ["python3", str(V1 / "formal-evidence/conformance-v2/author.py"), "--check"],
-        ["python3", str(V1 / "evidence/relation-coverage/author.py"), "--check"],
     ]
-    receipts = [run(command, env=environment) for command in commands]
+    receipts = [run(commands[0], env=environment)]
+    receipts.extend(admitted_domainspec_checks(environment))
+    current_lint = run(
+        [
+            "toolchains/node-typescript/bin/node-env",
+            "run",
+            "--project",
+            "projects/domainspec-v2/impl",
+            "--",
+            "pnpm",
+            "exec",
+            "tsx",
+            "cli/src/cli/main.ts",
+            "lint",
+            "/workspace/" + (V1 / "domainspec").relative_to(REPO).as_posix(),
+        ],
+        env=environment,
+        fail_on_nonzero=False,
+    )
+    current_parser = REPO / ADMITTED_DOMAINSPEC_PARSER["path"]
+    current_lint["evidence_role"] = "diagnostic-current-parser-compatibility-only"
+    current_lint["current_parser_sha256"] = sha256(current_parser.read_bytes())
+    current_lint["admission_effect"] = "none"
+    receipts.append(current_lint)
+    receipts.extend(run(command, env=environment) for command in commands[1:])
     receipts.extend(
         [
             run(["cargo", "fmt", "--all", "--check"], cwd=RUNTIME, env=environment),

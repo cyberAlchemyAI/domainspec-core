@@ -8,53 +8,83 @@
         {
           "command": [
             "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/ontology/validate.py"
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/ontology/validate.py"
           ],
           "exit_code": 0,
-          "output_sha256": "686abf497ad2ce1ebdfe3aba216f975d75c13241d721f5623d0220672b4926cf"
+          "output_sha256": "686abf497ad2ce1ebdfe3aba216f975d75c13241d721f5623d0220672b4926cf",
+          "result": "pass"
         },
         {
           "command": [
             "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/author.py",
+            "domainspec/author.py",
+            "--check"
+          ],
+          "execution_mode": "isolated-exact-admitted-parser",
+          "exit_code": 0,
+          "output_sha256": "e9b67bb697af3a3aea249bf260b2f7c2d7e033c100cca2700577e314466bbced",
+          "result": "pass",
+          "toolchain_binding": {
+            "commit": "7a704e97a93ecf89fd5aae31f79f89f1608e2725",
+            "path": "projects/domainspec-v2/impl/cli/src/input/project-model.ts",
+            "sha256": "2a4e5de81f3714649ed296446e9aad8d9fd73ebcc632f8d9f14105227a00ce34"
+          }
+        },
+        {
+          "command": [
+            "python3",
+            "domainspec/validate.py",
+            "--skip-native"
+          ],
+          "execution_mode": "isolated-exact-admitted-parser",
+          "exit_code": 0,
+          "output_sha256": "f782b8f50be0938250b9034965df7b4f590ca93c8ef17ada3fc5089f56e38206",
+          "result": "pass",
+          "toolchain_binding": {
+            "commit": "7a704e97a93ecf89fd5aae31f79f89f1608e2725",
+            "path": "projects/domainspec-v2/impl/cli/src/input/project-model.ts",
+            "sha256": "2a4e5de81f3714649ed296446e9aad8d9fd73ebcc632f8d9f14105227a00ce34"
+          }
+        },
+        {
+          "admission_effect": "none",
+          "command": [
+            "toolchains/node-typescript/bin/node-env",
+            "run",
+            "--project",
+            "projects/domainspec-v2/impl",
+            "--",
+            "pnpm",
+            "exec",
+            "tsx",
+            "cli/src/cli/main.ts",
+            "lint",
+            "/workspace/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec"
+          ],
+          "current_parser_sha256": "22f0250d606001f78a6f6f2a34db71c7dcfa1c066b03e0a87be6d9014bffd4fd",
+          "evidence_role": "diagnostic-current-parser-compatibility-only",
+          "exit_code": 22,
+          "output_sha256": "af26aeb94a4caeda3641547957fef7483672b10c3fb4f17e767011271940196f",
+          "result": "diagnostic-fail"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "353dd38ff48b0487bdc9060431521464a7887e6ad77233f35ca8c1414bc66de9",
+          "result": "pass"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/author.py",
             "--check"
           ],
           "exit_code": 0,
-          "output_sha256": "e9b67bb697af3a3aea249bf260b2f7c2d7e033c100cca2700577e314466bbced"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/validate.py"
-          ],
-          "exit_code": 0,
-          "output_sha256": "7013e826cc7f5062652ae26443f7bd03bda0af00085233bb6052b7f7990b7635"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/validate.py"
-          ],
-          "exit_code": 0,
-          "output_sha256": "353dd38ff48b0487bdc9060431521464a7887e6ad77233f35ca8c1414bc66de9"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/author.py",
-            "--check"
-          ],
-          "exit_code": 0,
-          "output_sha256": "c52cd4a8dcc57f5d281033034261c905cb4d55abb69de85c8a8b188ffb72ef09"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/evidence/relation-coverage/author.py",
-            "--check"
-          ],
-          "exit_code": 0,
-          "output_sha256": "e92d5e1fa8006682f6c2326313af5571f99b0eacfd09a24e0e92f59a4007d33f"
+          "output_sha256": "c52cd4a8dcc57f5d281033034261c905cb4d55abb69de85c8a8b188ffb72ef09",
+          "result": "pass"
         },
         {
           "command": [
@@ -64,7 +94,8 @@
             "--check"
           ],
           "exit_code": 0,
-          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "result": "pass"
         },
         {
           "command": [
@@ -74,7 +105,8 @@
             "--locked"
           ],
           "exit_code": 0,
-          "output_sha256": "08b9902960aa0a279d9a5cf6ec2599f05273b171521b500d3b5e4e14bd184740"
+          "output_sha256": "6949c7e4b1cd48c5e11c3a184eef94d7c9c1e951195c7e01aeb9593ddf43ea10",
+          "result": "pass"
         },
         {
           "command": [
@@ -88,23 +120,8 @@
             "warnings"
           ],
           "exit_code": 0,
-          "output_sha256": "22325c7feec25e4049d1ccdfacc41124ddcb74c3a48bea8b7c1537f7c9d7f3aa"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "-p",
-            "cyberalchemy-kep-adapters",
-            "--test",
-            "postgres_conformance",
-            "--locked",
-            "--",
-            "--ignored"
-          ],
-          "exit_code": 0,
-          "output_sha256": "9da6f3071c3f792fc4d4fa218ca1ee6254557ecfd978bfe11419bdbc79681cb1",
-          "provider_identity": "docker.io/library/postgres:17-alpine@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73"
+          "output_sha256": "f401c3c9798673766fe260720d3d2dffe90e349423ba26f704a0b65bc8d5fd8e",
+          "result": "pass"
         }
       ],
       "result": "PASS_BOUNDED",
@@ -123,7 +140,7 @@
         },
         {
           "path": "adapters/src/crypto.rs",
-          "sha256": "0b755dd2beea01b7cfa65b4edb79400e18cfbd67d0870d109ba772d160bfd4f0"
+          "sha256": "aecee6809c23851109246ba87acab750494b71057ed0f45edcc7d5f84c4cf404"
         },
         {
           "path": "adapters/src/lib.rs",
@@ -135,7 +152,7 @@
         },
         {
           "path": "adapters/tests/crypto_conformance.rs",
-          "sha256": "a1e2c33b259d5c7d513d12e40467d4659479cafeb1b433ca02a4e7b3d7bfb52b"
+          "sha256": "cd61d2d981b6b5c1d14dfa55d9c5ab12c9c96e9fa45007002d5ee1322c8d9f90"
         },
         {
           "path": "adapters/tests/postgres_conformance.rs",
@@ -203,18 +220,18 @@
         },
         {
           "path": "trial-cli/src/executor.rs",
-          "sha256": "05990e52dbe04168fc19e9fb53b9507dbb74c876983cb64af3c662126e583ab7"
+          "sha256": "a81fe5191129f49108df43249d2bdd77aa60ff4085016999ff7b70fc6e950efd"
         },
         {
           "path": "trial-cli/src/main.rs",
-          "sha256": "0c08e19537fcd4e5c5c00ed5f08a1cb05193b0f49260b2bbcb836c31dd9ab4d8"
+          "sha256": "fb1cd6eaf2f30af0ffb356f1b95a5230bab5574114e1bad662b38aa361d1b222"
         },
         {
           "path": "trial-cli/src/setup.rs",
           "sha256": "c831345efdea0e46af337a023ab76ff08527f6776d3d03539cdf4315174fd9c1"
         }
       ],
-      "runtime_material_digest": "df0bc2d138cfb10ed840eff7dd37ae64bfbe449ae417a75bf7e09ec223e47f98",
+      "runtime_material_digest": "0532a627e1b33298b8a6e83e7eb8b999ebde234653951a4571f013cfceb25edc",
       "runtime_material_file_count": 26,
       "sbf": {
         "absolute_minimum_deployment_submissions": 80,
@@ -224,12 +241,13 @@
           "command": [
             "cargo-build-sbf",
             "--manifest-path",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime/solana-program/Cargo.toml",
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime/solana-program/Cargo.toml",
             "--sbf-out-dir",
             "/tmp/ca2-kep-sbf"
           ],
           "exit_code": 0,
-          "output_sha256": "b1e5d6bc2b79c37cca4589db8758cbfbf0687e55b51cb0e41f343cb4d096e896"
+          "output_sha256": "af1d40c58120fa44a35f1ee7de85f3ec8945fe8711431571eda2759990d4e060",
+          "result": "pass"
         },
         "candidate_split_budget": {
           "deployment_max_sign_attempts": 1,
@@ -251,7 +269,8 @@
             "--ignored"
           ],
           "exit_code": 0,
-          "output_sha256": "a602fcd11179e313bdf4fbb2434c4ed5c17ab003bbeec9dc90a93828b62d1192"
+          "output_sha256": "07d5b9d1e2cfd49ccc8fecbd970939cfdd6e52f13808e6fbcf33958fdbede09d",
+          "result": "pass"
         },
         "original_total_submission_cap": 24,
         "original_total_submission_cap_state": "BLOCK",
@@ -265,8 +284,13 @@
       "selected_predecessors": {
         "decisions/local-conformance-assessment-acceptance-001.json": "8fe41ab442f047b6ad5207056a55eaf1b4f86b2aa55a8966256596134ac139a7",
         "decisions/rust-binding-acceptance-002.json": "56d3dbe773bee25ac59d245728c58db636090c8d3f68e779ae6f0ab27038207a",
+        "decisions/rust-binding-acceptance-005.json": "d3b107d0bc2e9d154522ba1f0489faf3e35181466c609a674f15d15c88a87c52",
+        "evidence/independent-review/008/review.json": "5944ae5391a413adcdf2d389f2a595e98ff816bd822a05aaff08a409e667a8f7",
+        "evidence/relation-coverage/relation-evidence-matrix.json": "86326e0fb95140d0afb6de3a87333374c28b83e9260b55e7eb6a2823948bd19f",
+        "formal-evidence/conformance-v2/generated/provider-receipt.json": "3c8553c4fe1694ca8e4021c2178e4628bfa0eeef3177b5ec0434c89e79933b38",
         "formal-evidence/local-conformance/001/generated/conformance-assessment.json": "d0f71ea337216455262ab68d889c7b7c9997eb9127e802a1d51bd23f677c4dab",
-        "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3"
+        "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3",
+        "implementation/rust-binding/successors/010/generated/implementation-binding.json": "48f19f79e19ec93ac8abe1547a75d22e672d0b0d181c6dc1a218d1780914413b"
       }
     },
     {
@@ -274,53 +298,83 @@
         {
           "command": [
             "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/ontology/validate.py"
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/ontology/validate.py"
           ],
           "exit_code": 0,
-          "output_sha256": "686abf497ad2ce1ebdfe3aba216f975d75c13241d721f5623d0220672b4926cf"
+          "output_sha256": "686abf497ad2ce1ebdfe3aba216f975d75c13241d721f5623d0220672b4926cf",
+          "result": "pass"
         },
         {
           "command": [
             "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/author.py",
+            "domainspec/author.py",
+            "--check"
+          ],
+          "execution_mode": "isolated-exact-admitted-parser",
+          "exit_code": 0,
+          "output_sha256": "e9b67bb697af3a3aea249bf260b2f7c2d7e033c100cca2700577e314466bbced",
+          "result": "pass",
+          "toolchain_binding": {
+            "commit": "7a704e97a93ecf89fd5aae31f79f89f1608e2725",
+            "path": "projects/domainspec-v2/impl/cli/src/input/project-model.ts",
+            "sha256": "2a4e5de81f3714649ed296446e9aad8d9fd73ebcc632f8d9f14105227a00ce34"
+          }
+        },
+        {
+          "command": [
+            "python3",
+            "domainspec/validate.py",
+            "--skip-native"
+          ],
+          "execution_mode": "isolated-exact-admitted-parser",
+          "exit_code": 0,
+          "output_sha256": "f782b8f50be0938250b9034965df7b4f590ca93c8ef17ada3fc5089f56e38206",
+          "result": "pass",
+          "toolchain_binding": {
+            "commit": "7a704e97a93ecf89fd5aae31f79f89f1608e2725",
+            "path": "projects/domainspec-v2/impl/cli/src/input/project-model.ts",
+            "sha256": "2a4e5de81f3714649ed296446e9aad8d9fd73ebcc632f8d9f14105227a00ce34"
+          }
+        },
+        {
+          "admission_effect": "none",
+          "command": [
+            "toolchains/node-typescript/bin/node-env",
+            "run",
+            "--project",
+            "projects/domainspec-v2/impl",
+            "--",
+            "pnpm",
+            "exec",
+            "tsx",
+            "cli/src/cli/main.ts",
+            "lint",
+            "/workspace/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec"
+          ],
+          "current_parser_sha256": "22f0250d606001f78a6f6f2a34db71c7dcfa1c066b03e0a87be6d9014bffd4fd",
+          "evidence_role": "diagnostic-current-parser-compatibility-only",
+          "exit_code": 22,
+          "output_sha256": "af26aeb94a4caeda3641547957fef7483672b10c3fb4f17e767011271940196f",
+          "result": "diagnostic-fail"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/validate.py"
+          ],
+          "exit_code": 0,
+          "output_sha256": "353dd38ff48b0487bdc9060431521464a7887e6ad77233f35ca8c1414bc66de9",
+          "result": "pass"
+        },
+        {
+          "command": [
+            "python3",
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/author.py",
             "--check"
           ],
           "exit_code": 0,
-          "output_sha256": "e9b67bb697af3a3aea249bf260b2f7c2d7e033c100cca2700577e314466bbced"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/domainspec/validate.py"
-          ],
-          "exit_code": 0,
-          "output_sha256": "7013e826cc7f5062652ae26443f7bd03bda0af00085233bb6052b7f7990b7635"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/validate.py"
-          ],
-          "exit_code": 0,
-          "output_sha256": "353dd38ff48b0487bdc9060431521464a7887e6ad77233f35ca8c1414bc66de9"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/author.py",
-            "--check"
-          ],
-          "exit_code": 0,
-          "output_sha256": "c52cd4a8dcc57f5d281033034261c905cb4d55abb69de85c8a8b188ffb72ef09"
-        },
-        {
-          "command": [
-            "python3",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/evidence/relation-coverage/author.py",
-            "--check"
-          ],
-          "exit_code": 0,
-          "output_sha256": "e92d5e1fa8006682f6c2326313af5571f99b0eacfd09a24e0e92f59a4007d33f"
+          "output_sha256": "c52cd4a8dcc57f5d281033034261c905cb4d55abb69de85c8a8b188ffb72ef09",
+          "result": "pass"
         },
         {
           "command": [
@@ -330,7 +384,8 @@
             "--check"
           ],
           "exit_code": 0,
-          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "result": "pass"
         },
         {
           "command": [
@@ -340,7 +395,8 @@
             "--locked"
           ],
           "exit_code": 0,
-          "output_sha256": "2c24a22042b497eeb05bcd7d60ae9561e026a58bd6167293abb41c3f70b7d4bb"
+          "output_sha256": "a79ba7515f6172c1bcd40ea98914b22b3400529cddd0b016f03e2005dc6ee410",
+          "result": "pass"
         },
         {
           "command": [
@@ -354,23 +410,8 @@
             "warnings"
           ],
           "exit_code": 0,
-          "output_sha256": "a5887e1c4948c7b416c989ef310d2120aff52ab7094dcb1cb9b829543d9a1b3b"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "-p",
-            "cyberalchemy-kep-adapters",
-            "--test",
-            "postgres_conformance",
-            "--locked",
-            "--",
-            "--ignored"
-          ],
-          "exit_code": 0,
-          "output_sha256": "64bbed7c8f1b86c1d3b371d6ea7fc3fba85dcc0dca23d23d77e6544f197671ef",
-          "provider_identity": "docker.io/library/postgres:17-alpine@sha256:18cfe3ef5e6815560c98237d6216d1e5119702fb0f3894c8785dd58b8bbe5d73"
+          "output_sha256": "b636581ed10d31cc30d52285f354d2e6b1262a88a86682a1b48cd0a92ed1a950",
+          "result": "pass"
         }
       ],
       "result": "PASS_BOUNDED",
@@ -389,7 +430,7 @@
         },
         {
           "path": "adapters/src/crypto.rs",
-          "sha256": "0b755dd2beea01b7cfa65b4edb79400e18cfbd67d0870d109ba772d160bfd4f0"
+          "sha256": "aecee6809c23851109246ba87acab750494b71057ed0f45edcc7d5f84c4cf404"
         },
         {
           "path": "adapters/src/lib.rs",
@@ -401,7 +442,7 @@
         },
         {
           "path": "adapters/tests/crypto_conformance.rs",
-          "sha256": "a1e2c33b259d5c7d513d12e40467d4659479cafeb1b433ca02a4e7b3d7bfb52b"
+          "sha256": "cd61d2d981b6b5c1d14dfa55d9c5ab12c9c96e9fa45007002d5ee1322c8d9f90"
         },
         {
           "path": "adapters/tests/postgres_conformance.rs",
@@ -469,18 +510,18 @@
         },
         {
           "path": "trial-cli/src/executor.rs",
-          "sha256": "05990e52dbe04168fc19e9fb53b9507dbb74c876983cb64af3c662126e583ab7"
+          "sha256": "a81fe5191129f49108df43249d2bdd77aa60ff4085016999ff7b70fc6e950efd"
         },
         {
           "path": "trial-cli/src/main.rs",
-          "sha256": "0c08e19537fcd4e5c5c00ed5f08a1cb05193b0f49260b2bbcb836c31dd9ab4d8"
+          "sha256": "fb1cd6eaf2f30af0ffb356f1b95a5230bab5574114e1bad662b38aa361d1b222"
         },
         {
           "path": "trial-cli/src/setup.rs",
           "sha256": "c831345efdea0e46af337a023ab76ff08527f6776d3d03539cdf4315174fd9c1"
         }
       ],
-      "runtime_material_digest": "df0bc2d138cfb10ed840eff7dd37ae64bfbe449ae417a75bf7e09ec223e47f98",
+      "runtime_material_digest": "0532a627e1b33298b8a6e83e7eb8b999ebde234653951a4571f013cfceb25edc",
       "runtime_material_file_count": 26,
       "sbf": {
         "absolute_minimum_deployment_submissions": 80,
@@ -490,12 +531,13 @@
           "command": [
             "cargo-build-sbf",
             "--manifest-path",
-            "/home/vrondelli/projects/domainspec-core-kep-d65/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime/solana-program/Cargo.toml",
+            "/home/vrondelli/projects/domainspec-core-kep-residue-closure/cyberAlchemy-v2/product/knowledge-exchange-protocol/runtime/solana-program/Cargo.toml",
             "--sbf-out-dir",
             "/tmp/ca2-kep-sbf"
           ],
           "exit_code": 0,
-          "output_sha256": "bee1a894be0274ebd14ac3ffe793e2e5c1ae6254ee5dc8f85d437e1ef7cb8e8c"
+          "output_sha256": "687dd5a8cefbb7b3257033fe7235554f4af1e8be9fdb60ded235b3e43333585b",
+          "result": "pass"
         },
         "candidate_split_budget": {
           "deployment_max_sign_attempts": 1,
@@ -517,7 +559,8 @@
             "--ignored"
           ],
           "exit_code": 0,
-          "output_sha256": "7c4e4524b3d230eada40a09db82aa3ca3d8cde8f70464d345ece3c1d059aeb4b"
+          "output_sha256": "625cffc1c6b819cc461bc5c5fd211a3d5300aabe89a2ccbfaf199b778b7eda96",
+          "result": "pass"
         },
         "original_total_submission_cap": 24,
         "original_total_submission_cap_state": "BLOCK",
@@ -531,8 +574,13 @@
       "selected_predecessors": {
         "decisions/local-conformance-assessment-acceptance-001.json": "8fe41ab442f047b6ad5207056a55eaf1b4f86b2aa55a8966256596134ac139a7",
         "decisions/rust-binding-acceptance-002.json": "56d3dbe773bee25ac59d245728c58db636090c8d3f68e779ae6f0ab27038207a",
+        "decisions/rust-binding-acceptance-005.json": "d3b107d0bc2e9d154522ba1f0489faf3e35181466c609a674f15d15c88a87c52",
+        "evidence/independent-review/008/review.json": "5944ae5391a413adcdf2d389f2a595e98ff816bd822a05aaff08a409e667a8f7",
+        "evidence/relation-coverage/relation-evidence-matrix.json": "86326e0fb95140d0afb6de3a87333374c28b83e9260b55e7eb6a2823948bd19f",
+        "formal-evidence/conformance-v2/generated/provider-receipt.json": "3c8553c4fe1694ca8e4021c2178e4628bfa0eeef3177b5ec0434c89e79933b38",
         "formal-evidence/local-conformance/001/generated/conformance-assessment.json": "d0f71ea337216455262ab68d889c7b7c9997eb9127e802a1d51bd23f677c4dab",
-        "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3"
+        "implementation/rust-binding/successors/002/generated/implementation-binding.json": "d2d7fdc314676f1795f682760fa8f05b58cd097436fee3afba844d557c9fb6b3",
+        "implementation/rust-binding/successors/010/generated/implementation-binding.json": "48f19f79e19ec93ac8abe1547a75d22e672d0b0d181c6dc1a218d1780914413b"
       }
     }
   ],

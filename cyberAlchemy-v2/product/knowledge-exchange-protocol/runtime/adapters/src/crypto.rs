@@ -1,4 +1,7 @@
-use std::{collections::BTreeMap, sync::RwLock};
+use std::{
+    collections::{btree_map::Entry, BTreeMap},
+    sync::RwLock,
+};
 
 use chacha20poly1305::{
     aead::{Aead, Generate, Key, KeyInit, Payload},
@@ -60,17 +63,21 @@ impl RecipientKeyDirectory {
         binding_id: Digest32,
         public_key: [u8; 32],
         private_key_handle: SecretHandle,
-    ) {
-        self.entries
+    ) -> Result<(), CryptographyError> {
+        let mut entries = self
+            .entries
             .write()
-            .expect("key directory poisoned")
-            .insert(
-                binding_id,
-                RecipientKeyRecord {
+            .map_err(|_| CryptographyError::CustodyUnavailable)?;
+        match entries.entry(binding_id) {
+            Entry::Vacant(slot) => {
+                slot.insert(RecipientKeyRecord {
                     public_key,
                     private_key_handle,
-                },
-            );
+                });
+                Ok(())
+            }
+            Entry::Occupied(_) => Err(CryptographyError::ContextMismatch),
+        }
     }
 
     fn resolve(&self, binding_id: Digest32) -> Result<RecipientKeyRecord, CryptographyError> {

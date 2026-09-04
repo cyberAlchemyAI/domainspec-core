@@ -77,16 +77,30 @@ fn production_crypto_preserves_a_envelope_and_rewraps_for_b() {
     let mut b = recipient(2, 12, 22, 2);
     a.key_binding_id = identity.digest(&a_public.to_bytes());
     b.key_binding_id = identity.digest(&b_public.to_bytes());
-    crypto.keys().register(
-        a.key_binding_id,
-        a_public.to_bytes().as_slice().try_into().unwrap(),
-        a_handle,
+    crypto
+        .keys()
+        .register(
+            a.key_binding_id,
+            a_public.to_bytes().as_slice().try_into().unwrap(),
+            a_handle.clone(),
+        )
+        .expect("register A key once");
+    assert_eq!(
+        Err(CryptographyError::ContextMismatch),
+        crypto.keys().register(
+            a.key_binding_id,
+            b_public.to_bytes().as_slice().try_into().unwrap(),
+            a_handle,
+        )
     );
-    crypto.keys().register(
-        b.key_binding_id,
-        b_public.to_bytes().as_slice().try_into().unwrap(),
-        b_handle,
-    );
+    crypto
+        .keys()
+        .register(
+            b.key_binding_id,
+            b_public.to_bytes().as_slice().try_into().unwrap(),
+            b_handle,
+        )
+        .expect("register B key once");
     let plaintext = b"ontology knowledge is never public state";
     let context = CryptographicContext {
         artifact_version_id: d(31),
