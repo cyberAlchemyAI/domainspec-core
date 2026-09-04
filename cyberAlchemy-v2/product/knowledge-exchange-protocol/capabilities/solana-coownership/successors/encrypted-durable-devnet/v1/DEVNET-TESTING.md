@@ -138,11 +138,12 @@ repository, envelope, evidence, terminal output, or chat.
 
 ## 6. Construct the exact technical envelope
 
-Set `KEP_ACCEPTED_BINDING` from the accepted successor binding record. This is
-provenance metadata, not a request for the owner to repeat or approve a digest.
+Set `KEP_CANDIDATE_BINDING` from the immutable successor candidate being
+tested. The Devnet result is evidence for a later admission or acceptance
+decision; this field does not claim that decision already happened.
 
 ```bash
-export KEP_ACCEPTED_BINDING=REPLACE_WITH_ACCEPTED_SUCCESSOR_BINDING_DIGEST
+export KEP_CANDIDATE_BINDING=REPLACE_WITH_CANDIDATE_SUCCESSOR_BINDING_DIGEST
 export KEP_TRIAL_BIN_SHA="$(sha256sum "$KEP_TRIAL_BIN" | awk '{print $1}')"
 export KEP_SBF_SHA="$(sha256sum "$KEP_SBF" | awk '{print $1}')"
 export KEP_SBF_SIZE="$(stat --format='%s' "$KEP_SBF")"
@@ -154,8 +155,8 @@ from pathlib import Path
 
 r = Path(os.environ["KEP_TRIAL_ROOT"])
 document = {
-    "schema_version": 2,
-    "accepted_binding_digest": os.environ["KEP_ACCEPTED_BINDING"],
+    "schema_version": 4,
+    "candidate_binding_digest": os.environ["KEP_CANDIDATE_BINDING"],
     "trial_cli_sha256": os.environ["KEP_TRIAL_BIN_SHA"],
     "authorization_model": "operator-mediated-explicit-human-authorization",
     "cryptographic_governance_provenance": "deferred",
@@ -190,6 +191,13 @@ document = {
         "attempt_journal_path": str(r / "attempt-journal.jsonl"),
         "evidence_output_path": str(r / "trial-evidence.json")
     },
+    "enumerated_effect_surface": [
+        "external-journal-write",
+        "external-terminal-evidence-write",
+        "loopback-postgresql-read-write",
+        "public-solana-finalized-read",
+        "public-solana-transaction-submit"
+    ],
     "disposable_keypairs_outside_repository": True,
     "paid_provider_fallback": False,
     "mainnet_allowed": False,
@@ -310,7 +318,89 @@ non-successful execution, including `PENDING` or `PROVEN_PRE_EFFECT_STOP`. Do
 not change RPC provider, recreate a key, delete the journal, or try another
 deployment.
 
-## 11. Verify and retain evidence
+## 11. Continue a reconciled partial deployment without replay
+
+Do not use the original terminal envelope as a retry. A continuation is a new,
+separately reviewed packet with a new executable digest and candidate binding.
+It preserves the predecessor envelope and reconciled journal as immutable input
+and writes a separate continuation journal and evidence file.
+
+The continuation envelope schema is
+`cav2-kep-deployment-continuation-envelope/v1` in conceptual terms and is
+represented by `schema_version: 1` in the runner. It binds:
+
+- the exact predecessor terminal-envelope path, SHA-256 and packet digest;
+- the exact reconciled predecessor-journal path, file SHA-256 and terminal
+  record hash;
+- the unchanged SBF path, SHA-256 and byte length;
+- the same disposable payer, program, buffer and upgrade-authority paths;
+- the first unwritten chunk index and exact remaining deployment-submission
+  count;
+- a new continuation journal and terminal evidence path; and
+- exactly finalized reads, transaction submissions and external evidence
+  writes, with zero protocol submissions and no PostgreSQL effect.
+
+Validate the new packet without RPC, credential reads, signing or output:
+
+```bash
+export KEP_CONTINUATION_ENVELOPE="$KEP_TRIAL_ROOT/deployment-continuation-envelope.json"
+export CA2_DEVNET_CONTINUATION_PACKET_DIGEST="$(sha256sum "$KEP_CONTINUATION_ENVELOPE" | awk '{print $1}')"
+"$KEP_TRIAL_BIN" validate-continuation "$KEP_CONTINUATION_ENVELOPE" \
+  > "$KEP_TRIAL_ROOT/deployment-continuation-validation.json"
+jq . "$KEP_TRIAL_ROOT/deployment-continuation-validation.json"
+```
+
+The validation result must be `PASS_BOUNDED_NO_EFFECT`. It reconstructs
+deployment progress from semantic journal effect identifiers; a transaction
+count alone is never treated as a chunk offset. For the reconciled 98,016-byte
+trial recorded on 2026-09-04, the proven plan is:
+
+```text
+buffer create + writes 000..055 finalized
+  -> first unwritten chunk 056
+  -> 72 remaining writes + 1 final deploy
+  -> 73 exact additional deployment submissions
+  -> 0 replayed predecessor submissions
+  -> 0 protocol submissions
+```
+
+Before the first new signature, `continue-deployment` also reads the finalized
+buffer account and requires the first 56 chunks to equal the exact SBF while
+every unwritten byte remains zero. A gap, unexpected byte, existing program
+account, authority mismatch, stale journal digest, failed or pending signature,
+or changed packet blocks continuation. The runner never falls back to replay.
+
+Execution is a distinct public-Devnet effect and requires a new exact owner
+authorization permitting same-trial reuse of only these disposable deployment
+credentials. When that authorization exists, the single command is:
+
+```bash
+"$KEP_TRIAL_BIN" continue-deployment "$KEP_CONTINUATION_ENVELOPE" \
+  > "$KEP_TRIAL_ROOT/deployment-continuation-output.json"
+```
+
+This command performs deployment continuation only. It does not start
+PostgreSQL, execute any protocol case, admit a candidate, publish, release, or
+authorize a later full protocol trial.
+
+If it stops after creating `continuation-attempt-journal-013.jsonl`, do not run
+`continue-deployment` again. Under a separate reconciliation-only
+authorization, inspect every recorded continuation signature without
+resubmission:
+
+```bash
+"$KEP_TRIAL_BIN" reconcile-continuation "$KEP_CONTINUATION_ENVELOPE" \
+  > "$KEP_TRIAL_ROOT/deployment-continuation-reconciliation.json"
+```
+
+The reconciliation command accepts the same continuation packet digest, reads
+only finalized Devnet status and payer balance, appends observations to the
+continuation journal, performs zero resubmissions, and still permits zero
+protocol submissions. A second continuation after another partial stop would
+require a newly authored packet and immutable journal-segment chain; it is not
+implicitly authorized by this command.
+
+## 12. Verify and retain evidence
 
 ```bash
 jq '{result, cluster, program, funding, storage, finalized_grant_revision,
