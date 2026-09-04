@@ -37,6 +37,12 @@ the source file.
 and reusable explicit Reasoning State before the volatile current-turn suffix.
 Its assessment reports exact/common prefix bytes, estimated reusable tokens,
 projection time, and deterministic invalidation reasons.
+`materializeContextBoundCacheAffinityProjection` is the fail-closed composition
+surface used before reuse. It verifies the exact Context Refresh Assessment and
+prior projection bytes, requires the reusable state to bind the current
+selected-dependency digest, and emits an immutable receipt for `cold-start`,
+`reuse-current`, or `successor-created`. Selected dependency drift can never
+remain eligible for exact-prefix reuse through this operation.
 `bindCacheTelemetryObservation` can bind explicit provider-reported input and
 cached-input tokens plus optional measured/baseline latency to that exact
 projection. Missing provider telemetry remains `unobserved`; the runtime never
@@ -85,6 +91,7 @@ Public operations include:
 - `listReasoningStateFrontiers`
 - `createRequestSeriesHeader`
 - `materializeCacheAffinityProjection`
+- `materializeContextBoundCacheAffinityProjection`
 - `createReasoningStateBranch`
 - `deriveReasoningReplayFixture`
 - `verifyReasoningReplayFixture`

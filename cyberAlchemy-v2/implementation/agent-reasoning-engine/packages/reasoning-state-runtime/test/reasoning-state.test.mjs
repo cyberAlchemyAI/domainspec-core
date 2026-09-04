@@ -4,6 +4,8 @@ import {tmpdir} from "node:os";
 import {resolve} from "node:path";
 import test from "node:test";
 
+import {canonicalJson, canonicalizeJson, sha256HexText} from "../../intent-route-resolver/index.mjs";
+
 import {
   acquireReasoningStateWriterLock,
   appendReasoningCounterevidence,
@@ -23,6 +25,7 @@ import {
   exportPortableReasoningEpoch,
   importPortableReasoningEpoch,
   materializeCacheAffinityProjection,
+  materializeContextBoundCacheAffinityProjection,
   materializeReasoningDispatch,
   planReasoningStateTransition,
   getReasoningStateFrontier,
@@ -43,6 +46,26 @@ import {
   verifyReasoningStateTransitionReceipt,
   verifyPortableReasoningEpoch,
 } from "../index.mjs";
+
+function valueDigest(value) {
+  return sha256HexText(canonicalJson(canonicalizeJson(value)));
+}
+
+function refreshAssessment({dependencies, disposition = "reuse-current", changes = [], unrelated = []}) {
+  const value = canonicalizeJson({
+    schema_version: "are.context-refresh-assessment/v1",
+    disposition,
+    reason_codes: [disposition === "reuse-current" ? "refresh.selected-dependencies-current" : "refresh.selected-dependency-drift"],
+    previous_context_epoch_id: "context-epoch:previous",
+    changed_selected_dependencies: changes,
+    unrelated_source_drift: unrelated,
+    current_selected_dependencies: dependencies,
+    current_source_snapshot: [],
+    reuse_allowed: disposition === "reuse-current",
+    authority_effect: "none",
+  });
+  return {ok: true, value, digest: valueDigest(value), authority_effect: "none"};
+}
 
 test("content-addressed branches retain their exact base without rewriting it", () => {
   const {ledger, epoch} = state();
@@ -292,6 +315,102 @@ test("cache affinity explains exact prefix invalidation without treating it as a
     "cache-affinity.tools-changed",
   ]);
   assert.equal(second.assessment.authority_effect, "none");
+});
+
+test("context-bound reuse gates exact prefix eligibility on selected dependency currentness", () => {
+  const dependencies = [{dependency_id: "definition:one", digest: "digest:v1", kind: "definition"}];
+  const header = createRequestSeriesHeader({jsonrpc: "2.0", method: "turn/start", params: {model: "gpt-test"}});
+  const initialRefresh = refreshAssessment({
+    dependencies,
+    disposition: "successor-required",
+    changes: [{kind: "selected-dependency", identity: "definition:one", previous_digest: null, current_digest: "digest:v1", change: "added"}],
+  });
+  const stateV1 = {selected_dependencies_digest: valueDigest(dependencies), context_envelope_digest: "context:v1"};
+  const initial = materializeContextBoundCacheAffinityProjection({
+    request_header: header,
+    current_reusable_reasoning_state: stateV1,
+    volatile_current_turn_suffix: {request_ref: "request:one"},
+    refresh_assessment: initialRefresh,
+  });
+  assert.equal(initial.ok, true);
+  assert.equal(initial.receipt.disposition, "cold-start");
+
+  const reused = materializeContextBoundCacheAffinityProjection({
+    request_header: header,
+    current_reusable_reasoning_state: stateV1,
+    volatile_current_turn_suffix: {request_ref: "request:two"},
+    previous_projection: initial.projection,
+    refresh_assessment: refreshAssessment({dependencies}),
+  });
+  assert.equal(reused.ok, true);
+  assert.equal(reused.receipt.disposition, "reuse-current");
+  assert.equal(reused.receipt.exact_prefix_reuse, true);
+  assert.equal(reused.receipt.cache_hit_posture, "unobserved");
+});
+
+test("context-bound reuse creates a successor when a selected dependency changes", () => {
+  const before = [{dependency_id: "definition:one", digest: "digest:v1", kind: "definition"}];
+  const after = [{dependency_id: "definition:one", digest: "digest:v2", kind: "definition"}];
+  const header = createRequestSeriesHeader({jsonrpc: "2.0", method: "turn/start", params: {model: "gpt-test"}});
+  const prior = materializeCacheAffinityProjection({
+    request_header: header,
+    reusable_reasoning_state: {selected_dependencies_digest: valueDigest(before), context_envelope_digest: "context:v1"},
+    volatile_current_turn_suffix: {request_ref: "request:before"},
+  });
+  const refresh = refreshAssessment({
+    dependencies: after,
+    disposition: "successor-required",
+    changes: [{kind: "selected-dependency", identity: "definition:one", previous_digest: "digest:v1", current_digest: "digest:v2", change: "changed"}],
+  });
+  const result = materializeContextBoundCacheAffinityProjection({
+    request_header: header,
+    current_reusable_reasoning_state: {selected_dependencies_digest: valueDigest(after), context_envelope_digest: "context:v2"},
+    volatile_current_turn_suffix: {request_ref: "request:after"},
+    previous_projection: prior.projection,
+    refresh_assessment: refresh,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.receipt.disposition, "successor-created");
+  assert.equal(result.receipt.exact_prefix_reuse, false);
+  assert.equal(result.receipt.changed_selected_dependencies[0].identity, "definition:one");
+  assert.equal(result.receipt.invalidation_reasons.includes("cache-affinity.reasoning-state-changed"), true);
+});
+
+test("context-bound reuse blocks stale state, tampered refresh evidence, and tampered prior bytes", () => {
+  const dependencies = [{dependency_id: "definition:one", digest: "digest:v2", kind: "definition"}];
+  const header = createRequestSeriesHeader({jsonrpc: "2.0", method: "turn/start", params: {model: "gpt-test"}});
+  const refresh = refreshAssessment({dependencies});
+  const stale = materializeContextBoundCacheAffinityProjection({
+    request_header: header,
+    current_reusable_reasoning_state: {selected_dependencies_digest: valueDigest([{...dependencies[0], digest: "digest:v1"}])},
+    volatile_current_turn_suffix: {request_ref: "request:stale"},
+    refresh_assessment: refresh,
+  });
+  assert.deepEqual(stale.reason_codes, ["context-bound-reuse.selected-dependencies-binding-mismatch"]);
+
+  const tamperedRefresh = structuredClone(refresh);
+  tamperedRefresh.value.reuse_allowed = false;
+  assert.deepEqual(materializeContextBoundCacheAffinityProjection({
+    request_header: header,
+    current_reusable_reasoning_state: {selected_dependencies_digest: valueDigest(dependencies)},
+    volatile_current_turn_suffix: {request_ref: "request:tampered-refresh"},
+    refresh_assessment: tamperedRefresh,
+  }).reason_codes, ["context-bound-reuse.refresh-assessment-digest-invalid", "context-bound-reuse.refresh-reuse-flag-inconsistent"]);
+
+  const prior = materializeCacheAffinityProjection({
+    request_header: header,
+    reusable_reasoning_state: {selected_dependencies_digest: valueDigest(dependencies)},
+    volatile_current_turn_suffix: {request_ref: "request:prior"},
+  });
+  const tamperedProjection = structuredClone(prior.projection);
+  tamperedProjection.wire_value += "tampered";
+  assert.deepEqual(materializeContextBoundCacheAffinityProjection({
+    request_header: header,
+    current_reusable_reasoning_state: {selected_dependencies_digest: valueDigest(dependencies)},
+    volatile_current_turn_suffix: {request_ref: "request:next"},
+    previous_projection: tamperedProjection,
+    refresh_assessment: refresh,
+  }).reason_codes, ["context-bound-reuse.prior-projection-bytes-invalid", "context-bound-reuse.prior-projection-digest-invalid"]);
 });
 
 test("cache telemetry binds measured provider usage to one exact projection", () => {

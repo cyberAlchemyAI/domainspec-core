@@ -7,12 +7,13 @@ import {runAdaptiveReuseBenchmark} from "../src/adaptive-reuse.mjs";
 import {writeReport} from "../src/report.mjs";
 
 function options(argv) {
-  const selected = {output: null, write: true, timing_iterations: null, warm_iterations: null};
+  const selected = {output: null, write: true, timing_iterations: null, warm_iterations: null, holdout: false};
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
     if (argument === "--output") selected.output = resolve(argv[++index]);
     else if (argument === "--timing-iterations") selected.timing_iterations = Number(argv[++index]);
     else if (argument === "--warm-iterations") selected.warm_iterations = Number(argv[++index]);
+    else if (argument === "--holdout") selected.holdout = true;
     else if (argument === "--stdout-only") selected.write = false;
     else if (argument === "--help") selected.help = true;
     else throw new Error(`Unknown option: ${argument}`);
@@ -25,7 +26,7 @@ function options(argv) {
 
 const selected = options(process.argv.slice(2));
 if (selected.help) {
-  process.stdout.write("Usage: adaptive-reuse.mjs [--output FILE] [--timing-iterations N] [--warm-iterations N] [--stdout-only]\n");
+  process.stdout.write("Usage: adaptive-reuse.mjs [--holdout] [--output FILE] [--timing-iterations N] [--warm-iterations N] [--stdout-only]\n");
   process.exit(0);
 }
 

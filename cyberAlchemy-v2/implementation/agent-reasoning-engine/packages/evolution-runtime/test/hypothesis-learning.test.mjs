@@ -2,15 +2,37 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import test from "node:test";
 
+import {canonicalJson, canonicalizeJson, sha256HexText} from "../../intent-route-resolver/index.mjs";
+
 import {
   assessResearchHypothesis,
   createEvolutionRuntime,
   createHypothesisObservation,
   createResearchHypothesis,
   diagnoseLexicalScoringAnomaly,
+  projectBenchmarkFailuresToHypotheses,
   runHypothesisLearningCycle,
   verifyEvolutionRecord,
 } from "../index.mjs";
+
+function exactDigest(value) {
+  return sha256HexText(canonicalJson(canonicalizeJson(value)));
+}
+
+function benchmarkResult(overrides = {}) {
+  return {
+    schema_version: "are.real-reasoning-benchmark-result/v1",
+    benchmark_id: "are.real-reasoning-v1",
+    profile_digest: "a".repeat(64),
+    mode: "adaptive-reuse-holdout",
+    status: "FAIL",
+    summary: {checks: {adaptive_eliminates_stale_reuse: false, mandatory_reasoning_preserved: true}},
+    cases: [{scenario_id: "ADAPTIVE-HOLDOUT-003", passed: false}],
+    authority_effect: "none",
+    claim_limit: "candidate benchmark evidence only",
+    ...overrides,
+  };
+}
 
 const profile = JSON.parse(readFileSync(new URL("../profiles/default-v1.json", import.meta.url), "utf8"));
 const fixture = JSON.parse(readFileSync(new URL("../fixtures/luna-lexical-scoring-hypothesis.json", import.meta.url), "utf8"));
@@ -26,12 +48,15 @@ function diagnostic(hypothesisRef = hypothesis().record_id) {
 
 test("research-learning ontology binds every runtime record and keeps learning non-effectful", () => {
   assert.equal(ontology.product_capability.capability_id, "ARE-CAP-LEARN-FROM-EVIDENCE");
-  assert.deepEqual(ontology.nodes.map((node) => node.record_schema).slice(0, 4), [
+  assert.deepEqual(ontology.nodes.map((node) => node.record_schema).slice(0, 5), [
+    "are.failure-hypothesis-projection/v1",
     "are.research-hypothesis/v1",
     "are.hypothesis-observation/v1",
     "are.research-experiment/v1",
     "are.learning-decision/v1",
   ]);
+  assert.equal(ontology.definitions.some((definition) => definition.definition_id === "ARE-RL-D06" && definition.term === "Failure Hypothesis Projection"), true);
+  assert.equal(ontology.relations.some((relation) => relation.relation_id === "failure-projection-creates-hypothesis"), true);
   assert.equal(ontology.definitions.some((definition) => definition.definition_id === "ARE-RL-D05" && definition.term === "Improvement Retention"), true);
   assert.equal(ontology.nodes.some((node) => node.record_schema === "are.improvement-retention/v1"), true);
   assert.equal(ontology.relations.some((relation) => relation.relation_id === "successful-comparison-can-support-retention"), true);
@@ -44,6 +69,35 @@ test("hypotheses are deterministic, immutable, and self-verifying", () => {
   assert.deepEqual(left, right);
   assert.equal(Object.isFrozen(left), true);
   assert.equal(verifyEvolutionRecord(left).ok, true);
+});
+
+test("failed benchmark checks deterministically project improvement signals and hypotheses", () => {
+  const result = benchmarkResult();
+  const left = projectBenchmarkFailuresToHypotheses({benchmark_result: result, expected_result_digest: exactDigest(result)});
+  const right = projectBenchmarkFailuresToHypotheses({benchmark_result: result, expected_result_digest: exactDigest(result)});
+  assert.deepEqual(left, right);
+  assert.equal(left.ok, true);
+  assert.equal(left.value.disposition, "hypotheses-projected");
+  assert.deepEqual(left.value.failed_check_keys, ["adaptive_eliminates_stale_reuse"]);
+  assert.equal(left.value.signals.length, 1);
+  assert.equal(left.value.hypotheses.length, 1);
+  assert.equal(left.value.hypotheses[0].implementation_pattern, "bind-refresh-assessment-before-cache-eligibility");
+  assert.equal(left.value.hypotheses[0].experiment_template.dataset_refs[0], "scenario:ADAPTIVE-HOLDOUT-003");
+  assert.equal(verifyEvolutionRecord(left.value).ok, true);
+  assert.equal(verifyEvolutionRecord(left.value.hypotheses[0]).ok, true);
+});
+
+test("failure projection emits no candidate for PASS and blocks drift or inconsistent status", () => {
+  const passed = benchmarkResult({status: "PASS", summary: {checks: {adaptive_eliminates_stale_reuse: true, mandatory_reasoning_preserved: true}}, cases: [{scenario_id: "ADAPTIVE-HOLDOUT-003", passed: true}]});
+  const empty = projectBenchmarkFailuresToHypotheses({benchmark_result: passed, expected_result_digest: exactDigest(passed)});
+  assert.equal(empty.value.disposition, "no-failures");
+  assert.deepEqual(empty.value.hypotheses, []);
+
+  const tampered = structuredClone(passed);
+  tampered.summary.checks.mandatory_reasoning_preserved = false;
+  assert.deepEqual(projectBenchmarkFailuresToHypotheses({benchmark_result: tampered, expected_result_digest: exactDigest(passed)}).reason_codes, ["evolution.benchmark-result-digest-mismatch"]);
+  const inconsistent = benchmarkResult({status: "PASS"});
+  assert.deepEqual(projectBenchmarkFailuresToHypotheses({benchmark_result: inconsistent, expected_result_digest: exactDigest(inconsistent)}).reason_codes, ["evolution.benchmark-status-inconsistent"]);
 });
 
 test("Luna anomaly becomes bounded supporting evidence, not semantic proof", () => {

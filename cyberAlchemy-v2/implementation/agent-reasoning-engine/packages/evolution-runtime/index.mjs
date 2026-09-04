@@ -22,6 +22,7 @@ export const IMPROVEMENT_TARGET_SCHEMA = "are.improvement-target/v1";
 export const IMPROVEMENT_RETENTION_SCHEMA = "are.improvement-retention/v1";
 export const RESEARCH_RESULT_SCHEMA = "are.research-result/v1";
 export const RESEARCH_HYPOTHESIS_SCHEMA = "are.research-hypothesis/v1";
+export const FAILURE_HYPOTHESIS_PROJECTION_SCHEMA = "are.failure-hypothesis-projection/v1";
 export const HYPOTHESIS_OBSERVATION_SCHEMA = "are.hypothesis-observation/v1";
 export const RESEARCH_EXPERIMENT_SCHEMA = "are.research-experiment/v1";
 export const LEARNING_DECISION_SCHEMA = "are.learning-decision/v1";
@@ -38,6 +39,7 @@ const RECORD_PREFIX = new Map([
   [IMPROVEMENT_RETENTION_SCHEMA, "improvement-retention"],
   [RESEARCH_RESULT_SCHEMA, "research-result"],
   [RESEARCH_HYPOTHESIS_SCHEMA, "research-hypothesis"],
+  [FAILURE_HYPOTHESIS_PROJECTION_SCHEMA, "failure-hypothesis-projection"],
   [HYPOTHESIS_OBSERVATION_SCHEMA, "hypothesis-observation"],
   [RESEARCH_EXPERIMENT_SCHEMA, "research-experiment"],
   [LEARNING_DECISION_SCHEMA, "learning-decision"],
@@ -303,6 +305,94 @@ export function createResearchHypothesis(input) {
     }),
     ...lineage,
   });
+}
+
+const FAILURE_IMPLEMENTATION_PATTERNS = Object.freeze({
+  scenario_contracts: "bind-scenario-contract-before-reuse",
+  typed_projection_beats_recent_control: "pin-typed-state-before-recency-reduction",
+  reflection_improves_intent_fidelity: "apply-intent-reflection-before-context-projection",
+  adaptive_eliminates_stale_reuse: "bind-refresh-assessment-before-cache-eligibility",
+  eligible_exact_prefix_reuse: "canonical-stable-prefix-construction",
+  mandatory_reasoning_preserved: "preserve-mandatory-reasoning-state-during-compaction",
+  byte_reduction: "budgeted-structural-compaction",
+  latency: "profile-context-bound-reuse-critical-path",
+});
+
+function benchmarkFailureContract(result, expectedResultDigest) {
+  const reasons = [];
+  if (!object(result) || result.schema_version !== "are.real-reasoning-benchmark-result/v1") reasons.push("evolution.benchmark-result-invalid");
+  if (!text(expectedResultDigest) || !SHA256_PATTERN.test(expectedResultDigest)) reasons.push("evolution.benchmark-result-digest-required");
+  const actualDigest = object(result) ? digest(result) : null;
+  if (text(expectedResultDigest) && actualDigest !== expectedResultDigest) reasons.push("evolution.benchmark-result-digest-mismatch");
+  if (!text(result?.benchmark_id) || !text(result?.profile_digest) || !text(result?.mode)) reasons.push("evolution.benchmark-result-identity-invalid");
+  if (!object(result?.summary?.checks) || Object.values(result.summary.checks).some((value) => typeof value !== "boolean")) reasons.push("evolution.benchmark-checks-invalid");
+  if (!Array.isArray(result?.cases) || result.cases.some((entry) => !object(entry) || !text(entry.scenario_id) || typeof entry.passed !== "boolean")) reasons.push("evolution.benchmark-cases-invalid");
+  if (!["PASS", "FAIL"].includes(result?.status)) reasons.push("evolution.benchmark-status-invalid");
+  if (result?.authority_effect !== "none") reasons.push("evolution.benchmark-authority-invalid");
+  if (reasons.length > 0) return fail("failure-hypothesis-projection", reasons);
+  const failedChecks = Object.entries(result.summary.checks).filter(([, passed]) => !passed).map(([key]) => key).sort();
+  if ((result.status === "PASS") !== (failedChecks.length === 0)) return fail("failure-hypothesis-projection", ["evolution.benchmark-status-inconsistent"]);
+  return freeze({ok: true, actual_digest: actualDigest, failed_checks: failedChecks, authority_effect: "none"});
+}
+
+export function projectBenchmarkFailuresToHypotheses({benchmark_result: result, expected_result_digest: expectedResultDigest} = {}) {
+  const checked = benchmarkFailureContract(result, expectedResultDigest);
+  if (!checked.ok) return checked;
+  const sourceResultRef = `benchmark-result:${result.benchmark_id}:${result.mode}:${checked.actual_digest}`;
+  const failedScenarioIds = result.cases.filter((entry) => !entry.passed).map((entry) => entry.scenario_id).sort();
+  const signals = [];
+  const hypotheses = [];
+  for (const checkKey of checked.failed_checks) {
+    const pattern = FAILURE_IMPLEMENTATION_PATTERNS[checkKey] ?? "localize-failure-before-selecting-a-technique";
+    const signal = createImprovementSignal({
+      kind: `${result.mode}.${checkKey}-failure`,
+      source_result_ref: sourceResultRef,
+      scope: `${result.mode}:${checkKey}`,
+      observed_value: "failed",
+      expected_value: "passed",
+      metric: checkKey,
+      provenance_refs: [checked.actual_digest, result.profile_digest, ...failedScenarioIds.map((id) => `scenario:${id}`)],
+      confidence: 1,
+    });
+    const keyMaterial = {source_result_digest: checked.actual_digest, check_key: checkKey, pattern, failed_scenario_ids: failedScenarioIds};
+    const hypothesis = createResearchHypothesis({
+      hypothesis_key: `ARE-AUTO-${checkKey.replaceAll(/[^a-zA-Z0-9]+/g, "-").toUpperCase()}-${digest(keyMaterial).slice(0, 12).toUpperCase()}`,
+      statement: `Applying ${pattern} will make the ${checkKey} check pass on the exact ${result.mode} benchmark without regressing its other checks.`,
+      mechanism: `Use the ${pattern} code pattern at the smallest implementation boundary implicated by the failed check, then replay the exact failed scenarios.`,
+      falsifier: `The ${checkKey} check remains false, any previously passing check regresses, or the exact failed scenarios cannot be reproduced.`,
+      scope: `${result.benchmark_id}:${result.mode}:${checkKey}`,
+      metrics: [checkKey],
+      provenance_refs: [signal.record_id, sourceResultRef, result.profile_digest, ...failedScenarioIds.map((id) => `scenario:${id}`)],
+      experiment_template: {
+        research_question: `Does ${pattern} repair ${checkKey} without benchmark regression?`,
+        baseline_ref: sourceResultRef,
+        treatment_ref: `implementation-pattern:${pattern}`,
+        dataset_refs: failedScenarioIds.map((id) => `scenario:${id}`),
+        required_repetitions: 3,
+        success_criteria: {check_key: checkKey, expected: true, preserve_previously_passing_checks: true},
+        stop_conditions: ["authority effect observed", "previously passing check regressed", "source benchmark bytes drifted"],
+      },
+      strategy_ref: "failure-to-hypothesis/v1",
+      implementation_pattern: pattern,
+    });
+    signals.push(signal);
+    hypotheses.push(hypothesis);
+  }
+  const projection = seal(FAILURE_HYPOTHESIS_PROJECTION_SCHEMA, {
+    source_result_ref: sourceResultRef,
+    source_result_digest: checked.actual_digest,
+    benchmark_id: result.benchmark_id,
+    benchmark_mode: result.mode,
+    disposition: checked.failed_checks.length === 0 ? "no-failures" : "hypotheses-projected",
+    failed_check_keys: checked.failed_checks,
+    failed_scenario_ids: failedScenarioIds,
+    signal_refs: signals.map((signal) => signal.record_id),
+    hypothesis_refs: hypotheses.map((hypothesis) => hypothesis.record_id),
+    signals,
+    hypotheses,
+    claim_ceiling: "Deterministic improvement candidates only; no implementation, adoption, acceptance, publication, deployment, or effect authority.",
+  });
+  return freeze({ok: true, value: projection, authority_effect: "none"});
 }
 
 export function createHypothesisObservation(input) {

@@ -1,3 +1,4 @@
+import {createHash} from "node:crypto";
 import {readFileSync} from "node:fs";
 import {resolve} from "node:path";
 
@@ -12,6 +13,15 @@ export function loadJsonl(path) {
     ids.add(row.scenario_id);
   }
   return rows;
+}
+
+export function loadExactBoundJsonl(packageRoot, binding) {
+  if (!binding || typeof binding.path !== "string" || !/^[a-f0-9]{64}$/.test(binding.sha256 ?? "")) throw new Error("Exact JSONL binding requires path and SHA-256 digest");
+  const path = resolve(packageRoot, binding.path);
+  const bytes = readFileSync(path);
+  const actual = createHash("sha256").update(bytes).digest("hex");
+  if (actual !== binding.sha256) throw new Error(`Exact JSONL binding drift: ${binding.path}`);
+  return loadJsonl(path);
 }
 
 export function validateMultiTurnCorpus(rows, path = "live-multiturn") {

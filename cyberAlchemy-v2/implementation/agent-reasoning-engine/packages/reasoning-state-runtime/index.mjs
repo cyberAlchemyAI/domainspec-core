@@ -30,6 +30,7 @@ export const REASONING_STATE_RECOVERY_SCHEMA = "are.reasoning-state-recovery-ass
 export const REASONING_STATE_FRONTIER_SCHEMA = "are.reasoning-state-frontier/v1";
 export const REASONING_CACHE_AFFINITY_PROJECTION_SCHEMA = "are.reasoning-cache-affinity-projection/v1";
 export const REASONING_CACHE_AFFINITY_ASSESSMENT_SCHEMA = "are.reasoning-cache-affinity-assessment/v1";
+export const CONTEXT_BOUND_REUSE_RECEIPT_SCHEMA = "are.context-bound-reuse-receipt/v1";
 export const REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA = "are.reasoning-cache-telemetry-observation/v1";
 export const REASONING_STATE_BRANCH_SCHEMA = "are.reasoning-state-branch/v1";
 export const REASONING_REPLAY_FIXTURE_SCHEMA = "are.reasoning-replay-fixture/v1";
@@ -1132,6 +1133,102 @@ export function materializeCacheAffinityProjection(input = {}) {
   });
   const assessment = freeze({...assessmentMaterial, assessment_digest: digest(assessmentMaterial)});
   return freeze({ok: true, projection, assessment, authority_effect: "none"});
+}
+
+function verifyContextRefreshAssessment(assessment) {
+  const reasons = [];
+  if (!record(assessment) || assessment.ok !== true || !record(assessment.value) || assessment.value.schema_version !== "are.context-refresh-assessment/v1") {
+    return fail("context-bound-reuse", ["context-bound-reuse.refresh-assessment-invalid"]);
+  }
+  const value = assessment.value;
+  if (assessment.digest !== digest(value)) reasons.push("context-bound-reuse.refresh-assessment-digest-invalid");
+  if (assessment.authority_effect !== "none" || value.authority_effect !== "none") reasons.push("context-bound-reuse.refresh-assessment-authority-invalid");
+  if (!Array.isArray(value.current_selected_dependencies) || !Array.isArray(value.changed_selected_dependencies) || !Array.isArray(value.unrelated_source_drift)) reasons.push("context-bound-reuse.refresh-assessment-shape-invalid");
+  if (!["reuse-current", "successor-required"].includes(value.disposition)) reasons.push("context-bound-reuse.refresh-disposition-invalid");
+  if (value.reuse_allowed !== (value.disposition === "reuse-current")) reasons.push("context-bound-reuse.refresh-reuse-flag-inconsistent");
+  if (value.disposition === "reuse-current" && value.changed_selected_dependencies?.length !== 0) reasons.push("context-bound-reuse.refresh-change-set-inconsistent");
+  if (value.disposition === "successor-required" && value.changed_selected_dependencies?.length === 0) reasons.push("context-bound-reuse.refresh-change-set-inconsistent");
+  for (const dependency of value.current_selected_dependencies ?? []) {
+    if (!record(dependency) || !text(dependency.dependency_id) || !text(dependency.digest)) reasons.push("context-bound-reuse.selected-dependency-invalid");
+  }
+  return reasons.length > 0 ? fail("context-bound-reuse", reasons) : freeze({ok: true, value, digest: assessment.digest, authority_effect: "none"});
+}
+
+function verifyPriorCacheProjection(projection) {
+  if (projection === null || projection === undefined) return freeze({ok: true, value: null, authority_effect: "none"});
+  const reasons = [];
+  if (!record(projection) || projection.schema_version !== REASONING_CACHE_AFFINITY_PROJECTION_SCHEMA) return fail("context-bound-reuse", ["context-bound-reuse.prior-projection-invalid"]);
+  const {projection_digest: projectionDigest, ...material} = projection;
+  if (!text(projectionDigest) || digest(material) !== projectionDigest) reasons.push("context-bound-reuse.prior-projection-digest-invalid");
+  const stableBytes = canonicalJson(projection.stable_request_prefix);
+  const reasoningBytes = canonicalJson(projection.reusable_reasoning_state);
+  const volatileBytes = canonicalJson(projection.volatile_current_turn_suffix);
+  const exactPrefix = `${stableBytes}\n${reasoningBytes}\n`;
+  const wireValue = `${exactPrefix}${volatileBytes}`;
+  if (projection.exact_prefix_digest !== sha256HexText(exactPrefix) || projection.wire_digest !== sha256HexText(wireValue) || projection.wire_value !== wireValue) reasons.push("context-bound-reuse.prior-projection-bytes-invalid");
+  return reasons.length > 0 ? fail("context-bound-reuse", reasons) : freeze({ok: true, value: projection, authority_effect: "none"});
+}
+
+export function materializeContextBoundCacheAffinityProjection(input = {}) {
+  const refresh = verifyContextRefreshAssessment(input.refresh_assessment);
+  if (!refresh.ok) return refresh;
+  const prior = verifyPriorCacheProjection(input.previous_projection ?? null);
+  if (!prior.ok) return prior;
+  if (!record(input.current_reusable_reasoning_state)) return fail("context-bound-reuse", ["context-bound-reuse.reusable-reasoning-state-required"]);
+
+  const selectedDependenciesDigest = digest(refresh.value.current_selected_dependencies);
+  if (input.current_reusable_reasoning_state.selected_dependencies_digest !== selectedDependenciesDigest) {
+    return fail("context-bound-reuse", ["context-bound-reuse.selected-dependencies-binding-mismatch"], [{expected_digest: selectedDependenciesDigest, observed_digest: input.current_reusable_reasoning_state.selected_dependencies_digest ?? null}]);
+  }
+
+  const projected = materializeCacheAffinityProjection({
+    request_header: input.request_header,
+    reusable_reasoning_state: input.current_reusable_reasoning_state,
+    volatile_current_turn_suffix: input.volatile_current_turn_suffix,
+    previous_projection: prior.value,
+  });
+  if (!projected.ok) return projected;
+
+  const selectedDrift = refresh.value.disposition === "successor-required";
+  if (selectedDrift && projected.assessment.exact_prefix_reuse) {
+    return fail("context-bound-reuse", ["context-bound-reuse.stale-prefix-eligible"]);
+  }
+  if (selectedDrift && prior.value !== null && !projected.assessment.invalidation_reasons.includes("cache-affinity.reasoning-state-changed")) {
+    return fail("context-bound-reuse", ["context-bound-reuse.selected-drift-not-projected"]);
+  }
+
+  const disposition = prior.value === null
+    ? "cold-start"
+    : projected.assessment.exact_prefix_reuse ? "reuse-current" : "successor-created";
+  const reasonCodes = [...new Set([
+    ...refresh.value.reason_codes,
+    ...projected.assessment.invalidation_reasons,
+    disposition === "reuse-current" ? "context-bound-reuse.exact-prefix-current"
+      : disposition === "cold-start" ? "context-bound-reuse.no-prior-projection"
+        : "context-bound-reuse.successor-projection-created",
+  ])].sort();
+  const material = canonicalizeJson({
+    schema_version: CONTEXT_BOUND_REUSE_RECEIPT_SCHEMA,
+    disposition,
+    refresh_assessment_digest: refresh.digest,
+    refresh_disposition: refresh.value.disposition,
+    selected_dependencies_digest: selectedDependenciesDigest,
+    previous_projection_digest: prior.value?.projection_digest ?? null,
+    current_projection_digest: projected.projection.projection_digest,
+    exact_prefix_digest: projected.projection.exact_prefix_digest,
+    exact_prefix_reuse: projected.assessment.exact_prefix_reuse,
+    reusable_prefix_bytes: projected.assessment.reusable_prefix_bytes,
+    reused_prefix_bytes: projected.assessment.reused_prefix_bytes,
+    cache_hit_posture: projected.assessment.cache_hit_posture,
+    changed_selected_dependencies: refresh.value.changed_selected_dependencies,
+    unrelated_source_drift: refresh.value.unrelated_source_drift,
+    invalidation_reasons: projected.assessment.invalidation_reasons,
+    reason_codes: reasonCodes,
+    claim_ceiling: "Context currentness and exact-prefix eligibility only; no provider cache hit, semantic correctness, freshness beyond selected sources, or effect authority.",
+    authority_effect: "none",
+  });
+  const receipt = freeze({...material, receipt_digest: digest(material)});
+  return freeze({ok: true, projection: projected.projection, assessment: projected.assessment, receipt, authority_effect: "none"});
 }
 
 export function bindCacheTelemetryObservation(input = {}) {

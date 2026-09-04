@@ -13,9 +13,13 @@ import {
 } from "../../../packages/request-intent-runtime/index.mjs";
 import {
   createRequestSeriesHeader,
+  materializeContextBoundCacheAffinityProjection,
   materializeCacheAffinityProjection,
 } from "../../../packages/reasoning-state-runtime/index.mjs";
+import {projectBenchmarkFailuresToHypotheses} from "../../../packages/evolution-runtime/index.mjs";
 import {ratio, resultEnvelope, sha256} from "./common.mjs";
+import {loadExactBoundJsonl} from "./corpus.mjs";
+import {packageRoot} from "./common.mjs";
 
 const ARM_IDS = Object.freeze([
   "A-recent-window-control",
@@ -220,6 +224,8 @@ function projectionArm(armId, result, verification, requiredIds, intentFidelity,
     reused_prefix_bytes: cache?.assessment.reused_prefix_bytes ?? null,
     cache_hit_posture: cache?.assessment.cache_hit_posture ?? null,
     cache_invalidation_reasons: cache?.assessment.invalidation_reasons ?? [],
+    context_reuse_disposition: cache?.receipt?.disposition ?? null,
+    context_reuse_receipt_digest: cache?.receipt?.receipt_digest ?? null,
     stale_reuse_incident: staleReuse,
   };
 }
@@ -242,6 +248,25 @@ function cacheProjection(reusableReasoningState, volatileSuffix, previousProject
   return result;
 }
 
+function contextBoundCacheProjection(reusableReasoningState, volatileSuffix, previousProjection, refreshAssessment) {
+  const requestHeader = createRequestSeriesHeader({jsonrpc: "2.0", method: "turn/start", params: {}}, {
+    provider_ref: "codex-app-server",
+    model_ref: "deterministic-structural-benchmark",
+    system: "ARE adaptive reasoning-state reuse benchmark",
+    tools: [{name: "repository-context"}],
+    configuration: {lane: "benchmark", protocol: "app-server"},
+  });
+  const result = materializeContextBoundCacheAffinityProjection({
+    request_header: requestHeader,
+    current_reusable_reasoning_state: reusableReasoningState,
+    volatile_current_turn_suffix: volatileSuffix,
+    previous_projection: previousProjection,
+    refresh_assessment: refreshAssessment,
+  });
+  if (!result.ok) throw new Error(`Context-bound cache projection failed: ${result.reason_codes.join(",")}`);
+  return result;
+}
+
 function rawControlArm(input, requiredIds, intentFidelity) {
   const selected = [input.events[0], ...input.events.slice(-2)]
     .filter((event, index, values) => values.findIndex((candidate) => candidate.event_id === event.event_id) === index);
@@ -260,6 +285,8 @@ function rawControlArm(input, requiredIds, intentFidelity) {
     reused_prefix_bytes: null,
     cache_hit_posture: null,
     cache_invalidation_reasons: [],
+    context_reuse_disposition: null,
+    context_reuse_receipt_digest: null,
     stale_reuse_incident: false,
   };
 }
@@ -319,7 +346,7 @@ async function evaluateScenario(scenario, policy) {
   };
   const priorCache = cacheProjection(previousReusableState, {request_ref: `${scenario.scenario_id}:previous`});
   const cCache = cacheProjection(cCurrentState, {request_ref: `${scenario.scenario_id}:current`}, priorCache.projection);
-  const dCache = cacheProjection(dCurrentState, {request_ref: `${scenario.scenario_id}:current`}, priorCache.projection);
+  const dCache = contextBoundCacheProjection(dCurrentState, {request_ref: `${scenario.scenario_id}:current`}, priorCache.projection, refresh);
   const selectedDrift = refresh.value.disposition === "successor-required";
   const cStaleReuse = selectedDrift && cCache.assessment.exact_prefix_reuse;
   const dStaleReuse = selectedDrift && dCache.assessment.exact_prefix_reuse;
@@ -386,8 +413,9 @@ async function timing(scenarios, policy, warmIterations, iterations) {
 }
 
 export async function runAdaptiveReuseBenchmark(benchmark, options = {}) {
-  const scenarios = benchmark.corpora.adaptive_reuse;
   const policy = benchmark.profile.adaptive_reuse;
+  const holdout = options.holdout === true;
+  const scenarios = holdout ? loadExactBoundJsonl(packageRoot, policy.holdout) : benchmark.corpora.adaptive_reuse;
   const cases = [];
   for (const scenario of scenarios) cases.push(await evaluateScenario(scenario, policy));
   const byArm = Object.fromEntries(ARM_IDS.map((armId) => [armId, aggregateArm(cases, armId)]));
@@ -410,7 +438,7 @@ export async function runAdaptiveReuseBenchmark(benchmark, options = {}) {
     latency: options.enforce_performance === false || latency.p95_ms <= policy.lifecycle_p95_ms,
   };
   const status = Object.values(checks).every(Boolean) ? "PASS" : "FAIL";
-  return resultEnvelope(benchmark.profile, "adaptive-reuse", status, {
+  const result = resultEnvelope(benchmark.profile, holdout ? "adaptive-reuse-holdout" : "adaptive-reuse", status, {
     checks,
     interpretation: "Deterministic structural benchmark over real ARE compaction, intent-reflection, refresh, and cache-affinity functions. It does not simulate model answer quality or claim an observed provider cache hit.",
     scenario_count: cases.length,
@@ -423,6 +451,9 @@ export async function runAdaptiveReuseBenchmark(benchmark, options = {}) {
     selected_drift_cases: cases.filter((entry) => entry.refresh_disposition === "successor-required").length,
     stale_reuse_incidents: byArm[ARM_IDS[3]].stale_reuse_incidents,
   });
+  const feedback = projectBenchmarkFailuresToHypotheses({benchmark_result: result, expected_result_digest: sha256(canonicalJson(result))});
+  if (!feedback.ok) throw new Error(`Failure-to-hypothesis projection failed: ${feedback.reason_codes.join(",")}`);
+  return deepFreeze({...result, improvement_feedback: feedback.value});
 }
 
 export {ARM_IDS};

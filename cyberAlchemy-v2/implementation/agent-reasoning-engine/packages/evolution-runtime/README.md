@@ -35,6 +35,13 @@ are append-only and preserve supporting, inconclusive, and counterevidence
 postures. A deterministic learning decision asks for replication, a controlled
 experiment, hypothesis revision, or technique materialization.
 
+`projectBenchmarkFailuresToHypotheses` closes the deterministic feedback edge.
+It accepts only an exact-digest-bound benchmark result, rejects inconsistent
+PASS/FAIL evidence, and turns each failed check into an Improvement Signal and
+a content-addressed Research Hypothesis. The hypothesis names a concrete code
+pattern, exact replay scenarios, success criteria, and a falsifier. A passing
+result produces no hypothesis, and projection never adopts or edits code.
+
 The first registered fixture, `ARE-RH-LEXICAL-001`, captures the Luna finding
 that an exact-term scorer can reject a structurally adequate answer when the
 literal requested token is absent. The detector recognizes only concept
@@ -86,6 +93,8 @@ benchmark success does not activate or deploy an engine version.
 - `runHypothesisLearningCycle` registers the hypothesis and observations,
   creates its reproducible experiment, makes the next learning decision, and
   seals the append-only reasoning epoch.
+- `projectBenchmarkFailuresToHypotheses` converts exact failed checks into
+  bounded, falsifiable implementation hypotheses without adopting them.
 - `createVariantWorkspaceFactory` creates one content-addressed detached Git
   worktree outside the serving repository, enforces one writer, and blocks any
   changed path outside the target mutation allowlist.

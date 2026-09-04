@@ -230,7 +230,8 @@ References: [MLPerf Training](https://arxiv.org/abs/1910.01500),
 ## Modes
 
 - `core`: 20 route cases, 10 context-retrieval cases, deterministic replay, and warm latency.
-- `adaptive-reuse`: eight deterministic scenarios comparing recent-window control, typed projection, intent reflection, and dependency-aware refresh with exact-prefix reuse.
+- `adaptive-reuse`: eight deterministic scenarios comparing recent-window control, typed projection, intent reflection, and the fail-closed context-bound reuse gate.
+- `adaptive-reuse-holdout`: eight disjoint, exact-SHA-bound adversarial scenarios loaded only through the dedicated evaluation flag.
 - `integration`: five multi-turn lifecycle traces plus six fail-closed cases.
 - `live`: paired ARE/control ephemeral app-server turns, alternating execution order.
 - `live-multiturn`: four paired three-turn conversations with thread continuity, per-turn grounding, Context Item citation, question-policy, and authority-safety checks.
@@ -242,12 +243,16 @@ Run the adaptive reasoning-state reuse round with Linux Node v26.8.1:
 
 ```sh
 /home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/adaptive-reuse.mjs
+/home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/adaptive-reuse.mjs --holdout
 ```
 
 This round exercises the real structural runtime functions. It measures exact
 fact preservation, correction recognition, selected-dependency invalidation,
 unrelated drift, reusable prefix bytes, and local lifecycle latency. Cache
 posture remains `unobserved` unless separately bound provider telemetry exists.
+Every result also contains `improvement_feedback`: PASS yields no candidate;
+each failed check yields a deterministic, non-adopted Research Hypothesis tied
+to the exact source result and failed scenario identities.
 
 ## External retrieval lane
 

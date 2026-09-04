@@ -31,9 +31,15 @@
       "definition_id": "ARE-RL-D05",
       "term": "Improvement Retention",
       "meaning": "An immutable record that binds one implemented-and-verified improvement candidate to exact implementation bytes, evidence bytes, and its measured comparison so the same current candidate is not rediscovered."
+    },
+    {
+      "definition_id": "ARE-RL-D06",
+      "term": "Failure Hypothesis Projection",
+      "meaning": "A deterministic record that binds an exact failed benchmark result to improvement signals and falsifiable implementation hypotheses without adopting them."
     }
   ],
   "nodes": [
+    {"node_id": "FailureHypothesisProjection", "record_schema": "are.failure-hypothesis-projection/v1"},
     {"node_id": "ResearchHypothesis", "record_schema": "are.research-hypothesis/v1"},
     {"node_id": "HypothesisObservation", "record_schema": "are.hypothesis-observation/v1"},
     {"node_id": "ResearchExperiment", "record_schema": "are.research-experiment/v1"},
@@ -43,6 +49,7 @@
     {"node_id": "ImprovementRetention", "record_schema": "are.improvement-retention/v1"}
   ],
   "relations": [
+    {"relation_id": "failure-projection-creates-hypothesis", "from": "FailureHypothesisProjection", "to": "ResearchHypothesis"},
     {"relation_id": "observation-tests-hypothesis", "from": "HypothesisObservation", "to": "ResearchHypothesis"},
     {"relation_id": "experiment-tests-hypothesis", "from": "ResearchExperiment", "to": "ResearchHypothesis"},
     {"relation_id": "decision-assesses-hypothesis", "from": "LearningDecision", "to": "ResearchHypothesis"},
@@ -57,6 +64,7 @@
     "Declared concept markers are diagnostic evidence, not a semantic oracle.",
     "Only a current retention whose exact implementation and evidence bindings match may suppress reselection of the same candidate.",
     "Retention binding drift makes the record stale and returns the candidate to the experiment frontier.",
+    "A passing benchmark creates no failure hypothesis, and a failed benchmark must bind its exact result digest.",
     "Learning decisions never mutate, activate, publish, or deploy the engine."
   ],
   "authority_effect": "none"
