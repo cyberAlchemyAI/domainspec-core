@@ -44,6 +44,7 @@ test("binding compilation is canonical and deterministic in every language", () 
     assert.equal(verifyLanguageContract(source, left), true);
     assert.equal(/\bPort\b/.test(source), false);
     assert.match(generatedRelativePath(fixture.binding_set_id, language), new RegExp(`/${language}/`));
+    for (const key of ["message_channels", "transport_bindings", "delivery_policies", "transport_failure_policies"]) assert.deepEqual(left.canonical_bindings[key], []);
   }
 });
 

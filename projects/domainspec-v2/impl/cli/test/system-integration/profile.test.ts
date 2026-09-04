@@ -60,6 +60,9 @@ test("binding compilation and generated contracts are deterministic in all langu
     assert.equal(verifySystemIntegrationContract(source, left), true);
     assert.equal(/\bPort\b/.test(source), false);
     assert.equal(left.runtime_guarantees_observed, false);
+    for (const key of ["message_channels", "transport_bindings", "delivery_policies", "transport_failure_policies"] as const) {
+      assert.deepEqual(left.canonical_bindings[key], []);
+    }
   }
 });
 
