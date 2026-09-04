@@ -19,6 +19,7 @@ import {
 } from "../../reasoning-state-runtime/index.mjs";
 import {composeReasoningEvolution} from "../../reasoning-policy-runtime/index.mjs";
 import {extractProviderCacheUsage} from "./cache-telemetry.mjs";
+import {createCodexContextWindowTracker} from "./context-window-telemetry.mjs";
 import {applyIntentControl, assessIntentRealization, materializeUserControlProfile, projectIntentInspection} from "../../request-intent-runtime/index.mjs";
 import {
   admitJsonRpcMessage,
@@ -115,6 +116,7 @@ export function createCodexAppServerWrapper(options) {
   const completionFrontiers = new Map();
   const cacheAffinityByConsumer = new Map();
   const reasoningEpochByConsumer = new Map();
+  const contextWindowTracker = createCodexContextWindowTracker();
   const internalRequests = new Set();
   let activeDecisionProfile = options.decision_profile;
   let internalSequence = 0;
@@ -856,6 +858,26 @@ export function createCodexAppServerWrapper(options) {
     const admitted = admitJsonRpcMessage(message);
     if (!admitted.ok) return {...emptyActions(), to_client: [jsonRpcError(message?.id, -32600, "Invalid app-server JSON-RPC message", admitted)]};
 
+    const contextWindowObservation = contextWindowTracker.observe(message);
+    if (contextWindowObservation.ok && contextWindowObservation.disposition === "observed") {
+      const observation = contextWindowObservation.observation;
+      ledger.record({
+        event_kind: observation.event_kind,
+        direction: "server-to-client",
+        method: observation.method,
+        thread_id: observation.thread_id,
+        turn_id: observation.turn_id,
+        item_id: observation.item_id,
+        observation_digest: observation.observation_digest,
+        token_usage: observation.token_usage,
+        observed_last_total_to_model_window_ratio: observation.observed_last_total_to_model_window_ratio,
+      });
+    } else if (!contextWindowObservation.ok) {
+      ledger.record({event_kind: "context-window-telemetry-rejected", direction: "wrapper", method: message.method, reason_codes: contextWindowObservation.reason_codes});
+    } else if (contextWindowObservation.disposition === "duplicate") {
+      ledger.record({event_kind: "context-window-telemetry-duplicate", direction: "wrapper", method: message.method, observation_digest: contextWindowObservation.observation_digest});
+    }
+
     const boundTurnState = admitted.kind === "response" ? bindTurnResponse(message) : null;
     if (boundTurnState?.consumer_ref) {
       const current = cacheAffinityByConsumer.get(boundTurnState.consumer_ref);
@@ -1134,6 +1156,7 @@ export function createCodexAppServerWrapper(options) {
       completion_turn_ids: [...completionByTurn.keys()].sort(),
       completion_frontier_turn_ids: [...completionFrontiers.keys()].sort(),
       cache_affinity_consumers: [...cacheAffinityByConsumer.entries()].map(([consumer, value]) => ({consumer, posture: value.assessment.posture, exact_prefix_reuse: value.assessment.exact_prefix_reuse, reusable_prefix_bytes: value.assessment.reusable_prefix_bytes, reused_prefix_bytes: value.assessment.reused_prefix_bytes, invalidation_reasons: value.assessment.invalidation_reasons, projection_digest: value.projection.projection_digest, exact_prefix_digest: value.projection.exact_prefix_digest, provider_ref: value.projection.stable_request_prefix.provider_ref, model_ref: value.projection.stable_request_prefix.model_ref, assessment_digest: value.assessment.assessment_digest, cache_hit_posture: value.telemetry?.cache_hit_posture ?? value.assessment.cache_hit_posture, observed_input_tokens: value.telemetry?.observed_input_tokens ?? null, observed_cached_input_tokens: value.telemetry?.observed_cached_input_tokens ?? null, observed_token_savings: value.telemetry?.observed_token_savings ?? value.assessment.observed_token_savings, observed_time_savings_ms: value.telemetry?.observed_time_savings_ms ?? value.assessment.observed_time_savings_ms, cache_telemetry_observation_digest: value.telemetry?.observation_digest ?? null})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
+      context_window_telemetry: contextWindowTracker.snapshot(),
       reasoning_evolution_consumers: [...reasoningEpochByConsumer.entries()].map(([consumer, epoch]) => ({consumer, epoch_id: epoch.epoch_id, epoch_digest: epoch.epoch_digest, event_count: epoch.event_digests.length})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
       runtime_journal: ledger.inspect(),
       reasoning_state: reasoningLedger.inspect(),

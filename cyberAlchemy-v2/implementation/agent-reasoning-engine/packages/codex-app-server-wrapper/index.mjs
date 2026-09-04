@@ -72,6 +72,12 @@ export {
 export {deriveGatewayReasoningStateProfile} from "./src/gateway-reasoning-state.mjs";
 export {CACHE_TELEMETRY_EXTRACTION_SCHEMA, compareProviderCacheObservations, extractProviderCacheUsage, PROVIDER_CACHE_USAGE_SCHEMA} from "./src/cache-telemetry.mjs";
 export {
+  CODEX_CONTEXT_WINDOW_OBSERVATION_SCHEMA,
+  CODEX_CONTEXT_WINDOW_TELEMETRY_SCHEMA,
+  createCodexContextWindowTracker,
+  extractCodexContextWindowObservation,
+} from "./src/context-window-telemetry.mjs";
+export {
   createFileGatewaySessionStore,
   createMemoryGatewaySessionStore,
   GATEWAY_SESSION_EVENT_SCHEMA,

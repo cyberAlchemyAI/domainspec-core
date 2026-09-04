@@ -9,3 +9,9 @@ export {assembleContextEnvelope, reuseContextEnvelopeProjection} from "./src/con
 export {assessContextRefresh} from "./src/context-refresh.mjs";
 export {composeContextLifecycle} from "./src/lifecycle.mjs";
 export {selectRequestContext} from "./src/request-context-selector.mjs";
+export {
+  CONTEXT_COMPACTION_PROJECTION_SCHEMA,
+  DEFAULT_CONTEXT_COMPACTION_POLICY,
+  projectCompactionAwareContext,
+  verifyCompactionProjection,
+} from "./src/context-compaction-projection.mjs";

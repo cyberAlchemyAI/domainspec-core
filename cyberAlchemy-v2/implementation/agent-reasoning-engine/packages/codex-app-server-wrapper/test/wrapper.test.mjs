@@ -68,6 +68,31 @@ function completed(threadId = "thread-1", turnId = "turn-1") {
   return {jsonrpc: "2.0", method: "turn/completed", params: {threadId, turn: {id: turnId, items: [], status: "completed"}}};
 }
 
+test("wrapper records bounded Codex context-window telemetry without retaining context contents", async () => {
+  const instance = wrapper();
+  const message = {
+    jsonrpc: "2.0",
+    method: "thread/tokenUsage/updated",
+    params: {
+      threadId: "thread-telemetry",
+      turnId: "turn-telemetry",
+      tokenUsage: {
+        last: {inputTokens: 900, cachedInputTokens: 600, cacheWriteInputTokens: 0, outputTokens: 80, reasoningOutputTokens: 20, totalTokens: 1000},
+        total: {inputTokens: 1900, cachedInputTokens: 1100, cacheWriteInputTokens: 0, outputTokens: 180, reasoningOutputTokens: 40, totalTokens: 2120},
+        modelContextWindow: 4000,
+      },
+    },
+  };
+  const action = await instance.processServerMessage(message);
+  assert.deepEqual(action.to_client, [message]);
+  const telemetry = instance.inspectState().context_window_telemetry;
+  assert.equal(telemetry.threads[0].thread_id, "thread-telemetry");
+  assert.equal(telemetry.threads[0].token_usage_update_count, 1);
+  const event = instance.ledger.snapshot().find((candidate) => candidate.event_kind === "token-usage-updated");
+  assert.equal(event.thread_id, "thread-telemetry");
+  assert.equal(Object.hasOwn(event, "context"), false);
+});
+
 function turnResponse(id, turnId) {
   return {jsonrpc: "2.0", id, result: {turn: {id: turnId}}};
 }

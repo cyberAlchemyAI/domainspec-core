@@ -9,7 +9,9 @@
     "failure": "corpus/failure-safety.jsonl",
     "live": "corpus/live-conversations.jsonl",
     "live_multiturn": "corpus/live-multiturn.jsonl",
-    "intent": "corpus/intent-understanding.jsonl"
+    "intent": "corpus/intent-understanding.jsonl",
+    "compaction": "corpus/compaction.jsonl",
+    "adaptive_reuse": "corpus/adaptive-reuse.jsonl"
   },
   "thresholds": {
     "route_accuracy": 0.98,
@@ -47,6 +49,44 @@
     "identity_requirement": "exact-projection-and-prefix",
     "absent_posture": "unobserved",
     "metrics": ["cached_input_token_delta", "latency_delta_ms"]
+  },
+  "compaction": {
+    "max_inline_bytes": 32768,
+    "recent_active_units": 2,
+    "recent_only_events": 2,
+    "preview_head_characters": 192,
+    "preview_tail_characters": 192,
+    "minimum_byte_reduction_ratio": 0.5,
+    "projection_p95_ms": 10,
+    "timing_warm_iterations": 100,
+    "timing_iterations": 1000
+  },
+  "compaction_auto_live": {
+    "experiment_id": "are.compaction-auto-live/v2",
+    "supersedes_experiment_id": "are.compaction-auto-live/v1",
+    "treatment_strategy": "inline-pinned-reasoning-state/v1",
+    "max_filler_turns": 7,
+    "filler_units_per_turn": 6000,
+    "max_generated_bytes_per_thread": 1000000,
+    "minimum_quality_delta": 0.10,
+    "treatment_min_recall": 0.90
+  },
+  "adaptive_reuse": {
+    "experiment_id": "are.adaptive-reasoning-state-reuse/v1",
+    "variants": [
+      "A-recent-window-control",
+      "B-typed-projection",
+      "C-projection-plus-reflection",
+      "D-adaptive-refresh-and-reuse"
+    ],
+    "max_inline_bytes": 32768,
+    "recent_active_units": 2,
+    "preview_head_characters": 48,
+    "preview_tail_characters": 48,
+    "minimum_byte_reduction_ratio": 0.40,
+    "lifecycle_p95_ms": 250,
+    "timing_warm_iterations": 20,
+    "timing_iterations": 100
   },
   "impact_profiling": {
     "warm_iterations": 20,

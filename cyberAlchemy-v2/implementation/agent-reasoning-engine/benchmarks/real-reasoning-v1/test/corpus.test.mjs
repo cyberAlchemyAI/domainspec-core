@@ -5,7 +5,7 @@ import {packageRoot} from "../src/common.mjs";
 
 test("loads the versioned benchmark corpus", () => {
   const benchmark = loadBenchmark(packageRoot);
-  assert.deepEqual(Object.fromEntries(Object.entries(benchmark.corpora).map(([key, rows]) => [key, rows.length])), {routing: 20, context: 10, lifecycle: 5, failure: 6, live: 6, live_multiturn: 4, intent: 8});
+  assert.deepEqual(Object.fromEntries(Object.entries(benchmark.corpora).map(([key, rows]) => [key, rows.length])), {routing: 20, context: 10, lifecycle: 5, failure: 6, live: 6, live_multiturn: 4, intent: 8, compaction: 4, adaptive_reuse: 8});
   assert.equal(benchmark.corpora.live_multiturn.every((scenario) => scenario.turns.length === 3), true);
 });
 

@@ -10,9 +10,48 @@ Use the repository's Node 26.8.1 runtime:
 cd /home/vrondelli/projects/domainspec-core/cyberAlchemy-v2/implementation/agent-reasoning-engine/benchmarks/real-reasoning-v1
 /home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/benchmark.mjs --mode core
 /home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/benchmark.mjs --mode integration
+/home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/benchmark.mjs --mode compaction-simulated
 ```
 
-`all` runs core and integration. Real Codex comparison is deliberately opt-in:
+`compaction-simulated` compares full history, a recent-only control, the ARE
+pinned/masked projection, and that projection after replayed native Codex
+compaction notifications. It measures critical-state survival, recoverability,
+tool-pair integrity, byte reduction, deterministic replay, observer coverage,
+and local projection latency. It does not simulate Codex summarizer quality or
+make a model-quality claim. The append-only source epoch remains unchanged.
+
+The opt-in real canary drives native compaction through the existing ARE Codex
+app-server wrapper and compares paired baseline/treatment recall on one model:
+
+```sh
+PATH=/home/vrondelli/.nvm/versions/node/v26.8.1/bin:$PATH \
+  /home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/benchmark.mjs \
+  --mode compaction-live --model gpt-5.6-luna
+```
+
+This is a controlled integration canary, not a market-quality estimate.
+
+The harder automatic-compaction experiment never calls the manual compaction
+method. It alternates paired arms, adds bounded deterministic conversation
+turns to a direct Codex app-server until Codex emits `contextCompaction`, and
+requires a registered recall gain. The v2 treatment renders the same pinned
+projection as a typed, delimited reasoning-state text item immediately before
+the recall request; its digest and byte count are recorded. This supersedes the
+v1 application-metadata treatment, whose five-pair failure remains immutable
+run evidence. Wrapper integration and its 32 KiB mandatory Context Envelope
+remain covered by the separate canary and wrapper suites.
+
+```sh
+PATH=/home/vrondelli/.nvm/versions/node/v26.8.1/bin:$PATH \
+  /home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/benchmark.mjs \
+  --mode compaction-auto-live --model gpt-5.6-luna --repetitions 1
+```
+
+If both threads do not compact within the byte/turn cap, the run is
+`NOT_EVALUATED`. If compaction occurs but the treatment does not clear the
+registered recall delta, the run is `FAIL`, preserving the no-gain result.
+
+`all` runs all deterministic modes, including compaction. Real Codex comparison is deliberately opt-in:
 
 ```sh
 PATH=/home/vrondelli/.nvm/versions/node/v26.8.1/bin:$PATH \
@@ -191,12 +230,24 @@ References: [MLPerf Training](https://arxiv.org/abs/1910.01500),
 ## Modes
 
 - `core`: 20 route cases, 10 context-retrieval cases, deterministic replay, and warm latency.
+- `adaptive-reuse`: eight deterministic scenarios comparing recent-window control, typed projection, intent reflection, and dependency-aware refresh with exact-prefix reuse.
 - `integration`: five multi-turn lifecycle traces plus six fail-closed cases.
 - `live`: paired ARE/control ephemeral app-server turns, alternating execution order.
 - `live-multiturn`: four paired three-turn conversations with thread continuity, per-turn grounding, Context Item citation, question-policy, and authority-safety checks.
 - `external-retrieval`: exact-bound Agent Retrieval Bench JSONL plus ARE prediction JSONL, scored for MRR, Recall/Precision/F0.5@20, BCY@8k, and selective abstention.
 - `external-retrieval-run`: produce deterministic ARE hybrid-lexical predictions from exact corpus snapshots, then score them through the same adapter.
 - `all`: core plus integration; `--include-live` adds the live comparison.
+
+Run the adaptive reasoning-state reuse round with Linux Node v26.8.1:
+
+```sh
+/home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/adaptive-reuse.mjs
+```
+
+This round exercises the real structural runtime functions. It measures exact
+fact preservation, correction recognition, selected-dependency invalidation,
+unrelated drift, reusable prefix bytes, and local lifecycle latency. Cache
+posture remains `unobserved` unless separately bound provider telemetry exists.
 
 ## External retrieval lane
 
