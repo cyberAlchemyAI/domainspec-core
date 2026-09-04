@@ -1,6 +1,6 @@
 # CRABS partial-knowledge move evidence candidate
 
-Status: implementation prototype; live run not authorized
+Status: construction units C0-C2 implemented; C3 runtime admission not evaluable
 
 This package implements the bounded EVF run described by
 `../crabs-convergence-repair-candidate-v1/partial-knowledge-move-run-plan.md`.
@@ -11,7 +11,9 @@ The package has two separate modes:
 
 - `validate-construction` checks the package, generator, receipt adversaries,
   source/tool bindings, and CBMC discovery bindings. It does not execute the
-  48-case live run.
+  48-case live run. Its package-contract checks pass, but its aggregate result
+  remains blocked because the required Task Session request contract is not
+  installed or bound.
 - `execute` creates a new immutable attempt and runs the bounded native,
   sanitizer, and CBMC evidence sequence. That mode requires a separate explicit
   authorization and has not been run as part of package construction.
@@ -21,6 +23,10 @@ version orders, six permutations of the fixed roles, and two merge
 parenthesizations. The generator is the sole owner of this enumeration. The C
 harness rebuilds every state from insert/move operations and never uses merge
 as a clone operation.
+
+The missing Task Session contract is not recreated here. `execute` fails closed
+until a separately governed runtime-admission surface exists and is explicitly
+selected.
 
 Construction validation:
 

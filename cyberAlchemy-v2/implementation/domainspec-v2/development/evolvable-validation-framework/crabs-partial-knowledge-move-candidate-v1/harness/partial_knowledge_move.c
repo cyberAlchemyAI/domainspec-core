@@ -238,6 +238,11 @@ static bool measured_merge(crabs_ot_ordered_set_t *destination,
         snapshot_equal(&destination_before, &destination_after);
     return false;
   }
+  if (returned != destination) {
+    result->merge_success = false;
+    result->invariants_ok = false;
+    return false;
+  }
   result->invariants_ok = result->invariants_ok && destination_after.valid;
   result->inputs_disjoint = result->inputs_disjoint &&
                             sets_disjoint(destination, source);
