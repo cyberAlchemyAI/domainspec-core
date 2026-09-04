@@ -7,8 +7,31 @@
     "kinds_digest": "bc800afdca36fa701a13ec611e7ee0ef928a4c8d259d48dfac2880a3cc8cbbc4",
     "relationships_digest": "82c55ea1ad031d3135c5b8a85162e44b4e85f296b54057fda0dc38131ab376a1"
   },
-  "source_set_digest": "6987cbfbb2601084b784ff6a3ca8af963f1c10a498e40f249f9a750222ccf889",
+  "source_set_digest": "ede425f3009308f5e35bea8fd291332180eb0a1a0eb76ab596e74ddf4ad76c27",
   "nodes": [
+    {
+      "node_id": "agent-reasoning-engine.ApplyUpgradeDecision",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Operation",
+      "intent": "Atomically apply an exact controlled-local upgrade decision and restore its predecessor when the required canary fails.",
+      "body": {
+        "state_change": "yes",
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CA2-ARE-WORKFLOW-CONTROLLED-UPGRADE",
+          "CA2-ARE-RULE-CANARY-ROLLBACK",
+          "CA2-ARE-RULE-BENCHMARK-IS-NOT-AUTHORITY"
+        ],
+        "required_conditions": [
+          "decision digest verifies",
+          "current serving version equals predecessor",
+          "controlled-local activation is explicit",
+          "canary exists",
+          "failed canary triggers rollback"
+        ],
+        "authority_effect": "none"
+      }
+    },
     {
       "node_id": "agent-reasoning-engine.AuthoritySeparation",
       "feature_id": "agent-reasoning-engine",
@@ -62,6 +85,16 @@
           {
             "name": "cache_hit_posture",
             "type": "string",
+            "identity": false
+          },
+          {
+            "name": "observed_cached_input_tokens",
+            "type": "integer",
+            "identity": false
+          },
+          {
+            "name": "observed_time_savings_ms",
+            "type": "number",
             "identity": false
           },
           {
@@ -632,7 +665,7 @@
       "node_id": "agent-reasoning-engine.CoordinateReasoningStateTransition",
       "feature_id": "agent-reasoning-engine",
       "kind": "Operation",
-      "intent": "Assess, plan, explicitly execute, and receipt one fail-closed reasoning-state transition.",
+      "intent": "Automatically assess and execute one configured fail-closed reasoning-state evolution as reuse, successor, branch, or non-destructive reduced successor.",
       "body": {
         "state_change": "yes",
         "formal_return_type": "boolean",
@@ -640,9 +673,11 @@
           "CA2-ARE-WORKFLOW-REASONING-STATE-LIFECYCLE-COORDINATION"
         ],
         "required_conditions": [
-          "the current epoch verifies",
-          "the selected action is complete",
-          "risk-scaled durability is sufficient",
+          "the current and candidate epochs verify",
+          "selected dependency drift forces succession",
+          "interaction-bound work forces succession",
+          "event-budget overflow uses deterministic non-generative reduction",
+          "mandatory context overflow blocks",
           "the result remains non-authorizing"
         ],
         "authority_effect": "none",
@@ -796,6 +831,85 @@
       }
     },
     {
+      "node_id": "agent-reasoning-engine.EngineVariant",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Identify one isolated content-addressed candidate implementation built from an exact serving baseline and declared changes.",
+      "body": {
+        "fields": [
+          {
+            "name": "variant_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "baseline_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "source_tree_digest",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "technique_refs",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "changed_paths",
+            "type": "string[]",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-ENGINE-VARIANT",
+          "CA2-ARE-RULE-VARIANT-ISOLATION"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.EvaluateEngineVariant",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Operation",
+      "intent": "Apply the fixed benchmark fitness function to one exact target, baseline, and isolated candidate variant.",
+      "body": {
+        "state_change": "yes",
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION",
+          "CA2-ARE-RULE-BENCHMARK-IS-NOT-AUTHORITY",
+          "CA2-ARE-RULE-EVOLUTION-EXACT-BASELINE"
+        ],
+        "required_conditions": [
+          "baseline and candidate identities verify",
+          "protected quality and latency constraints are evaluated",
+          "safety determinism and holdout pass",
+          "comparison remains non-authorizing"
+        ],
+        "authority_effect": "none",
+        "creation_targets": [
+          "agent-reasoning-engine.VariantComparison"
+        ]
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.EvolutionCycle",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Workflow",
+      "intent": "Run one serialized measured-improvement cycle from signals through target selection and variant comparison to a non-authorizing upgrade decision.",
+      "body": {
+        "scope": "intra-feature",
+        "semantic_refs": [
+          "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION",
+          "CA2-ARE-WORKFLOW-CONTROLLED-UPGRADE"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
       "node_id": "agent-reasoning-engine.ExactDispatchPreparation",
       "feature_id": "agent-reasoning-engine",
       "kind": "Operation",
@@ -851,7 +965,7 @@
       "node_id": "agent-reasoning-engine.GatewayConsumerSession",
       "feature_id": "agent-reasoning-engine",
       "kind": "Entity",
-      "intent": "Bind one declared consumer and lane to an isolated wrapper, upstream connection, context, turn, process-local journal, reconnect state, and recoverable per-consumer Reasoning State ledger.",
+      "intent": "Bind one declared consumer and lane to authenticated reconnect state, durable request intent/outcome facts, an isolated live wrapper and upstream connection, and recoverable per-consumer Reasoning State.",
       "body": {
         "fields": [
           {
@@ -880,6 +994,16 @@
             "identity": false
           },
           {
+            "name": "resume_token_digest",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "dispatch_outcome_posture",
+            "type": "string",
+            "identity": false
+          },
+          {
             "name": "authority_effect",
             "type": "none",
             "identity": false
@@ -887,6 +1011,94 @@
         ],
         "semantic_refs": [
           "CA2-CAP-REASON-AND-MANAGE-CONTEXT"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.ImprovementSignal",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Preserve one provenance-bound observation that may indicate a measurable ARE weakness without asserting a cause or granting change authority.",
+      "body": {
+        "fields": [
+          {
+            "name": "signal_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "source_result_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "observed_value",
+            "type": "json",
+            "identity": false
+          },
+          {
+            "name": "provenance_refs",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "authority_effect",
+            "type": "none",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-IMPROVEMENT-SIGNAL"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.ImprovementTarget",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Bind one selected weakness to an exact baseline, metric, threshold, protected metrics, mutation allowlist, and invalidation rules.",
+      "body": {
+        "fields": [
+          {
+            "name": "target_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "signal_refs",
+            "type": "string[]",
+            "identity": false
+          },
+          {
+            "name": "baseline_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "metric",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "identity": false
+          },
+          {
+            "name": "mutation_allowlist",
+            "type": "string[]",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-IMPROVEMENT-TARGET"
         ],
         "authority_effect": "none"
       }
@@ -1230,7 +1442,7 @@
       "node_id": "agent-reasoning-engine.PersistentAppServerGateway",
       "feature_id": "agent-reasoning-engine",
       "kind": "Entity",
-      "intent": "Represent one long-lived local ARE transport runtime with an exact protocol binding, bounded consumers, and no durable or effect authority.",
+      "intent": "Represent one long-lived local ARE transport runtime with an exact protocol binding, bounded consumers, a single-writer append-only session index, and no effect authority.",
       "body": {
         "fields": [
           {
@@ -1250,6 +1462,11 @@
           },
           {
             "name": "protocol_binding_digest",
+            "type": "sha256",
+            "identity": false
+          },
+          {
+            "name": "session_index_digest",
             "type": "sha256",
             "identity": false
           },
@@ -2466,6 +2683,30 @@
       }
     },
     {
+      "node_id": "agent-reasoning-engine.SelectImprovementTarget",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Operation",
+      "intent": "Select one priority-ordered measurable target from exact improvement signals and fixed target profiles.",
+      "body": {
+        "state_change": "yes",
+        "formal_return_type": "boolean",
+        "semantic_refs": [
+          "CA2-ARE-WORKFLOW-ENGINE-EVOLUTION",
+          "CA2-ARE-RULE-EVOLUTION-EXACT-BASELINE"
+        ],
+        "required_conditions": [
+          "signals verify",
+          "target profiles are fixed",
+          "selection order is deterministic",
+          "no signal grants mutation authority"
+        ],
+        "authority_effect": "none",
+        "creation_targets": [
+          "agent-reasoning-engine.ImprovementTarget"
+        ]
+      }
+    },
+    {
       "node_id": "agent-reasoning-engine.SemanticJudgment",
       "feature_id": "agent-reasoning-engine",
       "kind": "Entity",
@@ -2518,7 +2759,7 @@
       "node_id": "agent-reasoning-engine.SemanticReduction",
       "feature_id": "agent-reasoning-engine",
       "kind": "Operation",
-      "intent": "Derive exactly one typed semantic outcome from an admitted frozen context and finite rule catalog while abstaining on missing support or unresolved ownership.",
+      "intent": "Select one exact opt-in semantic-domain binding and derive exactly one typed outcome from its admitted frozen context and finite provider catalog while abstaining on missing support or unresolved ownership.",
       "body": {
         "state_change": "yes",
         "formal_return_type": "boolean",
@@ -2539,6 +2780,135 @@
         "creation_targets": [
           "agent-reasoning-engine.SemanticJudgment"
         ]
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.TechniqueCandidate",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Bind a research mechanism and exact source identity to a locally testable ARE integration hypothesis.",
+      "body": {
+        "fields": [
+          {
+            "name": "technique_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "target_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "research_result_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "mechanism",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "expected_observations",
+            "type": "string[]",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-TECHNIQUE-CANDIDATE"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.UpgradeDecision",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Bind one retain, recommend, activate, or block disposition to an exact predecessor, candidate, comparison, and rollback target.",
+      "body": {
+        "fields": [
+          {
+            "name": "decision_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "predecessor_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "candidate_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "comparison_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "rollback_target_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "disposition",
+            "type": "string",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-UPGRADE-DECISION",
+          "CA2-ARE-RULE-CANARY-ROLLBACK"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "agent-reasoning-engine.VariantComparison",
+      "feature_id": "agent-reasoning-engine",
+      "kind": "Entity",
+      "intent": "Preserve the deterministic fitness result for one exact baseline, candidate, manifest, environment, and holdout set.",
+      "body": {
+        "fields": [
+          {
+            "name": "comparison_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "baseline_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "variant_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "manifest_ref",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "outcome",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "reason_codes",
+            "type": "string[]",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CA2-ARE-CONCEPT-VARIANT-COMPARISON",
+          "CA2-ARE-RULE-BENCHMARK-IS-NOT-AUTHORITY"
+        ],
+        "authority_effect": "none"
       }
     },
     {
@@ -2575,6 +2945,18 @@
       "type": "reads",
       "from": "agent-reasoning-engine.ManageAdvancedReasoningState",
       "to": "agent-reasoning-engine.ReasoningStateEpoch"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.apply-upgrade-reads-comparison",
+      "type": "reads",
+      "from": "agent-reasoning-engine.ApplyUpgradeDecision",
+      "to": "agent-reasoning-engine.VariantComparison"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.apply-upgrade-reads-decision",
+      "type": "reads",
+      "from": "agent-reasoning-engine.ApplyUpgradeDecision",
+      "to": "agent-reasoning-engine.UpgradeDecision"
     },
     {
       "edge_id": "agent-reasoning-engine.edge.authority-separation-enforces-continuation",
@@ -2755,6 +3137,42 @@
       "type": "reads",
       "from": "agent-reasoning-engine.ExactDispatchPreparation",
       "to": "agent-reasoning-engine.ReasoningStateEpoch"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.evaluate-variant-creates-comparison",
+      "type": "creates",
+      "from": "agent-reasoning-engine.EvaluateEngineVariant",
+      "to": "agent-reasoning-engine.VariantComparison"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.evaluate-variant-reads-target",
+      "type": "reads",
+      "from": "agent-reasoning-engine.EvaluateEngineVariant",
+      "to": "agent-reasoning-engine.ImprovementTarget"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.evaluate-variant-reads-variant",
+      "type": "reads",
+      "from": "agent-reasoning-engine.EvaluateEngineVariant",
+      "to": "agent-reasoning-engine.EngineVariant"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.evolution-orchestrates-comparison",
+      "type": "orchestrates",
+      "from": "agent-reasoning-engine.EvolutionCycle",
+      "to": "agent-reasoning-engine.EvaluateEngineVariant"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.evolution-orchestrates-selection",
+      "type": "orchestrates",
+      "from": "agent-reasoning-engine.EvolutionCycle",
+      "to": "agent-reasoning-engine.SelectImprovementTarget"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.evolution-orchestrates-upgrade",
+      "type": "orchestrates",
+      "from": "agent-reasoning-engine.EvolutionCycle",
+      "to": "agent-reasoning-engine.ApplyUpgradeDecision"
     },
     {
       "edge_id": "agent-reasoning-engine.edge.frontier-sealing-creates-frontier",
@@ -3013,6 +3431,18 @@
       "type": "enforces",
       "from": "agent-reasoning-engine.ReasoningStateRecoveryBoundary",
       "to": "agent-reasoning-engine.RecoverReasoningState"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.select-target-creates-target",
+      "type": "creates",
+      "from": "agent-reasoning-engine.SelectImprovementTarget",
+      "to": "agent-reasoning-engine.ImprovementTarget"
+    },
+    {
+      "edge_id": "agent-reasoning-engine.edge.select-target-reads-signal",
+      "type": "reads",
+      "from": "agent-reasoning-engine.SelectImprovementTarget",
+      "to": "agent-reasoning-engine.ImprovementSignal"
     },
     {
       "edge_id": "agent-reasoning-engine.edge.selector-binding-creates-selector-lock",

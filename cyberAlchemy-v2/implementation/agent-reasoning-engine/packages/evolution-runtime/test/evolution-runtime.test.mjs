@@ -51,10 +51,14 @@ test("retained improvements bind current implementation and evidence bytes", () 
   try {
     writeFileSync(`${root}/implementation.mjs`, "export const selected = true;\n", "utf8");
     writeFileSync(`${root}/evidence.json`, "{\"status\":\"PASS\"}\n", "utf8");
+    writeFileSync(`${root}/profile.json`, "{\"context_source_refresh\":{\"hash\":\"native\"},\"unrelated\":1}\n", "utf8");
     const input = {
       candidate_id: "hash:live-source-native-sha256",
       lifecycle_state: "implemented-and-verified",
-      implementation_bindings: [{path: "implementation.mjs", sha256: sha256HexText("export const selected = true;\n")}],
+      implementation_bindings: [
+        {path: "implementation.mjs", sha256: sha256HexText("export const selected = true;\n")},
+        {path: "profile.json", selector: "/context_source_refresh", sha256: sha256HexText("{\"hash\":\"native\"}")},
+      ],
       evidence_bindings: [{path: "evidence.json", sha256: sha256HexText("{\"status\":\"PASS\"}\n")}],
       observed_comparison: {baseline_p95_ms: 224.19, candidate_p95_ms: 15.997, potential_savings_ms: 208.193, valid_observations_per_arm: 120, verification: "read-and-hash-every-selected-source"},
       verification_refs: ["benchmark:full-pass"],
@@ -64,6 +68,8 @@ test("retained improvements bind current implementation and evidence bytes", () 
     assert.equal(assessImprovementRetentionCurrentness(retention, {repository_root: root}).disposition, "current");
     const runtime = createEvolutionRuntime({profile});
     assert.equal(runtime.appendRetention(input).disposition, "appended");
+    writeFileSync(`${root}/profile.json`, "{\"context_source_refresh\":{\"hash\":\"native\"},\"unrelated\":2}\n", "utf8");
+    assert.equal(assessImprovementRetentionCurrentness(retention, {repository_root: root}).disposition, "current");
     writeFileSync(`${root}/implementation.mjs`, "export const selected = false;\n", "utf8");
     const stale = assessImprovementRetentionCurrentness(retention, {repository_root: root});
     assert.equal(stale.disposition, "stale");

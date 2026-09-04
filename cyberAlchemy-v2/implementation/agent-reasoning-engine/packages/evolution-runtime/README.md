@@ -11,10 +11,12 @@ upgrade decisions by default.
 
 Completed optimizations can be retained as `are.improvement-retention/v1`
 records. A retention binds one candidate identity to exact implementation and
-evidence file digests plus its observed comparison. Currentness is recomputed
-from every bound file: only a current `implemented-and-verified` record can
-suppress rediscovery of that exact candidate. Missing or changed bytes make the
-record stale and return the candidate to the experiment frontier.
+evidence digests plus its observed comparison. JSON implementation bindings may
+select one JSON Pointer so unrelated fields do not invalidate the retained
+candidate. Currentness is recomputed from every selected binding: only a current
+`implemented-and-verified` record can suppress rediscovery of that exact
+candidate. Missing or changed selected bytes make the record stale and return
+the candidate to the experiment frontier.
 
 Its research-learning ontology adds a feedback loop before technique creation:
 

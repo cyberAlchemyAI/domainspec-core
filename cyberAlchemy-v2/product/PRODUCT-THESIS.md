@@ -53,7 +53,7 @@ plausible answer into an apparently finished result.
 
 ## First-Order Product Principles
 
-The product thesis commits to nine principles:
+The product thesis commits to ten principles:
 
 1. **Human agency** — important choices remain visible to the responsible
    person.
@@ -79,6 +79,10 @@ The product thesis commits to nine principles:
    references first, then provenance-marked current-window and saved-session
    context, and ask the person when that bounded evidence is still insufficient
    or indeterminate.
+10. **Progressive inspectability and control** — every material interpretation,
+    transformation, decision, action, and reflection remains available for
+    inspection and correction, while each person chooses how much of that depth
+    appears in their ordinary work surface.
 
 These are product commitments, not rewards granted after product proof.
 Governance is useful only when it protects them while helping people and
@@ -110,6 +114,35 @@ or against a specific realization while keeping scope and counterevidence
 visible. The canonical meanings and document contracts live in
 [Goal and Project](../goals/README.md), [Research](../research/README.md), and
 [Experiment](../experiments/README.md).
+
+## Agent Reasoning Engine
+
+The Agent Reasoning Engine makes CyberAlchemy better at solving problems over
+time. It remembers the reasoning state behind previous work, measures results
+with benchmarks, finds useful new research and technology, tests improvements,
+and upgrades the engine when they perform better.
+
+It runs two connected loops:
+
+```text
+work loop
+request -> context -> reasoning -> action -> result -> reusable state
+
+improvement loop
+results -> problems -> research -> new technique -> implementation
+        -> benchmark -> upgrade -> new results
+```
+
+The serving engine handles current work. The evolution engine searches for and
+builds better approaches. The upgrade controller compares new versions with the
+current version and moves a better version into service. Results from that
+version begin the next improvement cycle.
+
+The engine does not only produce answers and patches. It improves the system
+that produces them. The current ARE benchmark loop can diagnose weaknesses,
+compare bounded changes, reject regressions, and require repeatable gains. The
+automated research, version-building, upgrade, monitoring, and rollback parts
+still need to be built.
 
 ## Governance And Authority
 
@@ -227,6 +260,41 @@ has been implemented.
 Necessary detail may remain dense, but it needs a clear entry point and a short
 path to a useful action. CyberAlchemy removes avoidable friction while retaining
 the friction required for judgment, consent, privacy, evidence, and ownership.
+
+## Progressive Inspectability And Control
+
+CyberAlchemy must make the highest practical degree of inspection and control
+available without requiring every person to operate at that depth. A default
+interaction may show only the result, material assumptions, real blockers, and
+consequential decisions. The same interaction must be expandable into an
+explanation of the interpreted intent, selected context, sources, assumptions,
+route, actions, evidence, corrections, and continuation state.
+
+Inspection is progressive:
+
+```text
+quiet      -> result and material intervention points
+explain    -> concise intent, rationale, assumptions, and changes
+inspect    -> complete structured inputs, transformations, provenance, and history
+control    -> correct, rebind, pause, replay, retain, discard, or redirect
+```
+
+These levels change presentation and participation, not the quality of reasoning
+or the truth of the underlying records. A hidden panel cannot mean missing
+provenance, and a simplified surface cannot remove the person's ability to
+inspect or challenge what produced the result. Inspection exposes structured,
+reproducible system reasoning records; it does not depend on exposing private
+model chain-of-thought.
+
+The person also controls how corrections become durable. A correction may repair
+the current result, update the current work context, become a product-specific
+convention, or be proposed as a reusable benchmark and engine improvement. Those
+effects remain separate. Correcting one interaction does not silently create a
+universal rule, and declining retention does not prevent the immediate repair.
+
+As complementary product framing, this is a quiet surface over a glass-box
+engine: unobtrusive for ordinary work, fully inspectable and controllable when
+the person chooses to go deeper.
 
 ## Who Participates
 

@@ -1,0 +1,870 @@
+{
+  "schema_version": "are.real-reasoning-benchmark-result/v1",
+  "benchmark_id": "are.real-reasoning-v1",
+  "mode": "all",
+  "status": "PASS",
+  "environment": {
+    "node": "v26.8.1",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "summary": {
+    "component_statuses": {
+      "core": "PASS",
+      "intent": "PASS",
+      "integration": "PASS"
+    }
+  },
+  "components": [
+    {
+      "schema_version": "are.real-reasoning-benchmark-result/v1",
+      "benchmark_id": "are.real-reasoning-v1",
+      "profile_digest": "f43b7ff282f57fbdf8ce73b793f09074fc3e31887786d03e6ca44b16ce31db1f",
+      "mode": "core",
+      "status": "PASS",
+      "environment": {
+        "node": "v26.8.1",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "summary": {
+        "checks": {
+          "route_accuracy": true,
+          "definition_recall": true,
+          "context_precision": true,
+          "route_latency": true,
+          "request_selection_latency": true,
+          "preflight_latency": true,
+          "determinism": true,
+          "ambiguity_safety": true
+        },
+        "route_accuracy": 1,
+        "definition_recall": 1,
+        "context_precision": 0.9166666666666666,
+        "determinism_mismatches": 0,
+        "false_direct_ambiguities": 0
+      },
+      "metrics": {
+        "route": {
+          "iterations": 10000,
+          "mean_ms": 0.6801079121999958,
+          "p50_ms": 0.6176900000000387,
+          "p95_ms": 1.0553640000007363,
+          "max_ms": 5.8174609999998665
+        },
+        "request_selection": {
+          "iterations": 10000,
+          "mean_ms": 0.2655894237000117,
+          "p50_ms": 0.17692099999840138,
+          "p95_ms": 0.760071999999127,
+          "max_ms": 4.445630999998684
+        },
+        "preflight": {
+          "iterations": 30,
+          "mean_ms": 9.763270833333262,
+          "p50_ms": 9.597905999999057,
+          "p95_ms": 13.979042999999365,
+          "max_ms": 16.534663000000364
+        }
+      },
+      "cases": {
+        "routing": [
+          {
+            "scenario_id": "ROUTE-001",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-UNDERSTAND",
+            "actual_route": "CA2-ROUTE-UNDERSTAND",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-002",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-RESEARCH",
+            "actual_route": "CA2-ROUTE-RESEARCH",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-003",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-DEFINE",
+            "actual_route": "CA2-ROUTE-DEFINE",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-004",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-PLAN",
+            "actual_route": "CA2-ROUTE-PLAN",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-005",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-IMPLEMENT",
+            "actual_route": "CA2-ROUTE-IMPLEMENT",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-006",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-DEFINITIONS",
+            "actual_route": "CA2-ROUTE-DEFINITIONS",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-007",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-GOVERNANCE",
+            "actual_route": "CA2-ROUTE-GOVERNANCE",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-008",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-VALIDATE",
+            "actual_route": "CA2-ROUTE-VALIDATE",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-009",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-ONTOLOGY",
+            "actual_route": "CA2-ROUTE-ONTOLOGY",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-010",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-DELEGATE",
+            "actual_route": "CA2-ROUTE-DELEGATE",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-011",
+            "passed": true,
+            "expected_kind": "no-match",
+            "actual_kind": "no-match",
+            "expected_route": null,
+            "actual_route": null,
+            "reason_codes": [
+              "selection.no-match"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-012",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-PUBLISH",
+            "actual_route": "CA2-ROUTE-PUBLISH",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-013",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-PREVIEW",
+            "actual_route": "CA2-ROUTE-PREVIEW",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-014",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-RESEARCH",
+            "actual_route": "CA2-ROUTE-RESEARCH",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-015",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-DEFINE",
+            "actual_route": "CA2-ROUTE-DEFINE",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-016",
+            "passed": true,
+            "expected_kind": "gate",
+            "actual_kind": "gate",
+            "expected_route": null,
+            "actual_route": null,
+            "reason_codes": [
+              "selection.multiple-capabilities"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-017",
+            "passed": true,
+            "expected_kind": "no-match",
+            "actual_kind": "no-match",
+            "expected_route": null,
+            "actual_route": null,
+            "reason_codes": [
+              "selection.no-match"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-018",
+            "passed": true,
+            "expected_kind": "no-match",
+            "actual_kind": "no-match",
+            "expected_route": null,
+            "actual_route": null,
+            "reason_codes": [
+              "selection.no-match"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-019",
+            "passed": true,
+            "expected_kind": "gate",
+            "actual_kind": "gate",
+            "expected_route": null,
+            "actual_route": null,
+            "reason_codes": [
+              "selection.multiple-capabilities"
+            ]
+          },
+          {
+            "scenario_id": "ROUTE-020",
+            "passed": true,
+            "expected_kind": "direct",
+            "actual_kind": "direct",
+            "expected_route": "CA2-ROUTE-UNDERSTAND",
+            "actual_route": "CA2-ROUTE-UNDERSTAND",
+            "reason_codes": [
+              "selection.unique-capability"
+            ]
+          }
+        ],
+        "context": [
+          {
+            "scenario_id": "CONTEXT-001",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-DEFINE",
+            "definition_hits": [
+              "CAV2-D19"
+            ],
+            "included_definition_ids": [
+              "definition:CAV2-D19"
+            ],
+            "kind_hits": [
+              "request",
+              "repository-instruction",
+              "ontology-catalog",
+              "ontology-node"
+            ],
+            "fragment_hits": [
+              "OntologySelector"
+            ],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 27035,
+            "envelope_digest": "c6aa3dcc9a6f0c94ad0aeecb1e2f3b73fbb4b53b1deb290cfe2e19bd1409ec3b"
+          },
+          {
+            "scenario_id": "CONTEXT-002",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-UNDERSTAND",
+            "definition_hits": [
+              "are-context.context-basis"
+            ],
+            "included_definition_ids": [
+              "definition:are-context.context-basis",
+              "definition:are-context.definition-closure",
+              "definition:are-context.ontology-selector-lock"
+            ],
+            "kind_hits": [
+              "request",
+              "repository-instruction",
+              "definition"
+            ],
+            "fragment_hits": [],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 0.3333333333333333,
+            "inline_bytes": 24848,
+            "envelope_digest": "1b2945fe71d18c7fddc8d57cddd6b200638c9a29af1df0cf81dfc6e40981a1d8"
+          },
+          {
+            "scenario_id": "CONTEXT-003",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-DEFINE",
+            "definition_hits": [
+              "are-context.ontology-selector-lock"
+            ],
+            "included_definition_ids": [
+              "definition:are-context.ontology-selector-lock"
+            ],
+            "kind_hits": [
+              "definition",
+              "ontology-node"
+            ],
+            "fragment_hits": [
+              "OntologySelectorLock"
+            ],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 24559,
+            "envelope_digest": "935b68f7f273874ee93789461042022c90746c128e387074435d80042f9bf3fd"
+          },
+          {
+            "scenario_id": "CONTEXT-004",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-UNDERSTAND",
+            "definition_hits": [
+              "are-context.context-window-view"
+            ],
+            "included_definition_ids": [
+              "definition:are-context.context-window-view"
+            ],
+            "kind_hits": [
+              "definition",
+              "ontology-node"
+            ],
+            "fragment_hits": [
+              "ContextWindowView"
+            ],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 22724,
+            "envelope_digest": "fc7b21f6ddf2dffb035c6dacc5482d1a6927d71494429cb9aea648608b3a9d34"
+          },
+          {
+            "scenario_id": "CONTEXT-005",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-DEFINE",
+            "definition_hits": [
+              "CAV2-D67"
+            ],
+            "included_definition_ids": [
+              "definition:CAV2-D67"
+            ],
+            "kind_hits": [
+              "definition",
+              "request"
+            ],
+            "fragment_hits": [],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 24791,
+            "envelope_digest": "ea71b21efb23a09d4e5e8530f62e787c963f5f84f410222ef201c2c59849ea5e"
+          },
+          {
+            "scenario_id": "CONTEXT-006",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.explicit-objective-priority"
+            ],
+            "route": "CA2-ROUTE-DEFINE",
+            "definition_hits": [
+              "CAV2-D59"
+            ],
+            "included_definition_ids": [
+              "definition:CAV2-D59"
+            ],
+            "kind_hits": [
+              "definition",
+              "request"
+            ],
+            "fragment_hits": [],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 15850,
+            "envelope_digest": "dbb378c3075bed9abce736755df50272a0bb4572310dbaa8054eb9647f302331"
+          },
+          {
+            "scenario_id": "CONTEXT-007",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-DEFINE",
+            "definition_hits": [
+              "CAV2-D60"
+            ],
+            "included_definition_ids": [
+              "definition:CAV2-D60"
+            ],
+            "kind_hits": [
+              "definition",
+              "request"
+            ],
+            "fragment_hits": [],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 15712,
+            "envelope_digest": "3715b5268ce347086438445087c2da8f0ad9c2dab3a83b565e1cd3555b982114"
+          },
+          {
+            "scenario_id": "CONTEXT-008",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-UNDERSTAND",
+            "definition_hits": [],
+            "included_definition_ids": [
+              "definition:CAV2-D66"
+            ],
+            "kind_hits": [
+              "definition",
+              "ontology-node",
+              "request"
+            ],
+            "fragment_hits": [
+              "ContextEnvelope"
+            ],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": null,
+            "inline_bytes": 23704,
+            "envelope_digest": "631fef74d53d9c6e533a4d8e23f11fff0bf99ed631a8916d9bbbb18bdd7d3e39"
+          },
+          {
+            "scenario_id": "CONTEXT-009",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.unique-capability"
+            ],
+            "route": "CA2-ROUTE-ONTOLOGY",
+            "definition_hits": [
+              "CAV2-D19"
+            ],
+            "included_definition_ids": [
+              "definition:CAV2-D19"
+            ],
+            "kind_hits": [
+              "ontology-catalog",
+              "repository-instruction"
+            ],
+            "fragment_hits": [],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": 1,
+            "inline_bytes": 27059,
+            "envelope_digest": "6193f9ab548cb5297fdebd8eda74d3de726a629f2db107c559514e186dd756c2"
+          },
+          {
+            "scenario_id": "CONTEXT-010",
+            "passed": true,
+            "action": "forward",
+            "reason_codes": [
+              "selection.explicit-objective-priority"
+            ],
+            "route": "CA2-ROUTE-DEFINE",
+            "definition_hits": [],
+            "included_definition_ids": [
+              "definition:CAV2-D61"
+            ],
+            "kind_hits": [
+              "request",
+              "repository-instruction"
+            ],
+            "fragment_hits": [],
+            "forbidden_hits": [],
+            "recall": 1,
+            "definition_precision": null,
+            "inline_bytes": 15617,
+            "envelope_digest": "0a059dcea2a66eb36f357734efb95e087c11f33d365d9e6b43cc8fda35903b2a"
+          }
+        ]
+      },
+      "authority_effect": "none",
+      "claim_limit": "Local candidate benchmark evidence only; no admission, conformance, publication, deployment, or effect authority."
+    },
+    {
+      "schema_version": "are.real-reasoning-benchmark-result/v1",
+      "benchmark_id": "are.real-reasoning-v1",
+      "profile_digest": "f43b7ff282f57fbdf8ce73b793f09074fc3e31887786d03e6ca44b16ce31db1f",
+      "mode": "intent",
+      "status": "PASS",
+      "environment": {
+        "node": "v26.8.1",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "summary": {
+        "checks": {
+          "intent_alignment": true,
+          "intent_latency": true
+        },
+        "intent_alignment": 1
+      },
+      "metrics": {
+        "intent_compilation": {
+          "iterations": 10000,
+          "p95_ms": 0.14389899999878253
+        }
+      },
+      "cases": {
+        "intent": [
+          {
+            "scenario_id": "INTENT-001",
+            "passed": true,
+            "intent_contract_digest": "f39a3a6bb4422dc57065b2b5cc37da4b80f1f6a9ae608208bcf4ed0d366a5c7c",
+            "directive_posture": "structural",
+            "correction_kind": null,
+            "improvement_eligible": null
+          },
+          {
+            "scenario_id": "INTENT-002",
+            "passed": true,
+            "intent_contract_digest": "8987c46b474470082aa7685df864d0218ae8807bcfecd57f47c1e6d78473114b",
+            "directive_posture": "surface",
+            "correction_kind": null,
+            "improvement_eligible": null
+          },
+          {
+            "scenario_id": "INTENT-003",
+            "passed": true,
+            "intent_contract_digest": "24dce0252a03c50b8b585a72a6f9fd7f0c95813e806c8b6ee96097d4edce6384",
+            "directive_posture": null,
+            "correction_kind": "wrong-referent",
+            "improvement_eligible": true
+          },
+          {
+            "scenario_id": "INTENT-004",
+            "passed": true,
+            "intent_contract_digest": "884d930b1ce81ff41868161d451250f797dd10edbe14731907cb5ec9252379d7",
+            "directive_posture": null,
+            "correction_kind": "misinterpretation",
+            "improvement_eligible": true
+          },
+          {
+            "scenario_id": "INTENT-005",
+            "passed": true,
+            "intent_contract_digest": "2318d84a48f4c373c9b551092a151520a31bb77900d4e4787d3f9b95bca8c9a0",
+            "directive_posture": null,
+            "correction_kind": "changed-mind",
+            "improvement_eligible": false
+          },
+          {
+            "scenario_id": "INTENT-006",
+            "passed": true,
+            "intent_contract_digest": "64fb6398fc35ef25aabefcee23dd8217e4ea99f3e0f59902bac018e71e25c0f9",
+            "directive_posture": null,
+            "correction_kind": "environment-drift",
+            "improvement_eligible": false
+          },
+          {
+            "scenario_id": "INTENT-007",
+            "passed": true,
+            "intent_contract_digest": "086c44b4513dd3b4b2223a65b41b2e40607aaf1c611adcacc398fd9d1eb5edff",
+            "directive_posture": null,
+            "correction_kind": null,
+            "improvement_eligible": null
+          },
+          {
+            "scenario_id": "INTENT-008",
+            "passed": true,
+            "intent_contract_digest": "0372e29af427d442b8710e9fa474790d504052916f60e78908b05fb471abff43",
+            "directive_posture": "structural",
+            "correction_kind": null,
+            "improvement_eligible": null
+          }
+        ]
+      },
+      "authority_effect": "none",
+      "claim_limit": "Local candidate benchmark evidence only; no admission, conformance, publication, deployment, or effect authority."
+    },
+    {
+      "schema_version": "are.real-reasoning-benchmark-result/v1",
+      "benchmark_id": "are.real-reasoning-v1",
+      "profile_digest": "f43b7ff282f57fbdf8ce73b793f09074fc3e31887786d03e6ca44b16ce31db1f",
+      "mode": "integration",
+      "status": "PASS",
+      "environment": {
+        "node": "v26.8.1",
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "summary": {
+        "checks": {
+          "lifecycle": true,
+          "failure_safety": true
+        }
+      },
+      "metrics": {},
+      "cases": {
+        "lifecycle": [
+          {
+            "scenario_id": "LIFECYCLE-001",
+            "passed": true,
+            "turns": [
+              {
+                "turn": 1,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:bea07ad915d96d074a416842254d1b8e838cc4bd4be9173db7a1a89c2ae3e708",
+                "context_epoch_id": "context-epoch:5b9656ef99f32b2f140b1945c93e337797e0a77687989143dbe854f4099d1820",
+                "reasons": []
+              },
+              {
+                "turn": 2,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:fd8e6360f0928267f22f934e9fbd9d9cd7a17c2738683e91277767efabee781a",
+                "context_epoch_id": "context-epoch:c10fff61bba3ec20134a87d14b7d192065074a80eb85af6500814135a29bb8e1",
+                "reasons": []
+              }
+            ]
+          },
+          {
+            "scenario_id": "LIFECYCLE-002",
+            "passed": true,
+            "turns": [
+              {
+                "turn": 1,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:23fb53087fc0401ecd1da7fed272bce4c2013d3d723b9a77398ec87f38248ebb",
+                "context_epoch_id": "context-epoch:cafdb9df966f550bd16fff3194d70d18a7985cd0c59e2da08dc40baa07d2834b",
+                "reasons": []
+              },
+              {
+                "turn": 2,
+                "passed": true,
+                "expected_same_view": true,
+                "actual_same_view": true,
+                "view_id": "view:23fb53087fc0401ecd1da7fed272bce4c2013d3d723b9a77398ec87f38248ebb",
+                "context_epoch_id": "context-epoch:bd4c1ad834a329686ab519717cc9de136fc5362268461c66963056188c60f64c",
+                "reasons": []
+              }
+            ]
+          },
+          {
+            "scenario_id": "LIFECYCLE-003",
+            "passed": true,
+            "turns": [
+              {
+                "turn": 1,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:ba24d11f8518fa749141674a9966df4df29549e304622c9d59734d7c273a84b3",
+                "context_epoch_id": "context-epoch:c62412c9e9fc515d06123167635cfcc17096cf8f398d288c5a48980eee869ae1",
+                "reasons": []
+              },
+              {
+                "turn": 2,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:c13d8167e10e5124dc1c7d2006d5a613733945a923ad5cbaba1957028bb8dedf",
+                "context_epoch_id": "context-epoch:60910f9a0634be8ff043cc66a08d98564e5113e1ffeb0454aba604c9cdc8fa54",
+                "reasons": []
+              }
+            ]
+          },
+          {
+            "scenario_id": "LIFECYCLE-004",
+            "passed": true,
+            "turns": [
+              {
+                "turn": 1,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:ad107f13d2f56eef629d395bc9551d4c215d7cf6f142ffed5b2fa3b78f84ad11",
+                "context_epoch_id": "context-epoch:1134111b73fd7a1337bdd64c1f60ea493e0864aac2aa7ad5eceb406978939221",
+                "reasons": []
+              },
+              {
+                "turn": 2,
+                "passed": true,
+                "expected_same_view": true,
+                "actual_same_view": true,
+                "view_id": "view:ad107f13d2f56eef629d395bc9551d4c215d7cf6f142ffed5b2fa3b78f84ad11",
+                "context_epoch_id": "context-epoch:c02926b5a3923a286bcaa7adb675a4c17b790d7de454e308e3626423a6a4e404",
+                "reasons": []
+              },
+              {
+                "turn": 3,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:082b0d46188b58f4ee3d74394221a7c903357ccfb3ec8097489a2a2960c9767f",
+                "context_epoch_id": "context-epoch:34470c3998cf22e24233d471f41ed0e4bff6df76c634973670da8e4f09f90142",
+                "reasons": []
+              }
+            ]
+          },
+          {
+            "scenario_id": "LIFECYCLE-005",
+            "passed": true,
+            "turns": [
+              {
+                "turn": 1,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:79b27d8c7e2b466e400810254e7bf3c919ac76f2eb12de6c0a9fd80659d8f7ed",
+                "context_epoch_id": "context-epoch:a9ffd3c3f310a598d6888fe2d1136036500cf79d704e684b96a716701264b5f7",
+                "reasons": []
+              },
+              {
+                "turn": 2,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:6e416c6f8282b86f30c03ba8a01a4f51e6592645e043e60159280e981966be4c",
+                "context_epoch_id": "context-epoch:5b89c5457224470e50002ce90b2b99e031e25f1efaed1eb4563f804ea821d268",
+                "reasons": []
+              },
+              {
+                "turn": 3,
+                "passed": true,
+                "expected_same_view": false,
+                "actual_same_view": false,
+                "view_id": "view:aa646144ad7072879c57725d4e0649733a63ce47d1b5479ed4c2bd8ffd027f2a",
+                "context_epoch_id": "context-epoch:03f893371231e4f83d37b4873718ae5b648ad8e9f5fffba1bf654218db527ae0",
+                "reasons": []
+              }
+            ]
+          }
+        ],
+        "failure_safety": [
+          {
+            "scenario_id": "FAIL-001",
+            "passed": true,
+            "forwarded": false,
+            "reasons": [
+              "selection.multiple-capabilities"
+            ]
+          },
+          {
+            "scenario_id": "FAIL-002",
+            "passed": true,
+            "forwarded": false,
+            "reasons": [
+              "selection.no-match"
+            ]
+          },
+          {
+            "scenario_id": "FAIL-003",
+            "passed": true,
+            "forwarded": false,
+            "reasons": [
+              "request.context-hint-invalid"
+            ]
+          },
+          {
+            "scenario_id": "FAIL-004",
+            "passed": true,
+            "forwarded": false,
+            "reasons": [
+              "context.mandatory-budget-exceeded"
+            ]
+          },
+          {
+            "scenario_id": "FAIL-005",
+            "passed": true,
+            "forwarded": false,
+            "reasons": [
+              "benchmark.source-missing"
+            ]
+          },
+          {
+            "scenario_id": "FAIL-006",
+            "passed": true,
+            "forwarded": false,
+            "reasons": [
+              "protocol.codex-version-drift"
+            ]
+          }
+        ]
+      },
+      "authority_effect": "none",
+      "claim_limit": "Local candidate benchmark evidence only; no admission, conformance, publication, deployment, or effect authority."
+    }
+  ],
+  "authority_effect": "none",
+  "claim_limit": "Local candidate benchmark evidence only; no admission, conformance, publication, deployment, or effect authority."
+}

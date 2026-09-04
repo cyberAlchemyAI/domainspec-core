@@ -34,8 +34,8 @@ async function openClient(variant, profile, gatewaySocket) {
   return client;
 }
 
-async function oneRun(client, scenario, variant, profile) {
-  const thread = await client.startThread({cwd: repositoryRoot, ephemeral: true, model: profile.live.model, approvalPolicy: "never", sandbox: "read-only"});
+async function oneRun(client, scenario, variant, profile, model) {
+  const thread = await client.startThread({cwd: repositoryRoot, ephemeral: true, model, approvalPolicy: "never", sandbox: "read-only"});
   return oneTurn(client, thread.thread.id, scenario, variant);
 }
 
@@ -54,7 +54,15 @@ function observedCodexVersion(explicit) {
   try { return execFileSync("codex", ["--version"], {encoding: "utf8"}).trim(); } catch { return "unavailable"; }
 }
 
-function summarizeLiveCases(profile, mode, observedVersion, repetitions, cases, conversations = null) {
+function modelBinding(profile, requestedModel, overridden) {
+  return {
+    requested_model: requestedModel,
+    profile_model: profile.live.model,
+    selection_source: overridden ? "cli-override" : "profile-default",
+  };
+}
+
+function summarizeLiveCases(profile, mode, observedVersion, repetitions, cases, conversations = null, requestedModel = profile.live.model, overridden = false) {
   const areCases = cases.filter((entry) => entry.variant === "are");
   const controlCases = cases.filter((entry) => entry.variant === "control");
   const grounded = ratio(areCases.filter((entry) => entry.passed).length, areCases.length);
@@ -68,6 +76,7 @@ function summarizeLiveCases(profile, mode, observedVersion, repetitions, cases, 
   return resultEnvelope(profile, mode, Object.values(checks).every(Boolean) ? "PASS" : "FAIL", {
     checks,
     observed_codex_version: observedVersion,
+    model_binding: modelBinding(profile, requestedModel, overridden),
     repetitions,
     are_grounded_success: grounded,
     control_grounded_success: ratio(controlCases.filter((entry) => entry.passed).length, controlCases.length),
@@ -79,10 +88,12 @@ function summarizeLiveCases(profile, mode, observedVersion, repetitions, cases, 
 
 export async function runLiveBenchmark(benchmark, options = {}) {
   const {profile, corpora} = benchmark;
+  const requestedModel = options.model ?? profile.live.model;
+  const overridden = options.model !== null && options.model !== undefined;
   const loaded = loadRuntime(profile);
   const observedVersion = observedCodexVersion(options.observed_version);
   const binding = protocolBindingCheck(loaded.value.protocol_binding, observedVersion);
-  if (!binding.ok) return resultEnvelope(profile, "live", "NOT_EVALUATED", {reason_codes: binding.reason_codes, observed_codex_version: observedVersion}, [], {});
+  if (!binding.ok) return resultEnvelope(profile, "live", "NOT_EVALUATED", {reason_codes: binding.reason_codes, observed_codex_version: observedVersion, model_binding: modelBinding(profile, requestedModel, overridden)}, [], {});
   const repetitions = options.repetitions ?? profile.sampling.live_repetitions;
   const clients = {are: await openClient("are", profile, options.gateway_socket), control: await openClient("control", profile, null)};
   const cases = [];
@@ -92,7 +103,7 @@ export async function runLiveBenchmark(benchmark, options = {}) {
         const order = repetition % 2 === 0 ? ["are", "control"] : ["control", "are"];
         for (const variant of order) {
           try {
-            const run = await oneRun(clients[variant], scenario, variant, profile);
+            const run = await oneRun(clients[variant], scenario, variant, profile, requestedModel);
             cases.push({scenario_id: scenario.scenario_id, repetition: repetition + 1, variant, passed: run.score.passed, latency_ms: run.latency_ms, score: run.score, response: run.response});
           } catch (error) {
             cases.push({scenario_id: scenario.scenario_id, repetition: repetition + 1, variant, passed: false, error: error.message});
@@ -101,15 +112,17 @@ export async function runLiveBenchmark(benchmark, options = {}) {
       }
     }
   } finally { await Promise.allSettled(Object.values(clients).map((client) => client.close())); }
-  return summarizeLiveCases(profile, "live", observedVersion, repetitions, cases);
+  return summarizeLiveCases(profile, "live", observedVersion, repetitions, cases, null, requestedModel, overridden);
 }
 
 export async function runLiveMultiTurnBenchmark(benchmark, options = {}) {
   const {profile, corpora} = benchmark;
+  const requestedModel = options.model ?? profile.live.model;
+  const overridden = options.model !== null && options.model !== undefined;
   const loaded = loadRuntime(profile);
   const observedVersion = observedCodexVersion(options.observed_version);
   const binding = protocolBindingCheck(loaded.value.protocol_binding, observedVersion);
-  if (!binding.ok) return resultEnvelope(profile, "live-multiturn", "NOT_EVALUATED", {reason_codes: binding.reason_codes, observed_codex_version: observedVersion}, {turns: [], conversations: []}, {});
+  if (!binding.ok) return resultEnvelope(profile, "live-multiturn", "NOT_EVALUATED", {reason_codes: binding.reason_codes, observed_codex_version: observedVersion, model_binding: modelBinding(profile, requestedModel, overridden)}, {turns: [], conversations: []}, {});
   const repetitions = options.repetitions ?? profile.sampling.live_multiturn_repetitions ?? 1;
   const clients = options.clients ?? {are: await openClient("are", profile, options.gateway_socket), control: await openClient("control", profile, null)};
   const cases = [];
@@ -119,7 +132,7 @@ export async function runLiveMultiTurnBenchmark(benchmark, options = {}) {
       for (let repetition = 0; repetition < repetitions; repetition += 1) {
         const order = repetition % 2 === 0 ? ["are", "control"] : ["control", "are"];
         for (const variant of order) {
-          const thread = await clients[variant].startThread({cwd: repositoryRoot, ephemeral: true, model: profile.live.model, approvalPolicy: "never", sandbox: "read-only"});
+          const thread = await clients[variant].startThread({cwd: repositoryRoot, ephemeral: true, model: requestedModel, approvalPolicy: "never", sandbox: "read-only"});
           const conversationCases = [];
           for (const [turnIndex, turn] of scenario.turns.entries()) {
             try {
@@ -138,5 +151,5 @@ export async function runLiveMultiTurnBenchmark(benchmark, options = {}) {
       }
     }
   } finally { await Promise.allSettled(Object.values(clients).map((client) => client.close())); }
-  return summarizeLiveCases(profile, "live-multiturn", observedVersion, repetitions, cases, conversations);
+  return summarizeLiveCases(profile, "live-multiturn", observedVersion, repetitions, cases, conversations, requestedModel, overridden);
 }

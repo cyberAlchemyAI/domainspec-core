@@ -6,6 +6,7 @@ import {
   fail,
   isRecord,
   nonEmptyString,
+  supportedDigestImplementation,
   uniqueStrings,
 } from "./canonical.mjs";
 
@@ -14,7 +15,7 @@ const ENVELOPE_SCHEMA = "are.context-envelope/v1";
 const PROJECTION_REUSE_SCHEMA = "are.context-projection-reuse-receipt/v1";
 export const DEFAULT_MAX_INLINE_BYTES = 32 * 1024;
 
-function contextItem(material) {
+function contextItem(material, digestImplementation) {
   const value = {
     schema_version: ITEM_SCHEMA,
     context_item_id: material.context_item_id,
@@ -29,7 +30,7 @@ function contextItem(material) {
     mandatory: true,
     authority_effect: "none",
   };
-  return {...value, item_digest: digestValue(value)};
+  return {...value, item_digest: digestValue(value, digestImplementation)};
 }
 
 function normalizeSourceSnapshot(value) {
@@ -55,15 +56,15 @@ function projectionContent(material) {
   });
 }
 
-function finalizeEnvelope(material, inlineBytes) {
-  const contentProjectionDigest = digestValue(projectionContent(material));
+function finalizeEnvelope(material, inlineBytes, digestImplementation) {
+  const contentProjectionDigest = digestValue(projectionContent(material), digestImplementation);
   const boundMaterial = canonicalizeJson({...material, content_projection_digest: contentProjectionDigest});
-  const contextEpochId = `context-epoch:${digestValue(boundMaterial)}`;
+  const contextEpochId = `context-epoch:${digestValue(boundMaterial, digestImplementation)}`;
   const envelope = canonicalizeJson({...boundMaterial, context_epoch_id: contextEpochId});
-  return deepFreeze({schema_version: ENVELOPE_SCHEMA, ok: true, value: envelope, digest: digestValue(envelope), inline_bytes: inlineBytes, authority_effect: "none"});
+  return deepFreeze({schema_version: ENVELOPE_SCHEMA, ok: true, value: envelope, digest: digestValue(envelope, digestImplementation), inline_bytes: inlineBytes, authority_effect: "none"});
 }
 
-function reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes) {
+function reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes, digestImplementation) {
   if (!isRecord(previousEnvelope) || previousEnvelope.schema_version !== ENVELOPE_SCHEMA) return false;
   if (!Array.isArray(previousEnvelope.included_items) || !Array.isArray(previousEnvelope.included_item_digests)) return false;
   if (!nonEmptyString(previousEnvelope.content_projection_digest)) return false;
@@ -72,10 +73,10 @@ function reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes)
   if (previousEnvelope.basis_digest !== value.necessary_context_basis?.digest) return false;
   if (previousEnvelope.request_selection_digest !== value.request_context_selection?.digest) return false;
   if (previousEnvelope.compression_method !== "deterministic-structural-projection-no-summary") return false;
-  return digestValue(projectionContent(previousEnvelope)) === previousEnvelope.content_projection_digest;
+  return digestValue(projectionContent(previousEnvelope), digestImplementation) === previousEnvelope.content_projection_digest;
 }
 
-export function selectedDependenciesFromComposition(composition) {
+export function selectedDependenciesFromComposition(composition, digestImplementation = "node-crypto-sha256") {
   if (!isRecord(composition) || composition.ok !== true || !isRecord(composition.value)) return [];
   const value = composition.value;
   const route = value.route_decision ?? {};
@@ -89,8 +90,8 @@ export function selectedDependenciesFromComposition(composition) {
     {dependency_id: "definition-closure", dependency_kind: "closure", digest: value.definition_closure?.digest},
     {dependency_id: "ontology-selector-lock", dependency_kind: "selector-lock", digest: value.ontology_selector_lock?.digest},
     {dependency_id: "request-context-selection", dependency_kind: "selection", digest: value.request_context_selection?.digest},
-    {dependency_id: "authority-posture", dependency_kind: "posture", digest: digestValue(basis.authority_posture ?? null)},
-    {dependency_id: "effect-posture", dependency_kind: "posture", digest: digestValue(basis.effect_posture ?? null)},
+    {dependency_id: "authority-posture", dependency_kind: "posture", digest: digestValue(basis.authority_posture ?? null, digestImplementation)},
+    {dependency_id: "effect-posture", dependency_kind: "posture", digest: digestValue(basis.effect_posture ?? null, digestImplementation)},
   ];
   for (const definition of closure.definitions ?? []) {
     dependencies.push({dependency_id: `definition:${definition.definition_id}`, dependency_kind: "definition", digest: definition.digest, source_ref: definition.source_ref ?? null});
@@ -114,6 +115,8 @@ export function selectedDependenciesFromComposition(composition) {
 
 export function assembleContextEnvelope(composition, projectionPolicy = {}) {
   if (!isRecord(composition) || composition.ok !== true || !isRecord(composition.value)) return fail("context-envelope", ["context.composition-required"]);
+  const digestImplementation = projectionPolicy.digest_implementation ?? "node-crypto-sha256";
+  if (!supportedDigestImplementation(digestImplementation)) return fail("context-envelope", ["context.digest-implementation-invalid"]);
   const value = composition.value;
   const closure = value.definition_closure?.value;
   const lock = value.ontology_selector_lock?.binding_lock;
@@ -141,7 +144,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
     temporal_scope: "turn",
     transform_refs: ["request-admission/v1"],
     content: {request_id: basis.request.request_id, raw_request: basis.request.raw_request, objective_kind: basis.request.objective_kind},
-  }));
+  }, digestImplementation));
 
   for (const instruction of basis.instructions ?? []) {
     items.push(contextItem({
@@ -154,7 +157,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       temporal_scope: temporalScope,
       transform_refs: ["exact-text-projection/v1"],
       content: {instruction_id: instruction.instruction_id, text: instruction.content},
-    }));
+    }, digestImplementation));
   }
   for (const item of basis.supplemental_context_items ?? []) {
     items.push(contextItem({
@@ -167,7 +170,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       temporal_scope: temporalScope,
       transform_refs: item.transform_refs ?? ["supplemental-context-projection/v1"],
       content: item.content,
-    }));
+    }, digestImplementation));
   }
 
   for (const definition of closure.definitions ?? []) {
@@ -181,7 +184,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       temporal_scope: temporalScope,
       transform_refs: ["definition-closure/v1"],
       content: {definition_id: definition.definition_id, version_or_revision: definition.version_or_revision, text: definition.definition_text ?? null},
-    }));
+    }, digestImplementation));
   }
   for (const node of lock.nodes ?? []) {
     items.push(contextItem({
@@ -194,7 +197,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       temporal_scope: temporalScope,
       transform_refs: ["lock/v1"],
       content: {node_id: node.node_id, node_type: node.node_type, intent: node.content?.intent ?? node.content?.meaning ?? null},
-    }));
+    }, digestImplementation));
   }
   for (const edge of lock.edges ?? []) {
     items.push(contextItem({
@@ -207,24 +210,25 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
       temporal_scope: temporalScope,
       transform_refs: ["lock/v1"],
       content: {edge_id: edge.edge_id, edge_type: edge.edge_type, from_node_id: edge.from_node_id, to_node_id: edge.to_node_id},
-    }));
+    }, digestImplementation));
   }
   for (const [index, constraint] of (basis.constraints ?? []).entries()) {
+    const constraintDigest = digestValue(constraint, digestImplementation);
     items.push(contextItem({
-      context_item_id: `constraint:${String(index).padStart(4, "0")}:${digestValue(constraint).slice(0, 16)}`,
+      context_item_id: `constraint:${String(index).padStart(4, "0")}:${constraintDigest.slice(0, 16)}`,
       item_kind: "constraint",
       source_ref: `request:${basis.request.request_id}`,
-      source_digest: digestValue(constraint),
+      source_digest: constraintDigest,
       authority_posture: basis.authority_posture,
       relevance_basis: "declared-request-constraint",
       temporal_scope: "turn",
       transform_refs: ["context-basis/v1"],
       content: constraint,
-    }));
+    }, digestImplementation));
   }
   for (const [kind, entries] of [["contradiction", basis.contradictions], ["gap", basis.gaps], ["residue", basis.residue]]) {
     for (const entry of entries ?? []) {
-      const entryDigest = digestValue(entry);
+      const entryDigest = digestValue(entry, digestImplementation);
       items.push(contextItem({
         context_item_id: `${kind}:${entryDigest.slice(0, 24)}`,
         item_kind: kind,
@@ -235,7 +239,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
         temporal_scope: temporalScope,
         transform_refs: ["context-basis/v1"],
         content: entry,
-      }));
+      }, digestImplementation));
     }
   }
   items.sort((a, b) => a.context_item_id.localeCompare(b.context_item_id));
@@ -267,7 +271,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
     contradictions: basis.contradictions ?? [],
     gaps: basis.gaps ?? [],
     residue: basis.residue ?? [],
-    selected_dependencies: selectedDependenciesFromComposition(composition),
+    selected_dependencies: selectedDependenciesFromComposition(composition, digestImplementation),
     source_snapshot: normalizeSourceSnapshot(projectionPolicy.current_sources),
     freshness_state: projectionPolicy.freshness_state ?? "current",
     inline_bytes: inlineBytes,
@@ -277,11 +281,13 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
     claim_ceiling: projectionPolicy.claim_ceiling ?? "Bounded context evidence only; no source truth, approval, admission, or effect authority.",
     authority_effect: "none",
   };
-  return finalizeEnvelope(material, inlineBytes);
+  return finalizeEnvelope(material, inlineBytes, digestImplementation);
 }
 
 export function reuseContextEnvelopeProjection(previousEnvelope, composition, projectionPolicy = {}) {
   if (!isRecord(composition) || composition.ok !== true || !isRecord(composition.value)) return fail("context-envelope-projection-reuse", ["context.composition-required"]);
+  const digestImplementation = projectionPolicy.digest_implementation ?? "node-crypto-sha256";
+  if (!supportedDigestImplementation(digestImplementation)) return fail("context-envelope-projection-reuse", ["context.digest-implementation-invalid"]);
   const value = composition.value;
   const basis = value.necessary_context_basis?.value;
   const view = value.context_window_view?.value;
@@ -289,10 +295,10 @@ export function reuseContextEnvelopeProjection(previousEnvelope, composition, pr
   const maxInlineBytes = Number.isSafeInteger(projectionPolicy.max_inline_bytes) && projectionPolicy.max_inline_bytes > 0
     ? projectionPolicy.max_inline_bytes
     : DEFAULT_MAX_INLINE_BYTES;
-  if (!reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes)) {
+  if (!reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes, digestImplementation)) {
     return fail("context-envelope-projection-reuse", ["context.projection-reuse-incompatible"]);
   }
-  const previousEnvelopeDigest = digestValue(previousEnvelope);
+  const previousEnvelopeDigest = digestValue(previousEnvelope, digestImplementation);
   const receiptMaterial = canonicalizeJson({
     schema_version: PROJECTION_REUSE_SCHEMA,
     previous_context_epoch_id: previousEnvelope.context_epoch_id,
@@ -320,15 +326,15 @@ export function reuseContextEnvelopeProjection(previousEnvelope, composition, pr
     contradictions: previousEnvelope.contradictions,
     gaps: previousEnvelope.gaps,
     residue: previousEnvelope.residue,
-    selected_dependencies: selectedDependenciesFromComposition(composition),
+    selected_dependencies: selectedDependenciesFromComposition(composition, digestImplementation),
     source_snapshot: normalizeSourceSnapshot(projectionPolicy.current_sources),
     freshness_state: projectionPolicy.freshness_state ?? "successor-current-reused-projection",
     inline_bytes: previousEnvelope.inline_bytes,
     max_inline_bytes: maxInlineBytes,
     compression_method: previousEnvelope.compression_method,
-    projection_reuse_receipt: {...receiptMaterial, receipt_digest: digestValue(receiptMaterial)},
+    projection_reuse_receipt: {...receiptMaterial, receipt_digest: digestValue(receiptMaterial, digestImplementation)},
     claim_ceiling: projectionPolicy.claim_ceiling ?? "Bounded context evidence only; no source truth, approval, admission, or effect authority.",
     authority_effect: "none",
   };
-  return finalizeEnvelope(material, previousEnvelope.inline_bytes);
+  return finalizeEnvelope(material, previousEnvelope.inline_bytes, digestImplementation);
 }

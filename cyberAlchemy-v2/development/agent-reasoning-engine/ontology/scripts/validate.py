@@ -221,18 +221,8 @@ def validate_generated(errors: list[str], sources: dict[str, Any], bridge: dict[
         errors.append("generated system ontology projection-builder binding drift")
     if contract.get("validator_sha256") != sha256_file(Path(__file__).resolve()):
         errors.append("generated system ontology validator binding drift")
-    if contract.get("context_management_realization") != "integrated-bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate" or contract.get("whole_engine_realization") != "absent":
+    if contract.get("context_management_realization") != "bounded-serving-and-measured-evolution-candidate" or contract.get("whole_engine_realization") != "absent":
         errors.append("generated system ontology overclaims complete realization")
-    product_surface = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "integrated-product-surface@1"), None)
-    if not product_surface:
-        errors.append("generated system ontology lacks integrated product surface realization")
-    elif any([
-        product_surface.get("deterministic_source_closure") is not True,
-        product_surface.get("exact_runtime_health_check") is not True,
-        product_surface.get("required_component_inspection") is not True,
-        product_surface.get("authority_effect") != "none",
-    ]):
-        errors.append("generated integrated product surface realization posture drift")
     semantic_integrity = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "context-bound-semantic-integrity@1"), None)
     if not semantic_integrity:
         errors.append("generated system ontology lacks context-bound semantic integrity realization")
@@ -270,6 +260,24 @@ def validate_generated(errors: list[str], sources: dict[str, Any], bridge: dict[
         frontier.get("authority_effect") != "none",
     ]):
         errors.append("generated completed-turn frontier realization posture drift")
+    evolution = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "evolution-runtime@1"), None)
+    if not evolution:
+        errors.append("generated system ontology lacks evolution runtime realization")
+    elif any([
+        evolution.get("append_only_records") is not True,
+        evolution.get("content_addressed_variants") is not True,
+        evolution.get("single_writer_workspaces") is not True,
+        evolution.get("recommend_only_default") is not True,
+        evolution.get("canary_rollback") is not True,
+        evolution.get("authority_effect") != "none",
+    ]):
+        errors.append("generated evolution runtime realization posture drift")
+    benchmark_evolution = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "benchmark-evolution-cycle@1"), None)
+    if not benchmark_evolution or benchmark_evolution.get("deterministic_full_cycle_fixture") is not True or benchmark_evolution.get("default_upgrade_disposition") != "recommend-only":
+        errors.append("generated benchmark evolution realization posture drift")
+    codex_signals = next((item for item in contract.get("bounded_partial_realizations", []) if item.get("id") == "codex-evolution-signal-emission@1"), None)
+    if not codex_signals or codex_signals.get("default_enabled") is not False or codex_signals.get("duplicate_completion_emission") is not False:
+        errors.append("generated Codex evolution signal realization posture drift")
     for key in ["implementation_binding_status", "static_conformance_status", "runtime_evidence_status"]:
         if contract.get(key) != "not_evaluable":
             errors.append(f"generated implementation contract must keep {key}=not_evaluable")
@@ -361,8 +369,8 @@ def evaluate(
         "bridge_edge_count": len(bridge.get("edges", [])),
         "gap_count": len(bridge.get("gaps", [])),
         "residue_count": residue_count,
-        "bounded_partial_realizations": 16,
-        "context_management_realization": "integrated-bounded-semantic-integrity-completion-frontier-recoverable-reasoning-state-codex-gateway-candidate",
+        "bounded_partial_realizations": 18,
+        "context_management_realization": "bounded-serving-and-measured-evolution-candidate",
         "whole_engine_realization": "absent",
         "domainspec_profile_admission": "not-granted",
         "implementation_binding_status": "not_evaluable",

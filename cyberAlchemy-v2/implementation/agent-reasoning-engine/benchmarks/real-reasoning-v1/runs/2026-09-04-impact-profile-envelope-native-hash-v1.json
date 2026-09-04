@@ -1,0 +1,893 @@
+{
+  "schema_version": "are.local-turn-impact-profile/v1",
+  "benchmark_id": "are.real-reasoning-v1",
+  "representative_scenario_id": "CONTEXT-001",
+  "sampling": {
+    "warm_iterations": 20,
+    "iterations": 100
+  },
+  "interaction_comparison_design": {
+    "kind": "counterbalanced-isolated-successor-pairs",
+    "primed_pair_count": 120,
+    "required_valid_observations_per_arm": 120,
+    "observed_valid_reassembled": 120,
+    "observed_valid_reused": 120
+  },
+  "source_refresh_comparison_design": {
+    "kind": "retained-comparison-not-rerun",
+    "retention_ref": "improvement-retention:601298401c8d7d79317974329742ba16b1d6b3c0a8bd110beb1eee3d07a65a37",
+    "retained_valid_observations_per_arm": 120,
+    "observed_valid_portable": 0,
+    "observed_valid_native": 120,
+    "verification": "read-and-hash-every-selected-source"
+  },
+  "preflight_phase_observation": {
+    "kind": "non-semantic-phase-observer",
+    "required_observations_per_phase": 100,
+    "observed_phases": {
+      "context-basis-construction": 100,
+      "context-envelope-assembly": 100,
+      "context-fragment-projection": 100,
+      "context-lifecycle-seal": 100,
+      "context-refresh-assessment": 100,
+      "context-window-view-binding": 100,
+      "definition-closure": 100,
+      "message-context-projection": 100,
+      "ontology-selector-lock": 100,
+      "preflight-directive-projection": 100,
+      "request-admission": 100,
+      "request-context-build": 100,
+      "request-context-selection": 100,
+      "request-routing": 100
+    },
+    "output_bytes_changed": false
+  },
+  "envelope_hash_comparison_design": {
+    "kind": "counterbalanced-byte-identical-envelope-assembly",
+    "required_valid_observations_per_arm": 120,
+    "observed_valid_portable": 120,
+    "observed_valid_native": 120,
+    "output_bytes_equal": true
+  },
+  "improvement_retention": {
+    "configured_record_count": 1,
+    "current": [
+      {
+        "candidate_id": "hash:live-source-native-sha256",
+        "retention_ref": "improvement-retention:601298401c8d7d79317974329742ba16b1d6b3c0a8bd110beb1eee3d07a65a37",
+        "lifecycle_state": "implemented-and-verified",
+        "observed_comparison": {
+          "baseline_p95_ms": 224.18982899999992,
+          "candidate_p95_ms": 15.996501999999964,
+          "potential_savings_ms": 208.19332699999995,
+          "valid_observations_per_arm": 120,
+          "verification": "counterbalanced-full-read-and-hash"
+        }
+      }
+    ],
+    "diagnostics": [],
+    "authority_effect": "none"
+  },
+  "phase_metrics": {
+    "request-routing": {
+      "iterations": 100,
+      "mean_ms": 2.5072993000000134,
+      "p50_ms": 1.520285000000058,
+      "p95_ms": 8.122475000000122,
+      "max_ms": 18.613935999999967,
+      "observation_checksum": 120,
+      "candidate_target": true,
+      "relationship": "component"
+    },
+    "live-source-refresh": {
+      "iterations": 100,
+      "mean_ms": 3.1341698700000054,
+      "p50_ms": 2.6113030000001345,
+      "p95_ms": 6.720913999999993,
+      "max_ms": 9.010888999999906,
+      "observation_checksum": 120,
+      "candidate_target": true,
+      "relationship": "component"
+    },
+    "context-selection": {
+      "iterations": 100,
+      "mean_ms": 1.8559277399999792,
+      "p50_ms": 0.9467239999999038,
+      "p95_ms": 7.7431030000002465,
+      "max_ms": 9.767788999999993,
+      "observation_checksum": 120,
+      "candidate_target": true,
+      "relationship": "component"
+    },
+    "turn-preflight": {
+      "iterations": 100,
+      "mean_ms": 30.847990810000002,
+      "p50_ms": 27.276686000000154,
+      "p95_ms": 56.18737599999986,
+      "max_ms": 124.7593139999999,
+      "observation_checksum": 120,
+      "candidate_target": false,
+      "relationship": "instrumented-container"
+    },
+    "turn-preflight:context-basis-construction": {
+      "iterations": 100,
+      "mean_ms": 1.4175405200000204,
+      "p50_ms": 0.9417610000000423,
+      "p95_ms": 3.4696950000006836,
+      "max_ms": 15.821947999999793,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:context-envelope-assembly": {
+      "iterations": 100,
+      "mean_ms": 12.61822970000002,
+      "p50_ms": 10.600586999999905,
+      "p95_ms": 30.040642999999818,
+      "max_ms": 58.29031000000032,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:context-fragment-projection": {
+      "iterations": 100,
+      "mean_ms": 1.2584417600000233,
+      "p50_ms": 0.789716999999655,
+      "p95_ms": 4.754430999999386,
+      "max_ms": 8.807394999999815,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:context-lifecycle-seal": {
+      "iterations": 100,
+      "mean_ms": 0.13292358000000148,
+      "p50_ms": 0.1058339999999589,
+      "p95_ms": 0.3841609999999491,
+      "max_ms": 1.049586999999974,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:context-refresh-assessment": {
+      "iterations": 100,
+      "mean_ms": 1.1180078800000184,
+      "p50_ms": 0.7704300000004878,
+      "p95_ms": 3.381967000000259,
+      "max_ms": 9.721019999999953,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:context-window-view-binding": {
+      "iterations": 100,
+      "mean_ms": 0.23656738999999105,
+      "p50_ms": 0.14869799999996758,
+      "p95_ms": 0.4907630000006975,
+      "max_ms": 3.4367379999998775,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:definition-closure": {
+      "iterations": 100,
+      "mean_ms": 1.4557061800000337,
+      "p50_ms": 0.8278239999999641,
+      "p95_ms": 4.785455000000184,
+      "max_ms": 10.818506000000525,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:message-context-projection": {
+      "iterations": 100,
+      "mean_ms": 1.57016421000003,
+      "p50_ms": 0.9678590000003169,
+      "p95_ms": 4.571428000000196,
+      "max_ms": 13.74558100000013,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:ontology-selector-lock": {
+      "iterations": 100,
+      "mean_ms": 1.7356952900000306,
+      "p50_ms": 1.0456899999999223,
+      "p95_ms": 5.2707659999996395,
+      "max_ms": 16.356485999999677,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:preflight-directive-projection": {
+      "iterations": 100,
+      "mean_ms": 0.13730218999996852,
+      "p50_ms": 0.059874999999919964,
+      "p95_ms": 0.33236499999929947,
+      "max_ms": 3.7404889999997977,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:request-admission": {
+      "iterations": 100,
+      "mean_ms": 0.2987599099999443,
+      "p50_ms": 0.17007199999989098,
+      "p95_ms": 0.9605270000001838,
+      "max_ms": 4.715327999999317,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:request-context-build": {
+      "iterations": 100,
+      "mean_ms": 0.5962270699999909,
+      "p50_ms": 0.3288750000001528,
+      "p95_ms": 0.9296180000001186,
+      "max_ms": 12.978380000000016,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:request-context-selection": {
+      "iterations": 100,
+      "mean_ms": 1.678030859999958,
+      "p50_ms": 1.1148540000003777,
+      "p95_ms": 3.7166540000002897,
+      "max_ms": 12.214154999999664,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "turn-preflight:request-routing": {
+      "iterations": 100,
+      "mean_ms": 2.067262799999912,
+      "p50_ms": 1.403161000000182,
+      "p95_ms": 5.586523999999372,
+      "max_ms": 14.661632000000282,
+      "observation_checksum": 100,
+      "candidate_target": true,
+      "relationship": "instrumented-leaf"
+    },
+    "context-envelope-assembly-portable-sha256": {
+      "iterations": 100,
+      "mean_ms": 44.45451481999998,
+      "p50_ms": 37.42388899999969,
+      "p95_ms": 106.23759099999916,
+      "max_ms": 155.13741000000118,
+      "observation_checksum": 120,
+      "candidate_target": false,
+      "relationship": "controlled-baseline"
+    },
+    "context-envelope-assembly-native-sha256": {
+      "iterations": 100,
+      "mean_ms": 12.972324810000009,
+      "p50_ms": 9.990470000000641,
+      "p95_ms": 36.78267300000152,
+      "max_ms": 74.57058400000096,
+      "observation_checksum": 120,
+      "candidate_target": true,
+      "relationship": "controlled-treatment"
+    },
+    "reasoning-state-append-seal": {
+      "iterations": 100,
+      "mean_ms": 0.5601665299999695,
+      "p50_ms": 0.4245070000015403,
+      "p95_ms": 1.504928000000291,
+      "max_ms": 4.991861999998946,
+      "observation_checksum": 120,
+      "candidate_target": true,
+      "relationship": "component"
+    },
+    "local-turn-start-cold": {
+      "iterations": 100,
+      "mean_ms": 171.62779995000022,
+      "p50_ms": 159.80154400000174,
+      "p95_ms": 235.10147499999948,
+      "max_ms": 407.38403299999845,
+      "observation_checksum": 120,
+      "candidate_target": false,
+      "relationship": "boundary"
+    },
+    "local-turn-start-plan-reuse": {
+      "iterations": 100,
+      "mean_ms": 183.89484657999986,
+      "p50_ms": 190.64900900000066,
+      "p95_ms": 246.9812779999993,
+      "max_ms": 316.0731250000026,
+      "observation_checksum": 120,
+      "candidate_target": false,
+      "relationship": "observed-alternative"
+    },
+    "local-turn-start-interaction-reassembled": {
+      "iterations": 100,
+      "mean_ms": 459.7877647900017,
+      "p50_ms": 390.4018189999915,
+      "p95_ms": 723.8255110000027,
+      "max_ms": 4851.7358910000185,
+      "observation_checksum": 120,
+      "candidate_target": false,
+      "relationship": "controlled-baseline"
+    },
+    "local-turn-start-interaction-projection-reuse": {
+      "iterations": 100,
+      "mean_ms": 469.4268806300001,
+      "p50_ms": 409.3049530000135,
+      "p95_ms": 832.8454680000141,
+      "max_ms": 4056.7746770000085,
+      "observation_checksum": 120,
+      "candidate_target": false,
+      "relationship": "controlled-treatment"
+    }
+  },
+  "phase_relationships": [
+    {
+      "container": "local-turn-start-cold",
+      "includes": [
+        "live-source-refresh",
+        "turn-preflight",
+        "wrapper-context-projection"
+      ],
+      "additive": false
+    },
+    {
+      "container": "turn-preflight",
+      "includes": [
+        "turn-preflight:context-basis-construction",
+        "turn-preflight:context-envelope-assembly",
+        "turn-preflight:context-fragment-projection",
+        "turn-preflight:context-lifecycle-seal",
+        "turn-preflight:context-refresh-assessment",
+        "turn-preflight:context-window-view-binding",
+        "turn-preflight:definition-closure",
+        "turn-preflight:message-context-projection",
+        "turn-preflight:ontology-selector-lock",
+        "turn-preflight:preflight-directive-projection",
+        "turn-preflight:request-admission",
+        "turn-preflight:request-context-build",
+        "turn-preflight:request-context-selection",
+        "turn-preflight:request-routing"
+      ],
+      "additive": false
+    },
+    {
+      "container": "local-turn-start-interaction-reassembled",
+      "includes": [
+        "turn-preflight",
+        "reasoning-state-successor",
+        "context-envelope-assembly"
+      ],
+      "additive": false
+    },
+    {
+      "container": "local-turn-start-interaction-projection-reuse",
+      "includes": [
+        "turn-preflight",
+        "reasoning-state-successor",
+        "content-addressed-context-projection-reuse"
+      ],
+      "additive": false
+    },
+    {
+      "container": "turn-preflight:context-envelope-assembly",
+      "includes": [
+        "context-envelope-assembly-native-sha256"
+      ],
+      "additive": false
+    }
+  ],
+  "impact_assessment": {
+    "status": "TARGET_SELECTED",
+    "boundary_p95_ms": 235.10147499999948,
+    "thresholds": {
+      "minimum_absolute_savings_ms": 1,
+      "minimum_end_to_end_savings_ratio": 0.01,
+      "component_optimizable_fraction": 0.5
+    },
+    "selected_candidate": {
+      "candidate_id": "hash:context-envelope-native-sha256",
+      "target_phase": "turn-preflight:context-envelope-assembly",
+      "evidence_kind": "observed-comparison",
+      "potential_savings_ms": 69.45491799999763,
+      "evidence_basis": {
+        "baseline_p95_ms": 106.23759099999916,
+        "candidate_p95_ms": 36.78267300000152
+      },
+      "potential_end_to_end_savings_ratio": 0.2954252754050045,
+      "gates": {
+        "absolute_savings": true,
+        "end_to_end_ratio": true
+      },
+      "eligible": true,
+      "lifecycle_state": "unresolved",
+      "retention_ref": null,
+      "reason_codes": []
+    },
+    "candidates": [
+      {
+        "candidate_id": "hash:context-envelope-native-sha256",
+        "target_phase": "turn-preflight:context-envelope-assembly",
+        "evidence_kind": "observed-comparison",
+        "potential_savings_ms": 69.45491799999763,
+        "evidence_basis": {
+          "baseline_p95_ms": 106.23759099999916,
+          "candidate_p95_ms": 36.78267300000152
+        },
+        "potential_end_to_end_savings_ratio": 0.2954252754050045,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:context-envelope-assembly-native-sha256",
+        "target_phase": "context-envelope-assembly-native-sha256",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 18.39133650000076,
+        "evidence_basis": {
+          "phase_p95_ms": 36.78267300000152,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.07822722720051332,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:context-envelope-assembly",
+        "target_phase": "turn-preflight:context-envelope-assembly",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 15.020321499999909,
+        "evidence_basis": {
+          "phase_p95_ms": 30.040642999999818,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.06388867402894832,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:request-routing",
+        "target_phase": "request-routing",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 4.061237500000061,
+        "evidence_basis": {
+          "phase_p95_ms": 8.122475000000122,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.01727440246812603,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:context-selection",
+        "target_phase": "context-selection",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 3.8715515000001233,
+        "evidence_basis": {
+          "phase_p95_ms": 7.7431030000002465,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.016467576394406422,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:live-source-refresh",
+        "target_phase": "live-source-refresh",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 3.3604569999999967,
+        "evidence_basis": {
+          "phase_p95_ms": 6.720913999999993,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.014293644903759128,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:request-routing",
+        "target_phase": "turn-preflight:request-routing",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 2.793261999999686,
+        "evidence_basis": {
+          "phase_p95_ms": 5.586523999999372,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.01188109092041933,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:ontology-selector-lock",
+        "target_phase": "turn-preflight:ontology-selector-lock",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 2.6353829999998197,
+        "evidence_basis": {
+          "phase_p95_ms": 5.2707659999996395,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.011209555363273775,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:definition-closure",
+        "target_phase": "turn-preflight:definition-closure",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 2.392727500000092,
+        "evidence_basis": {
+          "phase_p95_ms": 4.785455000000184,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.010177424450442504,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:context-fragment-projection",
+        "target_phase": "turn-preflight:context-fragment-projection",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 2.377215499999693,
+        "evidence_basis": {
+          "phase_p95_ms": 4.754430999999386,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.010111444430536635,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": true,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "hash:live-source-native-sha256",
+        "target_phase": "live-source-refresh",
+        "evidence_kind": "observed-comparison",
+        "potential_savings_ms": 208.19332699999995,
+        "evidence_basis": {
+          "baseline_p95_ms": 224.18982899999992,
+          "candidate_p95_ms": 15.996501999999964
+        },
+        "potential_end_to_end_savings_ratio": 0.8855466644775428,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": false,
+        "lifecycle_state": "implemented-and-verified",
+        "retention_ref": "improvement-retention:601298401c8d7d79317974329742ba16b1d6b3c0a8bd110beb1eee3d07a65a37",
+        "reason_codes": [
+          "impact.candidate-already-retained"
+        ]
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:message-context-projection",
+        "target_phase": "turn-preflight:message-context-projection",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 2.285714000000098,
+        "evidence_basis": {
+          "phase_p95_ms": 4.571428000000196,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.009722244405315208,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:request-context-selection",
+        "target_phase": "turn-preflight:request-context-selection",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 1.8583270000001448,
+        "evidence_basis": {
+          "phase_p95_ms": 3.7166540000002897,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.007904361297606273,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:context-basis-construction",
+        "target_phase": "turn-preflight:context-basis-construction",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 1.7348475000003418,
+        "evidence_basis": {
+          "phase_p95_ms": 3.4696950000006836,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.007379143410309721,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:context-refresh-assessment",
+        "target_phase": "turn-preflight:context-refresh-assessment",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 1.6909835000001294,
+        "evidence_basis": {
+          "phase_p95_ms": 3.381967000000259,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.00719256865572678,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:reasoning-state-append-seal",
+        "target_phase": "reasoning-state-append-seal",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 0.7524640000001455,
+        "evidence_basis": {
+          "phase_p95_ms": 1.504928000000291,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.003200592425037517,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:request-admission",
+        "target_phase": "turn-preflight:request-admission",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 0.4802635000000919,
+        "evidence_basis": {
+          "phase_p95_ms": 0.9605270000001838,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.0020427923729533937,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:request-context-build",
+        "target_phase": "turn-preflight:request-context-build",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 0.4648090000000593,
+        "evidence_basis": {
+          "phase_p95_ms": 0.9296180000001186,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.0019770569282904766,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:context-window-view-binding",
+        "target_phase": "turn-preflight:context-window-view-binding",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 0.24538150000034875,
+        "evidence_basis": {
+          "phase_p95_ms": 0.4907630000006975,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.0010437259060171753,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:context-lifecycle-seal",
+        "target_phase": "turn-preflight:context-lifecycle-seal",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 0.19208049999997456,
+        "evidence_basis": {
+          "phase_p95_ms": 0.3841609999999491,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.0008170110374678635,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "optimize:turn-preflight:preflight-directive-projection",
+        "target_phase": "turn-preflight:preflight-directive-projection",
+        "evidence_kind": "component-upper-bound",
+        "potential_savings_ms": 0.16618249999964974,
+        "evidence_basis": {
+          "phase_p95_ms": 0.33236499999929947,
+          "assumed_optimizable_fraction": 0.5
+        },
+        "potential_end_to_end_savings_ratio": 0.0007068543487430272,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "reuse:interaction-bound-content-projection",
+        "target_phase": "local-turn-start-interaction",
+        "evidence_kind": "observed-comparison",
+        "potential_savings_ms": 0,
+        "evidence_basis": {
+          "baseline_p95_ms": 723.8255110000027,
+          "candidate_p95_ms": 832.8454680000141
+        },
+        "potential_end_to_end_savings_ratio": 0,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      },
+      {
+        "candidate_id": "reuse:plan-bound-context",
+        "target_phase": "local-turn-start",
+        "evidence_kind": "observed-comparison",
+        "potential_savings_ms": 0,
+        "evidence_basis": {
+          "baseline_p95_ms": 235.10147499999948,
+          "candidate_p95_ms": 246.9812779999993
+        },
+        "potential_end_to_end_savings_ratio": 0,
+        "gates": {
+          "absolute_savings": false,
+          "end_to_end_ratio": false
+        },
+        "eligible": false,
+        "lifecycle_state": "unresolved",
+        "retention_ref": null,
+        "reason_codes": []
+      }
+    ],
+    "retained_candidates": [
+      {
+        "candidate_id": "hash:live-source-native-sha256",
+        "target_phase": "live-source-refresh",
+        "evidence_kind": "observed-comparison",
+        "potential_savings_ms": 208.19332699999995,
+        "evidence_basis": {
+          "baseline_p95_ms": 224.18982899999992,
+          "candidate_p95_ms": 15.996501999999964
+        },
+        "potential_end_to_end_savings_ratio": 0.8855466644775428,
+        "gates": {
+          "absolute_savings": true,
+          "end_to_end_ratio": true
+        },
+        "eligible": false,
+        "lifecycle_state": "implemented-and-verified",
+        "retention_ref": "improvement-retention:601298401c8d7d79317974329742ba16b1d6b3c0a8bd110beb1eee3d07a65a37",
+        "reason_codes": [
+          "impact.candidate-already-retained"
+        ]
+      }
+    ],
+    "reason_codes": [],
+    "authority_effect": "none"
+  },
+  "unmeasured_phases": [
+    {
+      "phase_id": "semantic-completion",
+      "reason": "not invoked at turn/start and no production semantic domain is forced by this benchmark"
+    },
+    {
+      "phase_id": "model-inference-and-provider-cache",
+      "reason": "external provider timing requires a separately selected live canary"
+    }
+  ],
+  "status": "TARGET_SELECTED",
+  "environment": {
+    "node": "v26.8.1",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "authority_effect": "none",
+  "claim_limit": "Local profiling and hypothesis-selection evidence only; no optimization activation, acceptance, conformance, publication, deployment, or effect authority.",
+  "profile_digest": "be09b2cbe6ca3f6b45387a30e251e345e555e6619c7997ae06de99cefa45d29e",
+  "report_digest": "26f6083f0f0ca7744ee1ffb36ebbab52d7e4e7f866210c31525bf4cddc57d8cf"
+}

@@ -8,7 +8,8 @@
     "lifecycle": "corpus/lifecycle.jsonl",
     "failure": "corpus/failure-safety.jsonl",
     "live": "corpus/live-conversations.jsonl",
-    "live_multiturn": "corpus/live-multiturn.jsonl"
+    "live_multiturn": "corpus/live-multiturn.jsonl",
+    "intent": "corpus/intent-understanding.jsonl"
   },
   "thresholds": {
     "route_accuracy": 0.98,
@@ -19,6 +20,7 @@
     "route_p95_ms": 2,
     "request_selection_p95_ms": 10,
     "preflight_p95_ms": 250,
+    "intent_compilation_p95_ms": 5,
     "max_inline_bytes": 32768,
     "authority_violations": 0,
     "false_direct_ambiguities": 0,
@@ -31,6 +33,7 @@
     "preflight_iterations": 30,
     "live_repetitions": 3,
     "live_multiturn_repetitions": 1
+    ,"intent_timing_iterations": 10000
   },
   "live": {
     "consumer_id": "codex:benchmark",
@@ -38,6 +41,25 @@
     "model": "gpt-5.6-sol",
     "request_timeout_ms": 180000,
     "completion_timeout_ms": 300000
+  },
+  "cache_measurement": {
+    "source": "provider-reported-usage-only",
+    "identity_requirement": "exact-projection-and-prefix",
+    "absent_posture": "unobserved",
+    "metrics": ["cached_input_token_delta", "latency_delta_ms"]
+  },
+  "impact_profiling": {
+    "warm_iterations": 20,
+    "iterations": 100,
+    "minimum_absolute_savings_ms": 1,
+    "minimum_end_to_end_savings_ratio": 0.01,
+    "component_optimizable_fraction": 0.5,
+    "selection_policy": "select-largest-candidate-clearing-both-gates",
+    "overlap_policy": "phase-timings-are-never-added",
+    "retention_records": [
+      "../../packages/evolution-runtime/retained/context-envelope-native-hash-v1.json",
+      "../../packages/evolution-runtime/retained/native-source-hash-v1.json"
+    ]
   },
   "external_retrieval": {
     "adapter": "agent-retrieval-bench-jsonl/v2",

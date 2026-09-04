@@ -5,7 +5,7 @@ import {resolve} from "node:path";
 import {inspectProduct, materializeProductClosure, productRoot} from "../src/product.mjs";
 
 function usage() {
-  process.stderr.write("Usage: are doctor [--json] | closure [--json] | test | gateway <gateway-options> | benchmark <benchmark-options> | define <define-options>\n");
+  process.stderr.write("Usage: are doctor [--json] | closure [--json] | test | gateway <gateway-options> | benchmark <benchmark-options> | define <define-options> | coding-agent demo [--approve] [--keep] [--fault-after-effect] | coding-agent live-demo [--codex-command <path>] [--model <id>] [--approve] [--keep]\n");
 }
 
 function run(script, args) {
@@ -31,6 +31,10 @@ if (command === "doctor") {
   run(resolve(productRoot, "benchmarks/real-reasoning-v1/bin/benchmark.mjs"), args);
 } else if (command === "define") {
   run(resolve(productRoot, "../define-cli/bin/define.mjs"), args);
+} else if (command === "coding-agent" && args[0] === "demo") {
+  run(resolve(productRoot, "packages/coding-agent-runtime/bin/demo.mjs"), args.slice(1));
+} else if (command === "coding-agent" && args[0] === "live-demo") {
+  run(resolve(productRoot, "packages/coding-agent-runtime/bin/live-demo.mjs"), args.slice(1));
 } else {
   usage();
   process.exitCode = 2;

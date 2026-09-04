@@ -79,10 +79,24 @@ function exactBindings(values, label) {
   if (!Array.isArray(values) || values.length === 0) throw new TypeError(`${label} requires at least one exact binding.`);
   const bindings = values.map((binding) => {
     if (!object(binding) || !text(binding.path) || !text(binding.sha256) || !SHA256_PATTERN.test(binding.sha256.trim())) throw new TypeError(`${label} contains an invalid exact binding.`);
-    return {path: binding.path.trim(), sha256: binding.sha256.trim()};
+    if (binding.selector !== undefined && (!text(binding.selector) || !binding.selector.trim().startsWith("/"))) throw new TypeError(`${label} contains an invalid selector.`);
+    return {path: binding.path.trim(), sha256: binding.sha256.trim(), ...(binding.selector === undefined ? {} : {selector: binding.selector.trim()})};
   }).sort((left, right) => left.path.localeCompare(right.path));
   if (new Set(bindings.map((binding) => binding.path)).size !== bindings.length) throw new TypeError(`${label} contains a duplicate path.`);
   return bindings;
+}
+
+const UNRESOLVED_SELECTOR = Symbol("unresolved-selector");
+
+function selectJsonPointer(document, selector) {
+  let selected = document;
+  for (const rawToken of selector.slice(1).split("/")) {
+    const token = rawToken.replace(/~1/g, "/").replace(/~0/g, "~");
+    if (!object(selected) && !Array.isArray(selected)) return UNRESOLVED_SELECTOR;
+    if (!Object.hasOwn(selected, token)) return UNRESOLVED_SELECTOR;
+    selected = selected[token];
+  }
+  return selected;
 }
 
 function fail(stage, reasonCodes, residue = []) {
@@ -219,10 +233,17 @@ export function assessImprovementRetentionCurrentness(retention, {repository_roo
         continue;
       }
       let actual = null;
+      let failureReason = "binding-unreadable";
       try {
-        actual = sha256HexText(readFileSync(path, "utf8"));
+        const sourceText = readFileSync(path, "utf8");
+        if (binding.selector === undefined) actual = sha256HexText(sourceText);
+        else {
+          const selected = selectJsonPointer(JSON.parse(sourceText), binding.selector);
+          if (selected === UNRESOLVED_SELECTOR) failureReason = "binding-selector-unresolved";
+          else actual = digest(selected);
+        }
       } catch {}
-      if (actual !== binding.sha256) changedBindings.push({binding_kind: bindingKind, path: binding.path, expected_sha256: binding.sha256, actual_sha256: actual, reason: actual === null ? "binding-unreadable" : "binding-digest-drift"});
+      if (actual !== binding.sha256) changedBindings.push({binding_kind: bindingKind, path: binding.path, selector: binding.selector ?? null, expected_sha256: binding.sha256, actual_sha256: actual, reason: actual === null ? failureReason : "binding-digest-drift"});
     }
   }
   return freeze({

@@ -5,6 +5,7 @@ import test from "node:test";
 import {fileURLToPath} from "node:url";
 
 import {
+  assembleContextEnvelope,
   bindContextWindowView,
   composeContextLifecycle,
   composeContextBasis,
@@ -416,4 +417,13 @@ test("phase observation exposes lifecycle boundaries without changing determinis
     "context-lifecycle-seal",
   ]) assert.equal(phaseIds.has(required), true, required);
   assert.equal(observations.every((entry) => Number.isFinite(entry.elapsed_ms) && entry.elapsed_ms >= 0 && entry.authority_effect === "none"), true);
+});
+
+test("native envelope hashing is byte-identical to portable hashing", () => {
+  const composed = composeContextBasis(composition());
+  const native = assembleContextEnvelope(composed, {digest_implementation: "node-crypto-sha256"});
+  const portable = assembleContextEnvelope(composed, {digest_implementation: "portable-js-sha256"});
+  assert.deepEqual(native, portable);
+  const invalid = assembleContextEnvelope(composed, {digest_implementation: "not-sha256"});
+  assert.deepEqual(invalid.reason_codes, ["context.digest-implementation-invalid"]);
 });

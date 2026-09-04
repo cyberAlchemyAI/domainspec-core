@@ -2,15 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "are.reasoning-improvement-iteration/v1",
   "type": "object",
-  "required": ["schema_version", "iteration_id", "iteration_digest", "evidence_digest", "observed_at", "mode", "status", "target_id", "authority_effect"],
+  "required": ["schema_version", "iteration_id", "mode", "status", "target_id", "authority_effect"],
   "properties": {
     "schema_version": {"const": "are.reasoning-improvement-iteration/v1"},
     "iteration_id": {"type": "string", "minLength": 1},
-    "iteration_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-    "evidence_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-    "observed_at": {"type": "string", "format": "date-time"},
-    "mode": {"enum": ["diagnose", "iterate", "verify-candidate", "loop"]},
-    "status": {"enum": ["DIAGNOSED", "READY_FOR_CHANGE", "KEEP", "REJECT", "STABLE", "BLOCKED"]},
+    "mode": {"enum": ["diagnose", "iterate", "verify-candidate", "loop", "evolution-cycle"]},
+    "status": {"enum": ["DIAGNOSED", "READY_FOR_CHANGE", "KEEP", "REJECT", "STABLE", "BLOCKED", "NO_TARGET", "RECOMMEND", "ACTIVATE"]},
     "target_id": {"type": ["string", "null"]},
     "authority_effect": {"const": "none"}
   },

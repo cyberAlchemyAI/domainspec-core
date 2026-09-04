@@ -5,6 +5,52 @@ governed reasoning and context management.
 
 ## Product thesis
 
+> **The Agent Reasoning Engine makes CyberAlchemy better at solving problems
+> over time. It remembers the reasoning state behind previous work, measures
+> results with benchmarks, finds useful new research and technology, tests
+> improvements, and upgrades the engine when they perform better.**
+
+ARE is an engine because it runs two connected feedback loops:
+
+```text
+work loop
+request -> context -> reasoning -> action -> result -> reusable state
+
+improvement loop
+results -> problems -> research -> new technique -> implementation
+        -> benchmark -> upgrade -> new results
+```
+
+The work loop handles the current request. It finds the necessary context,
+reuses the reasoning state that produced that context, reasons from the current
+evidence, records the result, and leaves a useful state for the next turn.
+
+The improvement loop makes the engine itself better. It detects weaknesses in
+benchmarks and real use, searches papers, repositories, tools, and agent
+techniques, reproduces promising ideas, integrates them into a new engine
+version, and compares that version with the current one. An upgrade must improve
+the target result without making speed, quality, reliability, or safety worse.
+
+This creates three clear parts:
+
+```text
+serving engine
+  handles current requests quickly and uses one stable engine version
+
+evolution engine
+  researches, builds, and benchmarks better engine versions
+
+upgrade controller
+  replaces the serving version when a new version performs better
+```
+
+The product is therefore more than a router, context manager, or agent
+framework. ARE reasons about the user's work, measures how well its reasoning
+works, discovers better ways to operate, and improves through measured software
+evolution.
+
+Its central context principle remains:
+
 > **Do not merely reuse context. Reuse the explicit reasoning state that
 > produced that context.**
 
@@ -26,6 +72,63 @@ definitions, ontology selections, evidence posture, exclusions,
 contradictions, gaps, transformations, freshness, admitted observations,
 receipts, decisions, and the continuation frontier.
 
+## Progressive inspectability and user control
+
+ARE must preserve a complete structured account of how a request became an
+action while letting each person choose how much of that account appears during
+normal work. Inspectability and control are properties of the engine, not a
+special diagnostic build or a permanently verbose interface.
+
+The engine projects four views from the same reasoning state:
+
+```text
+quiet
+  result, material assumptions, blockers, and consequential decisions
+
+explain
+  interpreted objective, concise rationale, selected route, and changes
+
+inspect
+  Intent Contract, Context Envelope, selected sources, referent bindings,
+  transformations, exclusions, contradictions, events, and receipts
+
+control
+  correct intent, rebind a reference, reject an assumption, pause an action,
+  choose retention scope, replay an epoch, or redirect continuation
+```
+
+Changing the view never changes the underlying reasoning-state epoch. Every
+displayed explanation points to the records that support it, and deeper views
+remain reachable from the ordinary interaction. The inspectable product is the
+engine's structured rationale and provenance—not hidden model chain-of-thought.
+
+The Intent Reflection Loop uses the same control model. When a user correction
+reveals a likely misinterpretation, omitted constraint, wrong referent, unsafe
+assumption, or realization defect, ARE records the before-and-after intent and
+offers three independent choices:
+
+1. repair the current result;
+2. retain the correction for the current interaction or product; and
+3. propose a benchmark case and engine-improvement opportunity.
+
+ARE may perform the immediate repair without treating the correction as a
+general rule. Cross-interaction retention, benchmark construction, and adoption
+of an engine change remain separately visible and controllable. A person may
+also reclassify an apparent reasoning failure as a new preference, a change of
+mind, or environmental drift so the improvement loop does not learn the wrong
+lesson.
+
+This creates a user-visible path through the improvement cycle:
+
+```text
+request -> intent -> action -> correction -> reflection
+        -> scoped lesson -> benchmark candidate -> measured improvement
+```
+
+The default can remain fast and restrained. Expert users can open the reasoning
+frontier, inspect why context and routes were selected, alter controls, compare
+epochs, and decide which lessons become durable inputs to engine evolution.
+
 The product promise is that a person or agent can resume complex work from an
 exact, reviewable reasoning frontier instead of reconstructing the work from a
 conversation. Reuse preserves provenance, temporal scope, residue, claim
@@ -45,6 +148,37 @@ request
 The Context Envelope is therefore a projection of reasoning state, not the
 primary durable asset. A model-provider cache is an optimization over exact
 request bytes, not evidence that the underlying reasoning state is current.
+
+## Research and evolution pipeline
+
+The improvement loop follows one concrete pipeline:
+
+1. Collect benchmark failures, slow paths, user corrections, unresolved gaps,
+   and recovery failures.
+2. Turn each recurring weakness into a measurable improvement target.
+3. Search for papers, repositories, releases, tools, and techniques related to
+   that target.
+4. Record the exact source, version, mechanism, evidence, and limitations of
+   each promising technique.
+5. Reproduce the technique and determine where it fits in ARE.
+6. Build one or more new engine versions.
+7. Compare them with the current engine using fixed development, regression,
+   holdout, performance, and failure tests.
+8. Keep useful versions, discard regressions, and preserve the evidence from
+   both.
+9. Upgrade the serving engine when a version performs better.
+10. Monitor the upgrade, roll it back when declared failures appear, and feed
+    the new results into the next improvement cycle.
+
+The evolution runtime now implements the complete bounded mechanism chain:
+diagnosis signals, deterministic target selection, provider-neutral research,
+technique and reproduction records, content-addressed isolated variant
+workspaces, exact benchmark comparisons, recommend-only upgrade decisions,
+atomic controlled-local serving selection, canary rollback, and one-cycle-at-a-
+time scheduling. The real-reasoning benchmark includes a deterministic full
+cycle canary. The mechanisms do not invent research sources or code changes:
+production providers, reproduction protocols, mutation runners, schedules, and
+activation remain explicit configuration.
 
 The first three mechanisms are now bounded candidate implementations in
 `implementation/agent-reasoning-engine/packages/reasoning-state-runtime` and
@@ -145,6 +279,12 @@ through an exact opt-in semantic profile and explicit input provider. It binds
 preflight context to the actual turn identity, emits compact outcome and receipt
 metadata, and evaluates once per immutable turn. The repository default is
 disabled and therefore performs no semantic provider or evaluator calls.
+
+The wrapper can also emit immutable Improvement Signals at `turn/completed`.
+This path is separately opt-in and requires both an explicit signal provider
+and sink. Disabled mode makes zero calls. Completion-frontier replay prevents a
+duplicate completion from emitting the same signal twice, and the diagnostic
+journal stores only signal identities and counts rather than turn contents.
 
 For plan-bound proposals that explicitly declare a semantic dependency, the
 wrapper verifies the exact Reasoning Receipt, turn, Context Envelope,

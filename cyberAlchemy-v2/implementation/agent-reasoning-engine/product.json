@@ -1,7 +1,7 @@
 {
   "schema_version": "are.product-profile/v1",
   "product_id": "cyberalchemy-agent-reasoning-engine",
-  "version": "0.2.0-stability-candidate.1",
+  "version": "0.6.0-coding-agent-l2-candidate.1",
   "status": "stability-candidate",
   "node_runtime": "26.8.1",
   "repository_profile": "packages/codex-app-server-wrapper/profiles/repository-v1.json",
@@ -14,13 +14,17 @@
   "components": [
     {"component_id": "intent-route-resolver", "path": "packages/intent-route-resolver", "required": true},
     {"component_id": "request-decision-router", "path": "packages/request-decision-router", "required": true},
+    {"component_id": "request-intent-runtime", "path": "packages/request-intent-runtime", "required": true},
     {"component_id": "context-basis-runtime", "path": "packages/context-basis-runtime", "required": true},
     {"component_id": "reasoning-state-runtime", "path": "packages/reasoning-state-runtime", "required": true},
+    {"component_id": "reasoning-policy-runtime", "path": "packages/reasoning-policy-runtime", "required": true},
+    {"component_id": "evolution-runtime", "path": "packages/evolution-runtime", "required": true},
     {"component_id": "runtime-journal", "path": "packages/runtime-journal", "required": true},
     {"component_id": "semantic-input-runtime", "path": "packages/semantic-input-runtime", "required": true},
     {"component_id": "semantic-judgment-evaluator", "path": "packages/semantic-judgment-evaluator", "required": true},
     {"component_id": "aci-binding-contract", "path": "packages/aci-binding-contract", "required": true},
     {"component_id": "codex-app-server-wrapper", "path": "packages/codex-app-server-wrapper", "required": true},
+    {"component_id": "coding-agent-runtime", "path": "packages/coding-agent-runtime", "required": true},
     {"component_id": "real-reasoning-benchmark", "path": "benchmarks/real-reasoning-v1", "required": true}
   ],
   "integrations": [
@@ -33,6 +37,8 @@
     "gateway": "bin/are.mjs gateway",
     "benchmark": "bin/are.mjs benchmark",
     "define": "bin/are.mjs define",
+    "coding_agent_demo": "bin/are.mjs coding-agent demo --approve",
+    "coding_agent_live_demo": "bin/are.mjs coding-agent live-demo --approve",
     "test_all": "bin/are.mjs test"
   },
   "stability_contract": {
@@ -43,6 +49,7 @@
     "session_resumption": "authenticated-acknowledged",
     "cache_telemetry": "exact-bound-or-unobserved",
     "external_retrieval": "exact-corpus-bound",
+    "engine_evolution": "measured-recommend-only-by-default",
     "publication": "separate"
   },
   "authority_effect": "none"

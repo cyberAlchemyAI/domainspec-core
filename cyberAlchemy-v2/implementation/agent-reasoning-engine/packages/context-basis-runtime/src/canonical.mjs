@@ -4,11 +4,22 @@ import {
   deepFreeze,
   sha256HexText,
 } from "../../intent-route-resolver/index.mjs";
+import {createHash} from "node:crypto";
 
 export {canonicalJson, canonicalizeJson, deepFreeze, sha256HexText};
 
-export function digestValue(value) {
-  return sha256HexText(canonicalJson(canonicalizeJson(value)));
+export const DIGEST_IMPLEMENTATIONS = Object.freeze(["node-crypto-sha256", "portable-js-sha256"]);
+
+export function supportedDigestImplementation(value) {
+  return DIGEST_IMPLEMENTATIONS.includes(value);
+}
+
+export function digestValue(value, implementation = "node-crypto-sha256") {
+  if (!supportedDigestImplementation(implementation)) throw new TypeError(`Unsupported digest implementation: ${implementation}`);
+  const bytes = canonicalJson(canonicalizeJson(value));
+  return implementation === "portable-js-sha256"
+    ? sha256HexText(bytes)
+    : createHash("sha256").update(bytes, "utf8").digest("hex");
 }
 
 export function isRecord(value) {

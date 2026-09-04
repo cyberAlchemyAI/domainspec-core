@@ -1,6 +1,6 @@
 # ARE Real Reasoning Benchmark v1
 
-This candidate harness measures observable reasoning-engine behavior across routing, request-aware context retrieval, context-view lifecycle, fail-closed boundaries, and optional real Codex conversations. It does not attempt to inspect hidden chain-of-thought and grants no authority.
+This candidate harness measures observable reasoning-engine behavior across routing, request-aware context retrieval, context-view lifecycle, fail-closed boundaries, exact-prefix cache reuse, and optional real Codex conversations. Cache comparisons accept only provider-reported usage bound to the same projection and prefix; absent fields remain unobserved. It does not attempt to inspect hidden chain-of-thought and grants no authority.
 
 ## Run
 
@@ -26,15 +26,167 @@ Define, Research, Ontology, or Plan conversation and scores all three turns:
 ```sh
 PATH=/home/vrondelli/.nvm/versions/node/v26.8.1/bin:$PATH \
   /home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/benchmark.mjs \
-  --mode live-multiturn --repetitions 1
+  --mode live-multiturn --model gpt-5.6-luna --repetitions 1
 ```
 
 One repetition performs 24 real turns: 12 ARE and 12 paired controls. Increase
-repetitions explicitly for stability evidence; model calls remain opt-in.
+repetitions explicitly for stability evidence; model calls remain opt-in. The
+model override is sent to both variants and recorded with its profile default
+and selection source in `summary.model_binding`.
 
 To reuse an already-running persistent gateway, add `--gateway-socket /path/to/are-gateway.sock`. The gateway must authorize `codex:benchmark` on the interaction-bound lane and must have been restarted after the profile change.
 
 Results are written under `runs/` unless `--stdout-only` is supplied. Timing is local evidence, not a universal performance guarantee. A live `NOT_EVALUATED` result means the installed Codex version did not match the exact protocol binding; the gate is not relaxed.
+
+The local impact profile measures cold turn start, stable plan reuse, and a
+controlled interaction-bound A/B with content-projection reuse disabled and
+enabled. It also counterbalances full-read source refresh using the portable
+JavaScript and native Node SHA-256 implementations. Both hash arms read every
+selected source and must produce the same source snapshot; metadata-only cache
+checks are not benchmark treatments. Both interaction variants still create
+successor view, context, and reasoning identities. A candidate must save at
+least 1 ms and 1% of the cold turn boundary; a miss remains negative evidence
+and does not activate another optimization.
+
+Preflight phase observation is out-of-band: it measures request construction,
+routing, selection, closure, ontology locking, basis construction, refresh,
+envelope assembly, fragment projection, and message projection without adding
+timing data to deterministic context bytes. Current improvement-retention
+records remain visible in the report but cannot be selected again. If any bound
+implementation or evidence file changes, the retention becomes diagnostic
+stale state and the candidate is eligible for measurement again.
+The portable/native source-hash A/B is not rerun while its exact retention is
+current; the active native path is still sampled for drift visibility. This
+keeps completed hypotheses from consuming the next experiment budget.
+Envelope sealing has its own counterbalanced portable/native hash comparison.
+Both arms receive one frozen composition and must emit byte-identical Context
+Envelopes before their timings can become candidate evidence.
+
+```sh
+npm run impact:profile -- --output runs/impact-profile.json
+```
+
+The registered lexical treatment experiment is runnable with:
+
+```sh
+npm run scorer:experiment
+```
+
+It compares `scorer:exact-required-term/v1` with
+`scorer:declared-concept-equivalence/candidate-v1` on the exact
+`holdout:literal-versus-intent-counterbalanced-v1` dataset. A failing result
+is useful evidence: the treatment must improve false negatives, preserve
+safety and false-positive behavior, and stay within the registered p95 latency
+limit.
+
+An optimized implementation attempt is kept separate from the registered v1
+identity and can be rerun with:
+
+```sh
+npm run scorer:experiment:v2 -- --output runs/2026-09-03-scorer-experiment-v2.json
+```
+
+The v2 report is evidence for `ARE-RH-LEXICAL-001`, not activation authority.
+It preserves v1 predictions and safety while exposing the remaining latency
+regression for the next reversible optimization.
+
+The next fused-pass attempt is independently identified and runnable with:
+
+```sh
+npm run scorer:experiment:v3 -- --output runs/2026-09-03-scorer-experiment-v3.json
+```
+
+Its report is recorded alongside v2; it is not a replacement or activation of
+either candidate.
+
+To repeat v3 until the first PASS or a maximum of 15 attempts, run:
+
+```sh
+npm run scorer:experiment:v3:loop -- --output runs/2026-09-03-scorer-experiment-v3-loop.json
+```
+
+The loop stores every attempt with a distinct attempt identity and binds each
+failed attempt to a sealed successor hypothesis. The completed run reached the
+15-attempt bound with no PASS; this is recorded as evidence for the next
+profiling step.
+
+For strategy search, use `npm run scorer:strategy-loop`. It rotates through the
+declared fused, compiled, and baseline-overlay implementations, creating a
+hypothesis bound to each exact code pattern before measuring the next attempt.
+
+To require measurable progress before continuing, use the gain-gated loop:
+
+```sh
+npm run scorer:strategy-loop:gain -- --output runs/2026-09-03-scorer-strategy-loop-gain.json
+```
+
+The gate establishes the first attempt as the baseline, then requires every
+subsequent attempt to improve the registered p95 latency regression ratio while
+preserving agreement, false-negative reduction, false-positive behavior, and
+safety. The default policy stops after the first non-gain (`stop_reason:
+no-gain`); `--max-no-gain-attempts N` permits a bounded tolerance. Missing
+metrics and failed protected checks stop the loop fail-closed. A gain gate is a
+search-control signal only: it does not activate a scorer or grant authority.
+
+For parallel hypothesis exploration, run the portfolio mode:
+
+```sh
+npm run scorer:portfolio -- --output runs/2026-09-03-scorer-portfolio.json
+```
+
+Portfolio mode declares every strategy as its own hypothesis, screens all
+branches, fully evaluates only the best `--max-survivors` (default `2`), and
+records rejected or screened-out branches in the same immutable report. The
+optimization catalog currently includes twelve concrete scorer strategies,
+including indexed marker lookup, single-response scans, lazy lexical gating,
+and precompiled boundary-aware regexes. A separate
+`--confirmation-holdout FILE` can confirm the provisional winner;
+without it, the result is explicitly `PROVISIONAL`. Full and confirmation
+stages run independent replications (default `3`), recording median, minimum,
+maximum, and every observed value. To derive a disjoint confirmation partition
+from the registered fixture for a local canary, use:
+
+```sh
+npm run scorer:portfolio:confirm -- --output runs/2026-09-03-scorer-portfolio-confirmed.json
+```
+
+The `even` partition is confirmation data and the complementary `odd`
+partition is screening data. A survivor must improve strictly over its own
+screening aggregate before confirmation is attempted.
+
+The next twelve-strategy cycle is reproducible with:
+
+```sh
+npm run scorer:portfolio:next
+```
+
+The scorer timing protocol uses paired measurements: baseline and treatment
+alternate order after a configurable warmup, and every per-repetition timing
+sample is retained. Reports include phase timings (compile, prediction, warmup,
+and timed work) plus a deterministic bootstrap confidence interval over the
+paired latency-regression samples. This keeps run-to-run variation visible
+instead of treating one short timing as a fact. For a higher-variance evidence
+run with ten replications per full and confirmation stage, use:
+
+```sh
+npm run scorer:portfolio:variance
+```
+
+The variance run is evidence only; it does not activate or authorize any
+scorer. Use `--timing-order baseline-first` or `treatment-first` only for
+diagnostics. The default `alternating` order is the registered measurement
+protocol.
+
+The protocol is grounded in published benchmark practice: MLPerf reports
+run-to-run variation and uses repeated runs for stable measurements; MLPerf
+Inference emphasizes reproducible, auditable latency scenarios; and tail-
+latency research shows that harness ordering can distort percentile results.
+The holdout itself follows the pragmatic-language finding that literal and
+intended readings can diverge, so quality and latency remain separate gates.
+References: [MLPerf Training](https://arxiv.org/abs/1910.01500),
+[MLPerf Inference](https://arxiv.org/abs/1911.02549),
+[Tell-Tale Tail Latencies](https://arxiv.org/abs/2107.11607), and
+[pragmatic language understanding](https://arxiv.org/abs/2212.06801).
 
 ## Modes
 
@@ -45,12 +197,6 @@ Results are written under `runs/` unless `--stdout-only` is supplied. Timing is 
 - `external-retrieval`: exact-bound Agent Retrieval Bench JSONL plus ARE prediction JSONL, scored for MRR, Recall/Precision/F0.5@20, BCY@8k, and selective abstention.
 - `external-retrieval-run`: produce deterministic ARE hybrid-lexical predictions from exact corpus snapshots, then score them through the same adapter.
 - `all`: core plus integration; `--include-live` adds the live comparison.
-
-`npm test` also runs `reconnect-chaos.test.mjs`. Its seven-scenario matrix
-injects disconnects around initialization, stable turn dispatch, streamed
-output, tool responses, and completion, then exercises app-server exit and
-gateway process-state loss. It is deterministic local fault evidence, not a
-universal transport guarantee.
 
 ## External retrieval lane
 
@@ -136,3 +282,21 @@ node bin/improve.mjs --mode loop \
 ```
 
 The loop returns `STABLE` only after two consecutive `KEEP` assessments. Any safety, lifecycle, non-target quality, or full-run latency regression rejects the candidate. A stable deterministic candidate advances to the explicitly invoked live holdout; it does not invoke model turns automatically.
+
+## Evolution cycle
+
+The evolution runtime converts benchmark failures into immutable improvement
+signals, selects one target, exact-binds research results, records reproduction,
+builds a content-addressed variant record, compares it against protected quality,
+latency, safety, determinism, and holdout constraints, and emits a recommend-only
+upgrade decision by default.
+
+Run the deterministic, no-model fixture canary with:
+
+```sh
+/home/vrondelli/.nvm/versions/node/v26.8.1/bin/node bin/evolution-canary.mjs
+```
+
+The canary exercises the complete lifecycle but does not mutate the source tree,
+activate a candidate, publish, or deploy. Real reproduction, worktree mutation,
+and activation require separately configured runners.

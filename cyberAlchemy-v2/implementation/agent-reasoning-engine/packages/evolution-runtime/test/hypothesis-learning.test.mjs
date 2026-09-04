@@ -32,6 +32,9 @@ test("research-learning ontology binds every runtime record and keeps learning n
     "are.research-experiment/v1",
     "are.learning-decision/v1",
   ]);
+  assert.equal(ontology.definitions.some((definition) => definition.definition_id === "ARE-RL-D05" && definition.term === "Improvement Retention"), true);
+  assert.equal(ontology.nodes.some((node) => node.record_schema === "are.improvement-retention/v1"), true);
+  assert.equal(ontology.relations.some((relation) => relation.relation_id === "successful-comparison-can-support-retention"), true);
   assert.equal(ontology.authority_effect, "none");
 });
 
