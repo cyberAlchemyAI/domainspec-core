@@ -6,6 +6,9 @@ const STOP_WORDS = new Set([
   "project", "should", "that", "their", "there", "these", "they", "this", "using", "want", "what", "when",
   "where", "which", "with", "would", "your",
 ]);
+const definitionIndexCache = new WeakMap();
+const nodeIndexCache = new WeakMap();
+const contextItemIndexCache = new WeakMap();
 
 function words(value) {
   return String(value ?? "")
@@ -31,14 +34,19 @@ function qualifiedIdentifierTail(value) {
   return parts.at(-1) ?? "";
 }
 
-function scoreTerms(requestText, requestWords, terms) {
+function compileTerms(terms) {
+  return terms.flatMap((term) => {
+    const tokens = words(term);
+    if (tokens.length === 0 || (tokens.length === 1 && (tokens[0].length < 4 || STOP_WORDS.has(tokens[0])))) return [];
+    return [{tokens, phrase: tokens.join(" ")}];
+  });
+}
+
+function scoreTerms(requestText, requestWords, terms, compiled = false) {
   let score = 0;
   const matched = [];
-  for (const term of terms) {
-    const tokens = words(term);
-    if (tokens.length === 0) continue;
-    if (tokens.length === 1 && (tokens[0].length < 4 || STOP_WORDS.has(tokens[0]))) continue;
-    const phrase = tokens.join(" ");
+  for (const entry of compiled ? terms : compileTerms(terms)) {
+    const {tokens, phrase} = entry;
     const matches = tokens.length > 1
       ? requestText.includes(phrase)
       : requestWords.has(tokens[0]);
@@ -47,6 +55,40 @@ function scoreTerms(requestText, requestWords, terms) {
     score = Math.max(score, tokens.length * 100 + phrase.length);
   }
   return {score, matched_terms: uniqueStrings(matched)};
+}
+
+function cachedIndex(source, cache, build) {
+  if (!Object.isFrozen(source)) return build();
+  let value = cache.get(source);
+  if (!value) {
+    value = build();
+    cache.set(source, value);
+  }
+  return value;
+}
+
+function definitionIndex(catalog) {
+  return cachedIndex(catalog, definitionIndexCache, () => (catalog.definitions ?? []).flatMap((definition) => {
+    if (!isRecord(definition) || !nonEmptyString(definition.definition_id)) return [];
+    const terms = Array.isArray(definition.lookup_terms) ? definition.lookup_terms : searchableTerms(definition.aliases ?? []);
+    const primaryTokens = words(definition.primary_term ?? definition.aliases?.[0]);
+    return [{definition_id: definition.definition_id, terms: compileTerms(terms), primary_tokens: primaryTokens, primary_phrase: primaryTokens.join(" ")}];
+  }));
+}
+
+function nodeIndex(snapshot) {
+  return cachedIndex(snapshot, nodeIndexCache, () => (snapshot.nodes ?? []).flatMap((node) => {
+    if (!isRecord(node) || !nonEmptyString(node.node_id)) return [];
+    const terms = uniqueStrings([...(Array.isArray(node.lookup_terms) ? node.lookup_terms : []), ...searchableTerms([qualifiedIdentifierTail(node.node_id), ...(node.search_terms ?? [])])]);
+    return [{node_id: node.node_id, terms: compileTerms(terms)}];
+  }));
+}
+
+function contextIndex(items) {
+  return cachedIndex(items, contextItemIndexCache, () => items.flatMap((item) => {
+    if (!isRecord(item) || !nonEmptyString(item.context_item_id)) return [];
+    return [{context_item_id: item.context_item_id, terms: compileTerms(searchableTerms(item.match_terms ?? []))}];
+  }));
 }
 
 function includesExactPhrase(requestText, phrase) {
@@ -68,14 +110,10 @@ export function selectRequestContext(input) {
   const maxNodes = bounded(input.policy?.max_ontology_node_matches, 12);
   const maxEdges = bounded(input.policy?.max_ontology_edge_matches, 16);
 
-  const definitionCandidates = (input.catalog.definitions ?? []).flatMap((definition) => {
-    if (!isRecord(definition) || !nonEmptyString(definition.definition_id)) return [];
-    const terms = Array.isArray(definition.lookup_terms) ? definition.lookup_terms : searchableTerms(definition.aliases ?? []);
-    const match = scoreTerms(requestText, requestWordSet, terms);
-    const primaryTokens = words(definition.primary_term ?? definition.aliases?.[0]);
-    const primaryPhrase = primaryTokens.join(" ");
-    const primaryExact = includesExactPhrase(requestText, primaryPhrase) ? 1000 + primaryTokens.length * 100 + primaryPhrase.length : 0;
-    return match.score > 0 || primaryExact > 0 ? [{definition_id: definition.definition_id, ...match, score: Math.max(match.score, primaryExact), primary_exact: primaryExact > 0, primary_phrase: primaryPhrase}] : [];
+  const definitionCandidates = definitionIndex(input.catalog).flatMap((definition) => {
+    const match = scoreTerms(requestText, requestWordSet, definition.terms, true);
+    const primaryExact = includesExactPhrase(requestText, definition.primary_phrase) ? 1000 + definition.primary_tokens.length * 100 + definition.primary_phrase.length : 0;
+    return match.score > 0 || primaryExact > 0 ? [{definition_id: definition.definition_id, ...match, score: Math.max(match.score, primaryExact), primary_exact: primaryExact > 0, primary_phrase: definition.primary_phrase}] : [];
   });
   const exactPrimaryCandidates = definitionCandidates.filter((candidate) => candidate.primary_exact);
   const dominantCandidates = exactPrimaryCandidates.length > 0
@@ -90,13 +128,8 @@ export function selectRequestContext(input) {
     .slice(0, maxDefinitions)
     .map(({primary_exact: _primaryExact, primary_phrase: _primaryPhrase, ...match}) => match);
 
-  const nodeMatches = (input.snapshot.nodes ?? []).flatMap((node) => {
-    if (!isRecord(node) || !nonEmptyString(node.node_id)) return [];
-    const terms = uniqueStrings([
-      ...(Array.isArray(node.lookup_terms) ? node.lookup_terms : []),
-      ...searchableTerms([qualifiedIdentifierTail(node.node_id), ...(node.search_terms ?? [])]),
-    ]);
-    const match = scoreTerms(requestText, requestWordSet, terms);
+  const nodeMatches = nodeIndex(input.snapshot).flatMap((node) => {
+    const match = scoreTerms(requestText, requestWordSet, node.terms, true);
     return match.score > 0 ? [{node_id: node.node_id, ...match}] : [];
   }).sort((a, b) => b.score - a.score || a.node_id.localeCompare(b.node_id)).slice(0, maxNodes);
 
@@ -107,9 +140,9 @@ export function selectRequestContext(input) {
     if (endpointCount === 0) return [];
     return [{edge_id: edge.edge_id, endpoint_count: endpointCount}];
   }).sort((a, b) => b.endpoint_count - a.endpoint_count || a.edge_id.localeCompare(b.edge_id)).slice(0, maxEdges);
-  const contextItemMatches = (input.context_items ?? []).flatMap((item) => {
-    if (!isRecord(item) || !nonEmptyString(item.context_item_id)) return [];
-    const match = scoreTerms(requestText, requestWordSet, searchableTerms(item.match_terms ?? []));
+  const contextItems = Array.isArray(input.context_items) ? input.context_items : [];
+  const contextItemMatches = contextIndex(contextItems).flatMap((item) => {
+    const match = scoreTerms(requestText, requestWordSet, item.terms, true);
     return match.score > 0 ? [{context_item_id: item.context_item_id, ...match}] : [];
   }).sort((a, b) => b.score - a.score || a.context_item_id.localeCompare(b.context_item_id));
 

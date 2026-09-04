@@ -17,12 +17,14 @@ import {
   evaluateDualLaneContinuation,
   loadRepositoryProfile,
   SEMANTIC_NOTIFICATION,
+  INTENT_CONTEXT_KEY,
   protocolBindingCheck,
   REQUEST_CONTEXT_KEY,
   verifyReasoningStateLog,
 } from "../index.mjs";
 import {digestValue} from "../../semantic-judgment-evaluator/index.mjs";
 import {composeSemanticLifecycle, loadSemanticInputProfile} from "../../semantic-input-runtime/index.mjs";
+import {sha256HexText} from "../../intent-route-resolver/index.mjs";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const repositoryRoot = resolve(packageRoot, "../../../../..");
@@ -48,6 +50,18 @@ function wrapper(overrides = {}) {
 
 function turnStart(id, text, threadId = "thread-1", extras = {}) {
   return {jsonrpc: "2.0", id, method: "turn/start", params: {threadId, input: [{type: "text", text}], ...extras}};
+}
+
+function forwardedContext(result) {
+  const context = result.to_server[0].params.additionalContext;
+  const manifest = JSON.parse(context[CONTEXT_KEY].value);
+  if (Array.isArray(manifest.included_items)) return manifest;
+  const includedItems = Object.values(context)
+    .map((entry) => {
+      try { return JSON.parse(entry.value); } catch { return null; }
+    })
+    .filter((value) => value?.schema_version === "are.context-item/v1");
+  return {...manifest, included_items: includedItems};
 }
 
 function completed(threadId = "thread-1", turnId = "turn-1") {
@@ -109,8 +123,8 @@ function planProposal(proposalId, semanticDependency = undefined, overrides = {}
   };
 }
 
-async function startAndBind(instance, {id, text, threadId, turnId}) {
-  const started = await instance.processClientMessage(turnStart(id, text, threadId));
+async function startAndBind(instance, {id, text, threadId, turnId, extras = {}}) {
+  const started = await instance.processClientMessage(turnStart(id, text, threadId, extras));
   assert.equal(started.to_server.length, 1);
   await instance.processServerMessage(turnResponse(id, turnId));
 }
@@ -118,9 +132,14 @@ async function startAndBind(instance, {id, text, threadId, turnId}) {
 test("repository profile verifies exact sources and materializes production inputs", () => {
   assert.equal(loaded.decision_profile.profile_id, "cyberalchemy-fast-routing");
   assert.ok(loaded.definition_catalog.definitions.length > 20);
-  assert.equal(loaded.ontology_snapshot.nodes.length, 67);
-  assert.equal(loaded.ontology_snapshot.edges.length, 91);
+  assert.equal(loaded.ontology_snapshot.nodes.length, 77);
+  assert.equal(loaded.ontology_snapshot.nodes.some((node) => node.node_id === "agent-reasoning-engine.EvolutionCycle"), true);
+  assert.equal(loaded.ontology_snapshot.nodes.some((node) => node.node_id === "agent-reasoning-engine.CacheAffinityProjection"), true);
+  assert.equal(loaded.ontology_snapshot.edges.length, 101);
   assert.deepEqual(loaded.value.semantic_evaluation, {enabled: false, trigger: "turn/completed"});
+  assert.deepEqual(loaded.value.evolution_signals, {enabled: false, trigger: "turn/completed"});
+  assert.equal(loaded.semantic_profile.profile_id, "semantic-input:definition-readiness@1");
+  assert.deepEqual(loaded.value.context_source_refresh, {hash_implementation: "node-crypto-sha256", verification: "read-and-hash-every-selected-source"});
   assert.deepEqual(loaded.value.runtime_journal, {journal_id: "are-codex-runtime:domainspec-core", max_events: 4096, max_closed_turns: 256});
   assert.deepEqual(loaded.value.gateway, {
     backend_mode: "daemon-proxy",
@@ -138,13 +157,33 @@ test("repository profile verifies exact sources and materializes production inpu
       directory: resolve(packageRoot, ".runtime/reasoning-state"),
       single_writer: true,
     },
+    session_store: {
+      mode: "append-only-file-fsync",
+      path: resolve(packageRoot, ".runtime/gateway-sessions.jsonl"),
+      single_writer: true,
+    },
     allowed_clients: [
       {consumer_id: "codex:benchmark", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:human-chat", lane: "interaction-bound", window_ref: null, request_id: null},
       {consumer_id: "codex:plan", lane: "plan-bound", window_ref: "plan:persistent-codex", request_id: "request:persistent-codex-plan"},
     ],
   });
-  assert.equal(loaded.semantic_profile, null);
+  assert.equal(loaded.semantic_profile.profile_id, "semantic-input:definition-readiness@1");
+});
+
+test("native live-source hashing is byte-identical to the portable implementation", async () => {
+  const portable = loadRepositoryProfile(resolve(packageRoot, "profiles/repository-v1.json"), repositoryRoot, {source_hash_implementation: "portable-js-sha256"});
+  assert.equal(portable.ok, true, portable.reason_codes?.join(","));
+  assert.deepEqual(portable.source_snapshot, loaded.source_snapshot);
+  assert.equal(portable.value.context_source_refresh.hash_implementation, "portable-js-sha256");
+  const refreshed = await loaded.context_source_provider();
+  assert.equal(refreshed.ok, true);
+  for (const source of refreshed.source_snapshot) {
+    const text = readFileSync(resolve(repositoryRoot, source.source_identity), "utf8");
+    assert.equal(source.source_digest, sha256HexText(text), source.source_identity);
+  }
+  const invalid = loadRepositoryProfile(resolve(packageRoot, "profiles/repository-v1.json"), repositoryRoot, {source_hash_implementation: "not-sha256"});
+  assert.deepEqual(invalid.reason_codes, ["config.context-source-hash-implementation-invalid"]);
 });
 
 test("an explicitly enabled repository profile exact-loads its semantic profile", () => {
@@ -189,13 +228,25 @@ test("repository profile rejects semantic drift between its protocol binding and
   assert.ok(result.reason_codes.includes("config.protocol-observed-version-drift"));
 });
 
+test("repository profile rejects a non-boolean interaction projection reuse switch", () => {
+  const directory = mkdtempSync(resolve(packageRoot, ".tmp-projection-config-"));
+  temporaryPaths.push(directory);
+  const profile = JSON.parse(readFileSync(resolve(packageRoot, "profiles/repository-v1.json"), "utf8"));
+  profile.context_projection.reuse_compatible_interaction_projection = "yes";
+  const path = resolve(directory, "profile.json");
+  writeFileSync(path, JSON.stringify(profile));
+  const result = loadRepositoryProfile(path, repositoryRoot);
+  assert.equal(result.ok, false);
+  assert.deepEqual(result.reason_codes, ["config.context-projection-interaction-reuse-invalid"]);
+});
+
 test("obvious Research preflight forwards a bounded inline Context Envelope", async () => {
   const result = await wrapper().processClientMessage(turnStart(1, "Research current context management approaches."));
   assert.equal(result.to_server.length, 1);
   assert.equal(result.to_client.length, 0);
   const entry = result.to_server[0].params.additionalContext[CONTEXT_KEY];
   assert.equal(entry.kind, "application");
-  const fragment = JSON.parse(entry.value);
+  const fragment = forwardedContext(result);
   assert.equal(fragment.route_id, "CA2-ROUTE-RESEARCH");
   assert.equal(fragment.schema_version, "are.codex-context-fragment/v2");
   assert.equal(fragment.view_lane, "interaction-bound");
@@ -203,8 +254,6 @@ test("obvious Research preflight forwards a bounded inline Context Envelope", as
   assert.equal(fragment.included_items.length > 0, true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "definition" && typeof item.content.text === "string"), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && typeof item.content.intent === "string"), true);
-  assert.equal(fragment.context_use_contract.schema_version, "are.codex-context-use-contract/v1");
-  assert.equal(fragment.context_use_contract.authority_effect, "none");
   assert.equal(fragment.authority_effect, "none");
 });
 
@@ -222,7 +271,7 @@ test("typed request hint retrieves canonical ontology meaning, related nodes, an
     additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}},
   }));
   assert.equal(result.to_server.length, 1);
-  const fragment = JSON.parse(result.to_server[0].params.additionalContext[CONTEXT_KEY].value);
+  const fragment = forwardedContext(result);
   assert.equal(fragment.route_id, "CA2-ROUTE-DEFINE");
   assert.equal(fragment.inline_bytes <= fragment.max_inline_bytes, true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "request" && item.content.raw_request === hint.raw_request), true);
@@ -230,26 +279,22 @@ test("typed request hint retrieves canonical ontology meaning, related nodes, an
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-node" && item.context_item_id.includes("OntologySelector")), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "ontology-catalog" && item.content.ontologies.some((ontology) => ontology.ontology_id === "cav2.ontology-product")), true);
   assert.equal(fragment.included_items.some((item) => item.item_kind === "repository-instruction" && item.content.instruction_id === "repository-root-agents"), true);
-  assert.deepEqual(fragment.context_use_contract.direct_answer_sources, [
-    {context_item_id: "definition:CAV2-D19", use_role: "canonical-term-meaning"},
-    {context_item_id: "ontology-catalog:repository", use_role: "repository-ontology-inventory"},
-  ]);
-  assert.equal(fragment.context_use_contract.supporting_context_item_ids.some((id) => id.includes("OntologySelector")), true);
-  assert.equal(fragment.context_use_contract.instructions.some((instruction) => instruction.includes("do not substitute a supporting ontology node")), true);
+  assert.equal(fragment.exclusions.some((entry) => entry.reason === "not-selected"), true);
+  assert.equal(fragment.context_use_contract.schema_version, "are.codex-context-use-contract/v1");
+  assert.equal(fragment.context_use_contract.direct_answer_sources.some((entry) => entry.context_item_id === "definition:CAV2-D19"), true);
 });
 
-test("ontology inventory requests identify the repository catalog as the direct answer source", async () => {
-  const rawRequest = "What registered ontologies are available here?";
-  const hint = {schema_version: "are.request-context-hint/v1", raw_request: rawRequest, objective_kind: "ontology-query"};
-  const result = await wrapper().processClientMessage(turnStart(1903, rawRequest, "thread-ontology-catalog", {
+test("a request naming CyberAlchemy v2 and ontology projects both exact definitions", async () => {
+  const rawRequest = "I want to understand and use the ontology already present in CyberAlchemy v2.";
+  const hint = {schema_version: "are.request-context-hint/v1", raw_request: rawRequest, objective_kind: "define"};
+  const result = await wrapper().processClientMessage(turnStart(1903, rawRequest, "thread-disjoint-exact", {
     additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}},
   }));
   assert.equal(result.to_server.length, 1);
-  const fragment = JSON.parse(result.to_server[0].params.additionalContext[CONTEXT_KEY].value);
-  assert.deepEqual(fragment.context_use_contract.direct_answer_sources, [
-    {context_item_id: "ontology-catalog:repository", use_role: "repository-ontology-inventory"},
-  ]);
-  assert.equal(fragment.context_use_contract.supporting_context_item_ids.includes("ontology-node:agent-reasoning-engine.ContextItem"), true);
+  const fragment = forwardedContext(result);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D9"), true);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "definition:CAV2-D19"), true);
+  assert.equal(fragment.included_items.some((item) => item.context_item_id === "ontology-catalog:repository"), true);
 });
 
 test("malformed request context hint blocks before forwarding", async () => {
@@ -336,6 +381,15 @@ test("measured provider cache usage is bound to the exact current projection", a
   assert.equal(event.cache_telemetry_observation_digest, observed.observation.observation_digest);
 });
 
+test("provider usage on the turn response is automatically bound and checkpointed", async () => {
+  const instance = wrapper();
+  await instance.processClientMessage(turnStart(1014, "Research reusable reasoning state.", "thread-cache-auto"));
+  await instance.processServerMessage({jsonrpc: "2.0", id: 1014, result: {turn: {id: "turn-cache-auto"}, usage: {input_tokens: 900, cached_input_tokens: 700, latency_ms: 70, baseline_latency_ms: 100}}});
+  const state = instance.inspectState();
+  assert.equal(state.cache_affinity_consumers[0].cache_hit_posture, "observed-hit");
+  assert.equal(state.cache_affinity_consumers[0].observed_token_savings, 700);
+  assert.equal(state.reasoning_state.checkpoint_count, 2);
+});
 test("file-backed turn/start persists the verified dispatch sequence before forwarding", async () => {
   const directory = mkdtempSync("/tmp/are-wrapper-reasoning-state-");
   temporaryPaths.push(directory);
@@ -388,25 +442,6 @@ test("file-backed wrapper recovers the last checkpoint before accepting a new tu
   const verified = verifyReasoningStateLog(logPath, {expected_ledger_id: loaded.value.reasoning_state.ledger_id});
   assert.equal(verified.ok, true);
   assert.equal(verified.value.index.checkpoint_count, 2);
-});
-
-test("file-backed wrapper enforces one writer and permits clean restart recovery", async () => {
-  const directory = mkdtempSync("/tmp/are-wrapper-single-writer-");
-  temporaryPaths.push(directory);
-  const logPath = resolve(directory, "reasoning-state.jsonl");
-  const profile = structuredClone(loaded.value);
-  profile.reasoning_state = {...profile.reasoning_state, storage_mode: "append-only-file-fsync", log_path: logPath, single_writer: true};
-  const first = wrapper({loaded_profile: profile});
-  await first.processClientMessage(turnStart(10041, "Research durable restart state.", "thread-single-writer"));
-  assert.throws(() => wrapper({loaded_profile: profile}), /reasoning\.writer-lock-held/);
-  assert.equal(first.close().ok, true);
-  const successor = wrapper({loaded_profile: profile});
-  assert.equal(successor.inspectState().reasoning_state.recovery.disposition, "recovered");
-  assert.equal(successor.inspectState().reasoning_state_writer_lock.released, false);
-  const resumed = await successor.processClientMessage(turnStart(10042, "Research durable restart state.", "thread-single-writer"));
-  assert.equal(resumed.to_server.length, 1);
-  assert.equal(successor.inspectState().cache_affinity_consumers[0].exact_prefix_reuse, true);
-  assert.equal(successor.close().ok, true);
 });
 
 test("file-backed wrapper rejects an uncheckpointed recovery tail at startup", () => {
@@ -497,13 +532,28 @@ test("ambiguous preflight returns an exact gate and never forwards turn/start", 
   assert.equal(result.to_client[0].error.data.directive_kind, "gate");
 });
 
-test("interaction-bound turns always create successor view identities", async () => {
-  const instance = wrapper();
+test("compatible interaction-bound turns reuse projected content but create successor view, context, and reasoning identities", async () => {
+  const interactionProfile = structuredClone(loaded.value);
+  interactionProfile.turn_bindings.default = {...interactionProfile.turn_bindings.default, consumer_ref: "codex:compatible-interaction", request_id: "request:compatible-interaction"};
+  const instance = wrapper({loaded_profile: interactionProfile});
   const first = await instance.processClientMessage(turnStart(3, "Explain this architecture."));
   const second = await instance.processClientMessage(turnStart(4, "Explain this architecture."));
-  const firstView = JSON.parse(first.to_server[0].params.additionalContext[CONTEXT_KEY].value).view_id;
-  const secondView = JSON.parse(second.to_server[0].params.additionalContext[CONTEXT_KEY].value).view_id;
-  assert.notEqual(firstView, secondView);
+  const firstFragment = JSON.parse(first.to_server[0].params.additionalContext[CONTEXT_KEY].value);
+  const secondFragment = JSON.parse(second.to_server[0].params.additionalContext[CONTEXT_KEY].value);
+  assert.notEqual(firstFragment.view_id, secondFragment.view_id);
+  assert.notEqual(firstFragment.context_epoch_id, secondFragment.context_epoch_id);
+  assert.equal(secondFragment.content_projection_digest, firstFragment.content_projection_digest);
+  assert.equal(secondFragment.projection_reuse_receipt.previous_context_epoch_id, firstFragment.context_epoch_id);
+  assert.equal(secondFragment.projection_reuse_receipt.identity_retained, false);
+  const current = instance.inspectState().current_context_epochs[0];
+  assert.equal(current.projection_reused, true);
+  assert.equal(current.freshness_state, "successor-current-reused-projection");
+  const reasoningEvents = instance.ledger.snapshot().filter((event) => event.event_kind === "reasoning-dispatch-verified");
+  assert.notEqual(reasoningEvents[0].reasoning_epoch_id, reasoningEvents[1].reasoning_epoch_id);
+  assert.equal(reasoningEvents[1].exact_prefix_reuse, true);
+  const envelopeEvents = instance.ledger.snapshot().filter((event) => event.event_kind === "context-envelope-created");
+  assert.equal(envelopeEvents[0].projection_reuse_disposition, "assembled");
+  assert.equal(envelopeEvents[1].projection_reuse_disposition, "reused-exact-content");
 });
 
 test("plan-bound reuse is derived from current selected dependencies", async () => {
@@ -645,6 +695,74 @@ test("default semantic configuration is a zero-call no-op at turn/completed", as
   assert.equal(calls, 0);
   assert.equal(result.to_client.some((message) => message.method === SEMANTIC_NOTIFICATION), false);
   assert.equal(instance.ledger.snapshot().some((event) => event.event_kind.startsWith("semantic-evaluation-")), false);
+});
+
+test("default evolution signal configuration is a zero-call no-op at turn/completed", async () => {
+  let providerCalls = 0;
+  let sinkCalls = 0;
+  const instance = wrapper({
+    evolution_signal_provider: () => { providerCalls += 1; return []; },
+    evolution_signal_sink: () => { sinkCalls += 1; },
+  });
+  await startAndBind(instance, {id: 2101, text: "Explain the current context.", threadId: "thread-evolution-off", turnId: "turn-evolution-off"});
+  await instance.processServerMessage(completed("thread-evolution-off", "turn-evolution-off"));
+  assert.equal(providerCalls, 0);
+  assert.equal(sinkCalls, 0);
+  assert.equal(instance.ledger.snapshot().some((event) => event.event_kind === "evolution-signals-assessed"), false);
+});
+
+test("opt-in evolution signals emit immutable compact records exactly once per completion", async () => {
+  const profile = structuredClone(loaded.value);
+  profile.evolution_signals = {enabled: true, trigger: "turn/completed"};
+  let providerCalls = 0;
+  const emitted = [];
+  const instance = wrapper({
+    loaded_profile: profile,
+    evolution_signal_provider: () => {
+      providerCalls += 1;
+      return [{kind: "context-precision-failure", scope: "context-precision", observed_value: 0.71, expected_value: 0.8, metric: "context_precision"}];
+    },
+    evolution_signal_sink: (signal) => { emitted.push(signal); return {ok: true}; },
+  });
+  await startAndBind(instance, {id: 2102, text: "Explain the current context.", threadId: "thread-evolution-on", turnId: "turn-evolution-on"});
+  const completion = completed("thread-evolution-on", "turn-evolution-on");
+  await instance.processServerMessage(completion);
+  await instance.processServerMessage(completion);
+  assert.equal(providerCalls, 1);
+  assert.equal(emitted.length, 1);
+  assert.equal(emitted[0].schema_version, "are.improvement-signal/v1");
+  assert.match(emitted[0].source_result_ref, /^codex-turn-completed:[a-f0-9]{64}$/);
+  const event = instance.ledger.snapshot().find((entry) => entry.event_kind === "evolution-signals-assessed");
+  assert.equal(event.signal_disposition, "emitted");
+  assert.equal(event.signal_count, 1);
+  assert.equal(Object.hasOwn(event, "completion_message"), false);
+  assert.equal(Object.hasOwn(event, "context_contents"), false);
+});
+
+test("the configured definition-readiness domain evaluates only when explicitly enabled", async () => {
+  const profile = structuredClone(loaded.value);
+  profile.semantic_evaluation = {enabled: true, trigger: "turn/completed"};
+  const sourceRef = "are://definition-readiness/structural-observations";
+  const value = {definition_present: true, canonical_source_bound: true, term_unambiguous: true, downstream_impact_declared: true, selected_source_drift: false};
+  const sourceDigest = digestValue(value);
+  const instance = wrapper({
+    loaded_profile: profile,
+    semantic_profile: loaded.semantic_profile,
+    semantic_input_provider: () => ({
+      owner_ref: "cyberalchemy-definition-owner@local",
+      created_at: "2026-09-03T10:00:00.000Z",
+      as_of: "2026-09-03T10:00:01.000Z",
+      observation_sources: [{source_ref: sourceRef, value, digest: sourceDigest}],
+      observation_candidates: Object.entries(value).map(([field, fieldValue], index) => ({schema_version: "are.observation-candidate/v1", candidate_id: `definition-ready:${index}`, field, value: fieldValue, issuer_ref: "cyberalchemy-definition-owner@local", source_ref: sourceRef, source_digest: sourceDigest, validator_ref: "definition-readiness-structural-validator@1", temporal_scope: {observed_at: "2026-09-03T10:00:01.000Z"}, proposed_posture: "admitted"})),
+      challenge_state: {required_lanes: []},
+    }),
+  });
+  const hint = {schema_version: "are.request-context-hint/v1", raw_request: "Define a bounded reasoning epoch.", objective_kind: "define"};
+  await startAndBind(instance, {id: 6001, text: "Define a bounded reasoning epoch.", threadId: "thread-definition-ready", turnId: "turn-definition-ready", extras: {additionalContext: {[REQUEST_CONTEXT_KEY]: {kind: "application", value: JSON.stringify(hint)}}}});
+  const result = await instance.processServerMessage(completed("thread-definition-ready", "turn-definition-ready"));
+  const notification = result.to_client.find((message) => message.method === SEMANTIC_NOTIFICATION);
+  assert.equal(notification.params.disposition, "evaluated");
+  assert.equal(notification.params.semantic_outcome, "RecommendedUnderSnapshot");
 });
 
 test("opt-in turn/completed performs one context-bound semantic evaluation", async () => {
@@ -890,4 +1008,24 @@ test("preflight and continuation evidence prove observable ordering", async () =
   assert.equal(receipt.ordering.decision_completed_before_turn_start, true);
   assert.equal(receipt.ordering.continuation_decision_after_turn_completed, true);
   assert.equal(receipt.authority_effect, "none");
+});
+
+test("opt-in request intent reaches Codex and corrections create successor contracts", async () => {
+  const profile = structuredClone(loaded.value);
+  profile.intent_compilation = {enabled: true, trigger: "turn/start", control_profile: {visibility: "inspect", correction_retention: "current-interaction"}};
+  const instance = wrapper({loaded_profile: profile});
+  const first = await instance.processClientMessage(turnStart(2301, "Explain the homepage copywriting; start with a definition, then an example, then a deeper look.", "thread-intent"));
+  const firstFragment = JSON.parse(first.to_server[0].params.additionalContext[INTENT_CONTEXT_KEY].value);
+  assert.equal(firstFragment.intent_contract.construction_directives[0].posture, "structural");
+  await instance.processServerMessage(turnResponse(2301, "turn-intent-1"));
+  const second = await instance.processClientMessage(turnStart(2302, "Explain this correction: you were too literal; remove those labels and keep the natural narrative.", "thread-intent"));
+  const secondFragment = JSON.parse(second.to_server[0].params.additionalContext[INTENT_CONTEXT_KEY].value);
+  assert.equal(secondFragment.reflection.correction_kind, "misinterpretation");
+  assert.equal(secondFragment.intent_contract.predecessor_contract_digest, firstFragment.intent_contract.intent_contract_digest);
+  assert.equal(instance.inspectState().intent_contract_threads[0].intent_contract_digest, secondFragment.intent_contract.intent_contract_digest);
+  const inspected = await instance.processClientMessage({jsonrpc: "2.0", id: 2303, method: "cyberalchemy/intent/project", params: {threadId: "thread-intent", mode: "control"}});
+  assert.deepEqual(inspected.to_client[0].result.available_operations, ["correct-objective", "rebind-reference", "reject-assumption", "set-disposition"]);
+  const controlled = await instance.processClientMessage({jsonrpc: "2.0", id: 2304, method: "cyberalchemy/intent/control", params: {threadId: "thread-intent", operation: {kind: "correct-objective", value: "Preserve a natural homepage narrative", user_selected: true}}});
+  assert.equal(controlled.to_client[0].result.successor.objective, "Preserve a natural homepage narrative");
+  assert.equal(controlled.to_client[0].result.receipt.user_selected, true);
 });

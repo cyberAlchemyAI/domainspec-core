@@ -101,6 +101,13 @@ history or process listings; use non-sensitive aliases. CI identities, teams,
 cloud backends, rotation automation, migration, voice-provider calls, and
 deployment remain separate work.
 
+The coding-agent integration uses `python -m secret_management.bridge` as a
+dedicated one-request process protocol. Configuration and a logical locator are
+sent as JSON on stdin; successful stdout is raw material consumed by the parent
+provider and cleared from owned mutable buffers. Failures are silent and
+non-zero. This is a private integration boundary, not a human reveal command or
+a general secret-export interface.
+
 ## Pinned Local Tools
 
 - SOPS `v3.13.3`, Linux AMD64 binary SHA-256
@@ -124,3 +131,17 @@ The suite covers references, grants, fake resolution, real temporary SOPS/age
 round trips, encrypted-byte privacy, explicit CLI reveal, tamper and wrong-key
 failure, permission rejection, concurrent writers, subprocess argument and
 environment redaction, deletion, and idempotent initialization.
+
+## Retrieval Benchmark
+
+Run the SOPS-age retrieval benchmark against an isolated synthetic vault:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3.12 \
+  projects/secret-management/scripts/benchmark_retrieval.py
+```
+
+Pass `--enforce` to enforce the default p95 ceiling of 200 milliseconds. Use
+`--budget-p95-ms`, `--iterations`, and `--warmup` to select an explicit local
+regime. Setup and encryption are excluded from the timed region. The script
+never reads the live vault and emits no material or logical secret name.

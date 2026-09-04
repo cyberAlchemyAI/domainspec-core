@@ -248,6 +248,32 @@ class SopsAgeStoreIntegrationTests(unittest.TestCase):
                 },
             )
 
+    def test_consume_decrypts_the_vault_once(self) -> None:
+        self.store.initialize()
+        self.store.put(NAME, MATERIAL, purpose=PURPOSE)
+        real_run = subprocess.run
+        calls: list[tuple[str, ...]] = []
+
+        def observe(*args, **kwargs):
+            calls.append(tuple(str(value) for value in args[0]))
+            return real_run(*args, **kwargs)
+
+        with mock.patch("secret_management.store.subprocess.run", side_effect=observe):
+            self.store.consume(
+                NAME,
+                lambda view: None,
+                consumer_id=CONSUMER_ID,
+                request_digest=REQUEST_DIGEST,
+                now_epoch_seconds=2_000_000_000,
+            )
+
+        decrypt_calls = [
+            argv
+            for argv in calls
+            if argv[0] == str(DEFAULT_SOPS_BINARY) and "decrypt" in argv
+        ]
+        self.assertEqual(len(decrypt_calls), 1)
+
     def test_key_vault_and_lock_symlink_leaves_are_rejected(self) -> None:
         self.store.initialize()
 

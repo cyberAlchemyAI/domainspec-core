@@ -66,6 +66,15 @@ test("shared RPC client exposes the transport handshake receipt", async () => {
   await client.close();
 });
 
+test("shared RPC client sends lifecycle notifications without a request id", async () => {
+  const transport = fakeTransport();
+  const sent = jsonLines(transport.input);
+  const client = createAppServerRpcClient({transport});
+  await client.notify("initialized", {});
+  assert.deepEqual(await sent.next(), {jsonrpc: "2.0", method: "initialized", params: {}});
+  await client.close();
+});
+
 test("shared RPC client reuses an exactly bound reconnect initialization without writing", async () => {
   const params = {clientInfo: {name: "test", version: "1"}, capabilities: {experimentalApi: true}};
   const transport = fakeTransport();

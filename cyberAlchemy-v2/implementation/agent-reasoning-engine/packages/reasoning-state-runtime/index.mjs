@@ -1339,6 +1339,17 @@ export function listReasoningStateFrontiers(ledger) {
   return freeze([...state.frontiers.values()].sort((left, right) => left.frontier.frontier_key.localeCompare(right.frontier.frontier_key)));
 }
 
+export function getReasoningStateEpoch(ledger, epochDigest) {
+  const state = ledgerState(ledger);
+  if (!text(epochDigest)) return null;
+  return state.epochs.get(epochDigest.trim()) ?? null;
+}
+
+export function listReasoningStateEpochs(ledger) {
+  const state = ledgerState(ledger);
+  return freeze([...state.epochs.values()].sort((left, right) => left.epoch_digest.localeCompare(right.epoch_digest)));
+}
+
 export function createReasoningStateLedger({ledger_id = "are-reasoning-state:local", sink = createMemoryReasoningStateSink()} = {}) {
   if (!text(ledger_id)) throw new TypeError("A reasoning-state ledger id is required.");
   if (!verifiedSink(sink)) throw new TypeError("A verified reasoning-state sink is required.");
@@ -1362,6 +1373,8 @@ export function createReasoningStateLedger({ledger_id = "are-reasoning-state:loc
     sealFrontier: (input) => sealReasoningStateFrontier(ledger, input),
     getFrontier: (frontierKey) => getReasoningStateFrontier(ledger, frontierKey),
     frontiers: () => listReasoningStateFrontiers(ledger),
+    getEpoch: (epochDigest) => getReasoningStateEpoch(ledger, epochDigest),
+    epochs: () => listReasoningStateEpochs(ledger),
     snapshot: () => freeze([...state.events]),
     inspect: () => freeze({ledger_id: state.ledgerId, event_count: state.events.length, epoch_count: state.epochs.size, checkpoint_count: state.checkpoints.size, frontier_count: state.frontiers.size, head_event_digest: state.events.at(-1)?.event_digest ?? null, durability: state.sink.durability, sink: state.sink.inspect?.() ?? null, recovery: state.recovery, authority_effect: "none"}),
     close: () => state.sink.close?.() ?? sinkResult("close", "unsupported"),

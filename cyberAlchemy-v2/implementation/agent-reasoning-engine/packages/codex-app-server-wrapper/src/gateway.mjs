@@ -4,6 +4,7 @@ import {createServer} from "node:net";
 
 import {spawnCodexBackend} from "./backend.mjs";
 import {digestValue, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
+import {createFileGatewaySessionStore, createMemoryGatewaySessionStore} from "./gateway-session-store.mjs";
 import {jsonLine, jsonRpcError, parseJsonLine} from "./protocol.mjs";
 
 export const GATEWAY_CONNECT_SCHEMA = "are.codex-gateway-connect/v1";
@@ -87,7 +88,7 @@ function createLineReader(stream, onLine, onOverflow, initial = "") {
   return () => stream.off("data", onData);
 }
 
-function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, maxBufferedMessages, reconnectEnabled, continuityMode, detachTimeoutMs, idleTimeoutMs, maxRetainedBytes, maxReasoningLogBytes, evictionRetryMs, onBackendStderr, onClosed, onExpired}) {
+function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, maxBufferedMessages, reconnectEnabled, continuityMode, detachTimeoutMs, idleTimeoutMs, maxRetainedBytes, maxReasoningLogBytes, evictionRetryMs, onBackendStderr, onClosed, onExpired, onDurableEvent = () => ({ok: true}), initialStableRequests = [], initialDeliveries = [], initialAcknowledgedThrough = 0, initialDeliverySequence = 0, initialServerRequests = []}) {
   const child = spawnCodexBackend(backend, spawnImpl, WebSocketImpl);
   let client = null;
   let detachReader = null;
@@ -100,8 +101,8 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
   const resumeTokenDigest = resumeToken ? digestValue(resumeToken) : null;
   const deliveries = new Map();
   const deliveredThisAttachment = new Set();
-  let deliverySequence = 0;
-  let acknowledgedThrough = 0;
+  let deliverySequence = initialDeliverySequence;
+  let acknowledgedThrough = initialAcknowledgedThrough;
   const stableRequests = new Map();
   const upstreamRequests = new Map();
   const attachmentRequestKeys = new Set();
@@ -121,6 +122,35 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
   let evictionAttemptCount = 0;
   let lastEvictionBlock = null;
   let expirationReceipt = null;
+  for (const recovered of initialStableRequests) {
+    if (!nonEmptyString(recovered?.request_key) || !nonEmptyString(recovered?.binding_digest)) continue;
+    stableRequests.set(recovered.request_key, {
+      request_key: recovered.request_key,
+      method: recovered.method,
+      binding_digest: recovered.binding_digest,
+      wrapper_id: null,
+      client_id: null,
+      upstream_id: null,
+      status: recovered.status === "complete" ? "complete" : "outcome-unknown",
+      response: recovered.response ?? null,
+      response_digest: recovered.response_digest ?? null,
+      recovered: true,
+    });
+  }
+  for (const recovered of initialDeliveries) {
+    if (!isRecord(recovered) || !Number.isSafeInteger(recovered.sequence) || recovered.sequence <= acknowledgedThrough || recovered.sequence > deliverySequence) continue;
+    deliveries.set(recovered.sequence, structuredClone(recovered));
+  }
+  for (const recovered of initialServerRequests) {
+    if (!isRecord(recovered) || !Object.hasOwn(recovered, "request_id") || !nonEmptyString(recovered.method)) continue;
+    serverRequests.set(String(recovered.request_id), {
+      method: recovered.method,
+      request_digest: recovered.request_digest,
+      status: recovered.status === "forwarded" ? "forwarded" : "outcome-unknown",
+      response_digest: recovered.response_digest ?? null,
+      recovered: true,
+    });
+  }
 
   function touch() {
     lastActivityAt = Date.now();
@@ -274,18 +304,26 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
   }
 
   function encodeDelivery(value, requestKey = null) {
-    const sequence = ++deliverySequence;
+    const sequence = deliverySequence + 1;
     const delivery = {schema_version: GATEWAY_DELIVERY_SCHEMA, sequence, message: value, ...(requestKey ? {request_key: requestKey} : {}), authority_effect: "none"};
+    const persisted = onDurableEvent("delivery-enqueued", {delivery});
+    if (persisted?.ok === false) return {ok: false, reason: "gateway.delivery-not-durable"};
+    deliverySequence = sequence;
     deliveries.set(sequence, delivery);
-    return jsonLine(delivery);
+    return {ok: true, encoded: jsonLine(delivery)};
   }
 
   function emitClient(value, requestKey = null) {
     touch();
     if (continuityMode === ACKNOWLEDGED_CONTINUITY_MODE) {
       const encoded = encodeDelivery(value, requestKey);
+      if (!encoded.ok) {
+        send(client, jsonRpcError(value?.id ?? null, -32096, "Gateway delivery persistence failed", {reason_codes: [encoded.reason], authority_effect: "none"}));
+        stop(encoded.reason);
+        return;
+      }
       if (client && !client.destroyed) {
-        client.write(encoded);
+        client.write(encoded.encoded);
         deliveredThisAttachment.add(deliverySequence);
       }
       if (deliveries.size > maxBufferedMessages || retainedProtocolBytes() > maxRetainedBytes) {
@@ -308,6 +346,12 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     const through = message.through_sequence;
     if (!Number.isSafeInteger(through) || through < acknowledgedThrough || through > deliverySequence) {
       stop("gateway.ack-sequence-invalid");
+      return true;
+    }
+    const persisted = onDurableEvent("delivery-acknowledged", {through_sequence: through});
+    if (persisted?.ok === false) {
+      send(client, jsonRpcError(null, -32097, "Gateway acknowledgement persistence failed", {reason_codes: ["gateway.acknowledgement-not-durable"], authority_effect: "none"}));
+      stop("gateway.acknowledgement-not-durable");
       return true;
     }
     acknowledgedThrough = through;
@@ -340,6 +384,8 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     if (existing) {
       if (existing.binding_digest !== bindingDigest) {
         emitClient(stableRequestError(message.id, "gateway.request-binding-mismatch", requestKey, existing.binding_digest, bindingDigest));
+      } else if (existing.status === "outcome-unknown") {
+        emitClient(stableRequestError(message.id, "gateway.dispatch-outcome-unknown", requestKey, existing.binding_digest, bindingDigest));
       } else {
         deduplicatedRequestCount += 1;
         attachmentRequestKeys.add(requestKey);
@@ -355,6 +401,13 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
     const entry = {request_key: requestKey, method: message.method, binding_digest: bindingDigest, wrapper_id: message.id, client_id: message.id, upstream_id: upstreamId, status: "preparing", response: null, response_digest: null};
     stableRequests.set(requestKey, entry);
     upstreamRequests.set(String(upstreamId), entry);
+    const persisted = onDurableEvent("dispatch-intent", {request_key: requestKey, method: message.method, binding_digest: bindingDigest});
+    if (persisted?.ok === false) {
+      stableRequests.delete(requestKey);
+      upstreamRequests.delete(String(upstreamId));
+      emitClient(stableRequestError(message.id, "gateway.dispatch-intent-not-durable", requestKey));
+      return {intercepted: true};
+    }
     return {intercepted: false, entry};
   }
 
@@ -390,6 +443,14 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
       }
       const message = metadataResult.message;
       const serverRequest = !message.method && Object.hasOwn(message, "id") ? serverRequests.get(String(message.id)) : null;
+      if (serverRequest?.status === "outcome-unknown") {
+        emitClient(jsonRpcError(message.id, -32098, "Gateway server-request outcome is unknown after recovery", {
+          reason_codes: ["gateway.server-response-outcome-unknown"],
+          request_digest: serverRequest.request_digest,
+          authority_effect: "none",
+        }));
+        return;
+      }
       if (serverRequest?.status === "forwarded") {
         const responseDigest = digestValue(message);
         if (responseDigest !== serverRequest.response_digest) {
@@ -422,14 +483,28 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
       }
       let forwardedStable = false;
       for (const candidate of actions.to_server) {
+        const forwardsServerResponse = serverRequest && Object.hasOwn(candidate, "id") && String(candidate.id) === String(message.id);
+        if (forwardsServerResponse) {
+          const responseDigest = digestValue(message);
+          const intent = onDurableEvent("server-response-intent", {request_id: message.id, response_digest: responseDigest});
+          if (intent?.ok === false) {
+            emitClient(jsonRpcError(message.id, -32099, "Gateway server response is not durable", {reason_codes: ["gateway.server-response-intent-not-durable"], authority_effect: "none"}));
+            return;
+          }
+        }
         if (stable.entry && candidate.method === message.method && String(candidate.id) === String(message.id)) {
           stable.entry.status = "pending";
           forwardedStable = true;
           send(child.stdin, {...candidate, id: stable.entry.upstream_id});
         } else send(child.stdin, candidate);
-        if (serverRequest && Object.hasOwn(candidate, "id") && String(candidate.id) === String(message.id)) {
+        if (forwardsServerResponse) {
           serverRequest.status = "forwarded";
           serverRequest.response_digest = digestValue(message);
+          const outcome = onDurableEvent("server-response-forwarded", {request_id: message.id, response_digest: serverRequest.response_digest});
+          if (outcome?.ok === false) {
+            stop("gateway.server-response-outcome-not-durable");
+            return;
+          }
         }
       }
       for (const candidate of actions.to_client) {
@@ -437,6 +512,7 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
           stable.entry.status = "complete";
           stable.entry.response = candidate;
           stable.entry.response_digest = digestValue(candidate);
+          onDurableEvent("dispatch-outcome", {request_key: stable.entry.request_key, response: candidate, response_digest: stable.entry.response_digest});
           upstreamRequests.delete(String(stable.entry.upstream_id));
           emitClient(candidate, stable.entry.request_key);
         } else emitClient(candidate);
@@ -463,13 +539,21 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
       for (const message of actions.to_server) send(child.stdin, message);
       for (const message of actions.to_client) {
         if (message.method && Object.hasOwn(message, "id")) {
-          serverRequests.set(String(message.id), {method: message.method, request_digest: digestValue(message), status: "pending", response_digest: null});
+          const requestRecord = {request_id: message.id, method: message.method, request_digest: digestValue(message)};
+          const persisted = onDurableEvent("server-request-observed", requestRecord);
+          if (persisted?.ok === false) {
+            send(client, jsonRpcError(message.id, -32100, "Gateway server request is not durable", {reason_codes: ["gateway.server-request-not-durable"], authority_effect: "none"}));
+            stop("gateway.server-request-not-durable");
+            return;
+          }
+          serverRequests.set(String(message.id), {...requestRecord, status: "pending", response_digest: null});
         }
         if (stable && Object.hasOwn(message, "id") && String(message.id) === String(stable.wrapper_id)) {
           const response = {...message, id: stable.client_id};
           stable.status = "complete";
           stable.response = {...message};
           stable.response_digest = digestValue(stable.response);
+          onDurableEvent("dispatch-outcome", {request_key: stable.request_key, response: stable.response, response_digest: stable.response_digest});
           upstreamRequests.delete(String(stable.upstream_id));
           emitClient(response, stable.request_key);
         } else emitClient(message);
@@ -498,6 +582,10 @@ function createSession({metadata, wrapper, backend, spawnImpl, WebSocketImpl, ma
       if (!continuity || continuity.mode !== ACKNOWLEDGED_CONTINUITY_MODE) return {ok: false, reason: "gateway.resume-authentication-required"};
       if (reconnectCount > 0 && !sameSecret(continuity.resume_token, resumeToken)) return {ok: false, reason: "gateway.resume-authentication-failed"};
       if (continuity.last_acked_sequence > deliverySequence) return {ok: false, reason: "gateway.ack-sequence-invalid"};
+      if (continuity.last_acked_sequence > acknowledgedThrough) {
+        const persisted = onDurableEvent("delivery-acknowledged", {through_sequence: continuity.last_acked_sequence});
+        if (persisted?.ok === false) return {ok: false, reason: "gateway.acknowledgement-not-durable"};
+      }
       acknowledgedThrough = Math.max(acknowledgedThrough, continuity.last_acked_sequence);
       for (const sequence of [...deliveries.keys()]) if (sequence <= acknowledgedThrough) deliveries.delete(sequence);
       for (const alias of continuity.request_aliases) {
@@ -635,6 +723,10 @@ export function createPersistentGateway(options = {}) {
   }
   const runtimeEpochId = options.runtime_epoch_id ?? `are-gateway-runtime:${randomUUID()}`;
   const reconnectEnabled = options.reconnect !== false;
+  const ownsSessionStore = !options.session_store;
+  const sessionStore = options.session_store ?? (nonEmptyString(options.session_store_path)
+    ? createFileGatewaySessionStore({path: options.session_store_path, store_id: options.session_store_id ?? "are-codex-gateway-sessions:v1"})
+    : createMemoryGatewaySessionStore({store_id: options.session_store_id ?? `are-codex-gateway-sessions:${runtimeEpochId}`}));
   const sessions = new Map();
   const expiredSessions = new Map();
   const authorizeClient = options.authorize_client ?? (() => true);
@@ -647,6 +739,7 @@ export function createPersistentGateway(options = {}) {
 
   function recordExpiration(consumerId, session, receipt) {
     expiredSessions.set(consumerId, {session, receipt, retain_until: Date.now() + expirationTombstoneTtlMs});
+    sessionStore.append({event_kind: "session-expired", consumer_id: consumerId, content: {expiration: receipt}});
   }
 
   function pruneExpirations() {
@@ -679,6 +772,12 @@ export function createPersistentGateway(options = {}) {
       const metadata = handshake.value;
       pruneExpirations();
       let session = sessions.get(metadata.consumer_id);
+      const durableSession = sessionStore.getSession(metadata.consumer_id);
+      if (!session && durableSession?.status === "active" && durableSession.lane !== metadata.lane) {
+        send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.consumer-lane-mismatch", authority_effect: "none"});
+        socket.end();
+        return;
+      }
       if (session && session.metadata.lane !== metadata.lane) {
         send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.consumer-lane-mismatch", authority_effect: "none"});
         socket.end();
@@ -687,8 +786,21 @@ export function createPersistentGateway(options = {}) {
       if (!session) {
         if (metadata.continuity?.resume_token) {
           const expired = expiredSessions.get(metadata.consumer_id);
-          const authenticatedExpiration = expired && digestValue(metadata.continuity.resume_token) === expired.receipt.resume_token_digest;
-          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: authenticatedExpiration ? "gateway.session-expired" : "gateway.resume-session-missing", ...(authenticatedExpiration ? {expiration: expired.receipt} : {}), authority_effect: "none"});
+          const tokenDigest = digestValue(metadata.continuity.resume_token);
+          const durableExpired = durableSession?.status === "expired" && tokenDigest === durableSession.resume_token_digest;
+          const authenticatedExpiration = (expired && tokenDigest === expired.receipt.resume_token_digest) || durableExpired;
+          if (authenticatedExpiration) {
+            send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-expired", expiration: expired?.receipt ?? durableSession.expiration, authority_effect: "none"});
+            socket.end();
+            return;
+          }
+          if (durableSession?.status !== "active" || tokenDigest !== durableSession.resume_token_digest) {
+            send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.resume-session-missing", authority_effect: "none"});
+            socket.end();
+            return;
+          }
+        } else if (durableSession?.status === "active") {
+          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.resume-authentication-required", authority_effect: "none"});
           socket.end();
           return;
         }
@@ -716,6 +828,12 @@ export function createPersistentGateway(options = {}) {
             onBackendStderr: options.on_backend_stderr ?? (() => {}),
             onClosed: closeSession,
             onExpired: recordExpiration,
+            onDurableEvent: (eventKind, content) => sessionStore.append({event_kind: eventKind, consumer_id: metadata.consumer_id, content}),
+            initialStableRequests: durableSession?.status === "active" ? durableSession.requests : [],
+            initialDeliveries: durableSession?.status === "active" ? durableSession.deliveries : [],
+            initialAcknowledgedThrough: durableSession?.status === "active" ? durableSession.acknowledged_through : 0,
+            initialDeliverySequence: durableSession?.status === "active" ? durableSession.delivery_sequence : 0,
+            initialServerRequests: durableSession?.status === "active" ? durableSession.server_requests : [],
           });
         } catch (error) {
           send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-start-failed", detail: error.message, authority_effect: "none"});
@@ -723,6 +841,16 @@ export function createPersistentGateway(options = {}) {
           return;
         }
         sessions.set(metadata.consumer_id, session);
+        const resumable = nonEmptyString(session.inspect().resume_token_digest);
+        const persisted = resumable
+          ? sessionStore.append({event_kind: "session-started", consumer_id: metadata.consumer_id, content: {lane: metadata.lane, resume_token_digest: session.inspect().resume_token_digest, recovered: durableSession?.status === "active"}})
+          : {ok: true};
+        if (!persisted.ok) {
+          session.stop("gateway.session-start-not-durable");
+          send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: false, reason: "gateway.session-start-not-durable", authority_effect: "none"});
+          socket.end();
+          return;
+        }
       }
       const attached = session.attach(socket, metadata.continuity);
       if (!attached.ok) {
@@ -731,7 +859,7 @@ export function createPersistentGateway(options = {}) {
         return;
       }
       const state = session.inspect();
-      send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: true, consumer_id: metadata.consumer_id, lane: metadata.lane, runtime_epoch_id: runtimeEpochId, resumed: state.reconnect_count > 1, initialization: session.initializationReceipt(), ...(state.continuity_mode === ACKNOWLEDGED_CONTINUITY_MODE ? {continuity: {mode: ACKNOWLEDGED_CONTINUITY_MODE, resume_token: session.resumeToken(), resume_token_digest: state.resume_token_digest, acknowledged_through: state.acknowledged_through, next_sequence: state.delivery_sequence + 1}} : {}), authority_effect: "none"});
+      send(socket, {schema_version: GATEWAY_CONNECTED_SCHEMA, ok: true, consumer_id: metadata.consumer_id, lane: metadata.lane, runtime_epoch_id: runtimeEpochId, resumed: durableSession?.status === "active" || state.reconnect_count > 1, initialization: session.initializationReceipt(), ...(state.continuity_mode === ACKNOWLEDGED_CONTINUITY_MODE ? {continuity: {mode: ACKNOWLEDGED_CONTINUITY_MODE, resume_token: session.resumeToken(), resume_token_digest: state.resume_token_digest, acknowledged_through: state.acknowledged_through, next_sequence: state.delivery_sequence + 1}} : {}), authority_effect: "none"});
       setImmediate(() => session.flushBuffered());
       if (remainder) socket.emit("data", Buffer.from(remainder));
     };
@@ -759,6 +887,7 @@ export function createPersistentGateway(options = {}) {
     started = false;
     expiredSessions.clear();
     removeSocketPath(options.listen_path);
+    if (ownsSessionStore) sessionStore.close();
   }
 
   const api = Object.freeze({
@@ -774,6 +903,7 @@ export function createPersistentGateway(options = {}) {
       started,
       sessions: [...sessions.values()].map((session) => session.inspect()).sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
       expired_sessions: [...expiredSessions.values()].map((entry) => entry.receipt).sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
+      durable_session_index: sessionStore.inspect(),
       authority_effect: "none",
       });
     },

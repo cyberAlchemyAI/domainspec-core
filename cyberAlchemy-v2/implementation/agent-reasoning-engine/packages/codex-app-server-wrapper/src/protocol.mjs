@@ -128,6 +128,8 @@ export function contextFragment(lifecycle) {
     context_envelope_digest: lifecycle.context_envelope.digest,
     freshness_state: envelope.freshness_state,
     refresh_disposition: refresh.disposition,
+    content_projection_digest: envelope.content_projection_digest,
+    projection_reuse_receipt: envelope.projection_reuse_receipt,
     inline_bytes: envelope.inline_bytes,
     max_inline_bytes: envelope.max_inline_bytes,
     context_use_contract: contextUseContract(envelope.included_items),

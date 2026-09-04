@@ -189,6 +189,12 @@ export function createAppServerRpcClient(options = {}) {
     return transport.ready;
   }
 
+  async function notify(method, params = {}) {
+    await transport.ready;
+    if (!nonEmptyString(method)) throw new TypeError("notification method must be a non-empty string.");
+    send({jsonrpc: "2.0", method, params});
+  }
+
   function waitForNotification(predicate, waitOptions = {}) {
     const existing = notifications.find(predicate);
     if (existing) return Promise.resolve(existing);
@@ -256,6 +262,7 @@ export function createAppServerRpcClient(options = {}) {
   return Object.freeze({
     ready,
     request,
+    notify,
     initialize,
     startThread,
     runTurn,

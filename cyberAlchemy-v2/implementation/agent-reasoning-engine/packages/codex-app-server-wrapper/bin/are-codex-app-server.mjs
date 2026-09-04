@@ -11,8 +11,9 @@ function argument(name) {
 const configArg = argument("--config");
 const repositoryRootArg = argument("--repository-root");
 const reasoningStateLogArg = argument("--reasoning-state-log");
+const codexCommandArg = argument("--codex-command") ?? "codex";
 if (!configArg || !repositoryRootArg) {
-  process.stderr.write("Usage: are-codex-app-server --config <profile.json> --repository-root <repository> [--reasoning-state-log <events.jsonl>]\n");
+  process.stderr.write("Usage: are-codex-app-server --config <profile.json> --repository-root <repository> [--codex-command <path>] [--reasoning-state-log <events.jsonl>]\n");
   process.exitCode = 2;
 } else {
   const repositoryRoot = resolve(repositoryRootArg);
@@ -23,7 +24,7 @@ if (!configArg || !repositoryRootArg) {
   } else {
     let version = "unavailable";
     try {
-      version = execFileSync("codex", ["--version"], {encoding: "utf8"}).trim();
+      version = execFileSync(codexCommandArg, ["--version"], {encoding: "utf8"}).trim();
     } catch {
       version = "unavailable";
     }
@@ -49,7 +50,7 @@ if (!configArg || !repositoryRootArg) {
           semantic_profile: loaded.semantic_profile,
           reasoning_ledger: recovered?.ledger,
         });
-        runStdioProxy({wrapper});
+        runStdioProxy({wrapper, command: codexCommandArg});
       }
     }
   }

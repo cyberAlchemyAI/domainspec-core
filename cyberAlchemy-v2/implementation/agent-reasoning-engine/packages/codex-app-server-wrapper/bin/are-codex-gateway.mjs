@@ -13,7 +13,7 @@ const configArg = argument("--config");
 const repositoryRootArg = argument("--repository-root");
 const listenArg = argument("--listen");
 if (!configArg || !repositoryRootArg || !listenArg) {
-  process.stderr.write("Usage: are-codex-gateway --config <profile.json> --repository-root <repository> --listen <gateway.sock> [--backend direct-stdio|daemon-proxy|websocket] [--upstream-socket <app-server.sock>] [--upstream-url ws://127.0.0.1:PORT] [--reasoning-state-dir <directory>]\n");
+  process.stderr.write("Usage: are-codex-gateway --config <profile.json> --repository-root <repository> --listen <gateway.sock> [--backend direct-stdio|daemon-proxy|websocket] [--upstream-socket <app-server.sock>] [--upstream-url ws://127.0.0.1:PORT] [--reasoning-state-dir <directory>] [--session-store <gateway-sessions.jsonl>]\n");
   process.exitCode = 2;
 } else {
   const repositoryRoot = resolve(repositoryRootArg);
@@ -61,6 +61,7 @@ if (!configArg || !repositoryRootArg || !listenArg) {
         max_reasoning_log_bytes_per_session: loaded.value.gateway.max_reasoning_log_bytes_per_session,
         expiration_tombstone_ttl_ms: loaded.value.gateway.expiration_tombstone_ttl_ms,
         eviction_retry_ms: loaded.value.gateway.eviction_retry_ms,
+        session_store_path: argument("--session-store") ?? loaded.value.gateway.session_store.path,
         on_backend_stderr: (chunk) => process.stderr.write(chunk),
         authorize_client: ({consumer_id, lane}) => allowed.get(consumer_id)?.lane === lane,
         wrapper_factory: ({consumer_id, lane}) => {

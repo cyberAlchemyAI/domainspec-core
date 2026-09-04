@@ -330,11 +330,49 @@ test("interaction-bound lifecycle always creates a successor even when selected 
   const input = composition();
   input.view = {lane: "interaction-bound", consumer_ref: "chat:user", purpose: "answer", source_epoch: "epoch:1", interaction_id: "i:1", turn_id: "turn:1"};
   const first = composeContextLifecycle({...input, current_sources: []});
+  const firstBytes = canonicalJson(first.value.context_envelope.value);
   const secondInput = composition();
   secondInput.view = {...input.view, interaction_id: "i:2", turn_id: "turn:2", predecessor_view: first.value.composition.value.context_window_view.value};
   const second = composeContextLifecycle({...secondInput, previous_envelope: first.value.context_envelope.value, current_sources: []});
   assert.equal(second.value.refresh_assessment.value.disposition, "reuse-current");
   assert.equal(second.value.composition.value.context_window_view.reused, false);
+  assert.notEqual(second.value.context_envelope.value.context_epoch_id, first.value.context_envelope.value.context_epoch_id);
+  assert.equal(second.value.context_envelope.value.freshness_state, "successor-current-reused-projection");
+  assert.equal(second.value.context_envelope.value.projection_reuse_receipt.schema_version, "are.context-projection-reuse-receipt/v1");
+  assert.equal(second.value.context_envelope.value.projection_reuse_receipt.previous_context_epoch_id, first.value.context_envelope.value.context_epoch_id);
+  assert.equal(second.value.context_envelope.value.projection_reuse_receipt.identity_retained, false);
+  assert.equal(second.value.context_envelope.value.content_projection_digest, first.value.context_envelope.value.content_projection_digest);
+  assert.deepEqual(second.value.context_envelope.value.included_items, first.value.context_envelope.value.included_items);
+  assert.equal(canonicalJson(first.value.context_envelope.value), firstBytes);
+});
+
+test("interaction projection reuse can be disabled without weakening successor identity", () => {
+  const input = composition();
+  input.view = {lane: "interaction-bound", consumer_ref: "chat:user", purpose: "answer", source_epoch: "epoch:1", interaction_id: "i:1", turn_id: "turn:1"};
+  const first = composeContextLifecycle({...input, current_sources: []});
+  const secondInput = composition();
+  secondInput.view = {...input.view, interaction_id: "i:2", turn_id: "turn:2", predecessor_view: first.value.composition.value.context_window_view.value};
+  const second = composeContextLifecycle({...secondInput, previous_envelope: first.value.context_envelope.value, current_sources: [], projection_policy: {reuse_compatible_interaction_projection: false}});
+  assert.equal(second.ok, true);
+  assert.equal(second.value.refresh_assessment.value.disposition, "reuse-current");
+  assert.equal(second.value.context_envelope.value.projection_reuse_receipt, null);
+  assert.equal(second.value.context_envelope.value.freshness_state, "current-reused");
+  assert.notEqual(second.value.context_envelope.value.context_epoch_id, first.value.context_envelope.value.context_epoch_id);
+});
+
+test("selected dependency drift bypasses interaction projection reuse", () => {
+  const firstInput = composition();
+  firstInput.view = {lane: "interaction-bound", consumer_ref: "chat:user", purpose: "answer", source_epoch: "epoch:1", interaction_id: "i:1", turn_id: "turn:1"};
+  const first = composeContextLifecycle({...firstInput, current_sources: []});
+  const drifted = structuredClone(snapshot);
+  drifted.nodes.find((node) => node.node_id === "Basis").source_digest = "selected-drift";
+  const secondInput = composition({ontology: {snapshot: drifted, initial_node_ids: ["Request"], required_edge_ids: []}});
+  secondInput.view = {...firstInput.view, interaction_id: "i:2", turn_id: "turn:2", predecessor_view: first.value.composition.value.context_window_view.value};
+  const second = composeContextLifecycle({...secondInput, previous_envelope: first.value.context_envelope.value, current_sources: []});
+  assert.equal(second.ok, true);
+  assert.equal(second.value.refresh_assessment.value.disposition, "successor-required");
+  assert.equal(second.value.context_envelope.value.projection_reuse_receipt, null);
+  assert.notEqual(second.value.context_envelope.value.content_projection_digest, first.value.context_envelope.value.content_projection_digest);
   assert.notEqual(second.value.context_envelope.value.context_epoch_id, first.value.context_envelope.value.context_epoch_id);
 });
 
@@ -353,4 +391,29 @@ test("lifecycle bytes are deterministic under definition and ontology permutatio
   const second = lifecycle({definition: {...composition().definition, catalog: permutedCatalog}, ontology: {...composition().ontology, snapshot: permutedSnapshot}});
   assert.equal(first.digest, second.digest);
   assert.equal(canonicalJson(first), canonicalJson(second));
+});
+
+test("phase observation exposes lifecycle boundaries without changing deterministic output", () => {
+  const input = {...composition(), current_sources: [
+    {source_identity: catalog.source_identity, source_digest: catalog.source_digest},
+    {source_identity: snapshot.source_identity, source_digest: snapshot.snapshot_digest},
+  ]};
+  const expected = composeContextLifecycle(input);
+  const observations = [];
+  const observed = composeContextLifecycle(input, {phase_observer: (entry) => observations.push(entry)});
+  assert.deepEqual(observed, expected);
+  const phaseIds = new Set(observations.map((entry) => entry.phase_id));
+  for (const required of [
+    "request-admission",
+    "request-routing",
+    "request-context-selection",
+    "definition-closure",
+    "ontology-selector-lock",
+    "context-basis-construction",
+    "context-window-view-binding",
+    "context-refresh-assessment",
+    "context-envelope-assembly",
+    "context-lifecycle-seal",
+  ]) assert.equal(phaseIds.has(required), true, required);
+  assert.equal(observations.every((entry) => Number.isFinite(entry.elapsed_ms) && entry.elapsed_ms >= 0 && entry.authority_effect === "none"), true);
 });

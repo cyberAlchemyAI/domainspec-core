@@ -11,6 +11,7 @@ import {
 
 const ITEM_SCHEMA = "are.context-item/v1";
 const ENVELOPE_SCHEMA = "are.context-envelope/v1";
+const PROJECTION_REUSE_SCHEMA = "are.context-projection-reuse-receipt/v1";
 export const DEFAULT_MAX_INLINE_BYTES = 32 * 1024;
 
 function contextItem(material) {
@@ -36,6 +37,42 @@ function normalizeSourceSnapshot(value) {
     .filter((entry) => isRecord(entry) && nonEmptyString(entry.source_identity) && nonEmptyString(entry.source_digest))
     .map((entry) => ({source_identity: entry.source_identity.trim(), source_digest: entry.source_digest.trim()}))
     .sort((a, b) => a.source_identity.localeCompare(b.source_identity));
+}
+
+function projectionContent(material) {
+  return canonicalizeJson({
+    schema_version: "are.context-envelope-content-projection/v1",
+    basis_digest: material.basis_digest,
+    request_selection_digest: material.request_selection_digest,
+    included_items: material.included_items,
+    included_item_digests: material.included_item_digests,
+    exclusions: material.exclusions,
+    contradictions: material.contradictions,
+    gaps: material.gaps,
+    residue: material.residue,
+    compression_method: material.compression_method,
+    authority_effect: "none",
+  });
+}
+
+function finalizeEnvelope(material, inlineBytes) {
+  const contentProjectionDigest = digestValue(projectionContent(material));
+  const boundMaterial = canonicalizeJson({...material, content_projection_digest: contentProjectionDigest});
+  const contextEpochId = `context-epoch:${digestValue(boundMaterial)}`;
+  const envelope = canonicalizeJson({...boundMaterial, context_epoch_id: contextEpochId});
+  return deepFreeze({schema_version: ENVELOPE_SCHEMA, ok: true, value: envelope, digest: digestValue(envelope), inline_bytes: inlineBytes, authority_effect: "none"});
+}
+
+function reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes) {
+  if (!isRecord(previousEnvelope) || previousEnvelope.schema_version !== ENVELOPE_SCHEMA) return false;
+  if (!Array.isArray(previousEnvelope.included_items) || !Array.isArray(previousEnvelope.included_item_digests)) return false;
+  if (!nonEmptyString(previousEnvelope.content_projection_digest)) return false;
+  if (!Number.isSafeInteger(previousEnvelope.inline_bytes) || previousEnvelope.inline_bytes < 0 || previousEnvelope.inline_bytes > maxInlineBytes) return false;
+  const value = composition.value;
+  if (previousEnvelope.basis_digest !== value.necessary_context_basis?.digest) return false;
+  if (previousEnvelope.request_selection_digest !== value.request_context_selection?.digest) return false;
+  if (previousEnvelope.compression_method !== "deterministic-structural-projection-no-summary") return false;
+  return digestValue(projectionContent(previousEnvelope)) === previousEnvelope.content_projection_digest;
 }
 
 export function selectedDependenciesFromComposition(composition) {
@@ -218,6 +255,7 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
     request_digest: value.route_decision.request_context_digest,
     route_decision_digest: value.route_decision.decision_digest,
     basis_digest: value.necessary_context_basis.digest,
+    request_selection_digest: value.request_context_selection.digest,
     view_id: view.view_id,
     view_lane: view.lane,
     predecessor_view_id: view.predecessor_view_id ?? null,
@@ -235,10 +273,62 @@ export function assembleContextEnvelope(composition, projectionPolicy = {}) {
     inline_bytes: inlineBytes,
     max_inline_bytes: maxInlineBytes,
     compression_method: "deterministic-structural-projection-no-summary",
+    projection_reuse_receipt: null,
     claim_ceiling: projectionPolicy.claim_ceiling ?? "Bounded context evidence only; no source truth, approval, admission, or effect authority.",
     authority_effect: "none",
   };
-  const contextEpochId = `context-epoch:${digestValue(material)}`;
-  const envelope = canonicalizeJson({...material, context_epoch_id: contextEpochId});
-  return deepFreeze({schema_version: ENVELOPE_SCHEMA, ok: true, value: envelope, digest: digestValue(envelope), inline_bytes: inlineBytes, authority_effect: "none"});
+  return finalizeEnvelope(material, inlineBytes);
+}
+
+export function reuseContextEnvelopeProjection(previousEnvelope, composition, projectionPolicy = {}) {
+  if (!isRecord(composition) || composition.ok !== true || !isRecord(composition.value)) return fail("context-envelope-projection-reuse", ["context.composition-required"]);
+  const value = composition.value;
+  const basis = value.necessary_context_basis?.value;
+  const view = value.context_window_view?.value;
+  if (!isRecord(basis) || !isRecord(view)) return fail("context-envelope-projection-reuse", ["context.composition-incomplete"]);
+  const maxInlineBytes = Number.isSafeInteger(projectionPolicy.max_inline_bytes) && projectionPolicy.max_inline_bytes > 0
+    ? projectionPolicy.max_inline_bytes
+    : DEFAULT_MAX_INLINE_BYTES;
+  if (!reusablePreviousEnvelope(previousEnvelope, composition, maxInlineBytes)) {
+    return fail("context-envelope-projection-reuse", ["context.projection-reuse-incompatible"]);
+  }
+  const previousEnvelopeDigest = digestValue(previousEnvelope);
+  const receiptMaterial = canonicalizeJson({
+    schema_version: PROJECTION_REUSE_SCHEMA,
+    previous_context_epoch_id: previousEnvelope.context_epoch_id,
+    previous_context_envelope_digest: previousEnvelopeDigest,
+    content_projection_digest: previousEnvelope.content_projection_digest,
+    reused_item_count: previousEnvelope.included_items.length,
+    reused_inline_bytes: previousEnvelope.inline_bytes,
+    identity_retained: false,
+    authority_effect: "none",
+  });
+  const material = {
+    schema_version: ENVELOPE_SCHEMA,
+    request_digest: value.route_decision.request_context_digest,
+    route_decision_digest: value.route_decision.decision_digest,
+    basis_digest: value.necessary_context_basis.digest,
+    request_selection_digest: value.request_context_selection.digest,
+    view_id: view.view_id,
+    view_lane: view.lane,
+    predecessor_view_id: view.predecessor_view_id ?? null,
+    source_epoch: nonEmptyString(view.source_epoch) ? view.source_epoch : "unresolved",
+    authority_posture: basis.authority_posture,
+    included_items: previousEnvelope.included_items,
+    included_item_digests: previousEnvelope.included_item_digests,
+    exclusions: previousEnvelope.exclusions,
+    contradictions: previousEnvelope.contradictions,
+    gaps: previousEnvelope.gaps,
+    residue: previousEnvelope.residue,
+    selected_dependencies: selectedDependenciesFromComposition(composition),
+    source_snapshot: normalizeSourceSnapshot(projectionPolicy.current_sources),
+    freshness_state: projectionPolicy.freshness_state ?? "successor-current-reused-projection",
+    inline_bytes: previousEnvelope.inline_bytes,
+    max_inline_bytes: maxInlineBytes,
+    compression_method: previousEnvelope.compression_method,
+    projection_reuse_receipt: {...receiptMaterial, receipt_digest: digestValue(receiptMaterial)},
+    claim_ceiling: projectionPolicy.claim_ceiling ?? "Bounded context evidence only; no source truth, approval, admission, or effect authority.",
+    authority_effect: "none",
+  };
+  return finalizeEnvelope(material, previousEnvelope.inline_bytes);
 }

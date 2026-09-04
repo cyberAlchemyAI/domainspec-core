@@ -72,11 +72,29 @@ function directiveFromComposition(composition, requestContext, envelope = null) 
   });
 }
 
-export function evaluateTurnPreflight(input) {
+function observedPhase(options, phaseId, operation) {
+  const observer = options?.phase_observer;
+  if (typeof observer !== "function") return operation();
+  const started = performance.now();
+  try {
+    const result = operation();
+    try {
+      observer(Object.freeze({phase_id: phaseId, elapsed_ms: performance.now() - started, outcome: result?.ok === false ? "not-ok" : "ok", authority_effect: "none"}));
+    } catch {}
+    return result;
+  } catch (error) {
+    try {
+      observer(Object.freeze({phase_id: phaseId, elapsed_ms: performance.now() - started, outcome: "error", authority_effect: "none"}));
+    } catch {}
+    throw error;
+  }
+}
+
+export function evaluateTurnPreflight(input, options = {}) {
   if (!isRecord(input) || !isRecord(input.message) || !isRecord(input.turn_binding)) {
     return fail("preflight", ["preflight.input-required"]);
   }
-  const requestContext = buildRequestContext(input.message, input.turn_binding);
+  const requestContext = observedPhase(options, "request-context-build", () => buildRequestContext(input.message, input.turn_binding));
   if (!requestContext.ok) return requestContext;
   const binding = input.turn_binding;
   if (binding.lane !== "plan-bound" && binding.lane !== "interaction-bound") {
@@ -127,10 +145,10 @@ export function evaluateTurnPreflight(input) {
     current_sources: input.current_sources ?? [],
     projection_policy: input.projection_policy ?? {},
     view,
-  });
+  }, options);
   const composition = lifecycle.ok ? lifecycle.value.composition : lifecycle.composition;
   const envelope = lifecycle.ok ? lifecycle.value.context_envelope : null;
-  const directive = directiveFromComposition(composition ?? lifecycle.context_envelope ?? lifecycle, requestContext, envelope);
+  const directive = observedPhase(options, "preflight-directive-projection", () => directiveFromComposition(composition ?? lifecycle.context_envelope ?? lifecycle, requestContext, envelope));
   if (directive.directive_kind !== "direct") {
     return deepFreeze({ok: true, action: directive.directive_kind, directive, forwarded_message: null, composition, lifecycle, authority_effect: "none"});
   }
@@ -139,7 +157,7 @@ export function evaluateTurnPreflight(input) {
     const blocked = freezeResult({...directive, directive_kind: "block", reason_codes: failed.reason_codes ?? ["preflight.context-lifecycle-failed"], residue: failed.residue ?? []});
     return deepFreeze({ok: true, action: "block", directive: blocked, forwarded_message: null, composition, lifecycle, authority_effect: "none"});
   }
-  const fragment = contextFragment(lifecycle.value);
-  const forwardedMessage = addContextFragment(input.message, fragment);
+  const fragment = observedPhase(options, "context-fragment-projection", () => contextFragment(lifecycle.value));
+  const forwardedMessage = observedPhase(options, "message-context-projection", () => addContextFragment(input.message, fragment));
   return deepFreeze({ok: true, action: "forward", directive, fragment, forwarded_message: forwardedMessage, request_context: requestContext.value, composition, lifecycle, context_envelope: envelope, refresh_assessment: lifecycle.value.refresh_assessment, authority_effect: "none"});
 }

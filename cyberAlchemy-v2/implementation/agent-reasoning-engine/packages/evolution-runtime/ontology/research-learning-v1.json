@@ -1,0 +1,54 @@
+{
+  "schema_version": "are.research-learning-ontology/v1",
+  "ontology_id": "are.research-learning",
+  "title": "ARE Research Learning Ontology",
+  "product_capability": {
+    "capability_id": "ARE-CAP-LEARN-FROM-EVIDENCE",
+    "meaning": "Turn measured reasoning failures and corrections into falsifiable hypotheses, reproducible experiments, and inspectable learning decisions."
+  },
+  "definitions": [
+    {
+      "definition_id": "ARE-RL-D01",
+      "term": "Research Hypothesis",
+      "meaning": "A content-addressed, falsifiable explanation for an observed reasoning-engine behavior, including its mechanism, metrics, falsifier, provenance, and experiment template."
+    },
+    {
+      "definition_id": "ARE-RL-D02",
+      "term": "Hypothesis Observation",
+      "meaning": "An immutable supporting, counterevidential, or inconclusive result bound to one hypothesis and one exact evidence source."
+    },
+    {
+      "definition_id": "ARE-RL-D03",
+      "term": "Research Experiment",
+      "meaning": "A reproducible baseline-versus-treatment protocol that names metrics, datasets, repetitions, success criteria, and stop conditions."
+    },
+    {
+      "definition_id": "ARE-RL-D04",
+      "term": "Learning Decision",
+      "meaning": "A deterministic assessment that selects the next research action from accumulated observations without changing the serving engine."
+    }
+  ],
+  "nodes": [
+    {"node_id": "ResearchHypothesis", "record_schema": "are.research-hypothesis/v1"},
+    {"node_id": "HypothesisObservation", "record_schema": "are.hypothesis-observation/v1"},
+    {"node_id": "ResearchExperiment", "record_schema": "are.research-experiment/v1"},
+    {"node_id": "LearningDecision", "record_schema": "are.learning-decision/v1"},
+    {"node_id": "TechniqueCandidate", "record_schema": "are.technique-candidate/v1"},
+    {"node_id": "VariantComparison", "record_schema": "are.variant-comparison/v1"}
+  ],
+  "relations": [
+    {"relation_id": "observation-tests-hypothesis", "from": "HypothesisObservation", "to": "ResearchHypothesis"},
+    {"relation_id": "experiment-tests-hypothesis", "from": "ResearchExperiment", "to": "ResearchHypothesis"},
+    {"relation_id": "decision-assesses-hypothesis", "from": "LearningDecision", "to": "ResearchHypothesis"},
+    {"relation_id": "supported-hypothesis-proposes-technique", "from": "ResearchHypothesis", "to": "TechniqueCandidate"},
+    {"relation_id": "technique-is-tested-by-comparison", "from": "TechniqueCandidate", "to": "VariantComparison"}
+  ],
+  "invariants": [
+    "Every observation binds one exact hypothesis and evidence source.",
+    "Counterevidence is retained and forces hypothesis revision before technique proposal.",
+    "A single anomaly cannot support a technique candidate.",
+    "Declared concept markers are diagnostic evidence, not a semantic oracle.",
+    "Learning decisions never mutate, activate, publish, or deploy the engine."
+  ],
+  "authority_effect": "none"
+}

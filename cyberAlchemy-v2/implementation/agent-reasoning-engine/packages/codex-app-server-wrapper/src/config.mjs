@@ -1,10 +1,20 @@
+import {createHash} from "node:crypto";
 import {readFileSync} from "node:fs";
 import {isAbsolute, resolve} from "node:path";
 import {loadVerifiedDecisionProfile} from "../../request-decision-router/index.mjs";
 import {loadSemanticInputProfile} from "../../semantic-input-runtime/index.mjs";
+import {loadReasoningPolicy} from "../../reasoning-policy-runtime/index.mjs";
 import {sha256HexText} from "../../intent-route-resolver/index.mjs";
 import {fail, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
 import {materializeDefinitionCatalog, materializeOntologySnapshot} from "./source-adapters.mjs";
+
+const SOURCE_HASH_IMPLEMENTATIONS = new Set(["node-crypto-sha256", "portable-js-sha256"]);
+
+function sourceTextDigest(text, implementation) {
+  return implementation === "node-crypto-sha256"
+    ? createHash("sha256").update(text, "utf8").digest("hex")
+    : sha256HexText(text);
+}
 
 function absolute(repositoryRoot, path) {
   return isAbsolute(path) ? path : resolve(repositoryRoot, path);
@@ -30,7 +40,7 @@ function readBoundJson(repositoryRoot, binding) {
   }
 }
 
-function readLiveJson(repositoryRoot, binding) {
+function readLiveJson(repositoryRoot, binding, hashImplementation) {
   if (!isRecord(binding) || !nonEmptyString(binding.path)) return fail("config", ["config.source-binding-invalid"]);
   const path = absolute(repositoryRoot, binding.path);
   let text;
@@ -39,7 +49,7 @@ function readLiveJson(repositoryRoot, binding) {
   } catch {
     return fail("config", ["config.source-unreadable"], [{path: binding.path}]);
   }
-  const actual = sha256HexText(text);
+  const actual = sourceTextDigest(text, hashImplementation);
   try {
     return {ok: true, document: JSON.parse(text), path, source_identity: binding.path, source_digest: actual};
   } catch {
@@ -47,7 +57,7 @@ function readLiveJson(repositoryRoot, binding) {
   }
 }
 
-function readLiveText(repositoryRoot, binding) {
+function readLiveText(repositoryRoot, binding, hashImplementation) {
   if (!isRecord(binding) || !nonEmptyString(binding.path)) return fail("config", ["config.source-binding-invalid"]);
   const path = absolute(repositoryRoot, binding.path);
   let text;
@@ -56,32 +66,32 @@ function readLiveText(repositoryRoot, binding) {
   } catch {
     return fail("config", ["config.source-unreadable"], [{path: binding.path}]);
   }
-  return {ok: true, text, path, source_identity: binding.path, source_digest: sha256HexText(text)};
+  return {ok: true, text, path, source_identity: binding.path, source_digest: sourceTextDigest(text, hashImplementation)};
 }
 
-function loadLiveContextSources(profile, repositoryRoot) {
+function loadLiveContextSources(profile, repositoryRoot, hashImplementation) {
   const sources = profile.sources ?? {};
-  const decisionSource = readLiveJson(repositoryRoot, sources.decision_profile);
+  const decisionSource = readLiveJson(repositoryRoot, sources.decision_profile, hashImplementation);
   if (!decisionSource.ok) return decisionSource;
   const decisionProfile = loadVerifiedDecisionProfile(decisionSource.path, repositoryRoot);
   if (!decisionProfile.ok) return fail("config", decisionProfile.reason_codes ?? ["config.decision-profile-unverified"]);
   const definitionSources = [];
   const sourceSnapshot = [{source_identity: sources.decision_profile.path, source_digest: decisionSource.source_digest}];
   for (const binding of Array.isArray(sources.definition_sources) ? sources.definition_sources : []) {
-    const loaded = readLiveJson(repositoryRoot, binding);
+    const loaded = readLiveJson(repositoryRoot, binding, hashImplementation);
     if (!loaded.ok) return loaded;
     definitionSources.push({document: loaded.document, source_identity: loaded.source_identity, source_digest: loaded.source_digest});
     sourceSnapshot.push({source_identity: loaded.source_identity, source_digest: loaded.source_digest});
   }
   for (const binding of Array.isArray(sources.canonical_definition_sources) ? sources.canonical_definition_sources : []) {
-    const loaded = readLiveText(repositoryRoot, binding);
+    const loaded = readLiveText(repositoryRoot, binding, hashImplementation);
     if (!loaded.ok) return loaded;
     definitionSources.push({format: "canonical-definitions-markdown/v1", text: loaded.text, source_identity: loaded.source_identity, source_digest: loaded.source_digest});
     sourceSnapshot.push({source_identity: loaded.source_identity, source_digest: loaded.source_digest});
   }
   const catalog = materializeDefinitionCatalog({sources: definitionSources});
   if (!catalog.ok) return catalog;
-  const ontologySource = readLiveJson(repositoryRoot, sources.system_ontology);
+  const ontologySource = readLiveJson(repositoryRoot, sources.system_ontology, hashImplementation);
   if (!ontologySource.ok) return ontologySource;
   sourceSnapshot.push({source_identity: ontologySource.source_identity, source_digest: ontologySource.source_digest});
   const snapshot = materializeOntologySnapshot({
@@ -93,7 +103,7 @@ function loadLiveContextSources(profile, repositoryRoot) {
   if (!snapshot.ok) return snapshot;
   const instructions = [];
   for (const [index, binding] of (sources.instruction_sources ?? []).entries()) {
-    const loaded = readLiveText(repositoryRoot, binding);
+    const loaded = readLiveText(repositoryRoot, binding, hashImplementation);
     if (!loaded.ok) return loaded;
     instructions.push({
       instruction_id: nonEmptyString(binding.instruction_id) ? binding.instruction_id.trim() : `repository-instruction:${index}`,
@@ -106,7 +116,7 @@ function loadLiveContextSources(profile, repositoryRoot) {
   }
   const supplementalContextItems = [];
   for (const binding of sources.context_sources ?? []) {
-    const loaded = readLiveJson(repositoryRoot, binding);
+    const loaded = readLiveJson(repositoryRoot, binding, hashImplementation);
     if (!loaded.ok) return loaded;
     if (binding.format !== "ontology-registry/v1" || loaded.document.schema_version !== "cav2-ontology-runtime-registry/v1" || !Array.isArray(loaded.document.entries)) {
       return fail("config", ["config.context-source-format-invalid"], [{path: binding.path}]);
@@ -139,7 +149,7 @@ function loadLiveContextSources(profile, repositoryRoot) {
   };
 }
 
-function probeLiveContextSignature(profile, repositoryRoot) {
+function probeLiveContextSignature(profile, repositoryRoot, hashImplementation) {
   const sources = profile.sources ?? {};
   const bindings = [sources.decision_profile, ...(sources.definition_sources ?? []), ...(sources.canonical_definition_sources ?? []), sources.system_ontology, ...(sources.instruction_sources ?? []), ...(sources.context_sources ?? [])];
   const entries = [];
@@ -151,21 +161,21 @@ function probeLiveContextSignature(profile, repositoryRoot) {
     } catch {
       return fail("config", ["config.source-unreadable"], [{path: binding.path}]);
     }
-    entries.push({source_identity: binding.path, source_digest: sha256HexText(text)});
+    entries.push({source_identity: binding.path, source_digest: sourceTextDigest(text, hashImplementation)});
   }
   entries.sort((a, b) => a.source_identity.localeCompare(b.source_identity));
   return {ok: true, signature: sha256HexText(JSON.stringify(entries)), entries};
 }
 
-function createLiveContextSourceProvider(profile, repositoryRoot, initialLive) {
+function createLiveContextSourceProvider(profile, repositoryRoot, initialLive, hashImplementation) {
   let cached = initialLive;
-  let probe = probeLiveContextSignature(profile, repositoryRoot);
+  let probe = probeLiveContextSignature(profile, repositoryRoot, hashImplementation);
   let signature = probe.ok ? probe.signature : null;
   return () => {
-    probe = probeLiveContextSignature(profile, repositoryRoot);
+    probe = probeLiveContextSignature(profile, repositoryRoot, hashImplementation);
     if (!probe.ok) return probe;
     if (cached?.ok && probe.signature === signature) return cached;
-    const refreshed = loadLiveContextSources(profile, repositoryRoot);
+    const refreshed = loadLiveContextSources(profile, repositoryRoot, hashImplementation);
     if (!refreshed.ok) return refreshed;
     cached = refreshed;
     signature = probe.signature;
@@ -173,7 +183,7 @@ function createLiveContextSourceProvider(profile, repositoryRoot, initialLive) {
   };
 }
 
-export function loadRepositoryProfile(profilePath, repositoryRoot) {
+export function loadRepositoryProfile(profilePath, repositoryRoot, options = {}) {
   let profile;
   try {
     profile = JSON.parse(readFileSync(profilePath, "utf8"));
@@ -183,10 +193,18 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   if (!isRecord(profile) || !["are.codex-wrapper-repository-profile/v1", "are.codex-wrapper-repository-profile/v2", "are.codex-wrapper-repository-profile/v3", "are.codex-wrapper-repository-profile/v4"].includes(profile.schema_version)) {
     return fail("config", ["config.profile-version-unsupported"]);
   }
+  const sourceRefreshProfile = isRecord(profile.context_source_refresh)
+    ? profile.context_source_refresh
+    : {hash_implementation: "node-crypto-sha256", verification: "read-and-hash-every-selected-source"};
+  const sourceHashImplementation = options.source_hash_implementation ?? sourceRefreshProfile.hash_implementation ?? "node-crypto-sha256";
+  if (!SOURCE_HASH_IMPLEMENTATIONS.has(sourceHashImplementation)) return fail("config", ["config.context-source-hash-implementation-invalid"]);
+  if ((sourceRefreshProfile.verification ?? "read-and-hash-every-selected-source") !== "read-and-hash-every-selected-source") {
+    return fail("config", ["config.context-source-verification-invalid"]);
+  }
   const sources = profile.sources ?? {};
   let live;
   if (["are.codex-wrapper-repository-profile/v2", "are.codex-wrapper-repository-profile/v3", "are.codex-wrapper-repository-profile/v4"].includes(profile.schema_version)) {
-    live = loadLiveContextSources(profile, repositoryRoot);
+    live = loadLiveContextSources(profile, repositoryRoot, sourceHashImplementation);
   } else {
     const decisionProfileBinding = readBoundJson(repositoryRoot, sources.decision_profile);
     if (!decisionProfileBinding.ok) return decisionProfileBinding;
@@ -250,6 +268,24 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     : {enabled: false, trigger: "turn/completed"};
   if (semanticEvaluation.enabled !== true && semanticEvaluation.enabled !== false) return fail("config", ["config.semantic-enabled-invalid"]);
   if (semanticEvaluation.trigger !== "turn/completed") return fail("config", ["config.semantic-trigger-unsupported"]);
+  const evolutionSignals = isRecord(profile.evolution_signals)
+    ? profile.evolution_signals
+    : {enabled: false, trigger: "turn/completed"};
+  if (evolutionSignals.enabled !== true && evolutionSignals.enabled !== false) return fail("config", ["config.evolution-signals-enabled-invalid"]);
+  if (evolutionSignals.trigger !== "turn/completed") return fail("config", ["config.evolution-signals-trigger-unsupported"]);
+  const intentCompilation = isRecord(profile.intent_compilation)
+    ? profile.intent_compilation
+    : {enabled: false, trigger: "turn/start", control_profile: {visibility: "quiet"}};
+  if (intentCompilation.enabled !== true && intentCompilation.enabled !== false) return fail("config", ["config.intent-compilation-enabled-invalid"]);
+  if ((intentCompilation.trigger ?? "turn/start") !== "turn/start") return fail("config", ["config.intent-compilation-trigger-unsupported"]);
+  const cacheTelemetry = isRecord(profile.cache_telemetry) ? profile.cache_telemetry : {enabled: false, usage_paths: []};
+  if (cacheTelemetry.enabled !== true && cacheTelemetry.enabled !== false) return fail("config", ["config.cache-telemetry-enabled-invalid"]);
+  if (!Array.isArray(cacheTelemetry.usage_paths) || cacheTelemetry.usage_paths.some((path) => !nonEmptyString(path))) return fail("config", ["config.cache-telemetry-usage-paths-invalid"]);
+  const contextProjection = isRecord(profile.context_projection) ? profile.context_projection : {max_inline_bytes: 32768};
+  if (contextProjection.reuse_compatible_interaction_projection !== undefined
+    && typeof contextProjection.reuse_compatible_interaction_projection !== "boolean") {
+    return fail("config", ["config.context-projection-interaction-reuse-invalid"]);
+  }
   const runtimeJournal = isRecord(profile.runtime_journal)
     ? profile.runtime_journal
     : {journal_id: `are-codex-runtime:${profile.profile_id}`, max_events: 4096, max_closed_turns: 256};
@@ -265,6 +301,10 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   if (!nonEmptyString(reasoningState.ledger_id)) return fail("config", ["config.reasoning-state-ledger-id-invalid"]);
   if (!["process-memory", "append-only-file-fsync"].includes(reasoningState.storage_mode)) return fail("config", ["config.reasoning-state-storage-mode-invalid"]);
   if (reasoningState.storage_mode === "append-only-file-fsync" && !nonEmptyString(reasoningState.log_path)) return fail("config", ["config.reasoning-state-log-path-required"]);
+  const reasoningPolicySource = readBoundJson(repositoryRoot, sources.reasoning_policy_profile);
+  if (!reasoningPolicySource.ok) return reasoningPolicySource;
+  const loadedReasoningPolicy = loadReasoningPolicy(reasoningPolicySource.path, repositoryRoot);
+  if (!loadedReasoningPolicy.ok) return fail("config", loadedReasoningPolicy.reason_codes ?? ["config.reasoning-policy-unverified"]);
   const gateway = isRecord(profile.gateway) ? profile.gateway : {
     backend_mode: "direct-stdio",
     max_clients: 8,
@@ -301,6 +341,10 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
   if (!["process-memory", "file-per-consumer"].includes(gatewayReasoningState.mode)) return fail("config", ["config.gateway-reasoning-state-mode-invalid"]);
   if (gatewayReasoningState.mode === "file-per-consumer" && !nonEmptyString(gatewayReasoningState.directory)) return fail("config", ["config.gateway-reasoning-state-directory-required"]);
   if (gatewayReasoningState.mode === "file-per-consumer" && gatewayReasoningState.single_writer !== true) return fail("config", ["config.gateway-reasoning-state-single-writer-required"]);
+  const gatewaySessionStore = isRecord(gateway.session_store) ? gateway.session_store : {mode: "process-memory", path: null, single_writer: false};
+  if (!["process-memory", "append-only-file-fsync"].includes(gatewaySessionStore.mode)) return fail("config", ["config.gateway-session-store-mode-invalid"]);
+  if (gatewaySessionStore.mode === "append-only-file-fsync" && !nonEmptyString(gatewaySessionStore.path)) return fail("config", ["config.gateway-session-store-path-required"]);
+  if (gatewaySessionStore.mode === "append-only-file-fsync" && gatewaySessionStore.single_writer !== true) return fail("config", ["config.gateway-session-store-single-writer-required"]);
   if (!Array.isArray(gateway.allowed_clients) || gateway.allowed_clients.length === 0) return fail("config", ["config.gateway-clients-required"]);
   const gatewayClients = [];
   const gatewayConsumerIds = new Set();
@@ -312,7 +356,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     gatewayClients.push({consumer_id: client.consumer_id, lane: client.lane, window_ref: client.lane === "plan-bound" ? client.window_ref : null, request_id: client.lane === "plan-bound" ? client.request_id : null});
   }
   let semanticProfile = null;
-  if (semanticEvaluation.enabled === true) {
+  if (isRecord(sources.semantic_input_profile)) {
     const semanticProfileSource = readBoundJson(repositoryRoot, sources.semantic_input_profile);
     if (!semanticProfileSource.ok) return semanticProfileSource;
     const loadedSemanticProfile = loadSemanticInputProfile(semanticProfileSource.path, repositoryRoot);
@@ -329,8 +373,12 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
       context: profile.context,
       turn_bindings: profile.turn_bindings,
       effect_defaults: profile.effect_defaults,
-      context_projection: profile.context_projection ?? {max_inline_bytes: 32768},
+      context_projection: contextProjection,
+      context_source_refresh: freezeResult({hash_implementation: sourceHashImplementation, verification: "read-and-hash-every-selected-source"}),
       semantic_evaluation: freezeResult({enabled: semanticEvaluation.enabled, trigger: semanticEvaluation.trigger}),
+      evolution_signals: freezeResult({enabled: evolutionSignals.enabled, trigger: evolutionSignals.trigger}),
+      intent_compilation: freezeResult({enabled: intentCompilation.enabled, trigger: intentCompilation.trigger ?? "turn/start", control_profile: isRecord(intentCompilation.control_profile) ? intentCompilation.control_profile : {visibility: "quiet"}}),
+      cache_telemetry: freezeResult({enabled: cacheTelemetry.enabled, usage_paths: cacheTelemetry.usage_paths, fields: isRecord(cacheTelemetry.fields) ? cacheTelemetry.fields : {}}),
       runtime_journal: freezeResult({
         journal_id: runtimeJournal.journal_id,
         max_events: runtimeJournal.max_events,
@@ -343,6 +391,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
         single_writer: reasoningState.single_writer === true,
         checkpoints: freezeResult({before_model_request: true, before_effect: true, before_continuation: true}),
       }),
+      reasoning_policy: loadedReasoningPolicy.value,
       gateway: freezeResult({
         backend_mode: gateway.backend_mode,
         max_clients: gateway.max_clients,
@@ -359,6 +408,11 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
           directory: nonEmptyString(gatewayReasoningState.directory) ? absolute(repositoryRoot, gatewayReasoningState.directory) : null,
           single_writer: gatewayReasoningState.mode === "file-per-consumer",
         }),
+        session_store: freezeResult({
+          mode: gatewaySessionStore.mode,
+          path: nonEmptyString(gatewaySessionStore.path) ? absolute(repositoryRoot, gatewaySessionStore.path) : null,
+          single_writer: gatewaySessionStore.mode === "append-only-file-fsync",
+        }),
         allowed_clients: gatewayClients.sort((a, b) => a.consumer_id.localeCompare(b.consumer_id)),
       }),
       authority_effect: "none",
@@ -369,7 +423,7 @@ export function loadRepositoryProfile(profilePath, repositoryRoot) {
     instructions: live.instructions,
     supplemental_context_items: live.supplemental_context_items,
     source_snapshot: live.source_snapshot,
-    context_source_provider: createLiveContextSourceProvider(profile, repositoryRoot, live),
+    context_source_provider: createLiveContextSourceProvider(profile, repositoryRoot, live, sourceHashImplementation),
     semantic_profile: semanticProfile,
   };
 }

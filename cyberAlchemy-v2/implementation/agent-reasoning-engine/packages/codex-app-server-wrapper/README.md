@@ -93,7 +93,12 @@ negotiated.
 For every `turn/start`, it reloads and structurally verifies the configured live
 context sources, constructs an ARE Context Basis, assesses selected-dependency
 freshness, and projects an immutable inline Context Envelope before forwarding
-the request. A client may supply an exact `are.request-context-hint/v1` so the
+the request. Live-source refresh always reads and hashes every selected source;
+it does not treat size, modification time, inode, or a cache hit as freshness
+evidence. The repository profile selects Node's native SHA-256 implementation
+for this byte-identical operation, while the portable JavaScript SHA-256 remains
+available as a controlled compatibility baseline. A client may supply an exact
+`are.request-context-hint/v1` so the
 human utterance and explicit capability objective remain distinct; malformed
 hints block. Deterministic request-term selection adds matching canonical
 definitions, ontology nodes and bounded related edges to a minimal baseline.
@@ -116,10 +121,18 @@ summarization. Gates and blocks are not forwarded.
 
 Plan-bound consumers reuse an envelope identity only after a real currentness
 comparison produces a reuse receipt. Interaction-bound consumers always
-receive successor view and envelope identities. Selected dependency drift
-requires a successor; unrelated source drift remains diagnostic. Diagnostic
-state records envelope identity and refresh events without copying full context
-contents.
+receive successor view, context-epoch, and reasoning-epoch identities. When the
+full Context Basis, request selection, and selected dependencies are still
+exactly current, an interaction successor may reuse the prior immutable
+content-addressed envelope projection instead of rebuilding it. The successor
+fragment and diagnostic event expose an exact reuse receipt, predecessor
+envelope digest, reused byte count, and `identity_retained: false`. The profile
+switch `context_projection.reuse_compatible_interaction_projection` can disable
+this optimization for a controlled comparison. Selected dependency drift
+always bypasses reuse and constructs a successor projection; unrelated source
+drift remains diagnostic. Cache or projection reuse never establishes
+freshness, provenance, correctness, or authority. Diagnostic state records
+envelope identity and refresh events without copying full context contents.
 
 During a turn, command, file-change, and permission approval callbacks are
 evaluated before the client response can reach Codex. A direct engine decision
@@ -232,15 +245,19 @@ key and pass the prior handshake's `continuity.resume_token` to
 acknowledges it only after writing the exact JSON-RPC message to its local output
 boundary. This proves exactly-once upstream dispatch and acknowledged-once
 transport delivery, not durable processing inside an arbitrary application.
-If a gateway process restart has lost the live session named by a resume token,
-resumption returns `gateway.resume-session-missing` rather than silently
-redispatching in-flight work. `spawnAppServerRpcTransport` provides an explicit
+With a configured file-backed gateway session store, a gateway restart restores
+completed stable requests and every sequenced but unacknowledged delivery before
+accepting an authenticated resumption. Acknowledgements are durable before the
+corresponding bytes are dropped. An in-flight request with no recorded outcome
+remains blocked as `gateway.dispatch-outcome-unknown` and is never silently
+redispatched. Without a file-backed store, process loss still returns
+`gateway.resume-session-missing`. `spawnAppServerRpcTransport` provides an explicit
 strict direct-process transport for diagnostics and tests; it does not bypass
 the wrapper's version gate.
 
-The session expiration tombstone is process-local and time-bounded. It explains
-a controlled eviction, but it is not a durable gateway-session index. Gateway
-process loss therefore remains distinguishable as `resume-session-missing`.
+Session expiration is appended to the file-backed session index when configured;
+the in-memory tombstone remains time-bounded. Process-memory mode intentionally
+loses resumability across gateway restart.
 
 Run the controlled version-bound semantic continuation matrix with:
 
@@ -262,8 +279,11 @@ local state index has known startup latency.
 Run the isolated persistent transport canary with `npm run canary:gateway`.
 It exercises two exact plan-bound turns across a disconnect/reconnect and two
 interaction-bound turns through a real long-lived loopback WebSocket
-app-server, then restarts the gateway and verifies recovery of the
-per-consumer checkpointed log, completion frontiers, exclusive writer, and an
+app-server. It then interrupts a real turn after agent output begins, restarts
+the file-backed gateway, authenticates both recovered sessions, verifies exact
+replay of the unacknowledged delivery, locally replays a completed stable
+request without upstream redispatch, and verifies recovery of the per-consumer
+checkpointed log, completion frontiers, exclusive writer, and an
 exact-prefix-reusing post-restart model dispatch.
 The official daemon-proxy command surface is covered separately;
 the canary intentionally does not mutate the user-global managed daemon.

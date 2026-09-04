@@ -163,6 +163,49 @@ def _clear(buffer: bytearray) -> None:
 
 
 @final
+class _LoadedRecordResolver:
+    """One-use resolver for a record from an already decrypted payload."""
+
+    __slots__ = ("__record", "__reference_digest", "__used")
+
+    def __init__(
+        self,
+        record: dict[str, JsonValue],
+        secret_ref: SecretRef,
+    ) -> None:
+        self.__record: dict[str, JsonValue] | None = record
+        self.__reference_digest = secret_ref.reference_digest
+        self.__used = False
+
+    def open_lease(self, secret_ref: SecretRef) -> SecretMaterialLease:
+        if (
+            self.__used
+            or type(secret_ref) is not SecretRef
+            or not secrets.compare_digest(
+                secret_ref.reference_digest,
+                self.__reference_digest,
+            )
+        ):
+            _fail("resolution-denied")
+        self.__used = True
+        record = self.__record
+        self.__record = None
+        if record is None:
+            _fail("resolution-denied")
+        encoded = record["material_b64"]
+        if type(encoded) is not str:
+            _fail("integrity-failure")
+        try:
+            material = bytearray(base64.b64decode(encoded, validate=True))
+        except (ValueError, TypeError, binascii.Error):
+            _fail("integrity-failure")
+        try:
+            return SecretMaterialLease(material)
+        finally:
+            _clear(material)
+
+
+@final
 class SopsAgeStore:
     """One encrypted local vault with a SOPS resolver implementation."""
 
@@ -749,7 +792,12 @@ class SopsAgeStore:
             now_epoch_seconds = int(time.time())
         if type(now_epoch_seconds) is not int or now_epoch_seconds < 0:
             _fail("invalid-configuration")
-        secret_ref = self.reference(name)
+        checked_name = _checked_name(name)
+        with self._lock(exclusive=False):
+            payload = self._load_payload()
+            record = self._record(payload, checked_name)
+            secret_ref = self._reference_for_record(record)
+            resolver = _LoadedRecordResolver(record, secret_ref)
         grant = ExecutionGrant(
             grant_id=f"gr_{secrets.token_hex(16)}",
             consumer_id=consumer_id,
@@ -763,6 +811,6 @@ class SopsAgeStore:
             consumer_id=consumer_id,
             request_digest=request_digest,
             now_epoch_seconds=now_epoch_seconds,
-            resolver=self,
+            resolver=resolver,
             consumer=consumer,
         )
