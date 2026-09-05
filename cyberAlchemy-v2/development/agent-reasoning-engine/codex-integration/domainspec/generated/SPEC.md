@@ -1,7 +1,7 @@
 # Codex Request Governance Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `353d567c8028c42e34009fead527b1e1d22b7913a7454c0b6a97d6f32d2146cc`.
+Graph digest: `884fdcb6af33860ac3860339fcc2f6cebfa705a66e4f360aa16eb22bce37f110`.
 
 ## Nodes
 

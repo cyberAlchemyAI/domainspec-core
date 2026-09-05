@@ -1,7 +1,7 @@
 # Are Continuous Construction Task Loop Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `2e03b1d8c2e970bbc1a8ec9ad43b1cec9baf7b16a024ebef31b6ee13ccc2cefe`.
+Graph digest: `b68127b39574d4cec31e7ca69b19ecd64a7b50e790d78ec46cec1a88918db9ff`.
 
 ## Nodes
 

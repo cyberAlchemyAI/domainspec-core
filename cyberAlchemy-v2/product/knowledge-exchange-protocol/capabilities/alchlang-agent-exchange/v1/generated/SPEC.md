@@ -1,7 +1,7 @@
 # Kep Alchlang Agent Exchange Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `2be667bbe3f15a50c55d92ac0a5e40a582c7748639168ac564fd4939e1bd1999`.
+Graph digest: `24240ef6bfb0d006a3952533d91ac0651f28f51e0d35b9949506e9efd504f9b5`.
 
 ## Nodes
 

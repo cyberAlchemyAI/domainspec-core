@@ -275,13 +275,18 @@ case "${command}" in
         --user "$(id -u):$(id -g)" \
         --env HOME=/tmp \
         --env "PROJECT_MANAGER=${manager}" \
+        --env "PROJECT_WORKSPACE_MODE=${workspace_mode}" \
         "${image}" \
         bash -c '
           set -euo pipefail
           if [[ "${PROJECT_MANAGER}" == "npm" ]]; then
             npm ci
           else
-            /opt/node-toolchain/node_modules/.bin/pnpm install --frozen-lockfile --store-dir /var/cache/node/pnpm
+            pnpm_args=()
+            if [[ "${PROJECT_WORKSPACE_MODE}" != true ]]; then
+              pnpm_args+=(--ignore-workspace)
+            fi
+            /opt/node-toolchain/node_modules/.bin/pnpm install "${pnpm_args[@]}" --frozen-lockfile --store-dir /var/cache/node/pnpm
           fi
         '
     elif [[ "${command}" == "shell" ]]; then

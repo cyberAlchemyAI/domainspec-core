@@ -1,7 +1,7 @@
 # Are Coding Agent Runtime Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `58ce0b5cf188d8b02e987ae29c2433c2c025c7e1c6e4ebde1d9975738918406b`.
+Graph digest: `84d84ecb30a855e018dd55cd45cc1c903e49560ec1f54c835cb9ec38efa9cb62`.
 
 ## Nodes
 

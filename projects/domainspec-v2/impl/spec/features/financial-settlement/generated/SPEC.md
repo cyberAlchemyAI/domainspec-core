@@ -1,7 +1,7 @@
 # Financial Settlement Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `e0abebe80ba62ae41b38bd7584257744087ba18fac3d7580f086b65a7b1b5cb6`.
+Graph digest: `e453c910f09b64af8fe73b6118ff6c3885cf37fcd2d541f8a589aece31607abe`.
 
 ## Nodes
 

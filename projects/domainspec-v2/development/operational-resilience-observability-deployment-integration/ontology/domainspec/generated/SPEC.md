@@ -1,7 +1,7 @@
 # Orodi Operational Evidence Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `a3f890e5512e18def2b46f0f6ce56d65989db15e72f7a5bb4269a061b2298ec9`.
+Graph digest: `31ac6387124aae6b79d224eb533a2c22bfc33ca680710297fa7a7e54859df0ac`.
 
 ## Nodes
 

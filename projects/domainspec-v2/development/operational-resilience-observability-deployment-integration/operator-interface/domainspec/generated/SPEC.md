@@ -1,7 +1,7 @@
 # Orodi Operator Interface Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `0efdd1be432032714b4272412a995f0030a0a685252d36e75c3a73a6d33b5df6`.
+Graph digest: `33e49dc0afdeedbf0c14cc4b01f6beb8840c006e3d24b2d37fea0c43a06fdee3`.
 
 ## Nodes
 

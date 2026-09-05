@@ -1,7 +1,7 @@
 # Cyberalchemy Review Capabilities Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `6e3ebc980ce15b80ab222e6f3f7114838c3381834ec584544bd6c39e040f39e1`.
+Graph digest: `d6841bc92b253a3d8fe9e0b25d5f39c50b5149bd6a6e7bd8a7ee8749962f0d1a`.
 
 ## Nodes
 

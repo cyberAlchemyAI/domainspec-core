@@ -1,7 +1,7 @@
 # Knowledge Exchange Protocol Successor Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `65b6b8f11e469205b9e155f16525fba61b8a3c4e1a0e024f9a20b038ab2ad550`.
+Graph digest: `c31c5a788973d039e2c823ccbf619aaffe097835c9bfedc5efd0ed62614d56bf`.
 
 ## Nodes
 

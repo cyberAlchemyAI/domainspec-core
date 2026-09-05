@@ -360,8 +360,11 @@ function runNegativeCase(path: string, expectedError: string, registry: Supporte
 test("machine contract manifest, schemas, and profile registry agree", () => {
   const manifest = readJson<ContractManifest>(resolve(schemaRoot, "contract-manifest.json"));
   const registry = readJson<SupportedProfiles>(profilePath);
-  assert.equal(registry.schema_version, "domainspec-supported-profiles/v1");
-  assert.equal(registry.profiles.length, 1);
+  assert.equal(registry.schema_version, "domainspec-supported-profiles/v2-candidate");
+  assert.deepEqual(registry.profiles.map(({ id, version, status }) => ({ id, version, status })), [
+    { id: "feature-with-independent-node-files", version: "1", status: "experimental" },
+    { id: "complete-backend-criteria", version: "2", status: "candidate" },
+  ]);
   assert.equal(registry.profiles[0].status, "experimental");
   assert.deepEqual(registry.profiles[0].kinds, ["Entity", "Event", "Operation", "Rule"]);
   assert.deepEqual(registry.profiles[0].formation_schemas, {

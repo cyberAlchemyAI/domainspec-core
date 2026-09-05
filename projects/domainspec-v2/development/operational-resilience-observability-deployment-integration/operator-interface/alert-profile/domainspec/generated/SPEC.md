@@ -1,7 +1,7 @@
 # Orodi Alert Profile Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `e2ede63f0b6e0b652b412a9a8e55bdcb41aedd2d7bacdbd36b16a0e4d61285e5`.
+Graph digest: `fcccc1cee6165c10c30b46db18e5800ee0864ca11cb3ccae69e560815f4526fb`.
 
 ## Nodes
 

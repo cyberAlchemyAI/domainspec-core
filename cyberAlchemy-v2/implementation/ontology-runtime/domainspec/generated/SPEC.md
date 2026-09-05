@@ -1,7 +1,7 @@
 # Ontology Runtime Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `cd6bb745ee71305973ca6223f2c3e02f5f51dd7be83ee25d3fc198e3c9c257ae`.
+Graph digest: `50623af9d9c9bb46aafed14194d69c5776cba1f4de2f98ec969a8e53abf3def7`.
 
 ## Nodes
 

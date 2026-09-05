@@ -1,7 +1,7 @@
 # Governance D65 Construction Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `8a080f5cfb0ec22f1c80c8760074a04e2a03c92860fd66fc19542001f9b636d4`.
+Graph digest: `cc8a0ad6af78f1f5b562d87b1674b3e1837262efde593e92b6d8b2bdb4cd603a`.
 
 ## Nodes
 

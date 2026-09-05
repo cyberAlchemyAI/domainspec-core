@@ -1,7 +1,7 @@
 # Governance Continuous Construction Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `715cb767b5df409a7da9ae88da5c886895defd0b9856f6d8b5c593e6a9dd2c65`.
+Graph digest: `509c1b30cf0ffe1fb3656ad45ece3b8cbc202d4cd95bcb466796ff4c6653f173`.
 
 ## Nodes
 

@@ -11,7 +11,7 @@
   "registry_bindings": {
     "kinds": {
       "path": "definitions/meta-types/meta-types.yml",
-      "sha256": "4394968327b785d50cd323ad58a799feb71b9debf7e06b650b4fd1e4008f9ede"
+      "sha256": "bc800afdca36fa701a13ec611e7ee0ef928a4c8d259d48dfac2880a3cc8cbbc4"
     },
     "relationships": {
       "path": "definitions/relationships/relationships.yml",
@@ -24,7 +24,12 @@
       "version": "0.1",
       "status": "development-only",
       "source_layout": "per-node-connections",
-      "kinds": ["Calculation", "Operation", "Event", "Rule"],
+      "kinds": [
+        "Calculation",
+        "Operation",
+        "Event",
+        "Rule"
+      ],
       "formation_contracts": {
         "Calculation": {
           "validator": "attribute-map",
@@ -44,8 +49,13 @@
         }
       },
       "logic_contract": {
-        "schema_versions": ["domainspec-node-logic/v1"],
-        "node_kinds": ["Calculation", "Operation"],
+        "schema_versions": [
+          "domainspec-node-logic/v1"
+        ],
+        "node_kinds": [
+          "Calculation",
+          "Operation"
+        ],
         "envelope_schema": {
           "validator": "json-schema",
           "path": "impl/spec/sfol-profile/node-logic-envelope.schema.json",

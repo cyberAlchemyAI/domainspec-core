@@ -1,7 +1,7 @@
 # Agent Reasoning Engine Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `3c0375ecbe56abbea19db56c0b7d7b28e4977c5ea437dc67ab2bc3753ec11225`.
+Graph digest: `33fb3e0d7c8deb03d1ca6f9bfb3b5d3fc5b8f652876d784b3f5e726e40a5c646`.
 
 ## Nodes
 

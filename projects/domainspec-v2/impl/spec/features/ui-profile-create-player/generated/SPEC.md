@@ -1,7 +1,7 @@
 # Ui Profile Create Player Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `73f2199f3d7232add1620f5708a0345bf098450143311a6462a478bbcbb0cefc`.
+Graph digest: `bee4f7c2ffb965aac35eb78d4e287865a28e915009c0344eb903288b34627936`.
 
 ## Nodes
 

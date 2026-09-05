@@ -1,7 +1,7 @@
 # Governance Dependency Kernel Specification
 
 Generated human view. Canonical semantics live in the project-local machine sources.
-Graph digest: `825fc8994c7f03e73956baa0ebb7628380660bc2e5a28d50d3ee3bdcd473da25`.
+Graph digest: `a9358609245902ceea958ed15b74045c41a55f209724b063f7be56f8527083f5`.
 
 ## Nodes
 
