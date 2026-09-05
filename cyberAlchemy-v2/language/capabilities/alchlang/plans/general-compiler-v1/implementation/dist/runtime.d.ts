@@ -1,4 +1,4 @@
-import { type Expression, type NormalizedDomain, type NormalizedRule } from "./model.js";
+import { type NormalizedDomain, type NormalizedRule, type SfolFormula } from "./model.js";
 import { type LegacyPredicateRegistry } from "./predicate-parser.js";
 export interface ActionRequest {
     action_id: string;
@@ -28,6 +28,8 @@ export interface ActionExecutionResult {
     permission_results: Readonly<Record<string, boolean>>;
     adapter_data?: unknown;
 }
-export declare function evaluateExpression(expression: Expression, facts: Readonly<Record<string, unknown>>): boolean;
+export declare function evaluateSfolFormula(expression: SfolFormula, facts: Readonly<Record<string, unknown>>): boolean;
+/** @deprecated Use evaluateSfolFormula. */
+export declare const evaluateExpression: typeof evaluateSfolFormula;
 export declare function evaluateRule(rule: NormalizedRule, facts: Readonly<Record<string, unknown>>, legacyRegistry?: LegacyPredicateRegistry): boolean;
 export declare function executeAction(model: NormalizedDomain, request: ActionRequest, adapters: ActionAdapterRegistry, legacyRegistry?: LegacyPredicateRegistry): Promise<ActionExecutionResult>;

@@ -1,5 +1,5 @@
-import dagre from "@dagrejs/dagre";
 import { MarkerType, type Edge, type Node } from "@xyflow/react";
+import { NODE_HEIGHT, NODE_WIDTH, computeLayout, type LayoutResult } from "./layout";
 
 export interface OntologyNodeRecord {
   readonly id: string; readonly kind: string; readonly label: string; readonly status: string;
@@ -64,17 +64,15 @@ export function derivePortalScene(source: WorkspaceGraphSource, originId: string
   return { originId, nodeIds: new Set([originId, ...relations.flatMap((relation) => [relation.source, relation.target])]), edgeIds: new Set(relations.map((relation) => relation.id)) };
 }
 
-const NODE_WIDTH = 208; const NODE_HEIGHT = 88;
 export function buildCanvasGraph(source: WorkspaceGraphSource): { nodes: OntologyCanvasNode[]; edges: OntologyCanvasEdge[]; layoutMs: number } {
-  const started = performance.now(); const adjacency = indexRelations(source);
-  const layout = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-  layout.setGraph({ rankdir: "LR", ranksep: 92, nodesep: 34, edgesep: 18, marginx: 50, marginy: 50 });
-  for (const record of source.nodes) layout.setNode(record.id, { width: NODE_WIDTH, height: NODE_HEIGHT });
-  for (const relation of source.relations) layout.setEdge(relation.source, relation.target);
-  dagre.layout(layout);
-  const nodes = source.nodes.map((record): OntologyCanvasNode => { const point = layout.node(record.id); return { id: record.id, type: "ontology", position: { x: point.x - NODE_WIDTH / 2, y: point.y - NODE_HEIGHT / 2 }, data: { record, incoming: adjacency.incoming.get(record.id) ?? [], outgoing: adjacency.outgoing.get(record.id) ?? [] }, width: NODE_WIDTH, height: NODE_HEIGHT, draggable: true, connectable: false, deletable: false, selectable: true, focusable: false }; });
+  return materializeCanvasGraph(source, computeLayout(source));
+}
+
+export function materializeCanvasGraph(source: WorkspaceGraphSource, layout: LayoutResult): { nodes: OntologyCanvasNode[]; edges: OntologyCanvasEdge[]; layoutMs: number } {
+  const adjacency = indexRelations(source);
+  const nodes = source.nodes.map((record): OntologyCanvasNode => { const position = layout.positions[record.id] ?? { x: 0, y: 0 }; return { id: record.id, type: "ontology", position, data: { record, incoming: adjacency.incoming.get(record.id) ?? [], outgoing: adjacency.outgoing.get(record.id) ?? [] }, width: NODE_WIDTH, height: NODE_HEIGHT, draggable: true, connectable: false, deletable: false, selectable: true, focusable: false }; });
   const edges = source.relations.map((relation): OntologyCanvasEdge => { const style = relationPresentationStyle(relation.type); return { id: relation.id, source: relation.source, target: relation.target, type: "ontology", className: style.token, data: { relation }, style: { stroke: style.color }, markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16, color: style.color }, reconnectable: false, deletable: false, selectable: true, focusable: true, ariaLabel: `${relation.source} ${relation.type} ${relation.target}` }; });
-  return { nodes, edges, layoutMs: performance.now() - started };
+  return { nodes, edges, layoutMs: layout.layoutMs };
 }
 
 export function validateGraph(source: WorkspaceGraphSource): string[] {

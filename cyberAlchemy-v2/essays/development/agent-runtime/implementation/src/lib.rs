@@ -2,6 +2,7 @@ pub mod browser;
 pub mod error;
 pub mod ipc;
 pub mod model;
+pub mod platform;
 pub mod runtime;
 pub mod security;
 pub mod server;

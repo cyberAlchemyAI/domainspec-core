@@ -29,6 +29,17 @@ const EXPECTED_SOURCES = Object.freeze({
 const REQUIRED_BLOCKER = "WORKSPACE_CATALOG_SNAPSHOT_DRIFT";
 const GRAPH_EPOCH_ALGORITHM =
   "sha256(nodes-bytes || 0x00 || relations-bytes)";
+const CHAT_SOURCE_COUNT = 40;
+const REQUIRED_CHAT_SOURCES = new Set([
+  "cyberAlchemy-v2/development/agent-reasoning-engine/codex-integration/interfaces/codex-app-server-wrapper.contract.json",
+  "cyberAlchemy-v2/development/agent-reasoning-engine/codex-integration/client/desktop-bridge.mjs",
+  "cyberAlchemy-v2/development/agent-reasoning-engine/codex-integration/evidence/codex-app-server-protocol-observation.windows-0.151.json",
+  "cyberAlchemy-v2/implementation/agent-reasoning-engine/packages/request-decision-router/src/profile-loader.mjs",
+  "cyberAlchemy-v2/essays/development/agent-runtime/implementation/desktop/src-tauri/src/main.rs",
+  "cyberAlchemy-v2/workspace/runtime/src/features/chat/ChatSurface.tsx",
+  "cyberAlchemy-v2/workspace/runtime/src/features/chat/are-chat-bridge.ts",
+  "cyberAlchemy-v2/workspace/runtime/performance-budgets.candidate.json",
+]);
 
 export class ImplementationManifestCheckError extends Error {
   constructor(code, message) {
@@ -164,6 +175,10 @@ export function checkImplementationManifest(options = {}) {
     bindings.ontology_canvas_graph,
     "ontology canvas graph binding",
   );
+  const chat = assertRecord(
+    bindings.are_governed_chat,
+    "ARE governed chat binding",
+  );
   if (
     snapshot.identity_kind !== "preserved-generated-snapshot" ||
     snapshot.generation_posture !== "preserved-not-regenerated" ||
@@ -173,6 +188,27 @@ export function checkImplementationManifest(options = {}) {
     fail(
       "IDENTITY_POSTURE_INVALID",
       "snapshot and graph identity postures must remain explicit and separate",
+    );
+  }
+  if (
+    chat.identity_kind !== "exact-source-closure" ||
+    chat.boundary_kind !== "codex-app-server-wrapper" ||
+    chat.boundary_status !== "owner-selected-candidate-not-conformant" ||
+    chat.transport !== "tauri-channel-to-are-jsonl-stdio" ||
+    chat.webview_process_authority !== "none"
+  ) {
+    fail(
+      "CHAT_BOUNDARY_INVALID",
+      "chat must retain the candidate ARE wrapper boundary and deny process authority to the WebView",
+    );
+  }
+  if (
+    !Array.isArray(chat.source_closure) ||
+    chat.source_closure.length !== CHAT_SOURCE_COUNT
+  ) {
+    fail(
+      "CHAT_SOURCE_CLOSURE_INVALID",
+      `chat source closure must contain exactly ${CHAT_SOURCE_COUNT} sources`,
     );
   }
 
@@ -215,6 +251,49 @@ export function checkImplementationManifest(options = {}) {
     EXPECTED_SOURCES.relations,
     "ontology relations",
   );
+  const chatPaths = new Set();
+  const chatClosureHash = createHash("sha256");
+  let chatInterfaceSha256 = null;
+  for (const [index, sourceValue] of chat.source_closure.entries()) {
+    const source = assertRecord(sourceValue, `chat source ${index}`);
+    if (source.root !== "repository" || typeof source.path !== "string") {
+      fail(
+        "CHAT_SOURCE_CLOSURE_INVALID",
+        `chat source ${index} must be repository-relative`,
+      );
+    }
+    if (chatPaths.has(source.path)) {
+      fail(
+        "CHAT_SOURCE_CLOSURE_INVALID",
+        `chat source closure repeats ${source.path}`,
+      );
+    }
+    chatPaths.add(source.path);
+    const bound = bindSource(
+      source,
+      { root: "repository", path: source.path },
+      `chat source ${index}`,
+    );
+    chatClosureHash
+      .update(source.path)
+      .update(Buffer.from([0]))
+      .update(bound.bytes)
+      .update(Buffer.from([0]));
+    if (
+      source.path ===
+      "cyberAlchemy-v2/development/agent-reasoning-engine/codex-integration/interfaces/codex-app-server-wrapper.contract.json"
+    ) {
+      chatInterfaceSha256 = bound.sha256;
+    }
+  }
+  for (const requiredPath of REQUIRED_CHAT_SOURCES) {
+    if (!chatPaths.has(requiredPath)) {
+      fail(
+        "CHAT_SOURCE_CLOSURE_INVALID",
+        `chat source closure omits required source ${requiredPath}`,
+      );
+    }
+  }
 
   const identity = embeddedIdentity(snapshotSource.bytes);
   if (
@@ -263,6 +342,12 @@ export function checkImplementationManifest(options = {}) {
         graph_epoch_sha256: actualGraphEpoch,
         nodes_sha256: nodesSource.sha256,
         relations_sha256: relationsSource.sha256,
+      },
+      are_governed_chat: {
+        source_count: chat.source_closure.length,
+        closure_sha256: chatClosureHash.digest("hex"),
+        interface_sha256: chatInterfaceSha256,
+        transport: chat.transport,
       },
     },
     retained_blockers: [REQUIRED_BLOCKER],

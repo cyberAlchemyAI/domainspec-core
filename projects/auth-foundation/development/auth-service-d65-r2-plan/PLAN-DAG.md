@@ -1,7 +1,7 @@
 # Auth Service — D65 Revision 2 Construction DAG
 
-Status: **planning candidate; non-executing**
-Route: `CA2-ROUTE-PLAN`
+Status: **local non-EVF implementation candidate complete through W4; full F0/J0 remains open**
+Current implementation route: `CA2-ROUTE-IMPLEMENT`
 Construction subject: complete in-process Auth Service
 Authority effect: none
 
@@ -25,13 +25,45 @@ or authorize an external effect.
 
 Included in the Auth Service candidate:
 
-- inbound request containing an authentication-evidence reference and route;
+- bounded inbound request containing correlation-only `request_id`, an
+  authentication-evidence reference, and `route_id`;
 - SQLite trusted-input resolution for authentication evidence and route binding;
 - trusted command-boundary construction;
 - SQLite authorization-state resolution;
 - generated exact session-role-permission decision kernel;
 - in-process service composition;
 - binary `ALLOW`/`DENY` result with fail-closed behavior.
+
+## Construction and operations separation
+
+Current recorded product-construction frontier: the repository-wide
+ConstructionBinding remains at Product Capability. This document does not
+advance it. Local implementation evidence has reached W3/X0: the in-process
+service, explicit migration operation, component checks, and 14-case service
+suite are runnable and passing locally.
+
+Product-construction work completed in this local non-EVF round:
+
+- E1-local deterministic replay of the three generated DomainSpec runtimes in
+  two isolated runs each, with exact checked-in byte equality;
+- W4-local deterministic freeze of the 98-file non-EVF implementation
+  candidate;
+- one deterministic non-EVF whole-service validation command covering five
+  Rust crates, 48 tests, strict checks, replay, and freeze verification.
+
+Operational-support residue, routed separately:
+
+| Task | Owner | Affected D65 stage | Construction effect |
+| --- | --- | --- | --- |
+| Product approval | Auth Service product owner | H0, only after all W5 branches | none now; not requested |
+| EVF evidence refresh | EVF/product-test owner | E2 | no block on the non-EVF local freeze; required for full J0 |
+| Registration/admission | Define, ontology, and DomainSpec owners | post-prototype owner gates | none; unavailable from this implementation |
+| Publication/deployment | publication and operations owners | no construction stage | deferred and unauthorized |
+
+The causal blocker for full F0/J0 is the missing complete sibling evidence join,
+including current EVF evidence. It does not block local prototype validation or
+the explicitly labeled non-EVF freeze. No operational residue is treated as a
+routine gate on dependency-ready prototype work.
 
 Excluded from this candidate:
 
@@ -294,27 +326,35 @@ multiple owners, delegates work, or carries protected scope.
 ## Current gaps and next route
 
 1. The proposed Auth Foundation Project, draft Auth Service Goal, and
-   prototype-only D65-r2 ConstructionBinding now root this planning candidate;
-   they do not prove product meaning or authorize execution.
+   prototype-only D65-r2 ConstructionBinding root this candidate but remain at
+   their recorded Product Capability frontier; this local work does not advance
+   that binding or prove product meaning.
 2. The service Definition Pack, Product Capability, business ontology,
    contracts, context policies, obligation registry, and DomainSpec composition
    source set are now materialized as prototype candidates. They remain
    non-admitted and do not prove product meaning.
-3. The recovered EVF v3 artifacts remain in `/tmp/domainspec-auth-l11.jgxco4`;
-   they are candidate inputs to E2, not durable primary-checkout product bytes.
+3. EVF remains a separate sibling E2 evidence branch and is excluded from the
+   local non-EVF freeze. Therefore full F0, J0, and product-approval eligibility
+   remain unavailable.
 4. The historical continuous-construction program is blocked on its removed
    `CAV2-C19` selector and is not a dependency of this DAG.
 
 ## Implementation candidate handoff
 
-The Rust implementation candidate now owns one SQLite database connection and
-one deferred read transaction per `authorize` call. It captures decision time
-once, resolves trusted inputs through that transaction, constructs the exact
-eleven-field snapshot and epoch-bound command, checks subject/session and
-authorization-revision joins, invokes the existing generated boundary and
-permission kernel before transaction end, and maps every uncertainty to
-`DENY`.
+The Rust implementation candidate owns one already-migrated SQLite database
+connection and one deferred query-only transaction per valid `authorize` call.
+It validates bounded identifiers, captures decision time once, allocates a
+checked non-reusing epoch identifier, resolves trusted inputs through that
+transaction, constructs opaque lifetime-bound snapshot and command values,
+resolves one typed authorization-state snapshot, checks exact subject/session
+and revision joins, invokes the generated boundary and permission kernel, then
+rolls back after fixing the binary decision. Normal startup cannot create or
+migrate schema; an explicit operation installs unified schema v2 or atomically
+upgrades v1. Private typed diagnostics collapse to public `ALLOW` or `DENY`.
 
-The implementation and authored integration tests compile. The tests have not
-been executed; W3/X0 therefore remains awaiting the planned review and test
-run. No frozen product candidate or product-test evidence exists yet.
+The component and service suites have been executed locally under strict Rust
+warnings: 48 tests pass across five crates, including 14 service tests and a
+real WAL concurrent-writer snapshot test. This closes local W3/X0 and the
+deterministic 98-file non-EVF W4 freeze now verifies. That freeze is not the
+complete F0 product candidate and cannot substitute for EVF or the complete W5
+evidence join.

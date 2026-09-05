@@ -7,6 +7,7 @@
 // domainspec-typed-closure-sha256: "1802865d58ba08c66be9cf9bebf11fe4fd319ba745b10e5ee980c0c29927ab87"
 pub const DOMAINSPEC_TYPED_CLOSURE_SHA256: &str =
     "1802865d58ba08c66be9cf9bebf11fe4fd319ba745b10e5ee980c0c29927ab87";
+pub const DOMAINSPEC_QUERY_CLOSURE_SHA256: &str = DOMAINSPEC_TYPED_CLOSURE_SHA256;
 #[rustfmt::skip]
 pub const DOMAINSPEC_PROPERTY_BINDINGS: &[(&str, &str)] = &[
     ("AUTH-TI-AUTHENTICATION-EVIDENCE#evidence_identity", "AuthenticationEvidence::evidence_identity"),

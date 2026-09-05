@@ -64,6 +64,9 @@ function build() {
       validated_stage_policy: "repository-contained-exact-raw-byte-artifact",
       owner_gate_policy: "closed-exact-record-required-when-bound",
       predecessor_failure: "fail-closed-and-mark-downstream-not_evaluable",
+      work_lane_policy: "separate-product-construction-from-operational-support",
+      operational_blocking_policy: "only-exact-frontier-prerequisite-or-applicable-boundary",
+      operational_residue_policy: "defer-visible-and-continue-product-construction",
       packet_policy: "complete-frozen-input-packet-bound-to-canonical-attempt-basis",
       human_test_result_policy: "separate-immutable-observation-bound-to-exact-packet-ref-and-digest",
       retroactive_approval: "forbidden",
@@ -87,7 +90,7 @@ function build() {
     profile_release_admission: "not-granted",
     authority_effect: "none",
     enforcement_effect: "none",
-    claim_limit: "Deterministic candidate projection only; no profile or system-ontology admission, Rust baseline acceptance, conformance, C19 activation, route integration, publication, release, deployment, or external effect.",
+    claim_limit: "Deterministic candidate projection only; no profile or system-ontology admission, Rust baseline acceptance, conformance, route integration, publication, release, deployment, or external effect.",
   };
   return {
     "graph.json": first.graphBytes,

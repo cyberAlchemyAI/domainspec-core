@@ -75,7 +75,8 @@ where
                 "SELECT evidence_row_id, evidence_ref, session_id, trusted, revoked, expires_at
              FROM auth_authentication_evidence
              WHERE evidence_ref = ?1
-             ORDER BY evidence_row_id",
+             ORDER BY evidence_row_id
+             LIMIT 2",
             )
             .map_err(|_| PortFailure)?;
         statement
@@ -113,7 +114,8 @@ where
             "SELECT binding_row_id, route_id, resource, action, scope, scope_evidence_ref, complete, enabled
              FROM auth_route_authorization_bindings
              WHERE route_id = ?1
-             ORDER BY binding_row_id",
+             ORDER BY binding_row_id
+             LIMIT 2",
         ).map_err(|_| PortFailure)?;
         statement
             .query_map([route_id], |row| {
@@ -191,7 +193,8 @@ fn logical_authentication_evidence_in_transaction(
             "SELECT evidence_row_id, evidence_ref, session_id, trusted, revoked, expires_at
              FROM auth_authentication_evidence
              WHERE evidence_ref = ?1
-             ORDER BY evidence_row_id",
+             ORDER BY evidence_row_id
+             LIMIT 2",
         )
         .map_err(|_| PortFailure)?;
     statement
@@ -230,7 +233,8 @@ fn logical_route_bindings_in_transaction(
             "SELECT binding_row_id, route_id, resource, action, scope, scope_evidence_ref, complete, enabled
              FROM auth_route_authorization_bindings
              WHERE route_id = ?1
-             ORDER BY binding_row_id",
+             ORDER BY binding_row_id
+             LIMIT 2",
         )
         .map_err(|_| PortFailure)?;
     statement
@@ -316,7 +320,8 @@ where
                 "SELECT evidence_ref, session_id, trusted, revoked, expires_at
                  FROM auth_authentication_evidence
                  WHERE evidence_ref = ?1
-                 ORDER BY evidence_row_id",
+                 ORDER BY evidence_row_id
+                 LIMIT 2",
             )
             .map_err(|_| PortFailure)?;
         statement
@@ -377,7 +382,8 @@ impl RouteAuthorizationBindingResolver for SqliteRouteAuthorizationBindingResolv
                 "SELECT route_id, resource, action, scope, scope_evidence_ref, complete, enabled
                  FROM auth_route_authorization_bindings
                  WHERE route_id = ?1
-                 ORDER BY binding_row_id",
+                 ORDER BY binding_row_id
+                 LIMIT 2",
             )
             .map_err(|_| PortFailure)?;
         statement

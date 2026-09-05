@@ -43,9 +43,13 @@ pub fn create_pairing_code(runtime: &Runtime, pairing: &PairingCode) -> Result<(
     runtime.with_store(|store| store.create_pairing_code(pairing))
 }
 
-pub fn local_process_principal(client_id: impl Into<String>) -> AuthenticatedPrincipal {
-    let uid = unsafe { libc::geteuid() };
-    AuthenticatedPrincipal::verified_local(format!("unix:{uid}"), client_id)
+pub fn local_process_principal(
+    client_id: impl Into<String>,
+) -> Result<AuthenticatedPrincipal, RuntimeError> {
+    Ok(AuthenticatedPrincipal::verified_local(
+        crate::platform::local_process_subject()?,
+        client_id,
+    ))
 }
 
 pub fn redeem_pairing_code(

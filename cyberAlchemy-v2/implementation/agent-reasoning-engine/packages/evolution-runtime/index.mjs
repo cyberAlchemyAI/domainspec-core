@@ -15,6 +15,8 @@ import {isAbsolute, relative, resolve} from "node:path";
 export {createVariantWorkspaceFactory} from "./src/variant-workspace.mjs";
 export {applyUpgradeDecision, createServingVersionStore} from "./src/upgrade-controller.mjs";
 export {createEvolutionScheduler} from "./src/scheduler.mjs";
+export {REPLICATION_SOURCE_PATHS, materializeReplicationManifest, verifyReplicationManifest, scoreReplicationRun, materializeReplicationResult} from "./src/requirement-replication.mjs";
+export {LATENCY_SOURCE_PATHS, materializeLatencyManifest, verifyLatencyManifest, scoreLatencyRun, materializeLatencyResult} from "./src/requirement-latency-control.mjs";
 
 export const EVOLUTION_PROFILE_SCHEMA = "are.evolution-profile/v1";
 export const IMPROVEMENT_SIGNAL_SCHEMA = "are.improvement-signal/v1";
@@ -325,21 +327,38 @@ function benchmarkFailureContract(result, expectedResultDigest) {
   const actualDigest = object(result) ? digest(result) : null;
   if (text(expectedResultDigest) && actualDigest !== expectedResultDigest) reasons.push("evolution.benchmark-result-digest-mismatch");
   if (!text(result?.benchmark_id) || !text(result?.profile_digest) || !text(result?.mode)) reasons.push("evolution.benchmark-result-identity-invalid");
-  if (!object(result?.summary?.checks) || Object.values(result.summary.checks).some((value) => typeof value !== "boolean")) reasons.push("evolution.benchmark-checks-invalid");
-  if (!Array.isArray(result?.cases) || result.cases.some((entry) => !object(entry) || !text(entry.scenario_id) || typeof entry.passed !== "boolean")) reasons.push("evolution.benchmark-cases-invalid");
-  if (!["PASS", "FAIL"].includes(result?.status)) reasons.push("evolution.benchmark-status-invalid");
+  const notEvaluated = result?.status === "NOT_EVALUATED";
+  if (!notEvaluated && (!object(result?.summary?.checks) || Object.values(result.summary.checks).some((value) => typeof value !== "boolean"))) reasons.push("evolution.benchmark-checks-invalid");
+  if (result?.cases !== undefined && !Array.isArray(result.cases) && !object(result.cases)) reasons.push("evolution.benchmark-cases-invalid");
+  if (!["PASS", "FAIL", "NOT_EVALUATED"].includes(result?.status)) reasons.push("evolution.benchmark-status-invalid");
   if (result?.authority_effect !== "none") reasons.push("evolution.benchmark-authority-invalid");
   if (reasons.length > 0) return fail("failure-hypothesis-projection", reasons);
-  const failedChecks = Object.entries(result.summary.checks).filter(([, passed]) => !passed).map(([key]) => key).sort();
+  const failedChecks = notEvaluated ? [] : Object.entries(result.summary.checks).filter(([, passed]) => !passed).map(([key]) => key).sort();
+  if (notEvaluated) return freeze({ok: true, actual_digest: actualDigest, failed_checks: [], not_evaluated: true, authority_effect: "none"});
   if ((result.status === "PASS") !== (failedChecks.length === 0)) return fail("failure-hypothesis-projection", ["evolution.benchmark-status-inconsistent"]);
-  return freeze({ok: true, actual_digest: actualDigest, failed_checks: failedChecks, authority_effect: "none"});
+  return freeze({ok: true, actual_digest: actualDigest, failed_checks: failedChecks, not_evaluated: false, authority_effect: "none"});
+}
+
+function benchmarkScenarioCases(value, selected = []) {
+  if (Array.isArray(value)) {
+    for (const item of value) benchmarkScenarioCases(item, selected);
+    return selected;
+  }
+  if (!object(value)) return selected;
+  if (text(value.scenario_id) && typeof value.passed === "boolean") {
+    selected.push(value);
+    return selected;
+  }
+  for (const child of Object.values(value)) benchmarkScenarioCases(child, selected);
+  return selected;
 }
 
 export function projectBenchmarkFailuresToHypotheses({benchmark_result: result, expected_result_digest: expectedResultDigest} = {}) {
   const checked = benchmarkFailureContract(result, expectedResultDigest);
   if (!checked.ok) return checked;
   const sourceResultRef = `benchmark-result:${result.benchmark_id}:${result.mode}:${checked.actual_digest}`;
-  const failedScenarioIds = result.cases.filter((entry) => !entry.passed).map((entry) => entry.scenario_id).sort();
+  const cases = benchmarkScenarioCases(result.cases ?? []);
+  const failedScenarioIds = [...new Set(cases.filter((entry) => !entry.passed).map((entry) => entry.scenario_id))].sort();
   const signals = [];
   const hypotheses = [];
   for (const checkKey of checked.failed_checks) {
@@ -383,7 +402,7 @@ export function projectBenchmarkFailuresToHypotheses({benchmark_result: result, 
     source_result_digest: checked.actual_digest,
     benchmark_id: result.benchmark_id,
     benchmark_mode: result.mode,
-    disposition: checked.failed_checks.length === 0 ? "no-failures" : "hypotheses-projected",
+    disposition: checked.not_evaluated ? "not-evaluated" : checked.failed_checks.length === 0 ? "no-failures" : "hypotheses-projected",
     failed_check_keys: checked.failed_checks,
     failed_scenario_ids: failedScenarioIds,
     signal_refs: signals.map((signal) => signal.record_id),

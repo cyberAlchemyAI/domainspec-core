@@ -67,6 +67,7 @@ export function createEvidenceLedger(options = {}) {
       request_header_digest: event.request_header_digest ?? null,
       cache_affinity_projection_digest: event.cache_affinity_projection_digest ?? null,
       cache_affinity_assessment_digest: event.cache_affinity_assessment_digest ?? null,
+      context_bound_reuse_receipt_digest: event.context_bound_reuse_receipt_digest ?? null,
       cache_telemetry_observation_digest: event.cache_telemetry_observation_digest ?? null,
       cache_affinity_posture: event.cache_affinity_posture ?? null,
       exact_prefix_reuse: event.exact_prefix_reuse ?? null,
@@ -79,6 +80,12 @@ export function createEvidenceLedger(options = {}) {
       observed_input_tokens: event.observed_input_tokens ?? null,
       observed_cached_input_tokens: event.observed_cached_input_tokens ?? null,
       cache_invalidation_reasons: event.cache_invalidation_reasons ?? [],
+      ...(event.event_kind === "objective-transition-resolved" ? {
+        objective_resolution_digest: event.objective_resolution_digest ?? null,
+        objective_state_digest: event.objective_state_digest ?? null,
+        objective_transition: event.objective_transition ?? null,
+      } : {}),
+      ...(event.event_kind === "cache-affinity-recovery-miss" ? {reason_code: event.reason_code ?? null} : {}),
       authority_effect: "none",
     };
     const appended = journal.append({...material, idempotency_key: event.idempotency_key, observed_at: event.observed_at ?? null});

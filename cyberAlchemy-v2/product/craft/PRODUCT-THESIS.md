@@ -25,10 +25,27 @@ proposition around the act of turning Product intent into an evidence-bearing wo
 
 ## Thesis
 
-If a Product owner can preserve one typed, owner-controlled chain from product purpose and Product Features
-through domain meaning, system specification, exact realization selection, deterministic construction,
-independent conformance, bounded runtime evidence, recovery, and evolution, then Craft can make complex systems
-faster to build, easier to explain, independently checkable, and safer to change.
+Craft helps an owner turn typed Product intent and domain meaning into a working system, compare independent
+evidence with the expected behavior, and use the result to continue, repair, revise, or stop. It preserves the
+selected realization, evidence, recovery obligations, and responsible owner as construction and evolution proceed.
+
+```text
+typed intent + meaning + expected behavior
+                   |
+                   v
+selected realization -> deterministic construction -> independent evidence
+          ^                                                   |
+          |                                                   v
+          +---- repair / revise <- compare with expectations -> continue / stop
+                                         |
+                                         v
+                         retain evidence + recovery + owner handoff
+```
+
+The comparison can support an expectation, contradict it, or leave it unknown. Revising meaning belongs to its
+owner; a failed check does not authorize changing the intended behavior. This is the draft product promise,
+not evidence that the complete loop is implemented. The [construction feedback explanation](CONSTRUCTION-FEEDBACK-LOOP.md)
+develops the stages, a concrete example, and the checks that could challenge the promise.
 
 ## Problem
 
@@ -39,15 +56,17 @@ details, static checks miss runtime truth, and later changes drift from the mean
 ## Value Proposition
 
 Craft helps an owner turn a Product Feature into a working, explainable system whose implementation traces to its
-meaning and can evolve without silently breaking that meaning.
+meaning, whose observed behavior can be compared with expectations, and whose changes retain evidence, recovery
+obligations, and owner control.
 
 ## Value Mechanism
 
 Craft creates value by embodying `CAV2-D20 Craft Method`: resolve the Product and Project context; define shared
 meaning; model Product Features, Product Capabilities, and business obligations; express the system in DomainSpec;
 select exact architecture and language-profile realizations; construct deterministically; validate independently;
-observe bounded runtime truth; preserve recovery and evolution obligations; and route residue and successor state
-to explicit owners.
+observe bounded runtime truth; compare the evidence with declared expectations; use that assessment to continue,
+repair, revise through the responsible owner, or stop; and retain evidence, recovery and evolution obligations,
+residue, and successor state for explicit owners.
 
 ## Product, Project, Method, And Feature
 

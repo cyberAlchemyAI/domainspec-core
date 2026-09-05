@@ -116,6 +116,24 @@ export class TransactionalOutboxWorker {
   }
 }
 `;
+    const durableProvider = `// Provider binding generated from the exact sqlite-transactional-outbox effect.
+export {
+  CollectingOutboxTelemetry,
+  DurableOutboxWorker,
+  DurableSqliteTransactionalOutbox,
+  FetchOutboxHttpClient,
+  HttpOutboxTransport,
+  SqliteIdempotentInbox
+} from "@cyberalchemy/domainspec-cli-candidate";
+export type {
+  DurableCommitRequest,
+  DurableOutboxRecord,
+  DurableOutboxTransport,
+  DurableWorkerOptions,
+  OutboxTelemetrySink
+} from "@cyberalchemy/domainspec-cli-candidate";
+export const providerBinding = ${literal({ binding: "sqlite-transactional-outbox", schema_version: 2, dispatch: "claim-lease-at-least-once", retry: "bounded-exponential-dead-letter", consumer: "sqlite-transactional-inbox", network: "explicit-confirmed-allowlisted-http" })} as const;
+`;
     const test = `import assert from "node:assert/strict";
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -152,7 +170,8 @@ test("delivery is at least once and retains stable message identity across retry
         "domain.outbox.sqlite.ts": sqlite,
         "domain.outbox.migration.sql": migration,
         "domain.outbox.worker.ts": worker,
+        "domain.outbox.provider.ts": durableProvider,
         "domain.outbox.test.ts": test,
-        "domain.generation-manifest.json": `${JSON.stringify({ schema_version: "cav2.alchlang.effect-generation-manifest/v1-candidate", effect: contract, generated_artifacts: ["domain.outbox.port.ts", "domain.outbox.sqlite.ts", "domain.outbox.migration.sql", "domain.outbox.worker.ts", "domain.outbox.test.ts"], authority_effect: "none", claim_ceiling: "Generated local SQLite implementation candidate; no external dispatch, stable promotion, release, deployment, or exactly-once claim." }, null, 2)}\\n`
+        "domain.generation-manifest.json": `${JSON.stringify({ schema_version: "cav2.alchlang.effect-generation-manifest/v1-candidate", effect: contract, generated_artifacts: ["domain.outbox.port.ts", "domain.outbox.sqlite.ts", "domain.outbox.migration.sql", "domain.outbox.worker.ts", "domain.outbox.provider.ts", "domain.outbox.test.ts"], provider_runtime: { schema_version: 2, claim_lease: true, bounded_retry: true, dead_letter: true, replay_reconciliation: true, idempotent_inbox: true, confirmed_http: true, telemetry: true }, authority_effect: "none", claim_ceiling: "Generated local SQLite provider binding candidate; HTTP remains explicit and confirmation-gated, and no stable promotion, release, deployment, production or exactly-once delivery claim follows." }, null, 2)}\\n`
     };
 }

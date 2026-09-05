@@ -19,10 +19,11 @@ const effect = {
 
 test("SQLite Outbox generator emits concrete implementation and executable conformance tests", () => {
   const files = renderSqliteTransactionalOutbox(effect);
-  assert.deepEqual(Object.keys(files).sort(), ["domain.generation-manifest.json", "domain.outbox.migration.sql", "domain.outbox.port.ts", "domain.outbox.sqlite.ts", "domain.outbox.test.ts", "domain.outbox.worker.ts"]);
+  assert.deepEqual(Object.keys(files).sort(), ["domain.generation-manifest.json", "domain.outbox.migration.sql", "domain.outbox.port.ts", "domain.outbox.provider.ts", "domain.outbox.sqlite.ts", "domain.outbox.test.ts", "domain.outbox.worker.ts"]);
   assert.match(files["domain.outbox.sqlite.ts"], /BEGIN IMMEDIATE/);
   assert.match(files["domain.outbox.sqlite.ts"], /ROLLBACK/);
   assert.match(files["domain.outbox.worker.ts"], /markFailed/);
+  assert.match(files["domain.outbox.provider.ts"], /DurableOutboxWorker/);
   const directory = mkdtempSync(path.join(tmpdir(), "domainspec-generated-outbox-"));
   for (const [name, bytes] of Object.entries(files)) writeFileSync(path.join(directory, name), bytes);
   const tsx = path.resolve(import.meta.dirname, "../../../../../../../../projects/domainspec-v2/impl/node_modules/.bin/tsx");

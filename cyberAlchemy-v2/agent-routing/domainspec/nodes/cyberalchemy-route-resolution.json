@@ -6,14 +6,18 @@
   "intent": "Resolve every repository objective through exactly one CyberAlchemy-v2 route and fail closed when no unique route or executable capability is available, while mandatory ontology enforcement remains separately suspended pending a governed Rust binding.",
   "body": {
     "formal_return_type": "boolean",
-    "semantic_refs": ["CAV2-D65", "CAV2-D67", "CA2-CAP-ROUTE-REPOSITORY-WORK"],
+    "semantic_refs": [
+      "CAV2-D65",
+      "CAV2-D67",
+      "CA2-CAP-ROUTE-REPOSITORY-WORK"
+    ],
     "semantic_bindings": [
       {
         "id": "CA2-ROUTING-BIND-CAV2-D65",
         "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
         "scope_kind": "heading-section",
         "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
-        "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff"
+        "sha256": "264088e26cb069e2c48ec4cdc78d794da6b3beec30f0c6ba87fb635866d8cd30"
       },
       {
         "id": "CA2-ROUTING-BIND-CAV2-D67",
@@ -43,11 +47,16 @@
       "every authority root belongs to cyberAlchemy-v2",
       "every fallback route is null",
       "blocked capabilities remain blocked",
-      "native operations cannot expand route authority"
+      "native operations cannot expand route authority",
+      "resolve user-cited names through the project index before asking for paths",
+      "lookup returns resolved, ambiguous, not_found, or not_evaluable; it never selects the first ambiguous match",
+      "lookup source currency checks only selected entries; unrelated source drift cannot block a lookup",
+      "source discovery never grants implementation, project registration, or external-effect authority"
     ],
     "missing_route_behavior": "select CA2-ROUTE-AMBIGUOUS and request a decision",
     "missing_capability_behavior": "block without fallback",
-    "authority_effect": "none"
+    "authority_effect": "none",
+    "project_lookup_contract_ref": "cyberAlchemy-v2/agent-routing/PROJECT-LOOKUP.md"
   },
   "connections": []
 }

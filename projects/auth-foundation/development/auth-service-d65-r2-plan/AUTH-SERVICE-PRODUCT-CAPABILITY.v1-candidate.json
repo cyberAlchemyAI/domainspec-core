@@ -10,13 +10,14 @@
     "AUTH-SVC-OUT-ALLOW",
     "AUTH-SVC-OUT-DENY"
   ],
-  "scope": "One in-process SQLite-backed Auth Service composition from opaque authentication-evidence and route references to one binary authorization decision, with a single decision time, connection, read transaction, trusted-input snapshot, authorization-state snapshot, and exact revision joins per authorize call.",
+  "scope": "One in-process SQLite-backed Auth Service composition from a correlation-only request_id plus opaque authentication-evidence and route identifiers to one binary authorization decision, with bounded inputs, a single decision time, connection, query-only transaction, trusted-input snapshot, authorization-state snapshot, exact revision joins, and rollback per authorize call.",
   "exclusions": [
     "credential verification or login",
     "token creation, validation, refresh, or revocation transport",
     "HTTP or other remote transport",
     "administrative mutation APIs",
     "caller-supplied authoritative permission, scope, role, revision, or decision data",
+    "implicit schema creation or migration during service startup",
     "audit transport, multi-node operation, deployment, and production-security claims"
   ],
   "participant_refs": [
@@ -35,7 +36,8 @@
   ],
   "context_policy_refs": [
     "CA2-CAP-POLICY-AUTH-SERVICE-SINGLE-EVALUATION-EPOCH",
-    "CA2-CAP-POLICY-AUTH-SERVICE-FAIL-CLOSED"
+    "CA2-CAP-POLICY-AUTH-SERVICE-FAIL-CLOSED",
+    "CA2-CAP-POLICY-AUTH-SERVICE-SEPARATE-MIGRATION"
   ],
   "owner_routes": [
     {

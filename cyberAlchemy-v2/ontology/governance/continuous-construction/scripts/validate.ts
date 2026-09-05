@@ -86,7 +86,7 @@ for (const [path, expected] of evidencePairs) {
   if (sha256(readFileSync(resolve(repositoryRoot, path))) !== expected) throw new Error(`STALE_EVIDENCE_BINDING:${path}`);
   checked += 1;
 }
-for (const [sourceIndex, field] of [[0, "c19_section_sha256"], [1, "d65_section_sha256"], [2, "d67_section_sha256"]] as const) {
+for (const [sourceIndex, field] of [[0, "d65_section_sha256"], [1, "d67_section_sha256"]] as const) {
   if (binding.selected_sources[sourceIndex].sha256 !== evidence.selected_source_gate[field]) {
     throw new Error(`STALE_EVIDENCE_SOURCE:${field}`);
   }

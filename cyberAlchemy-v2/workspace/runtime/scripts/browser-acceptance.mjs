@@ -106,6 +106,7 @@ assert(await page.getByRole("heading", { name: "Explore the system." }).isVisibl
 assert(await page.getByRole("button", { name: "Explore workspace" }).getAttribute("aria-current") === "page", "Explore icon destination is not selected");
 assert(await page.getByRole("button", { name: "Open Essays" }).isVisible(), "Essays icon destination missing");
 assert(await page.getByRole("button", { name: "Open Ontology" }).isVisible(), "Ontology icon destination missing");
+assert(await page.getByRole("button", { name: "Open governed chat" }).isVisible(), "governed chat destination missing");
 assert(await page.getByRole("tab", { name: /Projects/ }).getAttribute("aria-selected") === "true", "Projects collection is not the initial real-project surface");
 assert(await page.locator(".rail-action[title]").count() === 0, "rail buttons retained competing native title tooltips");
 await page.getByRole("button", { name: "Explore workspace" }).focus();
@@ -116,6 +117,7 @@ assert(await visibleRailTooltips.textContent() === "Explore workspace", "keyboar
 
 await page.getByRole("button", { name: "Open Ontology" }).click();
 assert(page.url().endsWith("#/ontology"), "Ontology destination did not open");
+await page.getByRole("heading", { name: "Follow meaning through its relations." }).waitFor({ state: "visible" });
 assert(await page.getByRole("heading", { name: "Follow meaning through its relations." }).isVisible(), "ontology heading missing");
 assert(await page.getByText("b60385638745", { exact: true }).isVisible(), "current graph epoch is not disclosed separately");
 assert(await page.locator(".react-flow__minimap").isVisible(), "ontology minimap missing");
@@ -164,6 +166,7 @@ await essaysRecord.click();
 assert(await page.getByText("Essays Project owner", { exact: true }).isVisible(), "Essays owner boundary missing");
 await page.getByRole("button", { name: /Open owned capability Essays/ }).click();
 assert(page.url().endsWith("#/essays"), "Essays destination did not open");
+await page.getByText("Essays-owned action plane").waitFor({ state: "visible" });
 assert(await page.getByText("Essays-owned action plane").isVisible(), "Essays ownership strip missing");
 assert(await page.getByRole("heading", { name: "Desktop runtime unavailable" }).isVisible(), "web-mode agent boundary missing");
 assert(await page.getByText("No principal, proposal, or acceptance was simulated.").isVisible(), "web-mode non-simulation disclosure missing");
@@ -209,6 +212,13 @@ const focusStyle = await page.locator(":focus").evaluate((element) => {
 assert(focusStyle.outlineStyle !== "none" && focusStyle.outlineWidth !== "0px", "keyboard focus is not visible");
 
 await page.screenshot({ path: `${outputRoot}-desktop.png`, fullPage: true });
+await page.getByRole("button", { name: "Open governed chat" }).click();
+assert(page.url().endsWith("#/chat"), "governed chat destination did not open");
+await page.getByRole("heading", { name: "Work in conversation." }).waitFor({ state: "visible" });
+assert(await page.getByText("Workspace → Tauri → ARE wrapper → Codex app-server", { exact: true }).isVisible(), "chat boundary chain missing");
+assert(await page.getByRole("alert").getByText("Chat requires the Tauri desktop and a host-configured ARE Codex bridge.", { exact: true }).isVisible(), "web chat did not fail closed at the desktop boundary");
+assert(await page.getByLabel("Message the governed Codex session").isDisabled(), "web chat composer is enabled without the native ARE bridge");
+await page.screenshot({ path: `${outputRoot}-chat-web-boundary.png`, fullPage: true });
 await page.getByRole("button", { name: "Open Essays" }).click();
 for (const viewportWidth of [320, 390]) {
   await assertMobileLifecycleRail(viewportWidth);
@@ -252,6 +262,7 @@ console.log(JSON.stringify({
     essaysOwnershipBoundary: "PASS",
     embeddedEssaysLifecycle: "PASS",
     embeddedEssaysDesktopGeometry: "PASS",
+    governedChatWebBoundary: "PASS",
     webAgentRuntimeUnavailable: "PASS",
     noSimulatedPrincipalOrAcceptance: "PASS",
     keyboardFocus: "PASS",
@@ -261,7 +272,7 @@ console.log(JSON.stringify({
     noNonLocalRequests: "PASS",
     consoleAndPageErrors: "PASS",
   },
-  screenshots: [`${outputRoot}-ontology-desktop.png`, `${outputRoot}-ontology-coordination-desktop.png`, `${outputRoot}-desktop.png`, `${outputRoot}-mobile.png`],
+  screenshots: [`${outputRoot}-ontology-desktop.png`, `${outputRoot}-ontology-coordination-desktop.png`, `${outputRoot}-desktop.png`, `${outputRoot}-chat-web-boundary.png`, `${outputRoot}-mobile.png`],
 }, null, 2));
 
 await browser.close();

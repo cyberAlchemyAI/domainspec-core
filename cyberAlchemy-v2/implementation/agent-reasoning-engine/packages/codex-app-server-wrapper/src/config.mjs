@@ -7,6 +7,7 @@ import {loadReasoningPolicy} from "../../reasoning-policy-runtime/index.mjs";
 import {sha256HexText} from "../../intent-route-resolver/index.mjs";
 import {fail, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
 import {materializeDefinitionCatalog, materializeOntologySnapshot} from "./source-adapters.mjs";
+import {validMeaningSelection} from "./objective-meanings.mjs";
 
 const SOURCE_HASH_IMPLEMENTATIONS = new Set(["node-crypto-sha256", "portable-js-sha256"]);
 
@@ -279,6 +280,12 @@ export function loadRepositoryProfile(profilePath, repositoryRoot, options = {})
   if (intentCompilation.enabled !== true && intentCompilation.enabled !== false) return fail("config", ["config.intent-compilation-enabled-invalid"]);
   if ((intentCompilation.trigger ?? "turn/start") !== "turn/start") return fail("config", ["config.intent-compilation-trigger-unsupported"]);
   const cacheTelemetry = isRecord(profile.cache_telemetry) ? profile.cache_telemetry : {enabled: false, usage_paths: []};
+  const objectiveResolution = profile.objective_resolution ?? {enabled: false};
+  if (!isRecord(objectiveResolution) || typeof objectiveResolution.enabled !== "boolean"
+    || Object.keys(objectiveResolution).some(key => !["enabled", "provider_timeout_ms", "meaning_selection"].includes(key))
+    || (objectiveResolution.meaning_selection !== undefined && !validMeaningSelection(objectiveResolution.meaning_selection))
+    || !Number.isSafeInteger(objectiveResolution.provider_timeout_ms ?? 1000)
+    || (objectiveResolution.provider_timeout_ms ?? 1000) < 1 || (objectiveResolution.provider_timeout_ms ?? 1000) > 30000) return fail("config", ["config.objective-resolution-invalid"]);
   if (cacheTelemetry.enabled !== true && cacheTelemetry.enabled !== false) return fail("config", ["config.cache-telemetry-enabled-invalid"]);
   if (!Array.isArray(cacheTelemetry.usage_paths) || cacheTelemetry.usage_paths.some((path) => !nonEmptyString(path))) return fail("config", ["config.cache-telemetry-usage-paths-invalid"]);
   const contextProjection = isRecord(profile.context_projection) ? profile.context_projection : {max_inline_bytes: 32768};
@@ -378,6 +385,8 @@ export function loadRepositoryProfile(profilePath, repositoryRoot, options = {})
       semantic_evaluation: freezeResult({enabled: semanticEvaluation.enabled, trigger: semanticEvaluation.trigger}),
       evolution_signals: freezeResult({enabled: evolutionSignals.enabled, trigger: evolutionSignals.trigger}),
       intent_compilation: freezeResult({enabled: intentCompilation.enabled, trigger: intentCompilation.trigger ?? "turn/start", control_profile: isRecord(intentCompilation.control_profile) ? intentCompilation.control_profile : {visibility: "quiet"}}),
+      objective_resolution: freezeResult({enabled: objectiveResolution.enabled, provider_timeout_ms: objectiveResolution.provider_timeout_ms ?? 1000,
+        ...(objectiveResolution.meaning_selection ? {meaning_selection: objectiveResolution.meaning_selection} : {})}),
       cache_telemetry: freezeResult({enabled: cacheTelemetry.enabled, usage_paths: cacheTelemetry.usage_paths, fields: isRecord(cacheTelemetry.fields) ? cacheTelemetry.fields : {}}),
       runtime_journal: freezeResult({
         journal_id: runtimeJournal.journal_id,

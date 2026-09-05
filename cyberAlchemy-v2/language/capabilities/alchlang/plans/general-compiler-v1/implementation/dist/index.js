@@ -17,9 +17,15 @@ export function compileCarrier(input) {
 }
 export { CompilationRejected } from "./model.js";
 export { parseDomainSource } from "./parser.js";
-export { parsePredicate, translateLegacyPredicate } from "./predicate-parser.js";
-export { evaluateExpression, evaluateRule, executeAction } from "./runtime.js";
+export { loadAlchLangSource } from "./source-file.js";
+export { parsePredicate, parseSfolFormula, translateLegacyPredicate } from "./predicate-parser.js";
+export { evaluateExpression, evaluateRule, evaluateSfolFormula, executeAction } from "./runtime.js";
+export { evaluateCalculation, evaluateMapping, evaluatePolicy, evaluateQuery } from "./typed-backend.js";
 export { FetchHttpTransport, HttpActionAdapter, MemoryActionAdapter, SqliteActionAdapter } from "./adapters.js";
+export { resolveSqliteTransactionalOutboxEffect, SqliteTransactionalOutboxActionAdapter } from "./effect-adapters.js";
+export { CollectingStdoutOutboxTransport, SqliteTransactionalOutbox, TransactionalOutboxWorker, sqliteOutboxMigrationSql, validateAtomicStateAndOutboxRequest } from "./sqlite-outbox-runtime.js";
+export { CollectingOutboxTelemetry, DurableOutboxWorker, DurableSqliteTransactionalOutbox } from "./durable-outbox-runtime.js";
+export { FetchOutboxHttpClient, HttpOutboxTransport, SqliteIdempotentInbox } from "./outbox-integrations.js";
 export { writeCompilation } from "./writer.js";
 export { deriveAvailability, listOperationPatterns, operationPatterns, requireGeneratablePattern } from "./pattern-registry.js";
 export { renderSqliteTransactionalOutbox } from "./sqlite-outbox-generator.js";

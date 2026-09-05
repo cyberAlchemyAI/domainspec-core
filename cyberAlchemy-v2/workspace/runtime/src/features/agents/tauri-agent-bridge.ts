@@ -1,3 +1,5 @@
+import { measureAsync } from "../../performance";
+
 export const ESSAYS_TAURI_CLIENT_EVIDENCE = Object.freeze({
   clientId: "essays-tauri",
   evidenceKind: "local-process-client-label" as const,
@@ -76,6 +78,14 @@ export interface WorkspaceSnapshot {
   open_questions: string[];
   residue: string[];
   created_at_unix_ms: number;
+}
+
+export interface RuntimeEvent {
+  cursor: number;
+  workspace_id: string;
+  event_type: string;
+  payload: Record<string, unknown>;
+  created_at: string;
 }
 
 export type ReceiptOutcome =
@@ -203,6 +213,14 @@ type TauriInvoke = <Result>(
   arguments_: Record<string, unknown>,
 ) => Promise<Result>;
 
+interface TauriChannel<Message> {
+  onmessage: (message: Message) => void;
+}
+
+interface TauriChannelConstructor {
+  new <Message>(): TauriChannel<Message>;
+}
+
 interface TauriWindowLike {
   __TAURI__?: unknown;
 }
@@ -216,6 +234,11 @@ export interface EssaysTauriAgentBridge {
     cursor?: number | null,
   ): Promise<WorkspaceSnapshot | null>;
   execute(command: EssaysRuntimeCommand): Promise<Receipt>;
+  subscribeEvents(
+    workspaceId: string,
+    cursor: number,
+    onEvent: (event: RuntimeEvent) => void,
+  ): Promise<() => Promise<void>>;
 }
 
 export interface EssaysTauriAgentBridgeUnavailable {
@@ -227,7 +250,7 @@ export type EssaysTauriAgentBridgeDetection =
   | EssaysTauriAgentBridge
   | EssaysTauriAgentBridgeUnavailable;
 
-function readInvoke(candidate: unknown): TauriInvoke | null {
+function readCore(candidate: unknown): { invoke: TauriInvoke; Channel: TauriChannelConstructor | null } | null {
   if (typeof candidate !== "object" || candidate === null) {
     return null;
   }
@@ -243,7 +266,12 @@ function readInvoke(candidate: unknown): TauriInvoke | null {
   }
 
   const invoke = (core as { invoke?: unknown }).invoke;
-  return typeof invoke === "function" ? (invoke as TauriInvoke) : null;
+  if (typeof invoke !== "function") return null;
+  const Channel = (core as { Channel?: unknown }).Channel;
+  return {
+    invoke: invoke as TauriInvoke,
+    Channel: typeof Channel === "function" ? Channel as TauriChannelConstructor : null,
+  };
 }
 
 function currentWindow(): TauriWindowLike | undefined {
@@ -259,8 +287,8 @@ export function detectEssaysTauriAgentBridge(
     return { status: "unavailable", reason: "web-mode" };
   }
 
-  const invoke = readInvoke(candidate);
-  if (invoke === null) {
+  const core = readCore(candidate);
+  if (core === null) {
     const hasTauriMarker =
       typeof candidate === "object" &&
       candidate !== null &&
@@ -270,21 +298,51 @@ export function detectEssaysTauriAgentBridge(
       reason: hasTauriMarker ? "tauri-invoke-unavailable" : "web-mode",
     };
   }
+  const { invoke, Channel } = core;
 
   return {
     status: "available",
     clientEvidence: ESSAYS_TAURI_CLIENT_EVIDENCE,
     principalEvidence() {
-      return invoke<LocalProcessPrincipalEvidence>("principal_evidence", {});
+      return measureAsync(
+        "workspace.tauri.principal-evidence",
+        () => invoke<LocalProcessPrincipalEvidence>("principal_evidence", {}),
+      );
     },
     snapshot(workspaceId, cursor = null) {
-      return invoke<WorkspaceSnapshot | null>("snapshot", {
-        workspaceId,
-        cursor,
-      });
+      return measureAsync(
+        "workspace.tauri.snapshot",
+        () => invoke<WorkspaceSnapshot | null>("snapshot", { workspaceId, cursor }),
+        { workspaceId, cursor },
+      );
     },
     execute(command) {
-      return invoke<Receipt>("execute", { command });
+      return measureAsync(
+        "workspace.tauri.execute",
+        () => invoke<Receipt>("execute", { command }),
+        { command: command.command, workspaceId: command.workspace_id },
+      );
+    },
+    async subscribeEvents(workspaceId, cursor, onEvent) {
+      if (Channel === null) throw new Error("TAURI_CHANNEL_UNAVAILABLE");
+      const subscriptionId = globalThis.crypto?.randomUUID?.()
+        ?? `events-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      const channel = new Channel<RuntimeEvent>();
+      channel.onmessage = onEvent;
+      await measureAsync(
+        "workspace.tauri.subscribe-events",
+        () => invoke<void>("subscribe_events", {
+          subscriptionId,
+          workspaceId,
+          cursor,
+          onEvent: channel,
+        }),
+        { workspaceId, cursor },
+      );
+      return async () => {
+        void channel;
+        await invoke<boolean>("unsubscribe_events", { subscriptionId });
+      };
     },
   };
 }

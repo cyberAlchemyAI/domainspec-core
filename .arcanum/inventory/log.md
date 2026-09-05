@@ -7270,3 +7270,55 @@ Artifacts:
   deployment, or stable-version claim was created.
 - Next action: separately confirm a non-effectful witness-and-mutant validation
   exercise before any design decision.
+
+## 2026-09-03 — CyberAlchemy plug-in platform thesis research strategy confirmation-ready
+
+- Inventory update timestamp: `2026-09-03T13:41:10Z`.
+- Added the non-authority strategy-result entry
+  `cyberalchemy-plugin-platform-thesis-research-strategy-result-synthesis`.
+- P1 and lanes: a research dispatch is warranted across product/IDE/Workspace,
+  pinned ResonantOS, and ARE/DSH/worktree evidence, followed by synthesis,
+  three independent reviewers, evidence closure, writing, and audit.
+- Proposal state: schema `0.10.0` readiness, independent checker/reviewer
+  tension, material projection, and preconfirmation closure pass against sheet
+  SHA-256
+  `7ecd265ed91db1e6a808d8c81620bc35a4d399d2faaef8b48f9a1a90c2ec2fab`
+  and material SHA-256
+  `8340b5d6a9c185c6078da4c4e2cbe07edc08ba45807ebe85512e1d66b9b7f5db`.
+- Execution state: exact human confirmation and registration remain pending;
+  research agents were not spawned and the external repository was not cloned.
+- Inventory validation baseline: lookup readiness was blocked by six existing
+  source-coverage errors and 178 uncontrolled-tag warnings, so selected leads
+  remain discovery evidence that must be rebound to current or pinned bytes.
+- Authority boundary: the product thesis, canonical definitions, ontology,
+  Workspace, IDE, ARE/DSH worktree, implementation, publication, release, and
+  deployment remain unchanged and unauthorized.
+- Next action: confirm the exact sheet and material digests or request a
+  material revision.
+
+## 2026-09-03 — CyberAlchemy owner-preserving surfacing research closed
+
+- Inventory update timestamp: `2026-09-03T14:42:16.920Z`.
+- Added the non-authority resolved result entry
+  `cyberalchemy-plugin-platform-thesis-research-result-synthesis`; preserved the
+  earlier confirmation-ready strategy entry as historical lifecycle evidence.
+- Execution state: one registered schema `0.10.0` dispatch and one resolved
+  close row; three explorers, one synthesizer with one reviewer repair, three
+  reviewers, exact-binding closure, one writer, and one accepting auditor.
+- Direct result: specialize the existing Product Thesis around owner-preserving
+  automatic surfacing; kill universal/current plug-in-platform identity; retain
+  edge-specific host/guest topology and automatic Workspace behavior as
+  subordinate unimplemented hypotheses; treat harnesses as a research backlog.
+- Findings SHA-256:
+  `693e68c60a4c2dc9772306f0252f1a6f14fc5644e4f8906017ecd7525755a42b`.
+- Source corrections: the ARE/DSH worktree was clean at `e2f00d917…` but
+  unjoined at capture; ResonantOS `e804f167…` was design-only with no observed
+  reuse license, code, tests, or working integration.
+- Inventory baseline remains lookup-blocked by six existing source-coverage
+  failures; this result independently rebinds its load-bearing sources.
+- Authority boundary: no Product Thesis mutation, canonical definition,
+  ontology admission, Product Capability adoption, architecture selection,
+  implementation, conformance, acceptance, publication, release, deployment,
+  or external effect was authorized or performed.
+- Next action: only a separately selected owner route may continue; the
+  recommended first route is `CA2-ROUTE-DEFINITIONS`.

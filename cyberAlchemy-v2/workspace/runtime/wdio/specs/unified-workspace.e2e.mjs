@@ -12,6 +12,13 @@ const PROPOSAL_B_ID = "wdio-proposal-b";
 const PROPOSAL_B_REJECT_REQUEST_ID = "wdio-reject-proposal-b";
 const FIXED_DEADLINE_UNIX_MS = 4_102_444_800_000;
 const ARTIFACT_DIRECTORY = process.env.WORKSPACE_WDIO_OUTPUT ?? "/tmp/cav2-workspace-tauri-smoke";
+const PERFORMANCE_BUDGETS = JSON.parse(readFileSync(new URL("../../performance-budgets.candidate.json", import.meta.url), "utf8"));
+
+function percentile95(values) {
+  if (values.length === 0) return null;
+  const sorted = [...values].sort((left, right) => left - right);
+  return sorted[Math.max(0, Math.ceil(sorted.length * 0.95) - 1)] ?? null;
+}
 
 function screenshotDigest(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -119,6 +126,17 @@ async function resetScrollToTop() {
     async () => await browser.execute(() => window.scrollY) === 0,
     { timeout: 5_000, timeoutMsg: "WebView did not reset to the top surface" },
   );
+}
+
+async function navigateMountedSurfaceAndAwaitPaint(label, visibleSelector) {
+  const before = await browser.execute(() => (window.__CA2_PERFORMANCE_SAMPLES__ ?? [])
+    .filter((sample) => sample.name === "workspace.navigation-to-paint").length);
+  await $(`button[aria-label="${label}"]`).click();
+  await $(visibleSelector).waitForDisplayed();
+  await browser.waitUntil(async () => await browser.execute((previousCount) =>
+    (window.__CA2_PERFORMANCE_SAMPLES__ ?? [])
+      .filter((sample) => sample.name === "workspace.navigation-to-paint").length > previousCount,
+  before), { timeout: 5_000, timeoutMsg: `${label} did not record an independent steady-navigation paint` });
 }
 
 async function lifecycleRailGeometry() {
@@ -247,14 +265,51 @@ async function inspectOntology(screenshots) {
 describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
   it("stages, writer-saves, accepts, and preserves terminal residue across relaunch", async () => {
     mkdirSync(ARTIFACT_DIRECTORY, { recursive: true });
+    const capturedPerformanceSamples = [];
     await browser.setWindowSize(1280, 820);
+    await browser.waitUntil(async () => (await browser.getUrl()) !== "about:blank", {
+      timeout: 15_000,
+      timeoutMsg: "Tauri application document did not become available",
+    });
+    await $("body").waitForExist();
+    await browser.waitUntil(async () => await browser.execute(() =>
+      (window.__CA2_PERFORMANCE_SAMPLES__ ?? []).some((sample) => sample.name === "chat.connect-to-ready"),
+    ), { timeout: 5_000, timeoutMsg: "Workspace governed chat control plane did not become ready" });
     await browser.execute(() => {
       window.localStorage.clear();
+      const startupMetrics = new Set([
+        "workspace.tauri.chat-cold-ipc-handshake",
+        "workspace.tauri.chat-connect-dispatch",
+        "workspace.tauri.chat-event-replay-dispatch",
+        "chat.connect-to-ready",
+      ]);
+      window.__CA2_PERFORMANCE_SAMPLES__ = (window.__CA2_PERFORMANCE_SAMPLES__ ?? [])
+        .filter((sample) => startupMetrics.has(sample.name));
       window.location.hash = "#/collections/projects";
     });
 
     await openProjectOwnedEssays();
     await createPreparedStudio();
+    const editableDraft = await $("[data-testid='milkdown-editor'] [contenteditable='true']");
+    await editableDraft.waitForClickable();
+    const beforeEditorText = await editableDraft.getText();
+    await browser.execute(() => {
+      const editor = document.querySelector("[data-testid='milkdown-editor'] [contenteditable='true']");
+      if (!(editor instanceof HTMLElement)) throw new Error("MILKDOWN_EDITABLE_MISSING");
+      editor.focus();
+      if (!document.execCommand("insertText", false, "x")) throw new Error("MILKDOWN_INSERT_TEXT_REJECTED");
+    });
+    await browser.waitUntil(
+      async () => await browser.execute(() => (window.__CA2_PERFORMANCE_SAMPLES__ ?? []).some((sample) => sample.name === "essays.editor-input-to-projection")),
+      { timeout: 5_000, timeoutMsg: "Editor input projection sample was not recorded" },
+    );
+    await expect(editableDraft).toHaveText(`x${beforeEditorText}`);
+    await browser.execute(() => {
+      const editor = document.querySelector("[data-testid='milkdown-editor'] [contenteditable='true']");
+      if (!(editor instanceof HTMLElement)) throw new Error("MILKDOWN_EDITABLE_MISSING");
+      editor.focus();
+      if (!document.execCommand("delete", false)) throw new Error("MILKDOWN_DELETE_REJECTED");
+    });
 
     const attachLedger = await $("button=Attach ledger");
     await attachLedger.waitForClickable();
@@ -263,7 +318,7 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
 
     const principal = await invokeInWebView("principal_evidence", {});
     expect(principal).toMatchObject({ clientId: "essays-tauri", evidenceKind: "local-process", verifiedHumanIdentity: false });
-    expect(principal.principalSubject).toMatch(/^unix:\d+$/);
+    expect(principal.principalSubject).toMatch(/^(unix:\d+|windows:S-[\d-]+)$/);
 
     const proposalACommand = proposalCommand({ requestId: PROPOSAL_A_REQUEST_ID, proposalId: PROPOSAL_A_ID, sourceRevision: 0, text: PROPOSAL_A_TEXT });
     const proposalReceipt = await invokeInWebView("execute", { command: proposalACommand });
@@ -283,9 +338,19 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
     const saveDraft = await $("button=Save accepted draft");
     await saveDraft.waitForClickable();
     await saveDraft.click();
+    await expect($(".essays-owned-plane .notice")).toHaveText(expect.stringContaining("Writer-approved draft revision saved."));
     await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("saved-exact"));
-    await acceptSaved.waitForEnabled();
-    await acceptSaved.click();
+    await browser.waitUntil(async () => await browser.execute(() => {
+      const button = Array.from(document.querySelectorAll("button"))
+        .find((candidate) => candidate.textContent?.trim() === "Accept saved draft in ledger");
+      return Boolean(button && !button.disabled);
+    }), { timeout: 5_000, timeoutMsg: "Saved-draft acceptance did not become enabled in the WebView" });
+    await browser.execute(() => {
+      const button = Array.from(document.querySelectorAll("button"))
+        .find((candidate) => candidate.textContent?.trim() === "Accept saved draft in ledger");
+      if (!(button instanceof HTMLButtonElement) || button.disabled) throw new Error("SAVED_DRAFT_ACCEPTANCE_UNAVAILABLE");
+      button.click();
+    });
 
     const acceptedText = await $("section.accepted-text");
     await expect(acceptedText).toHaveText(expect.stringContaining("r1"));
@@ -309,11 +374,9 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
 
     const proposalBRejectReceipt = await invokeInWebView("execute", { command: rejectProposalBCommand() });
     expect(proposalBRejectReceipt).toMatchObject({ request_id: PROPOSAL_B_REJECT_REQUEST_ID, workspace_id: WORKSPACE_ID, outcome: "rejected", replayed: false, linked_proposal_id: PROPOSAL_B_ID });
-    const staleUiAccept = await proposalBCard.$("button=Accept saved draft in ledger");
-    await staleUiAccept.waitForEnabled();
-    await staleUiAccept.click();
-    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("terminal-conflict"));
-    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("Acceptance targets exact saved Essays workspace"));
+    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("rejected"));
+    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("ledger reports this proposal rejected"));
+    await proposalBCard.waitForExist({ reverse: true });
 
     const conflictSnapshot = await invokeInWebView("snapshot", { workspaceId: WORKSPACE_ID, cursor: null });
     expect(conflictSnapshot.workspace.accepted_revision).toBe(1);
@@ -331,7 +394,7 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
     await expect($(".essays-root .topbar")).toBeDisplayed();
     await expect($(".stage-rail")).toBeDisplayed();
     await expect($("[data-testid=milkdown-editor]")).toBeDisplayed();
-    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("terminal-conflict"));
+    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("rejected"));
     const desktopEssaysGeometry = await essaysDesktopGeometry();
     expectEssaysDesktopGeometry(desktopEssaysGeometry);
     const essaysTopPath = join(ARTIFACT_DIRECTORY, "essays-top-reset-1280x820.png");
@@ -340,37 +403,133 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
 
     await inspectOntology(screenshots);
 
+    capturedPerformanceSamples.push(...await browser.execute(() => window.__CA2_PERFORMANCE_SAMPLES__ ?? []));
+
     await browser.reloadSession();
     await browser.setWindowSize(1280, 820);
+    await browser.execute(() => { window.__CA2_PERFORMANCE_SAMPLES__ = []; });
     const essaysRail = await $('button[aria-label="Open Essays"]');
     await essaysRail.waitForClickable();
     await essaysRail.click();
     await expect($('//*[normalize-space()="Ontology as a Product Practice"]')).toBeDisplayed();
+    await browser.waitUntil(async () => await browser.execute(() =>
+      (window.__CA2_PERFORMANCE_SAMPLES__ ?? [])
+        .some((sample) => sample.name === "workspace.navigation-to-paint" || sample.name === "workspace.cold-navigation-to-paint")),
+    { timeout: 5_000, timeoutMsg: "Recovery navigation did not finish its paint measurement" });
+
     await $("button=Refresh").click();
 
     const afterRelaunch = await invokeInWebView("snapshot", { workspaceId: WORKSPACE_ID, cursor: null });
     expect(afterRelaunch.workspace.accepted_revision).toBe(1);
     expect(afterRelaunch.workspace.accepted_text).toBe(PROPOSAL_A_TEXT);
     expect(afterRelaunch.event_cursor).toBe(terminalCursor);
-    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("terminal-conflict"));
+    await expect($("[aria-label='Persisted proposal handoff']")).toHaveText(expect.stringContaining("rejected"));
 
     const replayReceipt = await invokeInWebView("execute", { command: proposalACommand });
     expect(replayReceipt.replayed).toBe(true);
     const afterReplay = await invokeInWebView("snapshot", { workspaceId: WORKSPACE_ID, cursor: null });
     expect(afterReplay.event_cursor).toBe(terminalCursor);
     expect(afterReplay.proposals.filter((proposal) => proposal.proposal_id === PROPOSAL_A_ID)).toHaveLength(1);
+    await browser.execute(() => {
+      const recoveryMetrics = new Set(["workspace.navigation-to-paint", "workspace.cold-navigation-to-paint"]);
+      window.__CA2_PERFORMANCE_SAMPLES__ = (window.__CA2_PERFORMANCE_SAMPLES__ ?? [])
+        .filter((sample) => !recoveryMetrics.has(sample.name));
+    });
+
+    const chatRail = await $('button[aria-label="Open governed chat"]');
+    await chatRail.waitForClickable();
+    await chatRail.click();
+    await expect($('//*[normalize-space()="Work in conversation."]')).toBeDisplayed();
+    await expect($(".chat-status-ready")).toBeDisplayed();
+    const chatIntent = await $("#are-chat-intent");
+    await browser.execute(() => {
+      const select = document.querySelector("#are-chat-intent");
+      if (!(select instanceof HTMLSelectElement)) throw new Error("CHAT_INTENT_SELECTOR_MISSING");
+      const setter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value")?.set;
+      if (!setter) throw new Error("CHAT_INTENT_VALUE_SETTER_MISSING");
+      setter.call(select, "validate");
+      select.dispatchEvent(new Event("change", {bubbles: true}));
+    });
+    await expect(chatIntent).toHaveValue("validate");
+    const chatInput = await $("#are-chat-input");
+    await chatInput.setValue("Validate the governed desktop chat canary.");
+    const sendChat = await $(".chat-composer").$("button=Send");
+    await sendChat.waitForClickable();
+    await sendChat.click();
+    await expect($(".decision-card")).toHaveText(expect.stringContaining("direct"));
+    await expect($(".decision-card")).toHaveText(expect.stringContaining("run bounded non-ontology validation and report evidence"));
+    const approveOnce = await $("button=Approve once");
+    await approveOnce.waitForClickable();
+    await expect($(".decision-card-attention code")).toHaveText(expect.stringMatching(/^[a-f0-9]{64}$/));
+    await browser.execute(() => {
+      const button = Array.from(document.querySelectorAll("button"))
+        .find((candidate) => candidate.textContent?.trim() === "Approve once");
+      if (!(button instanceof HTMLButtonElement) || button.disabled) throw new Error("CHAT_APPROVAL_UNAVAILABLE");
+      button.click();
+    });
+    await expect($(".chat-message-assistant")).toHaveText(expect.stringContaining("Mock turn completed."));
+    await expect($(".chat-status-ready")).toBeDisplayed();
+    const chatPath = join(ARTIFACT_DIRECTORY, "governed-chat-1280x820.png");
+    await browser.saveScreenshot(chatPath);
+    screenshots.push({ path: chatPath, sha256: screenshotDigest(chatPath) });
+
+    await essaysRail.click();
+    await expect($('//*[normalize-space()="Ontology as a Product Practice"]')).toBeDisplayed();
+
+    for (let iteration = 0; iteration < 7; iteration += 1) {
+      await navigateMountedSurfaceAndAwaitPaint("Explore workspace", ".surface-view:not([hidden]) .workspace-main");
+      await navigateMountedSurfaceAndAwaitPaint("Open governed chat", ".surface-view:not([hidden]) .chat-surface");
+      await navigateMountedSurfaceAndAwaitPaint("Open Essays", ".surface-view:not([hidden]) .essays-root");
+    }
 
     const requestedOuterViewport = { width: 390, height: 844 };
     await browser.setWindowSize(requestedOuterViewport.width, requestedOuterViewport.height);
+    await browser.waitUntil(async () => await browser.execute(() => {
+      const rail = document.querySelector(".app-rail");
+      return window.innerWidth <= 720 && rail !== null && getComputedStyle(rail).position === "fixed";
+    }), { timeout: 5_000, timeoutMsg: "WebView did not settle into the mobile navigation layout" });
     await resetScrollToTop();
     const measuredInnerViewport = await browser.execute(() => ({ width: window.innerWidth, height: window.innerHeight }));
     expect(measuredInnerViewport.width).toBeGreaterThan(0);
+    expect(measuredInnerViewport.width).toBeLessThanOrEqual(720);
     expect(measuredInnerViewport.height).toBeGreaterThan(0);
     const mobileLifecycleGeometry = await lifecycleRailGeometry();
     expectLifecycleRailGeometry(mobileLifecycleGeometry);
     const essaysMobilePath = join(ARTIFACT_DIRECTORY, "essays-mobile-top-390x844.png");
     await browser.saveScreenshot(essaysMobilePath);
     screenshots.push({ path: essaysMobilePath, sha256: screenshotDigest(essaysMobilePath) });
+
+    const performanceSamples = [
+      ...capturedPerformanceSamples,
+      ...await browser.execute(() => window.__CA2_PERFORMANCE_SAMPLES__ ?? []),
+    ];
+    const performanceResults = Object.entries(PERFORMANCE_BUDGETS.budgets).map(([name, budget]) => {
+      const matchingSamples = performanceSamples.filter((sample) => sample.name === name);
+      const durations = matchingSamples.map((sample) => sample.durationMs);
+      const p95Ms = percentile95(durations);
+      const status = durations.length < budget.minimum_samples
+        ? "insufficient-samples"
+        : p95Ms === null || p95Ms > budget.p95_ms
+          ? "p95-exceeded"
+          : "within-budget";
+      return {
+        name,
+        status,
+        sampleCount: durations.length,
+        samplesMs: durations,
+        ...(["workspace.tauri.snapshot", "essays.editor-input-to-projection", "chat.delta-to-projection", "chat.delta-to-paint"].includes(name)
+          ? { sampleDetails: matchingSamples.map((sample) => sample.detail ?? null) }
+          : {}),
+        p95Ms,
+        budgetMs: budget.p95_ms,
+      };
+    });
+
+    process.stdout.write(`${JSON.stringify({ status: "CANDIDATE_PERFORMANCE_MEASURED", performanceResults, authorityEffect: "none" })}\n`);
+    const failedBudget = performanceResults.find((result) => result.status !== "within-budget");
+    if (failedBudget) {
+      throw new Error(`${failedBudget.name} ${failedBudget.status}; samples=${JSON.stringify(failedBudget.samplesMs)} p95=${failedBudget.p95Ms ?? "unavailable"}ms budget=${failedBudget.budgetMs}ms`);
+    }
 
     process.stdout.write(`${JSON.stringify({
       status: "CANDIDATE_SCREENSHOTS_CAPTURED",
@@ -382,6 +541,7 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
       fixture: "fresh-browser-local-and-temporary-sqlite",
       webview: "actual-tauri-embedded-provider",
       screenshots,
+      performanceResults,
       aestheticAssessment: "not-evaluated",
       authorityEffect: "none",
     })}\n`);

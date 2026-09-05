@@ -1,4 +1,4 @@
-import { CompilationRejected, type Expression, type NormalizedDomain, type NormalizedRule } from "./model.js";
+import { CompilationRejected, type NormalizedDomain, type NormalizedRule, type SfolFormula } from "./model.js";
 import { translateLegacyPredicate, type LegacyPredicateRegistry } from "./predicate-parser.js";
 
 export interface ActionRequest {
@@ -23,7 +23,7 @@ export interface ActionExecutionResult {
   adapter_data?: unknown;
 }
 
-function value(expression: Expression, facts: Readonly<Record<string, unknown>>): unknown {
+function value(expression: SfolFormula, facts: Readonly<Record<string, unknown>>): unknown {
   if ("node" in expression) {
     if (expression.node === "literal") return expression.value;
     if (expression.node === "fact_ref") return facts[expression.ref];
@@ -48,13 +48,16 @@ function value(expression: Expression, facts: Readonly<Record<string, unknown>>)
   }
 }
 
-export function evaluateExpression(expression: Expression, facts: Readonly<Record<string, unknown>>): boolean {
+export function evaluateSfolFormula(expression: SfolFormula, facts: Readonly<Record<string, unknown>>): boolean {
   return Boolean(value(expression, facts));
 }
 
+/** @deprecated Use evaluateSfolFormula. */
+export const evaluateExpression = evaluateSfolFormula;
+
 export function evaluateRule(rule: NormalizedRule, facts: Readonly<Record<string, unknown>>, legacyRegistry: LegacyPredicateRegistry = {}): boolean {
   const expression = "legacy_predicate" in rule.condition ? translateLegacyPredicate(rule.condition.legacy_predicate, legacyRegistry) : rule.condition;
-  return evaluateExpression(expression, facts);
+  return evaluateSfolFormula(expression, facts);
 }
 
 export async function executeAction(model: NormalizedDomain, request: ActionRequest, adapters: ActionAdapterRegistry, legacyRegistry: LegacyPredicateRegistry = {}): Promise<ActionExecutionResult> {
@@ -78,7 +81,7 @@ export async function executeAction(model: NormalizedDomain, request: ActionRequ
     if (!permission.actor_refs.includes(request.actor_ref)) throw new CompilationRejected([{ code: "ACTOR_DENIED", path: `$.permissions.${permissionId}`, message: `${request.actor_ref} is outside the permission` }]);
     if (permission.authority_boundary_ref !== action.authority_boundary_ref) throw new CompilationRejected([{ code: "AUTHORITY_BOUNDARY_MISMATCH", path: `$.permissions.${permissionId}`, message: "permission and action boundaries differ" }]);
     const condition = "legacy_condition" in permission.condition ? translateLegacyPredicate(permission.condition.legacy_condition, legacyRegistry) : permission.condition;
-    permissionResults[permissionId] = evaluateExpression(condition, request.facts);
+    permissionResults[permissionId] = evaluateSfolFormula(condition, request.facts);
     if (!permissionResults[permissionId]) throw new CompilationRejected([{ code: "PERMISSION_DENIED", path: `$.permissions.${permissionId}`, message: `permission ${permissionId} evaluated false` }]);
   }
   const adapter = adapters[action.id];

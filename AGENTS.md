@@ -32,6 +32,30 @@ admitted the objective and bounded its authority.
 If no route matches, select `CA2-ROUTE-AMBIGUOUS`, ask for the missing decision,
 and do not load unrelated repository context.
 
+## User-cited project and product discovery
+
+When a user names a project, product, capability, runtime, or protocol without
+a path, resolve its location before asking the user where it is. Select
+`CA2-ROUTE-LOCATE` for that bounded lookup, read its declared inputs, and use
+`cyberAlchemy-v2/agent-routing/project-index.json`. Follow the declared lookup
+contract for bounded name searches when the index has no current match.
+Show competing matches instead of silently choosing one. Ask for a path only
+after repository lookup cannot resolve the source. Then announce return to the
+original objective route and continue with the discovered exact sources.
+Index entries are navigation evidence; they do not register a Project, choose
+a runtime, transfer source ownership, or authorize implementation or effects.
+
+## Recent repository context
+
+When recent committed work is relevant to the user's selected project, use
+`CA2-ROUTE-RECENT` and its declared read_first files for a bounded read-only
+query. Resolve ambiguous project names before querying. Recency is a retrieval
+hint; it never overrides the user's target or authorizes additional source reads.
+Keep working-tree changes separate from committed history. The recent-context
+route permits query only; cache refresh and hook installation require a separate
+exact mutation scope. A recent-change view does not restore a durable session
+or unblock `CA2-ROUTE-SESSION`.
+
 ## Ontology-runtime enforcement suspension
 
 `CA2-GATE-ONTOLOGY-RUNTIME` is not a mandatory repository prerequisite while
@@ -74,6 +98,37 @@ product approval, and product approval itself grants no operational authority.
 Changed acceptance-bound bytes require a new test and approval epoch. Never
 manufacture approval or authority by changing a status field or refreshing a
 digest.
+
+## Construction and operations separation
+
+Classify work on an implementation-bearing system into two independent lanes:
+
+- `product construction`: definition, ontology-scaffold, product, business,
+  DomainSpec, compiled-system, implementation, and product-test work that
+  advances the testable product;
+- `operational support`: repository maintenance, environment setup, bookkeeping,
+  migration administration, publication preparation, deployment preparation,
+  monitoring, or other work that operates around the product rather than
+  changing the product being tested.
+
+Every plan, todo list, Work Pack, or construction attempt must expose this
+classification. Show the current product-construction frontier, construction
+work that is runnable now, operational-support tasks with their owner and exact
+affected stage or no stage, causal construction blockers, and deferred
+operational residue. Do not publish one undifferentiated queue whose first
+waiting operational item hides runnable prototype work.
+
+A dependency-ready product-construction or prototype task must continue while
+unrelated operational-support tasks are pending, blocked, or awaiting another
+owner. Record those operational tasks as visible residue and route them
+separately; do not turn the operational queue into a routine prototype gate.
+
+An operational task may block the construction frontier only when it is an
+exact, current prerequisite for the next construction action, or when proceeding
+would violate a safety, privacy, authority, destructive-action, credential, or
+external-effect boundary. Name the exact dependency and continue any remaining
+independent construction work. Continuing prototype work never authorizes the
+blocked operational effect.
 
 ## Work and authority rules
 

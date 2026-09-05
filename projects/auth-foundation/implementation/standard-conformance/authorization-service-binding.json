@@ -3,11 +3,11 @@
   "binding_id": "AUTH-D65-RUST-IN-PROCESS-AUTHORIZATION-SERVICE-001",
   "service_business_ontology": {
     "path": "development/auth-service-d65-r2-plan/AUTH-SERVICE-BUSINESS-ONTOLOGY.v1-candidate.json",
-    "sha256": "dee5f1a34b0e3e95e8d01a01af0681baa13a1dc16838bcba677be32b294299b3"
+    "sha256": "e79fc6213667edf965c384e08d3243852071e7baf16431f71889b5a8d09d497a"
   },
   "service_domainspec_source_set": {
     "path": "development/auth-service-d65-r2-plan/AUTH-SERVICE-DOMAINSPEC-SOURCE-SET.v1-candidate.json",
-    "sha256": "dbb3a1bbdf82ea455608760f46de2d5843dc827b7d5f178748f13bc3d60dcf00"
+    "sha256": "d396b10e502722996d0aeb0e231406466b55aa68ecaccf6fb8d89f965db4bf43"
   },
   "trusted_input_provider": {
     "path": "implementation/standard-conformance/trusted-input-provider-binding.json",
@@ -15,7 +15,7 @@
   },
   "authorization_state_provider": {
     "path": "implementation/standard-conformance/provider-binding.json",
-    "sha256": "9db3834528910bf22e0dfbf5f3f3063360d572e28427042f91fcc4365e6d521a"
+    "sha256": "ee97884811d55b197cd3a25ca6a3bb2b0ae3da2ab4e54acdcdd90b6d23b1c2b7"
   },
   "trusted_boundary": {
     "path": "implementation/standard-conformance/trusted-boundary-binding.json",
@@ -29,11 +29,11 @@
     "lockfile_path": "implementation/authorization-service/Cargo.lock",
     "lockfile_sha256": "3a407bf857c735f0531ddf46d155ccf82637240ac73add8e16828a5d8928945c",
     "source_path": "implementation/authorization-service/src/lib.rs",
-    "source_sha256": "69cd4390ca98e8615992d53b3a4b72bb8ffaa69371e1b8b25c8a893545a47330",
+    "source_sha256": "117a712f7c18f57b7f2c2d285e58923d95327cfdb2a16984ad1e2a62ee86bd90",
     "migration_path": "implementation/authorization-service/migrations/0002_auth_service_epoch.sql",
-    "migration_sha256": "e5322b14a11964aa567200fff3b5e4c8ba04a991a5c2b800ee296a0534073d9e",
+    "migration_sha256": "bae6468e98dc531f5b1ab840e13891d5d7b32fc57bc5ff6caa72f1b84f1fdb88",
     "tests_path": "implementation/authorization-service/tests/integration.rs",
-    "tests_sha256": "754929462bb5e73df791eadd96f35a187c20bb23cab3ae9ebaf02bac48de3026",
+    "tests_sha256": "14e55d39f3be535fa300e0696b12bc91c78ec60176b7e7bd22ec65ca952ba43e",
     "entrypoint": "SqliteAuthService::authorize",
     "trusted_input_query_entrypoint": "resolve_in_transaction",
     "authorization_state_entrypoint": "authorize_in_transaction",
@@ -44,5 +44,5 @@
     ]
   },
   "authority_effect": "none",
-  "claim_limit": "Compile-checked in-process service implementation candidate with authored but unexecuted tests; no product-test PASS, HTTP, token handling, administration, deployment, or production-security claim."
+  "claim_limit": "Compile- and W3-test-checked in-process service implementation candidate; no W5 product-test PASS, HTTP, token handling, administration, deployment, or production-security claim."
 }

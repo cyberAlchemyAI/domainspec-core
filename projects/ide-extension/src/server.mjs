@@ -36,6 +36,7 @@ import { loadModuleManifests } from './kernel/registry.mjs';
 import { getSchemaValidators } from './kernel/schema-validation.mjs';
 import { createProjectionStore } from './kernel/storage.mjs';
 import { describeOpenRouterAdapter } from './adapters/openrouter.mjs';
+import { loadFoundationDefinitionProjection } from './foundation/definition-projection.mjs';
 import { loadResearchTowerL0, ResearchTowerWitnessError } from './research-tower/l0-witness.mjs';
 import {
   createDryRunReceipt,
@@ -536,6 +537,8 @@ export function createServer(options = {}) {
   const researchTowerRoot = options.researchTowerRoot || path.join(evidenceRoot, 'projects/cyberalchemy-lab/research/tower-evidence-navigator');
   const researchTowerWitnessDir = options.researchTowerWitnessDir || path.join(evidenceRoot, 'projects/cyberalchemy-lab/development/witness-runs/l0-synthetic-001');
   const workspaceRoot = options.workspaceRoot || evidenceRoot;
+  const foundationRoot = options.foundationRoot
+    || path.resolve(rootDir, '../../../cyberalchemy-foundation');
   const workbenchFile = path.join(stateDir, 'workbench.json');
   const eventsFile = path.join(stateDir, 'events.jsonl');
   const artifactDir = path.join(stateDir, 'artifacts');
@@ -714,6 +717,22 @@ export function createServer(options = {}) {
             canvas_blobs: snapshot.canvas_blobs
           }
         });
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/foundation/definitions') {
+        try {
+          const projection = await loadFoundationDefinitionProjection(foundationRoot, {
+            expectedSha256: url.searchParams.get('expected_sha256') || undefined
+          });
+          sendJson(response, projection.status === 'available' ? 200 : 409, projection);
+        } catch (error) {
+          if (error.code === 'foundation_definitions_unavailable') {
+            sendJson(response, 404, { error: error.code, message: error.message });
+            return;
+          }
+          throw error;
+        }
         return;
       }
 

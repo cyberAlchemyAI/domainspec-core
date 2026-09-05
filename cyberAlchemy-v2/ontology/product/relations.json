@@ -679,6 +679,45 @@
       "source_refs": [{"source_id": "SRC-CAV2-CRAFT-PRODUCT-THESIS", "selector": "## Evidence Strategy"}],
       "authority_effect": "none",
       "forbidden_collapse": "Project evidence can test bounded realizations but cannot prove or redefine the Product Thesis."
+    },
+    {
+      "id": "CA2-REL-048",
+      "type": "contains_product",
+      "source": "CA2-PRODUCT-CYBERALCHEMY",
+      "target": "CA2-PRODUCT-AGENT-REASONING-ENGINE",
+      "direction": "directed",
+      "owner_route": "CyberAlchemy v2 product owner plus Agent Reasoning Engine Product owner",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-ARE-PRODUCT", "selector": "parent_product_ref"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "The parent and child Products retain separate identities, theses, owners, evidence, and lifecycles."
+    },
+    {
+      "id": "CA2-REL-049",
+      "type": "claims_value_through",
+      "source": "CA2-PRODUCT-AGENT-REASONING-ENGINE",
+      "target": "CA2-PRODUCT-THESIS-AGENT-REASONING-ENGINE",
+      "direction": "directed",
+      "owner_route": "Agent Reasoning Engine Product owner",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-ARE-PRODUCT", "selector": "product_thesis"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "The thesis is testable product direction, not evidence that ARE already creates the claimed value."
+    },
+    {
+      "id": "CA2-REL-050",
+      "type": "includes_capability",
+      "source": "CA2-PRODUCT-AGENT-REASONING-ENGINE",
+      "target": "CA2-CAP-REASON-AND-MANAGE-CONTEXT",
+      "direction": "directed",
+      "owner_route": "Agent Reasoning Engine Product owner plus capability owners",
+      "source_refs": [
+        {"source_id": "SRC-CAV2-ARE-PRODUCT", "selector": "capability_refs"}
+      ],
+      "authority_effect": "none",
+      "forbidden_collapse": "Including the capability does not adopt it, prove its complete realization, or authorize runtime effects."
     }
   ]
 }

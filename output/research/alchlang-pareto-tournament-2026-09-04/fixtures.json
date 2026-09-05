@@ -1,0 +1,70 @@
+{
+  "schema_version": "alchlang-pareto-fixtures/v1",
+  "fixture_kind": "synthetic_calibration",
+  "actual_baseline_observations": {
+    "candidate_sha256": "56c922798bbe45a51eda66619362b0add578187289baee421ede77e29c239b2b",
+    "hard_gate_findings": 0,
+    "tutorial_mobile_viewport_pages": 37.5,
+    "tutorial_desktop_viewport_pages": 24.305,
+    "note": "Task time, comprehension, meaning coverage, and preference values below are synthetic fixtures, not participant evidence."
+  },
+  "objectives": [
+    { "id": "task_time_seconds", "direction": "min", "epsilon": 2 },
+    { "id": "comprehension_accuracy", "direction": "max", "epsilon": 0.03 },
+    { "id": "meaning_coverage", "direction": "max", "epsilon": 0.02 },
+    { "id": "mobile_viewport_pages", "direction": "min", "epsilon": 1 },
+    { "id": "pairwise_preference", "direction": "max", "epsilon": 0.05 }
+  ],
+  "candidates": [
+    {
+      "id": "baseline",
+      "hard_gates_pass": true,
+      "evidence_complete": true,
+      "values": { "task_time_seconds": 42, "comprehension_accuracy": 0.84, "meaning_coverage": 1, "mobile_viewport_pages": 37.5, "pairwise_preference": 0.48 }
+    },
+    {
+      "id": "compact-spacing",
+      "hard_gates_pass": true,
+      "evidence_complete": true,
+      "values": { "task_time_seconds": 36, "comprehension_accuracy": 0.82, "meaning_coverage": 1, "mobile_viewport_pages": 29, "pairwise_preference": 0.56 }
+    },
+    {
+      "id": "progressive-reference",
+      "hard_gates_pass": true,
+      "evidence_complete": true,
+      "values": { "task_time_seconds": 29, "comprehension_accuracy": 0.88, "meaning_coverage": 1, "mobile_viewport_pages": 20, "pairwise_preference": 0.69 }
+    },
+    {
+      "id": "task-first",
+      "hard_gates_pass": true,
+      "evidence_complete": true,
+      "values": { "task_time_seconds": 22, "comprehension_accuracy": 0.78, "meaning_coverage": 0.95, "mobile_viewport_pages": 17, "pairwise_preference": 0.72 }
+    },
+    {
+      "id": "minimal",
+      "hard_gates_pass": true,
+      "evidence_complete": true,
+      "values": { "task_time_seconds": 24, "comprehension_accuracy": 0.66, "meaning_coverage": 0.7, "mobile_viewport_pages": 11, "pairwise_preference": 0.78 }
+    },
+    {
+      "id": "broken-fast",
+      "hard_gates_pass": false,
+      "evidence_complete": true,
+      "values": { "task_time_seconds": 16, "comprehension_accuracy": 0.9, "meaning_coverage": 1, "mobile_viewport_pages": 8, "pairwise_preference": 0.9 }
+    },
+    {
+      "id": "unobserved-concept",
+      "hard_gates_pass": true,
+      "evidence_complete": false,
+      "values": { "task_time_seconds": 20, "comprehension_accuracy": null, "meaning_coverage": 1, "mobile_viewport_pages": 15, "pairwise_preference": null }
+    }
+  ],
+  "expected": {
+    "ineligible": ["broken-fast"],
+    "not_evaluable": ["unobserved-concept"],
+    "frontier": ["progressive-reference", "task-first", "minimal"],
+    "dominated": ["baseline", "compact-spacing"],
+    "single_winner": false,
+    "pairing_count": 3
+  }
+}

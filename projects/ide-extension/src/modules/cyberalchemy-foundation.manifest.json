@@ -1,0 +1,23 @@
+{
+  "module_id": "cyberalchemy-foundation",
+  "display_name": "CyberAlchemy Foundation",
+  "owner_route": "foundation-adapter",
+  "source_refs": [
+    "../cyberalchemy-foundation/definitions/DEFINITIONS.md",
+    "projects/ide-extension/src/adapters/foundation.mjs"
+  ],
+  "capabilities": [
+    "source-bound-definition-projection",
+    "effect-free-isolated-guest-invocation",
+    "workbench-result-return"
+  ],
+  "allowed_effects": ["read", "preview", "return-candidate-result"],
+  "required_gates": ["workbench-active-claim", "exact-source-currentness"],
+  "forbidden_effects": [
+    "self-approval",
+    "parallel-agent-control-plane",
+    "host-state-commit",
+    "authority-promotion"
+  ],
+  "expected_receipts": ["workbench-skill-execution-receipt"]
+}

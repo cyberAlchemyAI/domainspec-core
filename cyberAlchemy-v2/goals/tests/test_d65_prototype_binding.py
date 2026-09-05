@@ -71,10 +71,98 @@ class PrototypeConstructionBindingTests(unittest.TestCase):
         projects["CA2-PROJECT-CYBERALCHEMY-LAB-ONTOLOGY-LIFECYCLE"]["construction_binding_refs"] = []
         self.assertTrue(any("bidirectionally" in error for error in self.validate(projects=projects)))
 
-    def test_unbuilt_product_stage_cannot_be_inflated(self):
+    def test_unapproved_product_stage_cannot_be_inflated(self):
         registry = copy.deepcopy(self.registry)
-        registry["bindings"][0]["stage_states"]["implementation"] = "tested"
+        registry["bindings"][0]["project_stage_evidence"] = [
+            row for row in registry["bindings"][0]["project_stage_evidence"]
+            if row["stage"] != "product_approval"
+        ]
         self.assertTrue(any("exceeds current evidence" in error for error in self.validate(registry=registry)))
+
+    def test_product_approval_cannot_authorize_cutover(self):
+        registry = copy.deepcopy(self.registry)
+        approval = next(
+            row for row in registry["bindings"][0]["project_stage_evidence"]
+            if row["stage"] == "product_approval"
+        )
+        approval["authority_effect"] = "cutover"
+        self.assertTrue(any("authority effect" in error for error in self.validate(registry=registry)))
+
+    def test_unrelated_operational_task_does_not_stop_product_frontier(self):
+        registry = copy.deepcopy(self.registry)
+        registry["bindings"][0]["work_plan"]["operational_tasks"] = [{
+            "task_id": "OPS-UNRELATED-001",
+            "lane": "operational-support",
+            "state": "pending",
+            "applies_to_stage": None,
+            "blocking_basis": "none",
+            "detail": "Repository bookkeeping owned outside product construction.",
+            "owner_route": "repository operations owner",
+            "authority_effect": "none",
+        }]
+        registry["bindings"][0]["work_plan"]["continuation_status"] = "complete"
+        self.assertEqual(self.validate(registry=registry), [])
+
+    def test_exact_operational_prerequisite_blocks_only_current_frontier(self):
+        registry = copy.deepcopy(self.registry)
+        binding = registry["bindings"][0]
+        binding["stage_states"]["product_approval"] = "absent"
+        binding["project_stage_evidence"] = [
+            row for row in binding["project_stage_evidence"]
+            if row["stage"] != "product_approval"
+        ]
+        binding["product_approval_ref"] = None
+        plan = binding["work_plan"]
+        plan["current_product_frontier"] = "product_approval"
+        current_frontier = plan["current_product_frontier"]
+        plan["operational_tasks"] = [{
+            "task_id": "OPS-CURRENT-FRONTIER-INPUT-001",
+            "lane": "operational-support",
+            "state": "pending",
+            "applies_to_stage": current_frontier,
+            "blocking_basis": "exact-prerequisite",
+            "detail": "An exact current-frontier input is unavailable.",
+            "owner_route": "product operations owner",
+            "authority_effect": "none",
+        }]
+        plan["continuation_status"] = "blocked"
+        self.assertEqual(self.validate(registry=registry), [])
+        plan["continuation_status"] = "runnable"
+        self.assertTrue(any("continuation_status" in error for error in self.validate(registry=registry)))
+
+    def test_project_stage_evidence_digest_must_be_current(self):
+        registry = copy.deepcopy(self.registry)
+        registry["bindings"][0]["project_stage_evidence"][0]["candidate_sha256"] = "0" * 64
+        self.assertTrue(any("candidate bytes are missing or stale" in error for error in self.validate(registry=registry)))
+
+    def test_future_operational_prerequisite_remains_deferred(self):
+        registry = copy.deepcopy(self.registry)
+        registry["bindings"][0]["work_plan"]["operational_tasks"] = [{
+            "task_id": "OPS-FUTURE-IMPLEMENTATION-001",
+            "lane": "operational-support",
+            "state": "blocked",
+            "applies_to_stage": "implementation",
+            "blocking_basis": "credential-boundary",
+            "detail": "A credential boundary applies only to the future implementation stage.",
+            "owner_route": "credential owner",
+            "authority_effect": "none",
+        }]
+        registry["bindings"][0]["work_plan"]["continuation_status"] = "complete"
+        self.assertEqual(self.validate(registry=registry), [])
+
+    def test_operational_boundary_requires_exact_stage(self):
+        registry = copy.deepcopy(self.registry)
+        registry["bindings"][0]["work_plan"]["operational_tasks"] = [{
+            "task_id": "OPS-AMBIGUOUS-001",
+            "lane": "operational-support",
+            "state": "blocked",
+            "applies_to_stage": None,
+            "blocking_basis": "authority-boundary",
+            "detail": "Ambiguous authority boundary.",
+            "owner_route": "authority owner",
+            "authority_effect": "none",
+        }]
+        self.assertTrue(any("exact D65 stage" in error for error in self.validate(registry=registry)))
 
 
 if __name__ == "__main__":

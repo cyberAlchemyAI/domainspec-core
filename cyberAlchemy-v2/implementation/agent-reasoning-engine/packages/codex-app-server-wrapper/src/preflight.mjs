@@ -94,7 +94,7 @@ export function evaluateTurnPreflight(input, options = {}) {
   if (!isRecord(input) || !isRecord(input.message) || !isRecord(input.turn_binding)) {
     return fail("preflight", ["preflight.input-required"]);
   }
-  const requestContext = observedPhase(options, "request-context-build", () => buildRequestContext(input.message, input.turn_binding));
+  const requestContext = observedPhase(options, "request-context-build", () => buildRequestContext(input.message, input.turn_binding, input.objective_resolution));
   if (!requestContext.ok) return requestContext;
   const binding = input.turn_binding;
   if (binding.lane !== "plan-bound" && binding.lane !== "interaction-bound") {

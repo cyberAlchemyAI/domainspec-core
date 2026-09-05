@@ -29,6 +29,8 @@ Start with:
    — the source owner decision across Product, Project, and Method.
 5. [../../goals/projects/craft/product-feature/THESIS.md](../../goals/projects/craft/product-feature/THESIS.md)
    — the first candidate Product Feature thesis contextualized by this Product.
+6. [CONSTRUCTION-FEEDBACK-LOOP.md](CONSTRUCTION-FEEDBACK-LOOP.md) — the intended loop from typed intent to
+   construction, independent evidence, repair, recovery, and owner handoff, with an illustrative example.
 
 ## Name and authority boundary
 
@@ -41,3 +43,9 @@ Shared spelling grants no shared authority and does not publish private Product 
 This package establishes Craft as the current Product name and starts its Product Thesis. It does not commit the
 thesis, canonically define Product Feature, admit the first feature, physically rename or delete legacy paths,
 relocate source authority, select architecture, implement a runtime or CLI, publish, release, or deploy anything.
+
+## Open Questions
+
+The [thesis's Open Product Decisions](PRODUCT-THESIS.md#open-product-decisions) own the unresolved Product choices.
+The [companion's Open Questions](CONSTRUCTION-FEEDBACK-LOOP.md#open-questions) identify the evidence and feedback
+questions for a bounded construction trial.

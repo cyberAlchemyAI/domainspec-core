@@ -39,11 +39,27 @@ export function validateMultiTurnCorpus(rows, path = "live-multiturn") {
   return rows;
 }
 
+export function validateContinuationCorpus(rows, path = "route-continuation") {
+  const frontierStates = new Set(["complete", "runnable", "choice-required", "decision-required", "input-required", "blocked"]);
+  const directiveKinds = new Set(["direct", "gate", "block", "complete"]);
+  const errorClasses = new Set(["none", "premature-stop", "over-continuation"]);
+  for (const scenario of rows) {
+    const expected = scenario.expected;
+    if (scenario.benchmark_kind !== "route-continuation" || typeof scenario.request !== "string" || !frontierStates.has(scenario.objective_frontier?.state)) throw new Error(`${path}: invalid continuation scenario ${scenario.scenario_id}`);
+    if (!Array.isArray(scenario.objective_frontier.evidence_refs) || scenario.objective_frontier.evidence_refs.length === 0 || typeof scenario.provider !== "object" || scenario.provider === null) throw new Error(`${path}: invalid continuation inputs ${scenario.scenario_id}`);
+    if (typeof expected?.continuation_needed !== "boolean" || !directiveKinds.has(expected.directive_kind) || typeof expected.reason_code !== "string" || !errorClasses.has(scenario.error_class)) throw new Error(`${path}: invalid continuation expectation ${scenario.scenario_id}`);
+    if (scenario.objective_frontier.state === "complete" && expected.continuation_needed !== false) throw new Error(`${path}: completed frontier requires no continuation in ${scenario.scenario_id}`);
+    if (scenario.objective_frontier.state !== "complete" && expected.continuation_needed !== true) throw new Error(`${path}: unfinished frontier requires continuation disposition in ${scenario.scenario_id}`);
+  }
+  return rows;
+}
+
 export function loadBenchmark(packageRoot) {
   const profile = JSON.parse(readFileSync(resolve(packageRoot, "profile.json"), "utf8"));
   if (profile.schema_version !== "are.real-reasoning-benchmark-profile/v1") throw new Error("Unsupported benchmark profile");
   const corpora = Object.fromEntries(Object.entries(profile.corpora).map(([name, path]) => [name, loadJsonl(resolve(packageRoot, path))]));
   validateMultiTurnCorpus(corpora.live_multiturn ?? [], profile.corpora.live_multiturn ?? "live-multiturn");
+  validateContinuationCorpus(corpora.continuation ?? [], profile.corpora.continuation ?? "route-continuation");
   const splits = JSON.parse(readFileSync(resolve(packageRoot, "corpus/splits.json"), "utf8"));
   if (splits.schema_version !== "are.benchmark-corpus-splits/v1") throw new Error("Unsupported corpus splits");
   const known = new Set(Object.values(corpora).flat().map((row) => row.scenario_id));

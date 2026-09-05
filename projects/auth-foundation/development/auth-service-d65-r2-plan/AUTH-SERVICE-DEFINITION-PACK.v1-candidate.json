@@ -40,7 +40,7 @@
     {
       "source_id": "SRC-AUTH-D65-DAG-CANDIDATE",
       "path": "projects/auth-foundation/development/auth-service-d65-r2-plan/PLAN-DAG.md",
-      "sha256": "c7b3a593dfa713df03d73b322424f0f93e7f1444bff1677074449817afcf885c",
+      "sha256": "f54053862932a52a75fdbc177eaaa85374aed2d7f0bcab599c155b7e7e8a1c43",
       "selector": "Outcome, Product boundary, D0, Q0, P1, P2, T0, V0",
       "posture": "planning-candidate"
     },
@@ -75,11 +75,11 @@
       "concept_id": "auth-service.inbound-authorization-request",
       "term": "InboundAuthorizationRequest",
       "disposition": "propose",
-      "formal_voice": "InboundAuthorizationRequest = (authentication_evidence_ref: AuthenticationEvidenceReference, route_ref: RouteReference).",
-      "normative_voice": "The minimal untrusted service input containing only a reference to prior authentication evidence and a reference to the requested server-owned route binding.",
-      "plain_language_voice": "The caller says which login evidence and which route this request belongs to; it does not get to write its own permission.",
+      "formal_voice": "InboundAuthorizationRequest = (request_id: RequestCorrelationId, authentication_evidence_ref: AuthenticationEvidenceReference, route_id: RouteReference).",
+      "normative_voice": "The bounded untrusted service input containing a correlation identifier, a reference to prior authentication evidence, and an identifier for the requested server-owned route binding.",
+      "plain_language_voice": "The caller labels the attempt and says which login evidence and route it belongs to; none of those values lets it write its own permission.",
       "domain_context_voice": "For the Auth Service this is an in-process input, not an HTTP payload, token, session, permission, or authorization decision.",
-      "boundary": "It must not contain caller-authoritative roles, permissions, scope, authorization revision, or a precomputed result.",
+      "boundary": "request_id is correlation-only. The request must not contain caller-authoritative roles, permissions, scope, authorization revision, or a precomputed result; every identifier is non-empty, at most 256 UTF-8 bytes, and contains no control character.",
       "owner_route": "Auth Foundation Project owner plus Auth Service product owner",
       "source_refs": ["SRC-AUTH-D65-DAG-CANDIDATE"],
       "authority_effect": "none"
@@ -117,7 +117,7 @@
       "concept_id": "auth-service.trusted-input-snapshot",
       "term": "TrustedInputSnapshot",
       "disposition": "propose",
-      "formal_voice": "TrustedInputSnapshot = (evaluation_epoch_id, decision_time, authentication_evidence_ref, authentication_evidence_revision, authenticated_subject_id, session_id, authentication_expires_at, route_ref, route_binding_revision, required_permission, scope_evidence_ref). It exists only when both input references resolve exactly once inside the AuthorizationEvaluationEpoch and their status, expiry, revocation, enablement, and completeness predicates all hold.",
+      "formal_voice": "TrustedInputSnapshot = (evaluation_epoch_id, decision_time, authentication_evidence_ref, authentication_evidence_revision, authenticated_subject_id, session_id, authentication_expires_at, route_id, route_binding_revision, required_permission, scope_evidence_ref). It exists only when both input references resolve exactly once inside the AuthorizationEvaluationEpoch and their status, expiry, revocation, enablement, and completeness predicates all hold.",
       "normative_voice": "An immutable result, valid only inside one AuthorizationEvaluationEpoch, of resolving exactly one current authentication-evidence row and exactly one enabled complete route-binding row into their exact identities, revisions, resolved session and subject, required permission, trusted scope reference, and decision time.",
       "plain_language_voice": "This is the server-checked version of the caller's two references, frozen for one decision.",
       "domain_context_voice": "The Auth Service obtains it through the generated trusted-input query and SQLite provider before command construction.",
@@ -130,7 +130,7 @@
         {"field": "authenticated_subject_id", "type": "SubjectId", "source": "authentication-evidence row", "constraint": "equals the subject bound to the resolved session during the same epoch"},
         {"field": "session_id", "type": "SessionId", "source": "authentication-evidence row", "constraint": "equals TrustedAuthorizationCommand.session_id and AuthorizationStateSnapshot.resolved_session.session_id"},
         {"field": "authentication_expires_at", "type": "UtcInstant", "source": "authentication-evidence row", "constraint": "decision_time is strictly earlier and the evidence is neither revoked nor disabled"},
-        {"field": "route_ref", "type": "RouteReference", "source": "InboundAuthorizationRequest", "constraint": "equals the unique resolved route-binding identity"},
+        {"field": "route_id", "type": "RouteReference", "source": "InboundAuthorizationRequest", "constraint": "equals the unique resolved route-binding identity"},
         {"field": "route_binding_revision", "type": "RouteBindingRevision", "source": "route-binding row", "constraint": "present and exact; identifies the required-permission mapping used for this decision"},
         {"field": "required_permission", "type": "Permission", "source": "route-binding row", "constraint": "resource, action, and scope are all present and copied unchanged into TrustedAuthorizationCommand"},
         {"field": "scope_evidence_ref", "type": "TrustedScopeEvidenceReference", "source": "authentication evidence joined under the route scope requirement", "constraint": "copied unchanged into TrustedAuthorizationCommand and resolved exactly once in AuthorizationStateSnapshot"}
@@ -172,22 +172,22 @@
       "concept_id": "auth-service.authorization-evaluation-epoch",
       "term": "AuthorizationEvaluationEpoch",
       "disposition": "propose",
-      "formal_voice": "AuthorizationEvaluationEpoch = (evaluation_epoch_id, sqlite_database_identity, sqlite_connection_identity, read_transaction_identity, decision_time, begin_event, first_read_event, end_event). For one authorize call: begin_event < first_read_event < all trusted-input and authorization-state reads < kernel_evaluation < end_event; all reads use the same connection and transaction; end_event is rollback or read-only commit after the decision is fixed.",
+      "formal_voice": "AuthorizationEvaluationEpoch = opaque(evaluation_epoch_id, sqlite_connection_identity, read_transaction_capability, decision_time). For one authorize call: begin_event < first_read_event < all trusted-input and authorization-state reads < kernel_evaluation < rollback_event; all reads use the same query-only connection and transaction. The identifier is unique within one live service instance, is never reused, and exhaustion yields DENY.",
       "normative_voice": "The lifetime of one Auth Service authorization call from a service-owned read-only SQLite transaction beginning before the first trusted read until that transaction ends after the binary decision is fixed. Every trusted-input and authorization-state read must use the same database, connection, and transaction, and every derived snapshot or command is invalid outside that lifetime.",
       "plain_language_voice": "The service opens one frozen database view, reads everything needed for one answer, decides, and then closes that view. It never mixes facts from two moments.",
       "domain_context_voice": "SqliteAuthService owns the connection and transaction capability. Providers receive that capability; they may not open another connection, restart the transaction, consult a cache from another epoch, or perform a post-transaction read.",
-      "boundary": "The evaluation_epoch_id is a correlation identity, not proof by itself. Epoch proof requires the observed single-connection transaction sequence and successful field and revision joins. This rule does not specify write serialization, distributed snapshots, or non-SQLite providers.",
+      "boundary": "The evaluation_epoch_id is a correlation identity, not proof by itself. Epoch proof is the unforgeable lifetime-bound transaction capability plus the observed single-connection query-only transaction sequence and successful field and revision joins. The normal service opens only an existing migrated database; migration is a separate explicit operation. This rule does not specify write serialization, distributed snapshots, or non-SQLite providers.",
       "transaction_rule": {
-        "begin": "Capture decision_time once, allocate evaluation_epoch_id, acquire one SQLite connection for the configured database identity, and begin one read-only transaction before the first provider read.",
+        "begin": "Validate bounded identifiers, capture decision_time once, allocate a checked nonzero evaluation_epoch_id, and begin one deferred transaction on the service-owned SQLite connection before the first provider read; require PRAGMA query_only = 1.",
         "pin": "The first read pins the transaction snapshot. Trusted-input and authorization-state providers must execute every query through the same transaction capability.",
         "resolve": "Resolve the authentication-evidence row and route-binding row, construct TrustedInputSnapshot and TrustedAuthorizationCommand, then resolve the complete authorization state without ending or replacing the transaction.",
         "join": "Require identical evaluation_epoch_id; exact session and subject equality; exact required-permission and scope-reference copying; and equality of resolved-session, complete-role-relation, grant, and current authorization revisions inside the authorization-state revision domain.",
         "decide": "Evaluate the generated exact session-role-permission kernel while the transaction remains open and fix exactly one AuthorizationDecision.",
-        "end": "End the read-only transaction only after the decision is fixed. Snapshots and commands cannot be reused by another call or after transaction end.",
-        "failure": "Any begin, read, cardinality, validation, construction, join, kernel, transaction, or end uncertainty produces DENY; retry requires a new evaluation_epoch_id, decision_time, connection transaction, and complete reread."
+        "end": "Roll back the query-only transaction only after the decision is fixed. Opaque lifetime-bound snapshots and commands cannot be constructed by callers, reused by another call, or survive transaction end.",
+        "failure": "Any validation, clock, identifier allocation, begin, query-only check, read, cardinality, construction, join, kernel, or rollback uncertainty produces DENY; retry requires a new evaluation_epoch_id, decision_time, transaction, and complete reread. Identifier exhaustion produces DENY and never wraps or reuses an identity."
       },
       "proof_obligations": [
-        "one authorize call creates exactly one evaluation_epoch_id",
+        "one valid authorize attempt allocates at most one evaluation_epoch_id and no identifier is reused within the live service instance",
         "exactly one database identity, connection identity, and read-transaction identity are observed for all provider reads",
         "decision_time is captured once and copied unchanged",
         "no provider opens an independent connection or transaction",
@@ -268,7 +268,7 @@
     {
       "decision_id": "AUTH-SVC-DEF-DECISION-TRUSTED-INPUT-SNAPSHOT-001",
       "resolves": "AUTH-SVC-OPEN-TRUSTED-INPUT-SNAPSHOT-SHAPE",
-      "result": "TrustedInputSnapshot has the eleven fields declared by AUTH-SVC-DEF-TRUSTED-INPUT-SNAPSHOT and preserves three distinct revision domains with explicit copy and equality joins.",
+      "result": "TrustedInputSnapshot has the eleven fields declared by AUTH-SVC-DEF-TRUSTED-INPUT-SNAPSHOT and preserves three distinct revision domains with explicit copy and equality joins; request_id remains correlation-only outside the snapshot.",
       "effect": "The field vocabulary is closed for the candidate service Design; implementation and conformance remain unproven.",
       "owner_route": "Auth Service product owner plus DomainSpec v2 owner",
       "authority_effect": "none"
@@ -276,8 +276,8 @@
     {
       "decision_id": "AUTH-SVC-DEF-DECISION-EVALUATION-EPOCH-001",
       "resolves": "AUTH-SVC-OPEN-STATE-EPOCH",
-      "result": "One authorize call owns one read-only SQLite transaction on one connection; all trusted-input and authorization-state reads, joins, command construction, and kernel evaluation occur before transaction end.",
-      "effect": "The candidate transaction and snapshot rule is testable; implementation and conformance remain unproven.",
+      "result": "One authorize call owns one query-only SQLite transaction on one connection; all trusted-input and authorization-state reads, joins, command construction, and kernel evaluation occur before rollback. Opaque lifetime-bound values make the transaction capability, not the numeric identifier, the construction proof; checked exhaustion denies without reuse.",
+      "effect": "The candidate transaction and snapshot rule is implemented and locally testable; product approval and operational conformance remain unproven.",
       "owner_route": "Auth Service product owner plus authorization-state provider owner",
       "authority_effect": "none"
     }

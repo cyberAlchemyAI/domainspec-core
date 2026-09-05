@@ -5,7 +5,8 @@ import test from "node:test";
 import {loadBenchmark} from "../src/corpus.mjs";
 import {packageRoot} from "../src/common.mjs";
 import {createFixtureResearchProvider, diagnosisSignals, runBenchmarkEvolutionCycle} from "../src/evolution-bridge.mjs";
-import {projectCanaryResult, runFixtureEvolutionCanary} from "../src/evolution-canary.mjs";
+import {projectCanaryResult, projectFailureLearningCanary, runFailureLearningCanary, runFixtureEvolutionCanary} from "../src/evolution-canary.mjs";
+import {inspectImprovementArtifact} from "../src/improvement-inspection.mjs";
 
 const evolutionProfile = JSON.parse(readFileSync(new URL("../../../packages/evolution-runtime/profiles/default-v1.json", import.meta.url), "utf8"));
 
@@ -78,4 +79,26 @@ test("full evolution fixture canary is deterministic across independent runs", a
   assert.equal(left.comparison_outcome, "KEEP");
   assert.equal(left.upgrade_disposition, "recommend-candidate");
   assert.equal(left.authority_effect, "none");
+});
+
+test("failure learning canary converts a real stale-reuse failure into retained candidate support", async () => {
+  const artifact = await runFailureLearningCanary();
+  const left = projectFailureLearningCanary(artifact);
+  const right = projectFailureLearningCanary(await runFailureLearningCanary());
+  assert.deepEqual(left, right);
+  assert.equal(left.baseline_status, "FAIL");
+  assert.equal(left.treatment_status, "PASS");
+  assert.equal(left.holdout_status, "PASS");
+  assert.equal(left.baseline_stale_reuse_incidents, 5);
+  assert.equal(left.treatment_stale_reuse_incidents, 0);
+  assert.equal(left.implementation_pattern, "bind-refresh-assessment-before-cache-eligibility");
+  assert.equal(left.comparison_outcome, "KEEP");
+  assert.equal(left.learning_disposition, "candidate-supported");
+  assert.equal(left.provider_cache_posture, "unobserved");
+  assert.equal(left.authority_effect, "none");
+  const inspection = inspectImprovementArtifact(artifact, {source_bytes_sha256: "f".repeat(64)});
+  assert.equal(inspection.comparison.outcome, "KEEP");
+  assert.equal(inspection.hypothesis.implementation_pattern, left.implementation_pattern);
+  assert.equal(inspection.learning.retained_epoch_digest, left.retained_epoch_digest);
+  assert.equal(inspection.source_bytes_sha256, "f".repeat(64));
 });

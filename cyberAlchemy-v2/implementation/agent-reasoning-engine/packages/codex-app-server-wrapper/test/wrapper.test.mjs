@@ -354,7 +354,9 @@ test("turn/start seals, reconstructs, verifies, and checkpoints reasoning state 
 });
 
 test("turn/start places the reusable reasoning projection before volatile context and measures exact reuse", async () => {
-  const instance = wrapper();
+  const planProfile = structuredClone(loaded.value);
+  planProfile.turn_bindings.default = {...planProfile.turn_bindings.default, lane: "plan-bound", consumer_ref: "codex:cache-plan", window_ref: "plan:cache", request_id: "request:cache-plan"};
+  const instance = wrapper({loaded_profile: planProfile});
   const first = await instance.processClientMessage(turnStart(1011, "Research reusable reasoning state.", "thread-cache"));
   const second = await instance.processClientMessage(turnStart(1012, "Research reusable reasoning state.", "thread-cache"));
   assert.equal(first.to_server.length, 1);
@@ -369,10 +371,14 @@ test("turn/start places the reusable reasoning projection before volatile contex
   assert.equal(states.length, 1);
   assert.equal(states[0].posture, "eligible-reuse");
   assert.equal(states[0].exact_prefix_reuse, true);
+  assert.equal(states[0].context_bound_reuse_disposition, "reuse-current");
+  assert.equal(typeof states[0].context_bound_reuse_receipt_digest, "string");
+  assert.equal(typeof states[0].refresh_assessment_digest, "string");
   assert.equal(states[0].reused_prefix_bytes >= states[0].reusable_prefix_bytes, true);
   const events = instance.ledger.snapshot().filter((event) => event.event_kind === "reasoning-dispatch-verified");
   assert.equal(events[0].cache_affinity_posture, "cold");
   assert.equal(events[1].cache_affinity_posture, "eligible-reuse");
+  assert.equal(events[1].context_bound_reuse_receipt_digest, states[0].context_bound_reuse_receipt_digest);
   assert.equal(events[1].cache_hit_posture, "unobserved");
   assert.equal(events[1].observed_token_savings, null);
 });
@@ -467,6 +473,29 @@ test("file-backed wrapper recovers the last checkpoint before accepting a new tu
   const verified = verifyReasoningStateLog(logPath, {expected_ledger_id: loaded.value.reasoning_state.ledger_id});
   assert.equal(verified.ok, true);
   assert.equal(verified.value.index.checkpoint_count, 2);
+});
+
+test("file-backed wrapper recovers context-bound reuse receipts and observed provider cache telemetry", async () => {
+  const directory = mkdtempSync("/tmp/are-wrapper-cache-recovery-");
+  temporaryPaths.push(directory);
+  const logPath = resolve(directory, "reasoning-state.jsonl");
+  const profile = structuredClone(loaded.value);
+  profile.reasoning_state = {...profile.reasoning_state, storage_mode: "append-only-file-fsync", log_path: logPath};
+  profile.turn_bindings.default = {...profile.turn_bindings.default, lane: "plan-bound", consumer_ref: "codex:cache-recovery", window_ref: "plan:cache-recovery", request_id: "request:cache-recovery"};
+  const first = wrapper({loaded_profile: profile});
+  await first.processClientMessage(turnStart(10041, "Research cache recovery.", "thread-cache-recovery"));
+  await first.processServerMessage({jsonrpc: "2.0", id: 10041, result: {turn: {id: "turn-cache-recovery"}, usage: {input_tokens: 1200, cached_input_tokens: 850, latency_ms: 70, baseline_latency_ms: 110}}});
+  const before = first.inspectState().cache_affinity_consumers[0];
+  assert.equal(before.cache_hit_posture, "observed-hit");
+  first.close();
+
+  const recovered = wrapper({loaded_profile: profile});
+  const after = recovered.inspectState().cache_affinity_consumers[0];
+  assert.equal(after.context_bound_reuse_receipt_digest, before.context_bound_reuse_receipt_digest);
+  assert.equal(after.cache_telemetry_observation_digest, before.cache_telemetry_observation_digest);
+  assert.equal(after.cache_hit_posture, "observed-hit");
+  assert.equal(after.observed_cached_input_tokens, 850);
+  recovered.close();
 });
 
 test("file-backed wrapper rejects an uncheckpointed recovery tail at startup", () => {
@@ -610,6 +639,9 @@ test("selected source drift creates a successor and unrelated drift remains diag
   const secondFragment = JSON.parse(second.to_server[0].params.additionalContext[CONTEXT_KEY].value);
   assert.equal(secondFragment.refresh_disposition, "successor-required");
   assert.notEqual(secondFragment.view_id, firstFragment.view_id);
+  const driftCache = instance.inspectState().cache_affinity_consumers[0];
+  assert.equal(driftCache.context_bound_reuse_disposition, "successor-created");
+  assert.equal(driftCache.exact_prefix_reuse, false);
 
   const unrelated = structuredClone(initial);
   unrelated.decision_profile = initial.decision_profile;
@@ -619,6 +651,7 @@ test("selected source drift creates a successor and unrelated drift remains diag
   await diagnostic.processClientMessage(turnStart(34, "Research current context management approaches."));
   const reused = await diagnostic.processClientMessage(turnStart(35, "Research current context management approaches."));
   assert.equal(JSON.parse(reused.to_server[0].params.additionalContext[CONTEXT_KEY].value).refresh_disposition, "reuse-current");
+  assert.equal(diagnostic.inspectState().cache_affinity_consumers[0].context_bound_reuse_disposition, "reuse-current");
   assert.equal(diagnostic.ledger.snapshot().some((event) => event.event_kind === "context-refresh-assessed" && event.unrelated_drift_count === 1), true);
 });
 

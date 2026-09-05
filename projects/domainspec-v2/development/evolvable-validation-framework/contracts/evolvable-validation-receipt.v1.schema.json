@@ -1,364 +1,110 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://domainspec.dev/schemas/evf/evolvable-validation-receipt/v1",
-  "title": "EVF S1 Validation Receipt",
+  "title": "EVF Generic Aggregate Validation Receipt v1",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema_version",
-    "receipt_id",
-    "receipt_class",
-    "swu_id",
-    "exact_refs",
-    "positive_receipt_issued",
-    "release_admission",
-    "claim_ceiling",
-    "result"
+    "schema_version", "receipt_id", "profile_id", "route", "profile_ref",
+    "stage_receipts", "aggregate_state", "all_required_stages_present",
+    "denominator", "verification_receipt", "evidence_payload_digest",
+    "authority_effect", "release_admission", "claim_ceiling"
   ],
   "properties": {
-    "schema_version": {
-      "const": "evf.evolvable-validation-receipt/v1"
-    },
-    "receipt_id": {
-      "type": "string",
-      "minLength": 1
-    },
-    "receipt_class": {
-      "enum": [
-        "positive-proof",
-        "negative-control"
-      ]
-    },
-    "swu_id": {
-      "const": "SWU-GCP-001"
-    },
-    "exact_refs": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/exactRef"
-      }
-    },
-    "positive_receipt_issued": {
-      "type": "boolean"
-    },
-    "acceptance_vector": {
-      "$ref": "#/$defs/acceptanceVector"
-    },
-    "execution_cardinality": {
-      "$ref": "#/$defs/executionCardinality"
-    },
-    "runtime_observations": {
-      "type": "array",
-      "minItems": 2,
-      "maxItems": 2,
+    "schema_version": {"const": "evf.evolvable-validation-receipt/v1"},
+    "receipt_id": {"$ref": "#/$defs/id"},
+    "profile_id": {"$ref": "#/$defs/id"},
+    "route": {"enum": ["executable", "theorem", "multi_provider"]},
+    "profile_ref": {"$ref": "#/$defs/currentRef"},
+    "stage_receipts": {
+      "type": "array", "minItems": 13, "maxItems": 13,
       "prefixItems": [
-        {
-          "$ref": "#/$defs/runtimeObservation",
-          "properties": {
-            "case_id": { "const": "has-key-locked" },
-            "expected_boolean": { "const": true },
-            "observed_boolean": { "const": true },
-            "output": {
-              "const": {
-                "status": "unlocked",
-                "door_locked": false
-              }
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/runtimeObservation",
-          "properties": {
-            "case_id": { "const": "no-key-locked-control" },
-            "expected_boolean": { "const": false },
-            "observed_boolean": { "const": false },
-            "output": {
-              "const": {
-                "status": "denied",
-                "door_locked": true
-              }
-            }
-          }
-        }
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S0"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S1"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S2"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S3"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S4"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S5"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S6"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S7"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S8"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S9"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S10"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S11"}}},
+        {"$ref": "#/$defs/stageReceipt", "properties": {"stage_id": {"const": "S12"}}}
       ],
       "items": false
     },
-    "mutant_id": {
-      "type": "string",
-      "pattern": "^M(0[1-9]|1[0-6])-[a-z0-9-]+$"
+    "aggregate_state": {"$ref": "#/$defs/state"},
+    "all_required_stages_present": {"const": true},
+    "denominator": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stages", "checks", "mutations"],
+      "properties": {
+        "stages": {"const": 13},
+        "checks": {"type": "integer", "minimum": 1},
+        "mutations": {"type": "integer", "minimum": 1}
+      }
     },
-    "stable_code": {
-      "type": "string",
-      "pattern": "^[A-Z][A-Z0-9_]+$"
-    },
-    "release_admission": {
-      "const": "not-granted"
-    },
-    "claim_ceiling": {
-      "const": "candidate-local-SWU-GCP-001-causal-proof-only"
-    },
-    "result": {
-      "enum": [
-        "pass",
-        "killed"
-      ]
-    }
+    "verification_receipt": {"$ref": "#/$defs/verificationReceipt"},
+    "evidence_payload_digest": {"$ref": "#/$defs/sha256"},
+    "authority_effect": {"const": "none"},
+    "release_admission": {"const": "not-granted"},
+    "claim_ceiling": {"type": "string", "minLength": 1}
   },
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "receipt_class": {
-            "const": "positive-proof"
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "acceptance_vector",
-          "execution_cardinality",
-          "runtime_observations"
-        ],
-        "properties": {
-          "positive_receipt_issued": {
-            "const": true
-          },
-          "result": {
-            "const": "pass"
-          }
-        },
-        "not": {
-          "anyOf": [
-            {
-              "required": [
-                "mutant_id"
-              ]
-            },
-            {
-              "required": [
-                "stable_code"
-              ]
-            }
-          ]
-        }
-      },
-      "else": {
-        "required": [
-          "mutant_id",
-          "stable_code"
-        ],
-        "properties": {
-          "positive_receipt_issued": {
-            "const": false
-          },
-          "result": {
-            "const": "killed"
-          }
-        },
-        "not": {
-          "anyOf": [
-            {
-              "required": [
-                "acceptance_vector"
-              ]
-            },
-            {
-              "required": [
-                "execution_cardinality"
-              ]
-            },
-            {
-              "required": [
-                "runtime_observations"
-              ]
-            }
-          ]
-        }
-      }
-    }
-  ],
   "$defs": {
-    "sha256": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
+    "id": {"type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "state": {"enum": ["passed", "failed", "blocked", "indeterminate", "not_applicable"]},
     "exactRef": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "path",
-        "sha256",
-        "size_bytes"
-      ],
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes", "location", "current"],
       "properties": {
-        "path": {
-          "type": "string",
-          "minLength": 1
-        },
-        "sha256": {
-          "$ref": "#/$defs/sha256"
-        },
-        "size_bytes": {
-          "type": "integer",
-          "minimum": 0
-        }
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "location": {"enum": ["repository", "host"]},
+        "current": {"type": "boolean"}
       }
     },
-    "acceptanceVector": {
-      "type": "object",
-      "additionalProperties": false,
+    "currentRef": {"allOf": [{"$ref": "#/$defs/exactRef"}, {"properties": {"current": {"const": true}}}]},
+    "stageReceipt": {
+      "type": "object", "additionalProperties": false,
       "required": [
-        "O_spec",
-        "O_gen",
-        "T_gen",
-        "E_run",
-        "runtime_observations",
-        "aggregate_assertions",
-        "skips",
-        "todos",
-        "needs_formal",
-        "orphans",
-        "unrunnable",
-        "mutants_required",
-        "mutants_killed",
-        "negative_receipts"
+        "schema_version", "stage_id", "profile_id", "route", "state",
+        "input_stage_receipt_digests", "evidence_refs", "reason_codes",
+        "residue", "details", "claim_ceiling", "authority_effect",
+        "receipt_payload_digest"
       ],
       "properties": {
-        "O_spec": {
-          "const": 1
-        },
-        "O_gen": {
-          "const": 1
-        },
-        "T_gen": {
-          "const": 1,
-          "description": "Exactly one generated Vitest test ID, independent of the number of runtime calls inside that test."
-        },
-        "E_run": {
-          "const": 1,
-          "description": "Exactly one joined child test-result envelope ID, not the number of runtime function calls."
-        },
-        "runtime_observations": {
-          "const": 2
-        },
-        "aggregate_assertions": {
-          "const": 1
-        },
-        "skips": {
-          "const": 0
-        },
-        "todos": {
-          "const": 0
-        },
-        "needs_formal": {
-          "const": 0
-        },
-        "orphans": {
-          "const": 0
-        },
-        "unrunnable": {
-          "const": 0
-        },
-        "mutants_required": {
-          "const": 16
-        },
-        "mutants_killed": {
-          "const": 16
-        },
-        "negative_receipts": {
-          "const": 16
-        }
+        "schema_version": {"const": "evf.stage-receipt/v1"},
+        "stage_id": {"pattern": "^S([0-9]|1[0-2])$"},
+        "profile_id": {"$ref": "#/$defs/id"},
+        "route": {"enum": ["executable", "theorem", "multi_provider"]},
+        "state": {"$ref": "#/$defs/state"},
+        "input_stage_receipt_digests": {"type": "object", "propertyNames": {"pattern": "^S([0-9]|1[0-2])$"}, "additionalProperties": {"$ref": "#/$defs/sha256"}},
+        "evidence_refs": {"type": "array", "items": {"$ref": "#/$defs/exactRef"}},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"}},
+        "residue": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "details": {"type": "object"},
+        "claim_ceiling": {"type": "string", "minLength": 1},
+        "authority_effect": {"const": "none"},
+        "receipt_payload_digest": {"$ref": "#/$defs/sha256"}
       }
     },
-    "executionCardinality": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "generated_test_id",
-        "child_result_id",
-        "runtime_observation_case_ids",
-        "runtime_function_call_count",
-        "aggregate_assertion_id",
-        "aggregate_assertion_count",
-        "aggregate_assertion_kind",
-        "T_gen_count_basis",
-        "E_run_count_basis"
-      ],
+    "verificationReceipt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "verdict", "verified_stage_ids", "all_refs_current", "replay_equal", "recomputed_aggregate_state", "reason_codes", "authority_effect", "receipt_payload_digest"],
       "properties": {
-        "generated_test_id": {
-          "const": "evf.s1.generated-test.has-key-unlock-door.v1"
-        },
-        "child_result_id": {
-          "const": "evf.s1.child-result.has-key-unlock-door.v1"
-        },
-        "runtime_observation_case_ids": {
-          "const": [
-            "has-key-locked",
-            "no-key-locked-control"
-          ]
-        },
-        "runtime_function_call_count": {
-          "const": 2
-        },
-        "aggregate_assertion_id": {
-          "const": "evf.s1.aggregate.has-key-unlock-door.v1"
-        },
-        "aggregate_assertion_count": {
-          "const": 1
-        },
-        "aggregate_assertion_kind": {
-          "const": "vitest-deep-equality-observed-vector-to-independent-expected-vector"
-        },
-        "T_gen_count_basis": {
-          "const": "one-generated-vitest-test-id"
-        },
-        "E_run_count_basis": {
-          "const": "one-joined-child-test-result-envelope-id-not-runtime-call-count"
-        }
-      }
-    },
-    "runtimeObservation": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "case_id",
-        "expected_boolean",
-        "observed_boolean",
-        "output"
-      ],
-      "properties": {
-        "case_id": {
-          "enum": [
-            "has-key-locked",
-            "no-key-locked-control"
-          ]
-        },
-        "expected_boolean": {
-          "type": "boolean"
-        },
-        "observed_boolean": {
-          "type": "boolean"
-        },
-        "output": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "door_locked"
-          ],
-          "properties": {
-            "status": {
-              "enum": [
-                "unlocked",
-                "denied"
-              ]
-            },
-            "door_locked": {
-              "type": "boolean"
-            }
-          }
-        }
+        "schema_version": {"const": "evf.verification-receipt/v1"},
+        "verdict": {"enum": ["passed", "failed", "blocked", "indeterminate"]},
+        "verified_stage_ids": {"const": ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10"]},
+        "all_refs_current": {"type": "boolean"},
+        "replay_equal": {"type": "boolean"},
+        "recomputed_aggregate_state": {"$ref": "#/$defs/state"},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"}},
+        "authority_effect": {"const": "none"},
+        "receipt_payload_digest": {"$ref": "#/$defs/sha256"}
       }
     }
   }

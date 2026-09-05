@@ -44,7 +44,7 @@ function tokenize(source) {
     return tokens;
 }
 const operatorNames = { "==": "eq", "!=": "neq", "<": "lt", "<=": "lte", ">": "gt", ">=": "gte" };
-export function parsePredicate(source, facts) {
+export function parseSfolFormula(source, facts) {
     const tokens = tokenize(source.trim().replace(/\.$/, ""));
     let cursor = 0;
     const issues = [];
@@ -127,6 +127,8 @@ export function parsePredicate(source, facts) {
         throw new CompilationRejected(issues);
     return expression;
 }
+/** @deprecated Use parseSfolFormula. */
+export const parsePredicate = parseSfolFormula;
 export function translateLegacyPredicate(predicateId, registry) {
     const expression = registry[predicateId];
     if (!expression)

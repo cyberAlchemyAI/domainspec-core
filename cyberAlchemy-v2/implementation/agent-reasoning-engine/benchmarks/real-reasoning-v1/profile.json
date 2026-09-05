@@ -11,7 +11,8 @@
     "live_multiturn": "corpus/live-multiturn.jsonl",
     "intent": "corpus/intent-understanding.jsonl",
     "compaction": "corpus/compaction.jsonl",
-    "adaptive_reuse": "corpus/adaptive-reuse.jsonl"
+    "adaptive_reuse": "corpus/adaptive-reuse.jsonl",
+    "continuation": "corpus/continuation-routing.jsonl"
   },
   "thresholds": {
     "route_accuracy": 0.98,
@@ -35,7 +36,23 @@
     "preflight_iterations": 30,
     "live_repetitions": 3,
     "live_multiturn_repetitions": 1
-    ,"intent_timing_iterations": 10000
+    ,"intent_timing_iterations": 10000,
+    "continuation_warm_iterations": 1000,
+    "continuation_timing_iterations": 10000
+  },
+  "route_continuation": {
+    "disposition_accuracy": 1,
+    "continuation_need_recall": 1,
+    "completion_precision": 1,
+    "completion_recall": 1,
+    "gate_recall": 1,
+    "block_recall": 1,
+    "max_premature_stops": 0,
+    "max_over_continuations": 0,
+    "max_unsafe_direct_continuations": 0,
+    "decision_p95_ms": 2,
+    "assessment_scope": "Production Codex wrapper turn/completed behavior with explicit objective-frontier evidence.",
+    "claim_limit": "A passing candidate must still prove discovery and currentness separately; cache or proposal presence is not completion evidence."
   },
   "live": {
     "consumer_id": "codex:benchmark",

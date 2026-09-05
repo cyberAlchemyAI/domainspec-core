@@ -61,6 +61,59 @@ pub struct RoleResolution {
     pub complete: bool,
 }
 
+/// Complete provider result for one authorization-state evaluation.
+///
+/// This value is evidence supplied to the pure generated kernel. Constructing
+/// it does not grant authority: `complete` remains an explicit fail-closed
+/// predicate and the kernel still evaluates every session, revision, scope,
+/// role, and permission condition.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ResolvedAuthorizationState {
+    sessions: Vec<SessionRecord>,
+    roles: RoleResolution,
+    trusted_scope_evidence: bool,
+    current_authorization_revision: u64,
+    complete: bool,
+}
+
+impl ResolvedAuthorizationState {
+    pub fn new(
+        sessions: Vec<SessionRecord>,
+        roles: RoleResolution,
+        trusted_scope_evidence: bool,
+        current_authorization_revision: u64,
+        complete: bool,
+    ) -> Self {
+        Self {
+            sessions,
+            roles,
+            trusted_scope_evidence,
+            current_authorization_revision,
+            complete,
+        }
+    }
+
+    pub fn sessions(&self) -> &[SessionRecord] {
+        &self.sessions
+    }
+
+    pub fn roles(&self) -> &RoleResolution {
+        &self.roles
+    }
+
+    pub fn current_authorization_revision(&self) -> u64 {
+        self.current_authorization_revision
+    }
+
+    pub fn trusted_scope_evidence(&self) -> bool {
+        self.trusted_scope_evidence
+    }
+
+    pub fn is_complete(&self) -> bool {
+        self.complete
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct PortFailure;
 
@@ -160,33 +213,49 @@ where
             }
         };
 
-        let context = kernel::EvaluationContext {
-            request: kernel::AuthorizationRequest {
-                request_id: command.request_id,
-                session_id: command.session_id,
-                required_permission: kernel::Permission {
-                    resource: command.required_permission.resource,
-                    action: command.required_permission.action,
-                    scope: command.required_permission.scope,
-                },
-                scope_evidence_ref: command.scope_evidence_ref,
-                decision_time,
+        authorize_resolved(
+            command,
+            decision_time,
+            ResolvedAuthorizationState::new(
+                sessions,
+                role_resolution,
+                trusted_scope_evidence,
                 current_authorization_revision,
-            },
-            resolved_sessions: sessions.into_iter().map(to_kernel_session).collect(),
-            resolved_roles: role_resolution
-                .roles
-                .into_iter()
-                .map(to_kernel_role)
-                .collect(),
-            trusted_scope_evidence: evidence_complete && trusted_scope_evidence,
-            role_relation_complete: evidence_complete && role_resolution.complete,
-        };
+                evidence_complete,
+            ),
+        )
+    }
+}
 
-        match kernel::authorize(&context) {
-            kernel::AuthorizationDecision::Allow => BinaryAuthorizationDecision::Allow,
-            kernel::AuthorizationDecision::Deny(_) => BinaryAuthorizationDecision::Deny,
-        }
+/// Evaluate one already-resolved authorization-state snapshot through the
+/// generated kernel without invoking any provider a second time.
+pub fn authorize_resolved(
+    command: AuthorizationCommand,
+    decision_time: u64,
+    state: ResolvedAuthorizationState,
+) -> BinaryAuthorizationDecision {
+    let context = kernel::EvaluationContext {
+        request: kernel::AuthorizationRequest {
+            request_id: command.request_id,
+            session_id: command.session_id,
+            required_permission: kernel::Permission {
+                resource: command.required_permission.resource,
+                action: command.required_permission.action,
+                scope: command.required_permission.scope,
+            },
+            scope_evidence_ref: command.scope_evidence_ref,
+            decision_time,
+            current_authorization_revision: state.current_authorization_revision,
+        },
+        resolved_sessions: state.sessions.into_iter().map(to_kernel_session).collect(),
+        resolved_roles: state.roles.roles.into_iter().map(to_kernel_role).collect(),
+        trusted_scope_evidence: state.complete && state.trusted_scope_evidence,
+        role_relation_complete: state.complete && state.roles.complete,
+    };
+
+    match kernel::authorize(&context) {
+        kernel::AuthorizationDecision::Allow => BinaryAuthorizationDecision::Allow,
+        kernel::AuthorizationDecision::Deny(_) => BinaryAuthorizationDecision::Deny,
     }
 }
 

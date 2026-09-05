@@ -31,6 +31,19 @@ export function selectEditorInitialMarkdown(input: {
     : input.draftMarkdown;
 }
 
+export function countMarkdownWords(markdown: string): number {
+  return markdown.split(/\s+/).filter(Boolean).length;
+}
+
+function useDebouncedWordCount(markdown: string, delayMs = 160): number {
+  const [wordCount, setWordCount] = useState(() => countMarkdownWords(markdown));
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setWordCount(countMarkdownWords(markdown)), delayMs);
+    return () => window.clearTimeout(timeout);
+  }, [delayMs, markdown]);
+  return wordCount;
+}
+
 function messageFor(error: unknown): string {
   if (error instanceof EssaysProblem) return error.message;
   if (error instanceof Error) return error.message;
@@ -185,6 +198,7 @@ export default function App({ embedded = false, onWorkspaceChange, stagedBuffer 
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const appliedStageEpoch = useRef<number | null>(null);
+  const wordCount = useDebouncedWordCount(draftMarkdown);
 
   useEffect(() => {
     void runtime.openEssayWorkspace(DEFAULT_WORKSPACE_ID).then((loaded) => {
@@ -300,7 +314,6 @@ export default function App({ embedded = false, onWorkspaceChange, stagedBuffer 
     stagedBuffer,
     appliedStageEpoch: appliedStageEpoch.current,
   });
-
   return (
     <div className={`essays-root app-shell ${embedded ? "essays-embedded" : ""}`}>
       <header className="topbar">
@@ -367,7 +380,7 @@ export default function App({ embedded = false, onWorkspaceChange, stagedBuffer 
                 />
               </Suspense>
               <div className="editor-footer">
-                <span aria-live="polite">{editorSettling ? "Syncing buffer…" : `${draftMarkdown.split(/\s+/).filter(Boolean).length} words`}</span>
+                <span aria-live="polite">{editorSettling ? "Syncing buffer…" : `${wordCount} words`}</span>
                 <button
                   className="primary"
                   disabled={busy || editorSettling || !draftMarkdown.trim()}

@@ -12,16 +12,38 @@ Authority effect: none
 ## Thesis
 
 CyberAlchemy helps people and machines build and evolve complex systems
-together through an ergonomic, governed work loop. It keeps intent, meaning,
-evidence, decisions, action, feedback, and ownership connected. It shapes the
-next move to fit the person, task, and moment while preserving domain priority,
-owner boundaries, and human control.
+together through an ergonomic, governed work loop. It connects the desired
+result to a permitted action, observes what happened, and compares the result
+with expectations so people and machines can continue, adjust, ask, or stop.
+It preserves intent, meaning, evidence, decisions, and ownership across those
+steps, shaping the next move to the person, task, and moment while protecting
+domain priority, owner boundaries, and human control.
 
 In simpler language:
 
-> CyberAlchemy helps a person and a machine notice what the work needs, choose
-> the smallest useful governed action for the moment, and continue without
-> losing meaning, evidence, ownership, or human control.
+> CyberAlchemy helps a person and a machine agree on what the work needs, take
+> the smallest useful permitted action, check what happened, and use that
+> feedback to choose the next step without losing meaning, evidence, ownership,
+> or human control.
+
+```text
+desired result + expectations -> permitted action -> observed result
+              ^                                           |
+              |                                           v
+       adjust when needed <- compare with expectations -> continue / ask / stop
+                                    |
+                                    v
+                   preserve state + owner + unresolved work
+                                    |
+                                    v
+                       next permitted step or handoff
+```
+
+The comparison can support an expectation, contradict it, or leave it unknown.
+Feedback informs the next choice; it does not grant permission or silently
+change the person's purpose. Read the [in-depth work-loop explanation](CYBERNETIC-WORK-LOOP.md)
+for the practical cybernetic framing, a concrete example, current boundaries,
+and Open Questions.
 
 This is the product commitment CyberAlchemy is being built to realize. The
 principles below are first-order product beliefs: they define what the product
@@ -117,32 +139,35 @@ visible. The canonical meanings and document contracts live in
 
 ## Agent Reasoning Engine
 
-The Agent Reasoning Engine makes CyberAlchemy better at solving problems over
-time. It remembers the reasoning state behind previous work, measures results
-with benchmarks, finds useful new research and technology, tests improvements,
-and upgrades the engine when they perform better.
+The Agent Reasoning Engine supports continuity inside CyberAlchemy's work loop.
+Its product thesis is to reuse the explicit reasoning state behind context:
+the current interpretation and objective, their evidence, observed outcomes,
+and unresolved work. It checks interpretations against results, learns scoped
+lessons from attributable feedback, and investigates engine improvements through
+research and controlled benchmarks.
 
-It runs two connected loops:
+Its product model distinguishes three connected loops:
 
 ```text
-work loop
-request -> context -> reasoning -> action -> result -> reusable state
-
-improvement loop
-results -> problems -> research -> new technique -> implementation
-        -> benchmark -> upgrade -> new results
+current work: interpret -> act -> observe -> assess -> continue / ask / finish
+scoped learning: feedback -> lesson -> relevant application -> measured result
+engine improvement: weakness -> hypothesis -> research -> experiment
+                   -> compare with baseline -> retain / revise / reject
 ```
 
-The serving engine handles current work. The evolution engine searches for and
-builds better approaches. The upgrade controller compares new versions with the
-current version and moves a better version into service. Results from that
-version begin the next improvement cycle.
+These describe the integrated target, not a claim that the whole loop is
+implemented. State, context, intent, and continuation pieces exist; general
+objective-transition classification and the complete interaction-learning
+connection remain planned. Local benchmark results support only their tested
+properties. A scoped lesson is not an engine upgrade, and a measured improvement
+is not permission to put a new version into service. Repeated no-gain results
+change or stop an experiment.
 
-The engine does not only produce answers and patches. It improves the system
-that produces them. The current ARE benchmark loop can diagnose weaknesses,
-compare bounded changes, reject regressions, and require repeatable gains. The
-automated research, version-building, upgrade, monitoring, and rollback parts
-still need to be built.
+ARE supplies reasoning continuity and evaluation machinery; CyberAlchemy also
+connects people, domain meaning, capabilities, owners, decisions, and receiving
+stages. The first-class [ARE product thesis](../agent-reasoning-engine/README.md#product-thesis)
+and [reasoning-and-learning explanation](../agent-reasoning-engine/REASONING-AND-LEARNING.md)
+own its detailed loops, implementation boundary, and benchmark questions.
 
 ## Governance And Authority
 

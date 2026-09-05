@@ -11,4 +11,6 @@ test("core benchmark evaluates routing, retrieval, determinism, and local latenc
   assert.equal(result.cases.routing.length, 20);
   assert.equal(result.cases.context.length, 10);
   assert.equal(result.summary.determinism_mismatches, 0);
+  assert.equal(result.improvement_feedback.disposition, "no-failures");
+  assert.deepEqual(result.improvement_feedback.hypotheses, []);
 });

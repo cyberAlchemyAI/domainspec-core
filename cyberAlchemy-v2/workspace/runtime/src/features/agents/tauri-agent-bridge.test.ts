@@ -7,6 +7,7 @@ import {
   detectEssaysTauriAgentBridge,
   rejectProposalCommand,
   type Receipt,
+  type RuntimeEvent,
   type WorkspaceSnapshot,
 } from "./tauri-agent-bridge";
 
@@ -208,5 +209,40 @@ describe("Essays Tauri agent bridge", () => {
       reason: "   ",
       deadlineUnixMs: 1_788_343_260_000,
     })).toThrow("REJECTION_REASON_REQUIRED");
+  });
+
+  it("streams runtime events through a bounded Tauri channel and unsubscribes explicitly", async () => {
+    class MockChannel<Message> {
+      onmessage: (message: Message) => void = () => undefined;
+    }
+    const invoke = vi.fn().mockResolvedValue(undefined);
+    const detection = detectEssaysTauriAgentBridge({
+      __TAURI__: { core: { invoke, Channel: MockChannel } },
+    });
+    if (detection.status !== "available") throw new Error("fixture did not expose a Tauri bridge");
+    const events: RuntimeEvent[] = [];
+
+    const unsubscribe = await detection.subscribeEvents("essays", 12, (event) => events.push(event));
+    const subscribeArguments = invoke.mock.calls[0]?.[1] as {
+      subscriptionId: string;
+      workspaceId: string;
+      cursor: number;
+      onEvent: MockChannel<RuntimeEvent>;
+    };
+    expect(invoke.mock.calls[0]?.[0]).toBe("subscribe_events");
+    expect(subscribeArguments.workspaceId).toBe("essays");
+    expect(subscribeArguments.cursor).toBe(12);
+    subscribeArguments.onEvent.onmessage({
+      cursor: 13,
+      workspace_id: "essays",
+      event_type: "proposal-recorded",
+      payload: { proposal_id: "proposal-8" },
+      created_at: "2026-09-03T10:00:00Z",
+    });
+    expect(events).toHaveLength(1);
+
+    await unsubscribe();
+    expect(invoke.mock.calls[1]?.[0]).toBe("unsubscribe_events");
+    expect(invoke.mock.calls[1]?.[1]).toEqual({ subscriptionId: subscribeArguments.subscriptionId });
   });
 });

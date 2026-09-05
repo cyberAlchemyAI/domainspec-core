@@ -3,27 +3,45 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { CompilationRejected, compileCarrier, parseDomainSource, parsePredicate } from "../src/index.js";
+import { CompilationRejected, compileCarrier, parseDomainSource, parseSfolFormula } from "../src/index.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const examplePath = path.join(root, "examples/customer-approval.md");
 const outboxExamplePath = path.join(root, "examples/outbox-operation.md");
 
-test("textual Markdown parses and compiles into all generated artifacts", () => {
+test("textual Markdown emits only artifact families present in the source", () => {
   const parsed = parseDomainSource(readFileSync(examplePath, "utf8"));
   const result = compileCarrier(parsed.carrier);
   assert.equal(parsed.source_kind, "markdown-alchlang");
   assert.equal(result.plan.model.domain_id, "customer-approval");
   assert.equal(result.plan.model.actions[0].id, "ReleaseCredit");
-  assert.deepEqual(Object.keys(result.files).sort(), ["domain.events.ts", "domain.graph.json", "domain.machine.ts", "domain.schema.ts", "domain.test-obligations.json", "domain.tools.ts", "domain.types.ts", "traceability.json", "unsupported-residue.json"]);
+  assert.deepEqual(Object.keys(result.files).sort(), ["domain.events.ts", "domain.graph.json", "domain.machine.ts", "domain.schema.ts", "domain.test-obligations.json", "domain.tools.ts", "domain.types.ts", "traceability.json"]);
 });
 
-test("predicate parser translates explicit textual comparisons", () => {
-  const expression = parsePredicate("riskScore <= 472 and status == approved", new Map([["riskScore", "integer"], ["status", "string"]]));
+test("SFOL parser translates explicit textual formulas", () => {
+  const expression = parseSfolFormula("riskScore <= 472 and status == approved", new Map([["riskScore", "integer"], ["status", "string"]]));
   assert.deepEqual(expression, { operator: "and", operands: [
     { operator: "lte", operands: [{ node: "fact_ref", ref: "riskScore" }, { node: "literal", value_type: "integer", value: 472 }] },
     { operator: "eq", operands: [{ node: "fact_ref", ref: "status" }, { node: "literal", value_type: "string", value: "approved" }] }
   ] });
+});
+
+test("an AlchLang source selects the bounded SFOL profile", () => {
+  const parsed = parseDomainSource("domain inventory \"Inventory\"\nowner inventory-owner\nlogic sfol-v1\n\nentity Item:\n  quantity: integer required\n\nrule Available:\n  quantity > 0\n");
+  const compiled = compileCarrier(parsed.carrier);
+  assert.equal(compiled.plan.model.logic_profile, "sfol-v1");
+  assert.equal(compiled.plan.sfol_logic_model.profile, "sfol-v1");
+  assert.deepEqual(compiled.plan.sfol_logic_model.formulas, compiled.plan.model.rules);
+});
+
+test("unknown logic profiles fail closed", () => {
+  assert.throws(() => parseDomainSource("domain inventory \"Inventory\"\nowner inventory-owner\nlogic ambient-logic\n"), (error: unknown) => error instanceof CompilationRejected && error.issues.some((issue) => issue.code === "SFOL_PROFILE"));
+  assert.throws(() => parseDomainSource("domain inventory \"Inventory\"\nowner inventory-owner\nlogic sfol-v1\nlogic sfol-v1\n"), (error: unknown) => error instanceof CompilationRejected && error.issues.some((issue) => issue.code === "SFOL_PROFILE"));
+});
+
+test("SFOL formula positions reject non-Boolean terms", () => {
+  const parsed = parseDomainSource("domain inventory \"Inventory\"\nowner inventory-owner\nlogic sfol-v1\n\nentity Item:\n  quantity: integer required\n\nrule Invalid:\n  quantity\n");
+  assert.throws(() => compileCarrier(parsed.carrier), (error: unknown) => error instanceof CompilationRejected && error.issues.some((issue) => issue.code === "SFOL_FORMULA_TYPE"));
 });
 
 test("text source never defaults owner or domain", () => {

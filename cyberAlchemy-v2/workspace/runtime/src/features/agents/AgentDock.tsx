@@ -1,6 +1,6 @@
 import type { EssaysSavedDraftObservation, EssaysStagedBuffer } from "@cyberalchemy/essays-runtime/markdown";
 import type { EssayWorkspace } from "@cyberalchemy/essays-runtime/model";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ProposalHandoffStore,
   canAcceptSavedDraft,
@@ -125,6 +125,23 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
   const [notice, setNotice] = useState("");
   const [rejectReason, setRejectReason] = useState("");
   const [rejectConfirmed, setRejectConfirmed] = useState(false);
+  const observedCursorRef = useRef(0);
+  const snapshotInFlightRef = useRef<{ workspaceId: string; promise: Promise<WorkspaceSnapshot | null> } | null>(null);
+  if (snapshot && snapshot.event_cursor > observedCursorRef.current) {
+    observedCursorRef.current = snapshot.event_cursor;
+  }
+  const readSnapshot = useCallback((workspaceId: string, cursor: number | null = null) => {
+    if (bridge.status !== "available") return Promise.reject(new Error("TAURI_SNAPSHOT_UNAVAILABLE"));
+    const existing = snapshotInFlightRef.current;
+    if (existing?.workspaceId === workspaceId) return existing.promise;
+    const promise = bridge.snapshot(workspaceId, cursor);
+    snapshotInFlightRef.current = { workspaceId, promise };
+    const clear = () => {
+      if (snapshotInFlightRef.current?.promise === promise) snapshotInFlightRef.current = null;
+    };
+    void promise.then(clear, clear);
+    return promise;
+  }, [bridge]);
 
   useEffect(() => {
     if (!essayWorkspace) {
@@ -157,6 +174,53 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
     return () => { active = false; };
   }, [handoffStore, savedDraftObservation]);
 
+  useEffect(() => {
+    if (bridge.status !== "available" || !snapshot) return;
+    const availableBridge = bridge;
+    const workspaceId = snapshot.workspace.workspace_id;
+    observedCursorRef.current = Math.max(observedCursorRef.current, snapshot.event_cursor);
+    let disposed = false;
+    let refreshTimer: number | null = null;
+    let unsubscribe: (() => Promise<void>) | null = null;
+
+    const refreshFromEvent = (event: { cursor: number; workspace_id: string }) => {
+      if (event.workspace_id !== workspaceId || event.cursor <= observedCursorRef.current) return;
+      if (refreshTimer !== null) window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => {
+        refreshTimer = null;
+        if (event.cursor <= observedCursorRef.current) return;
+        observedCursorRef.current = event.cursor;
+        void readSnapshot(workspaceId, event.cursor).then((next) => {
+          if (disposed || !next) return;
+          setSnapshot(next);
+          setHandoff((current) => {
+            if (!current) return current;
+            const reconciled = reduceProposalHandoff(current, {
+              type: "observe-remote",
+              ...remoteObservation(next, current),
+              atUnixMs: Date.now(),
+            });
+            handoffStore.persist(reconciled);
+            return reconciled;
+          });
+        }).catch((cause) => { if (!disposed) setError(messageFor(cause)); });
+      }, 32);
+    };
+
+    void availableBridge.subscribeEvents(workspaceId, observedCursorRef.current, refreshFromEvent)
+      .then((stop) => {
+        if (disposed) void stop();
+        else unsubscribe = stop;
+      })
+      .catch((cause) => { if (!disposed) setError(messageFor(cause)); });
+
+    return () => {
+      disposed = true;
+      if (refreshTimer !== null) window.clearTimeout(refreshTimer);
+      if (unsubscribe) void unsubscribe();
+    };
+  }, [bridge, handoffStore, readSnapshot, snapshot?.workspace.workspace_id]);
+
   if (bridge.status === "unavailable") {
     return (
       <aside className="agent-dock unavailable" aria-labelledby="agent-dock-title">
@@ -182,7 +246,7 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
     if (!essayWorkspace) return;
     setBusy(true); setError(""); setNotice("");
     try {
-      const next = await bridge.snapshot(essayWorkspace.workspaceId);
+      const next = await readSnapshot(essayWorkspace.workspaceId);
       setSnapshot(next);
       if (next && handoff) reconcileSnapshot(handoff, next);
       setNotice(next ? "Agent ledger refreshed and staged residue reconciled." : "No agent ledger exists for this essay yet.");
@@ -193,12 +257,12 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
     if (!essayWorkspace) return;
     setBusy(true); setError(""); setNotice("");
     try {
-      const existing = await bridge.snapshot(essayWorkspace.workspaceId);
+      const existing = await readSnapshot(essayWorkspace.workspaceId);
       if (!existing) {
         const principal = await bridge.principalEvidence();
         await bridge.execute(createWorkspaceCommand({ requestId: requestId("workspace-create"), workspaceId: essayWorkspace.workspaceId, workOwner: principal.principalSubject, initialText: essayWorkspace.essay?.markdown ?? "", deadlineUnixMs: Date.now() + 30_000 }));
       }
-      const next = await bridge.snapshot(essayWorkspace.workspaceId);
+      const next = await readSnapshot(essayWorkspace.workspaceId);
       setSnapshot(next);
       if (next && handoff) reconcileSnapshot(handoff, next);
       setNotice(existing ? "Existing agent ledger attached." : "Local agent ledger created and attached.");
@@ -239,7 +303,7 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
       ? handoff
       : persist(reduceProposalHandoff(handoff, { type: "begin-disposition", kind, requestId: stableRequestId, reason, deadlineUnixMs: stableDeadlineUnixMs, atUnixMs: Date.now() }));
     try {
-      const fresh = await bridge.snapshot(snapshot.workspace.workspace_id);
+      const fresh = await readSnapshot(snapshot.workspace.workspace_id);
       if (!fresh) throw new Error("The Rust ledger disappeared before disposition.");
       setSnapshot(fresh);
       const preflight = dispositionPreflight(current, remoteObservation(fresh, current));
@@ -269,7 +333,7 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
         ? acceptProposalCommand({ requestId: current.disposition!.requestId, workspaceId: current.workspaceId, proposalId: current.proposalId, expectedRevision: current.sourceLedgerRevision, deadlineUnixMs: current.disposition!.deadlineUnixMs })
         : rejectProposalCommand({ requestId: current.disposition!.requestId, workspaceId: current.workspaceId, proposalId: current.proposalId, expectedRevision: current.sourceLedgerRevision, reason: current.disposition!.reason!, deadlineUnixMs: current.disposition!.deadlineUnixMs });
       await bridge.execute(command);
-      const after = await bridge.snapshot(current.workspaceId);
+      const after = await readSnapshot(current.workspaceId);
       if (!after) throw new Error("Disposition returned without a readable Rust snapshot.");
       setSnapshot(after);
       const afterObservation = remoteObservation(after, current);
@@ -283,7 +347,7 @@ export function AgentDock({ essayWorkspace, savedDraftObservation, onStageBuffer
     } catch (cause) {
       current = persist(reduceProposalHandoff(current, { type: "disposition-ambiguous", message: `Disposition result is unknown: ${messageFor(cause)}`, atUnixMs: Date.now() }));
       try {
-        const reconciled = await bridge.snapshot(current.workspaceId);
+        const reconciled = await readSnapshot(current.workspaceId);
         if (reconciled) { setSnapshot(reconciled); current = reconcileSnapshot(current, reconciled); }
       } catch { /* persisted unknown state is the fail-closed result */ }
       setError(stageExplanation(current));

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import hashlib
+import importlib.util
 import json
 import re
 import subprocess
@@ -25,6 +26,8 @@ SOURCE_MAP_PATH = REPOSITORY_ROOT / "cyberAlchemy-v2/SOURCE-MAP.md"
 
 EXPECTED_ROUTE_IDS = {
     "CA2-ROUTE-ENTRY",
+    "CA2-ROUTE-LOCATE",
+    "CA2-ROUTE-RECENT",
     "CA2-ROUTE-UNDERSTAND",
     "CA2-ROUTE-RESEARCH",
     "CA2-ROUTE-DEFINE",
@@ -209,6 +212,9 @@ def validate_root_agents(text: str, errors: list[str]) -> None:
         "not a mandatory repository prerequisite",
         "fallbacks",
         "CAV2-D65",
+        "CA2-ROUTE-LOCATE",
+        "cyberAlchemy-v2/agent-routing/project-index.json",
+        "CA2-ROUTE-RECENT",
     ]
     for marker in required:
         if marker not in text:
@@ -292,6 +298,56 @@ def validate_routes(registry: dict[str, Any], errors: list[str]) -> None:
         errors.append("understand route does not exclude direct registered ontology operations")
     if "CA2-ROUTE-ONTOLOGY" not in " ".join(route_by_id.get("CA2-ROUTE-VALIDATE", {}).get("excludes", [])):
         errors.append("validate route does not exclude registered ontology validation")
+    lookup = route_by_id.get("CA2-ROUTE-LOCATE", {})
+    if lookup.get("read_first") != [
+        "cyberAlchemy-v2/agent-routing/project-index.json",
+        "cyberAlchemy-v2/agent-routing/PROJECT-LOOKUP.md",
+    ]:
+        errors.append("project lookup read_first set is not exact")
+    if lookup.get("write_ceiling") != "none; source-location lookup only" or lookup.get("execution_mode") != "native-inline":
+        errors.append("project lookup must remain read-only native lookup")
+    for route_id in ["CA2-ROUTE-UNDERSTAND", "CA2-ROUTE-RESEARCH"]:
+        if "CA2-ROUTE-LOCATE" not in " ".join(route_by_id.get(route_id, {}).get("excludes", [])):
+            errors.append(f"{route_id} does not exclude source-location lookup")
+
+
+def validate_project_index(errors: list[str]) -> None:
+    spec = importlib.util.spec_from_file_location("project_citation_lookup", PACKAGE_ROOT / "scripts/locate.py")
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    errors.extend(module.index_errors(load_json(PACKAGE_ROOT / "project-index.json")))
+
+
+RECENT_FILES = [
+    "profile.json", "README.md", "definitions.json", "capability.json", "ontology.json",
+    "recent-context.alch", "build.ts", "recent.py", "validate.py", "test_recent.py", "model.test.ts",
+    "hooks.py", "test_hooks.py", "hooks-contract.json",
+    "generated/build-receipt.json",
+]
+
+
+def validate_recent_context(registry: dict[str, Any], errors: list[str]) -> None:
+    root = PACKAGE_ROOT / "capabilities/recent-context"
+    route = next((r for r in registry.get("routes", []) if r.get("route_id") == "CA2-ROUTE-RECENT"), {})
+    if route.get("read_first") != [
+        "cyberAlchemy-v2/agent-routing/capabilities/recent-context/profile.json",
+        "cyberAlchemy-v2/agent-routing/capabilities/recent-context/README.md",
+        "cyberAlchemy-v2/agent-routing/project-index.json",
+    ]:
+        errors.append("recent-context route read_first set is not exact")
+    if route.get("write_ceiling") != "none; recent-context query emits metadata to stdout only" or route.get("execution_mode") != "native-inline":
+        errors.append("recent-context route must remain read-only query")
+    if route.get("requires_user_authorization") is not False:
+        errors.append("read-only recent-context query must not require mutation authority")
+    session = next((r for r in registry.get("routes", []) if r.get("route_id") == "CA2-ROUTE-SESSION"), {})
+    if session.get("lifecycle_state") != "blocked":
+        errors.append("recent context cannot unblock durable session lifecycle")
+    spec = importlib.util.spec_from_file_location("validate_recent_context", root / "validate.py")
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    errors.extend(module.model_errors())
 
 
 def validate_generated(errors: list[str], semantic_bindings: list[dict[str, Any]]) -> None:
@@ -341,6 +397,16 @@ def validate_generated(errors: list[str], semantic_bindings: list[dict[str, Any]
         errors.append("generated system ontology source-map binding drift")
     if contract.get("fallback_policy") != "forbidden":
         errors.append("generated system ontology permits a routing fallback")
+    expected_recent = {name: sha256_file(PACKAGE_ROOT / "capabilities/recent-context" / name) for name in RECENT_FILES}
+    if contract.get("recent_context_sources") != expected_recent:
+        errors.append("generated system ontology recent-context source bindings drift")
+    for field, relative in {
+        "project_index_sha256": "project-index.json",
+        "project_lookup_sha256": "scripts/locate.py",
+        "project_lookup_contract_sha256": "PROJECT-LOOKUP.md",
+    }.items():
+        if contract.get(field) != sha256_file(PACKAGE_ROOT / relative):
+            errors.append(f"generated system ontology project-lookup binding drift: {relative}")
     if projection.get("deterministic_runs") != 2 or not projection.get("equal_graph_bytes") or not projection.get("equal_system_ontology_bytes"):
         errors.append("generated system ontology lacks two-run determinism evidence")
     if projection.get("source_graph_digest") != sha256_file(graph_path):
@@ -392,6 +458,10 @@ def material_digest() -> str:
         PACKAGE_ROOT / "ROUTER.md",
         PACKAGE_ROOT / "profile.json",
         PACKAGE_ROOT / "routes.json",
+        PACKAGE_ROOT / "project-index.json",
+        PACKAGE_ROOT / "PROJECT-LOOKUP.md",
+        PACKAGE_ROOT / "scripts/locate.py",
+        PACKAGE_ROOT / "tests/test_project_lookup.py",
         PACKAGE_ROOT / "product-capability.json",
         PACKAGE_ROOT / "product-capability-support.json",
         PACKAGE_ROOT / "ontology.json",
@@ -410,6 +480,7 @@ def material_digest() -> str:
         PACKAGE_ROOT / "domainspec/generated/system-ontology.json",
         PACKAGE_ROOT / "domainspec/generated/system-ontology-receipt.json",
     ]
+    paths.extend(PACKAGE_ROOT / "capabilities/recent-context" / name for name in RECENT_FILES)
     payload = b"".join(path.relative_to(REPOSITORY_ROOT).as_posix().encode() + b"\0" + path.read_bytes() for path in paths if path.is_file())
     return sha256_bytes(payload)
 
@@ -432,6 +503,8 @@ def evaluate(
     errors.extend(schema_errors(routes, schema, "#/$defs/routeRegistry", "route registry"))
     errors.extend(schema_errors(ontology, schema, "#/$defs/businessOntology", "business ontology"))
     validate_routes(routes, errors)
+    validate_project_index(errors)
+    validate_recent_context(routes, errors)
     validate_ontology(ontology, errors)
     validate_product_capability(product_capability, ontology, errors)
     semantic_bindings = validate_semantic_bindings(errors)

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { selectEditorInitialMarkdown } from "./App";
+import { countMarkdownWords, selectEditorInitialMarkdown } from "./App";
 
 describe("Essays staged editor boundary", () => {
   const stagedBuffer = {
@@ -35,5 +35,12 @@ describe("Essays staged editor boundary", () => {
       stagedBuffer,
       appliedStageEpoch: 42,
     })).toBe("# Later divergent writer save\n");
+  });
+});
+
+describe("Essays word counting", () => {
+  it("counts Markdown words without treating repeated whitespace as content", () => {
+    expect(countMarkdownWords("# Ferrari\n\nA  fast\tworkspace.\n")).toBe(5);
+    expect(countMarkdownWords("   \n\t")).toBe(0);
   });
 });

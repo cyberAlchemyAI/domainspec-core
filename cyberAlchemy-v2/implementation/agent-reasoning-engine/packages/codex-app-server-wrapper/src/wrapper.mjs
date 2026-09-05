@@ -1,18 +1,19 @@
 import {digestValue, fail, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
-import {evaluateDualLaneContinuation, normalizeContinuationProposals} from "./continuation.mjs";
+import {evaluateDualLaneContinuation, normalizeContinuationProposals, projectObjectiveFrontierForTurnStart} from "./continuation.mjs";
 import {bindApprovalResponse, evaluateEffectRequest} from "./effect-boundary.mjs";
 import {createEvidenceLedger} from "./evidence-ledger.mjs";
 import {evaluateTurnPreflight} from "./preflight.mjs";
 import {evaluateSemanticCompletion} from "./semantic-completion.mjs";
 import {emitCompletionImprovementSignals} from "./evolution-signals.mjs";
 import {addIntentLifecycleContext, prepareCodexIntentLifecycle} from "./intent-lifecycle.mjs";
+import {addObjectiveContext, createCodexObjectiveLifecycle} from "./objective-lifecycle.mjs";
 import {deriveReasoningReceiptConstraints} from "./reasoning-receipt-constraints.mjs";
 import {
   acquireReasoningStateWriterLock,
   bindCacheTelemetryObservation,
   createReasoningStateLedger,
   createRequestSeriesHeader,
-  materializeCacheAffinityProjection,
+  materializeContextBoundCacheAffinityProjection,
   materializeReasoningDispatch,
   recoverReasoningStateLedger,
   verifyReasoningDispatch,
@@ -120,18 +121,31 @@ export function createCodexAppServerWrapper(options) {
   const internalRequests = new Set();
   let activeDecisionProfile = options.decision_profile;
   let internalSequence = 0;
+  let objectiveLifecycle;
+  try {
+    objectiveLifecycle = createCodexObjectiveLifecycle({ledger: reasoningLedger, profile_id: options.loaded_profile.profile_id,
+      configuration: options.loaded_profile.objective_resolution, provider: options.objective_provider});
+  } catch (error) { reasoningWriterLock?.release(); throw error; }
+  const objectiveTurnsInFlight = new Set();
 
   for (const event of reasoningLedger.snapshot()) {
-    const persisted = event.content?.cache_affinity_state;
-    if (event.event_kind !== "dispatch-materialized"
-      || !nonEmptyString(event.content?.consumer_ref)
-      || !isRecord(persisted?.projection)
-      || !isRecord(persisted?.assessment)) continue;
-    cacheAffinityByConsumer.set(event.content.consumer_ref, freezeResult({projection: persisted.projection, assessment: persisted.assessment, authority_effect: "none"}));
-    const recoveredEpoch = isRecord(event.content.reasoning_epoch)
-      ? event.content.reasoning_epoch
-      : reasoningLedger.getEpoch?.(event.content.dispatch?.epoch_digest);
-    if (isRecord(recoveredEpoch)) reasoningEpochByConsumer.set(event.content.consumer_ref, recoveredEpoch);
+    const consumerRef = event.content?.consumer_ref;
+    if (!nonEmptyString(consumerRef)) continue;
+    if (event.event_kind === "dispatch-materialized") {
+      const persisted = event.content?.cache_affinity_state;
+      if (!isRecord(persisted?.projection) || !isRecord(persisted?.assessment) || !isRecord(persisted?.receipt)) continue;
+      cacheAffinityByConsumer.set(consumerRef, freezeResult({projection: persisted.projection, assessment: persisted.assessment, receipt: persisted.receipt, authority_effect: "none"}));
+      if (typeof persisted.projection.wire_value !== "string") ledger.record({event_kind: "cache-affinity-recovery-miss", direction: "wrapper", method: "startup", reason_code: "cache.recovered-summary-is-not-full-projection"});
+      const recoveredEpoch = isRecord(event.content.reasoning_epoch)
+        ? event.content.reasoning_epoch
+        : reasoningLedger.getEpoch?.(event.content.dispatch?.epoch_digest);
+      if (isRecord(recoveredEpoch)) reasoningEpochByConsumer.set(consumerRef, recoveredEpoch);
+    } else if (event.event_kind === "cache-telemetry-observed" && isRecord(event.content?.observation)) {
+      const current = cacheAffinityByConsumer.get(consumerRef);
+      if (current && event.content.observation.projection_digest === current.projection.projection_digest) {
+        cacheAffinityByConsumer.set(consumerRef, freezeResult({...current, telemetry: event.content.observation, authority_effect: "none"}));
+      }
+    }
   }
 
   function turnKey(threadId, turnId) {
@@ -262,6 +276,7 @@ export function createCodexAppServerWrapper(options) {
       ...(currentReasoningEpoch?.event_digests ?? []),
       requestEvent.event.event_digest,
       contextEvent.event.event_digest,
+      ...(result.objective_lifecycle?.event_digest ? [result.objective_lifecycle.event_digest] : []),
       ...(intentEvent ? [intentEvent.event.event_digest] : []),
     ])];
     const sealed = reasoningLedger.seal({
@@ -290,11 +305,13 @@ export function createCodexAppServerWrapper(options) {
     if (header.ok === false) return fail("reasoning-dispatch", header.reason_codes, header.residue);
     const reusableItems = (envelope?.included_items ?? []).filter((item) => item.item_kind !== "request");
     const volatileItems = (envelope?.included_items ?? []).filter((item) => item.item_kind === "request");
-    const cacheAffinity = materializeCacheAffinityProjection({
+    const selectedDependenciesDigest = digestValue(result.refresh_assessment?.value?.current_selected_dependencies ?? []);
+    const cacheAffinity = materializeContextBoundCacheAffinityProjection({
       request_header: header,
-      reusable_reasoning_state: {
+      current_reusable_reasoning_state: {
         route_id: routeDecision?.selected?.route_id ?? null,
         capability_ref: routeDecision?.selected?.capability_ref ?? null,
+        selected_dependencies_digest: selectedDependenciesDigest,
         selected_dependencies: (envelope?.selected_dependencies ?? []).filter((dependency) => !["request", "selection", "route"].includes(dependency.dependency_kind)),
         included_items: reusableItems,
         exclusions: envelope?.exclusions ?? [],
@@ -315,7 +332,9 @@ export function createCodexAppServerWrapper(options) {
         request_items: volatileItems,
         intent_contract_digest: intentLifecycle?.intent_contract?.intent_contract_digest ?? null,
       },
-      previous_projection: cacheAffinityByConsumer.get(binding.view_key)?.projection ?? null,
+      previous_projection: typeof cacheAffinityByConsumer.get(binding.view_key)?.projection?.wire_value === "string"
+        ? cacheAffinityByConsumer.get(binding.view_key).projection : null,
+      refresh_assessment: result.refresh_assessment,
     });
     if (!cacheAffinity.ok) return fail("reasoning-dispatch", cacheAffinity.reason_codes, cacheAffinity.residue);
     const forwardedMessage = addIntentLifecycleContext(addContextFragment(result.forwarded_message, result.fragment, cacheAffinity), intentLifecycle);
@@ -343,6 +362,7 @@ export function createCodexAppServerWrapper(options) {
             estimated_reusable_tokens: cacheAffinity.projection.estimated_reusable_tokens,
           },
           assessment: cacheAffinity.assessment,
+          receipt: cacheAffinity.receipt,
           authority_effect: "none",
         },
       },
@@ -399,7 +419,10 @@ export function createCodexAppServerWrapper(options) {
       event_kind: "cache-telemetry-observed",
       idempotency_key: `cache-telemetry:${observed.value.observation_digest}`,
       content: {consumer_ref: input.consumer_ref.trim(), observation: observed.value, authority_effect: "none"},
-      provenance_refs: [`cache-affinity-projection:${current.projection.projection_digest}`],
+      provenance_refs: [
+        `cache-affinity-projection:${current.projection.projection_digest}`,
+        `context-bound-reuse-receipt:${current.receipt.receipt_digest}`,
+      ],
     });
     if (!appended.ok) return fail("cache-telemetry", appended.reason_codes, appended.residue);
     const telemetryEpoch = reasoningLedger.seal({event_digests: [appended.event.event_digest], consumer_ref: input.consumer_ref.trim(), request_ref: `cache-telemetry:${observed.value.observation_digest}`, frontier: {kind: "cache-telemetry-observed"}});
@@ -412,6 +435,7 @@ export function createCodexAppServerWrapper(options) {
       direction: "wrapper",
       cache_affinity_projection_digest: current.projection.projection_digest,
       cache_affinity_assessment_digest: current.assessment.assessment_digest,
+      context_bound_reuse_receipt_digest: current.receipt.receipt_digest,
       cache_telemetry_observation_digest: observed.value.observation_digest,
       cache_hit_posture: observed.value.cache_hit_posture,
       observed_input_tokens: observed.value.observed_input_tokens,
@@ -491,11 +515,21 @@ export function createCodexAppServerWrapper(options) {
   async function preflight(message, bindingOverride = null) {
     const binding = resolveTurnBinding(message, bindingOverride);
     if (!binding) return fail("preflight", ["preflight.turn-binding-unresolved"]);
+    let selectedSources = null;
+    const objective = await objectiveLifecycle.prepare(message, binding, async () => {
+      selectedSources = await loadCurrentSources();
+      return selectedSources;
+    });
+    if (!objective.ok) return freezeResult({ok: false, stage: "objective-resolution", ...objective, authority_effect: "none"});
+    if (objective.resolution) ledger.record({event_kind: "objective-transition-resolved", direction: "wrapper", method: TURN_START,
+      rpc_id: message.id, thread_id: message.params.threadId, objective_resolution_digest: objective.resolution.resolution_digest,
+      objective_state_digest: objective.resolution.next_state.state_digest, objective_transition: objective.resolution.transition});
     const previousState = currentViews.get(binding.view_key) ?? null;
-    const current = await loadCurrentSources();
+    const current = selectedSources ?? await loadCurrentSources();
     if (!current?.ok) return fail("context-source-refresh", current?.reason_codes ?? ["context.source-refresh-failed"], current?.residue ?? []);
-    const result = evaluateTurnPreflight({
-      message,
+    const result = {...evaluateTurnPreflight({
+      message: addObjectiveContext(message, objective),
+      objective_resolution: objective.resolution,
       turn_binding: binding,
       decision_profile: current.decision_profile,
       definition_catalog: current.definition_catalog,
@@ -506,7 +540,7 @@ export function createCodexAppServerWrapper(options) {
       previous_envelope: previousState?.envelope ?? null,
       current_sources: current.source_snapshot ?? [],
       projection_policy: options.loaded_profile.context_projection,
-    });
+    }), objective_lifecycle: objective};
     if (result.ok && result.action === "forward") {
       const view = result.composition.value.context_window_view.value;
       const envelope = result.context_envelope.value;
@@ -657,27 +691,29 @@ export function createCodexAppServerWrapper(options) {
     }
 
     if (message.method !== TURN_START) return {...emptyActions(), to_server: [message]};
-    const result = await preflight(message);
+    const threadId = message.params?.threadId;
+    const effectiveMessage = projectObjectiveFrontierForTurnStart(message, completionByThread.get(threadId)?.directive ?? null);
+    const result = await preflight(effectiveMessage);
     if (!result.ok) {
       return {...emptyActions(), to_client: [jsonRpcError(message.id, -32070, "ARE preflight failed", result)]};
     }
-    const threadId = message.params.threadId;
     ledger.record({
       event_kind: "preflight-decision",
       direction: "wrapper",
       method: TURN_START,
       rpc_id: message.id,
       thread_id: threadId,
-      message_digest: digestValue(message),
+      message_digest: digestValue(effectiveMessage),
       decision_digest: result.directive.decision_digest,
     });
     if (result.action !== "forward") {
       return {...emptyActions(), to_client: [jsonRpcError(message.id, result.action === "gate" ? -32071 : -32072, `ARE preflight ${result.action}`, result.directive)]};
     }
-    const binding = resolveTurnBinding(message);
+    const binding = resolveTurnBinding(effectiveMessage);
     const intentLifecycle = await prepareCodexIntentLifecycle({
       configuration: options.loaded_profile.intent_compilation,
-      message,
+      objective_resolution: result.objective_lifecycle?.resolution,
+      message: effectiveMessage,
       request_ref: `codex-rpc:${message.id}`,
       context_envelope_digest: result.context_envelope?.digest,
       reasoning_epoch_digest: reasoningEpochByConsumer.get(binding.view_key)?.epoch_digest ?? null,
@@ -690,7 +726,7 @@ export function createCodexAppServerWrapper(options) {
     if (!intentLifecycle.ok) {
       return {...emptyActions(), to_client: [jsonRpcError(message.id, -32076, "Request intent compilation failed", intentLifecycle)]};
     }
-    const reasoning = prepareModelDispatch(message, result, binding, intentLifecycle);
+    const reasoning = prepareModelDispatch(effectiveMessage, result, binding, intentLifecycle);
     if (!reasoning.ok) {
       return {...emptyActions(), to_client: [jsonRpcError(message.id, -32075, "Reasoning-state dispatch preparation failed", reasoning)]};
     }
@@ -710,6 +746,7 @@ export function createCodexAppServerWrapper(options) {
       request_header_digest: reasoning.dispatch.request_header_digest,
       cache_affinity_projection_digest: reasoning.cache_affinity.projection.projection_digest,
       cache_affinity_assessment_digest: reasoning.cache_affinity.assessment.assessment_digest,
+      context_bound_reuse_receipt_digest: reasoning.cache_affinity.receipt.receipt_digest,
       cache_affinity_posture: reasoning.cache_affinity.assessment.posture,
       exact_prefix_reuse: reasoning.cache_affinity.assessment.exact_prefix_reuse,
       reusable_prefix_bytes: reasoning.cache_affinity.assessment.reusable_prefix_bytes,
@@ -744,7 +781,7 @@ export function createCodexAppServerWrapper(options) {
       message_digest: digestValue(reasoning.forwarded_message),
       decision_digest: result.directive.decision_digest,
     });
-    rememberTurnStart(message, result, reasoning, intentLifecycle);
+    rememberTurnStart(effectiveMessage, result, reasoning, intentLifecycle);
     return {...emptyActions(), to_server: [reasoning.forwarded_message]};
   }
 
@@ -805,12 +842,18 @@ export function createCodexAppServerWrapper(options) {
     }
     const plan = [...registered.plan_bound, ...(provided.plan_bound ?? [])];
     const interaction = [...registered.interaction_bound, ...(provided.interaction_bound ?? [])];
-    const continuationRequired = plan.length > 0 || interaction.length > 0 || provided.continuation_required === true;
+    const objectiveFrontier = provided.objective_frontier ?? null;
+    const continuationRequired = objectiveFrontier
+      ? objectiveFrontier.state !== "complete"
+      : plan.length > 0 || interaction.length > 0 || provided.continuation_required === true;
     const completion = {
       completion_id: `codex-turn:${turnId}`,
       status: turn.status === "completed" ? "completed" : turn.status,
       continuation_required: continuationRequired,
-      evidence_refs: ledger.snapshot().filter((event) => event.thread_id === threadId && (!event.turn_id || event.turn_id === turnId)).map((event) => `event:${event.event_digest}`),
+      evidence_refs: [
+        ...ledger.snapshot().filter((event) => event.thread_id === threadId && (!event.turn_id || event.turn_id === turnId)).map((event) => `event:${event.event_digest}`),
+        ...(Array.isArray(objectiveFrontier?.evidence_refs) ? objectiveFrontier.evidence_refs : []),
+      ],
     };
     const normalized = normalizeContinuationProposals({plan_bound: plan, interaction_bound: interaction});
     const semanticConstraints = deriveReasoningReceiptConstraints({
@@ -832,7 +875,7 @@ export function createCodexAppServerWrapper(options) {
         constrained_proposal_count: semanticConstraints.proposal_constraints.length,
       });
     }
-    const result = evaluateDualLaneContinuation({completion, plan_bound: plan, interaction_bound: interaction, semantic_constraints: semanticConstraints}, activeDecisionProfile);
+    const result = evaluateDualLaneContinuation({completion, plan_bound: plan, interaction_bound: interaction, normalized_proposals: normalized, objective_frontier: objectiveFrontier, semantic_constraints: semanticConstraints}, activeDecisionProfile);
     proposalsByThread.delete(threadId);
     completionByThread.set(threadId, {completion, directive: result});
     completionByTurn.set(key, result);
@@ -1093,7 +1136,15 @@ export function createCodexAppServerWrapper(options) {
           });
           internalSequence += 1;
           const nextMessage = freezeResult({jsonrpc: PROTOCOL_VERSION, id: `ca2-successor-${internalSequence}`, method: TURN_START, params: proposal.next_turn.params});
-          const preflightResult = await preflight(nextMessage, successorBinding(proposal));
+          const successorThread = nextMessage.params.threadId;
+          let preflightResult;
+          if (options.loaded_profile.objective_resolution?.enabled === true && objectiveTurnsInFlight.has(successorThread)) {
+            preflightResult = fail("objective-resolution", ["objective.concurrent-turn-in-progress"]);
+          } else {
+            if (options.loaded_profile.objective_resolution?.enabled === true) objectiveTurnsInFlight.add(successorThread);
+            try { preflightResult = await preflight(nextMessage, successorBinding(proposal)); }
+            finally { objectiveTurnsInFlight.delete(successorThread); }
+          }
           if (preflightResult.ok && preflightResult.action === "forward") {
             const successorReasoning = prepareModelDispatch(nextMessage, preflightResult, resolveTurnBinding(nextMessage, successorBinding(proposal)));
             if (!successorReasoning.ok) {
@@ -1108,7 +1159,7 @@ export function createCodexAppServerWrapper(options) {
             ledger.record({event_kind: "preflight-decision", direction: "wrapper", method: TURN_START, rpc_id: nextMessage.id, thread_id: nextMessage.params.threadId, message_digest: digestValue(nextMessage), decision_digest: preflightResult.directive.decision_digest});
             ledger.record({event_kind: "reasoning-dispatch-verified", direction: "wrapper", method: TURN_START, rpc_id: nextMessage.id, thread_id: nextMessage.params.threadId, message_digest: successorReasoning.dispatch.message_digest, reasoning_epoch_id: successorReasoning.epoch.epoch_id, reasoning_epoch_digest: successorReasoning.epoch.epoch_digest, checkpoint_digest: successorReasoning.checkpoint.checkpoint_digest, checkpoint_kind: "before-model-request", dispatch_digest: successorReasoning.dispatch.dispatch_digest, dispatch_verification_digest: successorReasoning.verification.verification_digest, request_header_digest: successorReasoning.dispatch.request_header_digest});
             ledger.record({event_kind: "turn-start-forwarded", direction: "wrapper-to-server", method: TURN_START, rpc_id: nextMessage.id, thread_id: nextMessage.params.threadId, message_digest: digestValue(preflightResult.forwarded_message), decision_digest: preflightResult.directive.decision_digest});
-            actions.to_server.push(preflightResult.forwarded_message);
+            actions.to_server.push(successorReasoning.forwarded_message);
             actions.to_client.push(successorNotification({kind: "started", proposal_id: proposal.proposal_id, proposal_digest: proposal.proposal_digest, preflight_decision_digest: preflightResult.directive.decision_digest, authority_effect: "none"}));
             ledger.record({event_kind: "successor-started", direction: "wrapper", method: TURN_COMPLETED, thread_id: identity.thread_id, turn_id: identity.turn_id, decision_digest: directive.decision_digest, successor_proposal_id: proposal.proposal_id});
           } else {
@@ -1129,7 +1180,14 @@ export function createCodexAppServerWrapper(options) {
   }
 
   return Object.freeze({
-    processClientMessage,
+    processClientMessage: async (message) => {
+      if (options.loaded_profile.objective_resolution?.enabled !== true || message?.method !== TURN_START) return processClientMessage(message);
+      const key = message.params?.threadId;
+      if (objectiveTurnsInFlight.has(key)) return {...emptyActions(), to_client: [jsonRpcError(message.id, -32078, "Objective turn is already in progress", {reason_codes: ["objective.concurrent-turn-in-progress"]})]};
+      objectiveTurnsInFlight.add(key);
+      try { return await processClientMessage(message); }
+      finally { objectiveTurnsInFlight.delete(key); }
+    },
     processServerMessage,
     prepareForEviction,
     recordCacheTelemetry,
@@ -1153,9 +1211,10 @@ export function createCodexAppServerWrapper(options) {
       evolution_signal_turn_ids: [...evolutionSignalEmissions.keys()].sort(),
       intent_contract_threads: [...intentContractsByThread.entries()].map(([thread_id, contract]) => ({thread_id, intent_contract_digest: contract.intent_contract_digest, predecessor_contract_digest: contract.predecessor_contract_digest})).sort((a, b) => a.thread_id.localeCompare(b.thread_id)),
       intent_realization_turn_ids: [...intentRealizationsByTurn.keys()].sort(),
+      objective_states: objectiveLifecycle.inspect(),
       completion_turn_ids: [...completionByTurn.keys()].sort(),
       completion_frontier_turn_ids: [...completionFrontiers.keys()].sort(),
-      cache_affinity_consumers: [...cacheAffinityByConsumer.entries()].map(([consumer, value]) => ({consumer, posture: value.assessment.posture, exact_prefix_reuse: value.assessment.exact_prefix_reuse, reusable_prefix_bytes: value.assessment.reusable_prefix_bytes, reused_prefix_bytes: value.assessment.reused_prefix_bytes, invalidation_reasons: value.assessment.invalidation_reasons, projection_digest: value.projection.projection_digest, exact_prefix_digest: value.projection.exact_prefix_digest, provider_ref: value.projection.stable_request_prefix.provider_ref, model_ref: value.projection.stable_request_prefix.model_ref, assessment_digest: value.assessment.assessment_digest, cache_hit_posture: value.telemetry?.cache_hit_posture ?? value.assessment.cache_hit_posture, observed_input_tokens: value.telemetry?.observed_input_tokens ?? null, observed_cached_input_tokens: value.telemetry?.observed_cached_input_tokens ?? null, observed_token_savings: value.telemetry?.observed_token_savings ?? value.assessment.observed_token_savings, observed_time_savings_ms: value.telemetry?.observed_time_savings_ms ?? value.assessment.observed_time_savings_ms, cache_telemetry_observation_digest: value.telemetry?.observation_digest ?? null})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
+      cache_affinity_consumers: [...cacheAffinityByConsumer.entries()].map(([consumer, value]) => ({consumer, posture: value.assessment.posture, exact_prefix_reuse: value.assessment.exact_prefix_reuse, reusable_prefix_bytes: value.assessment.reusable_prefix_bytes, reused_prefix_bytes: value.assessment.reused_prefix_bytes, invalidation_reasons: value.assessment.invalidation_reasons, projection_digest: value.projection.projection_digest, exact_prefix_digest: value.projection.exact_prefix_digest, provider_ref: value.projection.stable_request_prefix.provider_ref, model_ref: value.projection.stable_request_prefix.model_ref, assessment_digest: value.assessment.assessment_digest, context_bound_reuse_disposition: value.receipt.disposition, context_bound_reuse_receipt_digest: value.receipt.receipt_digest, refresh_assessment_digest: value.receipt.refresh_assessment_digest, selected_dependencies_digest: value.receipt.selected_dependencies_digest, cache_hit_posture: value.telemetry?.cache_hit_posture ?? value.assessment.cache_hit_posture, observed_input_tokens: value.telemetry?.observed_input_tokens ?? null, observed_cached_input_tokens: value.telemetry?.observed_cached_input_tokens ?? null, observed_token_savings: value.telemetry?.observed_token_savings ?? value.assessment.observed_token_savings, observed_time_savings_ms: value.telemetry?.observed_time_savings_ms ?? value.assessment.observed_time_savings_ms, cache_telemetry_observation_digest: value.telemetry?.observation_digest ?? null})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
       context_window_telemetry: contextWindowTracker.snapshot(),
       reasoning_evolution_consumers: [...reasoningEpochByConsumer.entries()].map(([consumer, epoch]) => ({consumer, epoch_id: epoch.epoch_id, epoch_digest: epoch.epoch_digest, event_count: epoch.event_digests.length})).sort((a, b) => a.consumer.localeCompare(b.consumer)),
       runtime_journal: ledger.inspect(),

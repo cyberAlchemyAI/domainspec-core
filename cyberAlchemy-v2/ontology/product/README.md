@@ -13,6 +13,11 @@ listed in `sources.json`, especially the documents in
 [`../../product/`](../../product/README.md). This README is a human navigation
 view. Neither the JSON nor this view is canonical definition authority.
 
+The graph now treats Agent Reasoning Engine as a first-class child Product of
+CyberAlchemy, links it to its Product Thesis, and records its owned Product
+Capability. Those nodes describe the exact candidate package; they do not grant
+product approval or canonical adoption.
+
 ## Product Documentation
 
 - [Product documentation map](../../product/README.md)

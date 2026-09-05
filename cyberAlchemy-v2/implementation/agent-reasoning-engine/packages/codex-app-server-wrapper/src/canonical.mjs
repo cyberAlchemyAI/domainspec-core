@@ -1,3 +1,5 @@
+import {createHash} from "node:crypto";
+
 import {
   canonicalJson,
   canonicalizeJson,
@@ -8,7 +10,7 @@ import {
 export {canonicalJson, canonicalizeJson, deepFreeze, sha256HexText};
 
 export function digestValue(value) {
-  return sha256HexText(canonicalJson(canonicalizeJson(value)));
+  return createHash("sha256").update(canonicalJson(value)).digest("hex");
 }
 
 export function isRecord(value) {

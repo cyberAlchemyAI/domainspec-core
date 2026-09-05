@@ -53,4 +53,5 @@ test("an unseen composition compiles without core changes", () => {
   assert.equal(result.plan.action_ports[0].id, "start-loan");
   assert.deepEqual(result.plan.unsupported_residue, []);
   assert.match(result.files["domain.tools.ts"], /StartLoanPort/);
+  assert.equal(result.plan.type_model[0].fields[0].subject_ref, "loan");
 });

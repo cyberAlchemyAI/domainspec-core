@@ -4,15 +4,15 @@
   "authority": "generated-system-ontology-read-model",
   "authority_effect": "none",
   "source_project_id": "cyberalchemy-agent-routing",
-  "source_set_digest": "64f81f21403e8371c54df416efdf6faf77a09e9f3c0080bf2d8b98190eb78cea",
-  "source_graph_digest": "3fb37d3e1ce7c3e01bdd919451aed0c93b4a8efe12ac96c2b85f6e38629a2de4",
+  "source_set_digest": "e62eb85ab38961e07768c7ce6078271cce641f4dce644e0507ebfcd79cff58d0",
+  "source_graph_digest": "b74c77b5ef5a7759c9e61bb808167d1ad0ad7ba09e8f44c1468ef548a323e440",
   "construction_inputs": [
     {
       "id": "CA2-ROUTING-BIND-CAV2-D65",
       "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
       "scope_kind": "heading-section",
       "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
-      "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff"
+      "sha256": "264088e26cb069e2c48ec4cdc78d794da6b3beec30f0c6ba87fb635866d8cd30"
     },
     {
       "id": "CA2-ROUTING-BIND-CAV2-D67",
@@ -44,7 +44,7 @@
     "views_path": "projects/domainspec-v2/impl/tools/minted-project/views.ts",
     "views_sha256": "19421f43b3f2135273d0757b6284b8831edd2f58ba0ecba13a683dc8f21b2014",
     "projection_builder_path": "cyberAlchemy-v2/agent-routing/scripts/build.ts",
-    "projection_builder_sha256": "20fb727d02463e1602d5841bd3f08f7ee7e19b6e93bf9213c34172ea91ce19ba"
+    "projection_builder_sha256": "ffa77c2fc2d26511b94d55fb65eee414073279734de9e2678ffacd635dbd7a2f"
   },
   "nodes": [
     {
@@ -65,7 +65,7 @@
             "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
             "scope_kind": "heading-section",
             "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
-            "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff"
+            "sha256": "264088e26cb069e2c48ec4cdc78d794da6b3beec30f0c6ba87fb635866d8cd30"
           },
           {
             "id": "CA2-ROUTING-BIND-CAV2-D67",
@@ -95,10 +95,83 @@
           "every authority root belongs to cyberAlchemy-v2",
           "every fallback route is null",
           "blocked capabilities remain blocked",
-          "native operations cannot expand route authority"
+          "native operations cannot expand route authority",
+          "resolve user-cited names through the project index before asking for paths",
+          "lookup returns resolved, ambiguous, not_found, or not_evaluable; it never selects the first ambiguous match",
+          "lookup source currency checks only selected entries; unrelated source drift cannot block a lookup",
+          "source discovery never grants implementation, project registration, or external-effect authority"
         ],
         "missing_route_behavior": "select CA2-ROUTE-AMBIGUOUS and request a decision",
         "missing_capability_behavior": "block without fallback",
+        "authority_effect": "none",
+        "project_lookup_contract_ref": "cyberAlchemy-v2/agent-routing/PROJECT-LOOKUP.md"
+      }
+    },
+    {
+      "node_id": "cyberalchemy-agent-routing.RecentContextFreshness",
+      "feature_id": "cyberalchemy-agent-routing",
+      "kind": "Rule",
+      "intent": "Return scoped recent commit metadata only under an exact current source binding; rebuild stale cache data and never treat history as a session or authority.",
+      "body": {
+        "formal_return_type": "boolean",
+        "alchlang_source_ref": "cyberAlchemy-v2/agent-routing/capabilities/recent-context/recent-context.alch",
+        "alchlang_source_sha256": "28feddd9e835b82a0c95df15d56430e15d82b51e0c47041997a12020510e8556",
+        "required_conditions": [
+          "explicit unambiguous project or literal path scope",
+          "first-parent history bounded to at most 100 commits and 1000 displayed file changes",
+          "HEAD, branch, worktree, shallow boundary, schema, scope and limits match the snapshot",
+          "query cannot write tracked files, Git index, refs, hooks or cache",
+          "explicit refresh writes only derived Git-private per-worktree cache",
+          "uncommitted work is separately observed; submodules are gitlinks only",
+          "no durable session lifecycle or operational authority inferred"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "cyberalchemy-agent-routing.RecentRepositoryContext",
+      "feature_id": "cyberalchemy-agent-routing",
+      "kind": "Entity",
+      "intent": "A repository agent can find recent committed changes for an explicitly selected project or path, with current provenance and separately labeled working-tree status.",
+      "body": {
+        "fields": [
+          {
+            "name": "source_head",
+            "type": "git-object-id|null",
+            "identity": true
+          },
+          {
+            "name": "worktree",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "scope_paths",
+            "type": "string[]",
+            "identity": true
+          },
+          {
+            "name": "commits",
+            "type": "object[]",
+            "identity": false
+          },
+          {
+            "name": "working_tree",
+            "type": "object|null",
+            "identity": false
+          },
+          {
+            "name": "freshness",
+            "type": "string",
+            "identity": false
+          }
+        ],
+        "alchlang_source_ref": "cyberAlchemy-v2/agent-routing/capabilities/recent-context/recent-context.alch",
+        "alchlang_source_sha256": "28feddd9e835b82a0c95df15d56430e15d82b51e0c47041997a12020510e8556",
+        "capability_ref": "CA2-CAP-RECOVER-RECENT-REPOSITORY-CONTEXT",
+        "capability_sha256": "e5793dab2174c2622f71db2da8eb51a4ed5219fa9e6cf160a1b559449598ce82",
+        "ontology_scaffold_ref": "cyberAlchemy-v2/agent-routing/capabilities/recent-context/ontology.json",
+        "ontology_scaffold_sha256": "679f5c1237551d245aa84be2cc45478ed06d36903b984120aea1fe10d9568428",
         "authority_effect": "none"
       }
     },
@@ -148,6 +221,11 @@
             "name": "fallback_route",
             "type": "null",
             "identity": false
+          },
+          {
+            "name": "project_citation_index_ref",
+            "type": "string|null",
+            "identity": false
           }
         ],
         "semantic_refs": [
@@ -163,12 +241,35 @@
   "implementation_contract": {
     "product_capability_ref": "CA2-CAP-ROUTE-REPOSITORY-WORK",
     "route_registry_ref": "cyberAlchemy-v2/agent-routing/routes.json",
-    "route_registry_sha256": "9e697ab0b35d8012148285644af82f51643ce9035792622c160d20c6ea4723aa",
+    "route_registry_sha256": "a3372793358c9d83677ace73bbfc8f778a869d7f9a85cb358e0dbff805ff7b03",
+    "project_index_ref": "cyberAlchemy-v2/agent-routing/project-index.json",
+    "project_index_sha256": "60cb2c3464d2d48d47146ca15836c605ab487b2ab7e010b880a1446420f55894",
+    "project_lookup_ref": "cyberAlchemy-v2/agent-routing/scripts/locate.py",
+    "project_lookup_sha256": "c30c194adbe14ce9d99704a6b45969b7d654b8a879c312f635c6a6ea4abc0868",
+    "project_lookup_contract_ref": "cyberAlchemy-v2/agent-routing/PROJECT-LOOKUP.md",
+    "project_lookup_contract_sha256": "7a12434040e74233bacbd900dd755f056839f1ad5a8bdce60a5f7599c4b262ad",
+    "recent_context_sources": {
+      "profile.json": "790c2159784bb94613a29a62d5e36f47603977e2210b793421617808cb2c079a",
+      "README.md": "dd74149cf0b35fb348e790bf4b7188e4269c9b348d976270bc52310ad1a367e8",
+      "definitions.json": "1a32d58c53cdf130705ebf89a2a2d13a250ed9105da2e39ece41cfce4d69457e",
+      "capability.json": "e5793dab2174c2622f71db2da8eb51a4ed5219fa9e6cf160a1b559449598ce82",
+      "ontology.json": "679f5c1237551d245aa84be2cc45478ed06d36903b984120aea1fe10d9568428",
+      "recent-context.alch": "28feddd9e835b82a0c95df15d56430e15d82b51e0c47041997a12020510e8556",
+      "build.ts": "81de0fae6c6c24e6d6348a4745842335c8889fe447ba8619eec92c73f1a813ba",
+      "recent.py": "7fb8e038427a6680740dc94d30c76cc73f66e5e5def499731e990beb2d9827fc",
+      "validate.py": "10f6f4fc91711e6147e0331e2a3f078f2beeca098e9425d5168d97e635a55b07",
+      "test_recent.py": "11f18d5b48d8e7670b8eebe4c36513bbad33e5b7ccf111aed37ab53e5e16b723",
+      "model.test.ts": "57c0831e9b86a546336a5d7dfea0f78d4df1b6f1e5d68f7761d11ec1844c817e",
+      "hooks.py": "a1291fe8fe69ef99fa6c70b8b604775437e64cbc6010fcfe2396e69342d15604",
+      "test_hooks.py": "c14350d99146290b0ef646ea67733c43de389e7c6503fedadb0405956179ffd3",
+      "hooks-contract.json": "055e1eb3cc4f369406663e862c061e113965d9952f26b7ed936e754b1ba16b5a",
+      "generated/build-receipt.json": "e7a10283b84e9bd11316d6b2302c5e8c9ebb03b8829bfad97a3052681bbfb31b"
+    },
     "ontology_enforcement": "suspended-pending-governed-rust-binding",
     "validator_ref": "cyberAlchemy-v2/agent-routing/scripts/validate.py",
-    "validator_sha256": "2280d4babd77e2f12e7035e68b2de195905422a0ca27ac12832c82d150fb866e",
+    "validator_sha256": "f44956f255faf60737813ef9c9af8ac7048a66947928e41c0283cce9104ebcb4",
     "root_instruction_ref": "AGENTS.md",
-    "root_instruction_sha256": "d5ce857efc1199ed07225cc16b569c4a4c134206653aabf586aa18a7e1266809",
+    "root_instruction_sha256": "9907497297860f8a22096a617f0d493c586f60eecf4d0ca28f56e232457145c5",
     "source_map_ref": "cyberAlchemy-v2/SOURCE-MAP.md",
     "source_map_sha256": "06af1232c1d391773d8afc946c74f4e01b9ff519fe33c347883bbcc0430fcb3c",
     "fallback_policy": "forbidden",

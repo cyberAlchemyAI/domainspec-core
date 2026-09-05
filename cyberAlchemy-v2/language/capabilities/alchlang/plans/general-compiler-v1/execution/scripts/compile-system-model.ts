@@ -47,6 +47,25 @@ function build() {
       ,{ business_ref: "B-GOP-EFFECT", system_ref: "system:operation-pattern-registry:explicit-effect-contract", type: "realized_by", status: "candidate" }
       ,{ business_ref: "B-GOP-PERFORMS", system_ref: "system:operation-pattern-registry:explicit-effect-contract", type: "constrained_by", status: "candidate" }
       ,{ business_ref: "B-GOP-OUTBOX-SQLITE", system_ref: "system:operation-pattern-registry:transactional-outbox-sqlite", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-RUNTIME-BINDING-RESOLVER", system_ref: "system:operation-pattern-registry:runtime-binding-resolver", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-SQLITE-EFFECT-RUNTIME", system_ref: "system:operation-pattern-registry:sqlite-effect-runtime", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-LOCAL-DISPATCHER", system_ref: "system:operation-pattern-registry:local-outbox-dispatcher", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-LEASE", system_ref: "system:operation-pattern-registry:dispatch-lease-policy", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-RETRY", system_ref: "system:operation-pattern-registry:retry-dead-letter-policy", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-HTTP", system_ref: "system:operation-pattern-registry:http-outbox-transport", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-INBOX", system_ref: "system:operation-pattern-registry:sqlite-inbox-consumer", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-MIGRATION", system_ref: "system:operation-pattern-registry:provider-schema-migration", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-GOP-TELEMETRY", system_ref: "system:operation-pattern-registry:outbox-runtime-observed", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-QUERY", system_ref: "system:typed-backend:typed-query", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-CALCULATION", system_ref: "system:typed-backend:typed-calculation", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-MAPPING", system_ref: "system:typed-backend:typed-mapping", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-POLICY", system_ref: "system:typed-backend:typed-policy", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-NO-EFFECT", system_ref: "system:typed-backend:typed-no-effect", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-SFOL-TERM", system_ref: "system:typed-backend:typed-calculation", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-SFOL-FORMULA", system_ref: "system:typed-backend:bounded-sfol-kernel", type: "realized_by", status: "candidate" }
+      ,{ business_ref: "B-TB-INTEGRATION-BINDING", system_ref: "system:typed-backend:operational-realization-boundary", type: "constrained_by", status: "candidate" }
+      ,{ business_ref: "B-TB-RUNTIME-PROVIDER", system_ref: "system:typed-backend:operational-realization-boundary", type: "constrained_by", status: "candidate" }
+      ,{ business_ref: "B-TB-ORODI-EVIDENCE", system_ref: "system:typed-backend:operational-realization-boundary", type: "constrained_by", status: "candidate" }
     ],
     authority_effect: "none"
   };

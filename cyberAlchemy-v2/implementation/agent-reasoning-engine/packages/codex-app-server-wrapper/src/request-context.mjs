@@ -1,4 +1,5 @@
 import {canonicalJson, digestValue, fail, freezeResult, isRecord, nonEmptyString, uniqueStrings} from "./canonical.mjs";
+import {digestIntentMaterial, verifyObjectiveState} from "../../request-intent-runtime/index.mjs";
 
 export const REQUEST_CONTEXT_KEY = "cyberalchemy.request-context";
 
@@ -27,7 +28,7 @@ function describeInput(item) {
   return canonicalJson(item);
 }
 
-export function buildRequestContext(message, turnBinding) {
+export function buildRequestContext(message, turnBinding, objectiveResolution = null) {
   if (!isRecord(message) || message.method !== "turn/start" || !isRecord(message.params)) {
     return fail("request-context", ["request.turn-start-required"]);
   }
@@ -37,6 +38,15 @@ export function buildRequestContext(message, turnBinding) {
   if (!nonEmptyString(message.params.threadId)) return fail("request-context", ["request.thread-id-required"]);
   const hint = contextHint(message.params);
   if (!hint.ok) return hint;
+  if (objectiveResolution) {
+    const {resolution_digest, ...material} = objectiveResolution;
+    const originalText = input.filter(item => isRecord(item) && item.type === "text" && typeof item.text === "string").map(item => item.text.trim()).join("\n");
+    if (objectiveResolution.disposition !== "resolved" || objectiveResolution.authority_effect !== "none"
+      || !verifyObjectiveState(objectiveResolution.next_state) || objectiveResolution.next_state.consumer_ref !== turnBinding.consumer_ref
+      || digestIntentMaterial(material) !== resolution_digest || objectiveResolution.request_digest !== digestIntentMaterial(originalText)) {
+      return fail("request-context", ["objective.resolution-request-binding-invalid"]);
+    }
+  }
   const rawRequest = (hint.value?.raw_request ?? input.map(describeInput).join("\n")).trim();
   if (!rawRequest) return fail("request-context", ["request.raw-request-empty"]);
   const requestId = nonEmptyString(turnBinding.request_id)
@@ -45,12 +55,12 @@ export function buildRequestContext(message, turnBinding) {
   const value = freezeResult({
     schema_version: "are.request-context/v1",
     request_id: requestId,
-    raw_request: rawRequest,
+    raw_request: objectiveResolution?.next_state?.active_objective?.description ?? rawRequest,
     objective_kind: nonEmptyString(hint.value?.objective_kind) ? hint.value.objective_kind.trim() : nonEmptyString(turnBinding.objective_kind) ? turnBinding.objective_kind.trim() : null,
     requested_effects: uniqueStrings([...(turnBinding.requested_effects ?? []), ...(hint.value?.requested_effects ?? [])]),
     target_refs: uniqueStrings([...(turnBinding.target_refs ?? []), ...(hint.value?.target_refs ?? [])]),
     constraints: uniqueStrings([...(turnBinding.constraints ?? []), ...(hint.value?.constraints ?? [])]),
-    evidence_refs: uniqueStrings([...(turnBinding.evidence_refs ?? []), ...(hint.value?.evidence_refs ?? []), `codex-input:${digestValue(input)}`, ...(hint.value ? [`request-context-hint:${digestValue(hint.value)}`] : [])]),
+    evidence_refs: uniqueStrings([...(turnBinding.evidence_refs ?? []), ...(hint.value?.evidence_refs ?? []), `codex-input:${digestValue(input)}`, ...(objectiveResolution ? [`objective-resolution:${objectiveResolution.resolution_digest}`, `original-request:${digestValue(rawRequest)}`] : []), ...(hint.value ? [`request-context-hint:${digestValue(hint.value)}`] : [])]),
   });
   return freezeResult({
     ok: true,

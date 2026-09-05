@@ -6,7 +6,7 @@
     "profile": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["schema_ref", "schema_version", "package_id", "package_root", "package_owner", "meaning_owner", "visibility", "status", "construction_status", "authority_effect", "entry_route_id", "product_capability_ref", "route_registry", "ontology_runtime", "business_ontology", "human_view", "domainspec_project", "system_ontology", "implementation_target", "schema_path", "validator_path", "fallback_policy", "blocked_effects"],
+      "required": ["schema_ref", "schema_version", "package_id", "package_root", "package_owner", "meaning_owner", "visibility", "status", "construction_status", "authority_effect", "entry_route_id", "product_capability_ref", "route_registry", "ontology_runtime", "business_ontology", "human_view", "domainspec_project", "system_ontology", "implementation_target", "schema_path", "validator_path", "fallback_policy", "blocked_effects", "project_index", "recent_context"],
       "properties": {
         "schema_ref": {"const": "schemas/agent-router.schema.json#/$defs/profile"},
         "schema_version": {"const": "cav2-agent-router-profile/v1"},
@@ -21,6 +21,8 @@
         "entry_route_id": {"const": "CA2-ROUTE-ENTRY"},
         "product_capability_ref": {"const": "CA2-CAP-ROUTE-REPOSITORY-WORK"},
         "route_registry": {"const": "routes.json"},
+        "project_index": {"const": "project-index.json"},
+        "recent_context": {"const": "capabilities/recent-context/profile.json"},
         "ontology_runtime": {"const": "../implementation/ontology-runtime/runtime.py"},
         "business_ontology": {"const": "ontology.json"},
         "human_view": {"const": "ROUTER.md"},
@@ -106,6 +108,170 @@
         "nodes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/ontologyNode"}},
         "relations": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/ontologyRelation"}},
         "authority_effect": {"const": "none"}
+      }
+    },
+    "projectIndexEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_id",
+        "name",
+        "kind",
+        "aliases",
+        "root",
+        "owner",
+        "identity_refs",
+        "read_first",
+        "sources",
+        "summary",
+        "open_questions",
+        "authority_effect"
+      ],
+      "properties": {
+        "entry_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "project",
+            "product",
+            "capability",
+            "protocol"
+          ]
+        },
+        "aliases": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identity_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "read_first": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "selector",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "selector": {
+                "const": "whole-file"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authority_effect": {
+          "const": "none"
+        }
+      }
+    },
+    "projectIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_ref",
+        "schema_version",
+        "index_id",
+        "visibility",
+        "status",
+        "authority_effect",
+        "coverage",
+        "open_questions",
+        "entries"
+      ],
+      "properties": {
+        "schema_ref": {
+          "const": "schemas/agent-router.schema.json#/$defs/projectIndex"
+        },
+        "schema_version": {
+          "const": "cav2-project-citation-index/v1"
+        },
+        "index_id": {
+          "const": "cav2.agent-routing.project-citations"
+        },
+        "visibility": {
+          "const": "private"
+        },
+        "status": {
+          "const": "candidate-read-model"
+        },
+        "authority_effect": {
+          "const": "none"
+        },
+        "coverage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/projectIndexEntry"
+          }
+        }
       }
     }
   }

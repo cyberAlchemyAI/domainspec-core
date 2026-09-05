@@ -50,8 +50,8 @@ assert(binding.binding_id === "CA2-BIND-ALCHLANG-LOCAL-RUNTIME-CLI-V1-001", "bin
 assert(binding.status === "candidate-pending-independent-conformance", "candidate-status");
 assert(binding.ontology_id === "cav2.alchlang.local-runtime-cli.business", "ontology-id");
 assert(binding.authority_effect === "none" && binding.d65_chain?.conformance === null, "authority-or-conformance");
-assert(binding.delegation?.route === "CA2-ROUTE-DELEGATE" && binding.delegation?.helper_count === 1, "delegation");
-assert(binding.delegation?.mapped_preflight_intent === "operation-pattern-registry-exact-binding", "delegation-intent");
+assert(binding.execution_context?.route === "CA2-ROUTE-IMPLEMENT" && binding.execution_context?.mode === "owner-directed-native-inline" && binding.execution_context?.helper_count === 0, "execution-context");
+assert(binding.execution_context?.scope === "durable-sqlite-transactional-outbox-and-confirmed-http-integration", "execution-scope");
 const d65 = binding.d65_chain as Obj;
 
 const acceptance = bound(d65.immutable_predecessor_decision, "acceptance");
@@ -69,6 +69,8 @@ const patternOntology = bound(d65.operation_pattern_extension.business_ontology,
 const patternRegistry = bound(d65.operation_pattern_extension.registry, "pattern-registry");
 bound(d65.operation_pattern_extension.schema, "pattern-schema");
 bound(d65.operation_pattern_extension.sources, "pattern-sources");
+const providerCandidate = bound(d65.operation_pattern_extension.provider_runtime_candidate, "provider-runtime-candidate");
+assert(providerCandidate.provider_id === d65.operation_pattern_extension.provider_runtime_candidate.provider_id && providerCandidate.status === "candidate-local-runtime-validated" && providerCandidate.authority_effect === "none", "provider-runtime-candidate-declaration");
 assert(acceptance.decision === "accept-exact-predecessor-package" && acceptance.decision_id === d65.immutable_predecessor_decision.decision_id, "acceptance-declaration");
 const accepted = new Map((acceptance.accepted_material?.files ?? []).map((row: Obj) => [row.path, row.sha256]));
 for (const [path, row] of [["profile.json", d65.accepted_predecessor_package.profile], ["product-capability.json", d65.accepted_predecessor_package.original_product_capability], ["nodes.json", d65.accepted_predecessor_package.original_business_ontology_nodes], ["relations.json", d65.accepted_predecessor_package.original_business_ontology_relations]] as Array<[string, Obj]>) assert(accepted.get(path) === row.sha256, `accepted-byte:${path}`);

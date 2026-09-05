@@ -35,6 +35,7 @@ export async function prepareCodexIntentLifecycle(input = {}) {
   const compiled = await compileRequestIntent({
     request,
     request_ref: input.request_ref,
+    objective_hint: input.objective_resolution?.next_state?.active_objective?.description,
     context_envelope_digest: input.context_envelope_digest,
     reasoning_epoch_digest: input.reasoning_epoch_digest,
     predecessor_contract_digest: correction ? input.previous_contract.intent_contract_digest : null,
@@ -42,6 +43,7 @@ export async function prepareCodexIntentLifecycle(input = {}) {
     source_refs: input.source_refs,
   }, input.intent_provider);
   if (!compiled.ok) return result({ok: false, disposition: "blocked", reason_codes: compiled.reason_codes, provider_calls: compiled.provider_calls ?? 0, intent_contract: null, reflection: null, inspection: null});
+  if (input.objective_resolution && compiled.value.contract.objective !== input.objective_resolution.next_state.active_objective.description) return result({ok: false, disposition: "blocked", reason_codes: ["intent.resolved-objective-mismatch"], provider_calls: compiled.value.provider_calls, intent_contract: null, reflection: null, inspection: null});
   let reflection = null;
   if (correction) {
     reflection = materializeIntentReflection({

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Approval Desk | ide-extension</title>
+    <link rel="icon" href="/assets/cyber-alchemy-logo.svg" type="image/svg+xml">
     <style>
       :root {
         color-scheme: light;
@@ -313,6 +314,42 @@
 
       .work-region > .craft-frontier {
         flex: 0 0 auto;
+      }
+
+      .foundation-definitions {
+        flex: 0 0 auto;
+        max-height: 260px;
+        overflow: auto;
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .foundation-definitions header,
+      .foundation-definition-card {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .foundation-definition-list {
+        display: grid;
+        gap: 6px;
+        margin: 10px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .foundation-definition-card {
+        align-items: baseline;
+        padding: 7px 8px;
+        border: 1px solid var(--line);
+        border-radius: 5px;
+        background: var(--panel-alt);
+      }
+
+      .foundation-definition-card span {
+        color: var(--muted);
+        font-size: 12px;
       }
 
       .work-region > .queue-panel {
@@ -1311,6 +1348,17 @@
           <p id="craft-empty" class="craft-empty" hidden>No pending Craft items</p>
         </section>
 
+        <section class="foundation-definitions" data-panel="foundation-definitions" aria-labelledby="foundation-definitions-heading">
+          <header>
+            <div>
+              <h2 id="foundation-definitions-heading">Foundation Definitions</h2>
+              <p id="foundation-definitions-meta" class="craft-meta">Loading exact source identity</p>
+            </div>
+            <span id="foundation-definitions-status" class="server-state" role="status">Loading</span>
+          </header>
+          <ul id="foundation-definition-list" class="foundation-definition-list" data-list="foundation-definitions"></ul>
+        </section>
+
         <section class="panel queue-panel" data-panel="proposals" aria-labelledby="proposal-heading">
           <div class="panel-head">
             <h2 id="proposal-heading">Proposals</h2>
@@ -1445,6 +1493,7 @@
       const state = {
         snapshot: null,
         craftFrontier: null,
+        foundationDefinitions: null,
         selectedEnvelopeId: null,
         detail: null,
         view: 'pending',
@@ -1496,6 +1545,9 @@
         craftList: document.querySelector('#craft-list'),
         craftEmpty: document.querySelector('#craft-empty'),
         craftRefresh: document.querySelector('[data-action="craft-refresh"]'),
+        foundationDefinitionsMeta: document.querySelector('#foundation-definitions-meta'),
+        foundationDefinitionsStatus: document.querySelector('#foundation-definitions-status'),
+        foundationDefinitionList: document.querySelector('#foundation-definition-list'),
         detailHeading: document.querySelector('#detail-heading'),
         detailSubtitle: document.querySelector('#detail-subtitle'),
         detailStatus: document.querySelector('#detail-status'),
@@ -2443,6 +2495,39 @@
         return snapshot.approval_queue.at(-1)?.envelope_id || null;
       }
 
+      function renderFoundationDefinitions() {
+        clear(els.foundationDefinitionList);
+        const projection = state.foundationDefinitions;
+        if (!projection) return;
+        els.foundationDefinitionsStatus.textContent = projection.status;
+        els.foundationDefinitionsStatus.className = `server-state ${projection.status === 'available' ? 'connected' : ''}`;
+        els.foundationDefinitionsMeta.textContent = `${projection.definitions.length} definitions · ${projection.source.sha256.slice(0, 12)} · ${projection.source.claim_ceiling}`;
+        for (const definition of projection.definitions) {
+          const item = document.createElement('li');
+          item.className = 'foundation-definition-card';
+          const identity = document.createElement('strong');
+          identity.textContent = `${definition.definition_id} · ${definition.title}`;
+          const provenance = document.createElement('span');
+          provenance.textContent = `${definition.currentness} · ${definition.disposition}`;
+          item.append(identity, provenance);
+          item.title = `${definition.summary}\n${definition.source_ref}@${definition.source_sha256}`;
+          els.foundationDefinitionList.append(item);
+        }
+      }
+
+      async function refreshFoundationDefinitions() {
+        try {
+          state.foundationDefinitions = await api('/api/foundation/definitions');
+          renderFoundationDefinitions();
+        } catch (error) {
+          state.foundationDefinitions = null;
+          clear(els.foundationDefinitionList);
+          els.foundationDefinitionsStatus.textContent = error.code === 'foundation_definitions_unavailable' ? 'Unavailable' : 'Stale';
+          els.foundationDefinitionsStatus.className = 'server-state';
+          els.foundationDefinitionsMeta.textContent = error.message;
+        }
+      }
+
       async function refresh(options = {}) {
         try {
           const snapshot = await api('/api/state');
@@ -2474,6 +2559,7 @@
             : 'Craft frontier unavailable';
           showError(error);
         }
+        await refreshFoundationDefinitions();
         try {
           await refreshCanvas();
         } catch (error) {
@@ -2771,6 +2857,7 @@
 
       connectCanvasNotifications();
       refresh();
+      window.setInterval(refreshFoundationDefinitions, 2000);
     </script>
   </body>
 </html>

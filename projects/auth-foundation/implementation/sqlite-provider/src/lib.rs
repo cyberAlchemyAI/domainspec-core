@@ -1,12 +1,13 @@
 use std::collections::BTreeSet;
+use std::marker::PhantomData;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use auth_foundation_runtime_adapter::{
     AuthorizationAdapter, AuthorizationCommand, AuthorizationRevisionSource,
-    BinaryAuthorizationDecision, DecisionClock, PortFailure, RolePermission, RoleRecord,
-    RoleResolution, RoleResolver, ScopeEvidenceVerifier, SessionRecord, SessionResolver,
-    SessionStatus,
+    BinaryAuthorizationDecision, DecisionClock, PortFailure, ResolvedAuthorizationState,
+    RolePermission, RoleRecord, RoleResolution, RoleResolver, ScopeEvidenceVerifier, SessionRecord,
+    SessionResolver, SessionStatus, authorize_resolved,
 };
 use rusqlite::{Connection, OptionalExtension, Transaction, TransactionBehavior};
 
@@ -94,24 +95,91 @@ pub fn authorize_in_transaction(
     command: AuthorizationCommand,
     decision_time: u64,
 ) -> BinaryAuthorizationDecision {
-    let snapshot = SqliteSnapshot { transaction };
-    AuthorizationAdapter::new(
-        &snapshot,
-        &snapshot,
-        &snapshot,
-        &snapshot,
-        FixedClock(decision_time),
-    )
-    .authorize(command)
+    match resolve_authorization_state_in_transaction(transaction, &command) {
+        Ok(snapshot) => snapshot.authorize(command, decision_time),
+        Err(_) => BinaryAuthorizationDecision::Deny,
+    }
 }
 
-#[derive(Clone, Copy)]
-struct FixedClock(u64);
+/// Authorization state resolved exactly once through the caller-owned
+/// transaction. The lifetime marker prevents this snapshot from being used
+/// after the transaction borrow that created it has ended.
+pub struct SqliteAuthorizationStateSnapshot<'transaction> {
+    state: ResolvedAuthorizationState,
+    _transaction: PhantomData<&'transaction ()>,
+}
 
-impl DecisionClock for FixedClock {
-    fn decision_time(&self) -> Result<u64, PortFailure> {
-        Ok(self.0)
+impl SqliteAuthorizationStateSnapshot<'_> {
+    pub fn sessions(&self) -> &[SessionRecord] {
+        self.state.sessions()
     }
+
+    pub fn current_authorization_revision(&self) -> u64 {
+        self.state.current_authorization_revision()
+    }
+
+    pub fn trusted_scope_evidence(&self) -> bool {
+        self.state.trusted_scope_evidence()
+    }
+
+    pub fn is_complete(&self) -> bool {
+        self.state.is_complete() && self.state.roles().complete
+    }
+
+    pub fn authorize(
+        self,
+        command: AuthorizationCommand,
+        decision_time: u64,
+    ) -> BinaryAuthorizationDecision {
+        authorize_resolved(command, decision_time, self.state)
+    }
+}
+
+/// Resolve the complete current session-role-permission state once. Provider
+/// failures remain typed errors for the enclosing service and are mapped to
+/// public DENY at that boundary.
+pub fn resolve_authorization_state_in_transaction<'transaction>(
+    transaction: &'transaction Transaction<'_>,
+    command: &AuthorizationCommand,
+) -> Result<SqliteAuthorizationStateSnapshot<'transaction>, PortFailure> {
+    let provider = SqliteSnapshot { transaction };
+    let sessions = (&provider).resolve_sessions(&command.session_id)?;
+    let matching_sessions: Vec<_> = sessions
+        .iter()
+        .filter(|session| session.session_id == command.session_id)
+        .collect();
+    let roles = if matching_sessions.len() == 1 {
+        (&provider).resolve_active_roles(matching_sessions[0])?
+    } else {
+        RoleResolution {
+            roles: Vec::new(),
+            complete: false,
+        }
+    };
+    let current_authorization_revision =
+        (&provider).current_authorization_revision(&command.session_id)?;
+    let trusted_scope_evidence = (&provider).verify_scope_evidence(command)?;
+    let revision_complete = if let [session] = matching_sessions.as_slice() {
+        session.authorization_revision == current_authorization_revision
+            && relation_revisions_are_current(
+                transaction,
+                &command.session_id,
+                current_authorization_revision,
+            )?
+    } else {
+        false
+    };
+
+    Ok(SqliteAuthorizationStateSnapshot {
+        state: ResolvedAuthorizationState::new(
+            sessions,
+            roles,
+            trusted_scope_evidence,
+            current_authorization_revision,
+            revision_complete,
+        ),
+        _transaction: PhantomData,
+    })
 }
 
 fn schema_version(connection: &Connection) -> Result<i64, PortFailure> {
@@ -189,7 +257,8 @@ impl SessionResolver for &SqliteSnapshot<'_, '_> {
                 "SELECT session_row_id, session_id, user_id, status, authorization_revision, expires_at
                  FROM auth_sessions
                  WHERE session_id = ?1
-                 ORDER BY session_row_id",
+                 ORDER BY session_row_id
+                 LIMIT 2",
             )
             .map_err(|_| PortFailure)?;
         let rows = statement
@@ -211,7 +280,7 @@ impl SessionResolver for &SqliteSnapshot<'_, '_> {
         rows.into_iter()
             .map(
                 |(row_id, resolved_session_id, user_id, status, revision, expires_at)| {
-                    let active_role_ids = active_role_ids(&self.transaction, row_id)?;
+                    let active_role_ids = active_role_ids(self.transaction, row_id)?;
                     Ok(SessionRecord {
                         session_id: resolved_session_id,
                         user_id,
@@ -224,6 +293,61 @@ impl SessionResolver for &SqliteSnapshot<'_, '_> {
             )
             .collect()
     }
+}
+
+fn relation_revisions_are_current(
+    transaction: &Transaction<'_>,
+    session_id: &str,
+    current_revision: u64,
+) -> Result<bool, PortFailure> {
+    let schema_epoch = transaction
+        .query_row("PRAGMA user_version", [], |row| row.get::<_, i64>(0))
+        .map_err(|_| PortFailure)?;
+    if schema_epoch < 2 {
+        return Ok(true);
+    }
+    let revision = to_i64(current_revision)?;
+    let session_rows = transaction
+        .prepare(
+            "SELECT session_row_id
+             FROM auth_sessions
+             WHERE session_id = ?1
+             ORDER BY session_row_id
+             LIMIT 2",
+        )
+        .map_err(|_| PortFailure)?
+        .query_map([session_id], |row| row.get::<_, i64>(0))
+        .map_err(|_| PortFailure)?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|_| PortFailure)?;
+    let [session_row_id] = session_rows.as_slice() else {
+        return Ok(false);
+    };
+    let stale_roles = transaction
+        .query_row(
+            "SELECT COUNT(*)
+             FROM auth_session_active_roles
+             WHERE session_row_id = ?1
+               AND authorization_revision != ?2",
+            rusqlite::params![session_row_id, revision],
+            |row| row.get::<_, i64>(0),
+        )
+        .map_err(|_| PortFailure)?;
+    let stale_grants = transaction
+        .query_row(
+            "SELECT COUNT(*)
+             FROM auth_role_permissions
+             WHERE role_id IN (
+                 SELECT role_id
+                 FROM auth_session_active_roles
+                 WHERE session_row_id = ?1
+             )
+               AND authorization_revision != ?2",
+            rusqlite::params![session_row_id, revision],
+            |row| row.get::<_, i64>(0),
+        )
+        .map_err(|_| PortFailure)?;
+    Ok(stale_roles == 0 && stale_grants == 0)
 }
 
 impl RoleResolver for &SqliteSnapshot<'_, '_> {
@@ -267,7 +391,7 @@ impl RoleResolver for &SqliteSnapshot<'_, '_> {
             });
         }
 
-        let resolved_role_ids = active_role_ids(&self.transaction, row_ids[0])?;
+        let resolved_role_ids = active_role_ids(self.transaction, row_ids[0])?;
         if resolved_role_ids != session.active_role_ids {
             return Ok(RoleResolution {
                 roles: Vec::new(),
@@ -294,7 +418,7 @@ impl RoleResolver for &SqliteSnapshot<'_, '_> {
             }
             roles.push(RoleRecord {
                 role_id: role_id.clone(),
-                permissions: role_permissions(&self.transaction, role_id)?,
+                permissions: role_permissions(self.transaction, role_id)?,
             });
         }
 

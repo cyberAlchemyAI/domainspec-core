@@ -1,5 +1,76 @@
 # Codex app-server wrapper candidate
 
+## Objective resolution before routing
+
+Opt in with `"objective_resolution": {"enabled": true, "provider_timeout_ms": 1000}`
+in an explicitly selected repository profile. The default remains disabled.
+
+```text
+request + consumer/task objective state
+  → resolve continue / refine / replace / interrupt / new
+  → append transition + checkpoint existing reasoning ledger
+  → route resolved objective → fresh Context Envelope
+  → context-bound intent compilation → verified Codex dispatch
+```
+
+The original user input is preserved. Routing uses the resolved objective text
+with original input and resolution digests as evidence; explicit effect, target,
+and constraint hints still pass through existing checks. Codex receives an
+`are.codex-objective-fragment/v1` with the active objective, transition, provenance
+digest, and completion posture. Resolution does not establish task completion.
+
+Objective state is isolated by profile, consumer, and Codex thread. The existing
+append-only ledger retains immutable transitions and restores their verified
+predecessor chain on restart. Diagnostics retain identifiers and digests, not
+objective text. A failed ledger checkpoint prevents forwarding and requires a
+restart before further interpretation writes. A recovered compact cache summary
+is diagnostic evidence, not a full reusable projection: the next dispatch starts
+with a cache miss and freshly verified context.
+
+Requests use `clientUserMessageId` when present, otherwise the JSON-RPC ID within
+the scoped thread. Reusing a recorded identity returns an explicit result without
+redispatch; changed text under that identity blocks. Supply a new ID for a new
+request. A transition records interpreted intent even if subsequent preflight
+fails: it does not assert that dispatch occurred. Crash delivery reconciliation
+is not replaced by automatic retries.
+
+The deterministic path recognizes bounded English cues. An optional native
+`objective_provider` receives the request and immutable objective state with one
+deadline-bounded call. Configure `objective_resolution.meaning_selection` with
+`definition_ids`, `node_ids`, `edge_ids`, and optional `max_bytes` (at most 32768)
+to supply a bounded meaning subset. Exact selected edges also require their
+endpoint nodes. Missing, duplicate, malformed, or oversized selected records
+block without calling the provider or truncating text. These are interpretation
+inputs, not a substitute for the full route-owned Context Basis.
+
+Only a provider fallback loads this subset; deterministic cues avoid that work.
+The normal verified live-source loader supplies one snapshot shared with the
+subsequent preflight. No old envelope is asserted current, and no repository-wide
+discovery is performed. A selection receipt binds text projection, source digests,
+authority posture, selectors, and byte count into the existing transition event.
+Unrelated records do not change the selected-context digest. Definitions and
+ontology text remain context, never automatically admitted observations or facts.
+Unresolved interpretations stop before routing.
+Automatic successors also pass through objective preflight, so a proposal without
+enough transition evidence stops instead of bypassing it. Existing continuation
+and effect checks remain mandatory.
+
+Construction frontier: wrapper integration and local regression tests. Runnable
+next work: evaluate a real interpretation provider against the language challenges.
+Operational residue: source-binding/projection reconciliation belongs to the ARE
+model owners; Craft's thesis bindings belong to Craft's owners. Neither changes
+this prototype's runtime behavior. No default activation, publication, or adoption
+is performed here.
+
+Open questions: how should broader conversational evidence resolve an ambiguous
+transition, and which explicit completion evidence should retire an objective?
+The historical interaction-learning plan remains unchanged.
+
+Run `node scripts/objective-language-benchmark.mjs` for the authored 20-case
+challenge set. It currently measures the deterministic path only and reports
+unresolved known intents separately from unexpected resolutions. Scripted provider
+tests establish wiring and provenance, not language-model accuracy or market value.
+
 This package implements the selected `ARE-CODEX-OPEN-002` boundary against the
 version-bound Codex app-server JSON-RPC protocol. It is a client-owned stdio
 proxy around `codex app-server`.
@@ -49,8 +120,15 @@ and reusable explicit reasoning state ahead of a volatile turn suffix in
 reusable tokens, projection cost, and invalidation reasons. Explicit normalized
 provider usage can be attached through `recordCacheTelemetry`, producing an
 exact projection-bound hit/miss observation and measured token/time savings.
-The currently selected app-server protocol exposes no such usage field, so real
-turns remain `unobserved` instead of inferring a cache hit.
+Before reuse is eligible, the wrapper verifies the exact Context Refresh
+Assessment and binds the canonical current selected-dependency digest into the
+reusable state. Tampered refresh evidence, stale selected dependencies, or a
+tampered prior projection block dispatch. Selected drift creates a successor;
+only an exact current plan prefix receives `reuse-current`. The resulting
+`are.context-bound-reuse-receipt/v1` is stored with the dispatch. Configured
+provider usage is then bound to that exact projection and receipt, checkpointed,
+and recovered after restart. When no provider usage exists, posture stays
+`unobserved` instead of inferring a cache hit.
 
 It also provides a persistent local gateway. The gateway listens on a
 permission-restricted Unix socket, creates one isolated ARE wrapper and
@@ -143,6 +221,32 @@ After `turn/completed`, the wrapper joins observed lifecycle evidence with both
 continuation lanes. Interaction-bound proposals always gate. Exactly one safe,
 reversible plan-bound proposal may start one successor turn, but only after
 that successor passes its own preflight.
+
+Plan-bound proposals may carry an `objective_binding` that classifies them as
+`advances-active-objective`, `changes-active-objective`, or
+`deferred-residue`. Classification alone cannot select a continuation.
+`advances-active-objective` requires an exact `are.causal-marker/v1` binding
+an unresolved obligation to the proposed action and declaring whether its
+causal dependency is `ready` or `blocked`. Product-direction and residue
+candidates require `are.opportunity-marker/v1`; an opportunity can never
+bypass a blocked causal obligation. A legacy `rank` may be retained for
+diagnostics but has no selection effect.
+
+The wrapper materializes `are.objective-frontier-materialization/v1` before
+consequence assessment. One ready causal candidate is evaluated as the
+continuation. Multiple ready causal candidates require a real choice. A
+blocked causal candidate blocks the frontier, while product-direction changes
+and other opportunities remain inspectable without becoming false co-equal
+next steps. Marker relevance, causality, and readiness still grant no effect
+authority.
+
+For short continuation references such as `What is next?` or `Do it`, the
+selected frontier is projected into the next `turn/start` as an exact request
+context hint and an inspectable `cyberalchemy.are.objective-frontier`
+fragment. This lets route selection inherit the selected objective rather than
+re-run lexical routing against an anaphoric phrase. Longer or explicit new
+requests are never rebound by this mechanism, and the projection grants no
+effect authority.
 
 Semantic evaluation at `turn/completed` is generic and explicitly opt-in. The
 repository profile defaults to `{enabled: false}`, which produces no semantic

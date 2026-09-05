@@ -52,14 +52,37 @@ then tracks the Project's definition, product, business-ontology, DomainSpec,
 compiled-graph, system-ontology, implementation, product-candidate, product-test,
 and product-approval stages without inheriting any authority from them.
 
-The registry now contains one CyberAlchemy Lab prototype binding to the exact
-tested Governance D65 revision-2 contract. Only definition prototypes and the
-ontology scaffold are present for the Lab product; every product-building stage
-and product approval remains absent. The historical empty-registry v8-to-v9
+The registry now contains CyberAlchemy Lab and Auth Foundation prototype
+bindings to the exact tested Governance D65 revision-2 contract. The Lab
+binding carries exact passing evidence through a frozen tested product and now
+binds the exact `CAL-D65PAPP-0033` product-approval decision. That approval does
+not create admission, activation, migration, cutover, publication, release,
+deployment, or external-effect authority. The
+Auth Foundation binding remains at its Product Capability frontier. The historical empty-registry v8-to-v9
 change remains recorded by
 [`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-CONSTRUCTION-BINDING-001`](ontology/construction-binding-schema-amendment.json),
 and the non-vacuous prototype migration is recorded by
 [`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-PROTOTYPE-CONSTRUCTION-001`](ontology/prototype-construction-schema-amendment.json).
+
+Every construction binding now also carries a two-lane `work_plan`. Its
+`stage_states` are the product-construction lane. Operational support is kept
+in a separate typed list with an exact affected stage or `null`, a blocking
+basis, state, and owner. Unrelated or future operational tasks remain visible
+without changing a dependency-ready product frontier from `runnable`; only an
+unresolved exact frontier prerequisite or applicable safety, privacy,
+authority, destructive-action, credential, or external-effect boundary makes
+that frontier `blocked`. The v10-to-v11 migration is recorded by
+[`CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-TWO-LANE-PLANNING-001`](ontology/two-lane-planning-schema-amendment.json).
+
+Project-local progress beyond the shared D65 scaffold is carried by
+`project_stage_evidence`. Each claimed tested stage binds one exact candidate
+and one exact passing receipt in the owning repository. Construction stages
+must report `TESTED_PROTOTYPE`; a frozen product candidate and its passing
+product-test evidence must report `TESTED_PRODUCT`. An approved product must
+bind an exact `PRODUCT_APPROVED` decision receipt with
+`authority_effect: product-approval-only`; every earlier receipt keeps product
+approval `not-requested` and `authority_effect: none`. Missing or changed bytes
+fail closed instead of silently returning the Project to an earlier frontier.
 
 ## Binding prerequisites
 
@@ -152,17 +175,19 @@ tasks, and experiments may change without silently changing the Goal.
 - Draft Registry Context Goal: [Prove the first deterministic Registry Context vertical](projects/registry-context/goals/registry-context-first-vertical.goal.json)
 - Proposed Essays Project: [Essays](projects/essays/project.json)
 - Draft Essays Goal: [Build the first ontology-governed Essays writing runtime](projects/essays/goals/essays-first-runtime.goal.json)
+- Proposed Auth Foundation Project: [Auth Foundation](projects/auth-foundation/project.json)
+- Draft Auth Service Goal: [Construct the first complete testable Auth Service product candidate](projects/auth-foundation/goals/auth-service-first-product-candidate.goal.json)
 - Project: [PythonConstraint Whole Experiment](projects/pythonconstraint-whole/project.json)
 - Goal: [Prove the whole PythonConstraint experiment](projects/pythonconstraint-whole/goals/pythonconstraint-whole.goal.json)
 - Ontology view: [Goal ontology](ontology/goal-view.json)
 - Research: [PythonConstraint admission research](../research/projects/pythonconstraint-whole/research/pythonconstraint-admission/research.md)
 - Experiment: [PythonConstraint whole experiment](../experiments/projects/pythonconstraint-whole/experiments/pythonconstraint-whole/experiment.md)
 
-The Define, Registry Context, and Essays Projects are proposed and their Goals
-are draft. They coordinate bounded meaning, ownership, and evidence requirements
-without proving their intended runtimes. The PythonConstraint Goal is active and
-not yet proved. Existing benchmark admission supports target selection, not
-proof that the whole experiment works.
+The Define, Registry Context, Essays, and Auth Foundation Projects are proposed
+and their Goals are draft. They coordinate bounded meaning, ownership, and
+evidence requirements without proving their intended runtimes or products. The
+PythonConstraint Goal is active and not yet proved. Existing benchmark admission
+supports target selection, not proof that the whole experiment works.
 
 ## Validate
 
@@ -181,7 +206,8 @@ adoption-decision candidate envelopes, exact frozen-candidate and admission-deci
 digest closure, one qualified admitted relation, exact protected D48 gate and owner-selection closure,
 an adopted D48 posture, one exact review-only conformance assessment, one
 Project-owned D65 prototype ConstructionBinding, its exact tested-contract and
-scaffold closure, absent product approval, and denied authority-request eligibility,
+scaffold closure, two-lane work-plan consistency, exact product-approval
+evidence when present, and denied authority-request eligibility,
 D64 field completeness,
 separate owner lanes, adoption/evaluation posture, recursive stops, ontology
 endpoints, lifecycle rules, evidence links, and the authority ceiling. The
@@ -205,8 +231,8 @@ This package defines and instantiates a goal model, gives Define a proposed
 Project and draft Goal, and makes Project binding prerequisites, one exact
 admitted `instance_of` relation for CAV2-D16 typed-relation witnessing, and an exact
 D48 parent-contract adoption decision, an indeterminate conformance assessment,
-and one Project-owned prototype ConstructionBinding registered for the
-CyberAlchemy Lab ontology-runtime integration Goal.
+and Project-owned prototype ConstructionBindings registered for the
+CyberAlchemy Lab ontology-runtime integration and Auth Foundation Goals.
 The original selected candidate remains
 immutable evidence. It does not activate the
 candidate authority claims, reinterpret `child-package` topology as semantic admission, treat the

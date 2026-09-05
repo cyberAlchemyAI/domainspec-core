@@ -49,6 +49,7 @@ export const generatedOperationPatterns = [
             "domain.outbox.sqlite.ts",
             "domain.outbox.migration.sql",
             "domain.outbox.worker.ts",
+            "domain.outbox.provider.ts",
             "domain.outbox.test.ts",
             "domain.generation-manifest.json"
         ],

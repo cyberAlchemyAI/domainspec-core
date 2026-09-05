@@ -1,4 +1,4 @@
-import { CompilationRejected, type CompilerIssue, type Expression, type ScalarType } from "./model.js";
+import { CompilationRejected, type CompilerIssue, type ScalarType, type SfolFormula } from "./model.js";
 
 type Token = { kind: "word" | "number" | "string" | "operator" | "punctuation"; value: string; offset: number };
 
@@ -26,7 +26,7 @@ function tokenize(source: string): Token[] {
 
 const operatorNames: Record<string, string> = { "==": "eq", "!=": "neq", "<": "lt", "<=": "lte", ">": "gt", ">=": "gte" };
 
-export function parsePredicate(source: string, facts: ReadonlyMap<string, ScalarType>): Expression {
+export function parseSfolFormula(source: string, facts: ReadonlyMap<string, ScalarType>): SfolFormula {
   const tokens = tokenize(source.trim().replace(/\.$/, ""));
   let cursor = 0;
   const issues: CompilerIssue[] = [];
@@ -40,7 +40,7 @@ export function parsePredicate(source: string, facts: ReadonlyMap<string, Scalar
     return { node: "fact_ref", ref: direct ?? raw };
   }
 
-  function primary(expectFact = false): Expression {
+  function primary(expectFact = false): SfolFormula {
     const token = take();
     if (!token) { issues.push({ code: "PREDICATE_SYNTAX", path: "$", message: "missing operand" }); return { node: "literal", value_type: "boolean", value: false }; }
     if (token.value === "(") { const expression = disjunction(); if (take()?.value !== ")") issues.push({ code: "PREDICATE_SYNTAX", path: `$@${token.offset}`, message: "missing closing parenthesis" }); return expression; }
@@ -54,7 +54,7 @@ export function parsePredicate(source: string, facts: ReadonlyMap<string, Scalar
     return { node: "literal", value_type: "boolean", value: false };
   }
 
-  function unary(): Expression {
+  function unary(): SfolFormula {
     if (matchWord("not")) return { operator: "not", operands: [unary()] };
     for (const operator of ["exists", "absent"] as const) {
       if (matchWord(operator)) {
@@ -67,7 +67,7 @@ export function parsePredicate(source: string, facts: ReadonlyMap<string, Scalar
     return primary(true);
   }
 
-  function comparison(): Expression {
+  function comparison(): SfolFormula {
     const left = unary();
     const token = peek();
     const keyword = token?.kind === "word" ? token.value.toLowerCase() : "";
@@ -77,13 +77,13 @@ export function parsePredicate(source: string, facts: ReadonlyMap<string, Scalar
     return { operator, operands: [left, primary(false)] };
   }
 
-  function conjunction(): Expression {
+  function conjunction(): SfolFormula {
     let expression = comparison();
     while (matchWord("and")) expression = { operator: "and", operands: [expression, comparison()] };
     return expression;
   }
 
-  function disjunction(): Expression {
+  function disjunction(): SfolFormula {
     let expression = conjunction();
     while (matchWord("or")) expression = { operator: "or", operands: [expression, conjunction()] };
     return expression;
@@ -95,9 +95,12 @@ export function parsePredicate(source: string, facts: ReadonlyMap<string, Scalar
   return expression;
 }
 
-export type LegacyPredicateRegistry = Readonly<Record<string, Expression>>;
+/** @deprecated Use parseSfolFormula. */
+export const parsePredicate = parseSfolFormula;
 
-export function translateLegacyPredicate(predicateId: string, registry: LegacyPredicateRegistry): Expression {
+export type LegacyPredicateRegistry = Readonly<Record<string, SfolFormula>>;
+
+export function translateLegacyPredicate(predicateId: string, registry: LegacyPredicateRegistry): SfolFormula {
   const expression = registry[predicateId];
   if (!expression) throw new CompilationRejected([{ code: "LEGACY_PREDICATE_UNBOUND", path: `$.rules.${predicateId}`, message: "legacy predicate requires an explicit executable AST registry entry" }]);
   return expression;

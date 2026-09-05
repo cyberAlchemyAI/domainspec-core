@@ -252,7 +252,26 @@ unrelated drift, reusable prefix bytes, and local lifecycle latency. Cache
 posture remains `unobserved` unless separately bound provider telemetry exists.
 Every result also contains `improvement_feedback`: PASS yields no candidate;
 each failed check yields a deterministic, non-adopted Research Hypothesis tied
-to the exact source result and failed scenario identities.
+to the exact source result and failed scenario identities. This is applied by
+the shared result constructor to every benchmark mode. Nested case groups are
+flattened only for scenario identity extraction, while `NOT_EVALUATED` remains
+visible with no invented failure hypothesis.
+
+Run the complete deterministic failure-learning canary from the product root:
+
+```sh
+node bin/are.mjs improve run-canary --output /tmp/are-failure-learning.json
+node bin/are.mjs improve inspect --report /tmp/are-failure-learning.json
+```
+
+The baseline uses the registered legacy ungated cache path and must fail with
+stale selected-dependency reuse. The treatment uses the production
+context-bound refresh gate, replays deterministically, and runs the disjoint
+exact-SHA holdout. The report retains the projected hypothesis, implementation
+pattern, immutable Engine Variant, comparison, experiment observation,
+Learning Decision, and sealed evolution epoch. Provider cache posture remains
+`unobserved` in this structural canary; only real configured provider usage can
+produce an observed hit or miss.
 
 ## External retrieval lane
 

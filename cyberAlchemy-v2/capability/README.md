@@ -29,6 +29,12 @@ axis separation, typed relation signatures, and bridge rules. It is not the
 owner of Define, Language, Registry Context, Invoke, or any other capability
 instance.
 
+The graph now also projects the source-owned
+`CA2-CAP-REASON-AND-MANAGE-CONTEXT` candidate from the first-class
+[`../agent-reasoning-engine/`](../agent-reasoning-engine/README.md) Product
+package. That reference grants no product approval, canonical adoption,
+realization, or conformance.
+
 ## Authority split
 
 | Meaning | Canonical authority | Local posture here |

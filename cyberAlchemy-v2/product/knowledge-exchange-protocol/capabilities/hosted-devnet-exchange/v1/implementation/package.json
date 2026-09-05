@@ -1,0 +1,22 @@
+{
+  "name": "cyberalchemy-kep-hosted-devnet-interface",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run check:ui && npm run check:bundle",
+    "build:ui": "esbuild ui-src/app.js --bundle --minify --format=iife --global-name=KepExchange --outfile=static/assets/app.js",
+    "check:ui": "node --test ui-src/app.test.js",
+    "check:bundle": "node ui-src/check-bundle.js"
+  },
+  "dependencies": {
+    "@hpke/chacha20poly1305": "1.8.0",
+    "@hpke/core": "1.9.0",
+    "@hpke/dhkem-x25519": "1.8.0",
+    "@noble/ciphers": "2.4.0",
+    "@solana/web3.js": "1.98.4"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

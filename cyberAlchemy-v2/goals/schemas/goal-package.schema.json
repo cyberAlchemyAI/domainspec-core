@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://cyberalchemy.local/private/schemas/goal-package/v10",
+  "$id": "https://cyberalchemy.local/private/schemas/goal-package/v11",
   "title": "CyberAlchemy v2 Goal and Project package",
   "$defs": {
     "profile": {
@@ -22,12 +22,13 @@
         "model_instance_relation_schema_amendment", "model_instance_relation_admission_schema_amendment",
         "exact_parent_adoption_schema_amendment", "conformance_assessment_schema_amendment",
         "construction_binding_schema_amendment", "prototype_construction_schema_amendment",
+        "two_lane_planning_schema_amendment",
         "schema_path", "validator_path", "blocked_effects"
       ],
       "additionalProperties": false,
       "properties": {
         "schema_ref": {"type": "string", "minLength": 1},
-        "schema_version": {"const": "cav2-goal-package-profile/v10"},
+        "schema_version": {"const": "cav2-goal-package-profile/v11"},
         "package_id": {"const": "cav2.goals"},
         "package_root": {"const": "cyberAlchemy-v2/goals"},
         "package_owner": {"type": "string", "minLength": 1},
@@ -62,6 +63,7 @@
         "conformance_assessment_schema_amendment": {"const": "ontology/conformance-assessment-schema-amendment.json"},
         "construction_binding_schema_amendment": {"const": "ontology/construction-binding-schema-amendment.json"},
         "prototype_construction_schema_amendment": {"const": "ontology/prototype-construction-schema-amendment.json"},
+        "two_lane_planning_schema_amendment": {"const": "ontology/two-lane-planning-schema-amendment.json"},
         "schema_path": {"const": "schemas/goal-package.schema.json"},
         "validator_path": {"const": "scripts/validate.py"},
         "blocked_effects": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
@@ -988,11 +990,77 @@
         "product_approval": {"enum": ["absent", "approved", "rejected"]}
       }
     },
+    "operationalTask": {
+      "type": "object",
+      "required": ["task_id", "lane", "state", "applies_to_stage", "blocking_basis", "detail", "owner_route", "authority_effect"],
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "lane": {"const": "operational-support"},
+        "state": {"enum": ["pending", "blocked", "complete", "not_applicable"]},
+        "applies_to_stage": {
+          "oneOf": [
+            {"type": "null"},
+            {"enum": ["definition_prototypes", "ontology_scaffolds", "product_capability", "business_ontology", "domainspec_source", "compiled_graph", "system_ontology", "implementation", "testable_product_candidate", "product_test_evidence", "product_approval"]}
+          ]
+        },
+        "blocking_basis": {"enum": ["none", "exact-prerequisite", "safety-boundary", "privacy-boundary", "authority-boundary", "destructive-action-boundary", "credential-boundary", "external-effect-boundary"]},
+        "detail": {"type": "string", "minLength": 1},
+        "owner_route": {"type": "string", "minLength": 1},
+        "authority_effect": {"const": "none"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"blocking_basis": {"const": "none"}}},
+          "then": {"properties": {"applies_to_stage": {"type": "null"}}},
+          "else": {"properties": {"applies_to_stage": {"type": "string"}}}
+        }
+      ]
+    },
+    "twoLaneConstructionPlan": {
+      "type": "object",
+      "required": ["schema_version", "product_stage_state_ref", "current_product_frontier", "operational_tasks", "continuation_status", "continuation_policy", "blocking_policy", "residue_policy", "authority_effect"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "cav2-d65-two-lane-construction-plan/v1"},
+        "product_stage_state_ref": {"const": "stage_states"},
+        "current_product_frontier": {
+          "oneOf": [
+            {"type": "null"},
+            {"enum": ["definition_prototypes", "ontology_scaffolds", "product_capability", "business_ontology", "domainspec_source", "compiled_graph", "system_ontology", "implementation", "testable_product_candidate", "product_test_evidence", "product_approval"]}
+          ]
+        },
+        "operational_tasks": {"type": "array", "items": {"$ref": "#/$defs/operationalTask"}},
+        "continuation_status": {"enum": ["runnable", "blocked", "complete"]},
+        "continuation_policy": {"const": "continue-dependency-ready-product-construction"},
+        "blocking_policy": {"const": "only-exact-frontier-prerequisite-or-applicable-boundary"},
+        "residue_policy": {"const": "defer-visible-operational-support"},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "projectStageEvidence": {
+      "type": "object",
+      "required": ["stage", "claimed_state", "repository", "candidate_path", "candidate_sha256", "evidence_path", "evidence_sha256", "required_result", "required_stage_state", "product_approval", "authority_effect"],
+      "additionalProperties": false,
+      "properties": {
+        "stage": {"enum": ["product_capability", "business_ontology", "domainspec_source", "compiled_graph", "system_ontology", "implementation", "testable_product_candidate", "product_test_evidence", "product_approval"]},
+        "claimed_state": {"enum": ["tested", "frozen", "passing", "approved"]},
+        "repository": {"const": "/home/vrondelli/projects/CyberAlchemy-lab"},
+        "candidate_path": {"type": "string", "minLength": 1},
+        "candidate_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "required_result": {"const": "PASS"},
+        "required_stage_state": {"enum": ["TESTED_PROTOTYPE", "TESTED_PRODUCT", "PRODUCT_APPROVED"]},
+        "product_approval": {"enum": ["not-requested", "approved"]},
+        "authority_effect": {"enum": ["none", "product-approval-only"]}
+      }
+    },
     "constructionBinding": {
       "type": "object",
       "required": [
         "construction_id", "binding_kind", "project_ref", "goal_refs",
-        "subject_ref", "prototype_contract", "stage_states",
+        "subject_ref", "prototype_contract", "stage_states", "work_plan",
         "next_prototype_target", "product_approval_ref", "authority_request_refs",
         "owner_routes", "challenge_route", "authority_effect"
       ],
@@ -1023,6 +1091,12 @@
           }
         },
         "stage_states": {"$ref": "#/$defs/prototypeConstructionStageStates"},
+        "project_stage_evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/projectStageEvidence"}
+        },
+        "work_plan": {"$ref": "#/$defs/twoLaneConstructionPlan"},
         "next_prototype_target": {
           "type": "object",
           "required": ["repository", "context", "objective"],
@@ -1033,7 +1107,12 @@
             "objective": {"type": "string", "minLength": 1}
           }
         },
-        "product_approval_ref": {"type": "null"},
+        "product_approval_ref": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^CAL-D65PAPP-[0-9]+$"}
+          ]
+        },
         "authority_request_refs": {"type": "array", "maxItems": 0},
         "owner_routes": {
           "type": "object",
@@ -1066,7 +1145,7 @@
       "additionalProperties": false,
       "properties": {
         "schema_ref": {"type": "string", "minLength": 1},
-        "schema_version": {"const": "cav2-project-construction-binding-registry/v2"},
+        "schema_version": {"const": "cav2-project-construction-binding-registry/v3"},
         "registry_id": {"const": "cav2.project.construction-bindings"},
         "canonical_definition_ref": {"const": "CAV2-D65"},
         "canonical_schema_ref": {"const": "CAV2-D65-SCHEMA"},
@@ -1131,6 +1210,32 @@
         "to_profile_schema": {"const": "cav2-goal-package-profile/v10"},
         "project_schema": {"const": "cav2-project/v3"},
         "change_kind": {"const": "replace-vacuous-stage-gate-with-project-owned-prototype-construction-contract"},
+        "changes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "migration": {"type": "string", "minLength": 1},
+        "rollback": {"type": "string", "minLength": 1},
+        "claim_ceiling": {"type": "string", "minLength": 1},
+        "authority_effect": {"const": "none"}
+      }
+    },
+    "twoLanePlanningSchemaAmendment": {
+      "type": "object",
+      "required": [
+        "schema_ref", "schema_version", "amendment_id", "from_package_schema",
+        "to_package_schema", "from_profile_schema", "to_profile_schema",
+        "project_schema", "change_kind", "changes", "migration", "rollback",
+        "claim_ceiling", "authority_effect"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_ref": {"type": "string", "minLength": 1},
+        "schema_version": {"const": "cav2-goal-package-schema-amendment/v1"},
+        "amendment_id": {"const": "CAV2-GOAL-PACKAGE-SCHEMA-AMEND-D65-TWO-LANE-PLANNING-001"},
+        "from_package_schema": {"const": "https://cyberalchemy.local/private/schemas/goal-package/v10"},
+        "to_package_schema": {"const": "https://cyberalchemy.local/private/schemas/goal-package/v11"},
+        "from_profile_schema": {"const": "cav2-goal-package-profile/v10"},
+        "to_profile_schema": {"const": "cav2-goal-package-profile/v11"},
+        "project_schema": {"const": "cav2-project/v3"},
+        "change_kind": {"const": "require-two-lane-construction-planning"},
         "changes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
         "migration": {"type": "string", "minLength": 1},
         "rollback": {"type": "string", "minLength": 1},

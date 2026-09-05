@@ -100,6 +100,18 @@ test("failure projection emits no candidate for PASS and blocks drift or inconsi
   assert.deepEqual(projectBenchmarkFailuresToHypotheses({benchmark_result: inconsistent, expected_result_digest: exactDigest(inconsistent)}).reason_codes, ["evolution.benchmark-status-inconsistent"]);
 });
 
+test("failure projection accepts grouped cases and keeps not-evaluated runs visible without hypotheses", () => {
+  const grouped = benchmarkResult({cases: {lifecycle: [{scenario_id: "LIFECYCLE-001", passed: true}], failure_safety: [{scenario_id: "FAILURE-001", passed: false}]}});
+  const projected = projectBenchmarkFailuresToHypotheses({benchmark_result: grouped, expected_result_digest: exactDigest(grouped)});
+  assert.deepEqual(projected.value.failed_scenario_ids, ["FAILURE-001"]);
+
+  const notEvaluated = benchmarkResult({status: "NOT_EVALUATED", summary: {reason_codes: ["codex.version-drift"]}, cases: []});
+  const skipped = projectBenchmarkFailuresToHypotheses({benchmark_result: notEvaluated, expected_result_digest: exactDigest(notEvaluated)});
+  assert.equal(skipped.ok, true);
+  assert.equal(skipped.value.disposition, "not-evaluated");
+  assert.deepEqual(skipped.value.hypotheses, []);
+});
+
 test("Luna anomaly becomes bounded supporting evidence, not semantic proof", () => {
   const result = diagnostic();
   assert.equal(result.disposition, "hypothesis-supported");

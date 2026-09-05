@@ -103,4 +103,12 @@ result = evaluate(empty)
 assert result["status"] == "BLOCK", result
 cases.append("empty registry cannot pass vacuously")
 
+result = mutate_route("CA2-ROUTE-RECENT", lambda route: route.update(write_ceiling="cache and hooks"))
+assert result["status"] == "BLOCK" and any("read-only query" in item for item in result["errors"]), result
+cases.append("recent lookup cannot acquire cache or hook writes")
+
+result = mutate_route("CA2-ROUTE-RECENT", lambda route: route.update(read_first=[]))
+assert result["status"] == "BLOCK" and any("recent-context route read_first" in item for item in result["errors"]), result
+cases.append("recent lookup must retain its exact context inputs")
+
 print(json.dumps({"status": "PASS", "authority_effect": "none", "cases": cases}, indent=2))

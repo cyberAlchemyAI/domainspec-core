@@ -5,8 +5,8 @@
   "authority_effect": "none",
   "enforcement_effect": "none",
   "source_project_id": "governance-continuous-construction",
-  "source_set_digest": "1aac63c63bcd188921ca2db3e9bb284c510c30a3eb4deb46adfec9aa1b91b84a",
-  "source_graph_digest": "e36d13d6abfd881550b45a048332fc178db5e85f6337cf781a8aef2fbd2b3446",
+  "source_set_digest": "e379be7be6324cf7bcf108f2ac154f9f5ef5ee119e4c47acbd3833373df02bad",
+  "source_graph_digest": "715cb767b5df409a7da9ae88da5c886895defd0b9856f6d8b5c593e6a9dd2c65",
   "compiler": {
     "id": "domainspec-v2-minted-project-tools",
     "version": "minted-project-tools/v1",
@@ -70,7 +70,6 @@
           }
         ],
         "semantic_refs": [
-          "CAV2-C19",
           "CAV2-D65",
           "GCC-AUTHORIZATION-ENVELOPE",
           "GCC-OWNER-AUTHORIZATION"
@@ -82,7 +81,7 @@
       "node_id": "governance-continuous-construction.BoundedConstructionAttempt",
       "feature_id": "governance-continuous-construction",
       "kind": "Entity",
-      "intent": "Represent one bounded evaluation input with an exact authorization envelope, ordered D65 stage observations, blockers, an optional immutable human-test packet reference, and a separate optional immutable human-test observation reference.",
+      "intent": "Represent one bounded two-lane evaluation input with an exact authorization envelope, ordered D65 product-construction observations, separately classified operational-support tasks, blockers, an optional immutable human-test packet reference, and a separate optional immutable human-test observation reference.",
       "body": {
         "fields": [
           {
@@ -116,6 +115,11 @@
             "identity": false
           },
           {
+            "name": "operational_tasks",
+            "type": "OperationalTaskObservation[]",
+            "identity": false
+          },
+          {
             "name": "blockers",
             "type": "Blocker[]",
             "identity": false
@@ -137,9 +141,10 @@
           }
         ],
         "semantic_refs": [
-          "CAV2-C19",
           "CAV2-D65",
-          "GCC-CONSTRUCTION-ATTEMPT"
+          "GCC-CONSTRUCTION-ATTEMPT",
+          "GCC-WORK-PLAN",
+          "GCC-RULE-SEPARATE-WORK-LANES"
         ],
         "authority_effect": "none"
       }
@@ -148,7 +153,7 @@
       "node_id": "governance-continuous-construction.ContinuousConstructionEvaluation",
       "feature_id": "governance-continuous-construction",
       "kind": "Entity",
-      "intent": "Return exactly one deterministic no-effect decision with complete stage states and distinct blocker, authority, and terminal confirmation requests.",
+      "intent": "Return exactly one deterministic no-effect decision with complete product-construction stage states, classified operational-support results, and distinct blocker, authority, and terminal confirmation requests.",
       "body": {
         "fields": [
           {
@@ -164,6 +169,11 @@
           {
             "name": "stage_results",
             "type": "StageResult[]",
+            "identity": false
+          },
+          {
+            "name": "operational_task_results",
+            "type": "OperationalTaskResult[]",
             "identity": false
           },
           {
@@ -188,10 +198,11 @@
           }
         ],
         "semantic_refs": [
-          "CAV2-C19",
+          "CAV2-D65",
           "GCC-DECISION",
           "GCC-BLOCKER-REQUEST",
-          "GCC-AUTHORITY-REQUEST"
+          "GCC-AUTHORITY-REQUEST",
+          "GCC-OPERATIONAL-RESIDUE"
         ],
         "authority_effect": "none"
       }
@@ -200,7 +211,7 @@
       "node_id": "governance-continuous-construction.ContinuousConstructionProgram",
       "feature_id": "governance-continuous-construction",
       "kind": "Entity",
-      "intent": "Represent one immutable no-effect program binding exact C19, D65, and D67 source sections to an ordered construction stage vocabulary.",
+      "intent": "Represent one immutable no-effect program binding exact active D65 and D67 source sections to ordered product construction and separately evaluated operational-support planning policies.",
       "body": {
         "fields": [
           {
@@ -239,6 +250,21 @@
             "identity": false
           },
           {
+            "name": "work_lane_policy",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "operational_blocking_policy",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "operational_residue_policy",
+            "type": "string",
+            "identity": false
+          },
+          {
             "name": "retroactive_approval",
             "type": "string",
             "identity": false
@@ -250,10 +276,11 @@
           }
         ],
         "semantic_refs": [
-          "CAV2-C19",
           "CAV2-D65",
           "CAV2-D67",
-          "GCC-GOVERNANCE-PROGRAM"
+          "GCC-GOVERNANCE-PROGRAM",
+          "GCC-RULE-SEPARATE-WORK-LANES",
+          "GCC-RULE-OPERATIONAL-NONBLOCKING"
         ],
         "authority_effect": "none"
       }
@@ -262,14 +289,16 @@
       "node_id": "governance-continuous-construction.D65ContinuityInvariant",
       "feature_id": "governance-continuous-construction",
       "kind": "Rule",
-      "intent": "Return true only when exact C19 and D65 sources are current, immutable authorization bytes match the attempt envelope, every validated stage and required owner gate resolves to exact repository bytes, ordered applicable predecessors validate, and every missing or invalid predecessor causally marks downstream work blocked or not_evaluable.",
+      "intent": "Return true only when exact active D65 source bytes are current, immutable authorization bytes match the attempt envelope, every validated stage and required owner gate resolves to exact repository bytes, ordered applicable predecessors validate, and operational support blocks only an exact current prerequisite or applicable safety or authority boundary while unrelated operations remain visible deferred residue.",
       "body": {
         "formal_return_type": "boolean",
         "semantic_refs": [
-          "CAV2-C19",
           "CAV2-D65",
           "GCC-RULE-ORDERED-CONTINUITY",
           "GCC-RULE-CONTINUE-WITHOUT-ROUTINE-CONFIRMATION",
+          "GCC-RULE-SEPARATE-WORK-LANES",
+          "GCC-RULE-OPERATIONAL-NONBLOCKING",
+          "GCC-RULE-DEFER-OPERATIONAL-RESIDUE",
           "GCC-RULE-NO-RETROACTIVE-APPROVAL"
         ],
         "failure_behavior": "collect_all_and_classify",
@@ -315,7 +344,7 @@
           }
         ],
         "semantic_refs": [
-          "CAV2-C19",
+          "CAV2-D65",
           "GCC-HUMAN-TEST-PACKET",
           "GCC-HUMAN-TEST-OBSERVATION",
           "GCC-RULE-TERMINAL-PACKET"
@@ -427,9 +456,62 @@
           }
         ],
         "semantic_refs": [
-          "CAV2-C19",
+          "CAV2-D65",
           "GCC-HUMAN-TEST-PACKET",
           "GCC-RULE-TERMINAL-PACKET"
+        ],
+        "authority_effect": "none"
+      }
+    },
+    {
+      "node_id": "governance-continuous-construction.OperationalTaskObservation",
+      "feature_id": "governance-continuous-construction",
+      "kind": "Entity",
+      "intent": "Represent one operational-support task separately from product construction, including its state, exact affected D65 stage or null, typed blocking basis, owner route, and visible deferred-residue posture.",
+      "body": {
+        "fields": [
+          {
+            "name": "task_id",
+            "type": "string",
+            "identity": true
+          },
+          {
+            "name": "lane",
+            "type": "operational-support",
+            "identity": false
+          },
+          {
+            "name": "state",
+            "type": "pending|blocked|complete|not_applicable",
+            "identity": false
+          },
+          {
+            "name": "applies_to_stage",
+            "type": "D65Stage|null",
+            "identity": false
+          },
+          {
+            "name": "blocking_basis",
+            "type": "none|exact-prerequisite|safety-boundary|privacy-boundary|authority-boundary|destructive-action-boundary|credential-boundary|external-effect-boundary",
+            "identity": false
+          },
+          {
+            "name": "detail",
+            "type": "string",
+            "identity": false
+          },
+          {
+            "name": "owner_route",
+            "type": "string",
+            "identity": false
+          }
+        ],
+        "semantic_refs": [
+          "CAV2-D65",
+          "GCC-OPERATIONAL-TASK-OBSERVATION",
+          "GCC-OPERATIONAL-RESIDUE",
+          "GCC-RULE-OPERATIONAL-NONBLOCKING",
+          "GCC-RULE-DEFER-OPERATIONAL-RESIDUE"
         ],
         "authority_effect": "none"
       }
@@ -438,13 +520,18 @@
       "node_id": "governance-continuous-construction.StageObservation",
       "feature_id": "governance-continuous-construction",
       "kind": "Entity",
-      "intent": "Record applicability, state, exact artifact digest, and owner-gate posture for one ordered D65 construction stage.",
+      "intent": "Record product-construction lane membership, applicability, state, exact artifact digest, and owner-gate posture for one ordered D65 construction stage.",
       "body": {
         "fields": [
           {
             "name": "stage",
             "type": "string",
             "identity": true
+          },
+          {
+            "name": "lane",
+            "type": "product-construction",
+            "identity": false
           },
           {
             "name": "applicable",
@@ -491,7 +578,8 @@
           "CAV2-D65",
           "GCC-STAGE-OBSERVATION",
           "GCC-OWNER-GATE",
-          "GCC-DOWNSTREAM-STATE"
+          "GCC-DOWNSTREAM-STATE",
+          "GCC-RULE-SEPARATE-WORK-LANES"
         ],
         "authority_effect": "none"
       }
@@ -504,7 +592,7 @@
       "body": {
         "formal_return_type": "boolean",
         "semantic_refs": [
-          "CAV2-C19",
+          "CAV2-D65",
           "GCC-RULE-TERMINAL-PACKET",
           "GCC-RULE-NO-EFFECT"
         ],
@@ -534,6 +622,9 @@
     "validated_stage_policy": "repository-contained-exact-raw-byte-artifact",
     "owner_gate_policy": "closed-exact-record-required-when-bound",
     "predecessor_failure": "fail-closed-and-mark-downstream-not_evaluable",
+    "work_lane_policy": "separate-product-construction-from-operational-support",
+    "operational_blocking_policy": "only-exact-frontier-prerequisite-or-applicable-boundary",
+    "operational_residue_policy": "defer-visible-and-continue-product-construction",
     "packet_policy": "complete-frozen-input-packet-bound-to-canonical-attempt-basis",
     "human_test_result_policy": "separate-immutable-observation-bound-to-exact-packet-ref-and-digest",
     "retroactive_approval": "forbidden",

@@ -24,6 +24,11 @@ construction evidence remains candidate and non-authoritative.
 - `product-capability.json` states the routing outcome owned by CyberAlchemy-v2.
 - `ontology.json` contains the capability-local business ontology.
 - `routes.json` is the closed machine route registry.
+- `project-index.json` links user-cited aliases to source-owned identities.
+- `PROJECT-LOOKUP.md` owns the candidate lookup contract and open questions.
+- `scripts/locate.py` resolves names without effects and retains ambiguity.
+- `capabilities/recent-context/` models recent committed context in AlchLang and
+  provides a tested read-only Git query plus a separately scoped cache refresh.
 - direct ontology-runtime operations remain diagnostic while mandatory
   ontology gating is suspended pending a governed Rust replacement.
 - `ROUTER.md` defines the selection and failure algorithm.
@@ -38,6 +43,7 @@ construction evidence remains candidate and non-authoritative.
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 cyberAlchemy-v2/agent-routing/scripts/validate.py
 PYTHONDONTWRITEBYTECODE=1 python3 cyberAlchemy-v2/agent-routing/tests/test_negative_mutations.py
+PYTHONDONTWRITEBYTECODE=1 python3 cyberAlchemy-v2/agent-routing/tests/test_project_lookup.py
 ```
 
 Use `--verify-build` only when the pinned DomainSpec-v2 container runtime is

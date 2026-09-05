@@ -242,10 +242,21 @@ def validate(write: bool, checks: list[dict]) -> dict:
         "generated_query_denies_empty_selectors_without_authority",
     ], "trusted-input-provider", checks)
     service_tests = rust_tests(SERVICE, [
-        "authentication_evidence_failures_deny_end_to_end",
-        "complete_current_server_owned_evidence_allows_end_to_end",
-        "downstream_permission_mismatch_preserves_deny",
-        "route_binding_failures_deny_end_to_end",
+        "clock_and_live_provider_failures_deny",
+        "duplicate_trusted_input_rows_deny",
+        "explicit_migration_is_idempotent_upgrades_v1_and_rejects_unknown_newer_schema",
+        "file_backed_database_reopens_and_each_call_gets_a_fresh_epoch",
+        "inactive_revoked_expired_missing_or_ambiguous_session_denies",
+        "invalid_or_oversized_inbound_identifiers_deny",
+        "missing_untrusted_revoked_or_disabled_trusted_input_denies",
+        "normal_open_does_not_create_or_migrate_a_database",
+        "one_complete_epoch_allows",
+        "permission_and_scope_evidence_mismatches_deny",
+        "subject_and_revision_join_failures_deny",
+        "tests::epoch_allocator_never_reuses_the_terminal_identifier",
+        "tests::invalid_input_has_an_internal_category_but_public_deny",
+        "tests::one_sqlite_snapshot_survives_a_concurrent_writer_and_retry_gets_a_new_view",
+        "tests::shared_epoch_allocator_is_unique_under_concurrency",
     ], "authorization-service", checks)
 
     provider_source = (PROVIDER / "src/lib.rs").read_text(encoding="utf-8")

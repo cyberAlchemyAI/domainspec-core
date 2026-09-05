@@ -1,4 +1,4 @@
-//! Deterministic candidate evaluator for CAV2-C19 and the ordered CAV2-D65 chain.
+//! Deterministic candidate evaluator for the ordered CAV2-D65 chain.
 
 use serde_json::{json, Map, Value};
 use sha2::{Digest, Sha256};
@@ -6,8 +6,8 @@ use std::collections::BTreeSet;
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 
-pub const PROGRAM_SCHEMA: &str = "cav2-continuous-construction-program/v1";
-pub const ATTEMPT_SCHEMA: &str = "cav2-continuous-construction-attempt/v1";
+pub const PROGRAM_SCHEMA: &str = "cav2-continuous-construction-program/v2";
+pub const ATTEMPT_SCHEMA: &str = "cav2-continuous-construction-attempt/v2";
 pub const AUTHORIZATION_SCHEMA: &str = "cav2-continuous-construction-authorization/v1";
 pub const OWNER_GATE_SCHEMA: &str = "cav2-continuous-construction-owner-gate/v1";
 pub const PACKET_SCHEMA: &str = "cav2-continuous-construction-human-test-packet/v1";
@@ -30,12 +30,7 @@ pub const DECISIONS: [&str; 4] = [
     "READY_FOR_HUMAN_TEST",
     "REQUEST_TERMINAL_CONFIRMATION",
 ];
-const REQUIRED_SOURCE_BINDINGS: [(&str, &str, &str); 3] = [
-    (
-        "GCC-SEL-CAV2-C19",
-        "cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md",
-        "### CAV2-C19. D65 Continuous Construction To Terminal Human Test",
-    ),
+const REQUIRED_SOURCE_BINDINGS: [(&str, &str, &str); 2] = [
     (
         "GCC-SEL-CAV2-D65",
         "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
@@ -99,6 +94,15 @@ struct Stage {
     owner_gate_bound: bool,
     owner_gate_ref: Option<String>,
     owner_gate_digest: Option<String>,
+}
+#[derive(Clone, Debug)]
+struct OperationalTask {
+    id: String,
+    state: String,
+    applies_to_stage: Option<String>,
+    blocking_basis: String,
+    detail: String,
+    owner_route: String,
 }
 
 pub fn sha256(bytes: &[u8]) -> String {
@@ -324,6 +328,9 @@ fn parse_program(value: &Value) -> Result<Program, Vec<Problem>> {
             "decisions",
             "routine_confirmation_policy",
             "predecessor_failure_policy",
+            "work_lane_policy",
+            "operational_blocking_policy",
+            "operational_residue_policy",
             "retroactive_approval",
             "effect_ceiling",
             "authority_effect",
@@ -368,6 +375,37 @@ fn parse_program(value: &Value) -> Result<Program, Vec<Problem>> {
             "PROGRAM_POLICY_INVALID",
             None,
             "predecessor_failure_policy",
+        ));
+    }
+    if map.get("work_lane_policy").and_then(Value::as_str)
+        != Some("separate-product-construction-from-operational-support")
+    {
+        problems.push(Problem::new(
+            "PROGRAM_POLICY_INVALID",
+            None,
+            "work_lane_policy",
+        ));
+    }
+    if map
+        .get("operational_blocking_policy")
+        .and_then(Value::as_str)
+        != Some("only-exact-frontier-prerequisite-or-applicable-boundary")
+    {
+        problems.push(Problem::new(
+            "PROGRAM_POLICY_INVALID",
+            None,
+            "operational_blocking_policy",
+        ));
+    }
+    if map
+        .get("operational_residue_policy")
+        .and_then(Value::as_str)
+        != Some("defer-visible-and-continue-product-construction")
+    {
+        problems.push(Problem::new(
+            "PROGRAM_POLICY_INVALID",
+            None,
+            "operational_residue_policy",
         ));
     }
     if map.get("retroactive_approval").and_then(Value::as_str) != Some("forbidden") {
@@ -436,7 +474,7 @@ fn parse_program(value: &Value) -> Result<Program, Vec<Problem>> {
         problems.push(Problem::new(
             "SOURCE_BINDING_SET_INVALID",
             None,
-            "exactly three source bindings required",
+            "exactly two source bindings required",
         ));
     }
     let unique: BTreeSet<_> = sources.iter().map(|source| source.id.as_str()).collect();
@@ -504,6 +542,7 @@ fn parse_stages(attempt: &Map<String, Value>, problems: &mut Vec<Problem>) -> Ve
             stage,
             &[
                 "stage",
+                "lane",
                 "applicable",
                 "state",
                 "artifact_ref",
@@ -516,6 +555,13 @@ fn parse_stages(attempt: &Map<String, Value>, problems: &mut Vec<Problem>) -> Ve
             "STAGE_CONTRACT_OPEN",
             problems,
         );
+        if stage.get("lane").and_then(Value::as_str) != Some("product-construction") {
+            problems.push(Problem::new(
+                "STAGE_LANE_INVALID",
+                stage.get("stage").and_then(Value::as_str),
+                "D65 stages belong to product-construction",
+            ));
+        }
         stages.push(Stage {
             id: required_string(stage, "stage", problems),
             applicable: required_bool(stage, "applicable", problems),
@@ -543,6 +589,109 @@ fn parse_stages(attempt: &Map<String, Value>, problems: &mut Vec<Problem>) -> Ve
     let ids: Vec<String> = stages.iter().map(|stage| stage.id.clone()).collect();
     validate_stage_set(&ids, false, problems, "ATTEMPT_STAGE_ORDER_INVALID");
     stages
+}
+
+fn parse_operational_tasks(
+    attempt: &Map<String, Value>,
+    problems: &mut Vec<Problem>,
+) -> Vec<OperationalTask> {
+    let Some(items) = attempt.get("operational_tasks").and_then(Value::as_array) else {
+        problems.push(Problem::new(
+            "OPERATIONAL_TASKS_REQUIRED",
+            None,
+            "operational_tasks",
+        ));
+        return Vec::new();
+    };
+    let mut tasks = Vec::new();
+    let mut ids = BTreeSet::new();
+    for item in items {
+        let Some(task) = item.as_object() else {
+            problems.push(Problem::new(
+                "INVALID_OPERATIONAL_TASK",
+                None,
+                "expected object",
+            ));
+            continue;
+        };
+        closed(
+            task,
+            &[
+                "task_id",
+                "lane",
+                "state",
+                "applies_to_stage",
+                "blocking_basis",
+                "detail",
+                "owner_route",
+            ],
+            "OPERATIONAL_TASK_CONTRACT_OPEN",
+            problems,
+        );
+        let id = required_string(task, "task_id", problems);
+        if !id.is_empty() && !ids.insert(id.clone()) {
+            problems.push(Problem::new("DUPLICATE_OPERATIONAL_TASK", None, &id));
+        }
+        if task.get("lane").and_then(Value::as_str) != Some("operational-support") {
+            problems.push(Problem::new("OPERATIONAL_TASK_LANE_INVALID", None, &id));
+        }
+        let state = required_string(task, "state", problems);
+        if !matches!(
+            state.as_str(),
+            "pending" | "blocked" | "complete" | "not_applicable"
+        ) {
+            problems.push(Problem::new("OPERATIONAL_TASK_STATE_INVALID", None, &id));
+        }
+        let applies_to_stage = match task.get("applies_to_stage") {
+            Some(Value::Null) => None,
+            Some(Value::String(stage)) if STAGES.contains(&stage.as_str()) => Some(stage.clone()),
+            _ => {
+                problems.push(Problem::new("OPERATIONAL_TASK_STAGE_INVALID", None, &id));
+                None
+            }
+        };
+        let blocking_basis = required_string(task, "blocking_basis", problems);
+        if !matches!(
+            blocking_basis.as_str(),
+            "none"
+                | "exact-prerequisite"
+                | "safety-boundary"
+                | "privacy-boundary"
+                | "authority-boundary"
+                | "destructive-action-boundary"
+                | "credential-boundary"
+                | "external-effect-boundary"
+        ) {
+            problems.push(Problem::new(
+                "OPERATIONAL_BLOCKING_BASIS_INVALID",
+                None,
+                &id,
+            ));
+        }
+        if blocking_basis == "none" && applies_to_stage.is_some() {
+            problems.push(Problem::new(
+                "OPERATIONAL_NONBLOCKING_SCOPE_INVALID",
+                None,
+                &id,
+            ));
+        }
+        if blocking_basis != "none" && applies_to_stage.is_none() {
+            problems.push(Problem::new(
+                "OPERATIONAL_BLOCKING_SCOPE_REQUIRED",
+                None,
+                &id,
+            ));
+        }
+        tasks.push(OperationalTask {
+            id,
+            state,
+            applies_to_stage,
+            blocking_basis,
+            detail: required_string(task, "detail", problems),
+            owner_route: required_string(task, "owner_route", problems),
+        });
+    }
+    tasks
 }
 fn authorization_scope(
     construction_id: &str,
@@ -770,25 +919,26 @@ fn validate_gate(
     problems.into_iter().next().map_or(Ok(()), Err)
 }
 fn attempt_basis(attempt: &Map<String, Value>) -> Value {
-    json!({"schema_version":"cav2-continuous-construction-attempt-basis/v1","construction_id":attempt.get("construction_id"),"attempt_id":attempt.get("attempt_id"),"program_id":attempt.get("program_id"),"program_version":attempt.get("program_version"),"authorization":attempt.get("authorization"),"stages":attempt.get("stages"),"blockers":attempt.get("blockers"),"routine_confirmation_requested":attempt.get("routine_confirmation_requested")})
+    json!({"schema_version":"cav2-continuous-construction-attempt-basis/v2","construction_id":attempt.get("construction_id"),"attempt_id":attempt.get("attempt_id"),"program_id":attempt.get("program_id"),"program_version":attempt.get("program_version"),"authorization":attempt.get("authorization"),"stages":attempt.get("stages"),"operational_tasks":attempt.get("operational_tasks"),"blockers":attempt.get("blockers"),"routine_confirmation_requested":attempt.get("routine_confirmation_requested")})
 }
 fn output(
     program_id: Option<&str>,
     attempt_id: Option<&str>,
     decision: &str,
     stage_results: Vec<Value>,
+    operational_task_results: Vec<Value>,
     blockers: Vec<Problem>,
     authorities: Vec<Problem>,
     next_action: Option<Value>,
     packet_digest: Option<String>,
     observation_digest: Option<String>,
 ) -> Value {
-    let payload = json!({"program_id":program_id,"attempt_id":attempt_id,"decision":decision,"stage_results":stage_results,"blocker_requests":blockers.iter().map(Problem::value).collect::<Vec<_>>(),"authority_requests":authorities.iter().map(Problem::value).collect::<Vec<_>>(),"next_action":next_action,"human_test_packet_sha256":packet_digest,"human_test_observation_sha256":observation_digest,"routine_confirmation_required":decision=="REQUEST_TERMINAL_CONFIRMATION","effect_authorized":false,"authority_effect":"none","enforcement_effect":"none"});
+    let payload = json!({"program_id":program_id,"attempt_id":attempt_id,"decision":decision,"stage_results":stage_results,"operational_task_results":operational_task_results,"blocker_requests":blockers.iter().map(Problem::value).collect::<Vec<_>>(),"authority_requests":authorities.iter().map(Problem::value).collect::<Vec<_>>(),"next_action":next_action,"human_test_packet_sha256":packet_digest,"human_test_observation_sha256":observation_digest,"routine_confirmation_required":decision=="REQUEST_TERMINAL_CONFIRMATION","effect_authorized":false,"authority_effect":"none","enforcement_effect":"none"});
     let evaluation_id = sha256(&canonical_json_bytes(&payload));
     let mut result = payload.as_object().unwrap().clone();
     result.insert(
         "schema_version".into(),
-        Value::String("cav2-continuous-construction-evaluation/v1".into()),
+        Value::String("cav2-continuous-construction-evaluation/v2".into()),
     );
     result.insert("status".into(), Value::String("CANDIDATE".into()));
     result.insert("evaluation_id".into(), Value::String(evaluation_id));
@@ -808,6 +958,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
                 None,
                 "STOP",
                 vec![],
+                vec![],
                 problems,
                 vec![],
                 None,
@@ -823,6 +974,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             None,
             "STOP",
             vec![],
+            vec![],
             source_problems,
             vec![],
             None,
@@ -837,6 +989,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&program.id),
             None,
             "STOP",
+            vec![],
             vec![],
             vec![Problem::new("INVALID_ATTEMPT", None, "expected object")],
             vec![],
@@ -855,6 +1008,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             "program_version",
             "authorization",
             "stages",
+            "operational_tasks",
             "blockers",
             "human_test_packet",
             "human_test_observation",
@@ -922,6 +1076,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
         blockers.push(Problem::new("BLOCKER_LIST_REQUIRED", None, "blockers"));
     }
     let stages = parse_stages(attempt, &mut blockers);
+    let operational_tasks = parse_operational_tasks(attempt, &mut blockers);
     let mut results = Vec::new();
     let mut predecessor_valid = true;
     let mut next_stage = None;
@@ -1065,7 +1220,53 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
                 }
             }
         }
-        results.push(json!({"stage":stage.id,"applicable":stage.applicable,"observed_state":stage.state,"effective_state":effective,"reason":reason}));
+        results.push(json!({"stage":stage.id,"lane":"product-construction","applicable":stage.applicable,"observed_state":stage.state,"effective_state":effective,"reason":reason}));
+    }
+    let mut operational_results = Vec::new();
+    for task in &operational_tasks {
+        let unresolved = matches!(task.state.as_str(), "pending" | "blocked");
+        let target_is_current = task.applies_to_stage.as_deref() == next_stage.as_deref();
+        let target_was_advanced = task.applies_to_stage.as_deref().is_some_and(|target| {
+            stages
+                .iter()
+                .any(|stage| stage.id == target && stage.state == "validated")
+        });
+        let blocks_construction = unresolved
+            && task.blocking_basis != "none"
+            && (target_is_current || target_was_advanced);
+        let blocking_scope_invalid =
+            task.blocking_basis != "none" && task.applies_to_stage.is_none();
+        let effective_state = if blocking_scope_invalid {
+            "invalid"
+        } else if blocks_construction {
+            "blocking"
+        } else if unresolved {
+            "deferred"
+        } else {
+            task.state.as_str()
+        };
+        if blocks_construction {
+            let code = if task.blocking_basis == "exact-prerequisite" {
+                "OPERATIONAL_PREREQUISITE_PENDING"
+            } else {
+                "OPERATIONAL_BOUNDARY_UNRESOLVED"
+            };
+            blockers.push(Problem::new(
+                code,
+                task.applies_to_stage.as_deref(),
+                format!("{}: {}", task.id, task.detail),
+            ));
+        }
+        operational_results.push(json!({
+            "task_id": task.id,
+            "lane": "operational-support",
+            "observed_state": task.state,
+            "effective_state": effective_state,
+            "applies_to_stage": task.applies_to_stage,
+            "blocking_basis": task.blocking_basis,
+            "detail": task.detail,
+            "owner_route": task.owner_route,
+        }));
     }
     if let (Some(stage), Some(auth)) = (next_stage.as_deref(), auth.as_ref()) {
         if !auth.permitted.iter().any(|value| value == stage) {
@@ -1082,6 +1283,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             blockers,
             authorities,
             None,
@@ -1095,6 +1297,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "CONTINUE",
             results,
+            operational_results.clone(),
             vec![],
             vec![],
             Some(json!({"kind":"advance-authorized-stage","stage":stage})),
@@ -1108,6 +1311,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             vec![],
             vec![Problem::new(
                 "AUTHORIZATION_REQUIRED",
@@ -1125,6 +1329,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "CONTINUE",
             results,
+            operational_results.clone(),
             vec![],
             vec![],
             Some(json!({"kind":"freeze-human-test-packet"})),
@@ -1151,6 +1356,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
                 Some(&attempt_id),
                 "STOP",
                 results,
+                operational_results.clone(),
                 vec![problem],
                 vec![],
                 None,
@@ -1166,6 +1372,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             vec![Problem::new(
                 "INVALID_HUMAN_TEST_PACKET",
                 None,
@@ -1252,6 +1459,19 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
     }
     if !packet.get("open_residue").is_some_and(Value::is_array) {
         packet_problems.push(Problem::new("PACKET_FIELD_REQUIRED", None, "open_residue"));
+    } else {
+        let expected_open_residue: Vec<Value> = operational_tasks
+            .iter()
+            .filter(|task| matches!(task.state.as_str(), "pending" | "blocked"))
+            .map(|task| Value::String(task.id.clone()))
+            .collect();
+        if packet.get("open_residue") != Some(&Value::Array(expected_open_residue)) {
+            packet_problems.push(Problem::new(
+                "PACKET_OPERATIONAL_RESIDUE_MISMATCH",
+                None,
+                "packet must preserve every unresolved operational task",
+            ));
+        }
     }
     let packet_decisions: Vec<(String, String)> =
         match packet.get("prior_decisions").and_then(Value::as_array) {
@@ -1297,6 +1517,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             packet_problems,
             vec![],
             None,
@@ -1313,6 +1534,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "READY_FOR_HUMAN_TEST",
             results,
+            operational_results.clone(),
             vec![],
             vec![],
             Some(json!({"kind":"run-human-test","packet_id":packet["packet_id"]})),
@@ -1342,6 +1564,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
                 Some(&attempt_id),
                 "STOP",
                 results,
+                operational_results.clone(),
                 vec![problem],
                 vec![],
                 None,
@@ -1357,6 +1580,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             vec![Problem::new(
                 "INVALID_HUMAN_TEST_OBSERVATION",
                 None,
@@ -1413,6 +1637,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             observation_problems,
             vec![],
             None,
@@ -1426,6 +1651,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "REQUEST_TERMINAL_CONFIRMATION",
             results,
+            operational_results.clone(),
             vec![],
             vec![],
             Some(
@@ -1439,6 +1665,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results.clone(),
             vec![Problem::new(
                 "HUMAN_TEST_FAILED",
                 None,
@@ -1454,6 +1681,7 @@ pub fn evaluate(program_value: &Value, attempt_value: &Value, repository_root: &
             Some(&attempt_id),
             "STOP",
             results,
+            operational_results,
             vec![Problem::new(
                 "INVALID_HUMAN_TEST_RESULT",
                 None,
@@ -1503,18 +1731,14 @@ mod tests {
     fn program(f: &Fixture) -> Value {
         f.write(
             REQUIRED_SOURCE_BINDINGS[0].1,
-            format!("{}\n\nC19.\n\n## Next\n", REQUIRED_SOURCE_BINDINGS[0].2).as_bytes(),
-        );
-        f.write(
-            REQUIRED_SOURCE_BINDINGS[1].1,
             format!(
                 "{}\n\nD65.\n\n{}\n\nD67.\n\n## Next\n",
-                REQUIRED_SOURCE_BINDINGS[1].2, REQUIRED_SOURCE_BINDINGS[2].2
+                REQUIRED_SOURCE_BINDINGS[0].2, REQUIRED_SOURCE_BINDINGS[1].2
             )
             .as_bytes(),
         );
         let sources:Vec<Value>=REQUIRED_SOURCE_BINDINGS.iter().map(|(id,path,selector)|{let bytes=fs::read(f.root.join(path)).unwrap();json!({"id":id,"path":path,"selector":selector,"sha256":sha256(&heading_section(&bytes,selector).unwrap())})}).collect();
-        json!({"schema_version":PROGRAM_SCHEMA,"program_id":"program-1","version":1,"source_bindings":sources,"stage_order":STAGES,"decisions":DECISIONS,"routine_confirmation_policy":"false-except-terminal-request","predecessor_failure_policy":"fail-closed-and-mark-downstream-not_evaluable","retroactive_approval":"forbidden","effect_ceiling":"none","authority_effect":"none"})
+        json!({"schema_version":PROGRAM_SCHEMA,"program_id":"program-1","version":2,"source_bindings":sources,"stage_order":STAGES,"decisions":DECISIONS,"routine_confirmation_policy":"false-except-terminal-request","predecessor_failure_policy":"fail-closed-and-mark-downstream-not_evaluable","work_lane_policy":"separate-product-construction-from-operational-support","operational_blocking_policy":"only-exact-frontier-prerequisite-or-applicable-boundary","operational_residue_policy":"defer-visible-and-continue-product-construction","retroactive_approval":"forbidden","effect_ceiling":"none","authority_effect":"none"})
     }
     fn stage(f: &Fixture, id: &str, state: &str) -> Value {
         let (reference, digest) = if state == "validated" {
@@ -1524,7 +1748,7 @@ mod tests {
         } else {
             (None, None)
         };
-        json!({"stage":id,"applicable":true,"state":state,"artifact_ref":reference,"artifact_sha256":digest,"owner_gate_required":false,"owner_gate_bound":false,"owner_gate_ref":null,"owner_gate_sha256":null})
+        json!({"stage":id,"lane":"product-construction","applicable":true,"state":state,"artifact_ref":reference,"artifact_sha256":digest,"owner_gate_required":false,"owner_gate_bound":false,"owner_gate_ref":null,"owner_gate_sha256":null})
     }
     fn attempt(f: &Fixture, states: &[&str]) -> Value {
         let stages: Vec<Value> = STAGES
@@ -1533,14 +1757,22 @@ mod tests {
             .map(|(id, state)| stage(f, id, state))
             .collect();
         let path = "authorizations/attempt-1.json";
-        let record = json!({"schema_version":AUTHORIZATION_SCHEMA,"envelope_id":"auth-1","construction_id":"construction-1","attempt_id":"attempt-1","program_id":"program-1","program_version":1,"subject_ref":"subject-1","project_ref":"project-1","permitted_stages":STAGES,"repository_local":true,"reversible":true,"effect_ceiling":"none","owner_route":"human owner","authority_effect":"none"});
+        let record = json!({"schema_version":AUTHORIZATION_SCHEMA,"envelope_id":"auth-1","construction_id":"construction-1","attempt_id":"attempt-1","program_id":"program-1","program_version":2,"subject_ref":"subject-1","project_ref":"project-1","permitted_stages":STAGES,"repository_local":true,"reversible":true,"effect_ceiling":"none","owner_route":"human owner","authority_effect":"none"});
         let digest = f.write_json(path, &record);
-        json!({"schema_version":ATTEMPT_SCHEMA,"construction_id":"construction-1","attempt_id":"attempt-1","program_id":"program-1","program_version":1,"authorization":{"envelope_id":"auth-1","owner_authorization_ref":path,"owner_authorization_sha256":digest,"subject_ref":"subject-1","project_ref":"project-1","permitted_stages":STAGES,"repository_local":true,"reversible":true,"effect_ceiling":"none"},"stages":stages,"blockers":[],"human_test_packet":null,"human_test_observation":null,"routine_confirmation_requested":false})
+        json!({"schema_version":ATTEMPT_SCHEMA,"construction_id":"construction-1","attempt_id":"attempt-1","program_id":"program-1","program_version":2,"authorization":{"envelope_id":"auth-1","owner_authorization_ref":path,"owner_authorization_sha256":digest,"subject_ref":"subject-1","project_ref":"project-1","permitted_stages":STAGES,"repository_local":true,"reversible":true,"effect_ceiling":"none"},"stages":stages,"operational_tasks":[],"blockers":[],"human_test_packet":null,"human_test_observation":null,"routine_confirmation_requested":false})
+    }
+    fn operational_task(
+        id: &str,
+        state: &str,
+        applies_to_stage: Option<&str>,
+        blocking_basis: &str,
+    ) -> Value {
+        json!({"task_id":id,"lane":"operational-support","state":state,"applies_to_stage":applies_to_stage,"blocking_basis":blocking_basis,"detail":"bounded operational support","owner_route":"operations owner"})
     }
     fn attach_gate(f: &Fixture, a: &mut Value, stage_index: usize) {
         let program = Program {
             id: "program-1".into(),
-            version: 1,
+            version: 2,
             sources: Vec::new(),
         };
         let auth = Authorization {
@@ -1559,7 +1791,7 @@ mod tests {
         };
         let stage = STAGES[stage_index];
         let path = format!("gates/{stage}.json");
-        let record = json!({"schema_version":OWNER_GATE_SCHEMA,"gate_id":format!("gate-{stage}"),"construction_id":"construction-1","attempt_id":"attempt-1","program_id":"program-1","program_version":1,"stage":stage,"subject_ref":"subject-1","project_ref":"project-1","owner_authorization_ref":auth.reference.clone(),"owner_authorization_sha256":auth.digest.clone(),"scope_sha256":gate_scope_digest("construction-1","attempt-1",&program,&auth,stage),"decision":"accept-stage-for-bounded-attempt","owner_route":"human owner","authority_effect":"none","effect_authorized":false});
+        let record = json!({"schema_version":OWNER_GATE_SCHEMA,"gate_id":format!("gate-{stage}"),"construction_id":"construction-1","attempt_id":"attempt-1","program_id":"program-1","program_version":2,"stage":stage,"subject_ref":"subject-1","project_ref":"project-1","owner_authorization_ref":auth.reference.clone(),"owner_authorization_sha256":auth.digest.clone(),"scope_sha256":gate_scope_digest("construction-1","attempt-1",&program,&auth,stage),"decision":"accept-stage-for-bounded-attempt","owner_route":"human owner","authority_effect":"none","effect_authorized":false});
         let digest = f.write_json(&path, &record);
         a["stages"][stage_index]["owner_gate_required"] = Value::Bool(true);
         a["stages"][stage_index]["owner_gate_bound"] = Value::Bool(true);
@@ -1569,7 +1801,14 @@ mod tests {
     fn attach_packet(f: &Fixture, a: &mut Value, observation: bool) {
         let basis = attempt_basis(a.as_object().unwrap());
         let path = "packets/test.json";
-        let packet = json!({"schema_version":PACKET_SCHEMA,"packet_id":"packet-1","construction_id":a["construction_id"],"attempt_id":a["attempt_id"],"project_ref":a["authorization"]["project_ref"],"subject_ref":a["authorization"]["subject_ref"],"program_id":a["program_id"],"program_version":a["program_version"],"owner_authorization_ref":a["authorization"]["owner_authorization_ref"],"owner_authorization_sha256":a["authorization"]["owner_authorization_sha256"],"stage_set_sha256":sha256(&canonical_json_bytes(&a["stages"])),"attempt_basis_sha256":sha256(&canonical_json_bytes(&basis)),"frozen":true,"human_test_procedure":"Run exact candidate.","requested_decision":"accept exact candidate","final_decision_owner":"human owner","open_residue":[],"rollback_path":"restore pre-attempt bytes","challenge_route":"governance owner","prior_decisions":[],"authority_effect":"none"});
+        let open_residue: Vec<Value> = a["operational_tasks"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|task| matches!(task["state"].as_str(), Some("pending" | "blocked")))
+            .map(|task| task["task_id"].clone())
+            .collect();
+        let packet = json!({"schema_version":PACKET_SCHEMA,"packet_id":"packet-1","construction_id":a["construction_id"],"attempt_id":a["attempt_id"],"project_ref":a["authorization"]["project_ref"],"subject_ref":a["authorization"]["subject_ref"],"program_id":a["program_id"],"program_version":a["program_version"],"owner_authorization_ref":a["authorization"]["owner_authorization_ref"],"owner_authorization_sha256":a["authorization"]["owner_authorization_sha256"],"stage_set_sha256":sha256(&canonical_json_bytes(&a["stages"])),"attempt_basis_sha256":sha256(&canonical_json_bytes(&basis)),"frozen":true,"human_test_procedure":"Run exact candidate.","requested_decision":"accept exact candidate","final_decision_owner":"human owner","open_residue":open_residue,"rollback_path":"restore pre-attempt bytes","challenge_route":"governance owner","prior_decisions":[],"authority_effect":"none"});
         let digest = f.write_json(path, &packet);
         a["human_test_packet"] = json!({"path":path,"sha256":digest});
         if observation {
@@ -1607,6 +1846,189 @@ mod tests {
             )),
             "CONTINUE"
         );
+    }
+    #[test]
+    fn unrelated_operation_is_deferred_without_stopping_construction() {
+        let f = Fixture::new();
+        let p = program(&f);
+        let mut a = attempt(
+            &f,
+            &[
+                "validated",
+                "validated",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+            ],
+        );
+        a["operational_tasks"] =
+            json!([operational_task("ops-maintenance", "pending", None, "none",)]);
+        let result = evaluate(&p, &a, &f.root);
+        assert_eq!(decision(&result), "CONTINUE");
+        assert_eq!(
+            result["operational_task_results"][0]["effective_state"],
+            "deferred"
+        );
+        assert!(result["blocker_requests"].as_array().unwrap().is_empty());
+    }
+    #[test]
+    fn future_operational_prerequisite_is_deferred_until_its_stage() {
+        let f = Fixture::new();
+        let p = program(&f);
+        let mut a = attempt(
+            &f,
+            &[
+                "validated",
+                "validated",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+            ],
+        );
+        a["operational_tasks"] = json!([operational_task(
+            "ops-runtime-fixture",
+            "pending",
+            Some("runtime-evidence"),
+            "exact-prerequisite",
+        )]);
+        let result = evaluate(&p, &a, &f.root);
+        assert_eq!(decision(&result), "CONTINUE");
+        assert_eq!(
+            result["operational_task_results"][0]["effective_state"],
+            "deferred"
+        );
+    }
+    #[test]
+    fn exact_operational_prerequisite_blocks_only_its_frontier() {
+        let f = Fixture::new();
+        let p = program(&f);
+        let mut a = attempt(
+            &f,
+            &[
+                "validated",
+                "validated",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+            ],
+        );
+        a["operational_tasks"] = json!([operational_task(
+            "ops-business-input",
+            "pending",
+            Some("business-ontology"),
+            "exact-prerequisite",
+        )]);
+        let result = evaluate(&p, &a, &f.root);
+        assert_eq!(decision(&result), "STOP");
+        assert!(result["blocker_requests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|item| item["code"] == "OPERATIONAL_PREREQUISITE_PENDING"));
+    }
+    #[test]
+    fn applicable_operational_boundary_fails_closed() {
+        let f = Fixture::new();
+        let p = program(&f);
+        let mut a = attempt(
+            &f,
+            &[
+                "validated",
+                "validated",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+            ],
+        );
+        a["operational_tasks"] = json!([operational_task(
+            "ops-credential-boundary",
+            "blocked",
+            Some("business-ontology"),
+            "credential-boundary",
+        )]);
+        let result = evaluate(&p, &a, &f.root);
+        assert_eq!(decision(&result), "STOP");
+        assert!(result["blocker_requests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|item| item["code"] == "OPERATIONAL_BOUNDARY_UNRESOLVED"));
+    }
+    #[test]
+    fn operational_boundary_without_exact_stage_is_rejected() {
+        let f = Fixture::new();
+        let p = program(&f);
+        let mut a = attempt(
+            &f,
+            &[
+                "validated",
+                "validated",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+                "pending",
+            ],
+        );
+        a["operational_tasks"] = json!([operational_task(
+            "ops-ambiguous-boundary",
+            "blocked",
+            None,
+            "authority-boundary",
+        )]);
+        let result = evaluate(&p, &a, &f.root);
+        assert_eq!(decision(&result), "STOP");
+        assert!(result["blocker_requests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|item| item["code"] == "OPERATIONAL_BLOCKING_SCOPE_REQUIRED"));
+    }
+    #[test]
+    fn terminal_packet_preserves_deferred_operational_residue() {
+        let f = Fixture::new();
+        let p = program(&f);
+        let mut a = attempt(&f, &["validated"; 9]);
+        a["operational_tasks"] = json!([operational_task(
+            "ops-deferred-at-test",
+            "pending",
+            None,
+            "none",
+        )]);
+        attach_packet(&f, &mut a, false);
+        assert_eq!(decision(&evaluate(&p, &a, &f.root)), "READY_FOR_HUMAN_TEST");
+
+        let path = a["human_test_packet"]["path"].as_str().unwrap();
+        let mut packet: Value =
+            serde_json::from_slice(&fs::read(f.root.join(path)).unwrap()).unwrap();
+        packet["open_residue"] = json!([]);
+        let digest = f.write_json(path, &packet);
+        a["human_test_packet"]["sha256"] = Value::String(digest);
+        let result = evaluate(&p, &a, &f.root);
+        assert_eq!(decision(&result), "STOP");
+        assert!(result["blocker_requests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|item| item["code"] == "PACKET_OPERATIONAL_RESIDUE_MISMATCH"));
     }
     #[test]
     fn stop_case() {
@@ -1913,6 +2335,9 @@ mod tests {
         for key in [
             "routine_confirmation_policy",
             "predecessor_failure_policy",
+            "work_lane_policy",
+            "operational_blocking_policy",
+            "operational_residue_policy",
             "retroactive_approval",
             "decisions",
         ] {

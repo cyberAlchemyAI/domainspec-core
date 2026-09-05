@@ -19,8 +19,8 @@
 }
 
 * { box-sizing: border-box; }
-html { min-width: 320px; background: var(--ground); }
-body { margin: 0; min-width: 320px; min-height: 100vh; }
+html { min-width: 0; background: var(--ground); }
+body { margin: 0; min-width: 0; min-height: 100vh; }
 button, input { font: inherit; }
 button { border: 0; cursor: pointer; }
 button:focus-visible, input:focus-visible, textarea:focus-visible, [contenteditable="true"]:focus-visible, a:focus-visible { outline: 3px solid rgba(48, 79, 208, 0.35); outline-offset: 3px; }
@@ -28,6 +28,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [contentedita
 
 .workspace-shell { display: grid; grid-template-columns: 72px minmax(0, 1fr); min-height: 100vh; }
 .surface-frame { min-width: 0; min-height: 100vh; }
+.surface-view { min-width: 0; contain: layout paint; }
+.surface-view[hidden] { display: none; }
+.surface-loading { margin: 0; padding: 32px; color: var(--muted); }
 .app-rail { position: sticky; top: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; height: 100vh; padding: 16px 10px; color: #f7f7ef; background: #171c19; border-right: 1px solid #303a32; }
 .brand-mark { display: grid; width: 42px; height: 42px; place-items: center; color: #171c19; background: var(--acid); border-radius: 12px; }
 .brand-mark svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
@@ -73,7 +76,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [contentedita
 .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 36px; max-width: 1260px; margin: 0 auto 30px; }
 .eyebrow { margin: 0 0 12px; color: var(--cobalt); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; }
 .hero h1 { max-width: 760px; margin: 0; font-family: Iowan Old Style, Baskerville, Georgia, serif; font-size: clamp(2.6rem, 5.2vw, 5.6rem); font-weight: 450; letter-spacing: -0.055em; line-height: 0.91; }
-.epoch-card { flex: 0 0 auto; min-width: 178px; padding: 16px 17px; background: rgba(250,249,244,0.72); border: 1px solid var(--line); backdrop-filter: blur(8px); }
+.epoch-card { flex: 0 0 auto; min-width: 178px; padding: 16px 17px; background: rgba(250,249,244,0.94); border: 1px solid var(--line); }
 .epoch-card span, .epoch-card small { display: block; color: var(--muted); font-size: 0.61rem; font-weight: 730; letter-spacing: 0.08em; text-transform: uppercase; }
 .epoch-card code { display: block; margin: 8px 0 5px; color: var(--cobalt); font-size: 0.76rem; font-weight: 800; }
 .epoch-card small { font-size: 0.55rem; font-weight: 600; }

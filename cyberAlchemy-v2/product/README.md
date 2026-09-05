@@ -18,10 +18,25 @@ the smallest useful governed action for the person, task, and moment, and
 continue without losing meaning, evidence, ownership, bounded authority, or
 human control.
 
-It does this through a governed work loop: understand the current situation,
-make important choices and authority boundaries visible, keep harmless work
-lightweight, act inside an allowed boundary, test what happened, preserve
-evidence, and hand the work to its next owner.
+It does this through a feedback-controlled work loop: make the desired result
+explicit, act inside an allowed boundary, observe what happened, compare it with
+what was expected, and adjust or stop. Preserve the evidence and unfinished
+work so the next person, agent, or session can continue from a useful state.
+People retain control of purpose and consequential choices; routine work stays
+lightweight.
+
+```text
+Desired result -> permitted action -> observed result -> comparison
+       ^                                                   |
+       +--------- adjust / continue / ask / stop <----------+
+                              |
+                              v
+                   preserved state + next owner
+```
+
+This is the product's practical cybernetic framing: feedback changes the next
+move. It is not a claim that every component learns autonomously. See the
+[in-depth work-loop explanation](CYBERNETIC-WORK-LOOP.md).
 
 ## Product And Repository Are Different
 
@@ -96,3 +111,8 @@ This documentation establishes committed first-order product principles and a
 coherent candidate model of their meaning. It does not establish customer
 demand, product-market fit, productivity improvement, economic value, causal
 proof, runtime completion, publication, release, or deployment readiness.
+
+## Open Questions
+
+See [the work-loop explanation](CYBERNETIC-WORK-LOOP.md#open-questions) for
+measurement, delayed feedback, retained state and implementation questions.

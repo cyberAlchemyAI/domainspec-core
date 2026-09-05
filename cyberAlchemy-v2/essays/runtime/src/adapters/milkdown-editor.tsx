@@ -1,6 +1,6 @@
-import { defaultValueCtx, Editor, rootAttrsCtx, rootCtx } from "@milkdown/core";
+import { defaultValueCtx, Editor, prosePluginsCtx, rootAttrsCtx, rootCtx, serializerCtx } from "@milkdown/core";
 import { history } from "@milkdown/plugin-history";
-import { listener, listenerCtx } from "@milkdown/plugin-listener";
+import { Plugin } from "@milkdown/prose/state";
 import { commonmark } from "@milkdown/preset-commonmark";
 import { useEffect, useRef, useState } from "react";
 
@@ -24,6 +24,31 @@ export function MilkdownEditor({ initialMarkdown, onMarkdownChange, onSettlingCh
     const root = rootRef.current;
     if (!root) return;
     let disposed = false;
+    let projectionScheduled = false;
+    let pendingMarkdown = initialMarkdown;
+    let inputStartedAt: number | null = null;
+    let inputToUpdateMs: number | null = null;
+    let serializationMs: number | null = null;
+    const projectMarkdown = () => {
+      if (!projectionScheduled) return;
+      projectionScheduled = false;
+      if (disposed) return;
+      onChangeRef.current(pendingMarkdown);
+      onSettlingRef.current(false);
+      if (inputStartedAt !== null) {
+        const duration = performance.now() - inputStartedAt;
+        const samples = (window as Window & { __CA2_PERFORMANCE_SAMPLES__?: Array<Record<string, unknown>> }).__CA2_PERFORMANCE_SAMPLES__ ?? [];
+        samples.push({
+          name: "essays.editor-input-to-projection",
+          durationMs: duration,
+          recordedAtUnixMs: Date.now(),
+          detail: { inputToUpdateMs, serializationMs, completion: "markdown-published" },
+        });
+        if (samples.length > 256) samples.splice(0, samples.length - 256);
+        (window as Window & { __CA2_PERFORMANCE_SAMPLES__?: Array<Record<string, unknown>> }).__CA2_PERFORMANCE_SAMPLES__ = samples;
+        inputStartedAt = null;
+      }
+    };
     const editor = Editor.make()
       .config((ctx) => {
         ctx.set(rootCtx, root);
@@ -33,16 +58,30 @@ export function MilkdownEditor({ initialMarkdown, onMarkdownChange, onSettlingCh
           "aria-describedby": describedBy,
           "data-testid": "milkdown-editor",
         });
-        ctx.get(listenerCtx).markdownUpdated((_ctx, markdown, previousMarkdown) => {
-          if (markdown !== previousMarkdown) onChangeRef.current(markdown);
-          onSettlingRef.current(false);
-        });
+        ctx.update(prosePluginsCtx, (plugins) => plugins.concat(new Plugin({
+          view: () => ({
+            update: (view, previousState) => {
+              if (view.state.doc.eq(previousState.doc)) return;
+              const serializationStartedAt = performance.now();
+              inputToUpdateMs = inputStartedAt === null ? null : serializationStartedAt - inputStartedAt;
+              pendingMarkdown = ctx.get(serializerCtx)(view.state.doc);
+              serializationMs = performance.now() - serializationStartedAt;
+              if (!projectionScheduled) {
+                projectionScheduled = true;
+                if (inputStartedAt !== null) projectMarkdown();
+                else queueMicrotask(projectMarkdown);
+              }
+            },
+          }),
+        })));
       })
       .use(commonmark)
-      .use(history)
-      .use(listener);
+      .use(history);
 
-    const markSettling = () => onSettlingRef.current(true);
+    const markSettling = () => {
+      if (inputStartedAt === null) inputStartedAt = performance.now();
+      if (projectionScheduled) projectMarkdown();
+    };
     root.addEventListener("input", markSettling);
     void editor
       .create()

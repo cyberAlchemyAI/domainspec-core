@@ -6,17 +6,26 @@ import { join, resolve } from "node:path";
 const testDirectory = mkdtempSync(join(tmpdir(), "cav2-essays-wdio-"));
 const database = join(testDirectory, "essays.sqlite");
 const artifactDirectory = process.env.WORKSPACE_WDIO_OUTPUT ?? join(testDirectory, "artifacts");
-const wdio = resolve("node_modules/.bin/wdio");
+const wdio = resolve("node_modules/@wdio/cli/bin/wdio.js");
+const areBridge = resolve("../../development/agent-reasoning-engine/codex-integration/client/desktop-bridge.mjs");
+const mockCodex = resolve("../../development/agent-reasoning-engine/codex-integration/test/fixtures/mock-app-server.mjs");
+const areCwd = resolve("../..");
 mkdirSync(artifactDirectory, { recursive: true });
 
 try {
-  const result = spawnSync(wdio, ["run", "./wdio/wdio.conf.mjs"], {
+  const result = spawnSync(process.execPath, [wdio, "run", "./wdio/wdio.conf.mjs"], {
     cwd: process.cwd(),
     env: {
       ...process.env,
       ESSAYS_DATABASE: database,
       WORKSPACE_WDIO_OUTPUT: artifactDirectory,
       WDIO_USE_NATIVE_FETCH: "1",
+      ARE_CODEX_NODE: process.execPath,
+      ARE_CODEX_BRIDGE: areBridge,
+      ARE_CODEX_CWD: areCwd,
+      ARE_CODEX_RECEIPT_PATH: join(testDirectory, "are-codex-events.jsonl"),
+      ARE_CODEX_ALLOW_PROTOCOL_DRIFT: "1",
+      CODEX_BINARY: mockCodex,
     },
     stdio: "inherit",
   });

@@ -4,7 +4,13 @@ export {materializeDefinitionCatalog, materializeOntologySnapshot} from "./src/s
 export {evaluateTurnPreflight} from "./src/preflight.mjs";
 export {buildRequestContext, REQUEST_CONTEXT_KEY} from "./src/request-context.mjs";
 export {evaluateEffectRequest, bindApprovalResponse} from "./src/effect-boundary.mjs";
-export {evaluateDualLaneContinuation, normalizeContinuationProposals} from "./src/continuation.mjs";
+export {
+  evaluateDualLaneContinuation,
+  isContinuationReference,
+  materializeObjectiveFrontier,
+  normalizeContinuationProposals,
+  projectObjectiveFrontierForTurnStart,
+} from "./src/continuation.mjs";
 export {createEvidenceLedger} from "./src/evidence-ledger.mjs";
 export {createCodexAppServerWrapper} from "./src/wrapper.mjs";
 export {
@@ -24,6 +30,7 @@ export {
   exportPortableReasoningEpoch,
   importPortableReasoningEpoch,
   materializeCacheAffinityProjection,
+  materializeContextBoundCacheAffinityProjection,
   REASONING_CACHE_TELEMETRY_OBSERVATION_SCHEMA,
   planReasoningStateTransition,
   getReasoningStateFrontier,

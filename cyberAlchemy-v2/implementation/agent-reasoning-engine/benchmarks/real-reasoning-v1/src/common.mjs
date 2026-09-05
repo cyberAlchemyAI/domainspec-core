@@ -4,6 +4,8 @@ import {dirname, resolve} from "node:path";
 import {fileURLToPath} from "node:url";
 
 import {loadRepositoryProfile, REQUEST_CONTEXT_KEY} from "../../../packages/codex-app-server-wrapper/index.mjs";
+import {canonicalJson, canonicalizeJson, deepFreeze} from "../../../packages/intent-route-resolver/index.mjs";
+import {projectBenchmarkFailuresToHypotheses} from "../../../packages/evolution-runtime/index.mjs";
 
 export const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 export const repositoryRoot = resolve(packageRoot, "../../../../..");
@@ -46,6 +48,14 @@ export function readProfileBytes(profile) { return readFileSync(resolve(packageR
 export function ratio(part, total) { return total === 0 ? 1 : part / total; }
 export function reasonsFromAction(action) { return action?.to_client?.flatMap((message) => message.error?.data?.reason_codes ?? []) ?? []; }
 
+export function attachImprovementFeedback(result) {
+  if (result?.improvement_feedback) return deepFreeze(canonicalizeJson(result));
+  const expectedResultDigest = sha256(canonicalJson(canonicalizeJson(result)));
+  const projected = projectBenchmarkFailuresToHypotheses({benchmark_result: result, expected_result_digest: expectedResultDigest});
+  if (!projected.ok) throw new Error(`Failure-to-hypothesis projection failed: ${projected.reason_codes.join(",")}`);
+  return deepFreeze(canonicalizeJson({...result, improvement_feedback: projected.value}));
+}
+
 export function resultEnvelope(profile, mode, status, summary, cases, metrics = {}) {
-  return {schema_version: "are.real-reasoning-benchmark-result/v1", benchmark_id: profile.benchmark_id, profile_digest: sha256(readProfileBytes(profile)), mode, status, environment: {node: process.version, platform: process.platform, arch: process.arch}, summary, metrics, cases, authority_effect: "none", claim_limit: profile.claim_limit};
+  return attachImprovementFeedback({schema_version: "are.real-reasoning-benchmark-result/v1", benchmark_id: profile.benchmark_id, profile_digest: sha256(readProfileBytes(profile)), mode, status, environment: {node: process.version, platform: process.platform, arch: process.arch}, summary, metrics, cases, authority_effect: "none", claim_limit: profile.claim_limit});
 }

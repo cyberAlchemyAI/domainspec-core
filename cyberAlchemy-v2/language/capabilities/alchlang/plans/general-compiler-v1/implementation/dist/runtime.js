@@ -26,12 +26,14 @@ function value(expression, facts) {
         default: throw new CompilationRejected([{ code: "UNKNOWN_OPERATOR", path: "$.runtime", message: `runtime cannot evaluate ${expression.operator}` }]);
     }
 }
-export function evaluateExpression(expression, facts) {
+export function evaluateSfolFormula(expression, facts) {
     return Boolean(value(expression, facts));
 }
+/** @deprecated Use evaluateSfolFormula. */
+export const evaluateExpression = evaluateSfolFormula;
 export function evaluateRule(rule, facts, legacyRegistry = {}) {
     const expression = "legacy_predicate" in rule.condition ? translateLegacyPredicate(rule.condition.legacy_predicate, legacyRegistry) : rule.condition;
-    return evaluateExpression(expression, facts);
+    return evaluateSfolFormula(expression, facts);
 }
 export async function executeAction(model, request, adapters, legacyRegistry = {}) {
     const action = model.actions.find((item) => item.id === request.action_id);
@@ -63,7 +65,7 @@ export async function executeAction(model, request, adapters, legacyRegistry = {
         if (permission.authority_boundary_ref !== action.authority_boundary_ref)
             throw new CompilationRejected([{ code: "AUTHORITY_BOUNDARY_MISMATCH", path: `$.permissions.${permissionId}`, message: "permission and action boundaries differ" }]);
         const condition = "legacy_condition" in permission.condition ? translateLegacyPredicate(permission.condition.legacy_condition, legacyRegistry) : permission.condition;
-        permissionResults[permissionId] = evaluateExpression(condition, request.facts);
+        permissionResults[permissionId] = evaluateSfolFormula(condition, request.facts);
         if (!permissionResults[permissionId])
             throw new CompilationRejected([{ code: "PERMISSION_DENIED", path: `$.permissions.${permissionId}`, message: `permission ${permissionId} evaluated false` }]);
     }

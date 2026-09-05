@@ -14,3 +14,5 @@ test("type mismatches fail closed", () => rejects("TYPE_MISMATCH", (carrier) => 
 test("missing owners fail closed", () => rejects("MISSING_OWNER", (carrier) => { carrier.owners = []; }));
 test("missing authority boundaries fail closed", () => rejects("MISSING_AUTHORITY_BOUNDARY", (carrier) => { carrier.actions[0].authority_boundary_ref = "ambient-authority"; }));
 test("unsupported constructs fail closed", () => rejects("UNSUPPORTED_SEMANTIC_CONSTRUCT", (carrier) => { carrier.schema_version = "future/99"; }));
+test("multi-entity carriers require explicit fact subjects", () => rejects("AMBIGUOUS_FACT_SUBJECT", (carrier) => { carrier.terms.push({ term_id: "renewal", kind: "entity", meaning: "A loan renewal." }); }));
+test("fact subjects must resolve to declared entities", () => rejects("UNRESOLVED_REFERENCE", (carrier) => { carrier.facts[0].subject_ref = "missing-entity"; }));

@@ -1,8 +1,11 @@
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const appBinaryPath = resolve(
-  "../../../target/debug/essays-desktop",
-);
+const binaryName = process.platform === "win32" ? "essays-desktop.exe" : "essays-desktop";
+const appBinaryPath = resolve(fileURLToPath(new URL(
+  `../../../essays/development/agent-runtime/implementation/desktop/src-tauri/target/debug/${binaryName}`,
+  import.meta.url,
+)));
 
 export const config = {
   runner: "local",

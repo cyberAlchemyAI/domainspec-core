@@ -1,23 +1,16 @@
 {
-  "schema_version": "cav2-d65-construction-binding/v1",
+  "schema_version": "cav2-d65-construction-binding/v2",
   "binding_id": "CA2-D65-GOVERNANCE-CONTINUOUS-CONSTRUCTION-001",
   "construction_invariant_ref": "CAV2-D65",
-  "governance_rule_ref": "CAV2-C19",
+  "governance_rule_ref": "CAV2-D65",
   "registered_ontology_dependency": "cav2.governance-model",
-  "mapped_preflight_intent": "Evaluate one owner-authorized bounded D65 attempt for continuation, stop, readiness for terminal human test, or terminal confirmation request while preserving candidate/admitted separation.",
+  "mapped_preflight_intent": "Evaluate one owner-authorized bounded D65 two-lane plan for construction continuation, operational deferral or causal blocking, readiness for terminal human test, or terminal product-approval confirmation request while preserving candidate/admitted separation.",
   "selected_sources": [
-    {
-      "id": "GCC-SEL-CAV2-C19",
-      "path": "cyberAlchemy-v2/authority/constitutions/STABLE-REPOSITORY-CONSTITUTION.md",
-      "selector": "### CAV2-C19. D65 Continuous Construction To Terminal Human Test",
-      "sha256": "fb7fbe17c21567a4f07c4b771266695f09481aeda4e703b8210ad5fd6e4c44fa",
-      "status": "current-candidate-rule"
-    },
     {
       "id": "GCC-SEL-CAV2-D65",
       "path": "cyberAlchemy-v2/authority/definitions/DEFINITIONS.md",
       "selector": "## CAV2-D65: DomainSpec-Governed Construction Invariant",
-      "sha256": "ba524beb8fb408f9abcd0805644f59ec2dbfcd810de24ac99c87296f843ba4ff",
+      "sha256": "264088e26cb069e2c48ec4cdc78d794da6b3beec30f0c6ba87fb635866d8cd30",
       "status": "current-active-definition"
     },
     {
@@ -30,42 +23,42 @@
   ],
   "stages": [
     {
-      "stage": "canonical-definitions-and-selected-rule",
-      "status": "mixed-active-definitions-and-candidate-rule",
-      "selectors": ["CAV2-C19", "CAV2-D65", "CAV2-D67"],
-      "successor_claim_limit": "C19 remains candidate; its exact current bytes are construction input, not adopted authority."
+      "stage": "canonical-definitions",
+      "status": "active-definitions",
+      "selectors": ["CAV2-D65", "CAV2-D67"],
+      "successor_claim_limit": "Active definitions are exact construction inputs; they do not adopt or authorize this candidate implementation."
     },
     {
       "stage": "immutable-product-capability",
       "status": "candidate-not-adopted",
       "artifacts": [
-        {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/product-capability.json","sha256":"5767ccd09396944b6458ad215fb36e1d0fcceabfb3ac775867e2bd6a9bbe6478"},
-        {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/product-capability-support.json","sha256":"92253340ff519116b7c0ee8cdb0ea4f12e2f3ac0f57302fa9536a3e0a2963936"}
+        {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/product-capability.json","sha256":"27b57c6281a51bf27b010a449379c6016a15ddd36f025bf5ee291061821fc808"},
+        {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/product-capability-support.json","sha256":"327fc825a63590cae247ce8d96839164ec328e06355039dfd627cdc12b97084d"}
       ]
     },
     {
       "stage": "capability-local-business-ontology",
       "status": "candidate-not-admitted",
       "ontology_id": "GOV-CONTINUOUS-CONSTRUCTION-ONTOLOGY",
-      "artifact": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/business-ontology.json","sha256":"71d0c68cc20f44906e26895ec02833f06312703cf32c3e9939fae17e5d4e12bc"}
+      "artifact": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/business-ontology.json","sha256":"04bf9921ca7f2e194301eb8087dcd8d91a9aeceb795bbdeb33a1e4c4c9b37447"}
     },
     {
       "stage": "domainspec-v2-authored-source",
       "status": "candidate-not-admitted",
       "profile": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/development-profile.json","sha256":"f93131e0da1355d609f11e7fc2c34d96c32ef3331d868f094687e522619f1c0a","release_admission":"not-granted"},
       "project": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/project.json","sha256":"f6d0954deea5d142e218d1c0de952e8a3afef02c58866f9b39b7357302d50444"},
-      "feature": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/feature.json","sha256":"25828e8d9b1176c2f5a66fbdba1cf9875b847b59a21b9ea8d66720beaf764a0d"}
+      "feature": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/feature.json","sha256":"5a1eabd580c44d07847b8731a6fd9982018fffac00d8f221f3e86d04ebf30b76"}
     },
     {
       "stage": "deterministic-compiled-graph-and-system-ontology",
       "status": "candidate-read-model",
       "deterministic_runs": 2,
       "second_external_build_equal": true,
-      "source_set_sha256": "1aac63c63bcd188921ca2db3e9bb284c510c30a3eb4deb46adfec9aa1b91b84a",
-      "graph": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/graph.json","sha256":"e36d13d6abfd881550b45a048332fc178db5e85f6337cf781a8aef2fbd2b3446"},
-      "system_ontology": {"id":"governance.system.continuous-construction","path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/system-ontology.json","sha256":"69a81eea809dd4e79fcd46d3d441af01629d6fb4868e0c9695efb5a8e889418e"},
-      "build_receipt": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/build-receipt.json","sha256":"5fc8843e9b14400da3c3261098a2788c19273281f80ac24acc9df295790cefec"},
-      "projection_receipt": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/system-ontology-receipt.json","sha256":"a0ff687d05fb919cd7cc01289c83cb22f6fee02e712344b86998231c873a06d8"},
+      "source_set_sha256": "e379be7be6324cf7bcf108f2ac154f9f5ef5ee119e4c47acbd3833373df02bad",
+      "graph": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/graph.json","sha256":"715cb767b5df409a7da9ae88da5c886895defd0b9856f6d8b5c593e6a9dd2c65"},
+      "system_ontology": {"id":"governance.system.continuous-construction","path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/system-ontology.json","sha256":"43113a26c047670b685a5ee0b79ff1d3e70dbea5c6cf3e749b0fc110c4a6de0a"},
+      "build_receipt": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/build-receipt.json","sha256":"f3b3bcb8f35b3ba507d17a6cdfbd651d0a5b898aa3c98af547b5237d6700c5e1"},
+      "projection_receipt": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/domainspec/generated/system-ontology-receipt.json","sha256":"fba4c489e34f5183892ae53ad3c794e0712b673815d51fa5e544532b91fa9fcf"},
       "compiler": {
         "id": "domainspec-v2-minted-project-tools",
         "version": "minted-project-tools/v1",
@@ -78,13 +71,13 @@
     {
       "stage": "exact-implementation-binding",
       "status": "candidate-exact-byte-binding-not-accepted",
-      "program": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/programs/continuous-construction.program.json","sha256":"50f505f23172c34e43bf79c38ec62690acd884ecb0d23833b13b410fec317d47"},
+      "program": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/programs/continuous-construction.program.json","sha256":"e5ed98e6d469b50fadea531cc7652c0b97b03c71fb850119e911efb60f0ff8fb"},
       "runtime": {
         "language": "rust",
         "manifest_sha256": "38d3c92615992b2c2f65b570051e611216c120bd929415a7b96bcdcd2fe3017b",
         "lock_sha256": "2d71b9a9b28e2b05cb573140860b30b2d46e87ae7779434cba54b127150e7012",
         "library_path": "cyberAlchemy-v2/ontology/governance/continuous-construction/runtime/src/lib.rs",
-        "library_sha256": "755a6c7caa73073ded0d6d398b410557034262acd1e792e326c2d7a48a9d54b4",
+        "library_sha256": "73e0d00aa574ce8a54a73ad2e141d641a0dc8f429b5aa8c7effe447a809dfccf",
         "cli_path": "cyberAlchemy-v2/ontology/governance/continuous-construction/runtime/src/main.rs",
         "cli_sha256": "bb5ed332f0c067936dc6445270fcdb744f7ff990e50b721061a2ddb26c02b963"
       },
@@ -94,12 +87,12 @@
     {
       "stage": "conformance-evidence",
       "status": "not_evaluable",
-      "candidate_evidence": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/evidence/conformance-candidate.json","sha256":"5a9d036b40c52e3c746db084d55a6dbb1a3ecefbab7143055a27fd30eceb7b6f"},
-      "observed_test_status": "PASS-23",
-      "observed_positive_cli_status": "PASS-5",
-      "observed_hostile_cli_status": "PASS-10",
+      "candidate_evidence": {"path":"cyberAlchemy-v2/ontology/governance/continuous-construction/evidence/conformance-candidate.json","sha256":"8e77fc6dd0ee8efd4ee2d1e643788da91a8b1bd960eb7420e2ebedb65a0e6f03"},
+      "observed_test_status": "PASS-29",
+      "observed_positive_cli_status": "PASS-6",
+      "observed_hostile_cli_status": "PASS-13",
       "causal_blockers": [
-        "CAV2-C19 and the Product Capability are not adopted",
+        "the Product Capability is not adopted",
         "DomainSpec development profile and generated system ontology are not admitted",
         "exact Rust baseline is not independently accepted",
         "no route or effect adapter is activated"
@@ -108,9 +101,9 @@
   ],
   "human_test": {
     "status": "fixture-only-not-an-owner-test",
-    "authorization_sha256": "463fe3d2d92c4cad4a658645c8b322522ee25473c67a5b9e6aa866de67d020d1",
-    "frozen_packet_sha256": "6c2766e189e304c06511f190667d6bdde222832612454b58c90773567ed15023",
-    "passing_observation_sha256": "4166dac48924b11a8fd42709d676d93646773b0bc05622cd9788f44f62593bbb",
+    "authorization_sha256": "0a91881b0b971d9e1e03d0be06014c6e4a444217127c9093dcaa887df5a91cda",
+    "frozen_packet_sha256": "b4487f297cfc511f37bab9ea48d5cdcf2863b689fcfa76d18d48bb06672ee637",
+    "passing_observation_sha256": "05405637bd868d80a4df37e48ee6a8a7e8b82dbcce18d94042f6563f46fc610d",
     "packet_replaced_by_observation": false,
     "terminal_decision": "not-requested",
     "claim_limit": "Example packets prove evaluator branching only; they are not a human test, decision, admission, or acceptance."

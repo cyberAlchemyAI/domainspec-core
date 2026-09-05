@@ -47,7 +47,7 @@ def validate_documents(
     if set(registry) != expected_registry_keys:
         errors.append("construction registry keys do not match the v2 contract")
     expected_identity = {
-        "schema_version": "cav2-project-construction-binding-registry/v2",
+        "schema_version": "cav2-project-construction-binding-registry/v3",
         "registry_id": "cav2.project.construction-bindings",
         "canonical_definition_ref": "CAV2-D65",
         "canonical_schema_ref": "CAV2-D65-SCHEMA",
@@ -91,6 +91,25 @@ def validate_documents(
         "business_ontology", "domainspec_source", "compiled_graph", "system_ontology",
         "implementation", "testable_product_candidate", "product_test_evidence",
         "product_approval",
+    }
+    stage_order = [
+        "definition_prototypes", "ontology_scaffolds", "product_capability",
+        "business_ontology", "domainspec_source", "compiled_graph",
+        "system_ontology", "implementation", "testable_product_candidate",
+        "product_test_evidence", "product_approval",
+    ]
+    completed_states = {
+        "definition_prototypes": {"prototype", "tested"},
+        "ontology_scaffolds": {"prototype", "tested"},
+        "product_capability": {"prototype", "tested"},
+        "business_ontology": {"prototype", "tested"},
+        "domainspec_source": {"prototype", "tested"},
+        "compiled_graph": {"prototype", "tested"},
+        "system_ontology": {"prototype", "tested"},
+        "implementation": {"prototype", "tested"},
+        "testable_product_candidate": {"frozen"},
+        "product_test_evidence": {"passing"},
+        "product_approval": {"approved"},
     }
     for index, binding in enumerate(bindings):
         label = f"construction bindings[{index}]"
@@ -142,22 +161,186 @@ def validate_documents(
             errors.append(f"{label} product approval must remain absent")
         if contract.get("authority_request_eligibility") != "not_eligible":
             errors.append(f"{label} authority requests must remain ineligible")
-        if binding.get("product_approval_ref") is not None:
-            errors.append(f"{label} may not name product approval before product tests")
         if binding.get("authority_request_refs") != []:
             errors.append(f"{label} may not contain preapproval authority requests")
         if binding.get("authority_effect") != "none":
             errors.append(f"{label} authority_effect must be none")
 
         stages = binding.get("stage_states")
+        stage_evidence_rows = binding.get("project_stage_evidence", [])
+        if not isinstance(stage_evidence_rows, list):
+            errors.append(f"{label} project_stage_evidence must be an array")
+            stage_evidence_rows = []
+        stage_evidence: dict[str, dict[str, Any]] = {}
+        for evidence_index, evidence in enumerate(stage_evidence_rows):
+            evidence_label = f"{label} project_stage_evidence[{evidence_index}]"
+            if not isinstance(evidence, dict):
+                errors.append(f"{evidence_label} must be an object")
+                continue
+            stage = evidence.get("stage")
+            if not isinstance(stage, str) or stage in stage_evidence:
+                errors.append(f"{evidence_label} stage is missing or duplicated")
+                continue
+            stage_evidence[stage] = evidence
+            expected_claimed_state = {
+                "testable_product_candidate": "frozen",
+                "product_test_evidence": "passing",
+                "product_approval": "approved",
+            }.get(stage, "tested")
+            if evidence.get("claimed_state") != expected_claimed_state:
+                errors.append(
+                    f"{evidence_label} claimed_state must be {expected_claimed_state} for {stage}"
+                )
+            repository = evidence.get("repository")
+            if repository != "/home/vrondelli/projects/CyberAlchemy-lab":
+                errors.append(f"{evidence_label} repository is not the bound CyberAlchemy Lab repository")
+                continue
+            repository_root = Path(repository)
+            candidate_path = repository_root / str(evidence.get("candidate_path", ""))
+            receipt_path = repository_root / str(evidence.get("evidence_path", ""))
+            if not candidate_path.is_file() or sha256(candidate_path) != evidence.get("candidate_sha256"):
+                errors.append(f"{evidence_label} candidate bytes are missing or stale")
+            if not receipt_path.is_file() or sha256(receipt_path) != evidence.get("evidence_sha256"):
+                errors.append(f"{evidence_label} evidence bytes are missing or stale")
+                continue
+            try:
+                receipt = load(receipt_path)
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                errors.append(f"{evidence_label} evidence is unreadable: {exc}")
+                continue
+            if receipt.get("result") != evidence.get("required_result"):
+                errors.append(f"{evidence_label} result does not match the required PASS")
+            expected_receipt_state = {
+                "testable_product_candidate": "TESTED_PRODUCT",
+                "product_test_evidence": "TESTED_PRODUCT",
+                "product_approval": "PRODUCT_APPROVED",
+            }.get(stage, "TESTED_PROTOTYPE")
+            if (
+                evidence.get("required_stage_state") != expected_receipt_state
+                or receipt.get("stage_state") != expected_receipt_state
+            ):
+                errors.append(
+                    f"{evidence_label} stage state does not match {expected_receipt_state}"
+                )
+            expected_product_approval = "approved" if stage == "product_approval" else "not-requested"
+            expected_authority_effect = "product-approval-only" if stage == "product_approval" else "none"
+            if evidence.get("product_approval") != expected_product_approval or evidence.get("authority_effect") != expected_authority_effect:
+                errors.append(f"{evidence_label} declared product approval or authority effect is invalid for {stage}")
+            if receipt.get("product_approval") != expected_product_approval or receipt.get("authority_effect") != expected_authority_effect:
+                errors.append(f"{evidence_label} product approval or authority effect is invalid for {stage}")
+            if stage == "product_approval":
+                try:
+                    approval = load(candidate_path)
+                except (OSError, ValueError, json.JSONDecodeError) as exc:
+                    errors.append(f"{evidence_label} approval decision is unreadable: {exc}")
+                    continue
+                if approval.get("decision_id") != binding.get("product_approval_ref"):
+                    errors.append(f"{evidence_label} decision identity does not match product_approval_ref")
+                if approval.get("selected_option", {}).get("option_id") != "D65PAPP-1":
+                    errors.append(f"{evidence_label} does not bind D65PAPP-1")
+                if receipt.get("implementation_admitted") is not False or receipt.get("cutover_authorized") is not False:
+                    errors.append(f"{evidence_label} exceeds the product-approval authority ceiling")
         if not isinstance(stages, dict) or set(stages) != expected_stage_keys:
             errors.append(f"{label} stage_states do not match the prototype contract")
         else:
             if stages["definition_prototypes"] != "prototype" or stages["ontology_scaffolds"] != "prototype":
                 errors.append(f"{label} must expose definition and ontology prototypes")
             for key in expected_stage_keys - {"definition_prototypes", "ontology_scaffolds"}:
-                if stages[key] != "absent":
+                if stages[key] == "absent":
+                    if key in stage_evidence:
+                        errors.append(f"{label} stage {key} has evidence but remains absent")
+                    continue
+                evidence = stage_evidence.get(key)
+                if not evidence or stages[key] != evidence.get("claimed_state"):
                     errors.append(f"{label} stage {key} exceeds current evidence")
+            if stages["product_approval"] == "approved":
+                if binding.get("product_approval_ref") is None:
+                    errors.append(f"{label} approved product must name its exact decision")
+            elif binding.get("product_approval_ref") is not None:
+                errors.append(f"{label} may not name product approval before approval evidence")
+
+        plan = binding.get("work_plan")
+        if not isinstance(plan, dict):
+            errors.append(f"{label} work_plan must be an object")
+            plan = {}
+        expected_plan_keys = {
+            "schema_version", "product_stage_state_ref", "current_product_frontier",
+            "operational_tasks", "continuation_status", "continuation_policy",
+            "blocking_policy", "residue_policy", "authority_effect",
+        }
+        if set(plan) != expected_plan_keys:
+            errors.append(f"{label} work_plan keys do not match the two-lane contract")
+        expected_plan_values = {
+            "schema_version": "cav2-d65-two-lane-construction-plan/v1",
+            "product_stage_state_ref": "stage_states",
+            "continuation_policy": "continue-dependency-ready-product-construction",
+            "blocking_policy": "only-exact-frontier-prerequisite-or-applicable-boundary",
+            "residue_policy": "defer-visible-operational-support",
+            "authority_effect": "none",
+        }
+        for key, expected in expected_plan_values.items():
+            if plan.get(key) != expected:
+                errors.append(f"{label} work_plan {key} is not {expected}")
+        frontier = None
+        if isinstance(stages, dict) and set(stages) == expected_stage_keys:
+            frontier = next(
+                (stage for stage in stage_order if stages.get(stage) not in completed_states[stage]),
+                None,
+            )
+        if plan.get("current_product_frontier") != frontier:
+            errors.append(f"{label} work_plan frontier does not match stage_states")
+        operational_tasks = plan.get("operational_tasks")
+        if not isinstance(operational_tasks, list):
+            errors.append(f"{label} operational_tasks must be an array")
+            operational_tasks = []
+        operational_ids: set[str] = set()
+        operational_blocks_frontier = False
+        allowed_basis = {
+            "none", "exact-prerequisite", "safety-boundary", "privacy-boundary",
+            "authority-boundary", "destructive-action-boundary",
+            "credential-boundary", "external-effect-boundary",
+        }
+        for task_index, task in enumerate(operational_tasks):
+            task_label = f"{label} operational_tasks[{task_index}]"
+            if not isinstance(task, dict):
+                errors.append(f"{task_label} must be an object")
+                continue
+            if set(task) != {
+                "task_id", "lane", "state", "applies_to_stage", "blocking_basis",
+                "detail", "owner_route", "authority_effect",
+            }:
+                errors.append(f"{task_label} keys do not match the operational-task contract")
+            task_id = task.get("task_id")
+            if not isinstance(task_id, str) or not task_id or task_id in operational_ids:
+                errors.append(f"{task_label} task_id is missing or duplicated")
+            else:
+                operational_ids.add(task_id)
+            if task.get("lane") != "operational-support":
+                errors.append(f"{task_label} lane must be operational-support")
+            state = task.get("state")
+            if state not in {"pending", "blocked", "complete", "not_applicable"}:
+                errors.append(f"{task_label} state is invalid")
+            basis = task.get("blocking_basis")
+            target = task.get("applies_to_stage")
+            if basis not in allowed_basis:
+                errors.append(f"{task_label} blocking_basis is invalid")
+            if basis == "none" and target is not None:
+                errors.append(f"{task_label} nonblocking task may not name a stage")
+            if basis != "none" and target not in stage_order:
+                errors.append(f"{task_label} blocking task must name one exact D65 stage")
+            if task.get("authority_effect") != "none":
+                errors.append(f"{task_label} authority_effect must be none")
+            if state in {"pending", "blocked"} and basis != "none" and target == frontier:
+                operational_blocks_frontier = True
+        expected_continuation = (
+            "complete" if frontier is None else
+            "blocked" if operational_blocks_frontier else
+            "runnable"
+        )
+        if plan.get("continuation_status") != expected_continuation:
+            errors.append(
+                f"{label} continuation_status must be {expected_continuation} for the exact frontier"
+            )
 
     for project_id, project in projects.items():
         refs = project.get("construction_binding_refs", [])
@@ -195,13 +378,17 @@ def validate_current() -> tuple[list[str], int]:
 def main() -> int:
     try:
         errors, count = validate_current()
+        registry = load(REGISTRY_PATH)
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
-        errors, count = [str(exc)], 0
+        errors, count, registry = [str(exc)], 0, {}
     result = {
         "schema_version": "cav2-goals-d65-prototype-binding-validation/v1",
         "status": "PASS" if not errors else "BLOCK",
         "construction_bindings": count,
-        "product_approval": "absent",
+        "product_approval": "approved" if not errors and any(
+            binding.get("stage_states", {}).get("product_approval") == "approved"
+            for binding in registry.get("bindings", []) if isinstance(binding, dict)
+        ) else "absent",
         "authority_requests": 0,
         "authority_effect": "none",
         "errors": errors,

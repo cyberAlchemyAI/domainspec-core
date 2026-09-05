@@ -40,6 +40,6 @@ export declare const generatedOperationPatterns: readonly [{
         readonly status: "closed";
     };
     readonly availability: "available";
-    readonly generated_artifacts: readonly ["domain.outbox.port.ts", "domain.outbox.sqlite.ts", "domain.outbox.migration.sql", "domain.outbox.worker.ts", "domain.outbox.test.ts", "domain.generation-manifest.json"];
+    readonly generated_artifacts: readonly ["domain.outbox.port.ts", "domain.outbox.sqlite.ts", "domain.outbox.migration.sql", "domain.outbox.worker.ts", "domain.outbox.provider.ts", "domain.outbox.test.ts", "domain.generation-manifest.json"];
     readonly blockers: readonly [];
 }];

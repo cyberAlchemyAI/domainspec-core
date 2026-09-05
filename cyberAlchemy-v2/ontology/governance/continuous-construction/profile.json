@@ -12,6 +12,14 @@
   "implementation_target_ref": "runtime/src/lib.rs",
   "implementation_language": "rust",
   "operations": ["validate-program", "evaluate"],
+  "planning_model": {
+    "schema_version": "cav2-d65-two-lane-construction-plan/v1",
+    "product_lane": "product-construction",
+    "operational_lane": "operational-support",
+    "continuation_policy": "continue-dependency-ready-product-construction",
+    "blocking_policy": "only-exact-frontier-prerequisite-or-applicable-boundary",
+    "residue_policy": "defer-visible-operational-support"
+  },
   "decisions": ["CONTINUE", "STOP", "READY_FOR_HUMAN_TEST", "REQUEST_TERMINAL_CONFIRMATION"],
   "governed_admission": {
     "state": "candidate-not-admitted",

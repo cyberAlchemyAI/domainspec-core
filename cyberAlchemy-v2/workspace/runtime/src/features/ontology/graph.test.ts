@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { WORKSPACE_GRAPH_SOURCE } from "./graph.generated";
 import { PRESENTATION_FAMILIES, buildCanvasGraph, derivePortalScene, filterGraphByPredicates, presentationFamily, validateGraph } from "./graph";
+import { shouldUseLayoutWorker } from "./layout";
 
 describe("current Workspace ontology graph", () => {
   it("binds the exact current source digests and closes every relation endpoint", () => {
@@ -31,5 +32,11 @@ describe("current Workspace ontology graph", () => {
     expect(graph.nodes).toHaveLength(15);
     expect(graph.edges).toHaveLength(14);
     expect(graph.layoutMs).toBeLessThan(250);
+  });
+
+  it("keeps small layouts inline and moves larger projections to a worker", () => {
+    expect(shouldUseLayoutWorker(15)).toBe(false);
+    expect(shouldUseLayoutWorker(80)).toBe(false);
+    expect(shouldUseLayoutWorker(81)).toBe(true);
   });
 });

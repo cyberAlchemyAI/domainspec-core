@@ -101,6 +101,30 @@ checks alone do not establish that the reused definition fits this context,
 that a new candidate is correct, or that either is complete for every future
 use.
 
+## Result Presentation
+
+Every Define invocation that reaches a saved-candidate or later state must show
+its resolved result to the caller in the same interaction. A path, receipt,
+disposition table, or completion statement alone is insufficient.
+
+The presented result must list every required concept and show:
+
+- its current disposition and decision owner;
+- for `reuse`, the selected canonical definition content and exact source
+  identity, selector, and digest;
+- for `specialize`, the specialized normative, formal, plain-language, and
+  domain-context content together with its unchanged parent binding;
+- for `propose`, the complete proposed normative, formal, plain-language, and
+  domain-context content plus boundary and candidate posture;
+- for `open`, the unresolved question, stop condition, and next owner action;
+- applicable boundaries, open questions, allowed uses, blocked actions, and
+  the result's claim ceiling.
+
+Machine records remain canonical. The shown result is a deterministic human
+projection and must be reproducible from those records and their exact pinned
+sources. Presentation does not promote a definition, accept a pack, or grant
+downstream authority.
+
 ## Consumer Use
 
 The list below grants nothing new. The consumer may perform these actions only

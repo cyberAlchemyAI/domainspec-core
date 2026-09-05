@@ -3,7 +3,11 @@
   "productName": "Essays",
   "version": "0.1.0",
   "identifier": "dev.cyberalchemy.essays",
-  "build": { "frontendDist": "../../../../../../workspace/runtime/dist" },
+  "build": {
+    "beforeDevCommand": "corepack pnpm --dir ../../../../../../workspace/runtime run dev:fast",
+    "devUrl": "http://127.0.0.1:4187",
+    "frontendDist": "../../../../../../workspace/runtime/dist"
+  },
   "app": {
     "withGlobalTauri": true,
     "windows": [{ "label": "main", "title": "CyberAlchemy Workspace — Essays Runtime", "width": 1280, "height": 820 }],

@@ -38,7 +38,7 @@ enum CliCommand {
 fn main() -> Result<()> {
     let cli = Cli::parse();
     let runtime = Runtime::new(SqliteStore::open(cli.database)?);
-    let principal = local_process_principal(cli.client_id);
+    let principal = local_process_principal(cli.client_id)?;
     match cli.command {
         CliCommand::Execute { command_file } => {
             let bytes = std::fs::read(&command_file)

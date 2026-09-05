@@ -3,12 +3,11 @@
   "binding_id": "CA2-BIND-ALCHLANG-LOCAL-RUNTIME-CLI-V1-001",
   "status": "candidate-pending-independent-conformance",
   "ontology_id": "cav2.alchlang.local-runtime-cli.business",
-  "delegation": {
-    "route": "CA2-ROUTE-DELEGATE",
-    "helper_count": 1,
-    "role": "exact-implementation-binding-author",
-    "mapped_preflight_intent": "operation-pattern-registry-exact-binding",
-    "required_gate": "candidate-self-validation-pass",
+  "execution_context": {
+    "route": "CA2-ROUTE-IMPLEMENT",
+    "mode": "owner-directed-native-inline",
+    "helper_count": 0,
+    "scope": "durable-sqlite-transactional-outbox-and-confirmed-http-integration",
     "acceptance_authority": "human-owner-only"
   },
   "d65_chain": {
@@ -43,16 +42,16 @@
       "ontology_id": "cav2.alchlang.local-runtime-cli.business"
     },
     "operation_pattern_extension": {
-      "root": "extensions/generatable-operation-patterns-v1", "set": "complete-tree", "file_count": 23,
-      "tree_sha256": "05cb20255527ae807205d4dd16430f363aea5b360cea98a1cbce974e54055e1e",
+      "root": "extensions/generatable-operation-patterns-v1", "set": "complete-tree", "file_count": 24,
+      "tree_sha256": "19e08e0da6bcd7b175e714ec0eea2396845f4e489689b442b96a9f0fcc9f4d6a",
       "product_capability": {
         "ref": "extensions/generatable-operation-patterns-v1/product-capability.json",
-        "sha256": "32d1d74f200e7dfdcc93e07a68325f82e606988a206fcd761f4bb696626fbdeb",
+        "sha256": "39229261f06c2e5e2eba900bf727f2eb3199e6581d22d3554f2ff5369acc0a18",
         "capability_id": "CA2-CAP-ALCHLANG-DISCOVER-GENERATABLE-OPERATION-PATTERNS"
       },
       "business_ontology": {
         "ref": "extensions/generatable-operation-patterns-v1/business-ontology.json",
-        "sha256": "dda7cce8923a931c4e29c24e45a35e16aa0be5f8299c45d3c09fbe81cc180258",
+        "sha256": "d44f654c3db367a8949ea3952e893581d90cadbdd81ebc1097e54659fcb93ac5",
         "ontology_id": "cav2.alchlang.generatable-operation-patterns.business"
       },
       "registry": {
@@ -67,37 +66,42 @@
       "sources": {
         "ref": "extensions/generatable-operation-patterns-v1/sources.json",
         "sha256": "0d47ae52799f09ea00600e547b9917a4cdbf272d52b67905167465cd919f88ed"
+      },
+      "provider_runtime_candidate": {
+        "ref": "extensions/generatable-operation-patterns-v1/providers/sqlite-transactional-outbox-v2.provider-candidate.json",
+        "sha256": "d8af2abc8882aefa56e9078b623803e10c20ac9c9973738a2c8be90e9a7cfe8e",
+        "provider_id": "sqlite-transactional-outbox-v2"
       }
     },
     "domainspec_authored_source": {
-      "root": "domainspec", "set": "complete-tree", "file_count": 53,
-      "tree_sha256": "0c3752c54d66b0630a75be76553c2573763ccea93bee44080d01dbe69d6e3196",
-      "source_manifest_sha256": "42356153974f62c380f002ab2f4850fd5d65fa2622cf355df68ed5f26a3246b5"
+      "root": "domainspec", "set": "complete-tree", "file_count": 74,
+      "tree_sha256": "65c7be3b95e70b506b667e8ae7c7810d8a2e4b34bf9062acd3df7a366f0bd4de",
+      "source_manifest_sha256": "4449c0c790a8fcdc0e981c15436bbce5ac18a795a1ae0312d295a8a8058b0f3a"
     },
     "compiled_projections": {
       "root": "generated", "set": "complete-tree", "file_count": 3,
-      "tree_sha256": "b9f25285388a1bb454a9920a3eb6916a3a79d44539a4b9db308855f1c06f77a3",
-      "generation_receipt": { "ref": "evidence/generation-receipt.json", "sha256": "c04a471116da75588c691fcf0136b3ef4444af94fd25fb4fec85b37a859e1eb9" },
-      "compiled_graph": { "ref": "generated/domain.graph.json", "sha256": "cd5714af7106e513b871086476018672ab4b945a4bdbe9121d99c2e5c51ad4ac" },
-      "system_ontology": { "ref": "generated/system-ontology.json", "sha256": "ea8d5749305c4ed32bfdcf1fde015b027f0be6bb5db71b3e82586cbbce58faba" },
-      "traceability": { "ref": "generated/traceability.json", "sha256": "d32ede0e8f2ec14d6241e9c57bf4377e911b654306e746a41bdcd9228a91eefd" }
+      "tree_sha256": "323cdf15d4c592eb1bf6a68ffb8698953234adf7d6b9958548d2c0d2667b6c1f",
+      "generation_receipt": { "ref": "evidence/generation-receipt.json", "sha256": "137f1f57eb518dd13e3ebaa6f477a5bc9968a1b6eab706e37ead2acc7d096726" },
+      "compiled_graph": { "ref": "generated/domain.graph.json", "sha256": "bc503990258b925fc33132d227b05c304b7ece3e4beb87ed0484b6ecdddd67e4" },
+      "system_ontology": { "ref": "generated/system-ontology.json", "sha256": "8b0a3412596561680b9b0168a3ee20cb0774ac3133f725fa7d4fa554a693af23" },
+      "traceability": { "ref": "generated/traceability.json", "sha256": "9a12a1d9d9b2cf4ae0deff38e325a99bf3ffe7d1140c9e963e00085737870a4a" }
     },
     "exact_implementation": {
       "source_config_tests_example": {
-        "root": "implementation", "set": "package.json+tsconfig.json+tsconfig.build.json+complete(src,test,examples)", "file_count": 29,
-        "tree_sha256": "8cd388e881635cc6b937542428beb56beece1129de997b9100441230ebd2c0ad"
+        "root": "implementation", "set": "package.json+tsconfig.json+tsconfig.build.json+complete(src,test,examples)", "file_count": 38,
+        "tree_sha256": "64dc991aed1a5280c655dc60a0d4f533bd2527e6c8709e489984ea9350c476d7"
       },
-      "built_dist": { "root": "implementation/dist", "set": "complete-tree", "file_count": 30, "tree_sha256": "8f9859846cd6c078f51c8775162e8c76d587753cd477d93b038fd3e45fa26a7b" },
+      "built_dist": { "root": "implementation/dist", "set": "complete-tree", "file_count": 38, "tree_sha256": "c657bec89c17af7d6bb3fee04afa16b0c324312c9154e2460dfb464391ff522f" },
       "package": {
-        "manifest_ref": "implementation/package.json", "manifest_sha256": "543392712b3a2aa88507c61937ac1313228dc1868d0d0de000bab886e8884a85",
-        "name": "@cyberalchemy/domainspec-cli-candidate", "version": "0.2.0-candidate.0", "bin": { "domainspec": "dist/cli.js" }
+        "manifest_ref": "implementation/package.json", "manifest_sha256": "73d3c65e6af61b1234aa99d0ef9a4971e2ba3948da72bd5b73f7e52ed8e1e1c2",
+        "name": "@cyberalchemy/domainspec-cli-candidate", "version": "0.4.0-candidate.0", "bin": { "domainspec": "dist/cli.js" }
       },
       "local_tarball": {
-        "artifact_root": "implementation/package-artifacts/0.2.0-candidate.0", "set": "complete-tree", "file_count": 1,
-        "tree_sha256": "dde699afdd71ff8967975388239fa3e9f31d12133a4bdc00efb0b076a053c736",
-        "ref": "implementation/package-artifacts/0.2.0-candidate.0/cyberalchemy-domainspec-cli-candidate-0.2.0-candidate.0.tgz",
-        "sha256": "bcfffe5fcb19666aad12e39c6aedb5176415b53510f887b0f63823bdf1b1c287",
-        "npm_shasum_sha1": "5423d03e0edfc124b6eb836e6d70a4bd9171f6f7", "entry_count": 32
+        "artifact_root": "implementation/package-artifacts/0.4.0-candidate.0", "set": "complete-tree", "file_count": 1,
+        "tree_sha256": "fe0985c46b3ba37a26ad25f09b245370742ea69802c88b83c90b46a12895e7e6",
+        "ref": "implementation/package-artifacts/0.4.0-candidate.0/cyberalchemy-domainspec-cli-candidate-0.4.0-candidate.0.tgz",
+        "sha256": "6fd5ec36c624d2c6ce56dcd84b6afaee2d20aa536b8acd7dffa635cf3c0788ad",
+        "npm_shasum_sha1": "fe8052003375e502ac31ad46515f825a757062c0", "entry_count": 40
       },
       "cli_proofs": [
         {
@@ -123,5 +127,5 @@
   },
   "toolchain": { "node_runtime": "v26.8.1", "source": "evidence/generation-receipt.json" },
   "authority_effect": "none",
-  "claim_ceiling": "Exact local-runtime, CLI, and generatable-operation-pattern-registry implementation-binding candidate for the selected current D65 bytes, candidate pattern package, local package tarball, and two local CLI proofs. Pattern availability is derived fail-closed and no architecture pattern is claimed stable. This candidate does not accept itself, prove conformance, admit a capability, ontology, DomainSpec profile, compiler, runtime, or pattern registry, publish to a registry, release, deploy, authorize credentials or network access, or grant any external effect."
+  "claim_ceiling": "Exact local-runtime, durable SQLite Outbox, confirmed HTTP transport, idempotent inbox, CLI, and generatable-operation-pattern-registry implementation-binding candidate for the selected current D65 bytes, provider candidate, local package tarball, and two local CLI proofs. Pattern availability is derived fail-closed and no architecture pattern is claimed stable. This candidate does not accept itself, prove governed conformance, admit a capability, ontology, DomainSpec profile, provider, compiler, runtime, or pattern registry, publish to a registry, release, deploy, authorize credentials or external network access, or grant any external effect."
 }

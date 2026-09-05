@@ -35,6 +35,7 @@ EXACT_PARENT_ADOPTION_SCHEMA_AMENDMENT_PATH = "ontology/exact-parent-adoption-sc
 CONFORMANCE_ASSESSMENT_SCHEMA_AMENDMENT_PATH = "ontology/conformance-assessment-schema-amendment.json"
 CONSTRUCTION_BINDING_SCHEMA_AMENDMENT_PATH = "ontology/construction-binding-schema-amendment.json"
 PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH = "ontology/prototype-construction-schema-amendment.json"
+TWO_LANE_PLANNING_SCHEMA_AMENDMENT_PATH = "ontology/two-lane-planning-schema-amendment.json"
 RELATION_DECISION_RECORD_PATH = "decisions/define-model-instance-relation/DECISION.md"
 RELATION_DECISION_REQUEST_PATH = "decisions/define-model-instance-relation/option-admissibility-request.json"
 RELATION_DECISION_RECEIPT_PATH = "decisions/define-model-instance-relation/option-admissibility-receipt.json"
@@ -72,6 +73,7 @@ BASE_MATERIAL_FILES = (
     CONFORMANCE_ASSESSMENT_SCHEMA_AMENDMENT_PATH,
     CONSTRUCTION_BINDING_SCHEMA_AMENDMENT_PATH,
     PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH,
+    TWO_LANE_PLANNING_SCHEMA_AMENDMENT_PATH,
     RELATION_DECISION_RECORD_PATH,
     RELATION_DECISION_REQUEST_PATH,
     RELATION_DECISION_RECEIPT_PATH,
@@ -222,6 +224,9 @@ def main() -> int:
     prototype_construction_schema_amendment = load(
         PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH, errors
     )
+    two_lane_planning_schema_amendment = load(
+        TWO_LANE_PLANNING_SCHEMA_AMENDMENT_PATH, errors
+    )
     relation_decision_request = load(RELATION_DECISION_REQUEST_PATH, errors)
     relation_decision_receipt = load(RELATION_DECISION_RECEIPT_PATH, errors)
     relation_decision_selection = load(RELATION_DECISION_SELECTION_PATH, errors)
@@ -280,13 +285,14 @@ def main() -> int:
         "exact_parent_adoption_schema_amendment",
         "conformance_assessment_schema_amendment", "construction_binding_schema_amendment",
         "prototype_construction_schema_amendment",
+        "two_lane_planning_schema_amendment",
         "schema_path", "validator_path", "blocked_effects"
     }, "profile", errors)
     if profile.get("package_root") != "cyberAlchemy-v2/goals":
         errors.append("profile package_root is not canonical")
     if profile.get("visibility") != "private" or profile.get("authority_effect") != "none":
         errors.append("profile must remain private with authority_effect none")
-    if profile.get("schema_version") != "cav2-goal-package-profile/v10":
+    if profile.get("schema_version") != "cav2-goal-package-profile/v11":
         errors.append("profile schema_version is invalid")
     if profile.get("authority_claim_registry") != AUTHORITY_CLAIM_REGISTRY_PATH:
         errors.append("profile authority_claim_registry is not canonical")
@@ -332,6 +338,8 @@ def main() -> int:
         errors.append("profile construction_binding_schema_amendment is not canonical")
     if profile.get("prototype_construction_schema_amendment") != PROTOTYPE_CONSTRUCTION_SCHEMA_AMENDMENT_PATH:
         errors.append("profile prototype_construction_schema_amendment is not canonical")
+    if profile.get("two_lane_planning_schema_amendment") != TWO_LANE_PLANNING_SCHEMA_AMENDMENT_PATH:
+        errors.append("profile two_lane_planning_schema_amendment is not canonical")
     required_blocked_effects = {
         "candidate-authority-claim-activation",
         "child-package-relation-admission",
@@ -366,8 +374,9 @@ def main() -> int:
         "conformanceTermResult", "observedSystemValidation", "conformanceAssessment",
         "conformanceAssessmentRegistry", "conformanceAssessmentSchemaAmendment",
         "exactDigestRef", "exactPathRef", "prototypeConstructionStageStates",
-        "constructionBinding", "constructionBindingRegistry",
-        "constructionBindingSchemaAmendment", "prototypeConstructionSchemaAmendment"
+        "operationalTask", "twoLaneConstructionPlan", "constructionBinding",
+        "constructionBindingRegistry", "constructionBindingSchemaAmendment",
+        "prototypeConstructionSchemaAmendment", "twoLanePlanningSchemaAmendment"
     }
     if "$defs" not in schema or not required_defs.issubset(schema.get("$defs", {})):
         errors.append("schema is missing required definitions")
@@ -543,7 +552,7 @@ def main() -> int:
     if binding_registry.get("authority_effect") != "none" or binding_residue.get("authority_effect") != "none":
         errors.append("binding registries must have authority_effect none")
     if (
-        construction_binding_registry.get("schema_version") != "cav2-project-construction-binding-registry/v2"
+        construction_binding_registry.get("schema_version") != "cav2-project-construction-binding-registry/v3"
         or construction_binding_registry.get("registry_id") != "cav2.project.construction-bindings"
         or construction_binding_registry.get("canonical_definition_ref") != "CAV2-D65"
         or construction_binding_registry.get("canonical_schema_ref") != "CAV2-D65-SCHEMA"
@@ -628,6 +637,12 @@ def main() -> int:
         "project_schema", "change_kind", "changes", "migration", "rollback",
         "claim_ceiling", "authority_effect"
     }, "prototype construction schema amendment", errors)
+    exact_keys(two_lane_planning_schema_amendment, {
+        "schema_ref", "schema_version", "amendment_id", "from_package_schema",
+        "to_package_schema", "from_profile_schema", "to_profile_schema",
+        "project_schema", "change_kind", "changes", "migration", "rollback",
+        "claim_ceiling", "authority_effect"
+    }, "two-lane planning schema amendment", errors)
     if (
         construction_binding_schema_amendment.get("from_package_schema")
         != "https://cyberalchemy.local/private/schemas/goal-package/v8"
@@ -658,6 +673,22 @@ def main() -> int:
         or prototype_construction_schema_amendment.get("authority_effect") != "none"
     ):
         errors.append("prototype construction schema amendment does not witness no-effect v9 to v10")
+    if (
+        two_lane_planning_schema_amendment.get("from_package_schema")
+        != "https://cyberalchemy.local/private/schemas/goal-package/v10"
+        or two_lane_planning_schema_amendment.get("to_package_schema")
+        != "https://cyberalchemy.local/private/schemas/goal-package/v11"
+        or two_lane_planning_schema_amendment.get("from_profile_schema")
+        != "cav2-goal-package-profile/v10"
+        or two_lane_planning_schema_amendment.get("to_profile_schema")
+        != "cav2-goal-package-profile/v11"
+        or two_lane_planning_schema_amendment.get("project_schema")
+        != "cav2-project/v3"
+        or two_lane_planning_schema_amendment.get("change_kind")
+        != "require-two-lane-construction-planning"
+        or two_lane_planning_schema_amendment.get("authority_effect") != "none"
+    ):
+        errors.append("two-lane planning schema amendment does not witness no-effect v10 to v11")
     if (
         conformance_assessment_schema_amendment.get("from_package_schema")
         != "https://cyberalchemy.local/private/schemas/goal-package/v7"
@@ -1692,13 +1723,13 @@ def main() -> int:
         if binding.get("conformance_ref") in conformance_assessment_ids:
             errors.append(f"{label} may not use an indeterminate assessment as conformance proof")
     if binding_entries:
-        errors.append("v10 prototype-construction slice does not change the empty RecursiveInstanceBinding registry")
+        errors.append("v11 two-lane planning slice does not change the empty RecursiveInstanceBinding registry")
     construction_binding_entries = construction_binding_registry.get("bindings", [])
     if not isinstance(construction_binding_entries, list):
         errors.append("construction binding registry bindings must be an array")
         construction_binding_entries = []
     if not construction_binding_entries:
-        errors.append("v10 prototype-construction registry must contain at least one binding")
+        errors.append("v11 two-lane construction registry must contain at least one binding")
     construction_binding_ids = {
         row.get("construction_id")
         for row in construction_binding_entries
