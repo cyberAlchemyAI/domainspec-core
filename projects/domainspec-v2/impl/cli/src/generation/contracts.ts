@@ -1,3 +1,4 @@
+import type { RealizationProfile } from "./exact-uint64.js";
 import type { DecodedBody, DecodedRelationship } from "../input/project-model.js";
 import type { CatalogRealizationRow, SupportedLanguage } from "../meta-types/types.js";
 import type { SourceManifestV1 } from "../input/source-manifest.js";
@@ -12,6 +13,7 @@ export interface PlannedArtifact {
 }
 
 export interface InstantiationPlanV1 {
+  readonly realization_profile?: RealizationProfile;
   readonly schema_version: "domainspec.instantiation-plan/v1";
   readonly baseline: {
     readonly id: `domainspec-meta-types-current-implemented@${number}`;
@@ -39,6 +41,7 @@ export interface InstantiationPlanV1 {
 }
 
 export interface GeneratorInput {
+  readonly realization_profile?: RealizationProfile;
   readonly project_id: string;
   readonly feature_id: string;
   readonly node_id: string;

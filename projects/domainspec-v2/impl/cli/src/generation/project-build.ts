@@ -1,3 +1,4 @@
+import { validateRealizationProfile, type RealizationProfile } from "./exact-uint64.js";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -13,6 +14,7 @@ import { planInstantiation } from "./plan-instantiation.js";
 const RECEIPT_PATH = ".domainspec/project-build.json";
 
 export interface ProjectBuildReceiptV1 {
+  readonly realization_profile?: RealizationProfile;
   readonly schema_version: "domainspec.project-build-receipt/v1";
   readonly project_id: string;
   readonly language: SupportedLanguage;
@@ -54,14 +56,16 @@ function writeExclusive(root: string, relativePath: string, content: string): vo
   fs.writeFileSync(target, content, { encoding: "utf8", flag: "wx", mode: 0o644 });
 }
 
-export function planProjectBuild(sourceRoot: string, language: SupportedLanguage): ProjectBuildPlanV1 {
+export function planProjectBuild(sourceRoot: string, language: SupportedLanguage, realizationProfile?: RealizationProfile): ProjectBuildPlanV1 {
+  validateRealizationProfile(realizationProfile, language);
   const graph = loadCompiledProjectGraph(sourceRoot);
+  if(graph.compositions?.some(c=>c.source.model.endpoint.target==="rust-http" ? language!=="rust" || realizationProfile!==undefined : language!=="typescript" || realizationProfile!=="domainspec.typescript-exact-uint64/v1")) fail("DS_PROJECT_COMPOSITION", "/language", "composition requires its declared target: TypeScript exact UInt64 or native Rust");
   const compiledCertificate = createCompiledProjectCertificate(graph);
   const formalizationProjection = createMetaTypeFormalizationProjection(graph);
   const artifacts: PlannedArtifact[] = [];
   const paths = new Set<string>();
   for (const node of graph.nodes) {
-    const plan = planInstantiation(loadProjectNode(sourceRoot, node.selector), language);
+    const plan = planInstantiation(loadProjectNode(sourceRoot, node.selector), language, null, realizationProfile);
     for (const artifact of plan.artifacts) {
       if (artifact.relative_path === "Cargo.toml") continue;
       if (paths.has(artifact.relative_path)) fail("MTCLI_PROJECT_BUILD_COLLISION", `/nodes/${node.selector}`, `artifact collision:${artifact.relative_path}`);
@@ -69,9 +73,17 @@ export function planProjectBuild(sourceRoot: string, language: SupportedLanguage
       artifacts.push(artifact);
     }
   }
+  for(const composition of graph.compositions??[])for(const [name,content]of Object.entries(composition.artifacts)) {
+    const relative_path=`compositions/${composition.id}/${name}`;
+    if(paths.has(relative_path))fail('MTCLI_PROJECT_BUILD_COLLISION','/compositions',relative_path);
+    paths.add(relative_path);artifacts.push({relative_path,content,size_bytes:Buffer.byteLength(content),sha256:sha256(content)});
+  }
+  const finalGraph=loadCompiledProjectGraph(sourceRoot);
+  if(finalGraph.source_manifest.manifest_sha256!==graph.source_manifest.manifest_sha256)fail('MTCLI_PROJECT_SOURCE_DRIFT','/sources','project changed during build planning');
   artifacts.sort((left, right) => left.relative_path.localeCompare(right.relative_path));
   const inventory = Object.freeze(artifacts.map(({ relative_path, size_bytes, sha256: digest }) => Object.freeze({ relative_path, size_bytes, sha256: digest })));
   const body = {
+    ...(realizationProfile ? { realization_profile: realizationProfile } : {}),
     schema_version: "domainspec.project-build-receipt/v1" as const,
     project_id: graph.project_id,
     language,
@@ -111,8 +123,8 @@ export interface ProjectBuildVerificationV1 {
   readonly authority_effect: "none";
 }
 
-export function verifyProjectBuild(sourceRoot: string, language: SupportedLanguage, targetRoot: string): ProjectBuildVerificationV1 {
-  const expected = planProjectBuild(sourceRoot, language);
+export function verifyProjectBuild(sourceRoot: string, language: SupportedLanguage, targetRoot: string, realizationProfile?: RealizationProfile): ProjectBuildVerificationV1 {
+  const expected = planProjectBuild(sourceRoot, language, realizationProfile);
   const checks: Array<{ id: string; result: "pass" | "fail" }> = [];
   let observedReceipt: ProjectBuildReceiptV1 | null = null;
   try { observedReceipt = JSON.parse(fs.readFileSync(path.join(targetRoot, RECEIPT_PATH), "utf8")) as ProjectBuildReceiptV1; } catch { /* recorded below */ }

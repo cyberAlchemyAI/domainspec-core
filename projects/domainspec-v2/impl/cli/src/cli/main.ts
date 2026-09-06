@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { validateRealizationProfile, type RealizationProfile } from "../generation/exact-uint64.js";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -305,20 +306,20 @@ function certifyArgs(args: readonly string[], command: "certify" | "certify-chec
   return Object.freeze({ sourceRoot, targetDirectory: args[2]! });
 }
 
-function projectBuildArgs(args: readonly string[], command: "build" | "verify"): { readonly sourceRoot: string; readonly language: "typescript" | "python" | "rust"; readonly targetRoot: string } {
+function projectBuildArgs(args: readonly string[], command: "build" | "verify"): { readonly sourceRoot: string; readonly language: "typescript" | "python" | "rust"; readonly targetRoot: string; readonly realizationProfile?: RealizationProfile | undefined } {
   const sourceRoot = args[0];
   if (!sourceRoot || !path.isAbsolute(sourceRoot)) usage(`${command} requires one absolute source project root`);
   const values = new Map<string, string>();
   for (let index = 1; index < args.length; index += 2) {
     const option = args[index]; const value = args[index + 1];
-    if (!option || !["--language", "--target-root"].includes(option) || !value || value.startsWith("--")) usage(`${command} requires valued --language and --target-root`);
+    if (!option || !["--language", "--target-root", "--realization-profile"].includes(option) || !value || value.startsWith("--")) usage(`${command} requires valued --language and --target-root`);
     if (values.has(option)) usage(`duplicate option:${option}`);
     values.set(option, value);
   }
-  if (values.size !== 2 || !values.has("--language") || !values.has("--target-root")) usage(`${command} requires --language and --target-root`);
+  if ((values.size < 2 || values.size > 3) || !values.has("--language") || !values.has("--target-root")) usage(`${command} requires --language and --target-root`);
   const targetRoot = values.get("--target-root")!;
   if (!path.isAbsolute(targetRoot)) usage("--target-root must be absolute");
-  return Object.freeze({ sourceRoot, language: normalizeLanguage(values.get("--language")), targetRoot });
+  return Object.freeze({ sourceRoot, language: normalizeLanguage(values.get("--language")), targetRoot, realizationProfile: validateRealizationProfile(values.get("--realization-profile"), normalizeLanguage(values.get("--language"))) });
 }
 
 function runArgs(args: readonly string[]): { readonly sourceRoot: string; readonly requestPath: string; readonly receiptPath: string; readonly provider: string | null } {
@@ -529,11 +530,11 @@ export function runCli(argv: readonly string[], io: CliIo = {
     if (command === "build" || command === "verify") {
       const parsed = projectBuildArgs(args, command);
       if (command === "build") {
-        const publication = publishProjectBuild(planProjectBuild(parsed.sourceRoot, parsed.language), parsed.targetRoot);
+        const publication = publishProjectBuild(planProjectBuild(parsed.sourceRoot, parsed.language, parsed.realizationProfile), parsed.targetRoot);
         objectOutput(io, { schema_version: "domainspec.build-command-result/v1", result: "pass", ...publication, authority_effect: "none" });
         return 0;
       }
-      const verification = verifyProjectBuild(parsed.sourceRoot, parsed.language, parsed.targetRoot);
+      const verification = verifyProjectBuild(parsed.sourceRoot, parsed.language, parsed.targetRoot, parsed.realizationProfile);
       objectOutput(io, verification);
       return verification.result === "pass" ? 0 : 1;
     }

@@ -1,3 +1,4 @@
+import {compileProjectComposition} from '../input/project-composition.js';
 import fs from "node:fs";
 import path from "node:path";
 
@@ -12,6 +13,7 @@ export interface CompiledProjectCertificateV1 {
   readonly graph_sha256: string;
   readonly node_count: number;
   readonly edge_count: number;
+  readonly compositions?: readonly {id:string; sha256:string; validation:unknown}[];
   readonly backend_type_ids: readonly string[];
   readonly backend_relationship_ids: readonly string[];
   readonly obligation_applicability: CompiledProjectGraph["obligation_applicability"];
@@ -35,6 +37,7 @@ export function createCompiledSemanticGraph(graph: CompiledProjectGraph): Omit<C
     project_id: graph.project_id,
     source_manifest: graph.source_manifest,
     nodes: graph.nodes,
+    ...(graph.compositions ? {compositions:graph.compositions} : {}),
     relationships: graph.relationships,
     obligation_witnesses: graph.obligation_witnesses,
     obligation_applicability: graph.obligation_applicability,
@@ -45,6 +48,11 @@ export function createCompiledSemanticGraph(graph: CompiledProjectGraph): Omit<C
 
 export function createCompiledProjectCertificate(graph: CompiledProjectGraph): CompiledProjectCertificateV1 {
   validateCompiledProjectGraphObligations(graph);
+  const declared=graph.source_manifest.sources.filter(s=>s.source_type==='composition');
+  if (canonicalJson(declared.map(s=>s.source_id).sort())!==canonicalJson((graph.compositions??[]).map(c=>c.id).sort())) fail('DS_PROJECT_COMPOSITION', '/compositions', 'composition graph omitted or changed');
+  for(const c of graph.compositions??[]) {
+    if(canonicalJson(c)!==canonicalJson(compileProjectComposition(c.source,graph.nodes))) fail('DS_PROJECT_COMPOSITION','/compositions','stale compiled composition');
+  }
   const body = {
     schema_version: "domainspec.compiled-project-certificate/v1" as const,
     project_id: graph.project_id,
@@ -52,6 +60,7 @@ export function createCompiledProjectCertificate(graph: CompiledProjectGraph): C
     graph_sha256: sha256(canonicalJson(createCompiledSemanticGraph(graph))),
     node_count: graph.nodes.length,
     edge_count: graph.relationships.length,
+    ...(graph.compositions ? {compositions:graph.compositions.map(c=>({id:c.id,sha256:sha256(canonicalJson(c)),validation:c.validation}))} : {}),
     backend_type_ids: Object.freeze([...new Set(graph.nodes.map(({ meta_type_id }) => meta_type_id))].sort()),
     backend_relationship_ids: Object.freeze([...new Set(graph.relationships.map(({ relationship }) => relationship))].sort()),
     obligation_applicability: graph.obligation_applicability,

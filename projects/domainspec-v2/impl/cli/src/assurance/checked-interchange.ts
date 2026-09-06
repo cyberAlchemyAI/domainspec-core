@@ -64,6 +64,7 @@ function body(value: Omit<CheckedInterchangeV1, "interchange_sha256">): Omit<Che
 }
 
 export function createCheckedInterchange(graph: CompiledProjectGraph): CheckedInterchangeV1 {
+  if(graph.compositions?.length)fail("DS_PROJECT_COMPOSITION", "/compositions", "checked interchange does not yet cover composition formalization; use the project compilation certificate");
   const projection = createMetaTypeFormalizationProjection(graph);
   const candidate = body({
     schema_version: "domainspec.checked-interchange/v1",

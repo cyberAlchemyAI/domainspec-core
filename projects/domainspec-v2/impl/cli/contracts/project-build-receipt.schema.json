@@ -9,6 +9,7 @@
     "schema_version": {"const": "domainspec.project-build-receipt/v1"},
     "project_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"},
     "language": {"enum": ["typescript", "python", "rust"]},
+    "realization_profile": {"const": "domainspec.typescript-exact-uint64/v1"},
     "source_manifest_sha256": {"$ref": "#/$defs/sha256"},
     "compiled_certificate": {"$ref": "compiled-project-certificate.schema.json"},
     "formalization_projection_sha256": {"$ref": "#/$defs/sha256"},
@@ -17,6 +18,7 @@
     "authority_effect": {"const": "none"},
     "receipt_sha256": {"$ref": "#/$defs/sha256"}
   },
+  "allOf": [{"if": {"required": ["realization_profile"]}, "then": {"properties": {"language": {"const": "typescript"}}}}],
   "$defs": {
     "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "artifact": {

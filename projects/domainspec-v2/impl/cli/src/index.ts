@@ -203,3 +203,7 @@ export {
   type RecipeQualificationToolBindings,
   type RecipeQualificationVerificationV1,
 } from "./qualification/execute.js";
+
+export { EXACT_UINT64_PROFILE } from "./generation/exact-uint64.js";
+
+export { DECLARATIVE_FUNCTION_PROFILE, compileDeclarativeFunction, type DeclarativeFunctionContract } from './typed-backend/declarative-function.js';
