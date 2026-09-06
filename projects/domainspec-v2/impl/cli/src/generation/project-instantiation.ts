@@ -38,6 +38,7 @@ export function planProjectInstantiation(sourceRoot: string, languages: readonly
   const uniqueLanguages = [...new Set(languages)].sort();
   if (uniqueLanguages.length === 0) fail("MTCLI_PROJECT_LANGUAGE", "project instantiation requires at least one language");
   const graph = loadCompiledProjectGraph(sourceRoot);
+  if(graph.compositions?.length)fail("DS_PROJECT_COMPOSITION", "use build with the TypeScript exact UInt64 profile for compositions");
   const selectors = graph.nodes.map(({ selector }) => selector).sort();
   const plans = Object.freeze(selectors.flatMap((selector) => {
     const node = loadProjectNode(sourceRoot, selector);

@@ -23,6 +23,7 @@ import {
   overviewHero,
   patternCommands,
   quickstart,
+  domainSpecTarget,
   sections,
   sfolGrammar,
   sfolExample,
@@ -514,7 +515,8 @@ export function App() {
           <p className="section-kicker">01 — Start here</p>
           <h2>Five-minute quickstart</h2>
           <p>From the AlchLang <code>implementation</code> directory, verify the runtime, compile the repository-local CLI, validate canonical source, and emit a typed build.</p>
-          <CodeBlock code={quickstart} label="Terminal" />
+          <CodeBlock code={quickstart} label="Terminal — local generator" />
+          <p>For the external compiler, follow <a href="#domainspec-target">the DomainSpec 1.0.0 target guide</a>.</p>
           <div className="callout"><span>✓</span><p><strong>Expected result</strong>A valid check returns a deterministic plan digest. The build creates a manifest and generated domain files.</p></div>
         </section>
 
@@ -685,6 +687,26 @@ export function App() {
           <div className="warning"><span>!</span><p><strong>This reference grants no extension authority.</strong>A parser branch or passing test does not by itself admit a meta-type, generator, runtime, or operational effect.</p></div>
           <div className="diagnostic-index" role="group" aria-label="Common compiler diagnostics"><span>COMMON DIAGNOSTICS</span><div>{commonDiagnostics.map((error) => <code id={diagnosticAnchor(error)} key={error}>{error}</code>)}</div></div>
         </TutorialSection>
+
+        <section id="domainspec-target" className="doc-section">
+          <p className="section-kicker">DomainSpec {domainSpecTarget.version}</p>
+          <h2>Compile with DomainSpec 1.0.0</h2>
+          <p>The local language supports thirteen backend kinds. The external compiler target currently accepts the bounded profile below.</p>
+          <p>First build <code>@domainspec-v2/cli@1.0.0</code> from the repository root with <code>npm --prefix projects/domainspec-v2/impl/cli run build</code>. Then run these commands from the AlchLang implementation directory.</p>
+          <CodeBlock code={domainSpecTarget.commands} label="Terminal — DomainSpec target" />
+          <p>{domainSpecTarget.supported}</p>
+          <p>{domainSpecTarget.bindings}</p>
+          <p>{domainSpecTarget.outputs}</p>
+          <div className="callout"><span>i</span><p><strong>Choose a new output directory</strong>Its parent must exist. Even an empty destination is rejected; this target does not accept <code>--force</code>.</p></div>
+          <p>Compile <code>domain.ts</code> with its generated imports. It exports <code>evaluateMapping(id, facts)</code> and <code>selectPolicy(id, facts)</code> using source names. Policy selection returns a target identifier without executing it. Invariant references do not automatically enforce runtime validation.</p>
+          <p>{domainSpecTarget.migration}</p>
+          <h3>Exact UInt64 commerce profile</h3>
+          <CodeBlock code={domainSpecTarget.exactCommands} label="Terminal — exact commerce" />
+          <p>The bound compiler must advertise <code>domainspec.typescript-exact-uint64/v1</code>; rebuild it first. This profile adds queries, integer records, parameterized calculations and threshold policies. The sidecar must select the same profile.</p>
+          <p>The generated entry also exports <code>evaluateQuery</code> and <code>evaluateCalculation</code>. Calculations accept bigint, safe Numbers or canonical unsigned decimal strings and return bigint across the full UInt64 range. Integer record and policy inputs accept bigint or nonnegative safe Numbers. Unsafe Numbers reject.</p>
+          <p>Queries preserve tie order and supplied values, with one sort key and explicit projection. Multiple keys and overlapping row/parameter names reject. Numeric predicate/default literals must be safe integers. Effects and additional backend kinds remain outside this profile.</p>
+          <p>These commands run in the repository CLI. The mini workspace below remains an in-memory demonstration of the local command surface.</p>
+        </section>
 
         <section id="compiler" className="doc-section">
           <p className="section-kicker">12 — Compiler</p>

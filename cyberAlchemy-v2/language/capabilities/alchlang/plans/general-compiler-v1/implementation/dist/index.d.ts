@@ -21,3 +21,7 @@ export type { ActionAdapter, ActionAdapterRegistry, ActionExecutionResult, Actio
 export type { AtomicStateAndOutboxRequest, OutboxMessage, OutboxTransport, PendingOutboxMessage } from "./sqlite-outbox-runtime.js";
 export type { DurableCommitRequest, DurableOutboxMessage, DurableOutboxRecord, DurableOutboxStatus, DurableOutboxTransport, DurableWorkerOptions, OutboxTelemetryEvent, OutboxTelemetrySink } from "./durable-outbox-runtime.js";
 export type { OperationPattern, PatternAvailability, PrerequisiteStatus } from "./pattern-registry.js";
+export { DOMAINSPEC_PACKAGE, DOMAINSPEC_VERSION, loadDomainSpecCompiler, runDomainSpecCli } from "./domainspec-cli.js";
+export type { DomainSpecCompiler, DomainSpecGraph, DomainSpecIo } from "./domainspec-cli.js";
+export { lowerDomainSpec } from "./lower-domainspec.js";
+export { buildDomainSpec, checkDomainSpec } from "./domainspec-project-writer.js";

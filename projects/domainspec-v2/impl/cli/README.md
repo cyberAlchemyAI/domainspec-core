@@ -373,3 +373,29 @@ The former `tools/auth-kernel.mjs` specialization has been retired. Auth now
 uses this same `instantiate` surface and typed Operation realization as every
 other consumer. Historical parity evidence is owned by the Auth package, not by
 an alternate CLI generator.
+
+## Opt-in exact UInt64 TypeScript realization
+
+Whole-project `build` and `verify` accept `--realization-profile domainspec.typescript-exact-uint64/v1`.
+This local candidate adds exact bigint calculations and checked thin-query behavior.
+Default generation is unchanged. See [the contract and limitations](EXACT-UINT64.md).
+
+## Application output layout
+
+`build` and `verify` accept `--output-layout domainspec.application-layout/v1`.
+Supply the same layout and realization profile to both commands. Omitting the
+layout preserves the existing low-level output structure.
+
+The application layout emits core implementations at
+`domain/<language>/src/<feature>/<node>.<extension>`, composition code at
+`app/<composition>/`, runtime support at `runtime/<composition>/`, source and
+composition metadata at `provenance/<composition>/`, and traces and the build
+receipt under `evidence/`. Rust compositions include their separate runtime
+source using generated relative paths. Build receipts bind the selected layout,
+exact file paths and contents. Compilation caches belong outside the bundle.
+
+Consumers bind the exported `APPLICATION_LAYOUT`, `APPLICATION_PATHS`,
+`applicationArtifactPath` and `outputImport` contract rather than defining a
+second output tree. This layout is a new local product candidate; it does not
+change the previously accepted release archive. Product decision status is
+tracked in `../../development/output-layout/v1/DESIGN.md`.

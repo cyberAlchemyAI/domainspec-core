@@ -49,3 +49,9 @@ relocate source authority, select architecture, implement a runtime or CLI, publ
 The [thesis's Open Product Decisions](PRODUCT-THESIS.md#open-product-decisions) own the unresolved Product choices.
 The [companion's Open Questions](CONSTRUCTION-FEEDBACK-LOOP.md#open-questions) identify the evidence and feedback
 questions for a bounded construction trial.
+
+## Product capabilities
+
+[ORODI](capabilities/orodi/README.md) owns the six existing operational-resilience
+capabilities. Its [related-work register](capabilities/orodi/RELATED-WORK.md) links
+definitions, evidence, implementation, alerts, and the proposed Alch event integration.

@@ -19,7 +19,7 @@ Status: working adjudication ledger
 | WP-C13 | Protocol co-ownership confers copyright, license, or legal title. | legal claim | no legal model or review | Exclude. |
 | WP-C14 | Users want or will pay for this product. | market claim | no user or market study | Exclude; list as future empirical work. |
 | WP-C15 | Later pricing, royalties, rights, and reputation can build on this substrate. | product hypothesis | product roadmap only | Include as future work, not implemented behavior. |
-| WP-C16 | The current browser dependency surface has no critical/high finding and one moderate transitive advisory. | implementation observation | `LOCAL-HOSTED-IMPLEMENTATION` | Include with the exact non-exploitability caveat; not a security clearance. |
+| WP-C16 | The historical implementation README recorded no critical/high finding and one moderate transitive advisory. | implementation observation | `LOCAL-HOSTED-IMPLEMENTATION` | Dated observation only; no fresh dependency audit or security clearance. |
 | WP-C17 | The encrypted durable successor defines seven formal claims projected fifteen times across Lean, TLA+/TLC, and Alloy with deterministic `PASS_BOUNDED` receipts. | formal model | `LOCAL-EVF-CLAIMS-V2`, `LOCAL-EVF-FORMAL-RECEIPT-V2` | Include as bounded model evidence; not Rust refinement, external behavior, acceptance, or aggregate conformance. |
 | WP-C18 | Five local provider observations report 29 Rust, 3 cryptographic, 1 PostgreSQL, 13 Solana program-test, and 7 formal-provider cases as `PASS_BOUNDED`. | implementation observation | `LOCAL-EVF-PROVIDER-OBSERVATIONS` | Include only as exact historical bounded observations for their bound bytes and environments. |
 | WP-C19 | The relation matrix contains 204 distinct system-ontology relation mappings to bounded providers. | structural correspondence | `LOCAL-EVF-RELATION-MATRIX` | Include as mapping coverage; each record explicitly is not independent relation-specific behavioral proof. |
@@ -32,3 +32,12 @@ Status: working adjudication ledger
 A paper sentence may be stronger than a source only when it is explicitly
 marked as synthesis, hypothesis, or future work. Passing validation cannot
 upgrade a governance, security, legal, market, durability, or production claim.
+
+## September 6 development claims
+
+| ID | Claim | Support | Ceiling |
+| --- | --- | --- | --- |
+| WP-C23 | Encrypted account recovery and interrupted-save retry were observed locally. | `LOCAL-SEP6-BROWSER-RECOVERY`, `LOCAL-SEP6-COMMIT-TABS`, account sources | Test signer; no wallet compatibility, lost-secret recovery, or divergent-edit merge. |
+| WP-C24 | Original-file retention starts at first signed acknowledgement and resets on later distinct acknowledgements. | September 6 file sources; `LOCAL-SEP6-BROWSER-RECOVERY` | Client acknowledgement, not proof of disk save; no independent backup erasure claim. |
+| WP-C25 | Participating PostgreSQL writers are excluded by a shared session lock. | `LOCAL-SEP6-SINGLE-WRITER`, `LOCAL-SEP6-SRC-STORE-RS` | Direct SQL and old binaries excluded; disconnected reads may be stale. |
+| WP-C26 | Known pre-submission checkpoint failure can be retried. | `LOCAL-SEP6-CHECKPOINT` | Restored uncertain submissions remain blocked; no general crash-recovery proof. |

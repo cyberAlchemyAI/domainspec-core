@@ -7,3 +7,5 @@ export * from "./src/requirement-change.mjs";
 export * from "./src/requirement-patch.mjs";
 export * from "./src/requirement-operation-fast-path.mjs";
 export {canonicalJson as canonicalizeIntentJson, digest as digestIntentMaterial} from "./src/canonical.mjs";
+
+export * from "./src/learning-loop.mjs";

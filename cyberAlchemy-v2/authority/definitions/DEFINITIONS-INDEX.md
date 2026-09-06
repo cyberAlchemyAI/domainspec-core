@@ -76,6 +76,16 @@ Canonical source: [DEFINITIONS.md](DEFINITIONS.md)
 | CAV2-D67 | product capability | active | [Product Capability](DEFINITIONS.md#cav2-d67-product-capability) | What useful outcome the Product must make possible, kept separate from the tool or implementation that realizes it. |
 | CAV2-D68 | person | active | [Person](DEFINITIONS.md#cav2-d68-person) | The human, not their login, job title, permission, or database row. |
 | CAV2-D69 | team | active | [Team](DEFINITIONS.md#cav2-d69-team) | A named group working toward a purpose that remains recognizable when its members change. |
+| CAV2-D83 | Operational Resilience | active | [Operational Resilience](DEFINITIONS.md#cav2-d83-operational-resilience) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D84 | Operational Evidence | active | [Operational Evidence](DEFINITIONS.md#cav2-d84-operational-evidence) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D85 | Evaluation Binding | active | [Evaluation Binding](DEFINITIONS.md#cav2-d85-evaluation-binding) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D86 | Operational Evidence Evaluation State | active | [Operational Evidence Evaluation State](DEFINITIONS.md#cav2-d86-operational-evidence-evaluation-state) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D87 | Failure Meaning Separation | active | [Failure Meaning Separation](DEFINITIONS.md#cav2-d87-failure-meaning-separation) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D88 | Product Observability | active | [Product Observability](DEFINITIONS.md#cav2-d88-product-observability) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D89 | Telemetry Conservation | active | [Telemetry Conservation](DEFINITIONS.md#cav2-d89-telemetry-conservation) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D90 | Runtime Evidence | active | [Runtime Evidence](DEFINITIONS.md#cav2-d90-runtime-evidence) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D91 | Deployment Evidence | active | [Deployment Evidence](DEFINITIONS.md#cav2-d91-deployment-evidence) | Reconciled source voices; Craft ORODI admission. |
+| CAV2-D92 | Rollback Restoration Evidence | active | [Rollback Restoration Evidence](DEFINITIONS.md#cav2-d92-rollback-restoration-evidence) | Reconciled source voices; Craft ORODI admission. |
 ## Withdrawn Definition IDs
 
 | Reserved ID range | Status | Successor authority |

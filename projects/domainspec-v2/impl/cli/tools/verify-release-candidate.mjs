@@ -161,6 +161,125 @@ function check(checks, id, predicate, detail = null) {
   checks.push(Object.freeze({ id, result: predicate ? "pass" : "fail", detail }));
 }
 
+// Self-contained release evidence checks. Keep this in the portable verifier so
+// the builder and an offline consumer enforce exactly the same L1 contract.
+const QUALIFICATION_CHECKS = [
+  ["recipe-byte-verify", "exact-artifact-membership-and-digests", "pure"],
+  ["terraform-fmt-check", "terraform-format-current", "pure"],
+  ["terraform-init-backendless", "terraform-provider-resolution-closed", "network-read-only"],
+  ["terraform-validate", "terraform-configuration-valid", "bounded-local-cache"],
+  ["docker-buildx-bake-check", "all-declared-build-targets-check", "network-read-only"],
+];
+const QUALIFICATION_IDS = QUALIFICATION_CHECKS.map(([id]) => id);
+const ADAPTER_PROTOCOL = "domainspec.oci-tool-adapter/v1";
+const L1_TOOLCHAIN = {
+  terraform: { version: "1.16.0", adapter_protocol: ADAPTER_PROTOCOL, image: "hashicorp/terraform:1.16.0@sha256:fb5ea091b84f35e111e3a83eb8a6cdeb264bba11687c2eebc52253ade183022f" },
+  docker: { version: "28.0.1", buildx_version: "0.21.3", adapter_protocol: ADAPTER_PROTOCOL, image: "docker:28.0.1-cli@sha256:043c259759666d273afa94a9c9175a87a11f16cde2f613f4c527e4395b703a1f" },
+};
+const same = (a, b) => canonicalJson(a) === canonicalJson(b);
+const digestValue = (value) => typeof value === "string" && DIGEST.test(value);
+function selfDigest(value, key) {
+  if (!value || !digestValue(value[key])) return false;
+  const body = { ...value }; delete body[key];
+  return value[key] === sha256(canonicalJson(body));
+}
+const identityValue = (value) => typeof value === "string" && value.length <= 128 && /^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$/.test(value);
+
+export function verifyQualificationEvidence(evidenceRoot) {
+  const checks = [];
+  const add = (id, ok) => check(checks, id, ok);
+  // Discover regular files before parsing; never follow an evidence symlink.
+  let observed;
+  try {
+    const root = path.resolve(evidenceRoot);
+    if (fs.realpathSync(root) !== root || !fs.lstatSync(root).isDirectory()) throw new Error("unsafe root");
+    observed = walk(root);
+  } catch { observed = { safe: false, rows: [] }; }
+  add("qualification-files-regular", observed.safe);
+  if (!observed.safe) return { result: "fail", checks };
+  const rows = new Map(observed.rows.map((row) => [row.path, row]));
+  const read = (relative) => rows.has(relative) ? readJson(path.join(evidenceRoot, relative)) : null;
+  const profile = read("qualification-profile.json");
+  add("qualification-profile", exactKeys(profile, ["schema_version", "profile_id", "ontology_id", "qualification_level", "recipe_target", "required_checks", "optional_checks", "toolchain", "network_policy", "normalization_profile", "effect_ceiling", "authority_effect", "profile_sha256"])
+    && profile.schema_version === "domainspec.recipe-qualification-profile/v1" && identityValue(profile.profile_id)
+    && profile.ontology_id === "domainspec.recipe-qualification-ontology@1" && profile.qualification_level === "recipe-executable-v1"
+    && profile.recipe_target === "aws-ecs-fargate-postgres-v1" && same(profile.required_checks, QUALIFICATION_IDS)
+    && same(profile.optional_checks, []) && same(profile.toolchain, L1_TOOLCHAIN)
+    && profile.network_policy === "provider-registry-read-only" && profile.normalization_profile === "domainspec.recipe-qualification-normalization/v1"
+    && profile.effect_ceiling === "no-external-effect" && profile.authority_effect === "none" && selfDigest(profile, "profile_sha256"));
+  const expectedFiles = ["qualification-profile.json", "equivalence.json"];
+  for (const run of ["run-1", "run-2"]) {
+    const plan = read(`${run}/qualification-plan.json`);
+    const cert = read(`${run}/qualification-certificate.json`);
+    const receipt = read(`${run}/qualification-run-receipt.json`);
+    expectedFiles.push(...["qualification-plan.json", "qualification-certificate.json", "qualification-run-receipt.json"].map((name) => `${run}/${name}`));
+    const subjectDigests = ["source_manifest_sha256", "compiled_certificate_sha256", "checked_interchange_sha256", "request_sha256", "target_implementation_sha256", "manifest_sha256", "recipe_plan_sha256", "recipe_receipt_sha256", "artifact_inventory_sha256"];
+    const subject = plan?.subject;
+    add(`${run}:plan`, exactKeys(plan, ["schema_version", "subject", "profile_id", "profile_sha256", "checks", "authority_effect", "plan_sha256"])
+      && plan.schema_version === "domainspec.recipe-qualification-plan/v1" && plan.authority_effect === "none" && selfDigest(plan, "plan_sha256")
+      && plan.profile_id === profile?.profile_id && plan.profile_sha256 === profile?.profile_sha256
+      && exactKeys(subject, ["request_id", "target", "project_id", ...subjectDigests])
+      && identityValue(subject.request_id) && identityValue(subject.project_id) && subject.target === profile?.recipe_target
+      && subjectDigests.every((key) => digestValue(subject[key]))
+      && Array.isArray(plan.checks) && plan.checks.length === QUALIFICATION_IDS.length
+      && plan.checks.every((item, i) => exactKeys(item, ["check_id", "adapter_id", "predicate_id", "effect_class", "input_sha256", "required"])
+        && item.check_id === QUALIFICATION_IDS[i] && item.adapter_id === `${item.check_id}-v1`
+        && item.predicate_id === QUALIFICATION_CHECKS[i][1] && item.effect_class === QUALIFICATION_CHECKS[i][2]
+        && item.required === true && digestValue(item.input_sha256)));
+    add(`${run}:certificate`, exactKeys(cert, ["schema_version", "subject", "profile_id", "profile_sha256", "plan_sha256", "toolchain", "observations", "result", "denied_claims", "authority_effect", "certificate_sha256"])
+      && cert.schema_version === "domainspec.recipe-qualification-certificate/v1" && selfDigest(cert, "certificate_sha256")
+      && cert.plan_sha256 === plan?.plan_sha256 && cert.profile_id === profile?.profile_id && cert.profile_sha256 === profile?.profile_sha256
+      && same(cert.subject, subject) && cert.authority_effect === "none" && same(cert.denied_claims, ["release", "publication", "deployment", "runtime-conformance"]));
+    const tools = Array.isArray(cert?.toolchain) ? cert.toolchain : [];
+    add(`${run}:toolchain`, tools.length === 2 && tools.every((item, i) => {
+      const expected = i === 0 ? L1_TOOLCHAIN.terraform : L1_TOOLCHAIN.docker;
+      return exactKeys(item, ["tool", "version", "secondary_version", "adapter_protocol", "image", "executable_sha256", "identity_sha256"])
+        && item.tool === (i === 0 ? "terraform" : "docker-buildx") && item.version === expected.version
+        && item.secondary_version === (i === 0 ? null : expected.buildx_version) && item.image === expected.image
+        && item.adapter_protocol === ADAPTER_PROTOCOL && digestValue(item.executable_sha256) && selfDigest(item, "identity_sha256");
+    }));
+    const observations = Array.isArray(cert?.observations) ? cert.observations : [];
+    const lock = observations[2]?.provider_lock_sha256;
+    add(`${run}:observations-pass`, cert?.result === "pass" && observations.length === QUALIFICATION_IDS.length && observations.every((item, i) => {
+      const planned = Array.isArray(plan?.checks) ? plan.checks[i] : null;
+      return exactKeys(item, ["check_id", "adapter_id", "predicate_id", "input_sha256", "result", "detail_code", "tool_identity_sha256", "provider_lock_sha256", "causal_blockers"])
+        && item.check_id === QUALIFICATION_IDS[i] && planned != null && item.adapter_id === planned.adapter_id
+        && item.predicate_id === planned.predicate_id && item.input_sha256 === planned.input_sha256
+        && item.result === "pass" && same(item.causal_blockers, [])
+        && typeof item.detail_code === "string" && item.detail_code.length > 0 && item.detail_code.length <= 256 && !/[\0\r\n]/.test(item.detail_code)
+        && item.tool_identity_sha256 === (i === 0 ? null : tools[i === 4 ? 1 : 0]?.identity_sha256)
+        && (i === 2 || i === 3 ? digestValue(lock) && item.provider_lock_sha256 === lock : item.provider_lock_sha256 === null);
+    }));
+    add(`${run}:receipt`, exactKeys(receipt, ["schema_version", "certificate_sha256", "evidence", "result", "authority_effect", "receipt_sha256"])
+      && receipt.schema_version === "domainspec.recipe-qualification-run-receipt/v1" && selfDigest(receipt, "receipt_sha256")
+      && receipt.certificate_sha256 === cert?.certificate_sha256 && receipt.result === "pass" && receipt.authority_effect === "none");
+    for (const id of QUALIFICATION_IDS) expectedFiles.push(`${run}/evidence/${id}.stdout.txt`, `${run}/evidence/${id}.stderr.txt`);
+    add(`${run}:evidence`, Array.isArray(receipt?.evidence) && receipt.evidence.length === QUALIFICATION_IDS.length && receipt.evidence.every((item, i) => {
+      const id = QUALIFICATION_IDS[i];
+      return exactKeys(item, ["check_id", "stdout_path", "stdout_sha256", "stderr_path", "stderr_sha256", "exit_code", "termination"])
+        && item.check_id === id && item.exit_code === 0 && item.termination === "exited"
+        && ["stdout", "stderr"].every((stream) => item[`${stream}_path`] === `evidence/${id}.${stream}.txt`
+          && digestValue(item[`${stream}_sha256`]) && item[`${stream}_sha256`] === rows.get(`${run}/evidence/${id}.${stream}.txt`)?.sha256);
+    }));
+  }
+  const left = read("run-1/qualification-certificate.json");
+  const right = read("run-2/qualification-certificate.json");
+  const equivalence = read("equivalence.json");
+  const equivalenceIds = ["run-1-pass", "run-2-pass", "run-1-verifies", "run-2-verifies", "certificate-byte-equivalence", "expected-baseline"];
+  add("qualification-equivalence-consistent", exactKeys(equivalence, ["schema_version", "result", "checks", "observed", "evidence_root", "authority_effect"])
+    && equivalence.schema_version === "domainspec.recipe-qualification-l1-equivalence/v1" && equivalence.result === "pass"
+    && equivalence.authority_effect === "none" && typeof equivalence.evidence_root === "string" && equivalence.evidence_root.length > 0
+    && same(equivalence.checks, equivalenceIds.map((id) => ({ id, result: "pass" }))) && left != null && same(left, right)
+    && same(equivalence.observed, {
+      schema_version: "domainspec.recipe-qualification-l1-baseline/v1", authority_effect: "none",
+      certificate_sha256: left?.certificate_sha256, plan_sha256: left?.plan_sha256, profile_sha256: left?.profile_sha256,
+      provider_lock_sha256: Array.isArray(left?.observations) ? left.observations[2]?.provider_lock_sha256 : null,
+      source_manifest_sha256: left?.subject?.source_manifest_sha256, target_implementation_sha256: left?.subject?.target_implementation_sha256,
+    }));
+  add("qualification-artifact-set-exact", same([...rows.keys()].sort(), expectedFiles.sort()));
+  return { result: checks.every(({ result }) => result === "pass") ? "pass" : "fail", checks };
+}
+
 export function verifyReleaseCandidate(bundleRoot, expectedSourceCommit = null) {
   const root = path.resolve(bundleRoot);
   const checks = [];
@@ -247,6 +366,8 @@ export function verifyReleaseCandidate(bundleRoot, expectedSourceCommit = null) 
     && resolvedDependencies.some((dependency) => dependency?.digest?.gitCommit === sourceCommit)
     && provenance?.predicate?.runDetails?.metadata?.sourceTree === "clean");
 
+  const qualificationVerification = verifyQualificationEvidence(path.join(root, "qualification"));
+  checks.push(...qualificationVerification.checks);
   const leftCertificate = readJson(path.join(root, "qualification", "run-1", "qualification-certificate.json"));
   const rightCertificate = readJson(path.join(root, "qualification", "run-2", "qualification-certificate.json"));
   const equivalence = readJson(path.join(root, "qualification", "equivalence.json"));

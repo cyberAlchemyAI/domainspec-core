@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 import { recordPerformanceSample } from "../../performance";
 import { chatRequestId, startAreChatControlPlane, subscribeAreChatControlPlane, type AreChatConnection, type AreChatEvent, type AreReasoningReceipt } from "./are-chat-bridge";
@@ -74,7 +75,11 @@ export function shouldAutoApprove(event: AreChatEvent, enabled: boolean): boolea
     && event.permissionDecision?.kind === "permit";
 }
 
-export function ChatSurface() {
+function DecisionsPlacement({ target, children }: { target?: HTMLElement | null; children: ReactNode }) {
+  return target ? createPortal(children, target) : children;
+}
+
+export function ChatSurface({ decisionsTarget }: { decisionsTarget?: HTMLElement | null } = {}) {
   const [connection, setConnection] = useState<AreChatConnection | null>(null);
   const [status, setStatus] = useState<"connecting" | "ready" | "busy" | "unavailable" | "error">("connecting");
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -94,6 +99,14 @@ export function ChatSurface() {
   const [preflight, setPreflight] = useState<Record<string, unknown> | null>(null);
   const [reasoningReceipts, setReasoningReceipts] = useState<AreReasoningReceipt[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [decisionsOpen, setDecisionsOpen] = useState(false);
+  const decisionsToggleRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (approval || questions || error || preflight?.kind === "block"
+      || (Array.isArray(continuation?.proposal_bindings) && continuation.proposal_bindings.length > 0)) {
+      setDecisionsOpen(true);
+    }
+  }, [approval, questions, continuation, error, preflight]);
   const transcriptRef = useRef<HTMLDivElement>(null);
   const streamingMessageRef = useRef<HTMLElement>(null);
   const streamingTextRef = useRef<HTMLParagraphElement>(null);
@@ -306,6 +319,12 @@ export function ChatSurface() {
     <main className="chat-surface">
       <header className="chat-header">
         <div><p>Agent Reasoning Engine</p><h1>Work in conversation.</h1></div>
+        <button type="button" className="chat-decisions-toggle" ref={decisionsToggleRef}
+          aria-expanded={decisionsOpen} aria-controls="are-decisions-panel"
+          onClick={() => setDecisionsOpen(open => !open)}>
+          {decisionsOpen ? "Close decisions" : "Decisions & receipts"}
+          {(approval || questions || error || preflight?.kind === "block" || (Array.isArray(continuation?.proposal_bindings) && continuation.proposal_bindings.length > 0)) && " · Attention"}
+        </button>
         <div className={`chat-status chat-status-${status}`}><span />{status}</div>
       </header>
       <div className="chat-boundary"><strong>Governed path</strong><span>Workspace → Tauri → ARE wrapper → Codex app-server</span><code>{threadId ? threadId.slice(0, 18) : "no thread"}</code></div>
@@ -353,7 +372,12 @@ export function ChatSurface() {
             <div><small>Enter text here; exact effects still require a separate decision.</small><button type="submit" disabled={!draft.trim() || status !== "ready"}>Send</button></div>
           </form>
         </section>
-        <aside className="chat-decisions" aria-label="ARE decisions" tabIndex={0}>
+        <DecisionsPlacement target={decisionsTarget}><aside className="chat-decisions" id="are-decisions-panel" data-panel-open={decisionsOpen}
+          aria-label="ARE decisions" tabIndex={0} onKeyDown={event => {
+            if (event.key === "Escape" && decisionsOpen) {
+              event.stopPropagation(); setDecisionsOpen(false); decisionsToggleRef.current?.focus();
+            }
+          }}>
           <div className="chat-decision-heading">
             <div><p>Live boundary</p><h2>Decisions &amp; residue</h2></div>
             <button
@@ -409,7 +433,7 @@ export function ChatSurface() {
               </li>)}</ol>}
             <small>Live journal projection · authority effect: none</small>
           </section>
-        </aside>
+        </aside></DecisionsPlacement>
       </div>
     </main>
   );

@@ -61,6 +61,13 @@ async fn interface_assets_are_complete_same_origin_and_security_bounded() {
     assert!(reference.contains("/assets/design-system.css"));
     assert!(!reference.contains("<script"), "reference must not run wallet or hosted operations");
 
+    let cli = app.clone().oneshot(Request::get("/cli-api").body(Body::empty()).unwrap()).await.unwrap();
+    assert_eq!(cli.status(), StatusCode::OK);
+    let cli = String::from_utf8(cli.into_body().collect().await.unwrap().to_bytes().to_vec()).unwrap();
+    assert!(cli.contains("Use KEP without a browser"));
+    assert!(cli.contains("node cli/kep.mjs login"));
+    assert!(!cli.contains("<script"), "CLI guide must not request wallet or API effects");
+
     for (path, content_type, minimum_bytes, maximum_bytes) in [
         ("/assets/design-system.css", "text/css; charset=utf-8", 5_000, 30_000),
         (

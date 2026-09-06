@@ -777,3 +777,5 @@ export function createEvolutionRuntime({profile, ledger = null, target_profiles 
     ledger: stateLedger,
   });
 }
+
+export {assessInteractionLearningProgress, projectInteractionLearningToHypothesis, createInteractionEvolutionAdapter} from "./src/interaction-learning.mjs";

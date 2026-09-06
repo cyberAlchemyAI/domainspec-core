@@ -7,7 +7,7 @@ import { spawnSync } from "node:child_process";
 import test from "node:test";
 
 import { buildReleaseCandidate } from "../../tools/build-release-candidate.mjs";
-import { canonicalJson, verifyReleaseCandidate } from "../../tools/verify-release-candidate.mjs";
+import { canonicalJson, sha256, verifyReleaseCandidate, verifyQualificationEvidence } from "../../tools/verify-release-candidate.mjs";
 
 function run(command, args, cwd) {
   const result = spawnSync(command, args, {
@@ -63,23 +63,16 @@ function createSource(root, fakeGit) {
 }
 
 function createQualification(root) {
-  const certificate = {
-    schema_version: "domainspec.recipe-qualification-certificate/v1",
-    result: "pass",
-    certificate_sha256: "a".repeat(64),
-    authority_effect: "none",
-  };
-  writeJson(path.join(root, "qualification-profile.json"), { schema_version: "domainspec.recipe-qualification-profile/v1", authority_effect: "none" });
-  writeJson(path.join(root, "run-1", "qualification-certificate.json"), certificate);
-  writeJson(path.join(root, "run-2", "qualification-certificate.json"), certificate);
-  writeJson(path.join(root, "equivalence.json"), {
-    schema_version: "domainspec.recipe-qualification-l1-equivalence/v1",
-    result: "pass",
-    checks: [{ id: "certificate-byte-equivalence", result: "pass" }],
-    observed: { certificate_sha256: certificate.certificate_sha256 },
-    evidence_root: root,
-    authority_effect: "none",
-  });
+  const fixture = JSON.parse(fs.readFileSync(new URL("./fixtures/qualification.json", import.meta.url), "utf8"));
+  writeJson(path.join(root, "qualification-profile.json"), fixture.profile);
+  for (const run of ["run-1", "run-2"]) {
+    for (const [name, value] of [["plan", fixture.plan], ["certificate", fixture.certificate], ["run-receipt", fixture.receipt]]) {
+      writeJson(path.join(root, run, `qualification-${name}.json`), value);
+    }
+    fs.mkdirSync(path.join(root, run, "evidence"));
+    for (const [name, value] of Object.entries(fixture.evidence)) fs.writeFileSync(path.join(root, run, name), value);
+  }
+  writeJson(path.join(root, "equivalence.json"), { ...fixture.equivalence, evidence_root: root });
 }
 
 function byteInventory(root) {
@@ -107,7 +100,61 @@ function installAndObserve(tarball, consumer) {
   return { imported, version };
 }
 
-test("release candidate is deterministic, independently verifiable, installable, hostile-sensitive, and source-sensitive", () => {
+function mutateJson(root, relative, mutate, digestKey = null) {
+  const file = path.join(root, relative);
+  let value = JSON.parse(fs.readFileSync(file, "utf8"));
+  value = mutate(value) ?? value;
+  if (digestKey && value && typeof value === "object" && !Array.isArray(value)) {
+    delete value[digestKey]; value[digestKey] = sha256(canonicalJson(value));
+  }
+  writeJson(file, value);
+}
+
+// Refresh outer bindings deliberately: checksum rejection alone cannot prove
+// that semantic inconsistencies inside qualification records are detected.
+function refreshBundle(root) {
+  const certificate = JSON.parse(fs.readFileSync(path.join(root, "qualification/run-1/qualification-certificate.json"), "utf8"));
+  const rows = () => byteInventory(root).map(({ path, size, sha256 }) => ({ path, size_bytes: size, sha256 }));
+  mutateJson(root, "candidate.json", (c) => {
+    c.artifacts = rows().filter(({ path }) => !["candidate.json", "SHA256SUMS", "verify-release-candidate.mjs"].includes(path));
+    c.qualification.evidence_inventory_sha256 = sha256(canonicalJson(c.artifacts.filter(({ path }) => path.startsWith("qualification/"))));
+    c.qualification.certificate_sha256 = certificate?.certificate_sha256;
+  }, "manifest_sha256");
+  fs.writeFileSync(path.join(root, "SHA256SUMS"), rows().filter(({ path }) => path !== "SHA256SUMS").sort((a, b) => a.path < b.path ? -1 : 1).map(({ path, sha256 }) => `${sha256}  ${path}`).join("\n") + "\n");
+}
+
+const qualificationMutants = [
+  ["C04 stale certificate digest with failed observation", "observations-pass", "certificate", (c) => { c.observations[0].result = "fail"; }, null],
+  ["failed observation with refreshed self-digest", "observations-pass", "certificate", (c) => { c.observations[0].result = "fail"; }, "certificate_sha256"],
+  ["not evaluable observation", "observations-pass", "certificate", (c) => { c.observations[0].result = "not_evaluable"; }, "certificate_sha256"],
+  ["missing observation", "observations-pass", "certificate", (c) => { c.observations.pop(); }, "certificate_sha256"],
+  ["duplicate observation", "observations-pass", "certificate", (c) => { c.observations[1] = c.observations[0]; }, "certificate_sha256"],
+  ["wrong observation binding", "observations-pass", "certificate", (c) => { c.observations[0].input_sha256 = "0".repeat(64); }, "certificate_sha256"],
+  ["causal blocker on pass", "observations-pass", "certificate", (c) => { c.observations[0].causal_blockers = ["terraform-init-backendless"]; }, "certificate_sha256"],
+  ["unknown certificate member", "certificate", "certificate", (c) => { c.approved = true; }, "certificate_sha256"],
+  ["malformed observations", "observations-pass", "certificate", (c) => { c.observations = {}; }, "certificate_sha256"],
+  ["null observation", "observations-pass", "certificate", (c) => { c.observations[0] = null; }, "certificate_sha256"],
+  ["wrong certificate schema", "certificate", "certificate", (c) => { c.schema_version = "unexpected"; }, "certificate_sha256"],
+  ["certificate plan link", "certificate", "certificate", (c) => { c.plan_sha256 = "0".repeat(64); }, "certificate_sha256"],
+  ["certificate subject link", "certificate", "certificate", (c) => { c.subject.project_id = "wrong-project"; }, "certificate_sha256"],
+  ["certificate profile link", "certificate", "certificate", (c) => { c.profile_id = "wrong-profile"; }, "certificate_sha256"],
+  ["authority ceiling", "certificate", "certificate", (c) => { c.authority_effect = "release"; }, "certificate_sha256"],
+  ["missing tools", "toolchain", "certificate", (c) => { c.toolchain = []; }, "certificate_sha256"],
+  ["stale tool identity", "toolchain", "certificate", (c) => { c.toolchain[0].executable_sha256 = "0".repeat(64); }, "certificate_sha256"],
+  ["tool reference", "observations-pass", "certificate", (c) => { c.observations[1].tool_identity_sha256 = "0".repeat(64); }, "certificate_sha256"],
+  ["provider lock reference", "observations-pass", "certificate", (c) => { c.observations[3].provider_lock_sha256 = "0".repeat(64); }, "certificate_sha256"],
+  ["stale plan digest", "plan", "plan", (p) => { p.subject.project_id = "wrong-project"; }, null],
+  ["weakened required check", "plan", "plan", (p) => { p.checks[0].required = false; }, "plan_sha256"],
+  ["stale receipt digest", "receipt", "run-receipt", (r) => { r.evidence[0].exit_code = 1; }, null],
+  ["failed process with pass receipt", "evidence", "run-receipt", (r) => { r.evidence[0].exit_code = 1; }, "receipt_sha256"],
+  ["blocked process with pass receipt", "evidence", "run-receipt", (r) => { r.evidence[0].termination = "blocked"; }, "receipt_sha256"],
+  ["receipt certificate link", "receipt", "run-receipt", (r) => { r.certificate_sha256 = "0".repeat(64); }, "receipt_sha256"],
+  ["receipt evidence digest", "evidence", "run-receipt", (r) => { r.evidence[0].stdout_sha256 = "0".repeat(64); }, "receipt_sha256"],
+  ["receipt evidence path traversal", "evidence", "run-receipt", (r) => { r.evidence[0].stdout_path = "../../outside.txt"; }, "receipt_sha256"],
+  ["malformed receipt evidence", "evidence", "run-receipt", (r) => { r.evidence = {}; }, "receipt_sha256"],
+];
+
+test("release candidate is deterministic, independently verifiable, installable, hostile-sensitive, and source-sensitive", async (t) => {
   const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "domainspec-release-candidate-test-"));
   try {
     const source = path.join(temporary, "source");
@@ -129,6 +176,37 @@ test("release candidate is deterministic, independently verifiable, installable,
     const command = spawnSync(process.execPath, [path.join(first, "verify-release-candidate.mjs"), "--bundle-root", first, "--expected-source-commit", firstCommit], { encoding: "utf8" });
     assert.equal(command.status, 0, command.stderr);
     assert.equal(JSON.parse(command.stdout).result, "pass");
+
+    for (const [index, [name, expectedCheck, record, mutate, digestKey]] of qualificationMutants.entries()) {
+      await t.test(name, () => {
+        const mutant = path.join(temporary, `internal-mutant-${index}`);
+        fs.cpSync(first, mutant, { recursive: true });
+        for (const run of ["run-1", "run-2"]) mutateJson(mutant, `qualification/${run}/qualification-${record}.json`, mutate, digestKey);
+        refreshBundle(mutant);
+        const verification = verifyReleaseCandidate(mutant, firstCommit);
+        assert.equal(verification.result, "fail");
+        assert.equal(verification.checks.find(({ id }) => id === "checksums-current").result, "pass");
+        assert.equal(verification.checks.find(({ id }) => id === "candidate-self-digest").result, "pass");
+        assert.equal(verification.checks.find(({ id }) => id === `run-1:${expectedCheck}`).result, "fail");
+        const rejectedOutput = path.join(temporary, `rejected-${index}`);
+        assert.throws(() => buildReleaseCandidate({ repositoryRoot: source, packageRoot: source, qualificationEvidenceRoot: path.join(mutant, "qualification"), outputRoot: rejectedOutput, sourceCommit: firstCommit, gitExecutable: fakeGit, sourceSnapshotRoot: source }), /qualification evidence is inconsistent/);
+        assert.equal(fs.existsSync(rejectedOutput), false);
+      });
+    }
+    await t.test("profile, equivalence and raw evidence cannot contradict the passing summary", () => {
+      const cases = [
+        ["profile", (root) => mutateJson(root, "qualification-profile.json", (p) => { p.required_checks = []; }, "profile_sha256")],
+        ["equivalence", (root) => mutateJson(root, "equivalence.json", (e) => { e.checks[0].result = "fail"; })],
+        ["evidence", (root) => fs.appendFileSync(path.join(root, "run-1/evidence/recipe-byte-verify.stdout.txt"), "changed")],
+        ["extra", (root) => fs.writeFileSync(path.join(root, "unexpected.txt"), "extra")],
+        ["symlink", (root) => { const file = path.join(root, "run-1/evidence/recipe-byte-verify.stdout.txt"); fs.unlinkSync(file); fs.symlinkSync("/unreadable-outside", file); }],
+      ];
+      for (const [name, mutate] of cases) {
+        const root = path.join(temporary, `bad-${name}`);
+        fs.cpSync(qualification, root, { recursive: true }); mutate(root);
+        assert.equal(verifyQualificationEvidence(root).result, "fail", name);
+      }
+    });
 
     const tarball = path.join(first, "package", "domainspec-v2-cli-1.0.0.tgz");
     assert.deepEqual(installAndObserve(tarball, path.join(temporary, "consumer-one")), { imported: "one", version: "1.0.0" });

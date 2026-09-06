@@ -106,6 +106,7 @@ export function receiptRelativePath(featureId: string, nodeId: string): string {
 }
 
 export function createInstantiationReceipt(plan: InstantiationPlanV1): InstantiationReceiptV1 {
+  if (plan.realization_profile) fail("MTCLI_PROFILE_BUILD_REQUIRED", "/realization_profile", "opt-in realization profiles require whole-project build/verify receipts");
   const semanticContract = plan.input.typed_closure == null
     ? {
         body: plan.input.body,

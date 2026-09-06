@@ -4,7 +4,7 @@
 
 Encrypted co-ownership, durable delivery, and evidence-bound state on Solana
 
-Working white paper · Draft 0.2 · 4 September 2026
+Working white paper · Draft 0.3 · 6 September 2026
 
 Status: research candidate; not approved for publication
 
@@ -39,6 +39,95 @@ bounded candidate-013 analysis also separates ten reachable safety paths from
 formal obligations and external-network evidence. These results do not
 establish production security, legal ownership, independent backup topology,
 market demand, Mainnet readiness, or full D65 conformance.
+
+## Correctness evidence at a glance
+
+Correctness is supported property by property. Formal-model checks, implementation
+observations, and independent review are complementary; their totals do not prove
+that the complete current system is correct. The following are recorded results,
+not experiments rerun by this documentation update.
+
+| Property | Evidence we have | What it supports | Boundary and receipt |
+| --- | --- | --- | --- |
+| Protocol model | Lean theorem checked twice | The modeled grant preserves A, adds B, binds the envelope commitment, advances revision, consumes replay identity, and keeps consideration zero. | Historical formal-model receipt. No proof that Rust or Solana faithfully implements the model. [LOCAL-LEAN-EVIDENCE](../../capabilities/solana-coownership/formalization/claims/CA2-FC-KEP-SOLANA-CORE-GRANT-001/THEOREM-OBLIGATION-RECEIPT.json) |
+| Broader formal checks | 7 claims · 15 deterministic projections | Recorded bounded checks across Lean, TLC, and Alloy cover encoding, storage gating, grant, activation, reissue, cost separation, and secret placement. | Historical EVF PASS_BOUNDED. Model assumptions and finite bounds apply; no end-to-end implementation refinement. [LOCAL-EVF-FORMAL-RECEIPT-V2](../../capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/formal-evidence/conformance-v2/generated/provider-receipt.json) |
+| Checkpoint recovery | 34 JavaScript tests passed | Six added regressions exercise checkpoint failure and submission ambiguity. Known pre-submission failures can retry; restored uncertain submissions stay blocked. | September 6 local test run. No live-chain submission or arbitrary crash-recovery proof. [LOCAL-SEP6-CHECKPOINT](evidence/20260906/checkpoint.json) |
+| Original-file recovery | Identical original recovered | An isolated browser restored identity and a 10,246-byte original with the same SHA-256 digest, and retried interrupted saves and download acknowledgements. | September 6 browser run before the writer repair. Test signer only; no wallet-extension or memory-zeroization proof. [LOCAL-SEP6-BROWSER-RECOVERY](evidence/20260906/browser-recovery.json) |
+| Lost responses and stale tabs | Retry preserved revision · stale save rejected | After a committed response was dropped, retry used the same ciphertext and revision. A competing stale tab received HTTP 409; explicit discard and recovery succeeded. | One backend process, before the writer repair. Divergent-edit merging and backend crashes were not tested. [LOCAL-SEP6-COMMIT-TABS](evidence/20260906/commit-tabs.json) |
+| Database writer exclusion | 9 Rust + 4 PostgreSQL tests passed | The repair checks second-writer rejection, takeover after shutdown, and failure of stale writes after connection loss. A separate process test confirmed startup exclusion and takeover. | September 6 repair run. Participating upgraded writers only; disconnected reads can remain stale. [LOCAL-SEP6-SINGLE-WRITER](evidence/20260906/single-writer.json) |
+| Independent review | Candidate 011 · bounded pass | Review 009 recorded zero unresolved high or critical findings and ten carried medium residues for its exact frozen candidate. | Historical candidate review, not a review of the current hosted console or a production security clearance. [LOCAL-EVF-INDEPENDENT-REVIEW-009](../../capabilities/solana-coownership/successors/encrypted-durable-devnet/v1/evidence/independent-review/009/review.json) |
+
+The source register binds each receipt by SHA-256. Rechecking that digest verifies
+receipt identity, not the experiment itself. The combined repaired console still
+needs a browser run against one frozen source set. Rust-to-model refinement,
+real wallet compatibility, independent backup recovery, and production security
+remain open. Historical approvals and reviews apply only to their original bytes.
+
+## September 6 development evidence epoch
+
+This section describes the hosted development console. Older counts and decisions
+below remain evidence for their named snapshots, not approval of these source
+changes. The new local source entries and copied receipts are in `SOURCES.json`
+and `evidence/20260906/`. Documentation validation rechecks their bytes; it does
+not rerun the experiments.
+
+### Account and recovery
+
+A wallet signs account requests; a separate encryption identity controls sealed
+knowledge. The browser encrypts its account snapshot with a random recovery key
+and stores only ciphertext on the service. The downloaded recovery file contains
+a secret: it must be retained privately. It restores encryption identity and
+exchange context, including prepared content keys, but is not a backup of original
+file payloads. Wallet access alone cannot decrypt that account backup. Recovery
+file loss, compromise rotation, and an account reset flow remain unresolved.
+
+Revision checks reject stale account saves. Retrying the same committed encrypted
+snapshot is idempotent. A known checkpoint failure before wallet submission can be
+retried; a restored uncertain submission marker remains blocked pending
+reconciliation. This does not prove arbitrary transaction-crash recovery.
+
+### Original files and usage-based expiry
+
+The development upload limit is 10,000,000 original bytes. The browser encrypts
+the original and its manifest; filename, type, size, and integrity digest belong
+to that encrypted manifest. Extraction is a proposed derived provenance record,
+not an implemented replacement for the original.
+
+The first signed download acknowledgement starts one calendar year of retention;
+a later distinct acknowledged download resets it. Replaying the same attempt
+does not extend retention. Before the first acknowledgement there is no expiry
+deadline. The client sends the acknowledgement after decryption and integrity
+verification. This is not proof that the user saved a file to disk, nor a server
+proof of plaintext possession. Expiry removes the new hosted payload while
+retaining metadata/provenance. Legacy archives remain preserved; independent
+backup deletion and revocation of already downloaded copies are not established.
+
+### Persistence and bounded verification
+
+One participating hosted writer may hold a PostgreSQL database at a time. A
+session advisory lock is acquired before loading state; all writes use that same
+connection. A second writer is rejected, and connection loss prevents the old
+writer from saving stale state after takeover. Direct SQL and older binaries are
+outside that exclusion. A disconnected instance can still serve stale in-memory
+reads and must be removed from service. This is not active-active replication.
+
+The recorded checkpoint run passed 34 JavaScript tests. An isolated Chromium
+journey recovered identity and a 10,246-byte original with an identical digest,
+retried interrupted saves and acknowledgements, and showed no overflow at 320px.
+A separate browser run recovered after a committed response was lost and rejected
+a stale tab with HTTP 409. Explicit discard and reload were tested; divergent-edit
+merging was not. These browser runs used a test signer and preceded the writer
+repair. The later writer repair passed nine ordinary Rust tests, four PostgreSQL
+tests, and process startup rejection/takeover checks. No combined post-repair
+browser run, real wallet-extension trial, live-chain transaction, production
+backup exercise, or Rust-to-Lean refinement is claimed by these receipts.
+
+Runnable construction work remains: test the complete repaired console against
+one frozen source set, address recovery/abuse-policy gaps, and prepare current
+product-test evidence. Operational support remains separately owned by the
+operator: failed-instance removal, independent backups, and deployment topology.
+Older acceptance-bound drift remains historical residue; this paper update does
+not refresh approval digests or grant publication or deployment authority.
 
 ## 1. Who encrypts, what is stored, and what Solana proves
 
@@ -540,7 +629,7 @@ implementation-material digests. Acceptance fixes the conformance target; it
 does not itself establish D65 conformance.
 
 The selected algorithms are an implementation target, not a production
-security approval. The current dependency audit records no critical or high
+security approval. The historical implementation README records no critical or high
 finding and one moderate transitive advisory through
 `@solana/web3.js -> jayson -> uuid`; the interface does not call the affected
 UUID APIs, but that is not proof of non-exploitability. The system still needs

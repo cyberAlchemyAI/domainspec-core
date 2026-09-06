@@ -46,7 +46,8 @@
     "CHANGELOG.md",
     "COMPATIBILITY.md",
     "MIGRATION.md",
-    "SECURITY.md"
+    "SECURITY.md",
+    "EXACT-UINT64.md"
   ],
   "engines": {
     "node": "26.8.1",
@@ -62,7 +63,7 @@
     "build": "npm run catalog:check && npm run relationships:check && npm run integration-profile:check && tsc -p tsconfig.json",
     "test": "npm run test:proof && npm run test:parallel",
     "test:proof": "node --import tsx --test --test-concurrency=1 test/assurance/certify.test.ts test/formalization/projection.test.ts",
-    "test:parallel": "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/governance-kernel/governance-kernel.test.mjs test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/l1-project.test.ts test/meta-types/catalog.test.ts test/query-vertical.test.ts test/recipe/deployment-recipe.test.ts test/qualification/recipe-qualification.test.ts test/release/release-candidate.test.mjs test/rule-vertical.test.ts test/runtime-l2.test.ts test/runtime-l3-postgres.test.ts test/static-backend-completion.test.ts test/system-integration/profile.test.ts test/thin-backend-verticals.test.ts test/typed-operation/contracts.test.ts test/typed-operation/hardening.test.ts test/typed-operation/rust.test.ts",
+    "test:parallel": "node --import tsx --test test/cli/main.test.ts test/conformance/observe-target.test.ts test/generation/exact-uint64.test.ts test/generation/declarative-function.test.ts test/generation/portable-function.test.ts test/generation/guarded-bindings.test.ts test/generation/project-composition.test.ts test/generation/plan-instantiation.test.ts test/generation/publish-instantiation.test.ts test/governance-kernel/governance-kernel.test.mjs test/input/operation-relationships.test.ts test/input/project-model.test.ts test/input/project-root.test.ts test/l1-project.test.ts test/meta-types/catalog.test.ts test/query-vertical.test.ts test/recipe/deployment-recipe.test.ts test/qualification/recipe-qualification.test.ts test/release/release-candidate.test.mjs test/rule-vertical.test.ts test/runtime-l2.test.ts test/runtime-l3-postgres.test.ts test/static-backend-completion.test.ts test/system-integration/profile.test.ts test/thin-backend-verticals.test.ts test/typed-operation/contracts.test.ts test/typed-operation/hardening.test.ts test/typed-operation/rust.test.ts",
     "recipe-qualification:check": "node --import tsx --test test/qualification/recipe-qualification.test.ts",
     "recipe-qualification:l1": "node --import tsx tools/run-recipe-qualification-l1.ts",
     "test:contract": "node --test test/contract/foundation-contract.test.mjs test/contract/instantiation-foundation-contract.test.mjs test/contract/package-boundary.test.mjs",

@@ -7,7 +7,7 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-import { canonicalJson, sha256, verifyReleaseCandidate } from "./verify-release-candidate.mjs";
+import { canonicalJson, sha256, verifyReleaseCandidate, verifyQualificationEvidence } from "./verify-release-candidate.mjs";
 
 const EXPECTED_NODE = "26.8.1";
 const EXPECTED_NPM = "11.19.0";
@@ -117,6 +117,8 @@ function checkedGitIdentity(repositoryRoot, sourceCommit, selectedGitExecutable)
 }
 
 function qualificationBinding(evidenceRoot, targetRoot) {
+  const verification = verifyQualificationEvidence(evidenceRoot);
+  if (verification.result !== "pass") throw new Error(`qualification evidence is inconsistent\n${JSON.stringify(verification, null, 2)}`);
   const equivalencePath = path.join(evidenceRoot, "equivalence.json");
   const leftPath = path.join(evidenceRoot, "run-1", "qualification-certificate.json");
   const rightPath = path.join(evidenceRoot, "run-2", "qualification-certificate.json");
@@ -292,10 +294,10 @@ export function buildReleaseCandidate(options) {
   try {
     fs.mkdirSync(path.join(stage, "package"), { recursive: true, mode: 0o700 });
     fs.mkdirSync(path.join(stage, "evidence"), { recursive: true, mode: 0o700 });
+    const qualification = qualificationBinding(qualificationEvidenceRoot, path.join(stage, "qualification"));
     const snapshotPackageRoot = sourceSnapshot(repositoryRoot, packageRoot, source.commit_sha, scratch, options.gitExecutable ?? gitExecutable, options.sourceSnapshotRoot ?? null);
     const inventory = packageInventory(snapshotPackageRoot, path.join(stage, "package"), scratch);
     writeJson(path.join(stage, "evidence", "package-inventory.json"), inventory);
-    const qualification = qualificationBinding(qualificationEvidenceRoot, path.join(stage, "qualification"));
     const packageBinding = Object.freeze({
       name: EXPECTED_PACKAGE,
       version: EXPECTED_VERSION,

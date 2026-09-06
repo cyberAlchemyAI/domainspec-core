@@ -33,6 +33,13 @@ export function commandMessage(action,id,request,digest,revision) {
   return signedMessage('file-'+action,[id,request.requester_id,request.attempt_id,digest,revision,RETENTION_POLICY,request.policy_accepted]);
 }
 export function createFileClient({api,authorize}) {
+  const acknowledgeReceipt=async(context,identity,state,accepted)=>{
+    if(!accepted)throw new Error('Accept the file retention policy first.');
+    if(!state||state.artifactId!==context.artifactId||state.requesterId!==identity.identityId||state.ciphertextSha256!==context.ciphertextSha256||!Number.isSafeInteger(state.revision)||typeof state.attemptId!=='string')throw Error('Invalid pending acknowledgement state.');
+    const command={requester_id:state.requesterId,attempt_id:state.attemptId,policy_accepted:true};
+    state.authorization??=await authorize(commandMessage('acknowledge',state.artifactId,command,state.ciphertextSha256,state.revision));
+    return api(`/v1/files/${encodeURIComponent(state.artifactId)}/acknowledge`,{method:'POST',body:JSON.stringify({...command,authorization:state.authorization})});
+  };
   return {
     async prepare(file,identity,artifactId,policyId,accepted) {
       if (!accepted) throw new Error('Accept the file retention policy first.');
@@ -57,10 +64,11 @@ export function createFileClient({api,authorize}) {
       // Envelope revision is supplied by its bound handoff context, not guessed from current artifact revision.
       const key=await openContentKey(result.recipient_envelope_base64,identity.privateKeyBase64,{...context,recipientIdentityId:identity.identityId,recipientKeyVersion:identity.keyVersion});
       const file=await decryptFile(result.ciphertext_base64,key,context);
-      command.authorization=await authorize(commandMessage('acknowledge',id,command,context.ciphertextSha256,result.revision));
       // Return verified bytes even if acknowledgement transport fails; retry only this exact receipt.
-      const acknowledge=()=>api(`/v1/files/${encodeURIComponent(id)}/acknowledge`,{method:'POST',body:JSON.stringify(command)});
-      return {file,acknowledge,attemptId};
-    }
+      const receiptState={artifactId:id,requesterId:identity.identityId,attemptId,ciphertextSha256:context.ciphertextSha256,revision:result.revision};
+      const acknowledge=()=>acknowledgeReceipt(context,identity,receiptState,true);
+      return {file,acknowledge,attemptId,receiptState};
+    },
+    acknowledgeReceipt
   };
 }

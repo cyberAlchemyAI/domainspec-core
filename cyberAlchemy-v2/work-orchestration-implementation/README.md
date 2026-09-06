@@ -1,5 +1,15 @@
 # Work Orchestration RWO realization candidate
 
+The [Alch Host provisioning extension](extensions/alch-host-provisioning-v1/README.md)
+adds a bounded real-Ansible local fixture, Rust DAG integration, and single-host
+SQLite accepted history with restart reconciliation. Its evidence is scoped to
+that extension; the original in-memory demo and its claim boundaries below remain.
+
+The [Alch provisioning evidence adapter](extensions/alch-host-evidence-v1/README.md)
+verifies that history and projects typed ORODI workflow observations, including
+failed and unevaluated stages. Its local historical verdict is not live readiness
+or the full ORODI product-control evaluation.
+
 This package carries the adopted `Execute Bounded Composite Work` capability
 into a generic RWO structural realization, one deliberately small ETL fixture,
 and one exact 42-role historical-research micro-swarm candidate:

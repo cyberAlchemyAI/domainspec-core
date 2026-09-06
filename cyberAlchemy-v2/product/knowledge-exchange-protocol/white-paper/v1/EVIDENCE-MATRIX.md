@@ -39,3 +39,20 @@ definitions explain meaning
   != automatic D65 or aggregate conformance
   != production proof
 ```
+
+## September 6 development epoch
+
+These are recorded runs, not reruns performed by the paper validator. Earlier
+rows remain historical observations of their selected targets.
+
+| Observation | Recorded result | Limit |
+| --- | --- | --- |
+| Checkpoint repair | 34 JavaScript tests passed; 6 regressions added | No live transaction |
+| Browser recovery | Identity and exact 10,246-byte original restored; interrupted save/ack retried | Isolated test signer; before writer repair |
+| Commit response loss and two tabs | Same ciphertext/revision retry; stale save 409; explicit discard/recovery | One server; no divergent merge |
+| Single-writer repair | 9 ordinary Rust and 4 PostgreSQL tests passed; process exclusion/takeover passed | Participating writers; stale reads remain possible |
+
+The complete repaired stack still needs one combined frozen-source browser run.
+Accepted-binding drift, independent backup topology, recovery-secret loss and
+compromise, abuse limits, real wallet compatibility, and live-chain evidence
+remain separately open. No accepted record or historic receipt was refreshed.

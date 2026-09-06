@@ -1,3 +1,4 @@
+import { renderExactUInt64, validateRealizationProfile } from "./exact-uint64.js";
 import { canonicalJson } from "../input/source-manifest.js";
 import type { FieldSpec, InterfaceOperationSpec, StateTransitionSpec, TypeRef } from "../input/project-model.js";
 import { FROZEN_META_TYPE_CATALOG } from "../meta-types/catalog.js";
@@ -2023,6 +2024,11 @@ export function generatorIdFor(metaTypeId: string, language: SupportedLanguage):
 export function renderImplementation(input: GeneratorInput): { readonly generator_id: string; readonly extension: "ts" | "py" | "rs"; readonly content: string } {
   const registration = GENERATOR_REGISTRY.find((row) => row.meta_type_id === input.meta_type_id && row.language === input.realization.language);
   if (!registration) throw new Error(`generator is not registered:${input.meta_type_id}/${input.realization.language}`);
+  const profile = validateRealizationProfile(input.realization_profile, input.realization.language);
+  if (profile) {
+    const content = renderExactUInt64(input);
+    if (content !== null) return Object.freeze({ generator_id: `${registration.generator_id}/exact-uint64-v1`, extension: "ts", content });
+  }
   const renderers: Readonly<Record<SupportedLanguage, (value: GeneratorInput) => string>> = {
     typescript: renderTypeScript,
     python: renderPython,

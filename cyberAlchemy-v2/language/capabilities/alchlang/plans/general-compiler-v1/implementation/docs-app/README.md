@@ -20,8 +20,10 @@ transactional-Outbox code, durable dispatch, confirmed HTTP transport,
 idempotent consumption, and the ORODI evidence boundary.
 
 The language-realization boundary is explicit: this AlchLang compiler emits
-TypeScript. The separate private DomainSpec v2 instantiation CLI owns the
-admitted TypeScript, Python, and Rust realization baseline.
+TypeScript. The separate private DomainSpec 1.0.0 CLI retains its v2 package name.
+The #domainspec-target guide documents the narrower AlchLang lowering profile,
+explicit sidecar, fresh-output requirement and existing-application gaps. The
+browser mini workspace does not execute that external compiler.
 
 ```bash
 npm install

@@ -232,6 +232,18 @@ struct ChatConnectionInfo {
     connection_id: u64,
     transport: &'static str,
     authority_effect: &'static str,
+    native_timing: ChatConnectTiming,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ChatConnectTiming {
+    entered_unix_ms: u128,
+    bound_unix_ms: u128,
+    process_acquire_ms: f64,
+    process_lock_ms: f64,
+    channel_bind_ms: f64,
+    total_ms: f64,
 }
 
 fn chat_event(kind: &str, fields: Value) -> Value {
@@ -384,15 +396,28 @@ async fn chat_connect(
     configuration: State<'_, ChatConfiguration>,
     supervisor: State<'_, ChatSupervisor>,
 ) -> Result<ChatConnectionInfo, String> {
+    let started = std::time::Instant::now();
+    let entered_unix_ms = unix_time_millis();
     let connection_id = supervisor.next_connection.fetch_add(1, Ordering::Relaxed) + 1;
     let process = supervisor.process(configuration.inner().clone()).await?;
+    let acquired = started.elapsed();
     let mut process = process.lock().await;
+    let locked = started.elapsed();
     process.events.bind(on_event);
     process.connection_id = Some(connection_id);
+    let bound = started.elapsed();
     Ok(ChatConnectionInfo {
         connection_id,
         transport: "tauri-channel-to-are-jsonl-stdio",
         authority_effect: "none",
+        native_timing: ChatConnectTiming {
+            entered_unix_ms,
+            bound_unix_ms: unix_time_millis(),
+            process_acquire_ms: acquired.as_secs_f64() * 1000.0,
+            process_lock_ms: (locked - acquired).as_secs_f64() * 1000.0,
+            channel_bind_ms: (bound - locked).as_secs_f64() * 1000.0,
+            total_ms: bound.as_secs_f64() * 1000.0,
+        },
     })
 }
 
@@ -659,6 +684,29 @@ mod tests {
         read_snapshot, validate_chat_command,
     };
     use serde_json::json;
+
+    #[test]
+    fn chat_connect_timing_is_additive_diagnostic_metadata() {
+        let value = serde_json::to_value(super::ChatConnectionInfo {
+            connection_id: 1,
+            transport: "tauri-channel-to-are-jsonl-stdio",
+            authority_effect: "none",
+            native_timing: super::ChatConnectTiming {
+                entered_unix_ms: 1000,
+                bound_unix_ms: 1009,
+                process_acquire_ms: 2.0,
+                process_lock_ms: 3.0,
+                channel_bind_ms: 4.0,
+                total_ms: 9.0,
+            },
+        }).unwrap();
+        assert_eq!(value["authorityEffect"], "none");
+        assert_eq!(value["nativeTiming"], json!({
+            "enteredUnixMs": 1000, "boundUnixMs": 1009,
+            "processAcquireMs": 2.0, "processLockMs": 3.0,
+            "channelBindMs": 4.0, "totalMs": 9.0,
+        }));
+    }
 
     #[test]
     fn snapshot_worker_preserves_missing_workspace() {

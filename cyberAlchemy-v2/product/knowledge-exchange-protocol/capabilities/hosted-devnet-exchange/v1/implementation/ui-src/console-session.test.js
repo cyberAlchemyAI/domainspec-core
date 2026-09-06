@@ -35,7 +35,7 @@ test('timer uses server expiry without inventing renewal or deletion',()=>{
 test('grant finalization retry preserves both submitted signatures and prepared envelope',async()=>{
  let submissions=0,finalizations=0;const grants=[];
  const provider={publicKey:{toString:()=> '11111111111111111111111111111111'},connect:async()=>{},signMessage:async()=>({signature:new Uint8Array(64)})};
- const chain={buildInitializeInstruction:async()=>({instruction:{}}),buildGrantInstruction:async()=>({instruction:{},artifactAccount:'account'}),submitAndFinalize:async(_p,_i,_r,options)=>{const signature='sig-'+(++submissions);options.onSubmitted({signature});return signature;},verifyFinalizedSignature:async()=>{}};
+ const chain={buildInitializeInstruction:async()=>({instruction:{}}),buildGrantInstruction:async()=>({instruction:{},artifactAccount:'account'}),submitAndFinalize:async(_p,_i,_r,options)=>{const signature='sig-'+(++submissions);await options.onSubmitted({signature});return signature;},verifyFinalizedSignature:async()=>{}};
  const api=async(path,opts)=>{
   if(path==='/v1/grants'){grants.push(opts.body);return {};}
   if(path.endsWith('/finalize')){if(++finalizations===1)throw Error('finalization interrupted');return {};}
@@ -61,19 +61,19 @@ async function checkpointHarness(failSubmission=0,knownSignature=false){
  const provider={publicKey:{toString:()=> '11111111111111111111111111111111'},connect:async()=>{},signMessage:async()=>({signature:new Uint8Array(64)})};
  const chain={buildInitializeInstruction:async()=>({instruction:{}}),buildGrantInstruction:async()=>({instruction:{},artifactAccount:'account'}),submitAndFinalize:async(_p,_i,_r,options)=>{
   const n=++submissions,signature='sig-'+n;
-  if(n===failSubmission){if(knownSignature)options.onSubmitted({signature});throw Error('submission interrupted');}
-  options.onSubmitted({signature});return signature;
+  if(n===failSubmission){if(knownSignature)await options.onSubmitted({signature});throw Error('submission interrupted');}
+  await options.onSubmitted({signature});return signature;
  },verifyFinalizedSignature:async signature=>{verified.push(signature);}};
  const api=async path=>path.startsWith('/v1/artifacts/')?{revision:0}:{expires_at:null};
  const session=createConsoleSession({api,getProvider:()=>provider,apiBase:'http://localhost',chain});await session.connect();
  const exchange={file,policyAccepted:true};await session.upload(exchange);
  return {session,exchange,recipient:{...session.publicCard(),identityId:'recipient'},submissions:()=>submissions,verified};
 }
-for(const [stage,flag] of [[1,'initializeStarted'],[2,'grantStarted']]){
+for(const [stage,flag,signatureField] of [[1,'initializeStarted','initializeSignature'],[2,'grantStarted','signature']]){
  test(`checkpoint failure before submission ${stage} is retryable but persisted uncertainty stays closed`,async()=>{
-  const h=await checkpointHarness();let calls=0,persisted;
+  const h=await checkpointHarness();let persisted;
   await assert.rejects(()=>h.session.share(h.exchange,h.recipient,true,async()=>{
-   if(++calls===stage){persisted=structuredClone(h.exchange);throw Error('checkpoint interrupted');}
+   const share=h.exchange.prepared.share;if(share?.[flag]&&!share?.[signatureField]){persisted=structuredClone(h.exchange);throw Error('checkpoint interrupted');}
   }),/checkpoint interrupted/);
   assert.equal(h.submissions(),stage-1);
   assert.equal(!!h.exchange.prepared.share[flag],false);

@@ -57,7 +57,7 @@ describe("documentation navigation", () => {
 
   it("maps every implemented capability to a documented section", () => {
     const sectionIds = new Set(sections.map((section) => section.id));
-    expect(implementationCoverage).toHaveLength(16);
+    expect(implementationCoverage).toHaveLength(17);
     for (const item of implementationCoverage) {
       expect(sectionIds.has(item.section)).toBe(true);
       expect(item.evidence.length).toBeGreaterThan(5);
@@ -67,6 +67,7 @@ describe("documentation navigation", () => {
   it("covers the current compiler, registry, durable runtime, and integrations", () => {
     expect(implementationCoverage.map((item) => item.capability)).toEqual(expect.arrayContaining([
       "validate-lower-render-write",
+      "domainspec-exact-uint64-lowering",
       "operation-pattern-registry",
       "sqlite-outbox-generator",
       "durable-transactional-outbox",

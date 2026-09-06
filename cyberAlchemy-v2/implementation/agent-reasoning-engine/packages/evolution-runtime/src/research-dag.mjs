@@ -5,7 +5,8 @@ function check(condition, code) {if (!condition) throw Error(code);}
 
 // Edges point from prerequisite material to its dependent, not in ontology
 // relation direction. This is logical research order, not a timestamp claim.
-export function materializeResearchDag({registrations = [], lineage = []} = {}) {
+export function materializeResearchDag({registrations = [], lineage = [], verify_registration = verifyBenchmarkRegistration} = {}) {
+  check(typeof verify_registration === "function", "research-dag.verifier-required");
   check(Array.isArray(registrations) && Array.isArray(lineage), "research-dag.invalid-input");
   check(registrations.length <= 10000 && lineage.length <= 10000, "research-dag.capacity-exceeded");
   const nodes = new Map(), edges = new Map(), sources = new Set();
@@ -26,7 +27,7 @@ export function materializeResearchDag({registrations = [], lineage = []} = {}) 
     edges.set(digest(value), value);
   }
   for (const r of registrations) {
-    check(verifyBenchmarkRegistration(r), "research-dag.invalid-registration");
+    check(verify_registration(r) === true, "research-dag.invalid-registration");
     if (sources.has(r.registration_digest)) continue;
     sources.add(r.registration_digest);
     const bySchema = schema => r.records.find(x => x.schema_version === schema);
@@ -74,7 +75,7 @@ export function materializeResearchDag({registrations = [], lineage = []} = {}) 
   return deepFreeze({...material, dag_digest: digest(material)});
 }
 
-export function verifyResearchDag(record, registrations) {
-  try {return canonicalJson(record) === canonicalJson(materializeResearchDag({registrations, lineage: record.lineage}));}
+export function verifyResearchDag(record, registrations, verify_registration = verifyBenchmarkRegistration) {
+  try {return canonicalJson(record) === canonicalJson(materializeResearchDag({registrations, lineage: record.lineage, verify_registration}));}
   catch {return false;}
 }

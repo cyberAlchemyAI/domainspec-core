@@ -9,6 +9,7 @@ export interface OntologyNodeRecord {
 export interface OntologyRelationRecord {
   readonly id: string; readonly type: string; readonly source: string; readonly target: string;
   readonly claim: string; readonly authority_effect: "none";
+  readonly direction?: string;
 }
 export interface WorkspaceGraphSource {
   readonly graphId: string; readonly sourceEpoch: string;
@@ -71,7 +72,7 @@ export function buildCanvasGraph(source: WorkspaceGraphSource): { nodes: Ontolog
 export function materializeCanvasGraph(source: WorkspaceGraphSource, layout: LayoutResult): { nodes: OntologyCanvasNode[]; edges: OntologyCanvasEdge[]; layoutMs: number } {
   const adjacency = indexRelations(source);
   const nodes = source.nodes.map((record): OntologyCanvasNode => { const position = layout.positions[record.id] ?? { x: 0, y: 0 }; return { id: record.id, type: "ontology", position, data: { record, incoming: adjacency.incoming.get(record.id) ?? [], outgoing: adjacency.outgoing.get(record.id) ?? [] }, width: NODE_WIDTH, height: NODE_HEIGHT, draggable: true, connectable: false, deletable: false, selectable: true, focusable: false }; });
-  const edges = source.relations.map((relation): OntologyCanvasEdge => { const style = relationPresentationStyle(relation.type); return { id: relation.id, source: relation.source, target: relation.target, type: "ontology", className: style.token, data: { relation }, style: { stroke: style.color }, markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16, color: style.color }, reconnectable: false, deletable: false, selectable: true, focusable: true, ariaLabel: `${relation.source} ${relation.type} ${relation.target}` }; });
+  const edges = source.relations.map((relation): OntologyCanvasEdge => { const style = relationPresentationStyle(relation.type); return { id: relation.id, source: relation.source, target: relation.target, type: "ontology", className: style.token, data: { relation }, style: { stroke: style.color }, markerEnd: relation.direction === "symmetric" ? undefined : { type: MarkerType.ArrowClosed, width: 16, height: 16, color: style.color }, reconnectable: false, deletable: false, selectable: true, focusable: true, ariaLabel: `${relation.source} ${relation.type} ${relation.target}` }; });
   return { nodes, edges, layoutMs: layout.layoutMs };
 }
 

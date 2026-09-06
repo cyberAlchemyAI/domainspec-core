@@ -19,3 +19,9 @@ test('account save retries same ciphertext, restores with recovery, and locks',a
  const c=createAccountClient({api,getProvider:()=>provider});await c.lookup();c.createKey();const recovery=JSON.stringify(c.recovery());await assert.rejects(()=>c.save(data),/lost/);await c.save(data);assert.equal(writes[0].ciphertext_base64,writes[1].ciphertext_base64);assert.equal(writes[0].expected_revision,writes[1].expected_revision);
  c.lock();assert.equal(c.unlocked,false);assert.throws(()=>c.recovery(),/Unlock/);await c.lookup();assert.deepEqual(await c.unlock(recovery),data);
 });
+test('failed first lookup does not pin an unconnected wallet',async()=>{
+ let wallet='wallet-a';const provider=()=>({connect:async()=>{},publicKey:{toString:()=>wallet},signMessage:async()=>{throw Error('signing cancelled')}});
+ const client=createAccountClient({api:async()=>{throw Error('network must not run')},getProvider:provider});
+ await assert.rejects(()=>client.lookup(),/cancelled/);wallet='wallet-b';
+ await assert.rejects(()=>client.lookup(),/cancelled/);assert.equal(client.wallet,undefined);
+});

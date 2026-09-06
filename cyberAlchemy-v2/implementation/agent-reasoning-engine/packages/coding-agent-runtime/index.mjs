@@ -125,6 +125,8 @@ export {assessPatchSemantics, decideAgentContinuation, evaluateAgentEffect, bind
 export {CODING_AGENT_EVENT_SCHEMA, parseAgentEvent} from "./agent-events.mjs";
 export {createReadOnlyToolRuntime, decideToolRequest} from "./read-only-tools.mjs";
 export {runIterativeCodingAgent} from "./iterative-agent.mjs";
+export {createStatelessRecyclingTransport} from "./context-recycling.mjs";
+export {createHttpRecyclingTransport} from "./http-recycling-transport.mjs";
 export {projectAgentImprovementSignals, runRecommendOnlyEvolutionCycle} from "./evolution-bridge.mjs";
 export {buildRepositoryMap} from "./repository-map.mjs";
 export {createContainerSandbox, parseSandboxConfig, runSandboxCommand} from "./sandbox.mjs";

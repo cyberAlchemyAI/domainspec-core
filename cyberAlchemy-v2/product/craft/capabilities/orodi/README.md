@@ -27,3 +27,21 @@ Validation proves shapes, sources, reference closure, record digests, Project
 and Goal closure, and the exact owner decision. It does not admit the business
 ontology or DomainSpec profile, establish implementation conformance or runtime
 truth, commission, publish, release, or deploy anything.
+
+## Related work and current reconciliation
+
+[Related work](RELATED-WORK.md) connects the definitions, promotion record, ontology,
+successor, implementation, operator interface, alerts, DomainSpec bindings, Alch event
+integration, and Craft coordination to these existing capability identities.
+It owns the current open questions and distinguishes runnable product construction
+from canonical-definition reconciliation and deferred commissioning. Historical
+status statements above are not a fresh verification of their source dependencies.
+
+## Current definition admission
+
+[Reconciliation and admission](definition-reconciliation/README.md) resolves the
+missing CAV2-D83 through CAV2-D92 sections from the exact selected source voices.
+`definition-bindings.json` now selects language v3 and the new digest-bound Craft
+semantic decision. The six capability identities are preserved. This admission
+covers definitions only; historical ontology/profile and runtime claims are not
+revalidated by it. Open questions are tracked in the reconciliation package.

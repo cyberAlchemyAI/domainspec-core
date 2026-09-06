@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
-import { loadCompiledProjectGraph } from "../../../../../../../../projects/domainspec-v2/impl/cli/src/input/project-model.ts";
+import { loadDomainSpecCompiler } from "../../implementation/src/domainspec-cli.ts";
 
 const packageRoot = resolve(import.meta.dirname, "../..");
 const dsRoot = join(packageRoot, "domainspec");
 const generatedRoot = join(packageRoot, "generated");
 const evidenceRoot = join(packageRoot, "evidence");
-const loaderPath = resolve(packageRoot, "../../../../../../projects/domainspec-v2/impl/cli/src/input/project-model.ts");
+const compiler = await loadDomainSpecCompiler();
 const sha256 = (bytes: string | Buffer) => createHash("sha256").update(bytes).digest("hex");
 const jsonBytes = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
 const files = (root: string): string[] => readdirSync(root).sort().flatMap((name) => {
@@ -18,7 +18,7 @@ const files = (root: string): string[] => readdirSync(root).sort().flatMap((name
 const treeDigest = (root: string) => sha256(`${files(root).map((path) => `${relative(root, path)}:${sha256(readFileSync(path))}`).join("\n")}\n`);
 
 function build() {
-  const loaded = loadCompiledProjectGraph(dsRoot);
+  const { graph: loaded } = compiler.compileProject(dsRoot);
   const graph = { ...loaded, project_root: "." };
   const graphBytes = jsonBytes(graph);
   const graphDigest = sha256(graphBytes);
@@ -101,7 +101,7 @@ if (process.argv.includes("--check")) {
     inputs: {
       domainspec_source_tree_sha256: treeDigest(dsRoot),
       domainspec_source_manifest_sha256: first.sourceManifest,
-      domainspec_loader_sha256: sha256(readFileSync(loaderPath))
+      domainspec_compiler: compiler.binding
     },
     outputs: Object.fromEntries((["domain.graph.json", "system-ontology.json", "traceability.json"] as const).map((name) => [name, sha256(first[name])])),
     deterministic_replay: "PASS",
@@ -111,4 +111,4 @@ if (process.argv.includes("--check")) {
   };
   writeFileSync(join(evidenceRoot, "generation-receipt.json"), jsonBytes(receipt));
 }
-console.log(JSON.stringify({ status: "PASS", deterministic: true, source_manifest_sha256: first.sourceManifest, authority_effect: "none" }, null, 2));
+console.log(JSON.stringify({ status: "PASS", compiler: compiler.binding, deterministic: true, source_manifest_sha256: first.sourceManifest, authority_effect: "none" }, null, 2));

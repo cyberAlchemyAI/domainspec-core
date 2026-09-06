@@ -8,6 +8,7 @@ import {sha256HexText} from "../../intent-route-resolver/index.mjs";
 import {fail, freezeResult, isRecord, nonEmptyString} from "./canonical.mjs";
 import {materializeDefinitionCatalog, materializeOntologySnapshot} from "./source-adapters.mjs";
 import {validMeaningSelection} from "./objective-meanings.mjs";
+import {validInteractionLearningConfiguration} from "./interaction-learning-lifecycle.mjs";
 
 const SOURCE_HASH_IMPLEMENTATIONS = new Set(["node-crypto-sha256", "portable-js-sha256"]);
 
@@ -281,8 +282,12 @@ export function loadRepositoryProfile(profilePath, repositoryRoot, options = {})
   if ((intentCompilation.trigger ?? "turn/start") !== "turn/start") return fail("config", ["config.intent-compilation-trigger-unsupported"]);
   const cacheTelemetry = isRecord(profile.cache_telemetry) ? profile.cache_telemetry : {enabled: false, usage_paths: []};
   const objectiveResolution = profile.objective_resolution ?? {enabled: false};
+  const interactionLearning = profile.interaction_learning ?? {enabled: false};
+  if (!validInteractionLearningConfiguration(interactionLearning)) return fail("config", ["config.interaction-learning-invalid"]);
   if (!isRecord(objectiveResolution) || typeof objectiveResolution.enabled !== "boolean"
-    || Object.keys(objectiveResolution).some(key => !["enabled", "provider_timeout_ms", "meaning_selection"].includes(key))
+    || Object.keys(objectiveResolution).some(key => !["enabled", "provider_timeout_ms", "meaning_selection", "requirement_tracking"].includes(key))
+    || (objectiveResolution.requirement_tracking !== undefined && typeof objectiveResolution.requirement_tracking !== "boolean")
+    || (objectiveResolution.requirement_tracking === true && objectiveResolution.enabled !== true)
     || (objectiveResolution.meaning_selection !== undefined && !validMeaningSelection(objectiveResolution.meaning_selection))
     || !Number.isSafeInteger(objectiveResolution.provider_timeout_ms ?? 1000)
     || (objectiveResolution.provider_timeout_ms ?? 1000) < 1 || (objectiveResolution.provider_timeout_ms ?? 1000) > 30000) return fail("config", ["config.objective-resolution-invalid"]);
@@ -385,7 +390,9 @@ export function loadRepositoryProfile(profilePath, repositoryRoot, options = {})
       semantic_evaluation: freezeResult({enabled: semanticEvaluation.enabled, trigger: semanticEvaluation.trigger}),
       evolution_signals: freezeResult({enabled: evolutionSignals.enabled, trigger: evolutionSignals.trigger}),
       intent_compilation: freezeResult({enabled: intentCompilation.enabled, trigger: intentCompilation.trigger ?? "turn/start", control_profile: isRecord(intentCompilation.control_profile) ? intentCompilation.control_profile : {visibility: "quiet"}}),
+      interaction_learning: freezeResult(interactionLearning),
       objective_resolution: freezeResult({enabled: objectiveResolution.enabled, provider_timeout_ms: objectiveResolution.provider_timeout_ms ?? 1000,
+        ...(objectiveResolution.requirement_tracking !== undefined ? {requirement_tracking: objectiveResolution.requirement_tracking} : {}),
         ...(objectiveResolution.meaning_selection ? {meaning_selection: objectiveResolution.meaning_selection} : {})}),
       cache_telemetry: freezeResult({enabled: cacheTelemetry.enabled, usage_paths: cacheTelemetry.usage_paths, fields: isRecord(cacheTelemetry.fields) ? cacheTelemetry.fields : {}}),
       runtime_journal: freezeResult({

@@ -13,7 +13,8 @@
 .chat-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); min-height: calc(100vh - 190px); max-width: 1420px; margin: 0 auto; overflow: hidden; background: #f4f1e8; border: 1px solid #354038; border-radius: 8px; }
 .chat-conversation { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-width: 0; min-height: 0; color: var(--ink); }
 .chat-transcript { min-height: 420px; max-height: calc(100vh - 380px); overflow-y: auto; padding: clamp(20px, 4vw, 50px); }
-.chat-message { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 18px; max-width: 900px; padding: 19px 0; border-bottom: 1px solid var(--line); animation: chat-message-arrive 110ms cubic-bezier(0.2, 0.75, 0.25, 1) both; }
+.chat-message { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 18px; max-width: 900px; padding: 19px 0; border-bottom: 1px solid var(--line); }
+.chat-message[hidden] { display: none; }
 .chat-message > span { color: var(--muted); font-size: 0.58rem; font-weight: 850; letter-spacing: 0.1em; text-transform: uppercase; }
 .chat-message p { margin: 0; font: 1rem/1.68 Georgia, serif; white-space: pre-wrap; overflow-wrap: anywhere; }
 .chat-message-user p { font-family: inherit; font-size: 0.82rem; }
@@ -73,11 +74,6 @@
 .receipt-status { flex: none; padding: 3px 5px; color: #aeb8b0; background: #262f29; border-radius: 2px; font-size: 0.5rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
 .receipt-status-direct, .receipt-status-complete, .receipt-status-observed { color: var(--acid); }
 .receipt-status-blocked, .receipt-status-residue { color: #ffb4a2; }
-
-@keyframes chat-message-arrive {
-  from { opacity: 0; transform: translate3d(0, 4px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
-}
 
 @keyframes chat-status-breathe {
   0%, 100% { opacity: 0.42; transform: scale(0.78) translateZ(0); }

@@ -2,14 +2,15 @@ import crypto from "node:crypto";
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const SOURCE_ID_PATTERN = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?::[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?$/;
-const RELATIVE_PATH_PATTERN = /^(?:project\.json|edges\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\.json|specs\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\/(?:feature\.json|(?:nodes|edges)\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\.json))$/;
+const RELATIVE_PATH_PATTERN = /^(?:project\.json|compositions\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\.json|edges\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\.json|specs\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\/(?:feature\.json|(?:nodes|edges)\/[a-z][a-z0-9]*(?:-[a-z0-9]+)*\.json))$/;
 
 export type SourceType =
   | "project"
   | "feature"
   | "node"
   | "feature-edge"
-  | "project-edge";
+  | "project-edge"
+  | "composition";
 
 export interface SourceInput {
   readonly sourceType: SourceType;
@@ -112,7 +113,7 @@ function requireSourceIdentity(entry: Record<string, unknown>, pointer: string):
     expectedPath = `specs/${featureId}/${directory}/${localId}.json`;
   } else {
     if (featureId !== null || !ID_PATTERN.test(sourceId)) throw new SourceManifestError("SFC_SOURCE_MANIFEST_IDENTITY", pointer, "project-edge source identity is invalid");
-    expectedPath = `edges/${sourceId}.json`;
+    expectedPath = `${sourceType === "composition" ? "compositions" : "edges"}/${sourceId}.json`;
   }
   if (entry.relative_path !== expectedPath) {
     throw new SourceManifestError("SFC_SOURCE_MANIFEST_PATH", `${pointer}/relative_path`, "relative path does not match source identity");
@@ -142,7 +143,7 @@ export function validateSourceManifest(value: unknown): SourceManifestV1 {
   for (const [index, entryValue] of value.sources.entries()) {
     const pointer = `/sources/${index}`;
     exactKeys(entryValue, ["source_type", "source_id", "feature_id", "relative_path", "size_bytes", "sha256"], pointer);
-    if (!["project", "feature", "node", "feature-edge", "project-edge"].includes(String(entryValue.source_type))) throw new SourceManifestError("SFC_SOURCE_MANIFEST_SCHEMA", `${pointer}/source_type`, "unknown source type");
+    if (!["project", "feature", "node", "feature-edge", "project-edge", "composition"].includes(String(entryValue.source_type))) throw new SourceManifestError("SFC_SOURCE_MANIFEST_SCHEMA", `${pointer}/source_type`, "unknown source type");
     const { sourceId, featureId, relativePath } = requireSourceIdentity(entryValue, pointer);
     if (entryValue.source_type === "project") projectSources += 1;
     if (entryValue.source_type === "feature") featureSources.add(sourceId);

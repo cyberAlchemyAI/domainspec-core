@@ -165,7 +165,7 @@ export const sections: DocSection[] = [
   },
   {
     id: "backend-types",
-    eyebrow: "DomainSpec profile",
+    eyebrow: "Local language surface",
     title: "Use all 13 backend types",
     summary: "Author Value Object, Enum, Operation, Workflow, Interface, State Machine, and the complete 13-type DomainSpec backend alphabet.",
   },
@@ -197,7 +197,7 @@ export const sections: DocSection[] = [
     id: "compiler",
     eyebrow: "Compiler",
     title: "Inspect deterministic artifacts",
-    summary: "Follow parsing, normalization, validation, lowering, TypeScript rendering, traceability, test obligations, and digest manifests.",
+    summary: "Follow local compilation and explicit DomainSpec 1.0.0 lowering, ontology bindings, TypeScript output, migration limits and digest manifests.",
   },
   {
     id: "actions",
@@ -226,6 +226,7 @@ export const sections: DocSection[] = [
 ];
 
 export const implementationCoverage = [
+  { capability: "domainspec-exact-uint64-lowering", section: "compiler", evidence: "domainspec-profile.ts + lower-domainspec.ts + domainspec-project-writer.ts" },
   { capability: "canonical-source-loader", section: "source", evidence: "source-file.ts" },
   { capability: "sfol-parser-and-evaluator", section: "sfol", evidence: "predicate-parser.ts + runtime.ts" },
   { capability: "query-calculation-mapping-policy", section: "contracts", evidence: "typed-backend.ts" },
@@ -243,6 +244,20 @@ export const implementationCoverage = [
   { capability: "idempotent-inbox", section: "outbox", evidence: "outbox-integrations.ts" },
   { capability: "operational-evidence-boundary", section: "evidence", evidence: "runtime receipts + ORODI handoff" },
 ] as const;
+
+export const domainSpecTarget = {
+  version: "1.0.0",
+  commands: `node dist/cli.js domainspec --version
+node dist/cli.js check examples/domainspec-order.alch --profile domainspec-1.0.0
+node dist/cli.js emit-domainspec examples/domainspec-order.alch --out /tmp/order-project
+node dist/cli.js build examples/domainspec-order.alch --backend domainspec --language typescript --out /tmp/order-build`,
+  exactCommands: `node dist/cli.js check examples/typed-backend.alch --profile domainspec-1.0.0-exact-uint64-v1 --bindings ../extensions/domainspec-exact-uint64-v1/typed-commerce.bindings.json
+node dist/cli.js build examples/typed-backend.alch --backend domainspec --language typescript --profile domainspec-1.0.0-exact-uint64-v1 --bindings ../extensions/domainspec-exact-uint64-v1/typed-commerce.bindings.json --out /tmp/commerce-exact`,
+  supported: "String/Bool records, identifier fields, Boolean equality rules, safe input-free UInt64 constants, concrete mappings and ordered policies selecting those constants.",
+  bindings: "The companion <source>.domainspec.json binds the source SHA-256, owner, declaration and property meanings, ontology selectors, Entity identity and Value Object Rule invariants. Use --bindings to choose another file.",
+  outputs: "project/, generated/, domain.ts, source and binding snapshots, trace.json, certificate.json, compiler-files.json and manifest.json. The manifest is installed last as the completion marker.",
+  migration: "The existing typed-commerce application also needs queries, integer records, parameterized arithmetic and threshold comparisons. It currently rejects with DS_UNSUPPORTED. The new exact profile supports that unchanged source; the original profile still rejects it.",
+} as const;
 
 export const quickstart = `node --version
 npm run typecheck
@@ -764,6 +779,7 @@ export const navGroups = [
 
 export const docsSearchEntries: readonly SearchEntry[] = [
   ...sections.map((section) => ({ ...section, terms: [section.id] })),
+  { id: "domainspec-target", eyebrow: "Compiler target", title: "Compile with DomainSpec 1.0.0", summary: domainSpecTarget.supported, terms: [domainSpecTarget.bindings, domainSpecTarget.migration, "emit-domainspec", "--backend", "DS_SOURCE_DRIFT"] },
   ...backendTypes.map((type) => ({ id: backendTypeAnchor(type.syntax), eyebrow: `${type.id} · ${type.category}`, title: type.name, summary: `${type.meaning} ${type.useWhen}`, terms: [type.syntax, ...type.requirements, ...declarationClauses[type.syntax].flatMap((clause) => [clause.clause, clause.value, clause.meaning])] })),
   ...supportingDeclarations.map((item) => ({ id: supportingDeclarationAnchor(item.syntax), eyebrow: "Supporting declaration", title: item.name, summary: item.detail, terms: [item.syntax, item.form, ...declarationClauses[item.syntax].flatMap((clause) => [clause.clause, clause.value, clause.meaning])] })),
   ...lexicalRules.map((item) => ({ id: "lexical-reference", eyebrow: "Lexical rule", title: item.subject, summary: item.rule, terms: [item.syntax, item.error] })),

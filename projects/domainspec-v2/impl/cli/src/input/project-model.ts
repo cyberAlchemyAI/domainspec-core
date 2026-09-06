@@ -1,3 +1,4 @@
+import {loadProjectCompositions, type CompiledComposition} from './project-composition.js';
 import fs from "node:fs";
 import path from "node:path";
 
@@ -200,6 +201,7 @@ export interface CompiledObligationOutcome {
 }
 
 export interface CompiledProjectGraph {
+  readonly compositions?: readonly CompiledComposition[];
   readonly schema_version: "domainspec.compiled-project-graph/v1";
   readonly project_root: string;
   readonly project_id: string;
@@ -995,7 +997,7 @@ function decodeProjectModel(projectRoot: unknown): DecodedProjectModel {
 }
 
 export function validateProjectRoot(projectRoot: unknown): SourceManifestV1 {
-  return decodeProjectModel(projectRoot).source_manifest;
+  return loadCompiledProjectGraph(projectRoot).source_manifest;
 }
 
 function compileObligationWitnesses(relationships: readonly DecodedRelationship[]): readonly CompiledRelationshipObligationWitness[] {
@@ -1215,6 +1217,7 @@ export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectG
       });
     })
     .sort((left, right) => left.selector.localeCompare(right.selector));
+  const compositions = loadProjectCompositions(model.project_root, model.source_manifest, nodes);
   const applicability = compileObligationApplicability(nodes, model.relationships);
   const outcomes = Object.freeze(obligationWitnesses.map((witness) => evaluateCompiledObligationWitness({ nodes, relationships: model.relationships }, witness)));
   return validateCompiledProjectGraphObligations(Object.freeze({
@@ -1223,6 +1226,7 @@ export function loadCompiledProjectGraph(projectRoot: unknown): CompiledProjectG
     project_id: model.source_manifest.project_id,
     source_manifest: model.source_manifest,
     nodes: Object.freeze(nodes),
+    ...(compositions.length ? {compositions} : {}),
     relationships: model.relationships,
     obligation_applicability: applicability,
     obligation_witnesses: obligationWitnesses,

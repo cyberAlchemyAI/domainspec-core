@@ -8,7 +8,8 @@
     "node": ">=26.8.1"
   },
   "bin": {
-    "domainspec": "dist/cli.js"
+    "domainspec": "dist/cli.js",
+    "alchlang": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -18,8 +19,16 @@
     "build:registry": "../../../../../../../projects/domainspec-v2/impl/node_modules/.bin/tsx src/cli.ts registry build --config ../extensions/generatable-operation-patterns-v1/registry/registry-compiler.config.json",
     "test": "../../../../../../../projects/domainspec-v2/impl/node_modules/.bin/tsx --test test/*.test.ts",
     "typecheck": "../../../../../../../projects/domainspec-v2/impl/node_modules/.bin/tsc --noEmit",
-    "build": "../../../../../../../projects/domainspec-v2/impl/node_modules/.bin/tsc -p tsconfig.build.json",
+    "build": "../../../../../../../projects/domainspec-v2/impl/node_modules/.bin/tsc -p tsconfig.build.json && node scripts/copy-event-templates.mjs",
     "pack:local": "node -e \"require('node:fs').mkdirSync('package-artifacts/0.4.0-candidate.0',{recursive:true})\" && npm pack --pack-destination package-artifacts/0.4.0-candidate.0",
     "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "@domainspec-v2/cli": "1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@domainspec-v2/cli": {
+      "optional": true
+    }
   }
 }

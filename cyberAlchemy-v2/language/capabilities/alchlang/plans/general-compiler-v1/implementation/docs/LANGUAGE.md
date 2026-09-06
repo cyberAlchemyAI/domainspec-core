@@ -43,8 +43,72 @@ Compile after validation:
 domainspec build examples/typed-backend.alch --out generated
 ```
 
-`check` is read-only. `build` refuses to replace a non-empty output directory
+For the local generator, `check` is read-only. `build` refuses to replace a non-empty output directory
 unless `--force` is explicit.
+
+## Target-profile reference
+
+The declaration grammar below describes the local language. Selecting
+`--profile domainspec-1.0.0` or `build --backend domainspec` adds a narrower
+compatibility check; parser acceptance alone does not prove target support.
+
+| Surface | Local generator | DomainSpec 1.0.0 target |
+| --- | --- | --- |
+| Records | Existing scalar types | String, Bool, identifier only |
+| Entity identity | Local declaration rules | Explicit required String identity binding |
+| Value Object | Equality fields | Required equality fields plus explicit Rule invariant references |
+| Rule | Bounded SFOL | Equality, inequality, Boolean composition |
+| Calculation | UInt64 inputs and arithmetic | Input-free exactly representable UInt64 constants only |
+| Mapping | Authored field clauses | Explicit endpoints, compatible types, all target fields for total mappings |
+| Policy | Ordered cases and default | Boolean equality cases selecting constant Calculations |
+| Query and other backend kinds | Local declaration support | Rejected by the first target profile |
+| Existing output | Local `--force` behavior | Any existing directory rejected; no `--force` |
+
+The binding sidecar schema version is `alchlang.domainspec-bindings/v1`.
+Required top-level members: `schema_version`, `profile`, `source_sha256`, `owner`,
+`declarations`. Declaration keys must exactly cover the model. Each has a unique
+ontology selector and non-empty meaning. Record bindings additionally map every
+property to its selector and meaning; Entity `identity` names an actual required
+String field and Value Object `invariants` names actual Rule declarations.
+Selectors are explicit prototype meaning, not proof of ontology admission.
+
+The binding digest covers exact source text. Identifiers normalize to DomainSpec
+symbols; collisions reject. The compiler package, public API and executable must
+all report version 1.0.0. Generated bundles carry input snapshots, traces, compiler
+inventory, certificate and file hashes. Read the manifest only after completion.
+
+See [the target tutorial](TUTORIAL.md#compile-with-domainspec-100) for commands,
+the complete example sidecar, output usage and existing-application migration.
+`ALCHLANG_DOMAINSPEC_PACKAGE_ROOT` selects an external built 1.0.0 package.
+
+### Exact UInt64 profile
+
+Select `domainspec-1.0.0-exact-uint64-v1` in both the CLI and sidecar. It binds
+the opt-in DomainSpec realization `domainspec.typescript-exact-uint64/v1`.
+The original `domainspec-1.0.0` profile remains available with its previous limits.
+
+| Added surface | Exact-profile contract |
+| --- | --- |
+| Integer records | bigint or nonnegative safe Number, within UInt64 |
+| Calculation | Parameterized add/subtract/multiply/divide; exact bigint result |
+| Calculation input | bigint, safe Number or canonical unsigned decimal string |
+| Calculation literal | Full UInt64 via exact safe-literal arithmetic decomposition |
+| Rounding | floor, ceil or reject; zero division, underflow and overflow reject |
+| Query | Explicit inputs/source, filter, one stable sort key, limit, projection |
+| Mapping | Numeric copies retain their input representation; defaults are explicit |
+| Policy | Ordered numeric comparisons, first match and explicit fallback |
+
+The checked entry rejects unsafe Numbers, out-of-range integers, inherited input
+records and accessors on used fields. Query/Mapping outputs preserve supplied
+values; equality and ordering preserve the source evaluator's semantics, including
+strict equality across number/bigint representations. Calculation results use
+bigint. Policy selection returns a source identifier without executing it.
+
+Overlapping Query row/parameter names and multiple sort keys reject. Numeric
+predicate and Mapping-default literals must be safe integers. Numeric general
+Rules, decimal arithmetic, effects and other backend kinds are not added here.
+A graph certificate establishes compilation, while the generated build receipt
+also records the selected realization; verification must select that same profile.
 
 ## Document shape
 
@@ -412,4 +476,36 @@ required adapter or binding inputs.
 The generated backend-type contract files include `domain.operations.ts`,
 `domain.workflows.ts`, and `domain.interfaces.ts`. This compiler renders
 TypeScript only. Python and Rust realizations belong to the separate private
-DomainSpec v2 instantiation CLI.
+DomainSpec 1.0.0 instantiation CLI (whose package retains the v2 name).
+
+## Complete function compilation units
+
+[`profile function-v1`](FUNCTIONS.md) adds inline ontology bindings, boundary
+schemas, integration declarations, flow expressions and an HTTP endpoint to a
+single `.alch` source. This profile packages a Node HTTP function through the
+DomainSpec exact UInt64 realization. The linked reference owns its grammar,
+runtime limits and open questions.
+
+## Portable Node/Rust conformance
+
+`portability node-rust-v1` selects the common value, ordering, date, pattern and integration semantics. `check --target rust-http` catches unsupported source before generation; `conformance` compares both generated targets against fixtures. See [Portable conformance](PORTABLE-CONFORMANCE.md) and the shipping-options example in `../extensions/portable-conformance-v1`.
+
+## Typed module composition
+
+Portable functions can import boundary types and call another generated function with `module-local` or `module-http` bindings. See [Module composition](MODULE-COMPOSITION.md) for the checkout example, import closure, trace scope and limits.
+
+## Guarded module bindings
+
+`bind shipping from ShippingPrice when HasPrice` invokes a module only when its
+Boolean guard holds. DomainSpec checks output availability and generates both Node
+and Rust behavior. See [guarded bindings](GUARDED-BINDINGS.md) for the complete contract and examples.
+
+## Module input mappings
+
+`input ShippingInput` selects a typed Mapping that constructs an imported module
+argument from the request and earlier binding outputs. See [module input mappings](MODULE-INPUT-MAPPINGS.md)
+for typing, guarded availability, runtime validation and open questions.
+
+## Corrected event and state semantics
+
+For the current bounded event-host prototype, use [`semantic-host-v1`](../../extensions/semantic-corrections-v1/README.md) and its complete [`orders.alch`](../../extensions/semantic-corrections-v1/orders.alch). The command supplies business inputs; the envelope supplies message identity; transitions read stored state; event payloads and consumer projections have separate types. The guide includes build commands, operator policy, HTTP input and snapshot migration. Earlier event/ontology-host examples are historical prototypes with known semantic defects documented by the review baseline.

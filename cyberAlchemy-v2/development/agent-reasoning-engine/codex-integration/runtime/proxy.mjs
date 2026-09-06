@@ -8,6 +8,7 @@ import {fileURLToPath} from "node:url";
 
 import {createDecisionEngine, digest} from "./engine.mjs";
 import {TurnEvidenceLedger} from "./turn-evidence-ledger.mjs";
+import {selectTestFixture} from "./test-fixture.mjs";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const observationCandidates = [
@@ -41,7 +42,8 @@ let actualUpstreamSha256 = null;
 try { actualUpstreamSha256 = await fileSha256(upstream); } catch (error) {
   if (!allowProtocolDrift) throw new Error(`ARE_CODEX_UPSTREAM_BINARY_UNREADABLE:${upstream}:${error.message}`);
 }
-const observation = observationCandidates.find(
+const testFixture = selectTestFixture(process.env.ARE_CODEX_TEST_FIXTURE, upstream, actualUpstreamSha256);
+const observation = testFixture ?? observationCandidates.find(
   (candidate) => candidate.observed_binary_sha256 === actualUpstreamSha256,
 ) ?? observationCandidates[0];
 if (!allowProtocolDrift && actualUpstreamSha256 !== observation.observed_binary_sha256) {
@@ -86,7 +88,7 @@ const pendingContinuationGates = new Map();
 const internalTurnRequests = new Set();
 let internalTurnSequence = 0;
 
-record("proxy.started", {upstream, protocol_observation_id: observation.observation_id, decision_profile_digest: engine.profileDigest});
+record("proxy.started", {upstream, protocol_observation_id: testFixture ? null : observation.observation_id, test_fixture_id: testFixture?.observation_id ?? null, evidence_mode: testFixture ? "synthetic-fixture" : "runtime", actual_upstream_sha256: actualUpstreamSha256, decision_profile_digest: engine.profileDigest});
 
 const clientInput = createInterface({input: process.stdin, crlfDelay: Infinity});
 clientInput.on("line", (line) => {

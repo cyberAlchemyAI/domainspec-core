@@ -30,3 +30,6 @@ export { writeCompilation } from "./writer.js";
 export { deriveAvailability, listOperationPatterns, operationPatterns, requireGeneratablePattern } from "./pattern-registry.js";
 export { renderSqliteTransactionalOutbox } from "./sqlite-outbox-generator.js";
 export { compileOperationPatternRegistry, compileRegistryConfig, writeRegistryCompilation } from "./registry-compiler.js";
+export { DOMAINSPEC_PACKAGE, DOMAINSPEC_VERSION, loadDomainSpecCompiler, runDomainSpecCli } from "./domainspec-cli.js";
+export { lowerDomainSpec } from "./lower-domainspec.js";
+export { buildDomainSpec, checkDomainSpec } from "./domainspec-project-writer.js";

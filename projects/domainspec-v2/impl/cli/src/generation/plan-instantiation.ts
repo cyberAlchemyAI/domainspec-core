@@ -1,3 +1,4 @@
+import { validateRealizationProfile, type RealizationProfile } from "./exact-uint64.js";
 import path from "node:path";
 
 import { canonicalJson, sha256 } from "../input/source-manifest.js";
@@ -20,7 +21,8 @@ function assertContainedRelative(relativePath: string): void {
   }
 }
 
-export function planInstantiation(node: DecodedProjectNode, language: SupportedLanguage, systemIntegration: SystemIntegrationSelectionV1 | null = null): InstantiationPlanV1 {
+export function planInstantiation(node: DecodedProjectNode, language: SupportedLanguage, systemIntegration: SystemIntegrationSelectionV1 | null = null, realizationProfile?: RealizationProfile): InstantiationPlanV1 {
+  validateRealizationProfile(realizationProfile, language);
   validateSelectedNodeRelationships(node);
   const typedQuery = node.kind === "Query" && node.typed_closure?.schema_version === "domainspec.typed-operation-closure/v1";
   if (node.typed_closure != null && language !== "rust" && node.typed_closure.schema_version !== "domainspec.typed-rule-closure/v1" && !typedQuery) {
@@ -35,6 +37,7 @@ export function planInstantiation(node: DecodedProjectNode, language: SupportedL
   );
   const realization = selectRealization(node.meta_type_id, language);
   const rendered = renderImplementation({
+    ...(realizationProfile ? { realization_profile: realizationProfile } : {}),
     project_id: node.project_id,
     feature_id: node.feature_id,
     node_id: node.node_id,
@@ -76,6 +79,7 @@ export function planInstantiation(node: DecodedProjectNode, language: SupportedL
     }));
   }
   const body = {
+    ...(realizationProfile ? { realization_profile: realizationProfile } : {}),
     schema_version: "domainspec.instantiation-plan/v1" as const,
     baseline: Object.freeze({
       id: FROZEN_META_TYPE_CATALOG.baseline_id,

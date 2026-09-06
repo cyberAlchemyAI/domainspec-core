@@ -50,3 +50,11 @@ test('independent recipient decrypts binary and acknowledgement is separately re
  tampered=true;await assert.rejects(()=>receiver.receive(context,b,true),/verification/);assert.equal(acknowledgements,2);
  await assert.rejects(()=>receiver.receive(context,a,true));
 });
+test('verified bytes survive cancelled acknowledgement signing',async()=>{
+ const {generateEncryptionIdentity}=await import('./protocol.js');const identity={...await generateEncryptionIdentity(),identityId:'a'};
+ const sender=createFileClient({api:async()=>({}),authorize:async message=>({message,signature_base64:'fixture'})});
+ const prepared=await sender.prepare(file(new Uint8Array([7,8,9])),identity,'file-1','policy-1',true);
+ let signing=0;const receiver=createFileClient({authorize:async message=>{if(message.includes('file-acknowledge')){signing++;throw Error('cancelled')}return {message,signature_base64:'fixture'};},api:async path=>path.endsWith('/access')?{ciphertext_base64:prepared.request.artifact.ciphertext_base64,ciphertext_sha256:prepared.context.ciphertextSha256,recipient_envelope_base64:prepared.request.artifact.originator_envelope_base64,recipient_envelope_sha256:prepared.request.artifact.originator_envelope_sha256,revision:0}:{revision:0}});
+ const received=await receiver.receive(prepared.context,identity,true,'attempt');assert.deepEqual(received.file.bytes,new Uint8Array([7,8,9]));
+ await assert.rejects(()=>received.acknowledge(),/cancelled/);assert.equal(signing,1);assert.deepEqual(received.file.bytes,new Uint8Array([7,8,9]));
+});

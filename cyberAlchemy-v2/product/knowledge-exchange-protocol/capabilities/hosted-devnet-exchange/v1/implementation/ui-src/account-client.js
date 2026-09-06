@@ -22,11 +22,11 @@ export async function openAccount(record,key,wallet){
 }
 export function accountSnapshot(identity,exchanges){
  return {version:1,identity,exchanges:exchanges.filter(e=>e.context).map(e=>{
-  const {id,title,context,direction,history,policyAccepted,recipientName,recipientText,chainConsent,shared,handoff}=e;
+  const {id,title,context,direction,history,policyAccepted,recipientName,recipientText,chainConsent,shared,handoff,pendingReceipt}=e;
   // Never duplicate original payloads or received plaintext into account storage.
   const p=e.prepared;
   const prepared=p?{context:p.context,contentKeyBase64:p.contentKeyBase64,initialized:p.initialized,share:p.share,request:{artifact:{operation_id:p.request.artifact.operation_id,originator_envelope_sha256:p.request.artifact.originator_envelope_sha256}}}:undefined;
-  return {id,title,context,direction,history,policyAccepted,recipientName,recipientText,chainConsent,shared,handoff,prepared};
+  return {id,title,context,direction,history,policyAccepted,recipientName,recipientText,chainConsent,shared,handoff,pendingReceipt,prepared};
  })};
 }
 export function createAccountClient({api,getProvider=()=>window.solana,now=()=>Date.now()}){
@@ -39,8 +39,18 @@ export function createAccountClient({api,getProvider=()=>window.solana,now=()=>D
  }
  return {
   get wallet(){return wallet;},get unlocked(){return !!key;},get exists(){return !!record;},get pending(){return !!pending;},
-  async lookup(){provider=getProvider();if(!provider?.connect||!provider?.signMessage)throw Error('A Solana wallet with message signing is required.');await provider.connect();const next=provider.publicKey.toString();if(wallet&&next!==wallet)throw Error('Lock the current account before switching wallets.');wallet=next;const result=await api('/v1/account/read',{method:'POST',body:JSON.stringify(await sign('read',{}))});record=result.account;return result;},
+  async lookup(){
+   const previousProvider=provider,previousWallet=wallet,nextProvider=getProvider();
+   if(!nextProvider?.connect||!nextProvider?.signMessage)throw Error('A Solana wallet with message signing is required.');
+   try{
+    await nextProvider.connect();const next=nextProvider.publicKey.toString();
+    if(previousWallet&&next!==previousWallet)throw Error('Lock the current account before switching wallets.');
+    provider=nextProvider;wallet=next;
+    const result=await api('/v1/account/read',{method:'POST',body:JSON.stringify(await sign('read',{}))});record=result.account;return result;
+   }catch(error){provider=previousProvider;wallet=previousWallet;throw error;}
+  },
   createKey(){if(record)throw Error('Account already exists. Unlock it with its recovery file.');key??=bytesToBase64(crypto.getRandomValues(new Uint8Array(32)));revision=0;return this.recovery();},
+  adoptRecovery(text){const backup=JSON.parse(text);if(record||backup.format!=='kep-account-recovery-v1'||backup.walletPublicKey!==wallet||typeof backup.recoveryKey!=='string')throw Error('Cannot resume account creation with this recovery file.');key=backup.recoveryKey;revision=0;pending=null;return backup;},
   recovery(){if(!key)throw Error('Unlock your account first.');return {format:'kep-account-recovery-v1',walletPublicKey:wallet,recoveryKey:key};},
   async unlock(text){const backup=JSON.parse(text);if(backup.format!=='kep-account-recovery-v1'||backup.walletPublicKey!==wallet||!record)throw Error('Select the recovery file for this wallet.');const value=await openAccount(record,backup.recoveryKey,wallet);key=backup.recoveryKey;revision=record.revision;pending=null;return value;},
   async save(snapshot){if(!key)throw Error('Create or unlock your account first.');

@@ -1,3 +1,6 @@
+import {APPLICATION_LAYOUT, applicationArtifactPath, validateOutputLayout, type OutputLayout} from "./output-layout.js";
+import {renderRustComposition} from "./rust-composition.js";
+import { validateRealizationProfile, type RealizationProfile } from "./exact-uint64.js";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -13,6 +16,8 @@ import { planInstantiation } from "./plan-instantiation.js";
 const RECEIPT_PATH = ".domainspec/project-build.json";
 
 export interface ProjectBuildReceiptV1 {
+  readonly output_layout?: OutputLayout;
+  readonly realization_profile?: RealizationProfile;
   readonly schema_version: "domainspec.project-build-receipt/v1";
   readonly project_id: string;
   readonly language: SupportedLanguage;
@@ -54,24 +59,38 @@ function writeExclusive(root: string, relativePath: string, content: string): vo
   fs.writeFileSync(target, content, { encoding: "utf8", flag: "wx", mode: 0o644 });
 }
 
-export function planProjectBuild(sourceRoot: string, language: SupportedLanguage): ProjectBuildPlanV1 {
+export function planProjectBuild(sourceRoot: string, language: SupportedLanguage, realizationProfile?: RealizationProfile, outputLayout?: OutputLayout): ProjectBuildPlanV1 {
+  validateRealizationProfile(realizationProfile, language);
+  validateOutputLayout(outputLayout);
   const graph = loadCompiledProjectGraph(sourceRoot);
+  if(graph.compositions?.some(c=>c.source.model.endpoint.target==="rust-http" ? language!=="rust" || realizationProfile!==undefined : language!=="typescript" || realizationProfile!=="domainspec.typescript-exact-uint64/v1")) fail("DS_PROJECT_COMPOSITION", "/language", "composition requires its declared target: TypeScript exact UInt64 or native Rust");
   const compiledCertificate = createCompiledProjectCertificate(graph);
   const formalizationProjection = createMetaTypeFormalizationProjection(graph);
   const artifacts: PlannedArtifact[] = [];
   const paths = new Set<string>();
   for (const node of graph.nodes) {
-    const plan = planInstantiation(loadProjectNode(sourceRoot, node.selector), language);
+    const plan = planInstantiation(loadProjectNode(sourceRoot, node.selector), language, null, realizationProfile);
     for (const artifact of plan.artifacts) {
       if (artifact.relative_path === "Cargo.toml") continue;
-      if (paths.has(artifact.relative_path)) fail("MTCLI_PROJECT_BUILD_COLLISION", `/nodes/${node.selector}`, `artifact collision:${artifact.relative_path}`);
-      paths.add(artifact.relative_path);
-      artifacts.push(artifact);
+      const relative_path=outputLayout?applicationArtifactPath(artifact.relative_path):artifact.relative_path;
+      if (paths.has(relative_path)) fail("MTCLI_PROJECT_BUILD_COLLISION", `/nodes/${node.selector}`, `artifact collision:${artifact.relative_path}`);
+      paths.add(relative_path);
+      artifacts.push({...artifact,relative_path});
     }
   }
+  for(const composition of graph.compositions??[])for(const [name,content]of Object.entries(outputLayout && composition.source.model.endpoint.target==='rust-http' ? {...composition.artifacts,...renderRustComposition(composition.source.contract,composition.source.core_bindings,composition.source.model,composition.id)} : composition.artifacts)) {
+    const original=`compositions/${composition.id}/${name}`;
+    const relative_path=outputLayout?applicationArtifactPath(original):original;
+    if(paths.has(relative_path))fail('MTCLI_PROJECT_BUILD_COLLISION','/compositions',relative_path);
+    paths.add(relative_path);artifacts.push({relative_path,content,size_bytes:Buffer.byteLength(content),sha256:sha256(content)});
+  }
+  const finalGraph=loadCompiledProjectGraph(sourceRoot);
+  if(finalGraph.source_manifest.manifest_sha256!==graph.source_manifest.manifest_sha256)fail('MTCLI_PROJECT_SOURCE_DRIFT','/sources','project changed during build planning');
   artifacts.sort((left, right) => left.relative_path.localeCompare(right.relative_path));
   const inventory = Object.freeze(artifacts.map(({ relative_path, size_bytes, sha256: digest }) => Object.freeze({ relative_path, size_bytes, sha256: digest })));
   const body = {
+    ...(outputLayout ? {output_layout: outputLayout} : {}),
+    ...(realizationProfile ? { realization_profile: realizationProfile } : {}),
     schema_version: "domainspec.project-build-receipt/v1" as const,
     project_id: graph.project_id,
     language,
@@ -91,7 +110,7 @@ export function publishProjectBuild(plan: ProjectBuildPlanV1, targetRoot: unknow
   try {
     fs.mkdirSync(stage, { mode: 0o700 });
     for (const artifact of plan.artifacts) writeExclusive(stage, artifact.relative_path, artifact.content);
-    writeExclusive(stage, RECEIPT_PATH, `${canonicalJson(plan.receipt)}\n`);
+    writeExclusive(stage, plan.receipt.output_layout ? APPLICATION_LAYOUT.receipt : RECEIPT_PATH, `${canonicalJson(plan.receipt)}\n`);
     if (fs.existsSync(target)) fail("MTCLI_PROJECT_BUILD_EXISTS", "/target-root", "target root appeared during publication");
     fs.renameSync(stage, target);
   } catch (error) {
@@ -99,7 +118,7 @@ export function publishProjectBuild(plan: ProjectBuildPlanV1, targetRoot: unknow
     if (error instanceof ProjectBuildError) throw error;
     fail("MTCLI_PROJECT_BUILD_ATOMIC", "/target-root", error instanceof Error ? error.message : "atomic publication failed");
   }
-  return Object.freeze({ target_root: target, receipt_path: RECEIPT_PATH, receipt: plan.receipt });
+  return Object.freeze({ target_root: target, receipt_path: plan.receipt.output_layout ? APPLICATION_LAYOUT.receipt : RECEIPT_PATH, receipt: plan.receipt });
 }
 
 export interface ProjectBuildVerificationV1 {
@@ -111,18 +130,19 @@ export interface ProjectBuildVerificationV1 {
   readonly authority_effect: "none";
 }
 
-export function verifyProjectBuild(sourceRoot: string, language: SupportedLanguage, targetRoot: string): ProjectBuildVerificationV1 {
-  const expected = planProjectBuild(sourceRoot, language);
+export function verifyProjectBuild(sourceRoot: string, language: SupportedLanguage, targetRoot: string, realizationProfile?: RealizationProfile, outputLayout?: OutputLayout): ProjectBuildVerificationV1 {
+  const expected = planProjectBuild(sourceRoot, language, realizationProfile, outputLayout);
+  const receiptPath=outputLayout?APPLICATION_LAYOUT.receipt:RECEIPT_PATH;
   const checks: Array<{ id: string; result: "pass" | "fail" }> = [];
   let observedReceipt: ProjectBuildReceiptV1 | null = null;
-  try { observedReceipt = JSON.parse(fs.readFileSync(path.join(targetRoot, RECEIPT_PATH), "utf8")) as ProjectBuildReceiptV1; } catch { /* recorded below */ }
+  try { observedReceipt = JSON.parse(fs.readFileSync(path.join(targetRoot, receiptPath), "utf8")) as ProjectBuildReceiptV1; } catch { /* recorded below */ }
   checks.push({ id: "receipt-current", result: observedReceipt !== null && canonicalJson(observedReceipt) === canonicalJson(expected.receipt) ? "pass" : "fail" });
   for (const artifact of expected.artifacts) {
     let current = false;
     try { const bytes = fs.readFileSync(path.join(targetRoot, artifact.relative_path)); current = bytes.length === artifact.size_bytes && sha256(bytes) === artifact.sha256; } catch { /* recorded below */ }
     checks.push({ id: `artifact:${artifact.relative_path}`, result: current ? "pass" : "fail" });
   }
-  const expectedPaths = new Set([RECEIPT_PATH, ...expected.artifacts.map(({ relative_path }) => relative_path)]);
+  const expectedPaths = new Set([receiptPath, ...expected.artifacts.map(({ relative_path }) => relative_path)]);
   const observedPaths: string[] = [];
   if (fs.existsSync(targetRoot)) {
     const walk = (directory: string): void => { for (const entry of fs.readdirSync(directory, { withFileTypes: true })) { const absolute = path.join(directory, entry.name); if (entry.isDirectory()) walk(absolute); else observedPaths.push(path.relative(targetRoot, absolute).split(path.sep).join("/")); } };

@@ -50,7 +50,12 @@ test("impact gate preserves but does not reselect a current retained candidate",
 });
 
 test("local impact profile measures real phases and exposes non-additive boundaries", async () => {
-  const result = await runImpactProfile(loadBenchmark(packageRoot), {warm_iterations: 1, iterations: 2});
+  // This phase-measurement test must not assume that historical retained
+  // measurements still bind a configuration file after product construction.
+  // Retention selection is tested above; this case measures both arms freshly.
+  const benchmark = loadBenchmark(packageRoot);
+  const result = await runImpactProfile({...benchmark, profile: {...benchmark.profile,
+    impact_profiling: {...benchmark.profile.impact_profiling, retention_records: []}}}, {warm_iterations: 1, iterations: 2});
   assert.equal(result.schema_version, "are.local-turn-impact-profile/v1");
   assert.equal(result.authority_effect, "none");
   assert.equal(result.sampling.iterations, 2);
@@ -61,27 +66,23 @@ test("local impact profile measures real phases and exposes non-additive boundar
   assert.equal(result.interaction_comparison_design.kind, "counterbalanced-isolated-successor-pairs");
   assert.equal(result.interaction_comparison_design.observed_valid_reassembled, 3);
   assert.equal(result.interaction_comparison_design.observed_valid_reused, 3);
-  assert.equal(result.source_refresh_comparison_design.kind, "retained-comparison-not-rerun");
-  assert.equal(result.source_refresh_comparison_design.observed_valid_portable, 0);
+  assert.equal(result.source_refresh_comparison_design.kind, "counterbalanced-full-read-and-hash");
+  assert.equal(result.source_refresh_comparison_design.observed_valid_portable, 3);
   assert.equal(result.source_refresh_comparison_design.observed_valid_native, 3);
-  assert.equal(result.source_refresh_comparison_design.retained_valid_observations_per_arm, 120);
-  assert.equal(result.improvement_retention.configured_record_count, 2);
-  assert.equal(result.improvement_retention.current.some((entry) => entry.candidate_id === "hash:live-source-native-sha256"), true);
-  assert.equal(result.improvement_retention.current.some((entry) => entry.candidate_id === "hash:context-envelope-native-sha256"), true);
+  assert.equal(result.source_refresh_comparison_design.required_valid_observations_per_arm, 3);
+  assert.equal(result.improvement_retention.configured_record_count, 0);
+  assert.deepEqual(result.improvement_retention.current, []);
   assert.deepEqual(result.improvement_retention.diagnostics, []);
-  assert.equal(result.impact_assessment.retained_candidates.some((candidate) => candidate.candidate_id === "hash:live-source-native-sha256"), true);
-  assert.notEqual(result.impact_assessment.selected_candidate?.candidate_id, "hash:live-source-native-sha256");
+  assert.deepEqual(result.impact_assessment.retained_candidates, []);
   assert.equal(result.preflight_phase_observation.output_bytes_changed, false);
   assert.equal(result.preflight_phase_observation.observed_phases["context-envelope-assembly"], 2);
   assert.ok(Number.isFinite(result.phase_metrics["turn-preflight:context-envelope-assembly"].p95_ms));
-  assert.equal(result.envelope_hash_comparison_design.kind, "retained-comparison-not-rerun");
-  assert.equal(result.envelope_hash_comparison_design.observed_valid_portable, 0);
+  assert.equal(result.envelope_hash_comparison_design.kind, "counterbalanced-byte-identical-envelope-assembly");
+  assert.equal(result.envelope_hash_comparison_design.observed_valid_portable, 3);
   assert.equal(result.envelope_hash_comparison_design.observed_valid_native, 3);
-  assert.equal(result.envelope_hash_comparison_design.retained_valid_observations_per_arm, 120);
+  assert.equal(result.envelope_hash_comparison_design.required_valid_observations_per_arm, 3);
   assert.equal(result.envelope_hash_comparison_design.output_bytes_equal, true);
   assert.equal(result.impact_assessment.candidates.some((candidate) => candidate.candidate_id === "hash:context-envelope-native-sha256" && candidate.evidence_kind === "observed-comparison"), true);
-  assert.equal(result.impact_assessment.retained_candidates.some((candidate) => candidate.candidate_id === "hash:context-envelope-native-sha256"), true);
-  assert.notEqual(result.impact_assessment.selected_candidate?.candidate_id, "hash:context-envelope-native-sha256");
   assert.equal(result.impact_assessment.candidates.some((candidate) => candidate.candidate_id === "hash:live-source-native-sha256" && candidate.evidence_kind === "observed-comparison"), true);
   assert.equal(result.impact_assessment.candidates.some((candidate) => candidate.candidate_id === "reuse:interaction-bound-content-projection" && candidate.evidence_kind === "observed-comparison"), true);
   assert.ok(result.phase_metrics["request-routing"].observation_checksum > 0);

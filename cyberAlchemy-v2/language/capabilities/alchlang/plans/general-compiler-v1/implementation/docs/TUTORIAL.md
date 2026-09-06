@@ -5,7 +5,10 @@ single `.alch` file can define all 13 DomainSpec backend types, logical constrai
 calculations, mappings, policies, actions, events, and explicit effect
 boundaries.
 
-This tutorial builds two examples:
+This tutorial covers the local generator and an explicit DomainSpec 1.0.0 target.
+The thirteen-kind language surface is broader than that target profile.
+
+The local-generator walkthrough builds two examples:
 
 - a read-only commerce model that demonstrates the SFOL logic and typed backend;
 - an order operation that binds an effect to a transactional Outbox provider.
@@ -17,6 +20,7 @@ belongs.
 ## On this page
 
 - [Five-minute quickstart](#five-minute-quickstart)
+- [Compile with DomainSpec 1.0.0](#compile-with-domainspec-100)
 - [How AlchLang is organized](#how-alchlang-is-organized)
 - [Create an AlchLang file](#create-an-alchlang-file)
 - [Express logic with SFOL](#express-logic-with-sfol)
@@ -48,6 +52,120 @@ The package requires Node.js 26.8.1 or newer. A successful `check` prints JSON
 with `"status": "valid"`; a successful `build` creates `manifest.json` and the
 generated domain files. Continue for the language model and a complete action
 workflow.
+
+## Compile with DomainSpec 1.0.0
+
+AlchLang's local generator accepts a broader language than the first external
+`domainspec-1.0.0` profile. The compiler package is `@domainspec-v2/cli@1.0.0`;
+its `v2` package name is not its release version. AlchLang retains its independent
+`0.4.0-candidate.0` version.
+
+Build the bound compiler from the repository root first:
+
+```bash
+npm --prefix projects/domainspec-v2/impl/cli run build
+```
+
+Then, from the AlchLang `implementation` directory:
+
+```bash
+npm run build
+node dist/cli.js domainspec --version
+node dist/cli.js check examples/domainspec-order.alch --profile domainspec-1.0.0
+node dist/cli.js emit-domainspec examples/domainspec-order.alch --out /tmp/order-project
+node dist/cli.js build examples/domainspec-order.alch --backend domainspec --language typescript --out /tmp/order-build
+```
+
+Use fresh output names: both output directories must not exist, even if empty.
+Their parent must be an existing real directory. This target rejects `--force`.
+`check` uses temporary files and removes them; it leaves no project output.
+`emit-domainspec` writes a compiled project bundle; `build` also generates and
+verifies the upstream TypeScript artifacts.
+
+The example has a companion
+[`domainspec-order.alch.domainspec.json`](../examples/domainspec-order.alch.domainspec.json).
+It binds the exact source SHA-256, source owner, declaration meanings and ontology
+selectors, every record property, Entity identity and Value Object Rule references.
+Supply a different file with `--bindings /absolute/path/bindings.json`. After
+editing source, review its meaning and update the source digest in the sidecar;
+changing a digest does not record owner approval.
+
+A completed build includes `project/`, `generated/`, `domain.ts`, source and binding
+snapshots, `trace.json`, `certificate.json`, `compiler-files.json` and
+`manifest.json`. The manifest is installed last; an incomplete directory is not
+a completed build. The checked `domain.ts` entry accepts source identifiers:
+
+```typescript
+import { evaluateMapping, selectPolicy } from "./order-build/domain.js";
+
+const message = evaluateMapping("OrderToMessage", { orderId: "order-42" });
+// { messageId: "order-42", currency: "GBP" }
+const selected = selectPolicy("ChooseDeliveryFee", { urgent: true, priority: true });
+// "ExpressFee": the first matching case wins; no fee calculation is invoked.
+```
+
+Compile `domain.ts` together with its generated imports using your application's
+TypeScript build before running this example. Raw generated record types do not
+automatically enforce Value Object invariants at runtime.
+
+Supported here: String/Bool records, identifier fields, bounded Boolean equality
+rules, input-free UInt64 constants no larger than `9007199254740991`, concrete
+mappings, and ordered policies selecting those constants. The local language's
+queries, parameterized calculations, integer record fields, threshold comparisons
+and effectful declarations are outside this first profile.
+
+### Trial an existing application
+
+The maintained `typed-backend.alch` commerce model uses several of those missing
+features. Try its exact, unmodified source with the candidate sidecar:
+
+```bash
+node dist/cli.js check examples/typed-backend.alch --profile domainspec-1.0.0 --bindings ../extensions/domainspec-application-trial-v1/typed-commerce.bindings.json
+```
+
+Expected result: rejection with `DS_UNSUPPORTED` for queries, not a migrated
+application. Its local generator remains usable. The
+[application trial and product review](../../extensions/domainspec-application-trial-v1/README.md)
+records the additional gaps and the numeric compatibility requirement. Do not
+remove queries, replace arithmetic with constants or coerce large UInt64 values
+to Number to hide a migration failure.
+
+### Migrate commerce with the exact profile
+
+The original profile's rejection above is preserved. The new, explicitly selected
+`domainspec-1.0.0-exact-uint64-v1` profile migrates the same commerce source:
+
+```bash
+node dist/cli.js build examples/typed-backend.alch --backend domainspec --language typescript --profile domainspec-1.0.0-exact-uint64-v1 --bindings ../extensions/domainspec-exact-uint64-v1/typed-commerce.bindings.json --out /tmp/commerce-exact
+```
+
+Rebuild DomainSpec and AlchLang as shown above before running this command. The
+bound compiler must advertise the exact realization capability; a version-only
+match is insufficient. Choose a new output directory each time.
+
+After compiling `commerce-exact/domain.ts` with its generated imports:
+
+```typescript
+import { evaluateQuery, evaluateCalculation, evaluateMapping, selectPolicy } from "./commerce-exact/domain.js";
+const rows = [{ order_id: "order-1", amount: 140, status: "open" }];
+const selected = evaluateQuery("OpenOrders", rows);
+const summary = evaluateMapping("SummarizeOrder", rows[0]);
+const calculation = selectPolicy("FeePolicy", { amount: 140 });
+const fee = evaluateCalculation(calculation, { amount: 140 }); // 145n
+const large = evaluateCalculation("ApplyFee", { amount: "9007199254740991" });
+// 9007199254740996n, exactly
+```
+
+Calculation inputs accept bigint, safe integer Numbers or canonical unsigned
+decimal strings; results are bigint. Record and policy integers accept bigint or
+nonnegative safe integer Numbers. Keep bigint values exact when transporting them
+outside JavaScript; JSON.stringify does not serialize bigint by default.
+
+Query and Mapping results preserve supplied values. Query sorting is stable and
+supports one sort key. Multiple keys, overlapping row/parameter names, unsafe
+numeric predicate/default literals and other unsupported constructs reject.
+Policy selection still performs no calculation until explicitly called.
+Read the [exact-profile reference](LANGUAGE.md#exact-uint64-profile) for limits.
 
 ## How AlchLang is organized
 
@@ -181,7 +299,7 @@ Workflows order multiple Operations within an admitted scope. Interfaces expose
 Operations or Queries across a declared internal or external boundary.
 
 The AlchLang compiler emits deterministic TypeScript contracts for these
-surfaces. The canonical DomainSpec v2 baseline separately realizes all 13 types
+surfaces. The separate DomainSpec 1.0.0 baseline separately realizes all 13 types
 in TypeScript, Python, and Rust through its private instantiation CLI; this
 tutorial does not imply that AlchLang currently emits Python or Rust.
 
@@ -626,3 +744,42 @@ and network access are supplied to explicit runtime commands.
 
 Use the [language reference](LANGUAGE.md) for declaration-level syntax and the
 [package README](../README.md) for concise command examples.
+
+## Commercial module example: Medusa quantity pricing
+
+The [quantity-price prototype](../../extensions/medusa-quantity-price-v1/README.md)
+uses a bounded slice of Medusa v2.18.0 pricing: one variant, USD base-price tiers,
+and an explicit quantity. Its `.alch` query selects eligible tiers by inclusive
+bounds and exact unit amount; its calculation computes the subtotal. A separate
+adapter converts Medusa major-unit decimal strings to UInt64 cents without
+rounding. Equal cheapest prices are reported as ambiguous.
+
+From the implementation directory, run:
+
+```sh
+node ../extensions/medusa-quantity-price-v1/demo.mjs
+```
+
+The example builds and executes through the DomainSpec exact UInt64 target.
+Its separate PostgreSQL harness compares with the actual pinned Medusa pricing
+repository. The module README owns scope limits and open questions.
+
+## Put the complete application in AlchLang
+
+The [complete quantity-price function](../../extensions/serverless-function-v1/quantity-price.alch)
+moves conversion, validation, integration bindings, outcome selection and HTTP
+exposure into source declarations. From the implementation directory:
+
+```sh
+node dist/cli.js check ../extensions/serverless-function-v1/quantity-price.alch
+node dist/cli.js build ../extensions/serverless-function-v1/quantity-price.alch --out /tmp/quantity-price-function-new
+```
+
+Supply `QUOTE_API_TOKEN` through the environment, then launch the generated
+`server.mjs`. The function serves authenticated `POST /quote`. Its integration
+can use a supplied snapshot or the declared HTTPS snapshot provider. See
+[Functions](FUNCTIONS.md) for the full contract, integration limits and open questions.
+
+## Corrected event and state semantics
+
+For the current bounded event-host prototype, use [`semantic-host-v1`](../../extensions/semantic-corrections-v1/README.md) and its complete [`orders.alch`](../../extensions/semantic-corrections-v1/orders.alch). The command supplies business inputs; the envelope supplies message identity; transitions read stored state; event payloads and consumer projections have separate types. The guide includes build commands, operator policy, HTTP input and snapshot migration. Earlier event/ontology-host examples are historical prototypes with known semantic defects documented by the review baseline.

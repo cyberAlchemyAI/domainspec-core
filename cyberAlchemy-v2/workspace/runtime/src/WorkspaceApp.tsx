@@ -6,11 +6,12 @@ import { WorkspaceRuntime } from "./domain/runtime";
 import { filterWorkspaceRecords, toWorkspaceViewModel, WORKSPACE_COLLECTIONS, type WorkspaceCollection, type WorkspaceRecord } from "./domain/workspace";
 import { AgentDock } from "./features/agents/AgentDock";
 import { markNextPaint } from "./performance";
-import { isSurfaceVisible } from "./features/control-center/layout";
+import { isSurfaceVisible, initialLayout, changeLayout, type LayoutPreset } from "./features/control-center/layout";
 import "./features/control-center/control-center.css";
+import { LunaWorkers } from "./features/control-center/LunaWorkers";
 
 const loadEssaysApp = () => import("@cyberalchemy/essays-runtime");
-const loadOntologyCanvas = () => import("./features/ontology/OntologyCanvas");
+const loadOntologyCanvas = () => import("./features/ontology/RuntimeOntology").then(m => ({ OntologyCanvas: m.default }));
 const loadChatSurface = () => import("./features/chat/ChatSurface");
 const loadFoundationSurface = () => import("./features/foundation/FoundationSurface");
 const EssaysApp = memo(lazy(loadEssaysApp));
@@ -130,6 +131,9 @@ export default function WorkspaceApp() {
   const [surface, setSurface] = useState<Surface>(initialSurface);
   const [controlCenter, setControlCenter] = useState(false);
   const [chatExpanded, setChatExpanded] = useState(false);
+  const [layout, setLayout] = useState(initialLayout);
+  const [proposedLayout, setProposedLayout] = useState<LayoutPreset>("balanced");
+  const [decisionsSlot, setDecisionsSlot] = useState<HTMLDivElement | null>(null);
   const visible = (candidate: Surface) => isSurfaceVisible(candidate, surface, controlCenter);
   const toggleControlCenter = () => {
     if (!controlCenter) setMountedSurfaces(current => {
@@ -204,7 +208,7 @@ export default function WorkspaceApp() {
   const receiveEssayWorkspace = useCallback((workspace: EssayWorkspace | null) => setEssayWorkspace(workspace), []);
 
   return (
-    <div className={`workspace-shell${controlCenter ? " workspace-control-center" : ""}${chatExpanded ? " chat-expanded" : ""}${surface === "chat" ? " chat-only" : ""}`}>
+    <div data-layout={layout.preset} className={`workspace-shell${controlCenter ? " workspace-control-center" : ""}${chatExpanded ? " chat-expanded" : ""}${surface === "chat" ? " chat-only" : ""}`}>
       <aside className="app-rail" aria-label="Application navigation">
         <div className="brand-mark" aria-label="CyberAlchemy Workspace"><AppIcon name="mark" /></div>
         <nav aria-label="Workspace surfaces">
@@ -220,12 +224,20 @@ export default function WorkspaceApp() {
         <div className="control-center-controls">
           <button type="button" aria-pressed={controlCenter} onClick={toggleControlCenter}>Control center · {controlCenter ? "On" : "Off"}</button>
           {controlCenter && <button type="button" aria-pressed={chatExpanded} onClick={() => setChatExpanded(value => !value)}>{chatExpanded ? "Compact chat" : "Expand chat"}</button>}
-          {controlCenter && <small>Layout prototype · artifact navigation does not change the chat target</small>}
+          {controlCenter && <>
+            <label>Layout <select aria-label="Proposed layout" value={proposedLayout} onChange={event => setProposedLayout(event.target.value as LayoutPreset)}><option value="balanced">Balanced</option><option value="writing">Writing</option><option value="canvas">Wide canvas</option></select></label>
+            <button disabled={layout.pinned || layout.preset === proposedLayout} onClick={() => setLayout(current => changeLayout(current, { type: "apply", preset: proposedLayout }))}>Apply layout</button>
+            <button aria-pressed={layout.pinned} onClick={() => setLayout(current => changeLayout(current, { type: "pin" }))}>{layout.pinned ? "Unpin layout" : "Pin layout"}</button>
+            <button disabled={layout.pinned || !layout.history.length} onClick={() => setLayout(current => changeLayout(current, { type: "undo" }))}>Undo layout</button>
+            <small>{proposedLayout === "writing" ? "Narrower reading measure" : proposedLayout === "canvas" ? "Full-width work canvas" : "Balanced work and conversation"} · target unchanged</small>
+          </>}
         </div>
+        <div className="control-center-decisions-slot" ref={setDecisionsSlot} />
+        {controlCenter && <LunaWorkers />}
         {mountedSurfaces.has("explore") && <div className="surface-view" hidden={!visible("explore")}><ExploreSurface onOpenEssays={openEssays} /></div>}
         {mountedSurfaces.has("foundation") && <div className="surface-view" hidden={!visible("foundation")}><Suspense fallback={<p className="surface-loading">Loading Foundation snapshot…</p>}><FoundationSurface /></Suspense></div>}
         {mountedSurfaces.has("ontology") && <div className="surface-view" hidden={!visible("ontology")}><Suspense fallback={<p className="surface-loading">Preparing ontology…</p>}><OntologyCanvas /></Suspense></div>}
-        {mountedSurfaces.has("chat") && <div className="surface-view control-center-chat" hidden={!visible("chat")}><Suspense fallback={<p className="surface-loading">Connecting to the Agent Reasoning Engine…</p>}><ChatSurface /></Suspense></div>}
+        {mountedSurfaces.has("chat") && <div className="surface-view control-center-chat" hidden={!visible("chat")}><Suspense fallback={<p className="surface-loading">Connecting to the Agent Reasoning Engine…</p>}><ChatSurface decisionsTarget={controlCenter ? decisionsSlot : null} /></Suspense></div>}
         {mountedSurfaces.has("essays") && <div className="surface-view" hidden={!visible("essays")}><Suspense fallback={<p className="surface-loading">Preparing Essays…</p>}><div className="essays-composition">
           <section className="essays-owned-plane" aria-label="Essays project capability">
             <div className="ownership-strip"><span>Essays-owned action plane</span><strong>Workspace composes · Essays decides</strong></div>

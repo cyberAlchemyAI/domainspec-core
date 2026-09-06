@@ -19,6 +19,7 @@ pub fn router_with_ui(application: Application) -> Router {
             .route("/", get(landing))
             .route("/console-experience/", get(console_experience))
             .route("/console-experience", get(console_experience))
+            .route("/cli-api", get(cli_api))
             .route("/assets/console-experience.css", get(console_experience_css))
             .route("/assets/console-experience.js", get(console_experience_js))
             .route("/workbench", get(workbench_redirect))
@@ -165,6 +166,7 @@ async fn cyberalchemy_lab_dark_vector() -> impl IntoResponse { ([(header::CONTEN
 async fn cyberalchemy_lab_light_vector() -> impl IntoResponse { ([(header::CONTENT_TYPE,"image/svg+xml")],include_str!("../static/assets/cyberalchemy-lab-logo-light-v2.svg")) }
 
 async fn console_experience() -> Response { page_response(include_str!("../static/console-experience.html")) }
+async fn cli_api() -> Response { page_response(include_str!("../static/cli-api.html")) }
 async fn console_experience_css() -> impl IntoResponse { ([(header::CONTENT_TYPE,"text/css; charset=utf-8")],include_str!("../static/assets/console-experience.css")) }
 async fn console_experience_js() -> impl IntoResponse { ([(header::CONTENT_TYPE,"text/javascript; charset=utf-8")],include_str!("../static/assets/console-experience.js")) }
 

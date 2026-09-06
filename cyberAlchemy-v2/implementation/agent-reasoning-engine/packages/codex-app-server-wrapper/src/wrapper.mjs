@@ -5,8 +5,9 @@ import {createEvidenceLedger} from "./evidence-ledger.mjs";
 import {evaluateTurnPreflight} from "./preflight.mjs";
 import {evaluateSemanticCompletion} from "./semantic-completion.mjs";
 import {emitCompletionImprovementSignals} from "./evolution-signals.mjs";
-import {addIntentLifecycleContext, prepareCodexIntentLifecycle} from "./intent-lifecycle.mjs";
-import {addObjectiveContext, createCodexObjectiveLifecycle} from "./objective-lifecycle.mjs";
+import {addIntentLifecycleContext, prepareCodexIntentLifecycle, INTENT_CONTEXT_KEY} from "./intent-lifecycle.mjs";
+import {addObjectiveContext, createCodexObjectiveLifecycle, OBJECTIVE_CONTEXT_KEY} from "./objective-lifecycle.mjs";
+import {createInteractionLearningLifecycle, addInteractionLearningContext, LEARNING_CONTEXT_KEY} from "./interaction-learning-lifecycle.mjs";
 import {deriveReasoningReceiptConstraints} from "./reasoning-receipt-constraints.mjs";
 import {
   acquireReasoningStateWriterLock,
@@ -124,9 +125,16 @@ export function createCodexAppServerWrapper(options) {
   let objectiveLifecycle;
   try {
     objectiveLifecycle = createCodexObjectiveLifecycle({ledger: reasoningLedger, profile_id: options.loaded_profile.profile_id,
-      configuration: options.loaded_profile.objective_resolution, provider: options.objective_provider});
+      configuration: options.loaded_profile.objective_resolution, provider: options.objective_provider,
+      requirement_seed_provider: options.requirement_seed_provider});
   } catch (error) { reasoningWriterLock?.release(); throw error; }
   const objectiveTurnsInFlight = new Set();
+  const learningEnabled = options.loaded_profile.interaction_learning?.enabled === true;
+  let learning;
+  try { learning = createInteractionLearningLifecycle({ledger: reasoningLedger,
+    configuration: options.loaded_profile.interaction_learning, input_provider: options.interaction_input_provider,
+    evolution: options.interaction_evolution});
+  } catch (error) {reasoningWriterLock?.release(); throw error;}
 
   for (const event of reasoningLedger.snapshot()) {
     const consumerRef = event.content?.consumer_ref;
@@ -338,6 +346,16 @@ export function createCodexAppServerWrapper(options) {
     });
     if (!cacheAffinity.ok) return fail("reasoning-dispatch", cacheAffinity.reason_codes, cacheAffinity.residue);
     const forwardedMessage = addIntentLifecycleContext(addContextFragment(result.forwarded_message, result.fragment, cacheAffinity), intentLifecycle);
+    if (result.objective_lifecycle?.requirement_continuity || result.interaction_learning?.view) {
+      const budget = Math.min(options.loaded_profile.context_projection?.max_inline_bytes ?? 32768, 32768);
+      // Charge additional semantic input against the existing selected-content
+      // budget. Cache projections and envelope metadata repeat that content on
+      // the wire and are not what max_inline_bytes measures.
+      const extraBytes = [OBJECTIVE_CONTEXT_KEY, INTENT_CONTEXT_KEY, LEARNING_CONTEXT_KEY].reduce((sum, key) =>
+        sum + Buffer.byteLength(forwardedMessage.params.additionalContext[key]?.value ?? '', "utf8"), 0);
+      const bytes = result.context_envelope.value.inline_bytes + extraBytes;
+      if (!Number.isSafeInteger(budget) || budget < 1 || !Number.isSafeInteger(bytes) || bytes > budget) return fail("reasoning-dispatch", ["requirements.shared-context-budget-exceeded"]);
+    }
     const dispatch = materializeReasoningDispatch({epoch: selectedEpoch, message: forwardedMessage, request_header: header});
     if (!dispatch.ok) return fail("reasoning-dispatch", dispatch.reason_codes, dispatch.residue);
     const verified = verifyReasoningDispatch(dispatch.value, {epoch: selectedEpoch, message: forwardedMessage});
@@ -374,6 +392,10 @@ export function createCodexAppServerWrapper(options) {
     if (!dispatchEvent.ok) return fail("reasoning-dispatch", dispatchEvent.reason_codes, dispatchEvent.residue);
     const checkpoint = reasoningLedger.checkpoint({checkpoint_kind: "before-model-request", epoch: selectedEpoch, subject_digest: dispatch.value.dispatch_digest});
     if (!checkpoint.ok) return fail("reasoning-dispatch", checkpoint.reason_codes, checkpoint.residue);
+    if (learningEnabled) {
+      const recorded = learning.dispatch(result.interaction_learning, dispatch.value.dispatch_digest, result.context_envelope.digest, intentLifecycle?.intent_contract);
+      if (!recorded.ok) return fail("interaction-learning", recorded.reason_codes);
+    }
     cacheAffinityByConsumer.set(binding.view_key, cacheAffinity);
     reasoningEpochByConsumer.set(binding.view_key, selectedEpoch);
     return freezeResult({
@@ -394,6 +416,8 @@ export function createCodexAppServerWrapper(options) {
     if (!pending || !nonEmptyString(turnId)) return null;
     pendingTurnStates.delete(String(rpcId));
     const state = freezeResult({...pending, turn_id: turnId});
+    const learningBinding = learning.bind(pending.rpc_id ?? rpcId, state.thread_id, turnId);
+    if (!learningBinding.ok) ledger.record({event_kind: "interaction-learning-blocked", direction: "wrapper", reason_codes: learningBinding.reason_codes});
     activeTurnStates.set(turnKey(state.thread_id, turnId), state);
     ledger.record({
       event_kind: "turn-state-bound",
@@ -516,10 +540,12 @@ export function createCodexAppServerWrapper(options) {
     const binding = resolveTurnBinding(message, bindingOverride);
     if (!binding) return fail("preflight", ["preflight.turn-binding-unresolved"]);
     let selectedSources = null;
+    const interaction = learning.prepare(message);
+    if (!interaction.ok) return fail("interaction-learning", interaction.reason_codes);
     const objective = await objectiveLifecycle.prepare(message, binding, async () => {
       selectedSources = await loadCurrentSources();
       return selectedSources;
-    });
+    }, interaction.view ? [{source_ref: `interaction-view:${interaction.view.record_digest}`, content: JSON.stringify(interaction.view)}] : []);
     if (!objective.ok) return freezeResult({ok: false, stage: "objective-resolution", ...objective, authority_effect: "none"});
     if (objective.resolution) ledger.record({event_kind: "objective-transition-resolved", direction: "wrapper", method: TURN_START,
       rpc_id: message.id, thread_id: message.params.threadId, objective_resolution_digest: objective.resolution.resolution_digest,
@@ -528,7 +554,7 @@ export function createCodexAppServerWrapper(options) {
     const current = selectedSources ?? await loadCurrentSources();
     if (!current?.ok) return fail("context-source-refresh", current?.reason_codes ?? ["context.source-refresh-failed"], current?.residue ?? []);
     const result = {...evaluateTurnPreflight({
-      message: addObjectiveContext(message, objective),
+      message: addInteractionLearningContext(addObjectiveContext(message, objective), interaction),
       objective_resolution: objective.resolution,
       turn_binding: binding,
       decision_profile: current.decision_profile,
@@ -540,7 +566,7 @@ export function createCodexAppServerWrapper(options) {
       previous_envelope: previousState?.envelope ?? null,
       current_sources: current.source_snapshot ?? [],
       projection_policy: options.loaded_profile.context_projection,
-    }), objective_lifecycle: objective};
+    }), objective_lifecycle: objective, interaction_learning: interaction};
     if (result.ok && result.action === "forward") {
       const view = result.composition.value.context_window_view.value;
       const envelope = result.context_envelope.value;
@@ -711,7 +737,7 @@ export function createCodexAppServerWrapper(options) {
     }
     const binding = resolveTurnBinding(effectiveMessage);
     const intentLifecycle = await prepareCodexIntentLifecycle({
-      configuration: options.loaded_profile.intent_compilation,
+      configuration: learningEnabled ? {...options.loaded_profile.intent_compilation, enabled: true} : options.loaded_profile.intent_compilation,
       objective_resolution: result.objective_lifecycle?.resolution,
       message: effectiveMessage,
       request_ref: `codex-rpc:${message.id}`,
@@ -720,8 +746,8 @@ export function createCodexAppServerWrapper(options) {
       route_candidate: result.composition?.value?.route_decision?.selected?.route_id ?? null,
       source_refs: result.context_envelope?.value?.selected_dependencies?.map((entry) => `${entry.source_identity}:${entry.source_digest}`) ?? [],
       previous_contract: intentContractsByThread.get(threadId) ?? null,
-      intent_provider: options.intent_provider,
-      correction_provider: options.correction_provider,
+      intent_provider: learningEnabled ? undefined : options.intent_provider,
+      correction_provider: learningEnabled ? undefined : options.correction_provider,
     });
     if (!intentLifecycle.ok) {
       return {...emptyActions(), to_client: [jsonRpcError(message.id, -32076, "Request intent compilation failed", intentLifecycle)]};
@@ -901,6 +927,7 @@ export function createCodexAppServerWrapper(options) {
     const admitted = admitJsonRpcMessage(message);
     if (!admitted.ok) return {...emptyActions(), to_client: [jsonRpcError(message?.id, -32600, "Invalid app-server JSON-RPC message", admitted)]};
 
+    learning.observe(message);
     const contextWindowObservation = contextWindowTracker.observe(message);
     if (contextWindowObservation.ok && contextWindowObservation.disposition === "observed") {
       const observation = contextWindowObservation.observation;
@@ -973,6 +1000,8 @@ export function createCodexAppServerWrapper(options) {
         message_digest: admitted.message_digest,
       });
       if (message.method === TURN_COMPLETED) {
+        const learningCompletion = learning.complete(message);
+        if (!learningCompletion.ok) ledger.record({event_kind: "interaction-learning-rejected", direction: "wrapper", method: TURN_COMPLETED, reason_codes: learningCompletion.reason_codes});
         const completionKey = turnKey(identity.thread_id, identity.turn_id);
         const recoveredFrontier = completionFrontiers.get(completionKey);
         if (recoveredFrontier) {
@@ -1136,17 +1165,25 @@ export function createCodexAppServerWrapper(options) {
           });
           internalSequence += 1;
           const nextMessage = freezeResult({jsonrpc: PROTOCOL_VERSION, id: `ca2-successor-${internalSequence}`, method: TURN_START, params: proposal.next_turn.params});
-          const successorThread = nextMessage.params.threadId;
+          const successorThread = learningEnabled ? "learning-product" : nextMessage.params.threadId;
           let preflightResult;
-          if (options.loaded_profile.objective_resolution?.enabled === true && objectiveTurnsInFlight.has(successorThread)) {
+          if ((learningEnabled || options.loaded_profile.objective_resolution?.enabled === true) && objectiveTurnsInFlight.has(successorThread)) {
             preflightResult = fail("objective-resolution", ["objective.concurrent-turn-in-progress"]);
           } else {
-            if (options.loaded_profile.objective_resolution?.enabled === true) objectiveTurnsInFlight.add(successorThread);
+            if (learningEnabled || options.loaded_profile.objective_resolution?.enabled === true) objectiveTurnsInFlight.add(successorThread);
             try { preflightResult = await preflight(nextMessage, successorBinding(proposal)); }
             finally { objectiveTurnsInFlight.delete(successorThread); }
           }
           if (preflightResult.ok && preflightResult.action === "forward") {
-            const successorReasoning = prepareModelDispatch(nextMessage, preflightResult, resolveTurnBinding(nextMessage, successorBinding(proposal)));
+            const successorIntent = await prepareCodexIntentLifecycle({
+              configuration: learningEnabled ? {...options.loaded_profile.intent_compilation, enabled: true} : options.loaded_profile.intent_compilation,
+              objective_resolution: preflightResult.objective_lifecycle?.resolution, message: nextMessage,
+              request_ref: `codex-rpc:${nextMessage.id}`, context_envelope_digest: preflightResult.context_envelope?.digest,
+              previous_contract: intentContractsByThread.get(nextMessage.params.threadId) ?? null,
+            });
+            const successorReasoning = successorIntent.ok
+              ? prepareModelDispatch(nextMessage, preflightResult, resolveTurnBinding(nextMessage, successorBinding(proposal)), successorIntent)
+              : successorIntent;
             if (!successorReasoning.ok) {
               actions.to_client.push(successorNotification({kind: "stopped", proposal_id: proposal.proposal_id, reasoning_dispatch: successorReasoning, authority_effect: "none"}));
               ledger.record({event_kind: "successor-stopped", direction: "wrapper", method: TURN_COMPLETED, thread_id: identity.thread_id, turn_id: identity.turn_id, decision_digest: directive.decision_digest, successor_proposal_id: proposal.proposal_id});
@@ -1154,7 +1191,7 @@ export function createCodexAppServerWrapper(options) {
               ledger.evict();
               return actions;
             }
-            rememberTurnStart(nextMessage, preflightResult, successorReasoning);
+            rememberTurnStart(nextMessage, preflightResult, successorReasoning, successorIntent);
             internalRequests.add(String(nextMessage.id));
             ledger.record({event_kind: "preflight-decision", direction: "wrapper", method: TURN_START, rpc_id: nextMessage.id, thread_id: nextMessage.params.threadId, message_digest: digestValue(nextMessage), decision_digest: preflightResult.directive.decision_digest});
             ledger.record({event_kind: "reasoning-dispatch-verified", direction: "wrapper", method: TURN_START, rpc_id: nextMessage.id, thread_id: nextMessage.params.threadId, message_digest: successorReasoning.dispatch.message_digest, reasoning_epoch_id: successorReasoning.epoch.epoch_id, reasoning_epoch_digest: successorReasoning.epoch.epoch_digest, checkpoint_digest: successorReasoning.checkpoint.checkpoint_digest, checkpoint_kind: "before-model-request", dispatch_digest: successorReasoning.dispatch.dispatch_digest, dispatch_verification_digest: successorReasoning.verification.verification_digest, request_header_digest: successorReasoning.dispatch.request_header_digest});
@@ -1181,14 +1218,17 @@ export function createCodexAppServerWrapper(options) {
 
   return Object.freeze({
     processClientMessage: async (message) => {
-      if (options.loaded_profile.objective_resolution?.enabled !== true || message?.method !== TURN_START) return processClientMessage(message);
-      const key = message.params?.threadId;
+      if ((!learningEnabled && options.loaded_profile.objective_resolution?.enabled !== true) || message?.method !== TURN_START) return processClientMessage(message);
+      const key = learningEnabled ? "learning-product" : message.params?.threadId;
       if (objectiveTurnsInFlight.has(key)) return {...emptyActions(), to_client: [jsonRpcError(message.id, -32078, "Objective turn is already in progress", {reason_codes: ["objective.concurrent-turn-in-progress"]})]};
       objectiveTurnsInFlight.add(key);
       try { return await processClientMessage(message); }
       finally { objectiveTurnsInFlight.delete(key); }
     },
     processServerMessage,
+    runLearningEvolution: learning.runEvolution,
+    inspectLearningState: learning.inspect,
+    controlLearning: learning.control,
     prepareForEviction,
     recordCacheTelemetry,
     ledger,

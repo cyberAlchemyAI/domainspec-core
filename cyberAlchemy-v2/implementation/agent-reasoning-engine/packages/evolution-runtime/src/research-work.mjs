@@ -6,8 +6,8 @@ function strings(xs) {
   check(Array.isArray(xs) && xs.every(text) && new Set(xs).size === xs.length, "research-work.invalid-set");
   return [...xs].sort();
 }
-export function materializeResearchPlan({research_dag, registrations, tasks}) {
-  check(verifyResearchDag(research_dag, registrations), "research-work.source-drift");
+export function materializeResearchPlan({research_dag, registrations, tasks, verify_registration}) {
+  check(verifyResearchDag(research_dag, registrations, verify_registration), "research-work.source-drift");
   check(Array.isArray(tasks) && tasks.length > 0 && tasks.length <= 1000, "research-work.tasks-invalid");
   const ids = new Set(), questions = new Set(research_dag.nodes.filter(n => n.kind === "question").map(n => n.node_id));
   const normalized = tasks.map(t => {
@@ -28,8 +28,8 @@ export function materializeResearchPlan({research_dag, registrations, tasks}) {
   return sealed("are.research-work-plan/v1", {research_dag, tasks: normalized, topological_order: order}, "plan_digest");
 }
 
-export function replayResearchWork({plan, registrations, events = [], verify_evidence}) {
-  check(canonicalJson(plan) === canonicalJson(materializeResearchPlan({research_dag:plan?.research_dag,registrations,tasks:plan?.tasks})), "research-work.plan-invalid");
+export function replayResearchWork({plan, registrations, events = [], verify_evidence, verify_registration}) {
+  check(canonicalJson(plan) === canonicalJson(materializeResearchPlan({research_dag:plan?.research_dag,registrations,tasks:plan?.tasks,verify_registration})), "research-work.plan-invalid");
   check(Array.isArray(events) && events.length <= 10000,"research-work.events-invalid");
   const lifecycle = new Map(plan.tasks.map(t => [t.task_id,{state:"planned",reason:null,evidence:[]}])), seen = new Set();
   function project() {
@@ -75,11 +75,11 @@ export function replayResearchWork({plan, registrations, events = [], verify_evi
     execution_effect:"none"}, "state_digest");
 }
 
-export function transitionResearchWork({plan,registrations,state,event,expected_state_digest,verify_evidence}) {
-  const current=replayResearchWork({plan,registrations,events:state?.events,verify_evidence});
+export function transitionResearchWork({plan,registrations,state,event,expected_state_digest,verify_evidence,verify_registration}) {
+  const current=replayResearchWork({plan,registrations,events:state?.events,verify_evidence,verify_registration});
   check(canonicalJson(current)===canonicalJson(state),"research-work.state-invalid");
   const previous=state.events.find(e=>e.event_id===event?.event_id);
   if(previous) {check(canonicalJson(previous)===canonicalJson(event),"research-work.event-conflict");return current;}
   check(expected_state_digest===state.state_digest,"research-work.stale-state");
-  return replayResearchWork({plan,registrations,events:[...state.events,event],verify_evidence});
+  return replayResearchWork({plan,registrations,events:[...state.events,event],verify_evidence,verify_registration});
 }

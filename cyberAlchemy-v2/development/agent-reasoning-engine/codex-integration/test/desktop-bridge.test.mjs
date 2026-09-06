@@ -10,7 +10,8 @@ const bridgePath = resolve(packageRoot, "client/desktop-bridge.mjs");
 const mockPath = resolve(packageRoot, "test/fixtures/mock-app-server.mjs");
 
 function harness() {
-  const child = spawn(process.execPath, [bridgePath, "--upstream", mockPath, "--cwd", "/tmp", "--allow-protocol-drift"], {
+  const child = spawn(process.execPath, [bridgePath, "--upstream", mockPath, "--cwd", "/tmp"], {
+    env: {...process.env, ARE_CODEX_TEST_FIXTURE: "workspace-mock-v1"},
     stdio: ["pipe", "pipe", "pipe"],
   });
   const events = [];

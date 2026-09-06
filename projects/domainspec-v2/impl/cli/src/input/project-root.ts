@@ -114,12 +114,15 @@ export function resolveProjectRoot(projectRoot: unknown): SourceManifestV1 {
   const root = normalizeProjectRoot(projectRoot);
   const inputs: SourceInput[] = [];
   const project = readSource(root, "project.json", "project", "project", null);
-  requireExactKeys(project.value, ["schema_version", "project_id", "features", "cross_feature_edges"], "/project.json");
-  if (project.value.schema_version !== "domainspec.project/v1") fail("SFC_INPUT_SCHEMA", "/project.json/schema_version", "unsupported project schema");
+  const extended = project.value.schema_version === "domainspec.project/v2";
+  requireExactKeys(project.value, ["schema_version", "project_id", "features", "cross_feature_edges", ...(extended ? ["compositions"] : [])], "/project.json");
+  if (project.value.schema_version !== "domainspec.project/v1" && !extended) fail("SFC_INPUT_SCHEMA", "/project.json/schema_version", "unsupported project schema");
   const projectId = requireId(project.value.project_id, "/project.json/project_id");
   const featureIds = requireIdArray(project.value.features, "/project.json/features");
+  const compositionIds = extended ? requireIdArray(project.value.compositions, "/project.json/compositions") : [];
+  if (extended && compositionIds.length !== 1) fail("SFC_INPUT_SCHEMA", "/project.json/compositions", "this profile requires exactly one function composition");
   const crossEdgeIds = requireIdArray(project.value.cross_feature_edges, "/project.json/cross_feature_edges");
-  if (featureIds.length + crossEdgeIds.length + 1 > MAX_PROJECT_SOURCES) fail("SFC_INPUT_SIZE", "/project.json", "declared project exceeds the source-count limit");
+  if (featureIds.length + crossEdgeIds.length + compositionIds.length + 1 > MAX_PROJECT_SOURCES) fail("SFC_INPUT_SIZE", "/project.json", "declared project exceeds the source-count limit");
   if (crossEdgeIds.length > MAX_PROJECT_RELATIONSHIPS) fail("SFC_INPUT_SIZE", "/project.json/cross_feature_edges", "declared project exceeds the relationship-count limit");
   inputs.push(project.input);
 
@@ -185,6 +188,12 @@ export function resolveProjectRoot(projectRoot: unknown): SourceManifestV1 {
     inputs.push(edge.input);
   }
 
+  for (const id of compositionIds) {
+    const source = readSource(root, `compositions/${id}.json`, "composition", id, null);
+    if (source.value.id !== id) fail("SFC_INPUT_WRONG_ROOT", `/compositions/${id}.json/id`, "composition identity mismatch");
+    inputs.push(source.input);
+  }
+  if (inputs.length > MAX_PROJECT_SOURCES) fail("SFC_INPUT_SIZE", "/sources", "source count exceeded");
   try {
     return buildSourceManifest(projectId, inputs);
   } catch (error) {

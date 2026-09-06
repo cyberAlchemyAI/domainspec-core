@@ -227,6 +227,13 @@ async function inspectOntology(screenshots) {
   const ontologyRail = await $('button[aria-label="Open Ontology"]');
   await ontologyRail.waitForClickable();
   await ontologyRail.click();
+  await expect($('section[aria-label="Event-calculated ontology browser"]')).toBeDisplayed();
+  await expect($("h1=Ontology & views")).toBeDisplayed();
+  // Retain the existing Workspace graph coverage via its explicit selector.
+  // The event-backed v4 API is a separate integration requirement, not proved here.
+  const workspaceGraph = await $("button=Show Workspace graph");
+  await workspaceGraph.waitForClickable();
+  await workspaceGraph.click();
   await expect($('//*[normalize-space()="Follow meaning through its relations."]')).toBeDisplayed();
 
   const portal = await $('button[aria-label="Focus Essays, Project Entry, proposed"]');
@@ -266,7 +273,6 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
   it("stages, writer-saves, accepts, and preserves terminal residue across relaunch", async () => {
     mkdirSync(ARTIFACT_DIRECTORY, { recursive: true });
     const capturedPerformanceSamples = [];
-    await browser.setWindowSize(1280, 820);
     await browser.waitUntil(async () => (await browser.getUrl()) !== "about:blank", {
       timeout: 15_000,
       timeoutMsg: "Tauri application document did not become available",
@@ -275,6 +281,9 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
     await browser.waitUntil(async () => await browser.execute(() =>
       (window.__CA2_PERFORMANCE_SAMPLES__ ?? []).some((sample) => sample.name === "chat.connect-to-ready"),
     ), { timeout: 5_000, timeoutMsg: "Workspace governed chat control plane did not become ready" });
+    // Tauri already configures the initial desktop size. Do not overlap a driver
+    // resize with the cold startup samples; normalize later geometry only now.
+    await browser.setWindowSize(1280, 820);
     await browser.execute(() => {
       window.localStorage.clear();
       const startupMetrics = new Set([
@@ -470,6 +479,14 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
     await expect($(".chat-message-assistant")).toHaveText(expect.stringContaining("Mock turn completed."));
     await expect($(".chat-status-ready")).toBeDisplayed();
     const chatPath = join(ARTIFACT_DIRECTORY, "governed-chat-1280x820.png");
+    const replyVisibility = await browser.execute(() => {
+      const reply = Array.from(document.querySelectorAll(".chat-message-assistant:not([hidden])"))
+        .find(element => element.textContent?.includes("Mock turn completed."));
+      const placeholder = document.querySelector(".chat-message-streaming[hidden]");
+      if (!reply || !placeholder) throw Error("CHAT_COMPLETED_REPLY_MISSING");
+      return {replyOpacity: getComputedStyle(reply).opacity, placeholderDisplay: getComputedStyle(placeholder).display};
+    });
+    expect(replyVisibility).toEqual({replyOpacity: "1", placeholderDisplay: "none"});
     await browser.saveScreenshot(chatPath);
     screenshots.push({ path: chatPath, sha256: screenshotDigest(chatPath) });
 
@@ -517,7 +534,7 @@ describe("unified Workspace and Essays Slice 3 through real Tauri IPC", () => {
         status,
         sampleCount: durations.length,
         samplesMs: durations,
-        ...(["workspace.tauri.snapshot", "essays.editor-input-to-projection", "chat.delta-to-projection", "chat.delta-to-paint"].includes(name)
+        ...(["workspace.tauri.snapshot", "workspace.tauri.chat-connect-dispatch", "essays.editor-input-to-projection", "chat.delta-to-projection", "chat.delta-to-paint"].includes(name)
           ? { sampleDetails: matchingSamples.map((sample) => sample.detail ?? null) }
           : {}),
         p95Ms,

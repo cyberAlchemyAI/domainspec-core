@@ -42,12 +42,13 @@ export function createConsoleSession({api, getProvider=()=>window.solana, apiBas
    await api('/v1/identities',{method:'POST',body:JSON.stringify({operation_id:identity.registrationOperation,identity_id:identity.identityId,wallet_public_key:identity.walletPublicKey,encryption_public_key:identity.publicKeyBase64,encryption_key_version:identity.keyVersion,authorization:await authorize(message)})});
    registered=true;return this.publicCard();
   },
-  async upload(exchange){
+  async upload(exchange,checkpoint=async()=>{}){
    assertIdentity();if(!exchange.policyAccepted)throw Error('Accept the retention policy.');
-   exchange.prepared??=await client.prepare(exchange.file,identity,randomHex(),RETENTION_POLICY,true);
+   if(!exchange.prepared){exchange.prepared=await client.prepare(exchange.file,identity,randomHex(),RETENTION_POLICY,true);exchange.context=exchange.prepared.context;await checkpoint();}
    const status=await client.upload(exchange.prepared);exchange.context=exchange.prepared.context;exchange.status=status;return status;
   },
   async share(exchange,recipient,consent,checkpoint=async()=>{}){
+   if(provider?.supportsTransactions===false)throw Error('This CLI signer supports API messages only. Lock and reconnect with a browser wallet to grant access.');
    assertIdentity();if(!exchange.context||!exchange.prepared)throw Error('Upload the original first.');
    if(!consent)throw Error('Confirm the wallet-approved Solana Devnet transactions.');
    const prepared=exchange.prepared,context=exchange.context;
@@ -64,7 +65,7 @@ export function createConsoleSession({api, getProvider=()=>window.solana, apiBas
   if(share.initializeStarted)throw Error('Initialization outcome is unresolved. Inspect the wallet history before retrying.');
   const instruction=await buildInitializeInstruction({walletPublicKey:identity.walletPublicKey,artifactId:context.artifactId,policyId:context.policyId,epoch:context.epoch,ciphertextSha256:context.ciphertextSha256,originatorEnvelopeSha256:prepared.request.artifact.originator_envelope_sha256,operationId:prepared.request.artifact.operation_id,apiBase:apiBase});
   await checkpointBeforeSubmission(share,'initializeStarted',checkpoint);
-  share.initializeSignature=await submitAndFinalize(provider,instruction.instruction,undefined,{onSubmitted:({signature})=>{share.initializeSignature=signature;}});initialized=true;prepared.initialized=true;
+  share.initializeSignature=await submitAndFinalize(provider,instruction.instruction,undefined,{onSubmitted:async({signature})=>{share.initializeSignature=signature;await checkpoint();}});initialized=true;prepared.initialized=true;await checkpoint();
   }
  }
  share.revision ??= (await api(`/v1/artifacts/${context.artifactId}`)).revision;
@@ -78,17 +79,18 @@ export function createConsoleSession({api, getProvider=()=>window.solana, apiBas
   const instruction=await buildGrantInstruction({walletPublicKey:identity.walletPublicKey,artifactId:context.artifactId,recipientWalletPublicKey:recipient.walletPublicKey,recipientEncryptionPublicKey:recipient.publicKeyBase64,recipientEnvelopeSha256:e.envelopeSha256,operationId:share.operation,expectedRevision:share.revision});
   if(share.grantStarted)throw Error('Grant outcome is unresolved. Inspect the wallet history before retrying.');
   share.artifactAccount=instruction.artifactAccount;await checkpointBeforeSubmission(share,'grantStarted',checkpoint);
-  share.signature=await submitAndFinalize(provider,instruction.instruction,undefined,{onSubmitted:({signature})=>{share.signature=signature;}});
+  share.signature=await submitAndFinalize(provider,instruction.instruction,undefined,{onSubmitted:async({signature})=>{share.signature=signature;await checkpoint();}});await checkpoint();
  }
  await verifyFinalizedSignature(share.signature);
- await api(`/v1/grants/${share.operation}/finalize`,{method:'POST',body:JSON.stringify({transaction_signature:share.signature,artifact_account:share.artifactAccount})});
+ await api(`/v1/grants/${share.operation}/finalize`,{method:'POST',body:JSON.stringify({transaction_signature:share.signature,artifact_account:share.artifactAccount})});share.finalized=true;await checkpoint();
  return share.context;
 
   },
-  async receive(exchange){
+  async receive(exchange,beforeAcknowledge=async()=>{}){
    assertIdentity();if(!exchange.policyAccepted)throw Error('Accept the retention policy.');
    exchange.received=await client.receive(exchange.context,identity,true);
    exchange.ackPending=true;
+   await beforeAcknowledge(exchange.received.file);
    return this.acknowledge(exchange);
   },
   async acknowledge(exchange){
@@ -96,6 +98,10 @@ export function createConsoleSession({api, getProvider=()=>window.solana, apiBas
    if(!exchange.received)throw Error('Download and verify the original first.');
    const receipt=await exchange.received.acknowledge();exchange.ackPending=false;exchange.receipt=receipt;
    await this.refresh(exchange);return receipt;
+  },
+  async resumeAcknowledgement(exchange,receiptState){
+   assertIdentity();if(!exchange.policyAccepted)throw Error('Accept the retention policy.');
+   const receipt=await client.acknowledgeReceipt(exchange.context,identity,receiptState,true);exchange.ackPending=false;exchange.receipt=receipt;await this.refresh(exchange);return receipt;
   },
   async refresh(exchange){
    if(!exchange.context)throw Error('Upload or open a handoff first.');

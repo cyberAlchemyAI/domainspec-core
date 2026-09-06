@@ -54,6 +54,30 @@ export interface AreChatConnection {
   disconnect(): Promise<void>;
 }
 
+export function nativeConnectTimingDetail(value: unknown): Record<string, unknown> {
+  const keys = ["processAcquireMs", "processLockMs", "channelBindMs", "totalMs"] as const;
+  if (!value || typeof value !== "object") return { nativeTimingStatus: "unavailable" };
+  const timing = value as Record<string, unknown>;
+  if (keys.some((key) => typeof timing[key] !== "number" || !Number.isFinite(timing[key]) || (timing[key] as number) < 0)) {
+    return { nativeTimingStatus: "invalid" };
+  }
+  const phases = keys.slice(0, 3).reduce((sum, key) => sum + (timing[key] as number), 0);
+  if (Math.abs(phases - (timing.totalMs as number)) > 0.001) return { nativeTimingStatus: "invalid" };
+  const wall: Record<string, unknown> = {};
+  if ("enteredUnixMs" in timing || "boundUnixMs" in timing) {
+    if (![timing.enteredUnixMs, timing.boundUnixMs].every(value => typeof value === "number" && Number.isSafeInteger(value) && value >= 0)
+      || (timing.boundUnixMs as number) < (timing.enteredUnixMs as number)) return { nativeTimingStatus: "invalid" };
+    wall.nativeEnteredUnixMs = timing.enteredUnixMs;
+    wall.nativeBoundUnixMs = timing.boundUnixMs;
+  }
+  return {
+    ...wall,
+    nativeTimingStatus: "observed",
+    nativeTiming: Object.fromEntries(keys.map((key) => [key, timing[key]])),
+    nativeTimingBoundary: "command-entry-to-channel-bound; excludes IPC and response delivery",
+  };
+}
+
 export type AreChatBridgeDetection =
   | { status: "available"; connect(onEvent: (event: AreChatEvent) => void): Promise<AreChatConnection> }
   | { status: "unavailable"; reason: "web-mode" | "tauri-invoke-unavailable" | "tauri-channel-unavailable" };
@@ -100,17 +124,20 @@ export function detectAreChatBridge(
       channel.onmessage = onEvent;
       await measureAsync(
         "workspace.tauri.chat-cold-ipc-handshake",
-        async () => {
-          const prewarmed = await invoke<boolean>("chat_control_plane_status", {});
-          if (typeof requestAnimationFrame === "function") {
-            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-          }
-          return prewarmed;
-        },
+        // Connecting the control plane must not depend on renderer frame delivery.
+        () => invoke<boolean>("chat_control_plane_status", {}),
       );
+      const connectDetail: Record<string, unknown> = { nativeTimingStatus: "unavailable" };
       const info = await measureAsync(
         "workspace.tauri.chat-connect-dispatch",
-        () => invoke<Omit<AreChatConnection, "send" | "disconnect">>("chat_connect", { onEvent: channel }),
+        async () => {
+          connectDetail.invokeStartedUnixMs = Date.now();
+          const response = await invoke<Omit<AreChatConnection, "send" | "disconnect"> & { nativeTiming?: unknown }>("chat_connect", { onEvent: channel });
+          connectDetail.invokeResolvedUnixMs = Date.now();
+          Object.assign(connectDetail, nativeConnectTimingDetail(response.nativeTiming));
+          return response;
+        },
+        connectDetail,
       );
       await measureAsync(
         "workspace.tauri.chat-event-replay-dispatch",
