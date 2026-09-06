@@ -19,11 +19,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     };
     let listener = tokio::net::TcpListener::bind(bind).await?;
+    let expiry_task = tokio::spawn(application.clone().run_file_expiry());
     println!("KEP hosted Devnet service listening on http://{bind}");
     axum::serve(listener, router(application))
         .with_graceful_shutdown(async {
             let _ = tokio::signal::ctrl_c().await;
         })
         .await?;
+    expiry_task.abort();
     Ok(())
 }

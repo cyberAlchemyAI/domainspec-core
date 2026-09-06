@@ -2,34 +2,7 @@
  * CyberAlchemy Exchange · powered by KEP
  * Visual source: Arcanum documentation and CyberAlchemy × Arcanum presentation.
  */
-:root {
-  color-scheme: light;
-  --ink: #151515;
-  --black: #050505;
-  --shell: #20252a;
-  --paper: #fdfaf3;
-  --surface: #fffdf8;
-  --paper-soft: #f6f0e4;
-  --line: #e3ded2;
-  --text: #151515;
-  --muted: #626262;
-  --dim: #7f8385;
-  --red: #e60023;
-  --red-deep: #991022;
-  --orange: #e85d18;
-  --amber: #f0a43c;
-  --teal: #088f8a;
-  --green: #2f8b57;
-  --blue: #2e6bb8;
-  --violet: #5c55b8;
-  --mint: #e60023;
-  --danger: #b4232b;
-  --shadow: 0 18px 60px rgba(21, 21, 21, .12);
-  --shadow-soft: 0 10px 32px rgba(21, 21, 21, .07);
-  --font-ui: "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Iowan Old Style", Baskerville, "Times New Roman", ui-serif, serif;
-  font-family: var(--font-ui);
-}
+/* Shared foundations are owned by design-system.css. */
 
 html { background: var(--paper); }
 body {
@@ -2256,3 +2229,55 @@ body[data-view="home"] > footer { display: none; }
   .persistent-error { top: 62px; grid-template-columns: auto 1fr; padding-right: .75rem; }
   .persistent-error-actions { grid-column: 2; }
 }
+
+/* White-paper reading hierarchy; scoped away from console and landing. */
+.paper-article { min-width: 0; }
+.paper-article h1 { font-size: clamp(2.5rem, 5.2vw, 4.5rem); line-height: 1.06; letter-spacing: -.045em; max-width: 15ch; }
+.paper-article > section { scroll-margin-top: 6rem; }
+.paper-article > section > p { max-width: 65ch; }
+.paper-mobile-contents { display: none; }
+.paper-article details { border-top: 1px solid var(--line); margin: 1rem 0; }
+.paper-article summary { cursor: pointer; min-height: 44px; padding: .8rem 1.5rem .8rem 0; position: relative; list-style: none; font-size: .9rem; line-height: 1.5; }
+.paper-article summary::-webkit-details-marker { display: none; }
+.paper-article summary::after { content: '›'; position: absolute; right: .3rem; top: .8rem; font-size: 1.2rem; transition: transform .15s; }
+.paper-article details[open] > summary::after { transform: rotate(90deg); }
+.paper-article summary:focus-visible, .paper-mobile-contents a:focus-visible { outline: 3px solid var(--red); outline-offset: 4px; border-radius: 3px; }
+.paper-article .paper-evidence-row { margin: 0; }
+.paper-evidence-row > summary { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1.5rem; padding-block: 1.15rem; }
+.paper-evidence-row .evidence-title { font-weight: 650; }
+.paper-evidence-row .evidence-result { font-size: .83rem; color: #57534c; }
+.paper-evidence-row .evidence-limit { grid-column: 1 / -1; margin-top: .35rem; font-size: .75rem; color: #686159; }
+.paper-evidence-row > p { font-size: .9rem; max-width: 65ch; }
+.paper-article .paper-receipt { max-width: 60ch; margin: .5rem 0 1.25rem; }
+.paper-receipt p { overflow-wrap: anywhere; }
+.paper-article > .claim-boundary { padding: 1.5rem 0; background: transparent; color: var(--ink); border-top: 1px solid var(--line); }
+.paper-article > .claim-boundary h2 { font-size: 2rem; color: var(--ink); }
+.paper-article > .claim-boundary p { color: #625d55; }
+@media (max-width: 1000px) {
+ .paper-view .paper-toc { display: none; }
+ .paper-mobile-contents { display: block; }
+ .paper-mobile-contents nav { display: grid; grid-template-columns: 1fr 1fr; gap: .25rem 1rem; padding-bottom: 1rem; }
+ .paper-mobile-contents a { display: flex; align-items: center; min-height: 44px; color: var(--ink); font-size: .85rem; }
+ .paper-article h1 { font-size: clamp(2.5rem, 7vw, 3.5rem); }
+}
+@media (max-width: 600px) {
+ .paper-evidence-row > summary { grid-template-columns: 1fr; gap: .25rem; }
+ .paper-evidence-row .evidence-limit { margin-top: .2rem; }
+ .paper-article .paper-meta { flex-wrap: wrap; gap: .5rem 1rem; }
+ .paper-article h2 { font-size: 1.8rem; }
+}
+@media (prefers-reduced-motion: reduce) { .paper-article summary::after { transition: none; } }
+
+/* Approved vector identities on the workbench and paper. */
+.topbar .workbench-lab-logo { display: block; width: 190px; height: auto; max-width: 100%; }
+.paper-article h1.paper-brand-title { max-width: none; margin-block: 1.5rem; }
+.paper-brand-title img { display: block; width: 230px; height: auto; max-width: 100%; }
+.paper-brand-title span { display: block; margin-top: 1rem; font: 400 1.8rem/1.25 Georgia, serif; letter-spacing: -.02em; }
+@media (max-width: 600px) {
+ .topbar .workbench-lab-logo { width: 158px; }
+ .paper-brand-title img { width: 170px; }
+ .paper-brand-title span { font-size: 1.3rem; max-width: 24ch; line-height: 1.35; }
+}
+
+/* Hide the redundant destination link on the paper itself. */
+body[data-view="paper"] .site-nav .nav-paper { display: none; }

@@ -65,7 +65,10 @@ pub fn register_message(
     encryption_key: &str,
     version: u64,
 ) -> String {
-    format!("ca2:kep:hosted:v1:register:{operation}:{identity}:{wallet}:{encryption_key}:{version}")
+    signed_message(
+        "register",
+        &(operation, identity, wallet, encryption_key, version),
+    )
 }
 
 pub fn artifact_message(
@@ -77,7 +80,18 @@ pub fn artifact_message(
     ciphertext_digest: &str,
     envelope_digest: &str,
 ) -> String {
-    format!("ca2:kep:hosted:v1:artifact:{operation}:{identity}:{artifact}:{policy}:{epoch}:{ciphertext_digest}:{envelope_digest}")
+    signed_message(
+        "artifact",
+        &(
+            operation,
+            identity,
+            artifact,
+            policy,
+            epoch,
+            ciphertext_digest,
+            envelope_digest,
+        ),
+    )
 }
 
 pub fn grant_message(
@@ -88,11 +102,22 @@ pub fn grant_message(
     revision: u64,
     envelope_digest: &str,
 ) -> String {
-    format!("ca2:kep:hosted:v1:grant:{operation}:{artifact}:{originator}:{recipient}:{revision}:{envelope_digest}:0")
+    signed_message(
+        "grant",
+        &(
+            operation,
+            artifact,
+            originator,
+            recipient,
+            revision,
+            envelope_digest,
+            0,
+        ),
+    )
 }
 
 pub fn access_message(artifact: &str, requester: &str, revision: u64) -> String {
-    format!("ca2:kep:hosted:v1:access:{artifact}:{requester}:{revision}")
+    signed_message("access", &(artifact, requester, revision))
 }
 
 pub fn reissue_request_message(
@@ -104,7 +129,18 @@ pub fn reissue_request_message(
     replacement_version: u64,
     revision: u64,
 ) -> String {
-    format!("ca2:kep:hosted:v1:reissue-request:{operation}:{artifact}:{recipient}:{previous_version}:{replacement_key}:{replacement_version}:{revision}")
+    signed_message(
+        "reissue-request",
+        &(
+            operation,
+            artifact,
+            recipient,
+            previous_version,
+            replacement_key,
+            replacement_version,
+            revision,
+        ),
+    )
 }
 
 pub fn reissue_fulfill_message(
@@ -115,5 +151,32 @@ pub fn reissue_fulfill_message(
     revision: u64,
     envelope_digest: &str,
 ) -> String {
-    format!("ca2:kep:hosted:v1:reissue-fulfill:{operation}:{artifact}:{originator}:{recipient}:{revision}:{envelope_digest}")
+    signed_message(
+        "reissue-fulfill",
+        &(
+            operation,
+            artifact,
+            originator,
+            recipient,
+            revision,
+            envelope_digest,
+        ),
+    )
+}
+
+/// This candidate is bound to the canonical hosted Devnet service. Other deployments
+/// must choose their own audience in both signer and verifier; no v1 fallback.
+pub const SIGNING_AUDIENCE: &str = "https://kep.cyberalchemylab.com";
+pub fn signed_message(action: &str, fields: &impl serde::Serialize) -> String {
+    format!(
+        "ca2:kep:authorization:v2:{}",
+        serde_json::to_string(&(
+            SIGNING_AUDIENCE,
+            crate::DEVNET_GENESIS_HASH,
+            crate::PROGRAM_ID,
+            action,
+            fields
+        ))
+        .expect("authorization fields serialize")
+    )
 }

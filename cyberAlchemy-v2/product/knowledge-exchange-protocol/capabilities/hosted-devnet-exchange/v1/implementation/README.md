@@ -105,3 +105,20 @@ CA2_KEP_TEST_DATABASE_URL='postgres://...' \
 proxy in front after domain, TLS and firewall inputs are explicitly selected.
 Set a strong database password outside Git. The included archive table is an
 immutable logical layer, not the required independent off-host backup.
+
+
+### One writer per PostgreSQL database
+
+The hosted persistence adapter acquires a PostgreSQL session advisory lock
+before migrations or state loading. A second instance fails startup. All
+persistence uses the same dedicated connection, shared by application clones;
+it is not pooled or automatically reconnected. Connection loss therefore
+prevents the old instance from committing a stale snapshot after takeover.
+Restart the failed instance to reload state only after the previous writer has
+released its connection. A replacement can acquire the lock after shutdown or
+connection termination. This is single-writer exclusion, not active-active
+replication. In-memory read routes may still show stale state on a disconnected
+instance; remove that instance from service. Advisory locking assumes all KEP
+writers use this adapter; older binaries and direct SQL writers must be stopped
+before upgrading. Transaction-pooling proxies are not supported for this session
+lock; use a direct connection or session pooling.

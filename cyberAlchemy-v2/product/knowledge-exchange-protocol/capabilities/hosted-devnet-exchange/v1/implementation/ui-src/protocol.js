@@ -232,7 +232,11 @@ function hpkeAad(context) {
 }
 
 export async function encryptKnowledge(plaintext, artifactId, policyId, epoch = 1) {
-  const plaintextBytes = textEncoder.encode(plaintext);
+  return encryptBytes(textEncoder.encode(plaintext), artifactId, policyId, epoch);
+}
+
+export async function encryptBytes(plaintextBytes, artifactId, policyId, epoch = 1) {
+  if (!(plaintextBytes instanceof Uint8Array)) throw new TypeError("Expected binary bytes");
   if (plaintextBytes.length === 0) throw new Error("Knowledge cannot be empty.");
   const plaintextCommitment = await sha256Hex(
     concatBytes(textEncoder.encode("KEP:PLAINTEXT-CONTENT:v1\0"), plaintextBytes),
@@ -255,6 +259,10 @@ export async function encryptKnowledge(plaintext, artifactId, policyId, epoch = 
 }
 
 export async function decryptKnowledge(ciphertextBase64, contentKeyBase64, context) {
+  return textDecoder.decode(await decryptBytes(ciphertextBase64, contentKeyBase64, context));
+}
+
+export async function decryptBytes(ciphertextBase64, contentKeyBase64, context) {
   const packaged = base64ToBytes(ciphertextBase64);
   if (packaged.length < 41) throw new Error("Encrypted artifact is truncated.");
   const nonce = packaged.subarray(0, 24);
@@ -273,7 +281,7 @@ export async function decryptKnowledge(ciphertextBase64, contentKeyBase64, conte
       { cause, stage: "local_decryption" },
     );
   }
-  return textDecoder.decode(plaintext);
+  return plaintext;
 }
 
 export async function sealContentKey(recipientPublicKeyBase64, contentKeyBase64, context) {
@@ -321,19 +329,17 @@ export async function openContentKey(envelopeBase64, recipientPrivateKeyBase64, 
   }
 }
 
+export const SIGNING_AUDIENCE = 'https://kep.cyberalchemylab.com';
+export const signedMessage = (action, fields) => 'ca2:kep:authorization:v2:'+JSON.stringify([
+  SIGNING_AUDIENCE, 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG', PROGRAM_ID, action, fields
+]);
 export const messages = {
-  register: (operation, identity, wallet, encryptionKey, version) =>
-    `ca2:kep:hosted:v1:register:${operation}:${identity}:${wallet}:${encryptionKey}:${version}`,
-  artifact: (operation, identity, artifact, policy, epoch, ciphertextDigest, envelopeDigest) =>
-    `ca2:kep:hosted:v1:artifact:${operation}:${identity}:${artifact}:${policy}:${epoch}:${ciphertextDigest}:${envelopeDigest}`,
-  grant: (operation, artifact, originator, recipient, revision, envelopeDigest) =>
-    `ca2:kep:hosted:v1:grant:${operation}:${artifact}:${originator}:${recipient}:${revision}:${envelopeDigest}:0`,
-  access: (artifact, requester, revision) =>
-    `ca2:kep:hosted:v1:access:${artifact}:${requester}:${revision}`,
-  reissueRequest: (operation, artifact, recipient, previousVersion, replacementKey, replacementVersion, revision) =>
-    `ca2:kep:hosted:v1:reissue-request:${operation}:${artifact}:${recipient}:${previousVersion}:${replacementKey}:${replacementVersion}:${revision}`,
-  reissueFulfill: (operation, artifact, originator, recipient, revision, envelopeDigest) =>
-    `ca2:kep:hosted:v1:reissue-fulfill:${operation}:${artifact}:${originator}:${recipient}:${revision}:${envelopeDigest}`,
+  register: (...fields) => signedMessage('register', fields),
+  artifact: (...fields) => signedMessage('artifact', fields),
+  grant: (...fields) => signedMessage('grant', [...fields, 0]),
+  access: (...fields) => signedMessage('access', fields),
+  reissueRequest: (...fields) => signedMessage('reissue-request', fields),
+  reissueFulfill: (...fields) => signedMessage('reissue-fulfill', fields),
 };
 
 function u64le(value) {

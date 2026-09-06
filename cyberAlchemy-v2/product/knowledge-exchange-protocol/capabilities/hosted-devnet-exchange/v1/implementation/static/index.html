@@ -9,13 +9,14 @@
   <link rel="icon" href="./assets/cyberalchemy-mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/style.css">
   <link rel="stylesheet" href="./assets/brand.css">
+  <link rel="stylesheet" href="./assets/design-system.css">
   <script defer src="./assets/app.js"></script>
 </head>
 <body data-view="home">
+  <a class="skip-link" href="#top">Skip to content</a>
   <header class="topbar">
-    <a class="brand" href="#home" data-view-target="home" aria-label="CyberAlchemy Lab home">
-      <img class="brand-mark" src="./assets/cyberalchemy-mark.svg" alt="">
-      <span class="brand-copy"><strong>CyberAlchemy Lab</strong><small>Exchange · Powered by KEP</small></span>
+    <a class="brand" href="/" aria-label="CyberAlchemy Lab home">
+      <img class="workbench-lab-logo" src="/assets/cyberalchemy-lab-logo-light-v2.svg" width="470" height="110" alt="CyberAlchemy Lab">
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
       <a class="nav-paper" href="#white-paper" data-view-target="paper" aria-label="Read the KEP white paper">
@@ -24,7 +25,7 @@
         <span class="paper-cta-label copy-variant" data-copy-version="3">Read the KEP architecture <i>↗</i></span>
         <span class="nav-paper-short" aria-hidden="true">White Paper <i>↗</i></span>
       </a>
-      <a class="nav-explore" href="#explore" data-view-target="explore" aria-label="Enter the Exchange"><span class="nav-explore-long">Enter Exchange</span><span class="nav-explore-short" aria-hidden="true">Enter</span></a>
+      <a class="nav-explore" href="/console-experience/" aria-label="Enter the Exchange"><span class="nav-explore-long">Enter Exchange</span><span class="nav-explore-short" aria-hidden="true">Enter</span></a>
       <label class="locale-switch">
         <span class="visually-hidden">Language</span>
         <img class="locale-flag" data-locale-flag src="/assets/flag-us.svg" alt="">
@@ -49,7 +50,7 @@
     </div>
   </header>
 
-  <main id="top" class="shell">
+  <main id="top" class="shell" tabindex="-1">
     <section id="home-view" class="site-view home-view" aria-labelledby="home-title">
       <div class="home-copy">
         <h1 id="home-title">CyberAlchemy Exchange</h1>
@@ -104,17 +105,30 @@
           <a href="#paper-logic">Protocol logic</a>
           <a href="#paper-architecture">Architecture</a>
           <a href="#paper-flow">Protocol flow</a>
+          <a href="#paper-correctness">Correctness evidence</a>
           <a href="#paper-boundary">Claim boundary</a>
         </nav>
         <button class="paper-explore" type="button" data-view-target="explore">Explore KEP →</button>
       </aside>
       <article class="paper-article">
         <header>
-          <span class="paper-label">White paper overview · Draft 0.2</span>
-          <h1 id="paper-title">Knowledge Expansion Protocol</h1>
+          <span class="paper-label">White paper overview · Draft 0.3</span>
+          <h1 id="paper-title" class="paper-brand-title"><img src="/assets/kep-logo-light-v2.svg" width="310" height="104" alt="KEP"><span>Knowledge Expansion Protocol</span></h1>
           <p class="paper-deck">The evidence-bound protocol beneath CyberAlchemy Exchange, expanding access to encrypted knowledge without erasing its origin.</p>
-          <div class="paper-meta"><span>CyberAlchemy Exchange</span><span>Evidence current through 4 Sep 2026</span><span>Not approved for publication</span></div>
+          <div class="paper-meta"><span>CyberAlchemy Exchange</span><span>Development evidence · 6 Sep 2026</span><span>Not approved for publication</span></div>
         </header>
+        <details class="paper-mobile-contents"><summary>Contents</summary><nav aria-label="Paper sections">
+          <a href="#paper-abstract">Abstract</a>
+          <a href="#paper-cryptography">Cryptography & custody</a>
+          <a href="#paper-problem">The problem</a>
+          <a href="#paper-model">Core model</a>
+          <a href="#paper-types">Type model</a>
+          <a href="#paper-logic">Protocol logic</a>
+          <a href="#paper-architecture">Architecture</a>
+          <a href="#paper-flow">Protocol flow</a>
+          <a href="#paper-correctness">Correctness evidence</a>
+          <a href="#paper-boundary">Claim boundary</a>
+        </nav></details>
 
         <section id="paper-abstract">
           <h2>Abstract</h2>
@@ -139,7 +153,8 @@
             <figcaption><b>Solana recognizes access; it does not perform decryption.</b> Finalized state tells the service which prepared envelope may be released. Only B’s private encryption key makes that envelope usable.</figcaption>
           </figure>
 
-          <div class="custody-table-wrap">
+          <details class="paper-disclosure"><summary>Cryptography and custody details</summary>
+          <div class="custody-table-wrap" role="region" aria-label="Cryptography custody comparison" tabindex="0">
             <table class="custody-table">
               <thead><tr><th>Component</th><th>Can see</th><th>Performs</th><th>Never receives</th></tr></thead>
               <tbody>
@@ -157,6 +172,7 @@
             <article><span>Authorization</span><strong>Wallet signature + policy</strong><p>HPKE Base mode does not authenticate A. A’s signing-key binding, wallet signature, propagation policy, and Solana program checks authorize the grant separately.</p></article>
           </div>
           <p class="paper-clarification"><b>This is public-key encryption, not a traditional certificate-authority PKI.</b> The protocol binds a stable Knowledge Identity to a versioned encryption public key. The envelope carries an encrypted content key—not a generic “decryption key.”</p>
+          </details>
           <aside class="paper-residue"><strong>Reissue still has a custody requirement.</strong><p>To create a replacement envelope, A or another policy-authorized fulfiller must be able to recover the existing content key and seal it to B’s replacement public key. The browser trial demonstrates this locally; durable production recovery and custody of that key remain unresolved architecture obligations.</p></aside>
         </section>
 
@@ -300,10 +316,64 @@
           <button class="paper-cta" type="button" data-view-target="explore">Run the KEP process <span>→</span></button>
         </section>
 
+        <section id="paper-development" class="paper-section">
+          <h2>Your account, your originals.</h2>
+          <p>The console uses wallet-signed requests and an encrypted account backup. Keep the recovery file privately: wallet access alone cannot restore your encryption keys.</p>
+          <p>Original files up to 10 MB stay encrypted. The first verified download acknowledgement starts a one-year expiry timer; each later acknowledged download resets it. Before the first, there is no deadline. Extraction remains planned provenance.</p>
+          <details><summary>What the local tests establish</summary>
+            <p>Recovery restored an identical original. Interrupted saves and download acknowledgements were retried; stale account saves were rejected. A later PostgreSQL repair rejects a second writer and fences writes after connection loss. Browser tests preceded that repair, so a combined run remains due.</p>
+            <p>Download acknowledgement is not proof of saving to disk. A recovery file is not a payload backup. Lost recovery secrets, independent backup deletion, real wallet compatibility, and live-chain testing remain open. A disconnected service can still return stale reads.</p>
+          </details>
+          <a href="/console-experience/">Open the connected console →</a>
+        </section>
+
+        <section id="paper-correctness">
+          <span class="paper-section-kicker">Correctness evidence</span>
+          <h2>What supports the design?</h2>
+          <p>Evidence for specific properties, each tied to its tested source snapshot.</p>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Protocol model</span><span class="evidence-result">Lean theorem checked twice</span><small class="evidence-limit">Historical model · no implementation refinement</small></summary>
+            <p>The modeled grant preserves A, adds B, binds the envelope commitment, advances revision, consumes replay identity, and keeps consideration zero.</p>
+            <p><strong>Scope:</strong> Historical formal-model receipt. No proof that Rust or Solana faithfully implements the model.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-LEAN-EVIDENCE<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">dd054c07a433ef8aa156b769ccbd7bbce205778db7ae1cb2620ca494a868f34f</code></small></p></details>
+          </details>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Broader formal checks</span><span class="evidence-result">7 claims · 15 deterministic projections</span><small class="evidence-limit">Historical bounded models · no end-to-end proof</small></summary>
+            <p>Recorded bounded checks across Lean, TLC, and Alloy cover encoding, storage gating, grant, activation, reissue, cost separation, and secret placement.</p>
+            <p><strong>Scope:</strong> Historical EVF PASS_BOUNDED. Model assumptions and finite bounds apply; no end-to-end implementation refinement.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-EVF-FORMAL-RECEIPT-V2<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">3c8553c4fe1694ca8e4021c2178e4628bfa0eeef3177b5ec0434c89e79933b38</code></small></p></details>
+          </details>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Checkpoint recovery</span><span class="evidence-result">34 JavaScript tests passed</span><small class="evidence-limit">Local tests · no live-chain submission</small></summary>
+            <p>Six added regressions exercise checkpoint failure and submission ambiguity. Known pre-submission failures can retry; restored uncertain submissions stay blocked.</p>
+            <p><strong>Scope:</strong> September 6 local test run. No live-chain submission or arbitrary crash-recovery proof.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-SEP6-CHECKPOINT<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">e881a83ed844cefec73dc3d633de317ab8a04a97740d50c661a4ad16b3714499</code></small></p></details>
+          </details>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Original-file recovery</span><span class="evidence-result">Identical original recovered</span><small class="evidence-limit">Test signer · before writer repair</small></summary>
+            <p>An isolated browser restored identity and a 10,246-byte original with the same SHA-256 digest, and retried interrupted saves and download acknowledgements.</p>
+            <p><strong>Scope:</strong> September 6 browser run before the writer repair. Test signer only; no wallet-extension or memory-zeroization proof.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-SEP6-BROWSER-RECOVERY<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">558db330165db86d529446d8c5484dfc152b9f1b81c3a6352c701c7e835f4982</code></small></p></details>
+          </details>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Lost responses and stale tabs</span><span class="evidence-result">Retry preserved revision · stale save rejected</span><small class="evidence-limit">One process · no divergent-edit merge</small></summary>
+            <p>After a committed response was dropped, retry used the same ciphertext and revision. A competing stale tab received HTTP 409; explicit discard and recovery succeeded.</p>
+            <p><strong>Scope:</strong> One backend process, before the writer repair. Divergent-edit merging and backend crashes were not tested.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-SEP6-COMMIT-TABS<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">d2275ad2052c1cef2f0a893acb7b9bb62c865fda9a98789fa7b905e46fe3e635</code></small></p></details>
+          </details>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Database writer exclusion</span><span class="evidence-result">9 Rust + 4 PostgreSQL tests passed</span><small class="evidence-limit">Participating writers · stale reads remain possible</small></summary>
+            <p>The repair checks second-writer rejection, takeover after shutdown, and failure of stale writes after connection loss. A separate process test confirmed startup exclusion and takeover.</p>
+            <p><strong>Scope:</strong> September 6 repair run. Participating upgraded writers only; disconnected reads can remain stale.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-SEP6-SINGLE-WRITER<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">c5fcaf03a99e5708570fd072535e5501a14955f2eda8d7469d3511a25526378a</code></small></p></details>
+          </details>
+          <details class="paper-evidence-row"><summary><span class="evidence-title">Independent review</span><span class="evidence-result">Candidate 011 · bounded pass</span><small class="evidence-limit">Historical candidate · ten medium residues</small></summary>
+            <p>Review 009 recorded zero unresolved high or critical findings and ten carried medium residues for its exact frozen candidate.</p>
+            <p><strong>Scope:</strong> Historical candidate review, not a review of the current hosted console or a production security clearance.</p>
+            <details class="paper-receipt"><summary>Inspect receipt</summary><p><small>Receipt: LOCAL-EVF-INDEPENDENT-REVIEW-009<br>SHA-256: <code style="overflow-wrap:anywhere;word-break:break-word">9ad256e4b2803f1efccd122529dc7bf06b469bba7b86d355b0d33c5609ccb875</code></small></p></details>
+          </details>
+          <details class="paper-disclosure"><summary>Still open</summary><p><strong>Still unproved:</strong> a combined browser journey after the writer repair, exact Rust-to-model refinement, real wallet compatibility, independent backup recovery, and production security. Hash matching establishes which receipt was inspected; it does not independently verify the receipt’s experiment.</p></details>
+        </section>
+
         <section id="paper-boundary" class="claim-boundary">
           <span>Present claim boundary</span>
-          <h2>An implemented research candidate, not a completed protocol trial.</h2>
-          <p>This overview does not establish legal ownership, licensing rights, marketplace value, production security, Mainnet readiness, or publication approval. The current source is not one frozen product candidate, the hosted binding has drifted from accepted bytes, and eight reachable residuality paths still lack external evidence. The next construction step is baseline integration and a new exact product candidate—not automatic deployment. Production still requires security review, wallet compatibility testing, independent backup and content-key recovery, a separately authorized hosted two-party trial, operational infrastructure, and legal and user research.</p>
+          <h2>A research candidate.</h2>
+          <p>Selected properties have evidence. Full-system correctness and production readiness remain unproved.</p>
+          <details class="paper-disclosure"><summary>Remaining work and claim limits</summary><p>This overview does not establish legal ownership, licensing rights, marketplace value, production security, Mainnet readiness, or publication approval. The current source is not one frozen product candidate, the hosted binding has drifted from accepted bytes, and historical residuality counts describe their original snapshots. The next construction step is a combined recovery run against one frozen product candidate. Production still requires security review, wallet compatibility testing, independent backup and content-key recovery, a separately authorized hosted two-party trial, operational infrastructure, and legal and user research.</p></details>
         </section>
       </article>
     </section>
@@ -359,18 +429,18 @@
         </section>
 
         <aside class="journey-footnotes" aria-label="Exchange details">
-          <details>
-            <summary>What stays private?</summary>
-            <p>Plaintext, the content key, and private encryption keys stay in this browser tab. The service receives sealed material; Devnet records commitments and owner state.</p>
-          </details>
-          <details>
+          <details open>
             <summary>Current owner state <strong id="ownership-state">{ A }</strong></summary>
             <p>A remains an owner. B joins only after the matching grant is finalized and independently observed.</p>
           </details>
-          <details>
+          <details open>
             <summary>Activity</summary>
             <div class="activity-head"><button id="copy-log" class="text-button" type="button">Copy log</button></div>
             <ol id="activity-log" class="activity-log"><li><time>ready</time><span>No protocol effect has occurred.</span></li></ol>
+          </details>
+          <details>
+            <summary>What stays private?</summary>
+            <p>Plaintext, the content key, and private encryption keys stay in this browser tab. The service receives sealed material; Devnet records commitments and owner state.</p>
           </details>
           <button id="clear-session" class="text-button clear-session" type="button">Clear this browser session</button>
         </aside>

@@ -3,11 +3,22 @@
 //! This crate accepts ciphertext and public material only. It never accepts a
 //! wallet secret, encryption private key, content key, or plaintext artifact.
 
+pub mod accounts;
+pub mod clock;
 pub mod api;
 pub mod auth;
+#[cfg(feature = "ui")]
+pub mod file_ui;
+pub mod files;
 pub mod finality;
+pub mod transition;
 pub mod model;
+pub mod limits;
+pub mod response_admission;
+pub mod transport;
 pub mod store;
+pub mod shared_state;
+pub mod metadata;
 #[cfg(feature = "ui")]
 pub mod ui;
 

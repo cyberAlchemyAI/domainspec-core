@@ -34,6 +34,11 @@ use crate::{
     CAPABILITY_ID, PROGRAM_ID,
 };
 
+#[path = "file_routes.rs"]
+mod file_routes;
+#[path = "account_routes.rs"]
+mod account_routes;
+
 const MAX_ENCRYPTED_BYTES: usize = 4 * 1024 * 1024;
 static ERROR_SEQUENCE: AtomicU64 = AtomicU64::new(1);
 
@@ -42,6 +47,10 @@ pub struct Application {
     database: Arc<RwLock<Database>>,
     persistence: Persistence,
     finality: FinalityGateway,
+    clock: Arc<dyn Fn() -> u64 + Send + Sync>,
+    limits: crate::limits::Limits,
+    admission: Arc<crate::limits::Admission>,
+    transfers: crate::response_admission::TransferPool,
 }
 
 impl Application {
@@ -50,6 +59,10 @@ impl Application {
             database: Arc::new(RwLock::new(Database::default())),
             persistence: Persistence::Memory,
             finality,
+            limits: crate::limits::Limits::default(),
+            admission: Arc::new(crate::limits::Admission::new(&crate::limits::Limits::default())),
+            clock: Arc::new(crate::clock::process_clock()),
+            transfers: crate::response_admission::TransferPool::new(4),
         }
     }
 
@@ -60,7 +73,24 @@ impl Application {
             database: Arc::new(RwLock::new(database)),
             persistence,
             finality,
+            limits: crate::limits::Limits::default(),
+            admission: Arc::new(crate::limits::Admission::new(&crate::limits::Limits::default())),
+            clock: Arc::new(crate::clock::process_clock()),
+            transfers: crate::response_admission::TransferPool::new(4),
         })
+    }
+
+    /// Inject a clock for deterministic lifecycle tests, before serving requests.
+    pub fn with_clock(mut self, clock: impl Fn() -> u64 + Send + Sync + 'static) -> Self {
+        self.clock = Arc::new(clock);
+        self
+    }
+
+    /// Configure before serving; each application has one shared limiter.
+    pub fn with_limits(mut self, limits: crate::limits::Limits) -> Self {
+        self.admission = Arc::new(crate::limits::Admission::new(&limits));
+        self.limits = limits;
+        self
     }
 
     pub async fn snapshot(&self) -> Database {
@@ -70,7 +100,10 @@ impl Application {
 
 pub fn router(application: Application) -> Router {
     Router::new()
+        .merge(file_routes::routes())
+        .merge(account_routes::routes())
         .route("/health", get(health))
+        .route("/ready", get(readiness))
         .route("/v1/identities", post(register_identity))
         .route("/v1/artifacts", post(create_artifact))
         .route("/v1/artifacts/{artifact_id}", get(artifact_state))
@@ -81,6 +114,7 @@ pub fn router(application: Application) -> Router {
         .route("/v1/reissues/{operation_id}/fulfill", post(fulfill_reissue))
         .route("/v1/client-errors", post(record_client_error))
         .route("/v1/client-errors/{attempt_id}", get(client_error_state))
+        .layer(axum::middleware::from_fn_with_state(application.clone(), bound_request))
         .with_state(application)
 }
 
@@ -103,6 +137,13 @@ async fn health() -> Json<Health<'static>> {
     })
 }
 
+async fn readiness(State(app): State<Application>) -> impl IntoResponse {
+    let ready = app.persistence.ready().await;
+    (if ready { StatusCode::OK } else { StatusCode::SERVICE_UNAVAILABLE },
+     [(axum::http::header::CACHE_CONTROL, "no-store")],
+     Json(serde_json::json!({"status": if ready { "ready" } else { "unavailable" }})))
+}
+
 #[derive(Debug)]
 struct ApiError {
     status: StatusCode,
@@ -117,6 +158,10 @@ impl ApiError {
             code,
             message: message.into(),
         }
+    }
+
+    fn capacity(message: impl Into<String>) -> Self {
+        Self { status: StatusCode::INSUFFICIENT_STORAGE, code: "storage_capacity", message: message.into() }
     }
 
     fn forbidden(message: impl Into<String>) -> Self {
@@ -321,11 +366,21 @@ async fn record_client_error(
         }
     }
     let mut guard = app.database.write().await;
+    if let Some(existing) = guard.client_errors.get(&request.attempt_id) {
+        if serde_json::to_value(existing).map_err(|_| ApiError::unavailable("Cannot compare telemetry"))?
+            != serde_json::to_value(&request).map_err(|_| ApiError::unavailable("Cannot compare telemetry"))? {
+            return Err(ApiError::conflict("attempt already bound to different telemetry"));
+        }
+        // Retry only the separate journal, whose insert is itself idempotent.
+        drop(guard);
+        app.persistence.record_client_error(&request).await.map_err(ApiError::unavailable)?;
+        return Ok((StatusCode::ACCEPTED, Json(ClientErrorEventReceipt {attempt_id: request.attempt_id, status: "recorded".into()})));
+    }
     let mut candidate = guard.clone();
     candidate
         .client_errors
-        .entry(request.attempt_id.clone())
-        .or_insert_with(|| request.clone());
+        .insert(request.attempt_id.clone(), request.clone());
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(&candidate, "client_error_recorded", &request.attempt_id)
         .await
@@ -440,6 +495,7 @@ async fn register_identity(
     candidate
         .consumed_operations
         .insert(request.operation_id.clone());
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(&candidate, "identity_registered", &request.identity_id)
         .await
@@ -533,6 +589,7 @@ async fn create_artifact(
     candidate
         .consumed_operations
         .insert(request.operation_id.clone());
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(
             &candidate,
@@ -621,6 +678,7 @@ async fn prepare_grant(
             transaction_signature: None,
         },
     );
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(&candidate, "grant_prepared", &request.operation_id)
         .await
@@ -638,9 +696,21 @@ async fn finalize_grant(
     Path(operation_id): Path<String>,
     Json(request): Json<FinalizeGrantRequest>,
 ) -> Result<Json<OperationResponse>, ApiError> {
+    let expected_transition = {
+        let db=app.database.read().await;
+        let grant=db.grants.get(&operation_id).ok_or_else(||ApiError::missing("prepared grant is not registered"))?;
+        if grant.status!=GrantStatus::Prepared {return Err(ApiError::conflict("grant is already finalized"));}
+        let recipient=identity(&db,&grant.recipient_id)?;
+        crate::transition::TransitionExpectation {
+            artifact_id:grant.artifact_version_id.clone(), originator_wallet:identity(&db,&grant.originator_id)?.wallet_public_key.clone(),
+            recipient_wallet:recipient.wallet_public_key.clone(), recipient_key_base64:recipient.encryption_public_key.clone(),
+            envelope_sha256:grant.envelope.envelope_sha256.clone(), expected_revision:grant.expected_revision,
+            grant_operation_id:Some(operation_id.clone()),
+        }
+    };
     let observation = app
         .finality
-        .observe(&request.transaction_signature, &request.artifact_account)
+        .observe_transition(&request.transaction_signature, &request.artifact_account, &expected_transition)
         .await
         .map_err(ApiError::unavailable)?;
     let mut guard = app.database.write().await;
@@ -653,7 +723,8 @@ async fn finalize_grant(
         return Err(ApiError::conflict("grant is already finalized"));
     }
     let recipient = identity(&guard, &grant.recipient_id)?;
-    if observation.finality != "finalized"
+    if recipient.encryption_public_key != expected_transition.recipient_key_base64
+        || observation.finality != "finalized"
         || observation.artifact_version_id != grant.artifact_version_id
         || observation.recipient_wallet_public_key != recipient.wallet_public_key
         || observation.recipient_envelope_sha256 != grant.envelope.envelope_sha256
@@ -687,6 +758,7 @@ async fn finalize_grant(
     finalized.status = GrantStatus::Finalized;
     finalized.transaction_signature = Some(request.transaction_signature);
     candidate.consumed_operations.insert(operation_id.clone());
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(&candidate, "grant_finalized", &operation_id)
         .await
@@ -705,6 +777,12 @@ async fn access(
     Json(request): Json<AccessRequest>,
 ) -> Result<Json<AccessResponse>, ApiError> {
     let guard = app.database.read().await;
+    if guard.files.contains_key(&artifact_id) {
+        return Err(ApiError::bad(
+            "file_access_required",
+            "use the file access endpoint",
+        ));
+    }
     let requester = identity(&guard, &request.requester_id)?;
     let artifact = guard
         .artifacts
@@ -803,6 +881,7 @@ async fn request_reissue(
             transaction_signature: None,
         },
     );
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(&candidate, "reissue_requested", &request.operation_id)
         .await
@@ -826,9 +905,24 @@ async fn fulfill_reissue(
         "replacement envelope",
     )
     .map_err(input)?;
+    let expected_transition = {
+        let db=app.database.read().await;
+        let reissue=db.reissues.get(&operation_id).ok_or_else(||ApiError::missing("reissue request is not registered"))?;
+        let artifact=db.artifacts.get(&reissue.artifact_version_id).ok_or_else(||ApiError::missing("artifact is not registered"))?;
+        if artifact.originator_id!=request.originator_id {return Err(ApiError::forbidden("originator mismatch"));}
+        let originator=identity(&db,&request.originator_id)?;
+        verify_wallet_signature(&originator.wallet_public_key,&request.authorization,&reissue_fulfill_message(
+            &operation_id,&reissue.artifact_version_id,&request.originator_id,&reissue.recipient_id,reissue.expected_revision,&request.replacement_envelope_sha256
+        )).map_err(ApiError::forbidden)?;
+        crate::transition::TransitionExpectation {
+            artifact_id:reissue.artifact_version_id.clone(),originator_wallet:originator.wallet_public_key.clone(),
+            recipient_wallet:identity(&db,&reissue.recipient_id)?.wallet_public_key.clone(),recipient_key_base64:reissue.replacement_public_key.clone(),
+            envelope_sha256:request.replacement_envelope_sha256.clone(),expected_revision:reissue.expected_revision,grant_operation_id:None,
+        }
+    };
     let observation = app
         .finality
-        .observe(&request.transaction_signature, &request.artifact_account)
+        .observe_transition(&request.transaction_signature, &request.artifact_account, &expected_transition)
         .await
         .map_err(ApiError::unavailable)?;
     let mut guard = app.database.write().await;
@@ -943,6 +1037,7 @@ async fn fulfill_reissue(
     finalized.status = ReissueStatus::Finalized;
     finalized.transaction_signature = Some(request.transaction_signature);
     candidate.consumed_operations.insert(operation_id.clone());
+    app.limits.validate_growth(&guard, &candidate).map_err(ApiError::capacity)?;
     app.persistence
         .save(&candidate, "reissue_finalized", &operation_id)
         .await
@@ -970,4 +1065,36 @@ async fn artifact_state(
         revision: artifact.revision,
         encryption_epoch: artifact.encryption_epoch,
     }))
+}
+
+async fn bound_request(
+    State(app): State<Application>, request: axum::extract::Request, next: axum::middleware::Next,
+) -> Response {
+    if let Some(axum::extract::ConnectInfo(clock)) = request.extensions().get::<axum::extract::ConnectInfo<crate::transport::TransferClock>>() {
+        if clock.wait_idle().await.is_err() { return ApiError::unavailable("Connection closed; retry on a new connection.").into_response(); }
+    }
+    if matches!(request.uri().path(), "/health" | "/ready") { return next.run(request).await; }
+    let limited = |retry: u64| {
+        (StatusCode::TOO_MANY_REQUESTS, [("retry-after", retry.to_string()), ("cache-control", "no-store".into())],
+         Json(serde_json::json!({"error":"request_capacity","message":"Service is busy. Wait before trying again."}))).into_response()
+    };
+    let _permit = match app.admission.permits.clone().try_acquire_owned() {
+        Ok(permit) => permit, Err(_) => return limited(1),
+    };
+    let telemetry = request.uri().path() == "/v1/client-errors";
+    if let Err(retry) = app.admission.admit(&app.limits, telemetry) { return limited(retry); }
+    // Bound slow/oversized request bodies without cancelling a database write.
+    // The permit is acquired before reading any body bytes.
+    let body_limit = match request.uri().path() {
+        "/v1/files" => crate::files::MAX_FILE_REQUEST,
+        "/v1/account/write" => 1_500_000,
+        _ => 2 * 1024 * 1024,
+    };
+    let (parts, body) = request.into_parts();
+    let bytes = match tokio::time::timeout(std::time::Duration::from_secs(15), axum::body::to_bytes(body, body_limit)).await {
+        Err(_) => return (StatusCode::REQUEST_TIMEOUT, Json(serde_json::json!({"error":"request_timeout","message":"Request body timed out."}))).into_response(),
+        Ok(Err(_)) => return (StatusCode::PAYLOAD_TOO_LARGE, Json(serde_json::json!({"error":"request_body_rejected","message":"Request body is invalid or exceeds its limit."}))).into_response(),
+        Ok(Ok(bytes)) => bytes,
+    };
+    next.run(axum::extract::Request::from_parts(parts, axum::body::Body::from(bytes))).await
 }

@@ -1,16 +1,23 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
+use crate::shared_state::{SharedMap, SharedSet};
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Database {
-    pub identities: BTreeMap<String, KnowledgeIdentity>,
-    pub artifacts: BTreeMap<String, Artifact>,
-    pub grants: BTreeMap<String, PreparedGrant>,
-    pub reissues: BTreeMap<String, ReissueRequest>,
-    pub consumed_operations: BTreeSet<String>,
     #[serde(default)]
-    pub client_errors: BTreeMap<String, ClientErrorEventRequest>,
+    pub accounts: SharedMap<crate::accounts::AccountRecord>,
+    #[serde(default)]
+    pub files: SharedMap<crate::files::FileRecord>,
+    #[serde(skip)]
+    pub file_payloads: SharedMap<String>,
+    pub identities: SharedMap<KnowledgeIdentity>,
+    pub artifacts: SharedMap<Artifact>,
+    pub grants: SharedMap<PreparedGrant>,
+    pub reissues: SharedMap<ReissueRequest>,
+    pub consumed_operations: SharedSet,
+    #[serde(default)]
+    pub client_errors: SharedMap<ClientErrorEventRequest>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

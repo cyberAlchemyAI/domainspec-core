@@ -216,7 +216,7 @@ test("public handoff cards fail at the boundary before cryptography or network w
 test("browser messages and Solana instructions match the hosted contracts", async () => {
   assert.equal(
     messages.grant("op", "artifact", "a", "b", 0, "digest"),
-    "ca2:kep:hosted:v1:grant:op:artifact:a:b:0:digest:0",
+    JSON.parse(await readFile(new URL('../tests/fixtures/authorization-v2.json',import.meta.url),'utf8')).grant,
   );
   const wallet = "8dbzfBijfp79PJGdzihADpCdE4hGJVLLdhyQPPXS9ki9";
   const recipientWallet = "KA8sUcQbFrVt8yDYpjZxUuDQAKAbHpwe9stMa3EciQJ";
@@ -273,9 +273,11 @@ test("interface separates the narrative pages from the task-first KEP journey", 
   for (const view of ["home-view", "paper-view", "explore-view"]) {
     assert.match(html, new RegExp(`id="${view}"`));
   }
-  for (const target of ["home", "paper", "explore"]) {
+  for (const target of ["paper", "explore"]) {
     assert.match(html, new RegExp(`data-view-target="${target}"`));
   }
+  assert.match(html, /class="brand" href="\/"/);
+  assert.match(html, /class="nav-explore" href="\/console-experience\/"/);
   for (const task of ["share", "receive", "restore", "inspect"]) {
     assert.match(source, new RegExp(`data-task=\\"${task}\\"`));
   }
@@ -349,4 +351,34 @@ test("interface separates the narrative pages from the task-first KEP journey", 
   assert.match(source, /Copy public card/);
   assert.doesNotMatch(source, /const stepOrder/);
   assert.doesNotMatch(html, /wallet_private_key|encryption_private_key|content_key_base64/i);
+});
+
+
+test('versioned signing vectors match Rust and bind field boundaries', async () => {
+  const v=JSON.parse(await readFile(new URL('../tests/fixtures/authorization-v2.json',import.meta.url),'utf8'));
+  const {accountMessage}=await import('./account-client.js');
+  const {commandMessage}=await import('./file-client.js');
+  assert.equal(messages.register('op:part','identity','wallet','key',1),v.register);
+  assert.notEqual(messages.register('op','part:identity','wallet','key',1),v.register);
+  assert.equal(accountMessage('read',{wallet_public_key:'wallet',expires_at:123}),v.accountRead);
+  assert.equal(commandMessage('access','artifact',{requester_id:'identity',attempt_id:'attempt',policy_accepted:true},'digest',2),v.fileAccess);
+});
+
+test('receipt fixtures stay aligned with the browser transaction builders', async () => {
+  const f=JSON.parse(await readFile(new URL('../tests/fixtures/receipt-transactions.json',import.meta.url),'utf8'));
+  const {Transaction,TransactionMessage,AddressLookupTableAccount,PublicKey}=await import('@solana/web3.js');
+  const {default:bs58}=await import('bs58');
+  for(const [name,builder] of [['grant',buildGrantInstruction],['reissue',buildFulfillReissueInstruction]]) {
+    const built=await builder(f.input);
+    const message=new Transaction({feePayer:new PublicKey(f.input.walletPublicKey),recentBlockhash:'11111111111111111111111111111111'}).add(built.instruction).compileMessage();
+    assert.equal(built.artifactAccount,f[name].artifactAccount);
+    assert.deepEqual({header:message.header,accountKeys:message.accountKeys.map(x=>x.toString()),instructions:message.instructions},f[name].response.result.transaction.message);
+  }
+  const built=await buildGrantInstruction(f.input);
+  const addresses=built.instruction.keys.slice(2).map(x=>x.pubkey);
+  const table=new AddressLookupTableAccount({key:new PublicKey('11111111111111111111111111111111'),state:{deactivationSlot:18446744073709551615n,lastExtendedSlot:0,lastExtendedSlotStartIndex:0,addresses}});
+  const m=new TransactionMessage({payerKey:new PublicKey(f.input.walletPublicKey),recentBlockhash:'11111111111111111111111111111111',instructions:[built.instruction]}).compileToV0Message([table]);
+  assert.deepEqual({header:m.header,accountKeys:m.staticAccountKeys.map(x=>x.toString()),instructions:m.compiledInstructions.map(x=>({programIdIndex:x.programIdIndex,accounts:x.accountKeyIndexes,data:bs58.encode(x.data)}))},f.v0.response.result.transaction.message);
+  const lookup=m.addressTableLookups[0];
+  assert.deepEqual({writable:lookup.writableIndexes.map(n=>addresses[n].toString()),readonly:lookup.readonlyIndexes.map(n=>addresses[n].toString())},f.v0.response.result.meta.loadedAddresses);
 });
