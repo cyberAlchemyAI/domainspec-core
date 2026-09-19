@@ -1,0 +1,101 @@
+domain body-war-evidence "TROQAR evidence contracts"
+profile bound-application-v1
+owner body-war-owner
+
+enum ActivityEvidenceCandidateStatus:
+  meaning "Candidate-review states; submission is not acceptance."
+  values ["submitted","operator_review","accepted","rejected"]
+
+record ActivityEvidenceCandidate:
+  meaning "Explicitly consented redacted summary bound to runner and route."
+  fields {"id":"string","suggestedTrackId":"string","principalId":"string","provider":"StravaProvider","providerActivityId":"string","redactedSummary":"record","consentText":"string","consentedAt":"string","status":"ActivityEvidenceCandidateStatus","createdAt":"string","updatedAt":"string"}
+
+record AttachEvidenceRequest:
+  meaning "Explicit acknowledgement, consent text and provider activity id."
+  fields {"activity_id":"string","consent_acknowledged":"boolean?","consent_text":"string?"}
+
+record EvidenceResponse:
+  meaning "Created candidate and updated route state."
+  fields {"evidence_candidate":"PublicEvidence","suggested_track":"PublicTrack?"}
+
+configuration EvidencePolicy:
+  meaning "The generated consent predicate is necessary; provider visibility and duplicate checks remain required adapter steps."
+  values {"consentRequired":true,"duplicateScope":["principalId","suggestedTrackId","providerActivityId"],"retention":"until deletion or consent revocation; repository disposal removes candidate and resets empty track","providerRevocation":"disconnect and erase stored provider ciphertext","authority":{"activity_summary":"redacted_candidate","route_geometry":"not_claimed","scoring":"not_claimed"}}
+
+operation AttachEvidence:
+  meaning "Attach only a visible provider activity with explicit consent, redaction and duplicate rejection."
+  adapter "PilotHttp"
+  entry "handleSuggestedTrackEvidenceCreate"
+  signature "response-request-param"
+  input "AttachEvidenceRequest"
+  output "EvidenceResponse"
+  authentication "connected"
+  permission "body-war.suggested-track-evidence.create"
+  effects ["check:generated-consent","consult:own-Strava-activity","reject:duplicate","persist:redacted-candidate","transition:TrackEvidenceLifecycle"]
+  tests ["../app/tests/auth-consumer.test.ts","../app/tests/evidence-lifecycle.test.ts"]
+
+route AttachEvidenceRoute:
+  meaning "POST /api/suggested-tracks/:idOrSlug/evidence-candidates exposes AttachEvidence."
+  method "POST"
+  path "/api/suggested-tracks/:idOrSlug/evidence-candidates"
+  operation "AttachEvidence"
+  success [201]
+  errors [400,401,403,404,409,413,429,500,502]
+
+request AttachEvidenceBody:
+  meaning "Closed JSON request before adapter effects; bounded to 16 KiB."
+  operation "AttachEvidence"
+  maxbytes 16384
+  error "invalid_evidence_request"
+
+normalization EvidenceInputRules:
+  meaning "Trim and truncate id and consent text before the existing generated consent predicate."
+  operation "AttachEvidence"
+  fields {"activity_id":{"kind":"text","min":0,"max":255},"consent_text":{"kind":"text","min":0,"max":500}}
+  error "invalid_evidence_request"
+
+record EvidenceAuthority:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"activity_summary":"string","route_geometry":"NoClaim","scoring":"NoClaim"}
+
+record PublicEvidence:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"id":"string","suggested_track_id":"string","provider":"StravaProvider","provider_activity_id":"string","redacted_summary":"ActivitySummary","consented_at":"string","status":"ActivityEvidenceCandidateStatus","created_at":"string","updated_at":"string","authority":"EvidenceAuthority"}
+
+record EvidenceSummaryAuthority:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"activity_summary":"string","route_geometry":"NoClaim","scoring":"NoClaim","pilot_ready":"NoClaim"}
+
+record EvidenceSummary:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"candidate_count":"number","redaction":"RedactionReceipt","authority":"EvidenceSummaryAuthority"}
+
+record WithdrawEvidenceResponse:
+  meaning "Idempotent owner-scoped removal; absent and foreign IDs are indistinguishable."
+  fields {"withdrawn":"boolean"}
+
+operation WithdrawEvidence:
+  meaning "Delete own evidence and consent; no connected provider required. Fresh consent is required for resubmission."
+  adapter "PilotHttp"
+  entry "handleEvidenceWithdraw"
+  signature "response-request-param"
+  input "EmptyRequest"
+  output "WithdrawEvidenceResponse"
+  authentication "session"
+  permission null
+  effects ["check:owner","erase:summary-and-consent","transition:TrackEvidenceLifecycle"]
+  tests ["../app/tests/auth-consumer.test.ts","../app/tests/evidence-lifecycle.test.ts"]
+
+route WithdrawEvidenceRoute:
+  meaning "POST withdrawal is protected by session, origin and CSRF."
+  method "POST"
+  path "/api/evidence-candidates/:id/withdraw"
+  operation "WithdrawEvidence"
+  success [200]
+  errors [400,401,403,413,429,500]
+
+request WithdrawEvidenceBody:
+  meaning "Closed empty withdrawal request."
+  operation "WithdrawEvidence"
+  maxbytes 16384
+  error "invalid_withdrawal_request"

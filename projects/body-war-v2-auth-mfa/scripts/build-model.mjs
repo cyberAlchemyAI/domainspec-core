@@ -1,0 +1,27 @@
+import {cpSync,mkdirSync,readFileSync,writeFileSync,rmSync,readdirSync} from 'node:fs';
+import {resolve,join,relative} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
+const ds=resolve(process.env.DOMAINSPEC_SOURCE_ROOT??join(root,'../domainspec-v2/impl/cli'));
+const alch=resolve(process.env.ALCHLANG_SOURCE_ROOT??join(root,'../../..','cyberAlchemy-v2/language/capabilities/alchlang/plans/general-compiler-v1/implementation'));
+const sha=b=>createHash('sha256').update(b).digest('hex');
+function inventory(dir){const out={};function walk(d){for(const e of readdirSync(d,{withFileTypes:true})){const f=join(d,e.name);if(e.isSymbolicLink())throw Error('Symlink in selected source: '+f);if(e.isDirectory())walk(f);else out[relative(dir,f)]=sha(readFileSync(f));}}walk(dir);return out;}
+for(const check of ['materialize-frozen-catalog.mjs','materialize-relationship-authority.mjs','materialize-system-integration-profile.mjs'])execFileSync(process.execPath,[join(ds,'tools',check),'--check'],{cwd:ds,stdio:'inherit'});
+mkdirSync(join(root,'.tools'),{recursive:true});mkdirSync(join(root,'.runtime'),{recursive:true});
+const compiler=join(root,'.tools/compiler');rmSync(compiler,{recursive:true,force:true});
+cpSync(ds,compiler,{recursive:true,filter:s=>!s.split('/').some(x=>['node_modules','dist','.git'].includes(x))});
+writeFileSync(join(compiler,'tsconfig.json'),JSON.stringify({extends:'../../config/node.json',compilerOptions:{rootDir:'src',outDir:'dist',declaration:true},include:['src/**/*.ts']}));
+execFileSync(process.execPath,[join(root,'node_modules/typescript/bin/tsc'),'-p',join(compiler,'tsconfig.json')],{stdio:'inherit'});
+const before=inventory(join(alch,'src'));
+const activeApplication=join(root,'app/src/application');rmSync(activeApplication,{recursive:true,force:true});
+execFileSync(process.execPath,['--import',join(root,'node_modules/tsx/dist/loader.mjs'),join(alch,'src/cli.ts'),'build',join(root,'body-war.alch'),'--out',activeApplication],{env:{...process.env,ALCHLANG_DOMAINSPEC_PACKAGE_ROOT:compiler},stdio:'inherit'});
+const out=join(activeApplication,'models/Consent');
+cpSync(join(activeApplication,'application-ontology.json'),join(root,'model/application-ontology.json'));
+cpSync(join(activeApplication,'system-ontology.json'),join(root,'model/system-ontology.json'));
+execFileSync(process.execPath,[join(compiler,'dist/cli/main.js'),'verify',join(out,'project'),'--language','typescript','--target-root',join(out,'generated')],{stdio:'inherit'});
+cpSync(join(activeApplication,'static'),join(root,'app/static'),{recursive:true});
+const after=inventory(join(alch,'src'));if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Alch source changed during build');
+const active=join(root,'app/src/compiled');rmSync(active,{recursive:true,force:true});cpSync(out,active,{recursive:true});
+writeFileSync(join(root,'provenance/compiler.json'),JSON.stringify({authority_effect:'none',compiler_source:ds,compiler_sources:inventory(join(compiler,'src')),compiler_dist:inventory(join(compiler,'dist')),alch_source:alch,alch_sources:before,open_questions_ref:'../README.md#open-questions'},null,2)+'\n');

@@ -1,0 +1,12 @@
+domain body-war-pilot "TROQAR pilot evidence consent"
+owner body-war-owner
+logic sfol-v1
+
+entity EvidenceRequest:
+  requestId: identifier required
+  consentAcknowledged: boolean required
+  activityPresent: boolean required
+  consentTextPresent: boolean required
+
+rule EvidenceConsentRequired:
+  consentAcknowledged == true and activityPresent == true and consentTextPresent == true

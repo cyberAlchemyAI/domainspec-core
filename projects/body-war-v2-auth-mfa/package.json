@@ -1,0 +1,32 @@
+{
+  "name": "@domainspec/body-war-v2",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "app",
+    "vendor/auth"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @body-war-v2/app",
+    "test": "npm test --workspace @body-war-v2/app",
+    "test:ui": "npm run test:ui --workspace @body-war-v2/app",
+    "test:postgres": "npm run e2e:all --workspace @body-war-v2/app",
+    "build:model": "node scripts/build-model.mjs",
+    "assurance:prepare": "node --import tsx scripts/prepare-assurance.mjs",
+    "assurance:evf": "node scripts/run-evf.mjs",
+    "assurance:orodi": "node --import tsx scripts/run-orodi.mjs",
+    "validate": "node scripts/validate.mjs",
+    "validate:pilot": "node scripts/validate.mjs --pilot",
+    "oidc:setup": "node scripts/setup-oidc.mjs",
+    "oidc:start": "node scripts/oidc-cli.mjs start",
+    "test:oidc": "node scripts/oidc-cli.mjs live",
+    "test:oidc-session": "node scripts/oidc-cli.mjs session",
+    "assurance:oidc": "node scripts/run-oidc-evf.mjs"
+  },
+  "devDependencies": {
+    "tsx": "4.20.6",
+    "typescript": "7.0.2",
+    "@types/node": "26.4.0"
+  }
+}

@@ -1,0 +1,138 @@
+
+> @domainspec/body-war-v2@0.1.0 test:ui
+> npm run test:ui --workspace @body-war-v2/app
+
+
+> @body-war-v2/app@0.1.0 test:ui
+> npm run build && playwright test
+
+
+> @body-war-v2/app@0.1.0 build
+> npm run build --workspace @domainspec/auth-user-management && tsc -p tsconfig.json
+
+
+> @domainspec/auth-user-management@0.1.0 build
+> rm -rf dist && tsc -p tsconfig.json
+
+
+Running 8 tests using 1 worker
+
+  ✘  1 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:21:3 › TROQAR production login and runner profile › renders a Strava-only anonymous login-first page (5ms)
+  ✘  2 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:46:3 › TROQAR production login and runner profile › shows safe callback and provider error states (6ms)
+  ✘  3 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:56:3 › TROQAR production login and runner profile › connects fake Strava and renders safe profile, activity, and evidence UI (7ms)
+  ✘  4 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:78:3 › TROQAR production login and runner profile › submits one activity as preview evidence through visible controls (4ms)
+  ✘  5 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:107:3 › TROQAR production login and runner profile › logout returns the shell to anonymous account actions (7ms)
+  ✘  6 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:117:5 › TROQAR production login and runner profile › keeps critical controls reachable at 390px (5ms)
+  ✘  7 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:117:5 › TROQAR production login and runner profile › keeps critical controls reachable at 320px (10ms)
+  ✘  8 [chromium] › e2e/troqar-product-architecture/ui.spec.ts:142:1 › normal pilot has no archive migration controls (2ms)
+
+
+  1) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:21:3 › TROQAR production login and runner profile › renders a Strava-only anonymous login-first page 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-38195--anonymous-login-first-page-chromium/error-context.md
+
+  2) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:46:3 › TROQAR production login and runner profile › shows safe callback and provider error states 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-042a4-k-and-provider-error-states-chromium/error-context.md
+
+  3) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:56:3 › TROQAR production login and runner profile › connects fake Strava and renders safe profile, activity, and evidence UI 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-56103-le-activity-and-evidence-UI-chromium/error-context.md
+
+  4) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:78:3 › TROQAR production login and runner profile › submits one activity as preview evidence through visible controls 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-9974d-ce-through-visible-controls-chromium/error-context.md
+
+  5) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:107:3 › TROQAR production login and runner profile › logout returns the shell to anonymous account actions 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-c59dc-o-anonymous-account-actions-chromium/error-context.md
+
+  6) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:117:5 › TROQAR production login and runner profile › keeps critical controls reachable at 390px 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-4343d-controls-reachable-at-390px-chromium/error-context.md
+
+  7) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:117:5 › TROQAR production login and runner profile › keeps critical controls reachable at 320px 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-TROQAR-production-login-7674c-controls-reachable-at-320px-chromium/error-context.md
+
+  8) [chromium] › e2e/troqar-product-architecture/ui.spec.ts:142:1 › normal pilot has no archive migration controls 
+
+    Error: browserType.launch: Failed to launch chromium because executable doesn't exist at /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/chromium-1217/chrome-linux64/chrome
+
+    Error Context: test-results/ui-normal-pilot-has-no-archive-migration-controls-chromium/error-context.md
+
+  8 failed
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:21:3 › TROQAR production login and runner profile › renders a Strava-only anonymous login-first page 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:46:3 › TROQAR production login and runner profile › shows safe callback and provider error states 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:56:3 › TROQAR production login and runner profile › connects fake Strava and renders safe profile, activity, and evidence UI 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:78:3 › TROQAR production login and runner profile › submits one activity as preview evidence through visible controls 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:107:3 › TROQAR production login and runner profile › logout returns the shell to anonymous account actions 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:117:5 › TROQAR production login and runner profile › keeps critical controls reachable at 390px 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:117:5 › TROQAR production login and runner profile › keeps critical controls reachable at 320px 
+    [chromium] › e2e/troqar-product-architecture/ui.spec.ts:142:1 › normal pilot has no archive migration controls 
+
+(node:527532) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2m[WebServer] [22m(node:528106) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528254) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528294) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528486) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528701) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528701) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528701) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528743) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528825) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528825) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528825) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528859) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528893) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:528893) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:528893) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+npm error Lifecycle script `test:ui` failed with error:
+npm error code 1
+npm error path /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/app
+npm error workspace @body-war-v2/app@0.1.0
+npm error location /home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/app
+npm error command failed
+npm error command sh -c npm run build && playwright test

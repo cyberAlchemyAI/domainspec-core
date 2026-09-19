@@ -1,0 +1,2186 @@
+{
+  "schema_version": "domainspec.application-ontology/v1-candidate",
+  "profile": "bound-application-v1",
+  "core_projects": {
+    "Consent": {
+      "specs/body-war-pilot/nodes/evidence-request.json": "{\n  \"schema_version\": \"domainspec.node/v1\",\n  \"node_id\": \"evidence-request\",\n  \"feature_id\": \"body-war-pilot\",\n  \"kind\": \"Entity\",\n  \"body\": {\n    \"description\": \"A synthetic or consenting runner request to attach candidate activity evidence, never verified geometry or score.\",\n    \"fields\": [\n      \"request_id\",\n      \"consent_acknowledged\",\n      \"activity_present\",\n      \"consent_text_present\"\n    ],\n    \"typed_contract\": {\n      \"schema_version\": \"domainspec.typed-record/v1\",\n      \"ontology_node\": \"BW2-EVIDENCE-REQUEST\",\n      \"properties\": [\n        {\n          \"ontology_property\": \"BW2-EVIDENCE-REQUEST#requestId\",\n          \"name\": \"request_id\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"String\"\n          },\n          \"cardinality\": \"one\",\n          \"identity\": true,\n          \"meaning\": \"The candidate request identity.\"\n        },\n        {\n          \"ontology_property\": \"BW2-EVIDENCE-REQUEST#consentAcknowledged\",\n          \"name\": \"consent_acknowledged\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"Bool\"\n          },\n          \"cardinality\": \"one\",\n          \"identity\": false,\n          \"meaning\": \"Whether the caller explicitly supplied boolean true.\"\n        },\n        {\n          \"ontology_property\": \"BW2-EVIDENCE-REQUEST#activityPresent\",\n          \"name\": \"activity_present\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"Bool\"\n          },\n          \"cardinality\": \"one\",\n          \"identity\": false,\n          \"meaning\": \"Whether the activity identifier passed the HTTP string adapter.\"\n        },\n        {\n          \"ontology_property\": \"BW2-EVIDENCE-REQUEST#consentTextPresent\",\n          \"name\": \"consent_text_present\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"Bool\"\n          },\n          \"cardinality\": \"one\",\n          \"identity\": false,\n          \"meaning\": \"Whether the consent explanation passed the HTTP string adapter.\"\n        }\n      ]\n    }\n  }\n}\n",
+      "specs/body-war-pilot/nodes/evidence-consent-required.json": "{\n  \"schema_version\": \"domainspec.node/v1\",\n  \"node_id\": \"evidence-consent-required\",\n  \"feature_id\": \"body-war-pilot\",\n  \"kind\": \"Rule\",\n  \"body\": {\n    \"description\": \"All three facts must be true before any activity evidence is persisted.\",\n    \"predicate\": \"{\\n  \\\"operator\\\": \\\"and\\\",\\n  \\\"operands\\\": [\\n    {\\n      \\\"operator\\\": \\\"and\\\",\\n      \\\"operands\\\": [\\n        {\\n          \\\"operator\\\": \\\"eq\\\",\\n          \\\"operands\\\": [\\n            {\\n              \\\"node\\\": \\\"fact_ref\\\",\\n              \\\"ref\\\": \\\"consentAcknowledged\\\"\\n            },\\n            {\\n              \\\"node\\\": \\\"literal\\\",\\n              \\\"value_type\\\": \\\"boolean\\\",\\n              \\\"value\\\": true\\n            }\\n          ]\\n        },\\n        {\\n          \\\"operator\\\": \\\"eq\\\",\\n          \\\"operands\\\": [\\n            {\\n              \\\"node\\\": \\\"fact_ref\\\",\\n              \\\"ref\\\": \\\"activityPresent\\\"\\n            },\\n            {\\n              \\\"node\\\": \\\"literal\\\",\\n              \\\"value_type\\\": \\\"boolean\\\",\\n              \\\"value\\\": true\\n            }\\n          ]\\n        }\\n      ]\\n    },\\n    {\\n      \\\"operator\\\": \\\"eq\\\",\\n      \\\"operands\\\": [\\n        {\\n          \\\"node\\\": \\\"fact_ref\\\",\\n          \\\"ref\\\": \\\"consentTextPresent\\\"\\n        },\\n        {\\n          \\\"node\\\": \\\"literal\\\",\\n          \\\"value_type\\\": \\\"boolean\\\",\\n          \\\"value\\\": true\\n        }\\n      ]\\n    }\\n  ]\\n}\",\n    \"typed_contract\": {\n      \"schema_version\": \"domainspec.typed-rule/v1\",\n      \"ontology_rule\": \"BW2-CONSENT\",\n      \"parameters\": [\n        {\n          \"name\": \"consent_acknowledged\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"Bool\"\n          }\n        },\n        {\n          \"name\": \"activity_present\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"Bool\"\n          }\n        },\n        {\n          \"name\": \"consent_text_present\",\n          \"type\": {\n            \"kind\": \"scalar\",\n            \"name\": \"Bool\"\n          }\n        }\n      ],\n      \"expression\": {\n        \"op\": \"all\",\n        \"terms\": [\n          {\n            \"op\": \"all\",\n            \"terms\": [\n              {\n                \"op\": \"eq\",\n                \"left\": {\n                  \"op\": \"path\",\n                  \"root\": \"consent_acknowledged\",\n                  \"properties\": []\n                },\n                \"right\": {\n                  \"op\": \"literal\",\n                  \"type\": \"Bool\",\n                  \"value\": true\n                }\n              },\n              {\n                \"op\": \"eq\",\n                \"left\": {\n                  \"op\": \"path\",\n                  \"root\": \"activity_present\",\n                  \"properties\": []\n                },\n                \"right\": {\n                  \"op\": \"literal\",\n                  \"type\": \"Bool\",\n                  \"value\": true\n                }\n              }\n            ]\n          },\n          {\n            \"op\": \"eq\",\n            \"left\": {\n              \"op\": \"path\",\n              \"root\": \"consent_text_present\",\n              \"properties\": []\n            },\n            \"right\": {\n              \"op\": \"literal\",\n              \"type\": \"Bool\",\n              \"value\": true\n            }\n          }\n        ]\n      }\n    }\n  }\n}\n",
+      "project.json": "{\n  \"schema_version\": \"domainspec.project/v1\",\n  \"project_id\": \"body-war-pilot\",\n  \"features\": [\n    \"body-war-pilot\"\n  ],\n  \"cross_feature_edges\": []\n}\n",
+      "specs/body-war-pilot/feature.json": "{\n  \"schema_version\": \"domainspec.feature/v1\",\n  \"feature_id\": \"body-war-pilot\",\n  \"nodes\": [\n    \"evidence-consent-required\",\n    \"evidence-request\"\n  ],\n  \"edges\": []\n}\n"
+    }
+  },
+  "declarations": [
+    {
+      "kind": "adapter",
+      "id": "PilotHttp",
+      "file": "model/identity.alch",
+      "line": 5,
+      "meaning": "Browser cookies, CSRF, HTTP response adaptation and provider/repository integration. Generated dispatcher owns route selection and invokes authorization.",
+      "category": "http",
+      "source": "../app/src/adapters/pilot-http.ts",
+      "exports": [
+        "authorizeOperation",
+        "sendJson",
+        "serveStatic",
+        "handleOidcStart",
+        "handleOidcCallback",
+        "handleSecurity",
+        "handleStatus",
+        "handleProfile",
+        "handleStravaStart",
+        "handleStravaCallback",
+        "handleActivities",
+        "handleSuggestedTracksList",
+        "handleSuggestedTrackCreate",
+        "handleSuggestedTrackDetail",
+        "handleSuggestedTrackEvidenceCreate",
+        "handleLogout",
+        "handleEvidenceWithdraw"
+      ]
+    },
+    {
+      "kind": "adapter",
+      "id": "SharedAuth",
+      "file": "model/identity.alch",
+      "line": 11,
+      "meaning": "Version-bound principal, permission, session, token and logout implementation.",
+      "category": "library",
+      "source": "../vendor/auth/src/index.ts",
+      "exports": []
+    },
+    {
+      "kind": "adapter",
+      "id": "Strava",
+      "file": "model/identity.alch",
+      "line": 17,
+      "meaning": "OAuth nonce/state validation, provider exchange, encrypted token custody and fake local provider.",
+      "category": "library",
+      "source": "../app/src/auth/strava-oauth.ts",
+      "exports": []
+    },
+    {
+      "kind": "record",
+      "id": "EmptyRequest",
+      "file": "model/identity.alch",
+      "line": 23,
+      "meaning": "No JSON request fields.",
+      "fields": {}
+    },
+    {
+      "kind": "record",
+      "id": "OpaqueResponse",
+      "file": "model/identity.alch",
+      "line": 27,
+      "meaning": "Adapter-owned response body; HTTP redirects have no application JSON payload.",
+      "fields": {
+        "value": "unknown?"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ProfileResponse",
+      "file": "model/identity.alch",
+      "line": 31,
+      "meaning": "Safe runner profile; provider credentials never appear.",
+      "fields": {
+        "profile": "PublicRunnerProfile"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "StatusResponse",
+      "file": "model/identity.alch",
+      "line": 35,
+      "meaning": "Public connection discovery without returning provider credentials.",
+      "fields": {
+        "configured": "boolean",
+        "authenticated": "boolean",
+        "connected": "boolean",
+        "athlete": "PublicAthlete|null",
+        "redirect_uri": "string",
+        "scope": "string",
+        "identity_mode": "string?",
+        "login_uri": "string?",
+        "session_state": "string?",
+        "security_available": "boolean?"
+      }
+    },
+    {
+      "kind": "enum",
+      "id": "StravaProvider",
+      "file": "model/identity.alch",
+      "line": 39,
+      "meaning": "Only provider supported by this pilot.",
+      "values": [
+        "strava"
+      ]
+    },
+    {
+      "kind": "enum",
+      "id": "ProviderStatus",
+      "file": "model/identity.alch",
+      "line": 43,
+      "meaning": "Provider connection state.",
+      "values": [
+        "linked",
+        "disconnected"
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "RunnerProfile",
+      "file": "model/identity.alch",
+      "line": 47,
+      "meaning": "Runner-owned safe display profile.",
+      "fields": {
+        "principalId": "string",
+        "displayName": "string",
+        "privacyStatus": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ProviderAccount",
+      "file": "model/identity.alch",
+      "line": 51,
+      "meaning": "Private server-side linkage between principal and provider identity.",
+      "fields": {
+        "id": "string",
+        "provider": "StravaProvider",
+        "principalId": "string",
+        "providerUserId": "string",
+        "displayName": "string|null",
+        "scope": "string[]",
+        "status": "ProviderStatus",
+        "linkedAt": "string",
+        "updatedAt": "string",
+        "metadata": "record"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "OAuthState",
+      "file": "model/identity.alch",
+      "line": 55,
+      "meaning": "Expiring single-use OAuth state with browser nonce binding.",
+      "fields": {
+        "state": "string",
+        "nonce": "string",
+        "redirectTarget": "string",
+        "createdAt": "string",
+        "expiresAt": "string",
+        "consumedAt": "string|null"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ProviderTokenRecord",
+      "file": "model/identity.alch",
+      "line": 59,
+      "meaning": "Encrypted server-side token custody; ciphertext never leaves the adapter.",
+      "fields": {
+        "id": "string",
+        "accountId": "string",
+        "accessTokenCiphertext": "string",
+        "refreshTokenCiphertext": "string",
+        "expiresAt": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "OAuthCallbackRequest",
+      "file": "model/identity.alch",
+      "line": 63,
+      "meaning": "Provider callback query bound to the browser state cookie.",
+      "fields": {
+        "code": "string?",
+        "state": "string?",
+        "error": "string?"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "LogoutResponse",
+      "file": "model/identity.alch",
+      "line": 67,
+      "meaning": "Logout revokes the server session and clears browser cookies.",
+      "fields": {
+        "ok": "boolean"
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "ReadStatus",
+      "file": "model/identity.alch",
+      "line": 71,
+      "meaning": "Public configuration and optional connection status; never returns tokens.",
+      "adapter": "PilotHttp",
+      "entry": "handleStatus",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "StatusResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "read:session",
+        "read:ProviderAccount"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ReadStatusRoute",
+      "file": "model/identity.alch",
+      "line": 83,
+      "meaning": "GET /api/status exposes ReadStatus.",
+      "method": "GET",
+      "path": "/api/status",
+      "operation": "ReadStatus",
+      "success": [
+        200
+      ],
+      "errors": [
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "ReadProfile",
+      "file": "model/identity.alch",
+      "line": 91,
+      "meaning": "Authenticated safe principal/profile view.",
+      "adapter": "PilotHttp",
+      "entry": "handleProfile",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "ProfileResponse",
+      "authentication": "session",
+      "permission": null,
+      "effects": [
+        "read:RunnerProfile",
+        "read:ProviderAccount"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ReadProfileRoute",
+      "file": "model/identity.alch",
+      "line": 103,
+      "meaning": "GET /api/profile exposes ReadProfile.",
+      "method": "GET",
+      "path": "/api/profile",
+      "operation": "ReadProfile",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "StartStrava",
+      "file": "model/identity.alch",
+      "line": 111,
+      "meaning": "Legacy fake-provider login, or authenticated CSRF-protected provider linking when OIDC identity mode is selected.",
+      "adapter": "PilotHttp",
+      "entry": "handleStravaStart",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "OpaqueResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "create:OAuthState",
+        "set:state-cookie"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "StartStravaRoute",
+      "file": "model/identity.alch",
+      "line": 123,
+      "meaning": "GET /api/auth/strava/start exposes StartStrava.",
+      "method": "GET",
+      "path": "/api/auth/strava/start",
+      "operation": "StartStrava",
+      "success": [
+        302
+      ],
+      "errors": [
+        400,
+        405,
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "CompleteStrava",
+      "file": "model/identity.alch",
+      "line": 131,
+      "meaning": "Validate single-use state and browser cookie. OIDC mode links to the current session without issuing identity; the legacy Strava pilot creates its own session.",
+      "adapter": "PilotHttp",
+      "entry": "handleStravaCallback",
+      "signature": "response-url-request",
+      "input": "OAuthCallbackRequest",
+      "output": "OpaqueResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "consume:OAuthState",
+        "exchange:provider-code",
+        "upsert:ProviderAccount",
+        "upsert:RunnerProfile",
+        "encrypt:ProviderTokenRecord",
+        "create:session"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "CompleteStravaRoute",
+      "file": "model/identity.alch",
+      "line": 143,
+      "meaning": "GET /api/auth/strava/callback exposes CompleteStrava.",
+      "method": "GET",
+      "path": "/api/auth/strava/callback",
+      "operation": "CompleteStrava",
+      "success": [
+        302
+      ],
+      "errors": [
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "Logout",
+      "file": "model/identity.alch",
+      "line": 151,
+      "meaning": "Logout accepts an already absent session; valid sessions require CSRF/origin guards.",
+      "adapter": "PilotHttp",
+      "entry": "handleLogout",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "LogoutResponse",
+      "authentication": "optional-session",
+      "permission": null,
+      "effects": [
+        "revoke:session",
+        "clear:cookies"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "LogoutRoute",
+      "file": "model/identity.alch",
+      "line": 163,
+      "meaning": "POST /api/auth/logout exposes Logout.",
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "operation": "Logout",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        500
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "PublicAthlete",
+      "file": "model/identity.alch",
+      "line": 171,
+      "meaning": "Closed public JSON contract for the retained pilot.",
+      "fields": {
+        "id": "string|number",
+        "firstname": "string|null?",
+        "lastname": "string|null?",
+        "profile": "string|null?",
+        "strava_profile_url": "string|null",
+        "scope": "string[]",
+        "provider": "StravaProvider",
+        "status": "ProviderStatus"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "PublicSession",
+      "file": "model/identity.alch",
+      "line": 175,
+      "meaning": "Closed public JSON contract for the retained pilot.",
+      "fields": {
+        "expires_at": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "PublicConnection",
+      "file": "model/identity.alch",
+      "line": 179,
+      "meaning": "Closed public JSON contract for the retained pilot.",
+      "fields": {
+        "connected": "boolean",
+        "account": "PublicAthlete|null",
+        "profile_url": "string|null"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ProfilePrivacy",
+      "file": "model/identity.alch",
+      "line": 183,
+      "meaning": "Closed public JSON contract for the retained pilot.",
+      "fields": {
+        "provider_tokens": "string",
+        "activity_import": "string",
+        "csrf": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ProfileValidation",
+      "file": "model/identity.alch",
+      "line": 187,
+      "meaning": "Closed public JSON contract for the retained pilot.",
+      "fields": {
+        "taquaral_activity": "string",
+        "route_geometry": "string",
+        "scoring": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "PublicRunnerProfile",
+      "file": "model/identity.alch",
+      "line": 191,
+      "meaning": "Closed public JSON contract for the retained pilot.",
+      "fields": {
+        "principal_id": "string",
+        "display_name": "string",
+        "principal_status": "string",
+        "session": "PublicSession",
+        "strava": "PublicConnection",
+        "privacy": "ProfilePrivacy",
+        "validation": "ProfileValidation"
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "StartOidc",
+      "file": "model/identity.alch",
+      "line": 195,
+      "meaning": "Fixed self-hosted issuer login or bounded active-session renewal; never arbitrary redirects.",
+      "adapter": "PilotHttp",
+      "entry": "handleOidcStart",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "OpaqueResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "create:OidcTransaction",
+        "set:login-cookie"
+      ],
+      "tests": [
+        "../app/tests/oidc.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "StartOidcRoute",
+      "file": "model/identity.alch",
+      "line": 207,
+      "meaning": "GET starts the separately configured OIDC identity profile.",
+      "method": "GET",
+      "path": "/api/auth/oidc/start",
+      "operation": "StartOidc",
+      "success": [
+        303
+      ],
+      "errors": [
+        404,
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "CompleteOidc",
+      "file": "model/identity.alch",
+      "line": 215,
+      "meaning": "Validate OIDC identity and transaction, map issuer/subject, rotate local session; reject revoked parents.",
+      "adapter": "PilotHttp",
+      "entry": "handleOidcCallback",
+      "signature": "response-url-request",
+      "input": "OAuthCallbackRequest",
+      "output": "OpaqueResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "consume:OidcTransaction",
+        "verify:issuer-identity",
+        "create:session"
+      ],
+      "tests": [
+        "../app/tests/oidc.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "CompleteOidcRoute",
+      "file": "model/identity.alch",
+      "line": 227,
+      "meaning": "Fixed OIDC callback.",
+      "method": "GET",
+      "path": "/api/auth/oidc/callback",
+      "operation": "CompleteOidc",
+      "success": [
+        303
+      ],
+      "errors": [
+        404,
+        500
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "ProviderLinkResponse",
+      "file": "model/identity.alch",
+      "line": 235,
+      "meaning": "Server-selected provider authorization URL; no provider tokens.",
+      "fields": {
+        "url": "string"
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "LinkStrava",
+      "file": "model/identity.alch",
+      "line": 239,
+      "meaning": "Explicit authenticated provider link with CSRF and session-bound single-use state.",
+      "adapter": "PilotHttp",
+      "entry": "handleStravaStart",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "ProviderLinkResponse",
+      "authentication": "session",
+      "permission": null,
+      "effects": [
+        "create:OAuthState",
+        "set:state-cookie"
+      ],
+      "tests": [
+        "../app/tests/oidc.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "LinkStravaRoute",
+      "file": "model/identity.alch",
+      "line": 251,
+      "meaning": "POST starts provider linking for an authenticated runner.",
+      "method": "POST",
+      "path": "/api/auth/strava/link",
+      "operation": "LinkStrava",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        500
+      ]
+    },
+    {
+      "kind": "adapter",
+      "id": "OidcIdentity",
+      "file": "model/identity.alch",
+      "line": 259,
+      "meaning": "Fixed issuer/client/audience OIDC verification, server-side token custody, session deadlines and callback cancellation.",
+      "category": "library",
+      "source": "../app/src/auth/oidc.ts",
+      "exports": []
+    },
+    {
+      "kind": "adapter",
+      "id": "OidcSessionPolicy",
+      "file": "model/identity.alch",
+      "line": 265,
+      "meaning": "Pure session deadline and authentication freshness policy shared with bounded EVF witnesses.",
+      "category": "library",
+      "source": "../app/src/auth/oidc-policy.ts",
+      "exports": []
+    },
+    {
+      "kind": "adapter",
+      "id": "DurableOidcIdentity",
+      "file": "model/identity.alch",
+      "line": 271,
+      "meaning": "Optional explicit PostgreSQL identity successor; shared session generation, encryption, revocation and single-use transaction contract.",
+      "category": "library",
+      "source": "../app/src/auth/oidc-durable.ts",
+      "exports": []
+    },
+    {
+      "kind": "operation",
+      "id": "ReadSecurity",
+      "file": "model/identity.alch",
+      "line": 277,
+      "meaning": "Authenticated durable security settings page; adapter verifies the current issuer and app session.",
+      "adapter": "PilotHttp",
+      "entry": "handleSecurity",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "OpaqueResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "verify:issuer-identity"
+      ],
+      "tests": [
+        "../app/tests/oidc.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ReadSecurityRoute",
+      "file": "model/identity.alch",
+      "line": 289,
+      "meaning": "GET security settings for the explicit durable identity profile.",
+      "method": "GET",
+      "path": "/api/auth/security",
+      "operation": "ReadSecurity",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        404,
+        503
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "ChangeSecurity",
+      "file": "model/identity.alch",
+      "line": 297,
+      "meaning": "Verify current session, exact origin, session-bound CSRF and allowlisted action before fresh Keycloak authentication.",
+      "adapter": "PilotHttp",
+      "entry": "handleSecurity",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "OpaqueResponse",
+      "authentication": "public",
+      "permission": null,
+      "effects": [
+        "create:OidcTransaction",
+        "set:login-cookie"
+      ],
+      "tests": [
+        "../app/tests/oidc.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ChangeSecurityRoute",
+      "file": "model/identity.alch",
+      "line": 309,
+      "meaning": "POST an explicit security action; the boundary owns form and CSRF validation.",
+      "method": "POST",
+      "path": "/api/auth/security",
+      "operation": "ChangeSecurity",
+      "success": [
+        303
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        404,
+        413,
+        415,
+        503
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "ActivitySummary",
+      "file": "model/activities.alch",
+      "line": 5,
+      "meaning": "Ephemeral provider summary; numeric provider measurements preserve existing pilot units.",
+      "fields": {
+        "id": "string",
+        "name": "string",
+        "sport_type": "string?",
+        "type": "string?",
+        "distance": "number",
+        "moving_time": "number",
+        "average_speed": "number",
+        "start_date": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ActivityPageRequest",
+      "file": "model/activities.alch",
+      "line": 9,
+      "meaning": "Generated HTTP query pagination; provider adapter independently enforces its own bounds.",
+      "fields": {
+        "page": "string?",
+        "per_page": "string?"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ActivitiesResponse",
+      "file": "model/activities.alch",
+      "line": 13,
+      "meaning": "Safe activity summaries and a non-authoritative import receipt.",
+      "fields": {
+        "activities": "ActivitySummary[]",
+        "receipt": "ActivityImportReceipt"
+      }
+    },
+    {
+      "kind": "projection",
+      "id": "RedactedActivity",
+      "file": "model/activities.alch",
+      "line": 17,
+      "meaning": "Persist only the eight allowed summary fields; resolve sport/type fallback without retaining raw maps, notes or tokens.",
+      "source": "ActivitySummary",
+      "fields": {
+        "id": [
+          "id"
+        ],
+        "name": [
+          "name"
+        ],
+        "sport_type": [
+          "sport_type",
+          "type",
+          "literal:Run"
+        ],
+        "type": [
+          "type",
+          "sport_type",
+          "literal:Run"
+        ],
+        "distance": [
+          "distance"
+        ],
+        "moving_time": [
+          "moving_time"
+        ],
+        "average_speed": [
+          "average_speed"
+        ],
+        "start_date": [
+          "start_date"
+        ]
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "ListActivities",
+      "file": "model/activities.alch",
+      "line": 22,
+      "meaning": "Consult activities for the authenticated runner and redact the provider response.",
+      "adapter": "PilotHttp",
+      "entry": "handleActivities",
+      "signature": "response-request-url",
+      "input": "ActivityPageRequest",
+      "output": "ActivitiesResponse",
+      "authentication": "session",
+      "permission": "body-war.activity.read",
+      "effects": [
+        "consult:Strava",
+        "no-persist:raw-provider-response"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts",
+        "../app/tests/strava-activity-provider.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ListActivitiesRoute",
+      "file": "model/activities.alch",
+      "line": 34,
+      "meaning": "GET /api/activities exposes ListActivities.",
+      "method": "GET",
+      "path": "/api/activities",
+      "operation": "ListActivities",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        500
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "RedactionReceipt",
+      "file": "model/activities.alch",
+      "line": 42,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "provider_tokens": "string",
+        "raw_private_payload": "string",
+        "maps": "string",
+        "notes": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ImportConsentReceipt",
+      "file": "model/activities.alch",
+      "line": 46,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "friend_fixture": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "ActivityImportReceipt",
+      "file": "model/activities.alch",
+      "line": 50,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "source": "StravaProvider",
+        "principal_id": "string",
+        "imported_at": "string",
+        "summary_count": "number",
+        "redaction": "RedactionReceipt",
+        "consent": "ImportConsentReceipt",
+        "authority": "EvidenceAuthority"
+      }
+    },
+    {
+      "kind": "query",
+      "id": "ActivityPagination",
+      "file": "model/activities.alch",
+      "line": 54,
+      "meaning": "Closed query with Number conversion, integer bounds, absent-value defaults and duplicate rejection.",
+      "operation": "ListActivities",
+      "fields": {
+        "page": {
+          "kind": "integer",
+          "min": 1,
+          "max": 10,
+          "default": 1
+        },
+        "per_page": {
+          "kind": "integer",
+          "min": 1,
+          "max": 100,
+          "default": 20
+        }
+      },
+      "error": "strava_provider_bounds_invalid"
+    },
+    {
+      "kind": "configuration",
+      "id": "HistoricalActivityPolicy",
+      "file": "model/activities.alch",
+      "line": 60,
+      "meaning": "Provider detail utility matches the linked athlete and projects only the approved summary; not a migration capability.",
+      "values": {
+        "timeoutMs": 10000,
+        "maxResponseBytes": 1048576,
+        "identityFields": [
+          "id",
+          "athlete.id"
+        ],
+        "persistRawDetail": false
+      }
+    },
+    {
+      "kind": "enum",
+      "id": "SuggestedTrackStatus",
+      "file": "model/tracks.alch",
+      "line": 5,
+      "meaning": "Stored route-candidate states. The pilot never promotes source-backed geometry.",
+      "values": [
+        "needs_evidence",
+        "evidence_submitted",
+        "operator_review",
+        "source_backed",
+        "retired"
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "SuggestedTrack",
+      "file": "model/tracks.alch",
+      "line": 9,
+      "meaning": "A candidate route with evidence status and separately stated geometry authority.",
+      "fields": {
+        "id": "string",
+        "slug": "string",
+        "name": "string",
+        "placeLabel": "string",
+        "city": "string",
+        "country": "string",
+        "distanceHintMeters": "number|null",
+        "status": "SuggestedTrackStatus",
+        "geometryAuthority": "string",
+        "suggestedByPrincipalId": "string|null",
+        "publicNote": "string",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "CreateTrackRequest",
+      "file": "model/tracks.alch",
+      "line": 13,
+      "meaning": "Runner-supplied candidate route metadata; required text is trimmed and bounded.",
+      "fields": {
+        "name": "string",
+        "place_label": "string",
+        "city": "string",
+        "distance_hint_meters": "number|null?",
+        "public_note": "string?"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "TrackKeyRequest",
+      "file": "model/tracks.alch",
+      "line": 17,
+      "meaning": "Route selector by id or slug.",
+      "fields": {
+        "idOrSlug": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "TrackListResponse",
+      "file": "model/tracks.alch",
+      "line": 21,
+      "meaning": "Public candidate route views, with explicit geometry/scoring claim limits.",
+      "fields": {
+        "suggested_tracks": "PublicTrack[]"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "TrackResponse",
+      "file": "model/tracks.alch",
+      "line": 25,
+      "meaning": "One candidate route and optional evidence detail.",
+      "fields": {
+        "suggested_track": "PublicTrack",
+        "my_evidence_candidates": "PublicEvidence[]?",
+        "evidence_summary": "EvidenceSummary?"
+      }
+    },
+    {
+      "kind": "lifecycle",
+      "id": "TrackEvidenceLifecycle",
+      "file": "model/tracks.alch",
+      "line": 29,
+      "meaning": "Attach first evidence moves needs_evidence to evidence_submitted. Other stored states remain unchanged. Removing the last candidate resets needs_evidence, matching both existing repositories. No promotion is authored.",
+      "record": "SuggestedTrack",
+      "field": "status",
+      "initial": "needs_evidence",
+      "transitions": [
+        [
+          "needs_evidence",
+          "attach",
+          "evidence_submitted"
+        ],
+        [
+          "evidence_submitted",
+          "attach",
+          "evidence_submitted"
+        ],
+        [
+          "operator_review",
+          "attach",
+          "operator_review"
+        ],
+        [
+          "source_backed",
+          "attach",
+          "source_backed"
+        ],
+        [
+          "retired",
+          "attach",
+          "retired"
+        ],
+        [
+          "needs_evidence",
+          "last-evidence-removed",
+          "needs_evidence"
+        ],
+        [
+          "evidence_submitted",
+          "last-evidence-removed",
+          "needs_evidence"
+        ],
+        [
+          "operator_review",
+          "last-evidence-removed",
+          "needs_evidence"
+        ],
+        [
+          "source_backed",
+          "last-evidence-removed",
+          "needs_evidence"
+        ],
+        [
+          "retired",
+          "last-evidence-removed",
+          "needs_evidence"
+        ]
+      ]
+    },
+    {
+      "kind": "configuration",
+      "id": "TrackDefaults",
+      "file": "model/tracks.alch",
+      "line": 36,
+      "meaning": "Idempotent seed route; not verified route geometry. Field rules are owned by CreateTrackRules.",
+      "values": {
+        "seed": {
+          "slug": "volta-do-taquaral",
+          "name": "Volta do Taquaral",
+          "placeLabel": "Parque Portugal / Lagoa do Taquaral",
+          "city": "Campinas",
+          "country": "BR",
+          "distanceHintMeters": 6400,
+          "publicNote": "Sugestao inicial para reunir evidencias antes de qualquer geometria source-backed."
+        }
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "ListTracks",
+      "file": "model/tracks.alch",
+      "line": 40,
+      "meaning": "List suggestions for a connected runner.",
+      "adapter": "PilotHttp",
+      "entry": "handleSuggestedTracksList",
+      "signature": "response-request",
+      "input": "EmptyRequest",
+      "output": "TrackListResponse",
+      "authentication": "connected",
+      "permission": "body-war.suggested-track.read",
+      "effects": [
+        "read:SuggestedTrack"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ListTracksRoute",
+      "file": "model/tracks.alch",
+      "line": 52,
+      "meaning": "GET /api/suggested-tracks exposes ListTracks.",
+      "method": "GET",
+      "path": "/api/suggested-tracks",
+      "operation": "ListTracks",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "CreateTrack",
+      "file": "model/tracks.alch",
+      "line": 60,
+      "meaning": "Create a needs-evidence suggestion with no geometry or scoring claim.",
+      "adapter": "PilotHttp",
+      "entry": "handleSuggestedTrackCreate",
+      "signature": "response-request",
+      "input": "CreateTrackRequest",
+      "output": "TrackResponse",
+      "authentication": "connected",
+      "permission": "body-war.suggested-track.create",
+      "effects": [
+        "create:SuggestedTrack"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "CreateTrackRoute",
+      "file": "model/tracks.alch",
+      "line": 72,
+      "meaning": "POST /api/suggested-tracks exposes CreateTrack.",
+      "method": "POST",
+      "path": "/api/suggested-tracks",
+      "operation": "CreateTrack",
+      "success": [
+        201
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        413,
+        500
+      ]
+    },
+    {
+      "kind": "operation",
+      "id": "ReadTrack",
+      "file": "model/tracks.alch",
+      "line": 80,
+      "meaning": "Retrieve one track and only the current runner evidence candidates.",
+      "adapter": "PilotHttp",
+      "entry": "handleSuggestedTrackDetail",
+      "signature": "response-request-param",
+      "input": "TrackKeyRequest",
+      "output": "TrackResponse",
+      "authentication": "connected",
+      "permission": "body-war.suggested-track.read",
+      "effects": [
+        "read:SuggestedTrack",
+        "read:own-ActivityEvidenceCandidate"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "ReadTrackRoute",
+      "file": "model/tracks.alch",
+      "line": 92,
+      "meaning": "GET /api/suggested-tracks/:idOrSlug exposes ReadTrack.",
+      "method": "GET",
+      "path": "/api/suggested-tracks/:idOrSlug",
+      "operation": "ReadTrack",
+      "success": [
+        200
+      ],
+      "errors": [
+        401,
+        403,
+        404,
+        409,
+        500
+      ]
+    },
+    {
+      "kind": "request",
+      "id": "CreateTrackBody",
+      "file": "model/tracks.alch",
+      "line": 100,
+      "meaning": "Closed JSON request before adapter effects; bounded to 16 KiB.",
+      "operation": "CreateTrack",
+      "maxbytes": 16384,
+      "error": "invalid_suggested_track"
+    },
+    {
+      "kind": "normalization",
+      "id": "CreateTrackRules",
+      "file": "model/tracks.alch",
+      "line": 106,
+      "meaning": "Trim and truncate text using UTF-16 code units; required text remains nonempty; optional distance is a positive integer or null.",
+      "operation": "CreateTrack",
+      "fields": {
+        "name": {
+          "kind": "text",
+          "min": 1,
+          "max": 255
+        },
+        "place_label": {
+          "kind": "text",
+          "min": 1,
+          "max": 255
+        },
+        "city": {
+          "kind": "text",
+          "min": 1,
+          "max": 120
+        },
+        "public_note": {
+          "kind": "text",
+          "min": 0,
+          "max": 500
+        },
+        "distance_hint_meters": {
+          "kind": "positive-integer"
+        }
+      },
+      "error": "invalid_suggested_track"
+    },
+    {
+      "kind": "record",
+      "id": "PublicTrackAuthority",
+      "file": "model/tracks.alch",
+      "line": 112,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "route_geometry": "string",
+        "scoring": "NoClaim",
+        "pilot_ready": "NoClaim"
+      }
+    },
+    {
+      "kind": "enum",
+      "id": "NoClaim",
+      "file": "model/tracks.alch",
+      "line": 116,
+      "meaning": "Explicit absence of authority.",
+      "values": [
+        "not_claimed"
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "PublicTrack",
+      "file": "model/tracks.alch",
+      "line": 120,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "id": "string",
+        "slug": "string",
+        "name": "string",
+        "place_label": "string",
+        "city": "string",
+        "country": "string",
+        "distance_hint_meters": "number|null",
+        "status": "SuggestedTrackStatus",
+        "geometry_authority": "string",
+        "suggested_by": "string",
+        "public_note": "string",
+        "created_at": "string",
+        "updated_at": "string",
+        "authority": "PublicTrackAuthority"
+      }
+    },
+    {
+      "kind": "enum",
+      "id": "ActivityEvidenceCandidateStatus",
+      "file": "model/evidence.alch",
+      "line": 5,
+      "meaning": "Candidate-review states; submission is not acceptance.",
+      "values": [
+        "submitted",
+        "operator_review",
+        "accepted",
+        "rejected"
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "ActivityEvidenceCandidate",
+      "file": "model/evidence.alch",
+      "line": 9,
+      "meaning": "Explicitly consented redacted summary bound to runner and route.",
+      "fields": {
+        "id": "string",
+        "suggestedTrackId": "string",
+        "principalId": "string",
+        "provider": "StravaProvider",
+        "providerActivityId": "string",
+        "redactedSummary": "record",
+        "consentText": "string",
+        "consentedAt": "string",
+        "status": "ActivityEvidenceCandidateStatus",
+        "createdAt": "string",
+        "updatedAt": "string"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "AttachEvidenceRequest",
+      "file": "model/evidence.alch",
+      "line": 13,
+      "meaning": "Explicit acknowledgement, consent text and provider activity id.",
+      "fields": {
+        "activity_id": "string",
+        "consent_acknowledged": "boolean?",
+        "consent_text": "string?"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "EvidenceResponse",
+      "file": "model/evidence.alch",
+      "line": 17,
+      "meaning": "Created candidate and updated route state.",
+      "fields": {
+        "evidence_candidate": "PublicEvidence",
+        "suggested_track": "PublicTrack?"
+      }
+    },
+    {
+      "kind": "configuration",
+      "id": "EvidencePolicy",
+      "file": "model/evidence.alch",
+      "line": 21,
+      "meaning": "The generated consent predicate is necessary; provider visibility and duplicate checks remain required adapter steps.",
+      "values": {
+        "consentRequired": true,
+        "duplicateScope": [
+          "principalId",
+          "suggestedTrackId",
+          "providerActivityId"
+        ],
+        "retention": "until deletion or consent revocation; repository disposal removes candidate and resets empty track",
+        "providerRevocation": "disconnect and erase stored provider ciphertext",
+        "authority": {
+          "activity_summary": "redacted_candidate",
+          "route_geometry": "not_claimed",
+          "scoring": "not_claimed"
+        }
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "AttachEvidence",
+      "file": "model/evidence.alch",
+      "line": 25,
+      "meaning": "Attach only a visible provider activity with explicit consent, redaction and duplicate rejection.",
+      "adapter": "PilotHttp",
+      "entry": "handleSuggestedTrackEvidenceCreate",
+      "signature": "response-request-param",
+      "input": "AttachEvidenceRequest",
+      "output": "EvidenceResponse",
+      "authentication": "connected",
+      "permission": "body-war.suggested-track-evidence.create",
+      "effects": [
+        "check:generated-consent",
+        "consult:own-Strava-activity",
+        "reject:duplicate",
+        "persist:redacted-candidate",
+        "transition:TrackEvidenceLifecycle"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts",
+        "../app/tests/evidence-lifecycle.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "AttachEvidenceRoute",
+      "file": "model/evidence.alch",
+      "line": 37,
+      "meaning": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates exposes AttachEvidence.",
+      "method": "POST",
+      "path": "/api/suggested-tracks/:idOrSlug/evidence-candidates",
+      "operation": "AttachEvidence",
+      "success": [
+        201
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        404,
+        409,
+        413,
+        429,
+        500,
+        502
+      ]
+    },
+    {
+      "kind": "request",
+      "id": "AttachEvidenceBody",
+      "file": "model/evidence.alch",
+      "line": 45,
+      "meaning": "Closed JSON request before adapter effects; bounded to 16 KiB.",
+      "operation": "AttachEvidence",
+      "maxbytes": 16384,
+      "error": "invalid_evidence_request"
+    },
+    {
+      "kind": "normalization",
+      "id": "EvidenceInputRules",
+      "file": "model/evidence.alch",
+      "line": 51,
+      "meaning": "Trim and truncate id and consent text before the existing generated consent predicate.",
+      "operation": "AttachEvidence",
+      "fields": {
+        "activity_id": {
+          "kind": "text",
+          "min": 0,
+          "max": 255
+        },
+        "consent_text": {
+          "kind": "text",
+          "min": 0,
+          "max": 500
+        }
+      },
+      "error": "invalid_evidence_request"
+    },
+    {
+      "kind": "record",
+      "id": "EvidenceAuthority",
+      "file": "model/evidence.alch",
+      "line": 57,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "activity_summary": "string",
+        "route_geometry": "NoClaim",
+        "scoring": "NoClaim"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "PublicEvidence",
+      "file": "model/evidence.alch",
+      "line": 61,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "id": "string",
+        "suggested_track_id": "string",
+        "provider": "StravaProvider",
+        "provider_activity_id": "string",
+        "redacted_summary": "ActivitySummary",
+        "consented_at": "string",
+        "status": "ActivityEvidenceCandidateStatus",
+        "created_at": "string",
+        "updated_at": "string",
+        "authority": "EvidenceAuthority"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "EvidenceSummaryAuthority",
+      "file": "model/evidence.alch",
+      "line": 65,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "activity_summary": "string",
+        "route_geometry": "NoClaim",
+        "scoring": "NoClaim",
+        "pilot_ready": "NoClaim"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "EvidenceSummary",
+      "file": "model/evidence.alch",
+      "line": 69,
+      "meaning": "Closed public pilot JSON contract; no additional fields.",
+      "fields": {
+        "candidate_count": "number",
+        "redaction": "RedactionReceipt",
+        "authority": "EvidenceSummaryAuthority"
+      }
+    },
+    {
+      "kind": "record",
+      "id": "WithdrawEvidenceResponse",
+      "file": "model/evidence.alch",
+      "line": 73,
+      "meaning": "Idempotent owner-scoped removal; absent and foreign IDs are indistinguishable.",
+      "fields": {
+        "withdrawn": "boolean"
+      }
+    },
+    {
+      "kind": "operation",
+      "id": "WithdrawEvidence",
+      "file": "model/evidence.alch",
+      "line": 77,
+      "meaning": "Delete own evidence and consent; no connected provider required. Fresh consent is required for resubmission.",
+      "adapter": "PilotHttp",
+      "entry": "handleEvidenceWithdraw",
+      "signature": "response-request-param",
+      "input": "EmptyRequest",
+      "output": "WithdrawEvidenceResponse",
+      "authentication": "session",
+      "permission": null,
+      "effects": [
+        "check:owner",
+        "erase:summary-and-consent",
+        "transition:TrackEvidenceLifecycle"
+      ],
+      "tests": [
+        "../app/tests/auth-consumer.test.ts",
+        "../app/tests/evidence-lifecycle.test.ts"
+      ]
+    },
+    {
+      "kind": "route",
+      "id": "WithdrawEvidenceRoute",
+      "file": "model/evidence.alch",
+      "line": 89,
+      "meaning": "POST withdrawal is protected by session, origin and CSRF.",
+      "method": "POST",
+      "path": "/api/evidence-candidates/:id/withdraw",
+      "operation": "WithdrawEvidence",
+      "success": [
+        200
+      ],
+      "errors": [
+        400,
+        401,
+        403,
+        413,
+        429,
+        500
+      ]
+    },
+    {
+      "kind": "request",
+      "id": "WithdrawEvidenceBody",
+      "file": "model/evidence.alch",
+      "line": 97,
+      "meaning": "Closed empty withdrawal request.",
+      "operation": "WithdrawEvidence",
+      "maxbytes": 16384,
+      "error": "invalid_withdrawal_request"
+    },
+    {
+      "kind": "adapter",
+      "id": "MemoryStore",
+      "file": "model/infrastructure.alch",
+      "line": 5,
+      "meaning": "In-process implementation of repository contracts, scoped to local tests.",
+      "category": "persistence",
+      "source": "../app/src/auth/memory-repository.ts",
+      "exports": []
+    },
+    {
+      "kind": "adapter",
+      "id": "PostgresStore",
+      "file": "model/infrastructure.alch",
+      "line": 11,
+      "meaning": "Postgres implementation using explicit schema/migration and auth dependency bindings.",
+      "category": "persistence",
+      "source": "../app/src/auth/drizzle-repository.ts",
+      "exports": []
+    },
+    {
+      "kind": "configuration",
+      "id": "RuntimeConfiguration",
+      "file": "model/infrastructure.alch",
+      "line": 17,
+      "meaning": "Named environment dependencies and local validation defaults. Values here are not live credentials.",
+      "values": {
+        "local": {
+          "host": "127.0.0.1",
+          "port": 5184,
+          "authBackend": "memory",
+          "fakeStrava": true
+        },
+        "identity": {
+          "profiles": [
+            "strava-pilot",
+            "oidc",
+            "oidc-durable"
+          ],
+          "durable": {
+            "origin": "https://body-war-durable.localhost:16443",
+            "client": "body-war-durable-browser",
+            "audience": "body-war-durable-api",
+            "store": "@auth-foundation/session-core",
+            "backend": "postgres",
+            "namespace": "body-war"
+          },
+          "oidcIssuer": "https://localhost:18443/realms/auth-https",
+          "oidcOrigin": "https://body-war.localhost:14443",
+          "client": "body-war-v2-browser",
+          "audience": "body-war-v2-api",
+          "idleSeconds": 900,
+          "maximumSeconds": 28800
+        },
+        "secrets": [
+          "BODY_WAR_DURABLE_KEY",
+          "BODY_WAR_OIDC_CLIENT_SECRET",
+          "BODY_WAR_SESSION_SECRET",
+          "BODY_WAR_TOKEN_PROTECTION_SECRET",
+          "STRAVA_CLIENT_SECRET",
+          "BODY_WAR_DATABASE_URL"
+        ],
+        "provider": [
+          "STRAVA_CLIENT_ID",
+          "STRAVA_REDIRECT_URI"
+        ],
+        "session": {
+          "sameSite": "Lax",
+          "httpOnly": true,
+          "csrfOriginRequiredForMutation": true
+        },
+        "hosting": "local Node HTTP; no RWO deployment binding",
+        "recovery": "repository disposal idempotency and migration checksum ledger; no general durable outbox/canary claim"
+      }
+    },
+    {
+      "kind": "storage",
+      "id": "RunnerProfileStorage",
+      "file": "model/infrastructure.alch",
+      "line": 21,
+      "meaning": "RunnerProfile Postgres binding with complete field mapping; SQL and IO remain adapter-owned.",
+      "record": "RunnerProfile",
+      "adapter": "PostgresStore",
+      "table": "body_war_runner_profiles",
+      "schema": "../app/src/infrastructure/postgres/schema.ts",
+      "migrations": [
+        "../app/drizzle/0000_strong_iron_man.sql",
+        "../app/drizzle/0001_lyrical_living_mummy.sql",
+        "../app/drizzle/0002_evidence_identity.sql",
+        "../app/drizzle/0003_legacy_migration.sql",
+        "../app/drizzle/0004_provider_owner.sql"
+      ],
+      "columns": {
+        "principalId": "principal_id",
+        "displayName": "display_name",
+        "privacyStatus": "privacy_status",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at"
+      },
+      "constraints": [
+        "exact committed migration checksums",
+        "repository-level runtime behavior verified by Postgres E2E"
+      ]
+    },
+    {
+      "kind": "storage",
+      "id": "OAuthStateStorage",
+      "file": "model/infrastructure.alch",
+      "line": 31,
+      "meaning": "OAuthState Postgres binding with complete field mapping; SQL and IO remain adapter-owned.",
+      "record": "OAuthState",
+      "adapter": "PostgresStore",
+      "table": "body_war_oauth_states",
+      "schema": "../app/src/infrastructure/postgres/schema.ts",
+      "migrations": [
+        "../app/drizzle/0000_strong_iron_man.sql",
+        "../app/drizzle/0001_lyrical_living_mummy.sql",
+        "../app/drizzle/0002_evidence_identity.sql",
+        "../app/drizzle/0003_legacy_migration.sql",
+        "../app/drizzle/0004_provider_owner.sql"
+      ],
+      "columns": {
+        "state": "state",
+        "nonce": "nonce",
+        "redirectTarget": "redirect_target",
+        "createdAt": "created_at",
+        "expiresAt": "expires_at",
+        "consumedAt": "consumed_at"
+      },
+      "constraints": [
+        "exact committed migration checksums",
+        "repository-level runtime behavior verified by Postgres E2E"
+      ]
+    },
+    {
+      "kind": "storage",
+      "id": "ProviderAccountStorage",
+      "file": "model/infrastructure.alch",
+      "line": 41,
+      "meaning": "ProviderAccount Postgres binding with complete field mapping; SQL and IO remain adapter-owned.",
+      "record": "ProviderAccount",
+      "adapter": "PostgresStore",
+      "table": "body_war_provider_accounts",
+      "schema": "../app/src/infrastructure/postgres/schema.ts",
+      "migrations": [
+        "../app/drizzle/0000_strong_iron_man.sql",
+        "../app/drizzle/0001_lyrical_living_mummy.sql",
+        "../app/drizzle/0002_evidence_identity.sql",
+        "../app/drizzle/0003_legacy_migration.sql",
+        "../app/drizzle/0004_provider_owner.sql"
+      ],
+      "columns": {
+        "id": "id",
+        "provider": "provider",
+        "principalId": "principal_id",
+        "providerUserId": "provider_user_id",
+        "displayName": "display_name",
+        "scope": "scope",
+        "status": "status",
+        "linkedAt": "linked_at",
+        "updatedAt": "updated_at",
+        "metadata": "metadata"
+      },
+      "constraints": [
+        "exact committed migration checksums",
+        "repository-level runtime behavior verified by Postgres E2E"
+      ]
+    },
+    {
+      "kind": "storage",
+      "id": "ProviderTokenRecordStorage",
+      "file": "model/infrastructure.alch",
+      "line": 51,
+      "meaning": "ProviderTokenRecord Postgres binding with complete field mapping; SQL and IO remain adapter-owned.",
+      "record": "ProviderTokenRecord",
+      "adapter": "PostgresStore",
+      "table": "body_war_provider_tokens",
+      "schema": "../app/src/infrastructure/postgres/schema.ts",
+      "migrations": [
+        "../app/drizzle/0000_strong_iron_man.sql",
+        "../app/drizzle/0001_lyrical_living_mummy.sql",
+        "../app/drizzle/0002_evidence_identity.sql",
+        "../app/drizzle/0003_legacy_migration.sql",
+        "../app/drizzle/0004_provider_owner.sql"
+      ],
+      "columns": {
+        "id": "id",
+        "accountId": "account_id",
+        "accessTokenCiphertext": "access_token_ciphertext",
+        "refreshTokenCiphertext": "refresh_token_ciphertext",
+        "expiresAt": "expires_at",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at"
+      },
+      "constraints": [
+        "exact committed migration checksums",
+        "repository-level runtime behavior verified by Postgres E2E"
+      ]
+    },
+    {
+      "kind": "storage",
+      "id": "SuggestedTrackStorage",
+      "file": "model/infrastructure.alch",
+      "line": 61,
+      "meaning": "SuggestedTrack Postgres binding with complete field mapping; SQL and IO remain adapter-owned.",
+      "record": "SuggestedTrack",
+      "adapter": "PostgresStore",
+      "table": "body_war_suggested_tracks",
+      "schema": "../app/src/infrastructure/postgres/schema.ts",
+      "migrations": [
+        "../app/drizzle/0000_strong_iron_man.sql",
+        "../app/drizzle/0001_lyrical_living_mummy.sql",
+        "../app/drizzle/0002_evidence_identity.sql",
+        "../app/drizzle/0003_legacy_migration.sql",
+        "../app/drizzle/0004_provider_owner.sql"
+      ],
+      "columns": {
+        "id": "id",
+        "slug": "slug",
+        "name": "name",
+        "placeLabel": "place_label",
+        "city": "city",
+        "country": "country",
+        "distanceHintMeters": "distance_hint_meters",
+        "status": "status",
+        "geometryAuthority": "geometry_authority",
+        "suggestedByPrincipalId": "suggested_by_principal_id",
+        "publicNote": "public_note",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at"
+      },
+      "constraints": [
+        "exact committed migration checksums",
+        "repository-level runtime behavior verified by Postgres E2E"
+      ]
+    },
+    {
+      "kind": "storage",
+      "id": "ActivityEvidenceCandidateStorage",
+      "file": "model/infrastructure.alch",
+      "line": 71,
+      "meaning": "ActivityEvidenceCandidate Postgres binding with complete field mapping; SQL and IO remain adapter-owned.",
+      "record": "ActivityEvidenceCandidate",
+      "adapter": "PostgresStore",
+      "table": "body_war_activity_evidence_candidates",
+      "schema": "../app/src/infrastructure/postgres/schema.ts",
+      "migrations": [
+        "../app/drizzle/0000_strong_iron_man.sql",
+        "../app/drizzle/0001_lyrical_living_mummy.sql",
+        "../app/drizzle/0002_evidence_identity.sql",
+        "../app/drizzle/0003_legacy_migration.sql",
+        "../app/drizzle/0004_provider_owner.sql"
+      ],
+      "columns": {
+        "id": "id",
+        "suggestedTrackId": "suggested_track_id",
+        "principalId": "principal_id",
+        "provider": "provider",
+        "providerActivityId": "provider_activity_id",
+        "redactedSummary": "redacted_summary",
+        "consentText": "consent_text",
+        "consentedAt": "consented_at",
+        "status": "status",
+        "createdAt": "created_at",
+        "updatedAt": "updated_at"
+      },
+      "constraints": [
+        "exact committed migration checksums",
+        "repository-level runtime behavior verified by Postgres E2E"
+      ]
+    },
+    {
+      "kind": "configuration",
+      "id": "UiConfiguration",
+      "file": "model/ui.alch",
+      "line": 5,
+      "meaning": "Browser consent copy and view states owned by the authored pilot model.",
+      "values": {
+        "consentText": "Autorizo o TROQAR a guardar somente o resumo redigido desta atividade como candidata de evidencia para a rota sugerida.",
+        "brand": "TROQAR",
+        "provider": "Strava",
+        "errors": {
+          "security_action_finished": "A acao de seguranca terminou. Entre novamente para continuar.",
+          "consent_required": "Confirme o consentimento antes de enviar a candidata.",
+          "invalid_suggested_track": "Preencha nome, lugar, cidade e uma distancia positiva quando informada.",
+          "suggested_track_not_found": "Esta rota sugerida nao esta mais disponivel.",
+          "track_geometry_missing": "Geometria da rota ainda nao foi confirmada para esta evidencia."
+        }
+      }
+    },
+    {
+      "kind": "ui",
+      "id": "PilotUi",
+      "file": "model/ui.alch",
+      "line": 9,
+      "meaning": "Bound HTML/CSS/client adapters render the modeled login, profile, suggestion and evidence flow; generated API paths and visibility rules are consumed by the browser.",
+      "template": "../app/ui/index.html",
+      "style": "../app/ui/styles.css",
+      "client": "../app/ui/app.js",
+      "configuration": "UiConfiguration",
+      "pages": [
+        "/",
+        "/profile"
+      ]
+    },
+    {
+      "kind": "view",
+      "id": "LoginView",
+      "file": "model/ui.alch",
+      "line": 17,
+      "meaning": "LoginView visibility and operation contract.",
+      "selector": "#auth-login",
+      "visibility": "anonymous",
+      "operations": [
+        "StartStrava",
+        "CompleteStrava",
+        "StartOidc",
+        "CompleteOidc",
+        "LinkStrava"
+      ]
+    },
+    {
+      "kind": "view",
+      "id": "RunnerHomeView",
+      "file": "model/ui.alch",
+      "line": 23,
+      "meaning": "RunnerHomeView visibility and operation contract.",
+      "selector": "#runner-home",
+      "visibility": "connected",
+      "operations": [
+        "ReadProfile",
+        "ListActivities",
+        "ListTracks",
+        "CreateTrack",
+        "ReadTrack",
+        "AttachEvidence",
+        "WithdrawEvidence"
+      ]
+    },
+    {
+      "kind": "view",
+      "id": "LogoutView",
+      "file": "model/ui.alch",
+      "line": 29,
+      "meaning": "LogoutView visibility and operation contract.",
+      "selector": "#logout",
+      "visibility": "connected",
+      "operations": [
+        "Logout"
+      ]
+    },
+    {
+      "kind": "view",
+      "id": "ProfileLinkView",
+      "file": "model/ui.alch",
+      "line": 35,
+      "meaning": "ProfileLinkView visibility and operation contract.",
+      "selector": "#profile-link",
+      "visibility": "connected",
+      "operations": [
+        "ReadProfile"
+      ]
+    },
+    {
+      "kind": "view",
+      "id": "TopConnectView",
+      "file": "model/ui.alch",
+      "line": 41,
+      "meaning": "TopConnectView visibility and operation contract.",
+      "selector": "#connect-top",
+      "visibility": "never",
+      "operations": [
+        "StartStrava"
+      ]
+    },
+    {
+      "kind": "view",
+      "id": "SecurityView",
+      "file": "model/ui.alch",
+      "line": 47,
+      "meaning": "Security settings are available only to signed-in durable-identity consumers.",
+      "selector": "#security-link",
+      "visibility": "never",
+      "operations": [
+        "ReadSecurity",
+        "ChangeSecurity"
+      ]
+    },
+    {
+      "kind": "adapter",
+      "id": "TdeAdapter",
+      "file": "model/assurance.alch",
+      "line": 5,
+      "meaning": "All modeled operations/effects plus exact compiled consent rule; needs-formal obligations retained.",
+      "category": "tool",
+      "source": "../scripts/prepare-assurance.mjs",
+      "exports": []
+    },
+    {
+      "kind": "assurance",
+      "id": "TdeAssurance",
+      "file": "model/assurance.alch",
+      "line": 11,
+      "meaning": "All modeled operations/effects plus exact compiled consent rule; needs-formal obligations retained.",
+      "adapter": "TdeAdapter",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "scripts/prepare-assurance.mjs"
+      ],
+      "scope": "All modeled operations/effects plus exact compiled consent rule; needs-formal obligations retained.",
+      "required": true
+    },
+    {
+      "kind": "adapter",
+      "id": "EvfAdapter",
+      "file": "model/assurance.alch",
+      "line": 18,
+      "meaning": "Twelve exact obligation witnesses: consent, ten lifecycle transitions and logout response field. Remaining obligations stay unverified; no general formal discharge.",
+      "category": "tool",
+      "source": "../scripts/run-evf.mjs",
+      "exports": []
+    },
+    {
+      "kind": "assurance",
+      "id": "EvfAssurance",
+      "file": "model/assurance.alch",
+      "line": 24,
+      "meaning": "Twelve exact obligation witnesses: consent, ten lifecycle transitions and logout response field. Remaining obligations stay unverified; no general formal discharge.",
+      "adapter": "EvfAdapter",
+      "command": [
+        "node",
+        "scripts/run-evf.mjs"
+      ],
+      "scope": "Twelve exact obligation witnesses: consent, ten lifecycle transitions and logout response field. Remaining obligations stay unverified; no general formal discharge.",
+      "required": true
+    },
+    {
+      "kind": "adapter",
+      "id": "OrodiAdapter",
+      "file": "model/assurance.alch",
+      "line": 31,
+      "meaning": "Local health, canary fault/rollback, process loss/restart and collector export observations; full operational readiness remains rejected.",
+      "category": "tool",
+      "source": "../scripts/run-orodi.mjs",
+      "exports": []
+    },
+    {
+      "kind": "assurance",
+      "id": "OrodiAssurance",
+      "file": "model/assurance.alch",
+      "line": 37,
+      "meaning": "Local health, canary fault/rollback, process loss/restart and collector export observations; full operational readiness remains rejected.",
+      "adapter": "OrodiAdapter",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "scripts/run-orodi.mjs"
+      ],
+      "scope": "Local health, canary fault/rollback, process loss/restart and collector export observations; full operational readiness remains rejected.",
+      "required": true
+    },
+    {
+      "kind": "configuration",
+      "id": "CriticalRequirements",
+      "file": "model/assurance.alch",
+      "line": 44,
+      "meaning": "Exact security and persistence requirement-to-case bindings. Integration witnesses are bounded and do not claim formal discharge.",
+      "values": {
+        "requirements": [
+          {
+            "case": "runner_isolation",
+            "id": "SEC_ISOLATION",
+            "formal": "Runner-scoped detail returns no other runner evidence and profile resolves to the authenticated principal.",
+            "evidence": "evidence/critical-security.json",
+            "test": "scripts/critical-security.mjs"
+          },
+          {
+            "case": "permissions",
+            "id": "SEC_PERMISSION",
+            "formal": "Anonymous access returns 401 and an authenticated principal without the read grant receives 403.",
+            "evidence": "evidence/critical-security.json",
+            "test": "scripts/critical-security.mjs"
+          },
+          {
+            "case": "oauth_replay",
+            "id": "SEC_OAUTH_REPLAY",
+            "formal": "A consumed OAuth callback cannot mint a second browser session.",
+            "evidence": "evidence/critical-security.json",
+            "test": "scripts/critical-security.mjs"
+          },
+          {
+            "case": "csrf_origin",
+            "id": "SEC_CSRF",
+            "formal": "Missing CSRF and an untrusted origin reject a valid-session write.",
+            "evidence": "evidence/critical-security.json",
+            "test": "scripts/critical-security.mjs"
+          },
+          {
+            "case": "request_validation",
+            "id": "SEC_REQUEST",
+            "formal": "Malformed, unknown-field, wrong-type and oversized JSON requests are rejected before persistence.",
+            "evidence": "evidence/critical-security.json",
+            "test": "scripts/critical-security.mjs"
+          },
+          {
+            "case": "consent_revocation",
+            "id": "SEC_REVOCATION",
+            "formal": "Internal consent disposition erases the exact candidate, resets the empty track and is idempotent.",
+            "evidence": "evidence/critical-security.json",
+            "test": "scripts/critical-security.mjs"
+          },
+          {
+            "case": "oauth_concurrency",
+            "id": "DB_OAUTH",
+            "formal": "Twelve concurrent PostgreSQL consumers return exactly one OAuth state; expiry at the boundary is rejected.",
+            "evidence": "evidence/critical-postgres.json",
+            "test": "app/e2e/critical-integrity.e2e.ts"
+          },
+          {
+            "case": "evidence_concurrency",
+            "id": "DB_DUPLICATE",
+            "formal": "Twelve concurrent identical attachments create exactly one row; uniqueness includes runner identity.",
+            "evidence": "evidence/critical-postgres.json",
+            "test": "app/e2e/critical-integrity.e2e.ts"
+          },
+          {
+            "case": "atomic_rollback",
+            "id": "DB_ATOMIC",
+            "formal": "Failure between evidence insertion and track update rolls both back and permits one successful retry.",
+            "evidence": "evidence/critical-postgres.json",
+            "test": "app/e2e/critical-integrity.e2e.ts"
+          },
+          {
+            "case": "concurrent_disposition",
+            "id": "DB_DISPOSITION",
+            "formal": "Concurrent disposition and replacement preserve the new candidate and consistent track state.",
+            "evidence": "evidence/critical-postgres.json",
+            "test": "app/e2e/critical-integrity.e2e.ts"
+          },
+          {
+            "case": "persistence_reopen",
+            "id": "DB_PERSISTENCE",
+            "formal": "A fresh reader process sees committed evidence and track state after all writer connections close.",
+            "evidence": "evidence/critical-postgres.json",
+            "test": "app/e2e/critical-integrity.e2e.ts"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "application",
+      "id": "BodyWarPilot",
+      "file": "body-war.alch",
+      "line": 12,
+      "meaning": "Complete existing-pilot contracts and explicit adapter boundaries; no broader game or production claim.",
+      "output": "app/src/application",
+      "http": "PilotHttp",
+      "authorize": "authorizeOperation",
+      "static": "serveStatic",
+      "errors": "sendJson"
+    },
+    {
+      "kind": "model",
+      "id": "Consent",
+      "file": "body-war.alch",
+      "line": 20,
+      "meaning": "DomainSpec-generated evidence consent predicate consumed before persistence.",
+      "source": "model/pilot.alch",
+      "profile": "domainspec-1.0.0"
+    }
+  ],
+  "sources": {
+    "body-war.alch": "06b76467c60a8315e60a616f624d6b4e2dcd2ef60a12c7148179dfbe9c66060d",
+    "model/identity.alch": "b271b6f0ba2d4b385e48c8e52598fb706d0b74dda1b255f2d06d46addfdedae0",
+    "model/activities.alch": "76306be6b661a3f4729bf77752bb2ca3adf6dc2494f57ff8ce42139c07f95d84",
+    "model/tracks.alch": "3a6bacd7bca414ee1bc6c72f76dcde2721d39998690ecbfba1732f9c60f94337",
+    "model/evidence.alch": "25c0ea2031d2605b6006578be392ef504060364c77cc9bbce23cb50821a1ca39",
+    "model/infrastructure.alch": "0c1457a8a2fb10def2462a76fcb9c0fb2d3b8c393ad9f43117f8782d46c587a4",
+    "model/ui.alch": "8c9eda71401a05e576edc4db45e8d0ce082222579ad4c2dd8ad9091e9501df10",
+    "model/assurance.alch": "50f9e3a9f28ff7d74c3de1e3c2867ab6b2233e2662cc4ec18980be25ae3c1c0c",
+    "model/pilot.alch": "5a32f2415e35bb6469b74a65ee05c98c8a5f6ba7ba249e05db521d1e49939c2c",
+    "model/pilot.alch.domainspec.json": "c17599d2bf50f7f8ffad290a23210a744ae2cf2fa3bf4b424eabb08300e06185",
+    "app/src/adapters/pilot-http.ts": "a0f221b442e594b5f2feb77504cfc4948b733bbf73978567402270c3df1c0ca0",
+    "vendor/auth/src/index.ts": "00e8ce88dcfc13b9c329861c1ace907a6f6996f10aae2c10602c9b91e7be134d",
+    "app/src/auth/strava-oauth.ts": "5dc61193f3a4dd1a97ba77cdb122f870cb67e9039600a5959045b92379817962",
+    "app/tests/auth-consumer.test.ts": "64f84d9d9588c20e3070c9c15eab9fe3ee8bbbd5c22b769abe238f76e0326241",
+    "app/tests/oidc.test.ts": "638c024c2f68f35d0239f621d27f41f50724844ee4235c109ec13a5f7d1f1b1c",
+    "app/src/auth/oidc.ts": "bb57df069e56bdeaef22ebc3b3a62004054e5c593d86fef9dda4faacfe7850d2",
+    "app/src/auth/oidc-policy.ts": "f48f497c70d211c8f5ad58595c4828c731e2071a59e7791ac9055fe57ca609b8",
+    "app/src/auth/oidc-durable.ts": "e3d39148181752e2179af314752fb05b72d83c2cdc53579b6e6f484b16e68ad6",
+    "app/tests/strava-activity-provider.test.ts": "db7228089b9bc30abb51919fa2a020d6ca01409995a8eb98a4e96f0d00d93ef3",
+    "app/tests/evidence-lifecycle.test.ts": "ff2ac8447eda78f3896f36d1116da6dae85fba62f06656fbffd628834e8094a4",
+    "app/src/auth/memory-repository.ts": "0677a7d53b45fa625ab7f3008dc810608097688e6615f8cf2566f2a380fcdb39",
+    "app/src/auth/drizzle-repository.ts": "d4062a87fc4a3f89adf6fe391674238a8512a9189cb675ab0eb19215be2e2ee3",
+    "app/src/infrastructure/postgres/schema.ts": "bc60eb5462d9ca05733005e6f8f3e6eac42db0cb5fa83fcff0ced83e237eb050",
+    "app/drizzle/0000_strong_iron_man.sql": "daa9dc4a30211497d31d1c98f5a24fa68d935b96228261bd525927457feac289",
+    "app/drizzle/0001_lyrical_living_mummy.sql": "fe592b7403e4274088babc158aad00aca978d8024ca0b385a4df150f579f405c",
+    "app/drizzle/0002_evidence_identity.sql": "e784c6c05a5610dce070053aa075a5bd8759714037dcab6d9e58df012c4a9c43",
+    "app/drizzle/0003_legacy_migration.sql": "cfb62656258ad59eec39ce56046bc8f226a11021167484d94b739ace27360965",
+    "app/drizzle/0004_provider_owner.sql": "5f8d1c96d6f8a87bc2d0004d53f1b0262cc8e8ea5e47f36b278082ddd81d0991",
+    "app/ui/index.html": "603da9badcb38178467b88bc0232d34ad03c5d9bb69ee71b9329323dc7d9347b",
+    "app/ui/styles.css": "cfc8f80df8b535350bcf3f0cbe76d945be1860bc43766c81c39b880fc8657ee2",
+    "app/ui/app.js": "a530a8fc98db288b0957d9b2cbe5bb95bfc3f3ae675f83b0bc5d33cd49f65b15",
+    "scripts/prepare-assurance.mjs": "d210f9301ac3ab2a9ff17dcfa7b1b1cc91bc69fc506e6b026dc0b08f3c71eee1",
+    "scripts/run-evf.mjs": "53ca86154974a171ff7991aebcfe2674955241fadc25e134e91945dd8649e2d6",
+    "scripts/run-orodi.mjs": "0feebf94bd6ec8d9ccc567abd4ade66ba2dee67e93c4aaaa248e2254f64306ba"
+  },
+  "authority_effect": "none"
+}

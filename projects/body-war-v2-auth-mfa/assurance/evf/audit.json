@@ -1,0 +1,1382 @@
+{
+  "schema_version": "evf.audit-spec/v1",
+  "audit_id": "body-war-v2-consent",
+  "subject": "TROQAR finite generated consent, lifecycle, normalization, query and nested record contracts",
+  "claim_ceiling": "Finite executable witnesses for 29 exact obligations; no general formal discharge or whole-program claim",
+  "sources": [
+    "obligation.md",
+    "pilot.alch",
+    "tde.json"
+  ],
+  "bindings": [
+    "generated-rule.mjs",
+    "compiled-rule.json",
+    "provider.mjs",
+    "application-provider.mjs",
+    "generated-domain.mjs",
+    "generated-validation.mjs",
+    "contract-mutants/CreateTrackRules-name/package.json",
+    "contract-mutants/CreateTrackRules-name/normalization.js",
+    "contract-mutants/CreateTrackRules-name/query.js",
+    "contract-mutants/CreateTrackRules-name/request.js",
+    "contract-mutants/CreateTrackRules-name/validation.js",
+    "contract-mutants/CreateTrackRules-place_label/package.json",
+    "contract-mutants/CreateTrackRules-place_label/normalization.js",
+    "contract-mutants/CreateTrackRules-place_label/query.js",
+    "contract-mutants/CreateTrackRules-place_label/request.js",
+    "contract-mutants/CreateTrackRules-place_label/validation.js",
+    "contract-mutants/CreateTrackRules-city/package.json",
+    "contract-mutants/CreateTrackRules-city/normalization.js",
+    "contract-mutants/CreateTrackRules-city/query.js",
+    "contract-mutants/CreateTrackRules-city/request.js",
+    "contract-mutants/CreateTrackRules-city/validation.js",
+    "contract-mutants/CreateTrackRules-public_note/package.json",
+    "contract-mutants/CreateTrackRules-public_note/normalization.js",
+    "contract-mutants/CreateTrackRules-public_note/query.js",
+    "contract-mutants/CreateTrackRules-public_note/request.js",
+    "contract-mutants/CreateTrackRules-public_note/validation.js",
+    "contract-mutants/EvidenceInputRules-activity_id/package.json",
+    "contract-mutants/EvidenceInputRules-activity_id/normalization.js",
+    "contract-mutants/EvidenceInputRules-activity_id/query.js",
+    "contract-mutants/EvidenceInputRules-activity_id/request.js",
+    "contract-mutants/EvidenceInputRules-activity_id/validation.js",
+    "contract-mutants/EvidenceInputRules-consent_text/package.json",
+    "contract-mutants/EvidenceInputRules-consent_text/normalization.js",
+    "contract-mutants/EvidenceInputRules-consent_text/query.js",
+    "contract-mutants/EvidenceInputRules-consent_text/request.js",
+    "contract-mutants/EvidenceInputRules-consent_text/validation.js",
+    "contract-mutants/CreateTrackRules-distance_hint_meters/package.json",
+    "contract-mutants/CreateTrackRules-distance_hint_meters/normalization.js",
+    "contract-mutants/CreateTrackRules-distance_hint_meters/query.js",
+    "contract-mutants/CreateTrackRules-distance_hint_meters/request.js",
+    "contract-mutants/CreateTrackRules-distance_hint_meters/validation.js",
+    "contract-mutants/ActivityPagination-page/package.json",
+    "contract-mutants/ActivityPagination-page/normalization.js",
+    "contract-mutants/ActivityPagination-page/query.js",
+    "contract-mutants/ActivityPagination-page/request.js",
+    "contract-mutants/ActivityPagination-page/validation.js",
+    "contract-mutants/ActivityPagination-per_page/package.json",
+    "contract-mutants/ActivityPagination-per_page/normalization.js",
+    "contract-mutants/ActivityPagination-per_page/query.js",
+    "contract-mutants/ActivityPagination-per_page/request.js",
+    "contract-mutants/ActivityPagination-per_page/validation.js",
+    "contract-mutants/ProfileResponse-profile/package.json",
+    "contract-mutants/ProfileResponse-profile/normalization.js",
+    "contract-mutants/ProfileResponse-profile/query.js",
+    "contract-mutants/ProfileResponse-profile/request.js",
+    "contract-mutants/ProfileResponse-profile/validation.js",
+    "contract-mutants/PublicRunnerProfile-session/package.json",
+    "contract-mutants/PublicRunnerProfile-session/normalization.js",
+    "contract-mutants/PublicRunnerProfile-session/query.js",
+    "contract-mutants/PublicRunnerProfile-session/request.js",
+    "contract-mutants/PublicRunnerProfile-session/validation.js",
+    "contract-mutants/PublicRunnerProfile-strava/package.json",
+    "contract-mutants/PublicRunnerProfile-strava/normalization.js",
+    "contract-mutants/PublicRunnerProfile-strava/query.js",
+    "contract-mutants/PublicRunnerProfile-strava/request.js",
+    "contract-mutants/PublicRunnerProfile-strava/validation.js",
+    "contract-mutants/StatusResponse-athlete/package.json",
+    "contract-mutants/StatusResponse-athlete/normalization.js",
+    "contract-mutants/StatusResponse-athlete/query.js",
+    "contract-mutants/StatusResponse-athlete/request.js",
+    "contract-mutants/StatusResponse-athlete/validation.js",
+    "contract-mutants/TrackResponse-suggested_track/package.json",
+    "contract-mutants/TrackResponse-suggested_track/normalization.js",
+    "contract-mutants/TrackResponse-suggested_track/query.js",
+    "contract-mutants/TrackResponse-suggested_track/request.js",
+    "contract-mutants/TrackResponse-suggested_track/validation.js",
+    "contract-mutants/TrackResponse-my_evidence_candidates/package.json",
+    "contract-mutants/TrackResponse-my_evidence_candidates/normalization.js",
+    "contract-mutants/TrackResponse-my_evidence_candidates/query.js",
+    "contract-mutants/TrackResponse-my_evidence_candidates/request.js",
+    "contract-mutants/TrackResponse-my_evidence_candidates/validation.js",
+    "contract-mutants/EvidenceResponse-evidence_candidate/package.json",
+    "contract-mutants/EvidenceResponse-evidence_candidate/normalization.js",
+    "contract-mutants/EvidenceResponse-evidence_candidate/query.js",
+    "contract-mutants/EvidenceResponse-evidence_candidate/request.js",
+    "contract-mutants/EvidenceResponse-evidence_candidate/validation.js",
+    "contract-mutants/ActivitiesResponse-receipt/package.json",
+    "contract-mutants/ActivitiesResponse-receipt/normalization.js",
+    "contract-mutants/ActivitiesResponse-receipt/query.js",
+    "contract-mutants/ActivitiesResponse-receipt/request.js",
+    "contract-mutants/ActivitiesResponse-receipt/validation.js",
+    "contract-cases.mjs",
+    "contract-provider.mjs",
+    "contract-runtime/package.json",
+    "contract-runtime/normalization.js",
+    "contract-runtime/query.js",
+    "contract-runtime/request.js",
+    "contract-runtime/validation.js"
+  ],
+  "obligations": [
+    "e52fa22f0e3b33b640dff7706326a8e21b17f344",
+    "20534b777e2dba7401758b5170821abc220d6481",
+    "28b768bbdce391b87cdc5271167b99aab9fecf7f",
+    "45aa5f0821481aa8fa7ccc10f57e357717539834",
+    "57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc",
+    "7485c25cf372ec1b95d737ce9afcca1c76ee2ff3",
+    "96db5dda3eea7bf0c6d2712ebef134a3508df312",
+    "9b928acb5c2dd7f25486e02111671f503a5469c7",
+    "afa2d5e71a67b37860d01407166955809d1e3a1d",
+    "cf08be4d0240be2f54521e3ec4fab452dd99309f",
+    "cffc60a5bafb7ca5f7840adf015b99dcd11a2a52",
+    "d3d017b01aca4faa52139671f7cfb592f66a9da3",
+    "ba005fd297c0920b64be08ec61b6ed668c4bb652",
+    "34a8361421491e148b3fb5753b8c732cb4464cc8",
+    "5437c9313de13eba641374189ae8e8f551aa105d",
+    "b54576206288ce86920a5504079d84b73882c96e",
+    "adaa14fa5f3e42046531c2fe7f9cff92d763a1b7",
+    "e148cf213ad8d306e328134c9e4cb57ed51553e3",
+    "e8c9853e161ff42e72b479fe2735da58f174acd3",
+    "b55182caeb6645d6c6f3341ba3fc10d300f0cbe9",
+    "311d5b1eb342fa26bd290ffe86f561dc3d5b06d3",
+    "1bfdf5e13713994268fe91ad048cbf88b603a1ca",
+    "f3fc191c67ab2daea8aa36c9d37d8404f9a2e847",
+    "d4da692530bd350f6a7a807691cee314eeb56227",
+    "2fb3cf853a18f3a4086dae36c3965eb5897654ef",
+    "ff3c14868eb6d40150d714a05db8c2328dc76f3f",
+    "80a4d70b0a4eca15b7e94f58af41cda73c430405",
+    "564a273ee5331d7bae646c8b5d0e5003835d561a",
+    "313fa82ae27749ab7376bae18c9311640cd0a2e2"
+  ],
+  "checks": [
+    {
+      "id": "consent-truth-table",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "e52fa22f0e3b33b640dff7706326a8e21b17f344"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "positive.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONSENT_TRUTH_TABLE",
+        "cases": 8,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "bypass-consent",
+          "input": "negative.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONSENT_BYPASS",
+            "cases": 8,
+            "failed_cases": 7
+          },
+          "reason_code": "CONSENT_BYPASS"
+        }
+      ]
+    },
+    {
+      "id": "application-20534b777e2dba7401758b5170821abc220d6481",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "20534b777e2dba7401758b5170821abc220d6481"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-20534b777e2dba7401758b5170821abc220d6481.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-20534b777e2dba7401758b5170821abc220d6481-bypass",
+          "input": "application-20534b777e2dba7401758b5170821abc220d6481-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-28b768bbdce391b87cdc5271167b99aab9fecf7f",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "28b768bbdce391b87cdc5271167b99aab9fecf7f"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-28b768bbdce391b87cdc5271167b99aab9fecf7f.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-28b768bbdce391b87cdc5271167b99aab9fecf7f-bypass",
+          "input": "application-28b768bbdce391b87cdc5271167b99aab9fecf7f-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-45aa5f0821481aa8fa7ccc10f57e357717539834",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "45aa5f0821481aa8fa7ccc10f57e357717539834"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-45aa5f0821481aa8fa7ccc10f57e357717539834.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-45aa5f0821481aa8fa7ccc10f57e357717539834-bypass",
+          "input": "application-45aa5f0821481aa8fa7ccc10f57e357717539834-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc-bypass",
+          "input": "application-57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-7485c25cf372ec1b95d737ce9afcca1c76ee2ff3",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "7485c25cf372ec1b95d737ce9afcca1c76ee2ff3"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-7485c25cf372ec1b95d737ce9afcca1c76ee2ff3.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-7485c25cf372ec1b95d737ce9afcca1c76ee2ff3-bypass",
+          "input": "application-7485c25cf372ec1b95d737ce9afcca1c76ee2ff3-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-96db5dda3eea7bf0c6d2712ebef134a3508df312",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "96db5dda3eea7bf0c6d2712ebef134a3508df312"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-96db5dda3eea7bf0c6d2712ebef134a3508df312.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-96db5dda3eea7bf0c6d2712ebef134a3508df312-bypass",
+          "input": "application-96db5dda3eea7bf0c6d2712ebef134a3508df312-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-9b928acb5c2dd7f25486e02111671f503a5469c7",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "9b928acb5c2dd7f25486e02111671f503a5469c7"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-9b928acb5c2dd7f25486e02111671f503a5469c7.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-9b928acb5c2dd7f25486e02111671f503a5469c7-bypass",
+          "input": "application-9b928acb5c2dd7f25486e02111671f503a5469c7-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-afa2d5e71a67b37860d01407166955809d1e3a1d",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "afa2d5e71a67b37860d01407166955809d1e3a1d"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-afa2d5e71a67b37860d01407166955809d1e3a1d.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-afa2d5e71a67b37860d01407166955809d1e3a1d-bypass",
+          "input": "application-afa2d5e71a67b37860d01407166955809d1e3a1d-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-cf08be4d0240be2f54521e3ec4fab452dd99309f",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "cf08be4d0240be2f54521e3ec4fab452dd99309f"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-cf08be4d0240be2f54521e3ec4fab452dd99309f.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-cf08be4d0240be2f54521e3ec4fab452dd99309f-bypass",
+          "input": "application-cf08be4d0240be2f54521e3ec4fab452dd99309f-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-cffc60a5bafb7ca5f7840adf015b99dcd11a2a52",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "cffc60a5bafb7ca5f7840adf015b99dcd11a2a52"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-cffc60a5bafb7ca5f7840adf015b99dcd11a2a52.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 1,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-cffc60a5bafb7ca5f7840adf015b99dcd11a2a52-bypass",
+          "input": "application-cffc60a5bafb7ca5f7840adf015b99dcd11a2a52-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 1,
+            "failed_cases": 1
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "application-d3d017b01aca4faa52139671f7cfb592f66a9da3",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "d3d017b01aca4faa52139671f7cfb592f66a9da3"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "application-provider.mjs",
+        "generated-rule.mjs",
+        "generated-domain.mjs",
+        "generated-validation.mjs"
+      ],
+      "input": "application-d3d017b01aca4faa52139671f7cfb592f66a9da3.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "APPLICATION_CONTRACT",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "application-d3d017b01aca4faa52139671f7cfb592f66a9da3-bypass",
+          "input": "application-d3d017b01aca4faa52139671f7cfb592f66a9da3-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "APPLICATION_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "APPLICATION_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-CreateTrackRules-name",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "ba005fd297c0920b64be08ec61b6ed668c4bb652"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/CreateTrackRules-name/package.json",
+        "contract-mutants/CreateTrackRules-name/normalization.js",
+        "contract-mutants/CreateTrackRules-name/query.js",
+        "contract-mutants/CreateTrackRules-name/request.js",
+        "contract-mutants/CreateTrackRules-name/validation.js"
+      ],
+      "input": "contract-CreateTrackRules-name.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-CreateTrackRules-name-mutant",
+          "input": "contract-CreateTrackRules-name-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-CreateTrackRules-place_label",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "34a8361421491e148b3fb5753b8c732cb4464cc8"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/CreateTrackRules-place_label/package.json",
+        "contract-mutants/CreateTrackRules-place_label/normalization.js",
+        "contract-mutants/CreateTrackRules-place_label/query.js",
+        "contract-mutants/CreateTrackRules-place_label/request.js",
+        "contract-mutants/CreateTrackRules-place_label/validation.js"
+      ],
+      "input": "contract-CreateTrackRules-place_label.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-CreateTrackRules-place_label-mutant",
+          "input": "contract-CreateTrackRules-place_label-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-CreateTrackRules-city",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "5437c9313de13eba641374189ae8e8f551aa105d"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/CreateTrackRules-city/package.json",
+        "contract-mutants/CreateTrackRules-city/normalization.js",
+        "contract-mutants/CreateTrackRules-city/query.js",
+        "contract-mutants/CreateTrackRules-city/request.js",
+        "contract-mutants/CreateTrackRules-city/validation.js"
+      ],
+      "input": "contract-CreateTrackRules-city.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-CreateTrackRules-city-mutant",
+          "input": "contract-CreateTrackRules-city-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-CreateTrackRules-public_note",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "b54576206288ce86920a5504079d84b73882c96e"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/CreateTrackRules-public_note/package.json",
+        "contract-mutants/CreateTrackRules-public_note/normalization.js",
+        "contract-mutants/CreateTrackRules-public_note/query.js",
+        "contract-mutants/CreateTrackRules-public_note/request.js",
+        "contract-mutants/CreateTrackRules-public_note/validation.js"
+      ],
+      "input": "contract-CreateTrackRules-public_note.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-CreateTrackRules-public_note-mutant",
+          "input": "contract-CreateTrackRules-public_note-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-EvidenceInputRules-activity_id",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "adaa14fa5f3e42046531c2fe7f9cff92d763a1b7"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/EvidenceInputRules-activity_id/package.json",
+        "contract-mutants/EvidenceInputRules-activity_id/normalization.js",
+        "contract-mutants/EvidenceInputRules-activity_id/query.js",
+        "contract-mutants/EvidenceInputRules-activity_id/request.js",
+        "contract-mutants/EvidenceInputRules-activity_id/validation.js"
+      ],
+      "input": "contract-EvidenceInputRules-activity_id.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-EvidenceInputRules-activity_id-mutant",
+          "input": "contract-EvidenceInputRules-activity_id-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-EvidenceInputRules-consent_text",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "e148cf213ad8d306e328134c9e4cb57ed51553e3"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/EvidenceInputRules-consent_text/package.json",
+        "contract-mutants/EvidenceInputRules-consent_text/normalization.js",
+        "contract-mutants/EvidenceInputRules-consent_text/query.js",
+        "contract-mutants/EvidenceInputRules-consent_text/request.js",
+        "contract-mutants/EvidenceInputRules-consent_text/validation.js"
+      ],
+      "input": "contract-EvidenceInputRules-consent_text.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-EvidenceInputRules-consent_text-mutant",
+          "input": "contract-EvidenceInputRules-consent_text-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-CreateTrackRules-distance_hint_meters",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "e8c9853e161ff42e72b479fe2735da58f174acd3"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/CreateTrackRules-distance_hint_meters/package.json",
+        "contract-mutants/CreateTrackRules-distance_hint_meters/normalization.js",
+        "contract-mutants/CreateTrackRules-distance_hint_meters/query.js",
+        "contract-mutants/CreateTrackRules-distance_hint_meters/request.js",
+        "contract-mutants/CreateTrackRules-distance_hint_meters/validation.js"
+      ],
+      "input": "contract-CreateTrackRules-distance_hint_meters.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 6,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-CreateTrackRules-distance_hint_meters-mutant",
+          "input": "contract-CreateTrackRules-distance_hint_meters-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 6,
+            "failed_cases": 1
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-ActivityPagination-page",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "b55182caeb6645d6c6f3341ba3fc10d300f0cbe9"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/ActivityPagination-page/package.json",
+        "contract-mutants/ActivityPagination-page/normalization.js",
+        "contract-mutants/ActivityPagination-page/query.js",
+        "contract-mutants/ActivityPagination-page/request.js",
+        "contract-mutants/ActivityPagination-page/validation.js"
+      ],
+      "input": "contract-ActivityPagination-page.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 9,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-ActivityPagination-page-mutant",
+          "input": "contract-ActivityPagination-page-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 9,
+            "failed_cases": 1
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-ActivityPagination-per_page",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "311d5b1eb342fa26bd290ffe86f561dc3d5b06d3"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/ActivityPagination-per_page/package.json",
+        "contract-mutants/ActivityPagination-per_page/normalization.js",
+        "contract-mutants/ActivityPagination-per_page/query.js",
+        "contract-mutants/ActivityPagination-per_page/request.js",
+        "contract-mutants/ActivityPagination-per_page/validation.js"
+      ],
+      "input": "contract-ActivityPagination-per_page.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 9,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-ActivityPagination-per_page-mutant",
+          "input": "contract-ActivityPagination-per_page-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 9,
+            "failed_cases": 1
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-ProfileResponse-profile",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "1bfdf5e13713994268fe91ad048cbf88b603a1ca"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/ProfileResponse-profile/package.json",
+        "contract-mutants/ProfileResponse-profile/normalization.js",
+        "contract-mutants/ProfileResponse-profile/query.js",
+        "contract-mutants/ProfileResponse-profile/request.js",
+        "contract-mutants/ProfileResponse-profile/validation.js"
+      ],
+      "input": "contract-ProfileResponse-profile.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-ProfileResponse-profile-mutant",
+          "input": "contract-ProfileResponse-profile-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-PublicRunnerProfile-session",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "f3fc191c67ab2daea8aa36c9d37d8404f9a2e847"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/PublicRunnerProfile-session/package.json",
+        "contract-mutants/PublicRunnerProfile-session/normalization.js",
+        "contract-mutants/PublicRunnerProfile-session/query.js",
+        "contract-mutants/PublicRunnerProfile-session/request.js",
+        "contract-mutants/PublicRunnerProfile-session/validation.js"
+      ],
+      "input": "contract-PublicRunnerProfile-session.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-PublicRunnerProfile-session-mutant",
+          "input": "contract-PublicRunnerProfile-session-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-PublicRunnerProfile-strava",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "d4da692530bd350f6a7a807691cee314eeb56227"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/PublicRunnerProfile-strava/package.json",
+        "contract-mutants/PublicRunnerProfile-strava/normalization.js",
+        "contract-mutants/PublicRunnerProfile-strava/query.js",
+        "contract-mutants/PublicRunnerProfile-strava/request.js",
+        "contract-mutants/PublicRunnerProfile-strava/validation.js"
+      ],
+      "input": "contract-PublicRunnerProfile-strava.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-PublicRunnerProfile-strava-mutant",
+          "input": "contract-PublicRunnerProfile-strava-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-StatusResponse-athlete",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "2fb3cf853a18f3a4086dae36c3965eb5897654ef"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/StatusResponse-athlete/package.json",
+        "contract-mutants/StatusResponse-athlete/normalization.js",
+        "contract-mutants/StatusResponse-athlete/query.js",
+        "contract-mutants/StatusResponse-athlete/request.js",
+        "contract-mutants/StatusResponse-athlete/validation.js"
+      ],
+      "input": "contract-StatusResponse-athlete.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 5,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-StatusResponse-athlete-mutant",
+          "input": "contract-StatusResponse-athlete-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 5,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-TrackResponse-suggested_track",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "ff3c14868eb6d40150d714a05db8c2328dc76f3f"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/TrackResponse-suggested_track/package.json",
+        "contract-mutants/TrackResponse-suggested_track/normalization.js",
+        "contract-mutants/TrackResponse-suggested_track/query.js",
+        "contract-mutants/TrackResponse-suggested_track/request.js",
+        "contract-mutants/TrackResponse-suggested_track/validation.js"
+      ],
+      "input": "contract-TrackResponse-suggested_track.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-TrackResponse-suggested_track-mutant",
+          "input": "contract-TrackResponse-suggested_track-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-TrackResponse-my_evidence_candidates",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "80a4d70b0a4eca15b7e94f58af41cda73c430405"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/TrackResponse-my_evidence_candidates/package.json",
+        "contract-mutants/TrackResponse-my_evidence_candidates/normalization.js",
+        "contract-mutants/TrackResponse-my_evidence_candidates/query.js",
+        "contract-mutants/TrackResponse-my_evidence_candidates/request.js",
+        "contract-mutants/TrackResponse-my_evidence_candidates/validation.js"
+      ],
+      "input": "contract-TrackResponse-my_evidence_candidates.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-TrackResponse-my_evidence_candidates-mutant",
+          "input": "contract-TrackResponse-my_evidence_candidates-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 2
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-EvidenceResponse-evidence_candidate",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "564a273ee5331d7bae646c8b5d0e5003835d561a"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/EvidenceResponse-evidence_candidate/package.json",
+        "contract-mutants/EvidenceResponse-evidence_candidate/normalization.js",
+        "contract-mutants/EvidenceResponse-evidence_candidate/query.js",
+        "contract-mutants/EvidenceResponse-evidence_candidate/request.js",
+        "contract-mutants/EvidenceResponse-evidence_candidate/validation.js"
+      ],
+      "input": "contract-EvidenceResponse-evidence_candidate.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-EvidenceResponse-evidence_candidate-mutant",
+          "input": "contract-EvidenceResponse-evidence_candidate-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    },
+    {
+      "id": "contract-ActivitiesResponse-receipt",
+      "provider": "node-generated-pilot",
+      "obligations": [
+        "313fa82ae27749ab7376bae18c9311640cd0a2e2"
+      ],
+      "executable": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+      "args": [
+        "provider.mjs",
+        "{input}"
+      ],
+      "tool_files": [
+        "contract-cases.mjs",
+        "contract-provider.mjs",
+        "contract-runtime/package.json",
+        "contract-runtime/normalization.js",
+        "contract-runtime/query.js",
+        "contract-runtime/request.js",
+        "contract-runtime/validation.js",
+        "contract-mutants/ActivitiesResponse-receipt/package.json",
+        "contract-mutants/ActivitiesResponse-receipt/normalization.js",
+        "contract-mutants/ActivitiesResponse-receipt/query.js",
+        "contract-mutants/ActivitiesResponse-receipt/request.js",
+        "contract-mutants/ActivitiesResponse-receipt/validation.js"
+      ],
+      "input": "contract-ActivitiesResponse-receipt.json",
+      "expected": {
+        "outcome": "pass",
+        "reason_code": "CONTRACT_CASES",
+        "cases": 4,
+        "failed_cases": 0
+      },
+      "negative_controls": [
+        {
+          "id": "contract-ActivitiesResponse-receipt-mutant",
+          "input": "contract-ActivitiesResponse-receipt-mutant.json",
+          "expected": {
+            "outcome": "fail",
+            "reason_code": "CONTRACT_MUTANT",
+            "cases": 4,
+            "failed_cases": 3
+          },
+          "reason_code": "CONTRACT_MUTANT"
+        }
+      ]
+    }
+  ]
+}

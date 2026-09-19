@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "mode": "isolated-local-rehearsal",
+  "app_sha256": "7e4518a6c8264bd47e898d223331e5a2703467a3c5b91e790682e6ab2376f450",
+  "worker_sha256": "005060b06a480bdee244aacd5187510a0d47d8c47b06bf83a0d1c76db3f5fc7f",
+  "observations": [
+    {
+      "phase": "stable",
+      "status": 200
+    },
+    {
+      "phase": "canary-fault",
+      "status": 503
+    },
+    {
+      "phase": "rollback-after-canary",
+      "status": 200
+    },
+    {
+      "phase": "process-loss",
+      "status": 502
+    },
+    {
+      "phase": "restart-recovery",
+      "status": 200
+    }
+  ],
+  "telemetry": {
+    "offered": 6,
+    "queued": 5,
+    "exported": 5,
+    "rejected": 1,
+    "dropped": 0,
+    "pending": 0,
+    "partial_success": 0
+  },
+  "negative_controls": {
+    "unhealthy_canary": 503,
+    "dead_process": 502,
+    "forbidden_telemetry_field": "rejected-before-persistence"
+  },
+  "events_sha256": "f9da554e89f54250fc4d50081ed28d1cc5c42703935f67f6f874f3c54e9e86a2",
+  "independent_production_observation": false,
+  "authority_effect": "none",
+  "open_questions_ref": "../../README.md#open-questions"
+}

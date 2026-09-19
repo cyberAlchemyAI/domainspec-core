@@ -1,0 +1,4525 @@
+{
+  "authority_effect": "none",
+  "application": {
+    "ontology_sha256": "c67d507285152d8bc25eb083191a00f24bb6a9655daa1e43021836ac17826b10",
+    "projection": "assurance/application-tde",
+    "violations": [],
+    "obligations": [
+      {
+        "obligation_key": "0177860bf3b04439afe46a1c4f8706b240815e3b",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/security:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/security",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "GET /api/auth/security -> 200 (success)"
+      },
+      {
+        "obligation_key": "022ae56a08c6a48187dbde116a18ae1ec8b18892",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#LinkStrava:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "create:OAuthState",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "0278a1056b66c3cce8bbf5f06c28cad3f16c7508",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ListTracks:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"connected\",\"permission\":\"body-war.suggested-track.read\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "027a54189cb2b01953f93f58a9aa043b3837275b",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:0",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.id: string (required)"
+      },
+      {
+        "obligation_key": "02b3945f43b9b131f583c2429766649f3fedd42b",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:8",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "updated_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.updated_at: string (required)"
+      },
+      {
+        "obligation_key": "02eac0cbdcebd9cf58acb892517609f0e01abc90",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:7",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "503",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 503 (adapter error)"
+      },
+      {
+        "obligation_key": "03865a60bc1a166a8457f59ed9cfb4ccd1a86855",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:1",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "principal_id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.principal_id: string (required)"
+      },
+      {
+        "obligation_key": "03cf82de2dbf051add41c795d18c05a242b53ae0",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfileValidation:field:1",
+        "canonical_params": {
+          "entity": "ProfileValidation",
+          "field": "route_geometry",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProfileValidation.route_geometry: string (required)"
+      },
+      {
+        "obligation_key": "04635ef759fcc34f5e90f37a0d76c2c39bfdd6b7",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:5",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "scope",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "StatusResponse.scope: string (required)"
+      },
+      {
+        "obligation_key": "04a38c257f18b5adc4036f8fa636d78fc6e9a50a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitiesResponse:field:0",
+        "canonical_params": {
+          "entity": "ActivitiesResponse",
+          "field": "activities",
+          "ftype": "ActivitySummary[]",
+          "constraint": "required"
+        },
+        "description": "ActivitiesResponse.activities: ActivitySummary[] (required)"
+      },
+      {
+        "obligation_key": "0523943031df7cf95fd454ade4805139b80d7375",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:4",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "404",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 404 (adapter error)"
+      },
+      {
+        "obligation_key": "07492ae2eaf593ef871f56b4df27637504353158",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/profile:response:4",
+        "canonical_params": {
+          "endpoint": "GET /api/profile",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/profile -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "080a435fa63d45288ffb1ea6b5d10cb47c7f788b",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:0",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "configured",
+          "ftype": "boolean",
+          "constraint": "required"
+        },
+        "description": "StatusResponse.configured: boolean (required)"
+      },
+      {
+        "obligation_key": "0c57c5939d51da9af01d71edaf7fc02b9f1cd8c3",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:3",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "refreshTokenCiphertext",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.refreshTokenCiphertext: string (required)"
+      },
+      {
+        "obligation_key": "0d35938547a521f5b16efbbdd8435da4e9863cc6",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/activities:response:3",
+        "canonical_params": {
+          "endpoint": "GET /api/activities",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/activities -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "0ef6b60ef17f27df814c8688da6769669b8090b2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthState:field:4",
+        "canonical_params": {
+          "entity": "OAuthState",
+          "field": "expiresAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "OAuthState.expiresAt: string (required)"
+      },
+      {
+        "obligation_key": "0f2d8a389ffc61fa002ba8e9a7af2d5e29d54c87",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OpaqueResponse:field:0",
+        "canonical_params": {
+          "entity": "OpaqueResponse",
+          "field": "value",
+          "ftype": "unknown?",
+          "constraint": "optional"
+        },
+        "description": "OpaqueResponse.value: unknown? (optional)"
+      },
+      {
+        "obligation_key": "0f4165d7082ebe95434073f01bf926cd0fb18c99",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:6",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "validation",
+          "ftype": "ProfileValidation",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.validation: ProfileValidation (required)"
+      },
+      {
+        "obligation_key": "0f76537d762253d83491cd40b345e2a2cc9b4833",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:5",
+        "canonical_params": {
+          "id": "SEC_REVOCATION",
+          "formal": "Internal consent disposition erases the exact candidate, resets the empty track and is idempotent.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule SEC_REVOCATION: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "10cd03f10070b7f6d702f1bede1f5cc23575818a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceResponse:field:1",
+        "canonical_params": {
+          "entity": "EvidenceResponse",
+          "field": "suggested_track",
+          "ftype": "PublicTrack?",
+          "constraint": "optional"
+        },
+        "description": "EvidenceResponse.suggested_track: PublicTrack? (optional)"
+      },
+      {
+        "obligation_key": "111e7847ce08eb280a9f8b5ba8c504d4f924eb9e",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/oidc/start:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/oidc/start",
+          "status": "303",
+          "condition": "success"
+        },
+        "description": "GET /api/auth/oidc/start -> 303 (success)"
+      },
+      {
+        "obligation_key": "128bc563b12713778232a5d35e51f1db712bf97d",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadTrack:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"connected\",\"permission\":\"body-war.suggested-track.read\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "1317f5c5f32362760625a2204b792d540b417c3d",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#AttachEvidenceRequest:field:2",
+        "canonical_params": {
+          "entity": "AttachEvidenceRequest",
+          "field": "consent_text",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "AttachEvidenceRequest.consent_text: string? (optional)"
+      },
+      {
+        "obligation_key": "13d3f020d710f4d99b83600418d11925a7922930",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:0",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "201",
+          "condition": "success"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 201 (success)"
+      },
+      {
+        "obligation_key": "157c99ae553cb98e43544ab15d691444f0c3b1d1",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#StartOidc:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "15c744a85a85ec2807a5620179e42c179107a027",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:7",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "login_uri",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "StatusResponse.login_uri: string? (optional)"
+      },
+      {
+        "obligation_key": "16a362d0ca6c5faeffe59a47fd0a3b8c68987c7f",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#LinkStrava:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "set:state-cookie",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "1928b3115faa1c9338d305aa4a029d86b141ea1e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:2",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "principalId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.principalId: string (required)"
+      },
+      {
+        "obligation_key": "1a530feceb38c7475ce27740442a13385ace292a",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#Logout:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "clear:cookies",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "1afff7674a56a1cb08488ea79c7e80bfe225e11d",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceAuthority:field:0",
+        "canonical_params": {
+          "entity": "EvidenceAuthority",
+          "field": "activity_summary",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "EvidenceAuthority.activity_summary: string (required)"
+      },
+      {
+        "obligation_key": "1b64558202352c42cde4438e6a2a553f5cb66cc2",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#StartStrava:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "create:OAuthState",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "1bce33a605ba0eb9d3bc6a0361164e8e0ea85419",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:8",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "geometryAuthority",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.geometryAuthority: string (required)"
+      },
+      {
+        "obligation_key": "1bfdf5e13713994268fe91ad048cbf88b603a1ca",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfileResponse:field:0",
+        "canonical_params": {
+          "entity": "ProfileResponse",
+          "field": "profile",
+          "ftype": "PublicRunnerProfile",
+          "constraint": "required"
+        },
+        "description": "ProfileResponse.profile: PublicRunnerProfile (required)"
+      },
+      {
+        "obligation_key": "1d573d92d1534e4aeb60605cb3eaaa2fd70ad9db",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:2",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "connected",
+          "ftype": "boolean",
+          "constraint": "required"
+        },
+        "description": "StatusResponse.connected: boolean (required)"
+      },
+      {
+        "obligation_key": "1e16acba27e54ec274a3709a8e84ce1fb7917fca",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:6",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "413",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 413 (adapter error)"
+      },
+      {
+        "obligation_key": "1e233192172db2e04ce7a9e38adba6eae71d8235",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:8",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "updatedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.updatedAt: string (required)"
+      },
+      {
+        "obligation_key": "1e79a389600403c7d4d8ee5e09a4d81bb0916473",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#AttachEvidence:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "consult:own-Strava-activity",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "20534b777e2dba7401758b5170821abc220d6481",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:5",
+        "canonical_params": {
+          "from": "needs_evidence",
+          "event": "last-evidence-removed",
+          "to": "needs_evidence"
+        },
+        "description": "Transition needs_evidence --last-evidence-removed--> needs_evidence succeeds when guarded"
+      },
+      {
+        "obligation_key": "20dae62c7de59c6897571673f221d286930c3f41",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#TrackListResponse:field:0",
+        "canonical_params": {
+          "entity": "TrackListResponse",
+          "field": "suggested_tracks",
+          "ftype": "PublicTrack[]",
+          "constraint": "required"
+        },
+        "description": "TrackListResponse.suggested_tracks: PublicTrack[] (required)"
+      },
+      {
+        "obligation_key": "22273cfcac05dc4d210bc1ddb931ef43e4ed86bd",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#AttachEvidence:rule:3",
+        "canonical_params": {
+          "id": "EFFECT2",
+          "formal": "reject:duplicate",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT2: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "25cabd9e70775058d305e14ba70f1e7ca945a90b",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadProfile:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"session\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "2633513acb0b7c6dcdfcbdf0bd6a4ed0439cb50d",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthCallbackRequest:field:1",
+        "canonical_params": {
+          "entity": "OAuthCallbackRequest",
+          "field": "state",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "OAuthCallbackRequest.state: string? (optional)"
+      },
+      {
+        "obligation_key": "2666f296c75830259023db49cbaf4e01236ca8c8",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:2",
+        "canonical_params": {
+          "id": "SEC_OAUTH_REPLAY",
+          "formal": "A consumed OAuth callback cannot mint a second browser session.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule SEC_OAUTH_REPLAY: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "28039527e755cb1f6d9f456f611626fc90031579",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:0",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "source",
+          "ftype": "StravaProvider",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.source: StravaProvider (required)"
+      },
+      {
+        "obligation_key": "28b768bbdce391b87cdc5271167b99aab9fecf7f",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:1",
+        "canonical_params": {
+          "from": "evidence_submitted",
+          "event": "attach",
+          "to": "evidence_submitted"
+        },
+        "description": "Transition evidence_submitted --attach--> evidence_submitted succeeds when guarded"
+      },
+      {
+        "obligation_key": "294011176e7a0deff364a67eaf3cbb4817f01b12",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:3",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "profile",
+          "ftype": "string / null?",
+          "constraint": "optional"
+        },
+        "description": "PublicAthlete.profile: string / null? (optional)"
+      },
+      {
+        "obligation_key": "29a37b644e16b5e2549c54555929a0bcdb3c19d2",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:4",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks",
+          "status": "413",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks -> 413 (adapter error)"
+      },
+      {
+        "obligation_key": "2bb34ee06051168f7a70382b26e71ffbe2c5d96f",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/logout:response:4",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/logout",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/logout -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "2c967446d4c8fea6bd2544157a6e72761d57c9df",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:3",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "2eb00e8b4d08b75f03211d19806eae16d3691d29",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:2",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "imported_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.imported_at: string (required)"
+      },
+      {
+        "obligation_key": "2eec1c6215bc1d60f0ce7097a99aff91b376c56e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:7",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "status",
+          "ftype": "SuggestedTrackStatus",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.status: SuggestedTrackStatus (required)"
+      },
+      {
+        "obligation_key": "2f3c9f2b077129bad01e83c4669f4fa1b7514b4d",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:2",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "2f69f234d0c06f517b90d1f52c38110826034ecf",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ChangeSecurity:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "create:OidcTransaction",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "2fb3cf853a18f3a4086dae36c3965eb5897654ef",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:3",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "athlete",
+          "ftype": "PublicAthlete / null",
+          "constraint": "required"
+        },
+        "description": "StatusResponse.athlete: PublicAthlete / null (required)"
+      },
+      {
+        "obligation_key": "2fddd673a08b0f8e6ef8fc125975e9361687b569",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityPageRequest:field:0",
+        "canonical_params": {
+          "entity": "ActivityPageRequest",
+          "field": "page",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "ActivityPageRequest.page: string? (optional)"
+      },
+      {
+        "obligation_key": "302d16f8ef5099f3a4f357c31b45e4e8930741e1",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#CreateTrackRequest:field:1",
+        "canonical_params": {
+          "entity": "CreateTrackRequest",
+          "field": "place_label",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "CreateTrackRequest.place_label: string (required)"
+      },
+      {
+        "obligation_key": "311254cd73b5183a6b34d8dce223730b66c09150",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:0",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 200 (success)"
+      },
+      {
+        "obligation_key": "311ccf259834704b36257aee2bd013117df47b92",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#CreateTrackRequest:field:3",
+        "canonical_params": {
+          "entity": "CreateTrackRequest",
+          "field": "distance_hint_meters",
+          "ftype": "number / null?",
+          "constraint": "optional"
+        },
+        "description": "CreateTrackRequest.distance_hint_meters: number / null? (optional)"
+      },
+      {
+        "obligation_key": "311d5b1eb342fa26bd290ffe86f561dc3d5b06d3",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ActivityPagination:rule:1",
+        "canonical_params": {
+          "id": "per_page",
+          "formal": "{\"operation\":\"ListActivities\",\"field\":\"per_page\",\"rule\":{\"kind\":\"integer\",\"min\":1,\"max\":100,\"default\":20},\"error\":\"strava_provider_bounds_invalid\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule per_page: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "313dd07ca7c73494643ae6ae211f2e79a62f0aec",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadSecurity:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "verify:issuer-identity",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "313fa82ae27749ab7376bae18c9311640cd0a2e2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitiesResponse:field:1",
+        "canonical_params": {
+          "entity": "ActivitiesResponse",
+          "field": "receipt",
+          "ftype": "ActivityImportReceipt",
+          "constraint": "required"
+        },
+        "description": "ActivitiesResponse.receipt: ActivityImportReceipt (required)"
+      },
+      {
+        "obligation_key": "320059fe448bb659e506a420e4ce859944c54ee6",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:3",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "place_label",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.place_label: string (required)"
+      },
+      {
+        "obligation_key": "32bf6e69d1413ba30ff8550584f970334c7959cf",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:0",
+        "canonical_params": {
+          "id": "SEC_ISOLATION",
+          "formal": "Runner-scoped detail returns no other runner evidence and profile resolves to the authenticated principal.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule SEC_ISOLATION: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "34a8361421491e148b3fb5753b8c732cb4464cc8",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrackRules:rule:1",
+        "canonical_params": {
+          "id": "place_label",
+          "formal": "{\"operation\":\"CreateTrack\",\"field\":\"place_label\",\"rule\":{\"kind\":\"text\",\"min\":1,\"max\":255},\"error\":\"invalid_suggested_track\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule place_label: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "35a96c5399682b90500e62df8ea04f66f28d2a76",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummaryAuthority:field:3",
+        "canonical_params": {
+          "entity": "EvidenceSummaryAuthority",
+          "field": "pilot_ready",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummaryAuthority.pilot_ready: NoClaim (required)"
+      },
+      {
+        "obligation_key": "369168ea96e7e322fabb212cab20c913906b002e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:11",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "createdAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.createdAt: string (required)"
+      },
+      {
+        "obligation_key": "36d690dc0dd22b83585a526be1c7ede0df23237a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:0",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "principal_id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.principal_id: string (required)"
+      },
+      {
+        "obligation_key": "37a1704896e405bf724d18b6299dc5ace7ebfc5d",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/strava/start:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/strava/start",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/strava/start -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "385a27b4c71e20090389b55e52264a2b2c479034",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:6",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "status",
+          "ftype": "ActivityEvidenceCandidateStatus",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.status: ActivityEvidenceCandidateStatus (required)"
+      },
+      {
+        "obligation_key": "3887da2d96d020f97a7ffe1df916159acbdfa8a1",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:6",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "consentText",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.consentText: string (required)"
+      },
+      {
+        "obligation_key": "3a6c18b5902da23edbadfcf85d69b513abaf7119",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:6",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "average_speed",
+          "ftype": "number",
+          "constraint": "required"
+        },
+        "description": "ActivitySummary.average_speed: number (required)"
+      },
+      {
+        "obligation_key": "3b332cef3af6b71bbe3a815e7aca1e5b8d4c135f",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:2",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "accessTokenCiphertext",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.accessTokenCiphertext: string (required)"
+      },
+      {
+        "obligation_key": "3d540eac34813f87005f90553dd0b9f56326d7cf",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:4",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "city",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.city: string (required)"
+      },
+      {
+        "obligation_key": "3db45e7814f6d948d54824d2db9d5d4fdef8dc9b",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#AttachEvidence:rule:5",
+        "canonical_params": {
+          "id": "EFFECT4",
+          "formal": "transition:TrackEvidenceLifecycle",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT4: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "3f829fe2940a992abc24ada5f565096d0bc4ab3f",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/activities:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/activities",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "GET /api/activities -> 200 (success)"
+      },
+      {
+        "obligation_key": "407e356eeda9587e61a7171f37b1343d53c996e7",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:9",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "authority",
+          "ftype": "EvidenceAuthority",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.authority: EvidenceAuthority (required)"
+      },
+      {
+        "obligation_key": "4110c3f971f17d6d8599d8cd8ef07dabf4716142",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadSecurity:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "41ef4eb2b9ae4e71e39e70003e962fc00c690427",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#CreateTrackRequest:field:2",
+        "canonical_params": {
+          "entity": "CreateTrackRequest",
+          "field": "city",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "CreateTrackRequest.city: string (required)"
+      },
+      {
+        "obligation_key": "42b12f6549368d6b9004717731f5c0d910dc7678",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "GET /api/suggested-tracks -> 200 (success)"
+      },
+      {
+        "obligation_key": "438bd29913d241335026caea70185d27027a33a6",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthState:field:3",
+        "canonical_params": {
+          "entity": "OAuthState",
+          "field": "createdAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "OAuthState.createdAt: string (required)"
+      },
+      {
+        "obligation_key": "43b9e604f79fb4e7d2d415ce30ada5c9e261dd76",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ChangeSecurity:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "44923c7e0e5971e25d728c23591111bb75fd454c",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks/:idOrSlug:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks/:idOrSlug",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "GET /api/suggested-tracks/:idOrSlug -> 200 (success)"
+      },
+      {
+        "obligation_key": "44d3f173e504e7469c7d722bc365450f2e8f9c27",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfileValidation:field:0",
+        "canonical_params": {
+          "entity": "ProfileValidation",
+          "field": "taquaral_activity",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProfileValidation.taquaral_activity: string (required)"
+      },
+      {
+        "obligation_key": "45307e4274d38621981da9565f61914e50f65c3e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:3",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "provider",
+          "ftype": "StravaProvider",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.provider: StravaProvider (required)"
+      },
+      {
+        "obligation_key": "45442fd723c9010e2e3c46eaedeff4220f0759c2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:1",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "provider",
+          "ftype": "StravaProvider",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.provider: StravaProvider (required)"
+      },
+      {
+        "obligation_key": "456e8bb818258379db9c7b0649ac4ac7fcb959ca",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:5",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "country",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.country: string (required)"
+      },
+      {
+        "obligation_key": "456f40f76c783ee4cfca37847e035cf2984b41c0",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:8",
+        "canonical_params": {
+          "id": "DB_ATOMIC",
+          "formal": "Failure between evidence insertion and track update rolls both back and permits one successful retry.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule DB_ATOMIC: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "45aa5f0821481aa8fa7ccc10f57e357717539834",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:7",
+        "canonical_params": {
+          "from": "operator_review",
+          "event": "last-evidence-removed",
+          "to": "needs_evidence"
+        },
+        "description": "Transition operator_review --last-evidence-removed--> needs_evidence succeeds when guarded"
+      },
+      {
+        "obligation_key": "47cde2485170318d57eef0a55daa17f58c26552c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthCallbackRequest:field:0",
+        "canonical_params": {
+          "entity": "OAuthCallbackRequest",
+          "field": "code",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "OAuthCallbackRequest.code: string? (optional)"
+      },
+      {
+        "obligation_key": "48fbba973cd4d3ae77097cbfd548bcea5ff52c53",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:1",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "suggestedTrackId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.suggestedTrackId: string (required)"
+      },
+      {
+        "obligation_key": "49bb2bfe9f84c2673e59456a12a346af38ab91be",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:3",
+        "canonical_params": {
+          "id": "EFFECT2",
+          "formal": "upsert:ProviderAccount",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT2: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "4a243e254385afe1ccbf2c28ccdafbbebd8fb702",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:5",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "privacy",
+          "ftype": "ProfilePrivacy",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.privacy: ProfilePrivacy (required)"
+      },
+      {
+        "obligation_key": "4b12695036922795766908c1f6b84b644fef9564",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/profile:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/profile",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/profile -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "4b64fbc3a6d26891d2a4a77dbfd30f61d7d1d1cc",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RedactionReceipt:field:2",
+        "canonical_params": {
+          "entity": "RedactionReceipt",
+          "field": "maps",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RedactionReceipt.maps: string (required)"
+      },
+      {
+        "obligation_key": "4bb1cf391f29b5d50e7ab8bceb747871aa224bf7",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:2",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "principalId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.principalId: string (required)"
+      },
+      {
+        "obligation_key": "4d6ece464536008d06c43d8c2d41df736de825a1",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:0",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.id: string (required)"
+      },
+      {
+        "obligation_key": "4d712e4f06b2aa70c19875c9cca7562ef9a07947",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:5",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "consent",
+          "ftype": "ImportConsentReceipt",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.consent: ImportConsentReceipt (required)"
+      },
+      {
+        "obligation_key": "4eef4ce4c0fb04364b707f2a54ad243cf19d6d6d",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:2",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "name",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.name: string (required)"
+      },
+      {
+        "obligation_key": "4f3a727e8f8dc0ceaa315da7d90909eb0f0dbf3d",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadStatus:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "read:ProviderAccount",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "50467f0646369ca0c7bbde87911af96709fc1c84",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:10",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "publicNote",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.publicNote: string (required)"
+      },
+      {
+        "obligation_key": "50cf196965a04a89e07a33a1980ead8d094953c3",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#AttachEvidence:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"connected\",\"permission\":\"body-war.suggested-track-evidence.create\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "50e5656aa335feca0ae0ddadf4d32b8f81152f55",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:4",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "strava_profile_url",
+          "ftype": "string / null",
+          "constraint": "required"
+        },
+        "description": "PublicAthlete.strava_profile_url: string / null (required)"
+      },
+      {
+        "obligation_key": "51195155cc27116e1981701764c8df4a4639a523",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:10",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "public_note",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.public_note: string (required)"
+      },
+      {
+        "obligation_key": "5437c9313de13eba641374189ae8e8f551aa105d",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrackRules:rule:2",
+        "canonical_params": {
+          "id": "city",
+          "formal": "{\"operation\":\"CreateTrack\",\"field\":\"city\",\"rule\":{\"kind\":\"text\",\"min\":1,\"max\":120},\"error\":\"invalid_suggested_track\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule city: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "54546f1ce4ac0cd74fa458e05c87b86f220aa676",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "558d257e359936d6baab41ce2bd76c51d9f72c61",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#WithdrawEvidence:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "erase:summary-and-consent",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "55e8159a8e3ad34edae544acf27b310b6668b9f7",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:9",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "security_available",
+          "ftype": "boolean?",
+          "constraint": "optional"
+        },
+        "description": "StatusResponse.security_available: boolean? (optional)"
+      },
+      {
+        "obligation_key": "564a273ee5331d7bae646c8b5d0e5003835d561a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceResponse:field:0",
+        "canonical_params": {
+          "entity": "EvidenceResponse",
+          "field": "evidence_candidate",
+          "ftype": "PublicEvidence",
+          "constraint": "required"
+        },
+        "description": "EvidenceResponse.evidence_candidate: PublicEvidence (required)"
+      },
+      {
+        "obligation_key": "567e0beffe14832f13c3f486df3ec5d36e1b42f4",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthState:field:1",
+        "canonical_params": {
+          "entity": "OAuthState",
+          "field": "nonce",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "OAuthState.nonce: string (required)"
+      },
+      {
+        "obligation_key": "56890921b5042ff69ae89eac81dc72c7faf4e9d8",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#AttachEvidence:rule:4",
+        "canonical_params": {
+          "id": "EFFECT3",
+          "formal": "persist:redacted-candidate",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT3: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "576257e884f34ce5d043e8c39f0beae70491e49d",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:6",
+        "canonical_params": {
+          "id": "DB_OAUTH",
+          "formal": "Twelve concurrent PostgreSQL consumers return exactly one OAuth state; expiry at the boundary is rejected.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule DB_OAUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "57c0b036370068d3dbbe6f8b8727ca7c3e5dbecc",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:8",
+        "canonical_params": {
+          "from": "source_backed",
+          "event": "last-evidence-removed",
+          "to": "needs_evidence"
+        },
+        "description": "Transition source_backed --last-evidence-removed--> needs_evidence succeeds when guarded"
+      },
+      {
+        "obligation_key": "58e0de0dde9f9cc2d2cdd039d139182404475c15",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:12",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "updated_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.updated_at: string (required)"
+      },
+      {
+        "obligation_key": "594cbb07509826d1bc030bb57776a6fd315c2525",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:5",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "59c19795dd868315117a0046d41b4557e3195af1",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthState:field:0",
+        "canonical_params": {
+          "entity": "OAuthState",
+          "field": "state",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "OAuthState.state: string (required)"
+      },
+      {
+        "obligation_key": "5a8b8ceb7cbfe81a5872e261f9873628941a5af3",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:4",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "distance",
+          "ftype": "number",
+          "constraint": "required"
+        },
+        "description": "ActivitySummary.distance: number (required)"
+      },
+      {
+        "obligation_key": "5a9a027797ebaccacdb0042575bf276d1baef854",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:0",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.id: string (required)"
+      },
+      {
+        "obligation_key": "5c971d554462a38b5a40afb83e2afbaafab544fe",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ListTracks:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "read:SuggestedTrack",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "5d64d5f85b44307d3b9cdd0ae3727d4673031f38",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:3",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "type",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "ActivitySummary.type: string? (optional)"
+      },
+      {
+        "obligation_key": "5d9be052ad149b0e80a4258e0c1dd8c122335b29",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:4",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "city",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.city: string (required)"
+      },
+      {
+        "obligation_key": "5de0c27b83fcec20672183ab0306bb8335eea69a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RunnerProfile:field:1",
+        "canonical_params": {
+          "entity": "RunnerProfile",
+          "field": "displayName",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RunnerProfile.displayName: string (required)"
+      },
+      {
+        "obligation_key": "5eef104a70ca8febb04bbddb899ce2f737f21035",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/logout:response:3",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/logout",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/logout -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "5efdb2302797485dae382a67dce56cf1e14fc126",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:5",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "429",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 429 (adapter error)"
+      },
+      {
+        "obligation_key": "5f12c84cca669776e7a35315172d2c29973ebb28",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks/:idOrSlug:response:3",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks/:idOrSlug",
+          "status": "404",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks/:idOrSlug -> 404 (adapter error)"
+      },
+      {
+        "obligation_key": "5fa9d68ca1c2a109205f98e358d98d60fdedb05b",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "5fe52a7db98b8ee338818c7fd852c1f19de1bb8a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:5",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "createdAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.createdAt: string (required)"
+      },
+      {
+        "obligation_key": "60acf698331d072f1efae8fab6c92ecd23583095",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#CreateTrackRequest:field:0",
+        "canonical_params": {
+          "entity": "CreateTrackRequest",
+          "field": "name",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "CreateTrackRequest.name: string (required)"
+      },
+      {
+        "obligation_key": "60b3f57896647e4d8a2d3599494b25a9bbac3654",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/strava/link:response:1",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/strava/link",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/strava/link -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "668682e520838beddd4e3658feba2d42eef3220c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:4",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "providerActivityId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.providerActivityId: string (required)"
+      },
+      {
+        "obligation_key": "67b1fb6b57febe1e281ea01bf33662838c381fec",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:5",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "country",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.country: string (required)"
+      },
+      {
+        "obligation_key": "67e9e66814325f8050708b830b14898a0d530863",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadTrack:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "read:SuggestedTrack",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "697965e528a905666bbe4bf1aa932cee447e6f0a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfilePrivacy:field:1",
+        "canonical_params": {
+          "entity": "ProfilePrivacy",
+          "field": "activity_import",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProfilePrivacy.activity_import: string (required)"
+      },
+      {
+        "obligation_key": "6a61bc7b4ff1bc73b939b4b6965b05a175e3ff24",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:6",
+        "canonical_params": {
+          "id": "EFFECT5",
+          "formal": "create:session",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT5: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "6cbafb457f9be0928a51a09959e0e7bf2af15b59",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:6",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "authority",
+          "ftype": "EvidenceAuthority",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.authority: EvidenceAuthority (required)"
+      },
+      {
+        "obligation_key": "6e8eb8669e77728a9eeb71d239aa9c3795928816",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:2",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "70e5d5e9e8551611481caf820b54f3ee5da27fac",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:3",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "providerUserId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.providerUserId: string (required)"
+      },
+      {
+        "obligation_key": "72980315a583a470cf2e701c2fa6b1de5a9a64ee",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/oidc/callback:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/oidc/callback",
+          "status": "303",
+          "condition": "success"
+        },
+        "description": "GET /api/auth/oidc/callback -> 303 (success)"
+      },
+      {
+        "obligation_key": "72d080f9839eb919a3ad0a20362ef399daddc38b",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthState:field:2",
+        "canonical_params": {
+          "entity": "OAuthState",
+          "field": "redirectTarget",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "OAuthState.redirectTarget: string (required)"
+      },
+      {
+        "obligation_key": "72d716a80508c3eadde7769de732e7efac5c9dd3",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:5",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "409",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 409 (adapter error)"
+      },
+      {
+        "obligation_key": "7359703f0bd40c8482cae2d6fb32659b00da0f15",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicConnection:field:2",
+        "canonical_params": {
+          "entity": "PublicConnection",
+          "field": "profile_url",
+          "ftype": "string / null",
+          "constraint": "required"
+        },
+        "description": "PublicConnection.profile_url: string / null (required)"
+      },
+      {
+        "obligation_key": "74247a50edbe2e9b735c7fc31f297fee1f3736f1",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "7485c25cf372ec1b95d737ce9afcca1c76ee2ff3",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:6",
+        "canonical_params": {
+          "from": "evidence_submitted",
+          "event": "last-evidence-removed",
+          "to": "needs_evidence"
+        },
+        "description": "Transition evidence_submitted --last-evidence-removed--> needs_evidence succeeds when guarded"
+      },
+      {
+        "obligation_key": "7638e3c8c408abb307c4e0662c522f771dfdc9fd",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/profile:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/profile",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "GET /api/profile -> 200 (success)"
+      },
+      {
+        "obligation_key": "76b3defceb6c2da595f04168ad2c9cc54757353c",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/status:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/status",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "GET /api/status -> 200 (success)"
+      },
+      {
+        "obligation_key": "773a9032029b2c44a670455b7c115b01344718bb",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:3",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "provider_activity_id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.provider_activity_id: string (required)"
+      },
+      {
+        "obligation_key": "798b0ec7cddefb9217db66b4031ff8564711206a",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/logout:response:2",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/logout",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/logout -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "799ab98f4fa6f8a6a36f8ba4a64daa1669c09b3c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:9",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "createdAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.createdAt: string (required)"
+      },
+      {
+        "obligation_key": "79acd29cf769816f9c6b5243a70f08ce04b53ede",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:8",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "geometry_authority",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.geometry_authority: string (required)"
+      },
+      {
+        "obligation_key": "7a1dbeafdbb3f2ccaef543b2f6722370df47457c",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:1",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "7a2471a57141d8978995220b04f4311bd3225d82",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "exchange:provider-code",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "7a307d1332ed1ae8ffa2506890e55b0cfbd70c36",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:6",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "status",
+          "ftype": "ProviderStatus",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.status: ProviderStatus (required)"
+      },
+      {
+        "obligation_key": "7a40d94062c49bc4c1fb14f79d065b58e98b8e3b",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:1",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "7b76ccac2b95a860494369f87d6f55e7b1bdfaa5",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#WithdrawEvidence:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "check:owner",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "7c1a3646e0914884044ebd705acbccbe81877c49",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:7",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "429",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 429 (adapter error)"
+      },
+      {
+        "obligation_key": "7c67fb4775142cd4edba77a6946df3314a30e10f",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:7",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "status",
+          "ftype": "SuggestedTrackStatus",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.status: SuggestedTrackStatus (required)"
+      },
+      {
+        "obligation_key": "7c8eb384ebad190998519efdcdcd2ce191cbd0c5",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceAuthority:field:1",
+        "canonical_params": {
+          "entity": "EvidenceAuthority",
+          "field": "route_geometry",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "EvidenceAuthority.route_geometry: NoClaim (required)"
+      },
+      {
+        "obligation_key": "7cfc0e1f546ea234f413753cb0910cd3e29452fb",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:0",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.id: string (required)"
+      },
+      {
+        "obligation_key": "7d0e0217d6297ed304735bcf1092b5c95bc3b6ad",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:8",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "7dde4724f46a5b8dc7d44df7a738c32f5e49d8a7",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:4",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "404",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 404 (adapter error)"
+      },
+      {
+        "obligation_key": "7de7db129d4c077e6403d8be8f9ac64847f4dff9",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "consume:OAuthState",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "7e2ab2e0f88d1b02893dec777aeb2253528a5852",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/strava/callback:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/strava/callback",
+          "status": "302",
+          "condition": "success"
+        },
+        "description": "GET /api/auth/strava/callback -> 302 (success)"
+      },
+      {
+        "obligation_key": "7e89993e54f729087342899837c889844f18a95d",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicSession:field:0",
+        "canonical_params": {
+          "entity": "PublicSession",
+          "field": "expires_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicSession.expires_at: string (required)"
+      },
+      {
+        "obligation_key": "7f26eed80949c106bf71d2c5d474eda1d2feb421",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:5",
+        "canonical_params": {
+          "id": "EFFECT4",
+          "formal": "encrypt:ProviderTokenRecord",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT4: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "80a4d70b0a4eca15b7e94f58af41cda73c430405",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#TrackResponse:field:1",
+        "canonical_params": {
+          "entity": "TrackResponse",
+          "field": "my_evidence_candidates",
+          "ftype": "PublicEvidence[]?",
+          "constraint": "optional"
+        },
+        "description": "TrackResponse.my_evidence_candidates: PublicEvidence[]? (optional)"
+      },
+      {
+        "obligation_key": "8157b6bb2e29aec79d6c7fbe27788fe007871ef9",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:4",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "displayName",
+          "ftype": "string / null",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.displayName: string / null (required)"
+      },
+      {
+        "obligation_key": "8192fb092fc1be37b627e7cdfb3cb4d6d65aa618",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:9",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "suggestedByPrincipalId",
+          "ftype": "string / null",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.suggestedByPrincipalId: string / null (required)"
+      },
+      {
+        "obligation_key": "8299d80c3e1be9496502c9315ef3860dc13a5301",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:9",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "metadata",
+          "ftype": "record",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.metadata: record (required)"
+      },
+      {
+        "obligation_key": "82a1ba26f2bb7f6e90bb189815802002b36a5f68",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RedactionReceipt:field:1",
+        "canonical_params": {
+          "entity": "RedactionReceipt",
+          "field": "raw_private_payload",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RedactionReceipt.raw_private_payload: string (required)"
+      },
+      {
+        "obligation_key": "8370a0b8b3458e6b9c02715946d6c8c7ff8ad977",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:9",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "502",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 502 (adapter error)"
+      },
+      {
+        "obligation_key": "83accea298a9f7524cb92f90154bd44cab46057f",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:6",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "updatedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.updatedAt: string (required)"
+      },
+      {
+        "obligation_key": "84f0e68bd1a4f18d38e94446b9a36b6e637b8384",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:4",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "870d44af923d72bc4a2a42fe5702f3f888bef788",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:2",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "872f627e49142ee134d288ab394f8a8683dc1c04",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:1",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "874a8bc5254b55de0757ba9abbed9f7698ef8f73",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/oidc/start:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/oidc/start",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/oidc/start -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "882df80affd49c2087fc16173120e8beebfa46ed",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#LinkStrava:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"session\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "8832f4b0fa63205a7cc710ab31af5b969a319155",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:3",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "894a1c6a04f007b4502becebfab6a255b59af94e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:9",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "suggested_by",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.suggested_by: string (required)"
+      },
+      {
+        "obligation_key": "8a2a0feb5c7d7b146f9755c636118286c561787c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceAuthority:field:2",
+        "canonical_params": {
+          "entity": "EvidenceAuthority",
+          "field": "scoring",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "EvidenceAuthority.scoring: NoClaim (required)"
+      },
+      {
+        "obligation_key": "8b16ea94d0fe3570b698076929aaaa010d8a0f32",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/strava/link:response:3",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/strava/link",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/strava/link -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "8e303cc8a6602e5e4a15221c89b16f0a00ad87d0",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#WithdrawEvidence:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"session\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "8e5af04eee9d9ebaed3467b4c582b7cb12fddb36",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ChangeSecurity:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "set:login-cookie",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "8e8249cac2842c9c652a8f6bc35e5cde20d4a2c4",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/oidc/start:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/oidc/start",
+          "status": "404",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/oidc/start -> 404 (adapter error)"
+      },
+      {
+        "obligation_key": "8f14026ca13a3fdb5b157ba811f5b3f5bf14dd64",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:6",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "identity_mode",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "StatusResponse.identity_mode: string? (optional)"
+      },
+      {
+        "obligation_key": "8f9d885b003709a68a7fdfa0ab4f288774a197dc",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:9",
+        "canonical_params": {
+          "id": "DB_DISPOSITION",
+          "formal": "Concurrent disposition and replacement preserve the new candidate and consistent track state.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule DB_DISPOSITION: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "8fac871725de180f55df6c93c60b9ffdc2172935",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:0",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivitySummary.id: string (required)"
+      },
+      {
+        "obligation_key": "9122037b04f5e86f921024fab129e36f70f4e97c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:2",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "sport_type",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "ActivitySummary.sport_type: string? (optional)"
+      },
+      {
+        "obligation_key": "92b8b1e87dc1866a2006ed152fed7fecff9c5788",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/activities:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/activities",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/activities -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "938657296652777631ca706dab59828b4d1ad2f9",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#AttachEvidence:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "check:generated-consent",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "93ca03da7a9430c0919eb7a734ad1c844127059b",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderLinkResponse:field:0",
+        "canonical_params": {
+          "entity": "ProviderLinkResponse",
+          "field": "url",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderLinkResponse.url: string (required)"
+      },
+      {
+        "obligation_key": "948107b9b582c49d4a99f0767dc1c6505b13d115",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:2",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "provider",
+          "ftype": "StravaProvider",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.provider: StravaProvider (required)"
+      },
+      {
+        "obligation_key": "9490659fa72f3c0fdec399bc2f37f6769f76e3b0",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:0",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks",
+          "status": "201",
+          "condition": "success"
+        },
+        "description": "POST /api/suggested-tracks -> 201 (success)"
+      },
+      {
+        "obligation_key": "949af0fedffd63a2f9da1eb548db6da6c505f64e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RedactionReceipt:field:3",
+        "canonical_params": {
+          "entity": "RedactionReceipt",
+          "field": "notes",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RedactionReceipt.notes: string (required)"
+      },
+      {
+        "obligation_key": "961ea1eb99e7fe537bbb3e78a140a473246beec5",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:0",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "id",
+          "ftype": "string / number",
+          "constraint": "required"
+        },
+        "description": "PublicAthlete.id: string / number (required)"
+      },
+      {
+        "obligation_key": "96db5dda3eea7bf0c6d2712ebef134a3508df312",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:4",
+        "canonical_params": {
+          "from": "retired",
+          "event": "attach",
+          "to": "retired"
+        },
+        "description": "Transition retired --attach--> retired succeeds when guarded"
+      },
+      {
+        "obligation_key": "97c6b43d40d6eb4d33e19ff4ec4fb10182df7ef5",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/strava/link:response:0",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/strava/link",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "POST /api/auth/strava/link -> 200 (success)"
+      },
+      {
+        "obligation_key": "99b6f305c8447c94c0138806e805c5938c0c3bd2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummary:field:1",
+        "canonical_params": {
+          "entity": "EvidenceSummary",
+          "field": "redaction",
+          "ftype": "RedactionReceipt",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummary.redaction: RedactionReceipt (required)"
+      },
+      {
+        "obligation_key": "9ae50bd10cf9066b513801df4b238e0742b9d03e",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/security:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/security",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/security -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "9b25759660e5762ff406cfbb64bc1bbe84072e3d",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RedactionReceipt:field:0",
+        "canonical_params": {
+          "entity": "RedactionReceipt",
+          "field": "provider_tokens",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RedactionReceipt.provider_tokens: string (required)"
+      },
+      {
+        "obligation_key": "9b928acb5c2dd7f25486e02111671f503a5469c7",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:0",
+        "canonical_params": {
+          "from": "needs_evidence",
+          "event": "attach",
+          "to": "evidence_submitted"
+        },
+        "description": "Transition needs_evidence --attach--> evidence_submitted succeeds when guarded"
+      },
+      {
+        "obligation_key": "9bd914f0df15320b96b0b92d38e9fcb3511a675a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:8",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "session_state",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "StatusResponse.session_state: string? (optional)"
+      },
+      {
+        "obligation_key": "9be903b686781383b8c36e61eb939337d4dafd51",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:7",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "consentedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.consentedAt: string (required)"
+      },
+      {
+        "obligation_key": "9c2303faa1b6550aa4c996c750835e90340b2644",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:13",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "authority",
+          "ftype": "PublicTrackAuthority",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.authority: PublicTrackAuthority (required)"
+      },
+      {
+        "obligation_key": "9c5ef4f4c9bf17f02f29d27fc31fe0ac9e3260d4",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteOidc:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "consume:OidcTransaction",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "9d76f5fcd49dd84654b01845a9901d8e303fd1b1",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/activities:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/activities",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/activities -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "a013ded0366e8758b27b439b312e1414c24955db",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#AttachEvidenceRequest:field:1",
+        "canonical_params": {
+          "entity": "AttachEvidenceRequest",
+          "field": "consent_acknowledged",
+          "ftype": "boolean?",
+          "constraint": "optional"
+        },
+        "description": "AttachEvidenceRequest.consent_acknowledged: boolean? (optional)"
+      },
+      {
+        "obligation_key": "a03691fe63e30ca61d51bf06d8aa1b7c2f69def9",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#StartStrava:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "set:state-cookie",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "a08ca78b1e6c10be5e30d24f6bcdda55867c9e7e",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:1",
+        "canonical_params": {
+          "id": "SEC_PERMISSION",
+          "formal": "Anonymous access returns 401 and an authenticated principal without the read grant receives 403.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule SEC_PERMISSION: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "a18a4ae675e5ead75c44e7aa33528fa15ec1acb2",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/logout:response:1",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/logout",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/logout -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "a22cc5b9f21e85465b5b87db7397d5228fce8ffd",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/suggested-tracks/:idOrSlug/evidence-candidates:response:3",
+        "canonical_params": {
+          "endpoint": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/suggested-tracks/:idOrSlug/evidence-candidates -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "a2ca7f1b51712272c3c84e0e4fb11cb359280062",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/profile:response:3",
+        "canonical_params": {
+          "endpoint": "GET /api/profile",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/profile -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "a2daa7caf9f07a6f5d20bba59ada5b45258f9c96",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummary:field:0",
+        "canonical_params": {
+          "entity": "EvidenceSummary",
+          "field": "candidate_count",
+          "ftype": "number",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummary.candidate_count: number (required)"
+      },
+      {
+        "obligation_key": "a43538e817246893ba912609a30aec74d596ac26",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks/:idOrSlug:response:5",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks/:idOrSlug",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks/:idOrSlug -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "a552a2a43e6a512ae20a3eea6d86192f1919f7ba",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:3",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "summary_count",
+          "ftype": "number",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.summary_count: number (required)"
+      },
+      {
+        "obligation_key": "a5f81791f87148016c9f591f9058c185b029dc2b",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RunnerProfile:field:4",
+        "canonical_params": {
+          "entity": "RunnerProfile",
+          "field": "updatedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RunnerProfile.updatedAt: string (required)"
+      },
+      {
+        "obligation_key": "a638772b42ca6a2da5b9329eed9a8dc1126bb0cf",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ImportConsentReceipt:field:0",
+        "canonical_params": {
+          "entity": "ImportConsentReceipt",
+          "field": "friend_fixture",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ImportConsentReceipt.friend_fixture: string (required)"
+      },
+      {
+        "obligation_key": "a8280e7321070e889cb5d6df57b9a9bef8851b0f",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:5",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "413",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 413 (adapter error)"
+      },
+      {
+        "obligation_key": "a8dd42289c41ca00a97dbdf5040c59216452ab94",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#WithdrawEvidence:rule:3",
+        "canonical_params": {
+          "id": "EFFECT2",
+          "formal": "transition:TrackEvidenceLifecycle",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT2: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "a95455ba26901270d8e3bb761975d874b953b3fb",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:6",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "distance_hint_meters",
+          "ftype": "number / null",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.distance_hint_meters: number / null (required)"
+      },
+      {
+        "obligation_key": "ab17bb5b1aa9df8035f12ceb05a50c36290e96b6",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/security:response:4",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/security",
+          "status": "503",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/security -> 503 (adapter error)"
+      },
+      {
+        "obligation_key": "abfeb4eabdb850e89c8776c7e727cdda12b7b234",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:7",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "linkedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.linkedAt: string (required)"
+      },
+      {
+        "obligation_key": "ac6be08dfdcb610ed19861e652d83fc1019d0845",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:4",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "expiresAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.expiresAt: string (required)"
+      },
+      {
+        "obligation_key": "ad9dc906e8539030ebb718c2202fe2065a759f4a",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/activities:response:4",
+        "canonical_params": {
+          "endpoint": "GET /api/activities",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/activities -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "adaa14fa5f3e42046531c2fe7f9cff92d763a1b7",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#EvidenceInputRules:rule:0",
+        "canonical_params": {
+          "id": "activity_id",
+          "formal": "{\"operation\":\"AttachEvidence\",\"field\":\"activity_id\",\"rule\":{\"kind\":\"text\",\"min\":0,\"max\":255},\"error\":\"invalid_evidence_request\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule activity_id: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "afa2d5e71a67b37860d01407166955809d1e3a1d",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:2",
+        "canonical_params": {
+          "from": "operator_review",
+          "event": "attach",
+          "to": "operator_review"
+        },
+        "description": "Transition operator_review --attach--> operator_review succeeds when guarded"
+      },
+      {
+        "obligation_key": "afe864507642af54f4ad26fcb96c4e7699d83852",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#AttachEvidenceRequest:field:0",
+        "canonical_params": {
+          "entity": "AttachEvidenceRequest",
+          "field": "activity_id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "AttachEvidenceRequest.activity_id: string (required)"
+      },
+      {
+        "obligation_key": "b08c5f21db82f09b435eba781387ee09478684d2",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:4",
+        "canonical_params": {
+          "id": "SEC_REQUEST",
+          "formal": "Malformed, unknown-field, wrong-type and oversized JSON requests are rejected before persistence.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule SEC_REQUEST: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "b19c4e4f5561ebe943774abcb20d54895af95135",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfilePrivacy:field:2",
+        "canonical_params": {
+          "entity": "ProfilePrivacy",
+          "field": "csrf",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProfilePrivacy.csrf: string (required)"
+      },
+      {
+        "obligation_key": "b4176f8361b4d4d4aa4bbae9d3dae5ba5816da91",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#StartStrava:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "b4f28b607e658f4a83b9505704910511657437e9",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfilePrivacy:field:0",
+        "canonical_params": {
+          "entity": "ProfilePrivacy",
+          "field": "provider_tokens",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProfilePrivacy.provider_tokens: string (required)"
+      },
+      {
+        "obligation_key": "b533399737cc54f0d75501a70f8b1901e5d5e22d",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/strava/link:response:4",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/strava/link",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/strava/link -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "b54576206288ce86920a5504079d84b73882c96e",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrackRules:rule:3",
+        "canonical_params": {
+          "id": "public_note",
+          "formal": "{\"operation\":\"CreateTrack\",\"field\":\"public_note\",\"rule\":{\"kind\":\"text\",\"min\":0,\"max\":500},\"error\":\"invalid_suggested_track\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule public_note: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "b55182caeb6645d6c6f3341ba3fc10d300f0cbe9",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ActivityPagination:rule:0",
+        "canonical_params": {
+          "id": "page",
+          "formal": "{\"operation\":\"ListActivities\",\"field\":\"page\",\"rule\":{\"kind\":\"integer\",\"min\":1,\"max\":10,\"default\":1},\"error\":\"strava_provider_bounds_invalid\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule page: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "b6fc69ae7b4495e8c4c5282400a170cc61506f1c",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:3",
+        "canonical_params": {
+          "id": "SEC_CSRF",
+          "formal": "Missing CSRF and an untrusted origin reject a valid-session write.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule SEC_CSRF: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "b7423621468b4a92ea09b0a72a0c69baedcc6912",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProfileValidation:field:2",
+        "canonical_params": {
+          "entity": "ProfileValidation",
+          "field": "scoring",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProfileValidation.scoring: string (required)"
+      },
+      {
+        "obligation_key": "b8f18dbabec4678792c36756d39a3fe71b4aea8b",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadProfile:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "read:ProviderAccount",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "b9abdde9466761013f21367ebf7d3315cefa176a",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RunnerProfile:field:0",
+        "canonical_params": {
+          "entity": "RunnerProfile",
+          "field": "principalId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RunnerProfile.principalId: string (required)"
+      },
+      {
+        "obligation_key": "ba005fd297c0920b64be08ec61b6ed668c4bb652",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrackRules:rule:0",
+        "canonical_params": {
+          "id": "name",
+          "formal": "{\"operation\":\"CreateTrack\",\"field\":\"name\",\"rule\":{\"kind\":\"text\",\"min\":1,\"max\":255},\"error\":\"invalid_suggested_track\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule name: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "baa9af96ee471c7e1f5f1c996067e27445900592",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:2",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "name",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.name: string (required)"
+      },
+      {
+        "obligation_key": "babdee2822c6478ff3f41ec7bff1219d0ae19e62",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:2",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "bc6a2d31535870653029cef37d4fe92076a04b4f",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/security:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/security",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/security -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "bc7a5b77d2864bfec57c523d85110ae91a140924",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteStrava:rule:4",
+        "canonical_params": {
+          "id": "EFFECT3",
+          "formal": "upsert:RunnerProfile",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT3: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "bd17498844e6776b85a6471bd0ced00e28329999",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RunnerProfile:field:3",
+        "canonical_params": {
+          "entity": "RunnerProfile",
+          "field": "createdAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RunnerProfile.createdAt: string (required)"
+      },
+      {
+        "obligation_key": "bd1a1d8127c14ebb0dd418b1606a288d2d9a194e",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/profile:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/profile",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/profile -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "bd31475ad070295c198b435b81caa73f91638191",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:11",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "created_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.created_at: string (required)"
+      },
+      {
+        "obligation_key": "bd8e7a47c0a960a4f8017892b830743c89d531c5",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:5",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "moving_time",
+          "ftype": "number",
+          "constraint": "required"
+        },
+        "description": "ActivitySummary.moving_time: number (required)"
+      },
+      {
+        "obligation_key": "be82934d95eb0594574ab475a3ac918c34cc180e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:6",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "provider",
+          "ftype": "StravaProvider",
+          "constraint": "required"
+        },
+        "description": "PublicAthlete.provider: StravaProvider (required)"
+      },
+      {
+        "obligation_key": "bf18b8fa06073cb82c68ad3aef3232ae1205f91f",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/strava/link:response:2",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/strava/link",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/strava/link -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "bfce1fee3778069da9b250ee84a7b33954d91e1e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:4",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "redacted_summary",
+          "ftype": "ActivitySummary",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.redacted_summary: ActivitySummary (required)"
+      },
+      {
+        "obligation_key": "c0a9f6265fa816be157a572448ab41b6d900df60",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:8",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "status",
+          "ftype": "ActivityEvidenceCandidateStatus",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.status: ActivityEvidenceCandidateStatus (required)"
+      },
+      {
+        "obligation_key": "c0b966fd7c7e94baa04f294e87eb18d3d350e84b",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:4",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "413",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 413 (adapter error)"
+      },
+      {
+        "obligation_key": "c187655be9ca3d9c2de90ce76c482e85199e1407",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#StartOidc:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "create:OidcTransaction",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "c1cb97b94d95119631110c30ba1590fc91900845",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityPageRequest:field:1",
+        "canonical_params": {
+          "entity": "ActivityPageRequest",
+          "field": "per_page",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "ActivityPageRequest.per_page: string? (optional)"
+      },
+      {
+        "obligation_key": "c44ebb6d2985e825835882dab785d10b04141ceb",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrackAuthority:field:2",
+        "canonical_params": {
+          "entity": "PublicTrackAuthority",
+          "field": "pilot_ready",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "PublicTrackAuthority.pilot_ready: NoClaim (required)"
+      },
+      {
+        "obligation_key": "c4fa73ae559f1cc72e1c8aa4a79038b8c61ce7d2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummaryAuthority:field:0",
+        "canonical_params": {
+          "entity": "EvidenceSummaryAuthority",
+          "field": "activity_summary",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummaryAuthority.activity_summary: string (required)"
+      },
+      {
+        "obligation_key": "c528a1cc27617fe945bc0ce9d2598303bdd2f96f",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrack:field:1",
+        "canonical_params": {
+          "entity": "PublicTrack",
+          "field": "slug",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrack.slug: string (required)"
+      },
+      {
+        "obligation_key": "c5eb9e67bcc947c254bf681c3270fdb44f937fd2",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadStatus:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "read:session",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "c5f00c0a2c128f3ff7d5e7301a2e54a2981065e9",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#Logout:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"optional-session\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "c61f5a26f6c912b2a58c65180317dae16b781d85",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:6",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "c63a2d438bb0fbe37528a81582a405ec476ac023",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadStatus:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "c6d5cbe8c5617e3326ef703f0a5dabfbb9986986",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:7",
+        "canonical_params": {
+          "id": "DB_DUPLICATE",
+          "formal": "Twelve concurrent identical attachments create exactly one row; uniqueness includes runner identity.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule DB_DUPLICATE: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "c734f05df64e496a1f668b24499b3edf39cd3073",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ListActivities:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "consult:Strava",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "c95c01f1b14f86b9237702953476d61c0171aaa2",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:6",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "415",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 415 (adapter error)"
+      },
+      {
+        "obligation_key": "cbf532f5beffb4247a2b3de77d2a0d9aa2264df8",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:1",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "name",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivitySummary.name: string (required)"
+      },
+      {
+        "obligation_key": "cd326990b33c4fe35eeecb0ed325308b2fddabf2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:1",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "firstname",
+          "ftype": "string / null?",
+          "constraint": "optional"
+        },
+        "description": "PublicAthlete.firstname: string / null? (optional)"
+      },
+      {
+        "obligation_key": "cdf6760adadb61d6e3a25963b3aa90fde47f2eef",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:5",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "redactedSummary",
+          "ftype": "record",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.redactedSummary: record (required)"
+      },
+      {
+        "obligation_key": "ce3aee0bb119b61526bcee8c59af146ce47d002e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:5",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "consented_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.consented_at: string (required)"
+      },
+      {
+        "obligation_key": "cf08be4d0240be2f54521e3ec4fab452dd99309f",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:3",
+        "canonical_params": {
+          "from": "source_backed",
+          "event": "attach",
+          "to": "source_backed"
+        },
+        "description": "Transition source_backed --attach--> source_backed succeeds when guarded"
+      },
+      {
+        "obligation_key": "cffc60a5bafb7ca5f7840adf015b99dcd11a2a52",
+        "rule_type": "valid-transition",
+        "source_anchor": "states.md#SuggestedTrack:transition:9",
+        "canonical_params": {
+          "from": "retired",
+          "event": "last-evidence-removed",
+          "to": "needs_evidence"
+        },
+        "description": "Transition retired --last-evidence-removed--> needs_evidence succeeds when guarded"
+      },
+      {
+        "obligation_key": "d0019b9150091ac59a1804fc956cf76f9b7e23ca",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ListActivities:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"session\",\"permission\":\"body-war.activity.read\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "d044d1dc7bbb17d54e2aa18133201f006f58331a",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteOidc:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "verify:issuer-identity",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "d0d52c159dc93bbfeaa5eebad3e28225bf67452d",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks/:idOrSlug:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks/:idOrSlug",
+          "status": "401",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks/:idOrSlug -> 401 (adapter error)"
+      },
+      {
+        "obligation_key": "d14d6098882bbb106ede22e83c89201e715c9bb2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:5",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "scope",
+          "ftype": "string[]",
+          "constraint": "required"
+        },
+        "description": "PublicAthlete.scope: string[] (required)"
+      },
+      {
+        "obligation_key": "d166a36a93993556cec58613eb3f30e8c5a590b9",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:4",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "redirect_uri",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "StatusResponse.redirect_uri: string (required)"
+      },
+      {
+        "obligation_key": "d1b896d0df196cdfc828ad92843fecd827024e11",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks/:idOrSlug:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks/:idOrSlug",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks/:idOrSlug -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "d28b18f895468276c3908c95f62c2ffc9d2d00c8",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthState:field:5",
+        "canonical_params": {
+          "entity": "OAuthState",
+          "field": "consumedAt",
+          "ftype": "string / null",
+          "constraint": "required"
+        },
+        "description": "OAuthState.consumedAt: string / null (required)"
+      },
+      {
+        "obligation_key": "d338975f2800f7bc974f1d8dd919d9048435c25e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrackAuthority:field:0",
+        "canonical_params": {
+          "entity": "PublicTrackAuthority",
+          "field": "route_geometry",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicTrackAuthority.route_geometry: string (required)"
+      },
+      {
+        "obligation_key": "d3d017b01aca4faa52139671f7cfb592f66a9da3",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#LogoutResponse:field:0",
+        "canonical_params": {
+          "entity": "LogoutResponse",
+          "field": "ok",
+          "ftype": "boolean",
+          "constraint": "required"
+        },
+        "description": "LogoutResponse.ok: boolean (required)"
+      },
+      {
+        "obligation_key": "d439604b45cc3ad4aa27e665af37ee251e6dc285",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadTrack:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "read:own-ActivityEvidenceCandidate",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "d4829653047f8bd2b7c6ee7f1e7e28651de863f1",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#StatusResponse:field:1",
+        "canonical_params": {
+          "entity": "StatusResponse",
+          "field": "authenticated",
+          "ftype": "boolean",
+          "constraint": "required"
+        },
+        "description": "StatusResponse.authenticated: boolean (required)"
+      },
+      {
+        "obligation_key": "d4971d36fc00973b4c7ccd8bd2bc92179f4e2441",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:0",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "303",
+          "condition": "success"
+        },
+        "description": "POST /api/auth/security -> 303 (success)"
+      },
+      {
+        "obligation_key": "d4da692530bd350f6a7a807691cee314eeb56227",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:4",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "strava",
+          "ftype": "PublicConnection",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.strava: PublicConnection (required)"
+      },
+      {
+        "obligation_key": "d59713dfae56131bcc6e347d18fdd0144cf6ecb6",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#WithdrawEvidenceResponse:field:0",
+        "canonical_params": {
+          "entity": "WithdrawEvidenceResponse",
+          "field": "withdrawn",
+          "ftype": "boolean",
+          "constraint": "required"
+        },
+        "description": "WithdrawEvidenceResponse.withdrawn: boolean (required)"
+      },
+      {
+        "obligation_key": "d6f4ff0c055674018c3196017da5339132463ee0",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/security:response:3",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/security",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/auth/security -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "d8000678e134e22a810ef29db69a861890e7818a",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ListActivities:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "no-persist:raw-provider-response",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "d80124ca639f9cdfd958823ed263f81778acd0ef",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks/:idOrSlug:response:4",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks/:idOrSlug",
+          "status": "409",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks/:idOrSlug -> 409 (adapter error)"
+      },
+      {
+        "obligation_key": "d9264ba36905514fb816be4ff43150abe55a3db6",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummary:field:2",
+        "canonical_params": {
+          "entity": "EvidenceSummary",
+          "field": "authority",
+          "ftype": "EvidenceSummaryAuthority",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummary.authority: EvidenceSummaryAuthority (required)"
+      },
+      {
+        "obligation_key": "db022800f0dd81289a611fb08e3909f8ecb963aa",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:7",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "status",
+          "ftype": "ProviderStatus",
+          "constraint": "required"
+        },
+        "description": "PublicAthlete.status: ProviderStatus (required)"
+      },
+      {
+        "obligation_key": "db352f8af12a1fb3b3b1f43d34aa9c5a5defd209",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/strava/start:response:0",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/strava/start",
+          "status": "302",
+          "condition": "success"
+        },
+        "description": "GET /api/auth/strava/start -> 302 (success)"
+      },
+      {
+        "obligation_key": "db8acc57109088ba446779dff5240cc5721d12b5",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicTrackAuthority:field:1",
+        "canonical_params": {
+          "entity": "PublicTrackAuthority",
+          "field": "scoring",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "PublicTrackAuthority.scoring: NoClaim (required)"
+      },
+      {
+        "obligation_key": "dbf985e38284da011446f4e8250c526cf0add0e6",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityEvidenceCandidate:field:10",
+        "canonical_params": {
+          "entity": "ActivityEvidenceCandidate",
+          "field": "updatedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivityEvidenceCandidate.updatedAt: string (required)"
+      },
+      {
+        "obligation_key": "df80233f14a875fa7a41c4712c257472ab6e48a6",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/oidc/callback:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/oidc/callback",
+          "status": "404",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/oidc/callback -> 404 (adapter error)"
+      },
+      {
+        "obligation_key": "dff530abc79f71dca9e92c958c71e71af450c84f",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#OAuthCallbackRequest:field:2",
+        "canonical_params": {
+          "entity": "OAuthCallbackRequest",
+          "field": "error",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "OAuthCallbackRequest.error: string? (optional)"
+      },
+      {
+        "obligation_key": "e01f725364df17d15b41792c69e691433fb280bc",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/status:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/status",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/status -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "e106a0f8db5b703dabf90560b2a64230a5287e7e",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/strava/callback:response:1",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/strava/callback",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/strava/callback -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "e148cf213ad8d306e328134c9e4cb57ed51553e3",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#EvidenceInputRules:rule:1",
+        "canonical_params": {
+          "id": "consent_text",
+          "formal": "{\"operation\":\"AttachEvidence\",\"field\":\"consent_text\",\"rule\":{\"kind\":\"text\",\"min\":0,\"max\":500},\"error\":\"invalid_evidence_request\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule consent_text: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "e2ad811f5c0f16a1f456295e3c8b513fbad3524f",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/evidence-candidates/:id/withdraw:response:1",
+        "canonical_params": {
+          "endpoint": "POST /api/evidence-candidates/:id/withdraw",
+          "status": "400",
+          "condition": "adapter error"
+        },
+        "description": "POST /api/evidence-candidates/:id/withdraw -> 400 (adapter error)"
+      },
+      {
+        "obligation_key": "e365cdc5161c730b6eb3133591ac877a96cb8273",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#Logout:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "revoke:session",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "e3d24ef1dcefed475aec908051b86c89bbcb0d00",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:1",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "suggested_track_id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.suggested_track_id: string (required)"
+      },
+      {
+        "obligation_key": "e50c2fddf261cce61a175962d434d62c32364e7e",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteOidc:rule:3",
+        "canonical_params": {
+          "id": "EFFECT2",
+          "formal": "create:session",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT2: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "e54d7459e9c1929bb24c8a1e55e112f564f7b88c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicAthlete:field:2",
+        "canonical_params": {
+          "entity": "PublicAthlete",
+          "field": "lastname",
+          "ftype": "string / null?",
+          "constraint": "optional"
+        },
+        "description": "PublicAthlete.lastname: string / null? (optional)"
+      },
+      {
+        "obligation_key": "e607b6718e0c211c281b6a65bdfb8acf45da3a02",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:0",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.id: string (required)"
+      },
+      {
+        "obligation_key": "e666ec509e0ffebedb141da8c63e89263194d873",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#TrackResponse:field:2",
+        "canonical_params": {
+          "entity": "TrackResponse",
+          "field": "evidence_summary",
+          "ftype": "EvidenceSummary?",
+          "constraint": "optional"
+        },
+        "description": "TrackResponse.evidence_summary: EvidenceSummary? (optional)"
+      },
+      {
+        "obligation_key": "e67b8f64b407f6c31b4b807198b6bf14772e3714",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#PilotCriticalRequirements:rule:10",
+        "canonical_params": {
+          "id": "DB_PERSISTENCE",
+          "formal": "A fresh reader process sees committed evidence and track state after all writer connections close.",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule DB_PERSISTENCE: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "e67d1fb0fc11b1b79d83238c392b80cfaa6e91a9",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:3",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "placeLabel",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.placeLabel: string (required)"
+      },
+      {
+        "obligation_key": "e752f83a2be83a670de707a13ba51b792af90ab6",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CompleteOidc:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"public\",\"permission\":null}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "e83368d3cbc0ba95d04a413c631c2f24758afc4c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:2",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "principal_status",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.principal_status: string (required)"
+      },
+      {
+        "obligation_key": "e8c9853e161ff42e72b479fe2735da58f174acd3",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrackRules:rule:4",
+        "canonical_params": {
+          "id": "distance_hint_meters",
+          "formal": "{\"operation\":\"CreateTrack\",\"field\":\"distance_hint_meters\",\"rule\":{\"kind\":\"positive-integer\"},\"error\":\"invalid_suggested_track\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule distance_hint_meters: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "e99e491e5cbabb8f6fbfce998ec09703eff9b5bd",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/security:response:3",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/security",
+          "status": "404",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/security -> 404 (adapter error)"
+      },
+      {
+        "obligation_key": "eaf628a4f2e0a31868c8373bdd7fe06dc8499138",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderTokenRecord:field:1",
+        "canonical_params": {
+          "entity": "ProviderTokenRecord",
+          "field": "accountId",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderTokenRecord.accountId: string (required)"
+      },
+      {
+        "obligation_key": "ebd5feb4b1ee544849bfc6bf8d38fef2787769b0",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#RunnerProfile:field:2",
+        "canonical_params": {
+          "entity": "RunnerProfile",
+          "field": "privacyStatus",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "RunnerProfile.privacyStatus: string (required)"
+      },
+      {
+        "obligation_key": "ecbed94d298a19c786d5b3ca4c7f5fecbe753e83",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:1",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "display_name",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.display_name: string (required)"
+      },
+      {
+        "obligation_key": "edd9c6ef4474e9368658aac491eb74f626dc2a5c",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#ReadProfile:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "read:RunnerProfile",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "ede64bdb0a1a17c1716e6ce07ca1cb6e67c7d6a2",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivityImportReceipt:field:4",
+        "canonical_params": {
+          "entity": "ActivityImportReceipt",
+          "field": "redaction",
+          "ftype": "RedactionReceipt",
+          "constraint": "required"
+        },
+        "description": "ActivityImportReceipt.redaction: RedactionReceipt (required)"
+      },
+      {
+        "obligation_key": "ee2d8b8a03bfe81ce05349f70bd875c40b940882",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicConnection:field:1",
+        "canonical_params": {
+          "entity": "PublicConnection",
+          "field": "account",
+          "ftype": "PublicAthlete / null",
+          "constraint": "required"
+        },
+        "description": "PublicConnection.account: PublicAthlete / null (required)"
+      },
+      {
+        "obligation_key": "f11054357628455e69ee368be0593604c465fb8c",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummaryAuthority:field:2",
+        "canonical_params": {
+          "entity": "EvidenceSummaryAuthority",
+          "field": "scoring",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummaryAuthority.scoring: NoClaim (required)"
+      },
+      {
+        "obligation_key": "f20a56a53111d6b91f6e38c081a0a5433fc7e085",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicEvidence:field:7",
+        "canonical_params": {
+          "entity": "PublicEvidence",
+          "field": "created_at",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "PublicEvidence.created_at: string (required)"
+      },
+      {
+        "obligation_key": "f29e8e983f4e306de6cbb0f15e9ed131efdf1d28",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/strava/start:response:3",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/strava/start",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/strava/start -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "f3db917843f9486b4c0575f0222aecff374574d7",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#EvidenceSummaryAuthority:field:1",
+        "canonical_params": {
+          "entity": "EvidenceSummaryAuthority",
+          "field": "route_geometry",
+          "ftype": "NoClaim",
+          "constraint": "required"
+        },
+        "description": "EvidenceSummaryAuthority.route_geometry: NoClaim (required)"
+      },
+      {
+        "obligation_key": "f3fc191c67ab2daea8aa36c9d37d8404f9a2e847",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicRunnerProfile:field:3",
+        "canonical_params": {
+          "entity": "PublicRunnerProfile",
+          "field": "session",
+          "ftype": "PublicSession",
+          "constraint": "required"
+        },
+        "description": "PublicRunnerProfile.session: PublicSession (required)"
+      },
+      {
+        "obligation_key": "f402f70c6ac796b75972167a0d9eafb4042a9777",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:6",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "distanceHintMeters",
+          "ftype": "number / null",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.distanceHintMeters: number / null (required)"
+      },
+      {
+        "obligation_key": "f5042cc73f001ee930103c7e628e1bfd5c41c411",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#StartOidc:rule:2",
+        "canonical_params": {
+          "id": "EFFECT1",
+          "formal": "set:login-cookie",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT1: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "f552aabc6a96128fef8f90c17dc182f3057cd530",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#TrackKeyRequest:field:0",
+        "canonical_params": {
+          "entity": "TrackKeyRequest",
+          "field": "idOrSlug",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "TrackKeyRequest.idOrSlug: string (required)"
+      },
+      {
+        "obligation_key": "f559ee78ab15571dfcd78f8d664b2a5723b9341e",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#PublicConnection:field:0",
+        "canonical_params": {
+          "entity": "PublicConnection",
+          "field": "connected",
+          "ftype": "boolean",
+          "constraint": "required"
+        },
+        "description": "PublicConnection.connected: boolean (required)"
+      },
+      {
+        "obligation_key": "f601437071538fbc378d297673610d24d0e57e58",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:5",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "scope",
+          "ftype": "string[]",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.scope: string[] (required)"
+      },
+      {
+        "obligation_key": "f6e983052e0e6fd6e1f9fda3492ee92098982b34",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/oidc/callback:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/oidc/callback",
+          "status": "500",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/oidc/callback -> 500 (adapter error)"
+      },
+      {
+        "obligation_key": "f8f22e0527aac7a4c024c201d2dd97520613facd",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:1",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "slug",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.slug: string (required)"
+      },
+      {
+        "obligation_key": "f933d09335d99eeb52510485c76523dbe6093bb8",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#SuggestedTrack:field:12",
+        "canonical_params": {
+          "entity": "SuggestedTrack",
+          "field": "updatedAt",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "SuggestedTrack.updatedAt: string (required)"
+      },
+      {
+        "obligation_key": "fb5cf58b0f9796e7fe93454f9efc00ec1a71063c",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:3",
+        "canonical_params": {
+          "endpoint": "GET /api/suggested-tracks",
+          "status": "403",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/suggested-tracks -> 403 (adapter error)"
+      },
+      {
+        "obligation_key": "fb8ad532d8aa91445902ca457b11a79d59f2f581",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ActivitySummary:field:7",
+        "canonical_params": {
+          "entity": "ActivitySummary",
+          "field": "start_date",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ActivitySummary.start_date: string (required)"
+      },
+      {
+        "obligation_key": "fbb653e2d2719724467ea98e980036f75e7462f0",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#ProviderAccount:field:0",
+        "canonical_params": {
+          "entity": "ProviderAccount",
+          "field": "id",
+          "ftype": "string",
+          "constraint": "required"
+        },
+        "description": "ProviderAccount.id: string (required)"
+      },
+      {
+        "obligation_key": "fd35d2ffb8f0bb39e9d592da43ee3cfc80f7aa75",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#POST /api/auth/logout:response:0",
+        "canonical_params": {
+          "endpoint": "POST /api/auth/logout",
+          "status": "200",
+          "condition": "success"
+        },
+        "description": "POST /api/auth/logout -> 200 (success)"
+      },
+      {
+        "obligation_key": "fd876e8407eb8d97016d03dcf337123646ab499e",
+        "rule_type": "contract",
+        "source_anchor": "interfaces.md#GET /api/auth/strava/start:response:2",
+        "canonical_params": {
+          "endpoint": "GET /api/auth/strava/start",
+          "status": "405",
+          "condition": "adapter error"
+        },
+        "description": "GET /api/auth/strava/start -> 405 (adapter error)"
+      },
+      {
+        "obligation_key": "fdd329bfb7c4d5c55dc12982f25ad42ed071428a",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrack:rule:0",
+        "canonical_params": {
+          "id": "AUTH",
+          "formal": "{\"authentication\":\"connected\",\"permission\":\"body-war.suggested-track.create\"}",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule AUTH: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "fe86e90a167072409459088918f6064105db35b0",
+        "rule_type": "needs-formal",
+        "source_anchor": "operations.md#CreateTrack:rule:1",
+        "canonical_params": {
+          "id": "EFFECT0",
+          "formal": "create:SuggestedTrack",
+          "base_rule_type": "rule-validation"
+        },
+        "description": "Rule EFFECT0: needs_formal (prose Formal)"
+      },
+      {
+        "obligation_key": "feda8feb42190313d370e9859aecf43cff149e84",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#CreateTrackRequest:field:4",
+        "canonical_params": {
+          "entity": "CreateTrackRequest",
+          "field": "public_note",
+          "ftype": "string?",
+          "constraint": "optional"
+        },
+        "description": "CreateTrackRequest.public_note: string? (optional)"
+      },
+      {
+        "obligation_key": "ff3c14868eb6d40150d714a05db8c2328dc76f3f",
+        "rule_type": "domain-field",
+        "source_anchor": "domain.md#TrackResponse:field:0",
+        "canonical_params": {
+          "entity": "TrackResponse",
+          "field": "suggested_track",
+          "ftype": "PublicTrack",
+          "constraint": "required"
+        },
+        "description": "TrackResponse.suggested_track: PublicTrack (required)"
+      }
+    ],
+    "critical_requirements": [
+      {
+        "case": "runner_isolation",
+        "id": "SEC_ISOLATION",
+        "formal": "Runner-scoped detail returns no other runner evidence and profile resolves to the authenticated principal.",
+        "evidence": "evidence/critical-security.json",
+        "test": "scripts/critical-security.mjs"
+      },
+      {
+        "case": "permissions",
+        "id": "SEC_PERMISSION",
+        "formal": "Anonymous access returns 401 and an authenticated principal without the read grant receives 403.",
+        "evidence": "evidence/critical-security.json",
+        "test": "scripts/critical-security.mjs"
+      },
+      {
+        "case": "oauth_replay",
+        "id": "SEC_OAUTH_REPLAY",
+        "formal": "A consumed OAuth callback cannot mint a second browser session.",
+        "evidence": "evidence/critical-security.json",
+        "test": "scripts/critical-security.mjs"
+      },
+      {
+        "case": "csrf_origin",
+        "id": "SEC_CSRF",
+        "formal": "Missing CSRF and an untrusted origin reject a valid-session write.",
+        "evidence": "evidence/critical-security.json",
+        "test": "scripts/critical-security.mjs"
+      },
+      {
+        "case": "request_validation",
+        "id": "SEC_REQUEST",
+        "formal": "Malformed, unknown-field, wrong-type and oversized JSON requests are rejected before persistence.",
+        "evidence": "evidence/critical-security.json",
+        "test": "scripts/critical-security.mjs"
+      },
+      {
+        "case": "consent_revocation",
+        "id": "SEC_REVOCATION",
+        "formal": "Internal consent disposition erases the exact candidate, resets the empty track and is idempotent.",
+        "evidence": "evidence/critical-security.json",
+        "test": "scripts/critical-security.mjs"
+      },
+      {
+        "case": "oauth_concurrency",
+        "id": "DB_OAUTH",
+        "formal": "Twelve concurrent PostgreSQL consumers return exactly one OAuth state; expiry at the boundary is rejected.",
+        "evidence": "evidence/critical-postgres.json",
+        "test": "app/e2e/critical-integrity.e2e.ts"
+      },
+      {
+        "case": "evidence_concurrency",
+        "id": "DB_DUPLICATE",
+        "formal": "Twelve concurrent identical attachments create exactly one row; uniqueness includes runner identity.",
+        "evidence": "evidence/critical-postgres.json",
+        "test": "app/e2e/critical-integrity.e2e.ts"
+      },
+      {
+        "case": "atomic_rollback",
+        "id": "DB_ATOMIC",
+        "formal": "Failure between evidence insertion and track update rolls both back and permits one successful retry.",
+        "evidence": "evidence/critical-postgres.json",
+        "test": "app/e2e/critical-integrity.e2e.ts"
+      },
+      {
+        "case": "concurrent_disposition",
+        "id": "DB_DISPOSITION",
+        "formal": "Concurrent disposition and replacement preserve the new candidate and consistent track state.",
+        "evidence": "evidence/critical-postgres.json",
+        "test": "app/e2e/critical-integrity.e2e.ts"
+      },
+      {
+        "case": "persistence_reopen",
+        "id": "DB_PERSISTENCE",
+        "formal": "A fresh reader process sees committed evidence and track state after all writer connections close.",
+        "evidence": "evidence/critical-postgres.json",
+        "test": "app/e2e/critical-integrity.e2e.ts"
+      }
+    ],
+    "test_bindings": [
+      {
+        "operation": "ReadStatus",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "ReadProfile",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "StartStrava",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "CompleteStrava",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "Logout",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "StartOidc",
+        "tests": [
+          "../app/tests/oidc.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "CompleteOidc",
+        "tests": [
+          "../app/tests/oidc.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "LinkStrava",
+        "tests": [
+          "../app/tests/oidc.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "ReadSecurity",
+        "tests": [
+          "../app/tests/oidc.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "ChangeSecurity",
+        "tests": [
+          "../app/tests/oidc.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "ListActivities",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts",
+          "../app/tests/strava-activity-provider.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "ListTracks",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "CreateTrack",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "ReadTrack",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "AttachEvidence",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts",
+          "../app/tests/evidence-lifecycle.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      },
+      {
+        "operation": "WithdrawEvidence",
+        "tests": [
+          "../app/tests/auth-consumer.test.ts",
+          "../app/tests/evidence-lifecycle.test.ts"
+        ],
+        "posture": "declared suite binding, not automatic obligation discharge"
+      }
+    ]
+  },
+  "compiled_rule_sha256": "16ec433393aa9b243374c68d8f02f80ee243f41e7736ab11f3173617c047872e",
+  "projection": "compiled typed-rule AST to bounded exact consent conjunction; candidate bridge, not a general compiler adapter",
+  "obligations": [
+    {
+      "obligation_key": "e52fa22f0e3b33b640dff7706326a8e21b17f344",
+      "rule_type": "needs-formal",
+      "source_anchor": "operations.md#AttachActivityEvidenceCandidate:rule:0",
+      "canonical_params": {
+        "id": "R1",
+        "formal": "consent_acknowledged == true and activity_present == true and consent_text_present == true",
+        "base_rule_type": "rule-validation"
+      },
+      "description": "Rule R1: needs_formal (prose Formal)"
+    }
+  ],
+  "broader": {
+    "parque-taquaral-online-mvp": {
+      "violations": [
+        "operations.md:23: non-canonical Rules table for CreateSuggestedTrack; expected ID|Rule|Formal",
+        "operations.md:45: non-canonical Rules table for AttachActivityEvidenceCandidate; expected ID|Rule|Formal",
+        "operations.md:63: non-canonical Rules table for EnsureDefaultSuggestedTracks; expected ID|Rule|Formal"
+      ],
+      "obligations": [
+        {
+          "obligation_key": "0291bc56f93be9def41cc96cacc314c19f3624d1",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:12",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "updatedAt",
+            "ftype": "timestamp",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.updatedAt: timestamp"
+        },
+        {
+          "obligation_key": "06d686a36135e489b7cf4e7a8f1ef0bcb5905aeb",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#GET /api/suggested-tracks/{idOrSlug}:response:1",
+          "canonical_params": {
+            "endpoint": "GET /api/suggested-tracks/{idOrSlug}",
+            "status": "404",
+            "condition": "Unknown suggestion"
+          },
+          "description": "GET /api/suggested-tracks/{idOrSlug} -> 404 (Unknown suggestion)"
+        },
+        {
+          "obligation_key": "114d1dc695d8f71ea9a5da0ac300c7d1b4a800d3",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:10",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "updatedAt",
+            "ftype": "timestamp",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.updatedAt: timestamp"
+        },
+        {
+          "obligation_key": "12f4dd8c2b1aee07e7537b690380a3935e070b04",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#GET /api/suggested-tracks/{idOrSlug}:response:0",
+          "canonical_params": {
+            "endpoint": "GET /api/suggested-tracks/{idOrSlug}",
+            "status": "200",
+            "condition": "Success"
+          },
+          "description": "GET /api/suggested-tracks/{idOrSlug} -> 200 (Success)"
+        },
+        {
+          "obligation_key": "1441088058650f1c95692d38fe669f4741a72f28",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:2",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "principalId",
+            "ftype": "uuid",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.principalId: uuid"
+        },
+        {
+          "obligation_key": "15788a19094034edb0b9dbd1522be531c2956c09",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#POST /api/suggested-tracks/{idOrSlug}/evidence-candidates:response:1",
+          "canonical_params": {
+            "endpoint": "POST /api/suggested-tracks/{idOrSlug}/evidence-candidates",
+            "status": "400",
+            "condition": "Missing consent or invalid activity"
+          },
+          "description": "POST /api/suggested-tracks/{idOrSlug}/evidence-candidates -> 400 (Missing consent or invalid activity)"
+        },
+        {
+          "obligation_key": "19a21c345355e4297c95493b24e7bc39fa44f8f6",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:4",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "city",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.city: string"
+        },
+        {
+          "obligation_key": "1d5ae448a755e44a807501b04c576804ccd4d14c",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:0",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "id",
+            "ftype": "uuid",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.id: uuid"
+        },
+        {
+          "obligation_key": "2e15959018b60fc518ed718df06b2598ecd1f4ec",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:4",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "providerActivityId",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.providerActivityId: string"
+        },
+        {
+          "obligation_key": "3657449ccce0346f6e8fd070d5df303c99ecee5a",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:1",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "slug",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.slug: string"
+        },
+        {
+          "obligation_key": "3c8011d6c7f02e15d0d3a2e72ca719d5b983a5b1",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:0",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "id",
+            "ftype": "uuid",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.id: uuid"
+        },
+        {
+          "obligation_key": "3d3ed43113aef987a012778297bee3a70bf0d453",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:0",
+          "canonical_params": {
+            "endpoint": "GET /api/suggested-tracks",
+            "status": "200",
+            "condition": "Success"
+          },
+          "description": "GET /api/suggested-tracks -> 200 (Success)"
+        },
+        {
+          "obligation_key": "3db985e6a11e8bb23c509bd7718dbaf8a0073e49",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:7",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "status",
+            "ftype": "[SuggestedTrackStatus](#suggestedtrackstatus)",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.status: [SuggestedTrackStatus](#suggestedtrackstatus)"
+        },
+        {
+          "obligation_key": "3f083e7ecd8807739be5caaa36b4902af5a6232b",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:6",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "distanceHintMeters",
+            "ftype": "integer",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.distanceHintMeters: integer"
+        },
+        {
+          "obligation_key": "4227ae26a2ade789a64cd0ae1e58ddd95d20a817",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:3",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "provider",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.provider: string"
+        },
+        {
+          "obligation_key": "4ca2cddcbc019aa008b12ed3ac47ad6d15ae468a",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:2",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "name",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.name: string"
+        },
+        {
+          "obligation_key": "76f393dba06c40ca794f7a8f9caefda5f1164348",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:5",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "redactedSummary",
+            "ftype": "object",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.redactedSummary: object"
+        },
+        {
+          "obligation_key": "772ff35515ce0800bc75daa96ca928f1af299364",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:7",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "consentedAt",
+            "ftype": "timestamp",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.consentedAt: timestamp"
+        },
+        {
+          "obligation_key": "779dcf4b0a5308f2b0a3d6458b945e40fec68307",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#POST /api/suggested-tracks/{idOrSlug}/evidence-candidates:response:0",
+          "canonical_params": {
+            "endpoint": "POST /api/suggested-tracks/{idOrSlug}/evidence-candidates",
+            "status": "201",
+            "condition": "Candidate attached"
+          },
+          "description": "POST /api/suggested-tracks/{idOrSlug}/evidence-candidates -> 201 (Candidate attached)"
+        },
+        {
+          "obligation_key": "78ef3662f6c63e2367a0db9f6adb787acb890b9c",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:8",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "geometryAuthority",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.geometryAuthority: string"
+        },
+        {
+          "obligation_key": "7c865f832a4d4b4c6673b6bb6257e9798667849f",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:1",
+          "canonical_params": {
+            "endpoint": "POST /api/suggested-tracks",
+            "status": "400",
+            "condition": "Invalid input"
+          },
+          "description": "POST /api/suggested-tracks -> 400 (Invalid input)"
+        },
+        {
+          "obligation_key": "83fa2d90df4c34542af68d13a998382eb324573b",
+          "rule_type": "domain-enum",
+          "source_anchor": "domain.md#SuggestedTrackStatus:enum",
+          "canonical_params": {
+            "name": "SuggestedTrackStatus",
+            "values": "needs_evidence,evidence_submitted,operator_review,source_backed,retired"
+          },
+          "description": "SuggestedTrackStatus vocabulary is exactly {needs_evidence,evidence_submitted,operator_review,source_backed,retired}"
+        },
+        {
+          "obligation_key": "84d41e7e4a6362868eb319a2889fbeb70c89a97b",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:3",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "placeLabel",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.placeLabel: string"
+        },
+        {
+          "obligation_key": "875940350894a0d6d5e850831c0117044c32ea9f",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:8",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "status",
+            "ftype": "[ActivityEvidenceCandidateStatus](#activityevidencecandidatestatus)",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.status: [ActivityEvidenceCandidateStatus](#activityevidencecandidatestatus)"
+        },
+        {
+          "obligation_key": "a32c53959cbc1546529b781878547b3b5d4bf7a8",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:5",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "country",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.country: string"
+        },
+        {
+          "obligation_key": "a7fd0713cd32f1b7cce91ca9ca4bf01047c03d94",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:1",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "suggestedTrackId",
+            "ftype": "uuid",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.suggestedTrackId: uuid"
+        },
+        {
+          "obligation_key": "b6de0d2ef22bc9809ce4c8db36d03cc407251029",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:9",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "createdAt",
+            "ftype": "timestamp",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.createdAt: timestamp"
+        },
+        {
+          "obligation_key": "b86b50e372f00ce72e107dafec9958a9c1f8e3db",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:1",
+          "canonical_params": {
+            "endpoint": "GET /api/suggested-tracks",
+            "status": "401",
+            "condition": "Missing session or permission"
+          },
+          "description": "GET /api/suggested-tracks -> 401 (Missing session or permission)"
+        },
+        {
+          "obligation_key": "bcd0ce2694fee77720ebb4b8cd8fe0a4896ab65d",
+          "rule_type": "domain-enum",
+          "source_anchor": "domain.md#ActivityEvidenceCandidateStatus:enum",
+          "canonical_params": {
+            "name": "ActivityEvidenceCandidateStatus",
+            "values": "submitted,operator_review,accepted,rejected"
+          },
+          "description": "ActivityEvidenceCandidateStatus vocabulary is exactly {submitted,operator_review,accepted,rejected}"
+        },
+        {
+          "obligation_key": "c0fcfb30427afff9829afe9793846e483c9b5c64",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:11",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "createdAt",
+            "ftype": "timestamp",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.createdAt: timestamp"
+        },
+        {
+          "obligation_key": "c1439437fe2c90f39934ddafedf0a8e6af3cd4e4",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:9",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "suggestedByPrincipalId",
+            "ftype": "uuid",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.suggestedByPrincipalId: uuid"
+        },
+        {
+          "obligation_key": "c5c889a62fbc383a6482392a8ff9b814f8451acf",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#ActivityEvidenceCandidate:field:6",
+          "canonical_params": {
+            "entity": "ActivityEvidenceCandidate",
+            "field": "consentText",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "ActivityEvidenceCandidate.consentText: string"
+        },
+        {
+          "obligation_key": "d4def040ad117df29ef009fbb87a4ae8498feb12",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#GET /api/suggested-tracks:response:1",
+          "canonical_params": {
+            "endpoint": "GET /api/suggested-tracks",
+            "status": "403",
+            "condition": "Missing session or permission"
+          },
+          "description": "GET /api/suggested-tracks -> 403 (Missing session or permission)"
+        },
+        {
+          "obligation_key": "de1bc060ba42583cf032040b919be0632214cbaf",
+          "rule_type": "domain-field",
+          "source_anchor": "domain.md#SuggestedTrack:field:10",
+          "canonical_params": {
+            "entity": "SuggestedTrack",
+            "field": "publicNote",
+            "ftype": "string",
+            "constraint": ""
+          },
+          "description": "SuggestedTrack.publicNote: string"
+        },
+        {
+          "obligation_key": "dfb7bfeec6224c0d2a25103ade563134f0d5ebc0",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#POST /api/suggested-tracks/{idOrSlug}/evidence-candidates:response:2",
+          "canonical_params": {
+            "endpoint": "POST /api/suggested-tracks/{idOrSlug}/evidence-candidates",
+            "status": "404",
+            "condition": "Unknown suggestion"
+          },
+          "description": "POST /api/suggested-tracks/{idOrSlug}/evidence-candidates -> 404 (Unknown suggestion)"
+        },
+        {
+          "obligation_key": "f65f62addc910029511942c4c748c4206039bf6d",
+          "rule_type": "contract",
+          "source_anchor": "interfaces.md#POST /api/suggested-tracks:response:0",
+          "canonical_params": {
+            "endpoint": "POST /api/suggested-tracks",
+            "status": "201",
+            "condition": "Created"
+          },
+          "description": "POST /api/suggested-tracks -> 201 (Created)"
+        }
+      ]
+    },
+    "strava-linked-pilot": {
+      "violations": [
+        "SPEC.md: normalized dialect requires a Concept Registry table",
+        "SPEC.md: normalized dialect requires a Feature Concept Graph table"
+      ],
+      "obligations": []
+    }
+  },
+  "open_questions_ref": "../README.md#open-questions"
+}

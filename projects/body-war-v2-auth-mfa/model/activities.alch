@@ -1,0 +1,62 @@
+domain body-war-activities "TROQAR activities contracts"
+profile bound-application-v1
+owner body-war-owner
+
+record ActivitySummary:
+  meaning "Ephemeral provider summary; numeric provider measurements preserve existing pilot units."
+  fields {"id":"string","name":"string","sport_type":"string?","type":"string?","distance":"number","moving_time":"number","average_speed":"number","start_date":"string"}
+
+record ActivityPageRequest:
+  meaning "Generated HTTP query pagination; provider adapter independently enforces its own bounds."
+  fields {"page":"string?","per_page":"string?"}
+
+record ActivitiesResponse:
+  meaning "Safe activity summaries and a non-authoritative import receipt."
+  fields {"activities":"ActivitySummary[]","receipt":"ActivityImportReceipt"}
+
+projection RedactedActivity:
+  meaning "Persist only the eight allowed summary fields; resolve sport/type fallback without retaining raw maps, notes or tokens."
+  source "ActivitySummary"
+  fields {"id":["id"],"name":["name"],"sport_type":["sport_type","type","literal:Run"],"type":["type","sport_type","literal:Run"],"distance":["distance"],"moving_time":["moving_time"],"average_speed":["average_speed"],"start_date":["start_date"]}
+
+operation ListActivities:
+  meaning "Consult activities for the authenticated runner and redact the provider response."
+  adapter "PilotHttp"
+  entry "handleActivities"
+  signature "response-request-url"
+  input "ActivityPageRequest"
+  output "ActivitiesResponse"
+  authentication "session"
+  permission "body-war.activity.read"
+  effects ["consult:Strava","no-persist:raw-provider-response"]
+  tests ["../app/tests/auth-consumer.test.ts","../app/tests/strava-activity-provider.test.ts"]
+
+route ListActivitiesRoute:
+  meaning "GET /api/activities exposes ListActivities."
+  method "GET"
+  path "/api/activities"
+  operation "ListActivities"
+  success [200]
+  errors [400,401,403,500]
+
+record RedactionReceipt:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"provider_tokens":"string","raw_private_payload":"string","maps":"string","notes":"string"}
+
+record ImportConsentReceipt:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"friend_fixture":"string"}
+
+record ActivityImportReceipt:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"source":"StravaProvider","principal_id":"string","imported_at":"string","summary_count":"number","redaction":"RedactionReceipt","consent":"ImportConsentReceipt","authority":"EvidenceAuthority"}
+
+query ActivityPagination:
+  meaning "Closed query with Number conversion, integer bounds, absent-value defaults and duplicate rejection."
+  operation "ListActivities"
+  fields {"page":{"kind":"integer","min":1,"max":10,"default":1},"per_page":{"kind":"integer","min":1,"max":100,"default":20}}
+  error "strava_provider_bounds_invalid"
+
+configuration HistoricalActivityPolicy:
+  meaning "Provider detail utility matches the linked athlete and projects only the approved summary; not a migration capability."
+  values {"timeoutMs":10000,"maxResponseBytes":1048576,"identityFields":["id","athlete.id"],"persistRawDetail":false}

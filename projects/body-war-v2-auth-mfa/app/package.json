@@ -1,0 +1,39 @@
+{
+  "name": "@body-war-v2/app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": "26.8.1"
+  },
+  "scripts": {
+    "build": "npm run build --workspace @domainspec/auth-user-management && tsc -p tsconfig.json",
+    "build:test": "npm run build --workspace @domainspec/auth-user-management && tsc -p tsconfig.test.json",
+    "build:e2e": "npm run build --workspace @domainspec/auth-user-management && rm -rf .runtime/e2e-dist && tsc -p tsconfig.e2e.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit --pretty false",
+    "db:migrate": "npm run build && node dist/src/infrastructure/postgres/migrate-cli.js",
+    "e2e": "npm run build:e2e && BODY_WAR_AUTH_BACKEND=postgres BODY_WAR_STRAVA_FAKE=1 node .runtime/e2e-dist/e2e/body-war-auth.e2e.js",
+    "e2e:all": "sh scripts/e2e.sh all",
+    "geometry:export": "npm run build && node --env-file=.env dist/src/geometry/export-strava-geometry.js",
+    "geometry:reconnect": "npm run build && node --env-file=.env dist/src/geometry/reconnect-strava.js",
+    "validate": "sh scripts/validate.sh",
+    "test": "npm run build:test && BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 node --test dist-test/tests/*.test.js",
+    "test:ui": "npm run build && playwright test",
+    "check": "npm run build && npm test",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@domainspec/auth-user-management": "file:../vendor/auth",
+    "drizzle-orm": "^0.45.2",
+    "jose": "6.2.12",
+    "openid-client": "6.8.8",
+    "postgres": "^3.4.9",
+    "@auth-foundation/session-core": "file:../../auth-foundation/implementation/session-core"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59.1",
+    "@types/node": "26.4.0",
+    "typescript": "7.0.2"
+  }
+}

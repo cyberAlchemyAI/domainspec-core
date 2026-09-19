@@ -1,0 +1,2 @@
+ALTER TABLE body_war_activity_evidence_candidates ADD COLUMN legacy_submission_id varchar(255);
+CREATE UNIQUE INDEX body_war_legacy_migration_identity ON body_war_activity_evidence_candidates (principal_id, legacy_submission_id);

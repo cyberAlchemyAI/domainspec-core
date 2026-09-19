@@ -1,0 +1,167 @@
+{
+  "status": "passed",
+  "bindings": [
+    {
+      "requirement": "SEC_ISOLATION",
+      "obligation_key": "32bf6e69d1413ba30ff8550584f970334c7959cf",
+      "case": "runner_isolation",
+      "evidence": "evidence/critical-security.json",
+      "evidence_sha256": "248ac7217900058180d4e1d213de1c935539ebcabfb38cb136ad380d049eab3d",
+      "test": "scripts/critical-security.mjs",
+      "observed": {
+        "other_runner_candidates": 0,
+        "own_profile": true
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "SEC_PERMISSION",
+      "obligation_key": "a08ca78b1e6c10be5e30d24f6bcdda55867c9e7e",
+      "case": "permissions",
+      "evidence": "evidence/critical-security.json",
+      "evidence_sha256": "248ac7217900058180d4e1d213de1c935539ebcabfb38cb136ad380d049eab3d",
+      "test": "scripts/critical-security.mjs",
+      "observed": {
+        "anonymous": 401,
+        "authenticated_without_grant": 403
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "SEC_OAUTH_REPLAY",
+      "obligation_key": "2666f296c75830259023db49cbaf4e01236ca8c8",
+      "case": "oauth_replay",
+      "evidence": "evidence/critical-security.json",
+      "evidence_sha256": "248ac7217900058180d4e1d213de1c935539ebcabfb38cb136ad380d049eab3d",
+      "test": "scripts/critical-security.mjs",
+      "observed": {
+        "successful_sessions": 1,
+        "replay": "rejected"
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "SEC_CSRF",
+      "obligation_key": "b6fc69ae7b4495e8c4c5282400a170cc61506f1c",
+      "case": "csrf_origin",
+      "evidence": "evidence/critical-security.json",
+      "evidence_sha256": "248ac7217900058180d4e1d213de1c935539ebcabfb38cb136ad380d049eab3d",
+      "test": "scripts/critical-security.mjs",
+      "observed": {
+        "missing_csrf": 403,
+        "untrusted_origin": 403
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "SEC_REQUEST",
+      "obligation_key": "b08c5f21db82f09b435eba781387ee09478684d2",
+      "case": "request_validation",
+      "evidence": "evidence/critical-security.json",
+      "evidence_sha256": "248ac7217900058180d4e1d213de1c935539ebcabfb38cb136ad380d049eab3d",
+      "test": "scripts/critical-security.mjs",
+      "observed": {
+        "malformed": 400,
+        "unknown_field": 400,
+        "wrong_type": 400,
+        "blank_required_text": 400,
+        "nonpositive_distance": 400,
+        "fractional_distance": 400,
+        "oversized": 413,
+        "writes": 0
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "SEC_REVOCATION",
+      "obligation_key": "0f76537d762253d83491cd40b345e2a2cc9b4833",
+      "case": "consent_revocation",
+      "evidence": "evidence/critical-security.json",
+      "evidence_sha256": "248ac7217900058180d4e1d213de1c935539ebcabfb38cb136ad380d049eab3d",
+      "test": "scripts/critical-security.mjs",
+      "observed": {
+        "candidate_erased": true,
+        "last_evidence_reset": true,
+        "retry": "already_absent",
+        "boundary": "internal repository operation; no public revoke endpoint"
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "DB_OAUTH",
+      "obligation_key": "576257e884f34ce5d043e8c39f0beae70491e49d",
+      "case": "oauth_concurrency",
+      "evidence": "evidence/critical-postgres.json",
+      "evidence_sha256": "ee1240707ccd6269a25e099692cf0235ea145612c56ec2acab020ef649fc4799",
+      "test": "app/e2e/critical-integrity.e2e.ts",
+      "observed": {
+        "callers": 12,
+        "successful_consumptions": 1,
+        "expired_at_boundary": "rejected"
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "DB_DUPLICATE",
+      "obligation_key": "c6d5cbe8c5617e3326ef703f0a5dabfbb9986986",
+      "case": "evidence_concurrency",
+      "evidence": "evidence/critical-postgres.json",
+      "evidence_sha256": "ee1240707ccd6269a25e099692cf0235ea145612c56ec2acab020ef649fc4799",
+      "test": "app/e2e/critical-integrity.e2e.ts",
+      "observed": {
+        "callers": 12,
+        "insertions": 1,
+        "replays": 11,
+        "database_unique_constraint": "enforced",
+        "different_runner": "allowed"
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "DB_ATOMIC",
+      "obligation_key": "456f40f76c783ee4cfca37847e035cf2984b41c0",
+      "case": "atomic_rollback",
+      "evidence": "evidence/critical-postgres.json",
+      "evidence_sha256": "ee1240707ccd6269a25e099692cf0235ea145612c56ec2acab020ef649fc4799",
+      "test": "app/e2e/critical-integrity.e2e.ts",
+      "observed": {
+        "injected_failure": "between insert and track update",
+        "partial_rows": 0,
+        "retry_rows": 1
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "DB_DISPOSITION",
+      "obligation_key": "8f9d885b003709a68a7fdfa0ab4f288774a197dc",
+      "case": "concurrent_disposition",
+      "evidence": "evidence/critical-postgres.json",
+      "evidence_sha256": "ee1240707ccd6269a25e099692cf0235ea145612c56ec2acab020ef649fc4799",
+      "test": "app/e2e/critical-integrity.e2e.ts",
+      "observed": {
+        "replacement_survives": true,
+        "state_consistent": true,
+        "last_removal_resets": true
+      },
+      "formal_discharge": false
+    },
+    {
+      "requirement": "DB_PERSISTENCE",
+      "obligation_key": "e67b8f64b407f6c31b4b807198b6bf14772e3714",
+      "case": "persistence_reopen",
+      "evidence": "evidence/critical-postgres.json",
+      "evidence_sha256": "ee1240707ccd6269a25e099692cf0235ea145612c56ec2acab020ef649fc4799",
+      "test": "app/e2e/critical-integrity.e2e.ts",
+      "observed": {
+        "new_process": true,
+        "persisted_rows": 2,
+        "state": "evidence_submitted",
+        "database_process_restart": false
+      },
+      "formal_discharge": false
+    }
+  ],
+  "claim_ceiling": "Exact synthetic security and PostgreSQL integration witnesses; no general formal or production qualification",
+  "authority_effect": "none",
+  "open_questions_ref": "../README.md#open-questions"
+}

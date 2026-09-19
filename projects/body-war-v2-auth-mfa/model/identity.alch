@@ -1,0 +1,315 @@
+domain body-war-identity "TROQAR identity contracts"
+profile bound-application-v1
+owner body-war-owner
+
+adapter PilotHttp:
+  meaning "Browser cookies, CSRF, HTTP response adaptation and provider/repository integration. Generated dispatcher owns route selection and invokes authorization."
+  category "http"
+  source "../app/src/adapters/pilot-http.ts"
+  exports ["authorizeOperation","sendJson","serveStatic","handleOidcStart","handleOidcCallback","handleSecurity","handleStatus","handleProfile","handleStravaStart","handleStravaCallback","handleActivities","handleSuggestedTracksList","handleSuggestedTrackCreate","handleSuggestedTrackDetail","handleSuggestedTrackEvidenceCreate","handleLogout","handleEvidenceWithdraw"]
+
+adapter SharedAuth:
+  meaning "Version-bound principal, permission, session, token and logout implementation."
+  category "library"
+  source "../vendor/auth/src/index.ts"
+  exports []
+
+adapter Strava:
+  meaning "OAuth nonce/state validation, provider exchange, encrypted token custody and fake local provider."
+  category "library"
+  source "../app/src/auth/strava-oauth.ts"
+  exports []
+
+record EmptyRequest:
+  meaning "No JSON request fields."
+  fields {}
+
+record OpaqueResponse:
+  meaning "Adapter-owned response body; HTTP redirects have no application JSON payload."
+  fields {"value":"unknown?"}
+
+record ProfileResponse:
+  meaning "Safe runner profile; provider credentials never appear."
+  fields {"profile":"PublicRunnerProfile"}
+
+record StatusResponse:
+  meaning "Public connection discovery without returning provider credentials."
+  fields {"configured":"boolean","authenticated":"boolean","connected":"boolean","athlete":"PublicAthlete|null","redirect_uri":"string","scope":"string","identity_mode":"string?","login_uri":"string?","session_state":"string?","security_available":"boolean?"}
+
+enum StravaProvider:
+  meaning "Only provider supported by this pilot."
+  values ["strava"]
+
+enum ProviderStatus:
+  meaning "Provider connection state."
+  values ["linked","disconnected"]
+
+record RunnerProfile:
+  meaning "Runner-owned safe display profile."
+  fields {"principalId":"string","displayName":"string","privacyStatus":"string","createdAt":"string","updatedAt":"string"}
+
+record ProviderAccount:
+  meaning "Private server-side linkage between principal and provider identity."
+  fields {"id":"string","provider":"StravaProvider","principalId":"string","providerUserId":"string","displayName":"string|null","scope":"string[]","status":"ProviderStatus","linkedAt":"string","updatedAt":"string","metadata":"record"}
+
+record OAuthState:
+  meaning "Expiring single-use OAuth state with browser nonce binding."
+  fields {"state":"string","nonce":"string","redirectTarget":"string","createdAt":"string","expiresAt":"string","consumedAt":"string|null"}
+
+record ProviderTokenRecord:
+  meaning "Encrypted server-side token custody; ciphertext never leaves the adapter."
+  fields {"id":"string","accountId":"string","accessTokenCiphertext":"string","refreshTokenCiphertext":"string","expiresAt":"string","createdAt":"string","updatedAt":"string"}
+
+record OAuthCallbackRequest:
+  meaning "Provider callback query bound to the browser state cookie."
+  fields {"code":"string?","state":"string?","error":"string?"}
+
+record LogoutResponse:
+  meaning "Logout revokes the server session and clears browser cookies."
+  fields {"ok":"boolean"}
+
+operation ReadStatus:
+  meaning "Public configuration and optional connection status; never returns tokens."
+  adapter "PilotHttp"
+  entry "handleStatus"
+  signature "response-request"
+  input "EmptyRequest"
+  output "StatusResponse"
+  authentication "public"
+  permission null
+  effects ["read:session","read:ProviderAccount"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route ReadStatusRoute:
+  meaning "GET /api/status exposes ReadStatus."
+  method "GET"
+  path "/api/status"
+  operation "ReadStatus"
+  success [200]
+  errors [500]
+
+operation ReadProfile:
+  meaning "Authenticated safe principal/profile view."
+  adapter "PilotHttp"
+  entry "handleProfile"
+  signature "response-request"
+  input "EmptyRequest"
+  output "ProfileResponse"
+  authentication "session"
+  permission null
+  effects ["read:RunnerProfile","read:ProviderAccount"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route ReadProfileRoute:
+  meaning "GET /api/profile exposes ReadProfile."
+  method "GET"
+  path "/api/profile"
+  operation "ReadProfile"
+  success [200]
+  errors [400,401,403,500]
+
+operation StartStrava:
+  meaning "Legacy fake-provider login, or authenticated CSRF-protected provider linking when OIDC identity mode is selected."
+  adapter "PilotHttp"
+  entry "handleStravaStart"
+  signature "response-request"
+  input "EmptyRequest"
+  output "OpaqueResponse"
+  authentication "public"
+  permission null
+  effects ["create:OAuthState","set:state-cookie"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route StartStravaRoute:
+  meaning "GET /api/auth/strava/start exposes StartStrava."
+  method "GET"
+  path "/api/auth/strava/start"
+  operation "StartStrava"
+  success [302]
+  errors [400,405,500]
+
+operation CompleteStrava:
+  meaning "Validate single-use state and browser cookie. OIDC mode links to the current session without issuing identity; the legacy Strava pilot creates its own session."
+  adapter "PilotHttp"
+  entry "handleStravaCallback"
+  signature "response-url-request"
+  input "OAuthCallbackRequest"
+  output "OpaqueResponse"
+  authentication "public"
+  permission null
+  effects ["consume:OAuthState","exchange:provider-code","upsert:ProviderAccount","upsert:RunnerProfile","encrypt:ProviderTokenRecord","create:session"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route CompleteStravaRoute:
+  meaning "GET /api/auth/strava/callback exposes CompleteStrava."
+  method "GET"
+  path "/api/auth/strava/callback"
+  operation "CompleteStrava"
+  success [302]
+  errors [500]
+
+operation Logout:
+  meaning "Logout accepts an already absent session; valid sessions require CSRF/origin guards."
+  adapter "PilotHttp"
+  entry "handleLogout"
+  signature "response-request"
+  input "EmptyRequest"
+  output "LogoutResponse"
+  authentication "optional-session"
+  permission null
+  effects ["revoke:session","clear:cookies"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route LogoutRoute:
+  meaning "POST /api/auth/logout exposes Logout."
+  method "POST"
+  path "/api/auth/logout"
+  operation "Logout"
+  success [200]
+  errors [400,401,403,500]
+
+record PublicAthlete:
+  meaning "Closed public JSON contract for the retained pilot."
+  fields {"id":"string|number","firstname":"string|null?","lastname":"string|null?","profile":"string|null?","strava_profile_url":"string|null","scope":"string[]","provider":"StravaProvider","status":"ProviderStatus"}
+
+record PublicSession:
+  meaning "Closed public JSON contract for the retained pilot."
+  fields {"expires_at":"string"}
+
+record PublicConnection:
+  meaning "Closed public JSON contract for the retained pilot."
+  fields {"connected":"boolean","account":"PublicAthlete|null","profile_url":"string|null"}
+
+record ProfilePrivacy:
+  meaning "Closed public JSON contract for the retained pilot."
+  fields {"provider_tokens":"string","activity_import":"string","csrf":"string"}
+
+record ProfileValidation:
+  meaning "Closed public JSON contract for the retained pilot."
+  fields {"taquaral_activity":"string","route_geometry":"string","scoring":"string"}
+
+record PublicRunnerProfile:
+  meaning "Closed public JSON contract for the retained pilot."
+  fields {"principal_id":"string","display_name":"string","principal_status":"string","session":"PublicSession","strava":"PublicConnection","privacy":"ProfilePrivacy","validation":"ProfileValidation"}
+
+operation StartOidc:
+  meaning "Fixed self-hosted issuer login or bounded active-session renewal; never arbitrary redirects."
+  adapter "PilotHttp"
+  entry "handleOidcStart"
+  signature "response-request"
+  input "EmptyRequest"
+  output "OpaqueResponse"
+  authentication "public"
+  permission null
+  effects ["create:OidcTransaction","set:login-cookie"]
+  tests ["../app/tests/oidc.test.ts"]
+
+route StartOidcRoute:
+  meaning "GET starts the separately configured OIDC identity profile."
+  method "GET"
+  path "/api/auth/oidc/start"
+  operation "StartOidc"
+  success [303]
+  errors [404,500]
+
+operation CompleteOidc:
+  meaning "Validate OIDC identity and transaction, map issuer/subject, rotate local session; reject revoked parents."
+  adapter "PilotHttp"
+  entry "handleOidcCallback"
+  signature "response-url-request"
+  input "OAuthCallbackRequest"
+  output "OpaqueResponse"
+  authentication "public"
+  permission null
+  effects ["consume:OidcTransaction","verify:issuer-identity","create:session"]
+  tests ["../app/tests/oidc.test.ts"]
+
+route CompleteOidcRoute:
+  meaning "Fixed OIDC callback."
+  method "GET"
+  path "/api/auth/oidc/callback"
+  operation "CompleteOidc"
+  success [303]
+  errors [404,500]
+
+record ProviderLinkResponse:
+  meaning "Server-selected provider authorization URL; no provider tokens."
+  fields {"url":"string"}
+
+operation LinkStrava:
+  meaning "Explicit authenticated provider link with CSRF and session-bound single-use state."
+  adapter "PilotHttp"
+  entry "handleStravaStart"
+  signature "response-request"
+  input "EmptyRequest"
+  output "ProviderLinkResponse"
+  authentication "session"
+  permission null
+  effects ["create:OAuthState","set:state-cookie"]
+  tests ["../app/tests/oidc.test.ts"]
+
+route LinkStravaRoute:
+  meaning "POST starts provider linking for an authenticated runner."
+  method "POST"
+  path "/api/auth/strava/link"
+  operation "LinkStrava"
+  success [200]
+  errors [400,401,403,500]
+
+adapter OidcIdentity:
+  meaning "Fixed issuer/client/audience OIDC verification, server-side token custody, session deadlines and callback cancellation."
+  category "library"
+  source "../app/src/auth/oidc.ts"
+  exports []
+
+adapter OidcSessionPolicy:
+  meaning "Pure session deadline and authentication freshness policy shared with bounded EVF witnesses."
+  category "library"
+  source "../app/src/auth/oidc-policy.ts"
+  exports []
+
+adapter DurableOidcIdentity:
+  meaning "Optional explicit PostgreSQL identity successor; shared session generation, encryption, revocation and single-use transaction contract."
+  category "library"
+  source "../app/src/auth/oidc-durable.ts"
+  exports []
+
+operation ReadSecurity:
+  meaning "Authenticated durable security settings page; adapter verifies the current issuer and app session."
+  adapter "PilotHttp"
+  entry "handleSecurity"
+  signature "response-request"
+  input "EmptyRequest"
+  output "OpaqueResponse"
+  authentication "public"
+  permission null
+  effects ["verify:issuer-identity"]
+  tests ["../app/tests/oidc.test.ts"]
+
+route ReadSecurityRoute:
+  meaning "GET security settings for the explicit durable identity profile."
+  method "GET"
+  path "/api/auth/security"
+  operation "ReadSecurity"
+  success [200]
+  errors [400,401,404,503]
+
+operation ChangeSecurity:
+  meaning "Verify current session, exact origin, session-bound CSRF and allowlisted action before fresh Keycloak authentication."
+  adapter "PilotHttp"
+  entry "handleSecurity"
+  signature "response-request"
+  input "EmptyRequest"
+  output "OpaqueResponse"
+  authentication "public"
+  permission null
+  effects ["create:OidcTransaction","set:login-cookie"]
+  tests ["../app/tests/oidc.test.ts"]
+
+route ChangeSecurityRoute:
+  meaning "POST an explicit security action; the boundary owns form and CSRF validation."
+  method "POST"
+  path "/api/auth/security"
+  operation "ChangeSecurity"
+  success [303]
+  errors [400,401,403,404,413,415,503]

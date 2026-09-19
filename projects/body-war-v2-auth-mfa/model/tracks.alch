@@ -1,0 +1,122 @@
+domain body-war-tracks "TROQAR tracks contracts"
+profile bound-application-v1
+owner body-war-owner
+
+enum SuggestedTrackStatus:
+  meaning "Stored route-candidate states. The pilot never promotes source-backed geometry."
+  values ["needs_evidence","evidence_submitted","operator_review","source_backed","retired"]
+
+record SuggestedTrack:
+  meaning "A candidate route with evidence status and separately stated geometry authority."
+  fields {"id":"string","slug":"string","name":"string","placeLabel":"string","city":"string","country":"string","distanceHintMeters":"number|null","status":"SuggestedTrackStatus","geometryAuthority":"string","suggestedByPrincipalId":"string|null","publicNote":"string","createdAt":"string","updatedAt":"string"}
+
+record CreateTrackRequest:
+  meaning "Runner-supplied candidate route metadata; required text is trimmed and bounded."
+  fields {"name":"string","place_label":"string","city":"string","distance_hint_meters":"number|null?","public_note":"string?"}
+
+record TrackKeyRequest:
+  meaning "Route selector by id or slug."
+  fields {"idOrSlug":"string"}
+
+record TrackListResponse:
+  meaning "Public candidate route views, with explicit geometry/scoring claim limits."
+  fields {"suggested_tracks":"PublicTrack[]"}
+
+record TrackResponse:
+  meaning "One candidate route and optional evidence detail."
+  fields {"suggested_track":"PublicTrack","my_evidence_candidates":"PublicEvidence[]?","evidence_summary":"EvidenceSummary?"}
+
+lifecycle TrackEvidenceLifecycle:
+  meaning "Attach first evidence moves needs_evidence to evidence_submitted. Other stored states remain unchanged. Removing the last candidate resets needs_evidence, matching both existing repositories. No promotion is authored."
+  record "SuggestedTrack"
+  field "status"
+  initial "needs_evidence"
+  transitions [["needs_evidence","attach","evidence_submitted"],["evidence_submitted","attach","evidence_submitted"],["operator_review","attach","operator_review"],["source_backed","attach","source_backed"],["retired","attach","retired"],["needs_evidence","last-evidence-removed","needs_evidence"],["evidence_submitted","last-evidence-removed","needs_evidence"],["operator_review","last-evidence-removed","needs_evidence"],["source_backed","last-evidence-removed","needs_evidence"],["retired","last-evidence-removed","needs_evidence"]]
+
+configuration TrackDefaults:
+  meaning "Idempotent seed route; not verified route geometry. Field rules are owned by CreateTrackRules."
+  values {"seed":{"slug":"volta-do-taquaral","name":"Volta do Taquaral","placeLabel":"Parque Portugal / Lagoa do Taquaral","city":"Campinas","country":"BR","distanceHintMeters":6400,"publicNote":"Sugestao inicial para reunir evidencias antes de qualquer geometria source-backed."}}
+
+operation ListTracks:
+  meaning "List suggestions for a connected runner."
+  adapter "PilotHttp"
+  entry "handleSuggestedTracksList"
+  signature "response-request"
+  input "EmptyRequest"
+  output "TrackListResponse"
+  authentication "connected"
+  permission "body-war.suggested-track.read"
+  effects ["read:SuggestedTrack"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route ListTracksRoute:
+  meaning "GET /api/suggested-tracks exposes ListTracks."
+  method "GET"
+  path "/api/suggested-tracks"
+  operation "ListTracks"
+  success [200]
+  errors [400,401,403,500]
+
+operation CreateTrack:
+  meaning "Create a needs-evidence suggestion with no geometry or scoring claim."
+  adapter "PilotHttp"
+  entry "handleSuggestedTrackCreate"
+  signature "response-request"
+  input "CreateTrackRequest"
+  output "TrackResponse"
+  authentication "connected"
+  permission "body-war.suggested-track.create"
+  effects ["create:SuggestedTrack"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route CreateTrackRoute:
+  meaning "POST /api/suggested-tracks exposes CreateTrack."
+  method "POST"
+  path "/api/suggested-tracks"
+  operation "CreateTrack"
+  success [201]
+  errors [400,401,403,413,500]
+
+operation ReadTrack:
+  meaning "Retrieve one track and only the current runner evidence candidates."
+  adapter "PilotHttp"
+  entry "handleSuggestedTrackDetail"
+  signature "response-request-param"
+  input "TrackKeyRequest"
+  output "TrackResponse"
+  authentication "connected"
+  permission "body-war.suggested-track.read"
+  effects ["read:SuggestedTrack","read:own-ActivityEvidenceCandidate"]
+  tests ["../app/tests/auth-consumer.test.ts"]
+
+route ReadTrackRoute:
+  meaning "GET /api/suggested-tracks/:idOrSlug exposes ReadTrack."
+  method "GET"
+  path "/api/suggested-tracks/:idOrSlug"
+  operation "ReadTrack"
+  success [200]
+  errors [401,403,404,409,500]
+
+request CreateTrackBody:
+  meaning "Closed JSON request before adapter effects; bounded to 16 KiB."
+  operation "CreateTrack"
+  maxbytes 16384
+  error "invalid_suggested_track"
+
+normalization CreateTrackRules:
+  meaning "Trim and truncate text using UTF-16 code units; required text remains nonempty; optional distance is a positive integer or null."
+  operation "CreateTrack"
+  fields {"name":{"kind":"text","min":1,"max":255},"place_label":{"kind":"text","min":1,"max":255},"city":{"kind":"text","min":1,"max":120},"public_note":{"kind":"text","min":0,"max":500},"distance_hint_meters":{"kind":"positive-integer"}}
+  error "invalid_suggested_track"
+
+record PublicTrackAuthority:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"route_geometry":"string","scoring":"NoClaim","pilot_ready":"NoClaim"}
+
+enum NoClaim:
+  meaning "Explicit absence of authority."
+  values ["not_claimed"]
+
+record PublicTrack:
+  meaning "Closed public pilot JSON contract; no additional fields."
+  fields {"id":"string","slug":"string","name":"string","place_label":"string","city":"string","country":"string","distance_hint_meters":"number|null","status":"SuggestedTrackStatus","geometry_authority":"string","suggested_by":"string","public_note":"string","created_at":"string","updated_at":"string","authority":"PublicTrackAuthority"}

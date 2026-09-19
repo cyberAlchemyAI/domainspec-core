@@ -1,0 +1,40 @@
+{
+  "status": "ready",
+  "kit_version": "0.4.0-candidate",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "unshare": "/usr/bin/unshare",
+  "scope": "Filesystem-contained CLI; trusted tools and writable audit workspace; not a kernel-exploit or evidence-authentication guarantee",
+  "containment": {
+    "schema_version": "evf.contained-launch/v1-candidate",
+    "workspace": "/tmp/evf-containment-doctor-eqgcpew4",
+    "kit": "/home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/evf/evf-audit-kit-0.4.0",
+    "read_only_runtime_paths": [],
+    "read_only_system_paths": [
+      "/usr/bin",
+      "/usr/lib/x86_64-linux-gnu",
+      "/usr/lib64",
+      "/usr/include",
+      "/etc/alternatives",
+      "/etc/ld.so.cache",
+      "/usr/lib/python3.14"
+    ],
+    "host_namespaces": {
+      "mnt": "mnt:[4026532217]",
+      "pid": "pid:[4026532219]",
+      "net": "net:[4026531833]",
+      "user": "user:[4026531837]",
+      "ipc": "ipc:[4026532206]",
+      "uts": "uts:[4026532218]"
+    },
+    "bubblewrap": {
+      "path": "/usr/bin/bwrap",
+      "sha256": "8e19e40e7d5f7a7e8b488c7926feb040eab6ed10c58fa360e266d2f70670e92b",
+      "version": "bubblewrap 0.11.1"
+    },
+    "network": "isolated",
+    "persistent_writes": "selected-audit-workspace-only",
+    "writable_workspace_is_not_evidence_authentication": true,
+    "authority_effect": "none"
+  }
+}
+

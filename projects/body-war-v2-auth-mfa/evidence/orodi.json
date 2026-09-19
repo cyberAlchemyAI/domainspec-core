@@ -1,0 +1,869 @@
+{
+  "status": "bounded-adapter-checks-passed",
+  "recovery": {
+    "status": "passed",
+    "mode": "isolated-local-rehearsal",
+    "app_sha256": "7e4518a6c8264bd47e898d223331e5a2703467a3c5b91e790682e6ab2376f450",
+    "worker_sha256": "005060b06a480bdee244aacd5187510a0d47d8c47b06bf83a0d1c76db3f5fc7f",
+    "observations": [
+      {
+        "phase": "stable",
+        "status": 200
+      },
+      {
+        "phase": "canary-fault",
+        "status": 503
+      },
+      {
+        "phase": "rollback-after-canary",
+        "status": 200
+      },
+      {
+        "phase": "process-loss",
+        "status": 502
+      },
+      {
+        "phase": "restart-recovery",
+        "status": 200
+      }
+    ],
+    "telemetry": {
+      "offered": 6,
+      "queued": 5,
+      "exported": 5,
+      "rejected": 1,
+      "dropped": 0,
+      "pending": 0,
+      "partial_success": 0
+    },
+    "negative_controls": {
+      "unhealthy_canary": 503,
+      "dead_process": 502,
+      "forbidden_telemetry_field": "rejected-before-persistence"
+    },
+    "events_sha256": "f9da554e89f54250fc4d50081ed28d1cc5c42703935f67f6f874f3c54e9e86a2",
+    "independent_production_observation": false,
+    "authority_effect": "none",
+    "open_questions_ref": "../../README.md#open-questions"
+  },
+  "checks": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/suggested-tracks",
+      "status": 401
+    }
+  ],
+  "bundle": {
+    "schema_version": "domainspec.orodi.evaluation-bundle/v1",
+    "evidence_lane": "candidate-local-prototype",
+    "binding": {
+      "schema_version": "domainspec.orodi.evaluation-binding/v1",
+      "binding_id": "body-war-v2-local-observer",
+      "subject": {
+        "ref": "model/application-ontology.json",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "599caa84633eb869663d22e6c9081cfb4ec44cf52ca1eef15959d8163bca216d"
+      },
+      "environment": {
+        "ref": "app/package.json",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "decc7509476c2bf40c5199bbc17ba5ef1cdb11fd7841c840a1f797834bf6675c"
+      },
+      "stable_artifact": {
+        "ref": "app/dist/server.js",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "7e4518a6c8264bd47e898d223331e5a2703467a3c5b91e790682e6ab2376f450"
+      },
+      "candidate_artifact": {
+        "ref": "app/dist/server.js",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "7e4518a6c8264bd47e898d223331e5a2703467a3c5b91e790682e6ab2376f450"
+      },
+      "configuration": {
+        "ref": "app/playwright.config.ts",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "9e29b18cadc70203acecd01c774fd2fea2b2f5ee191be1dfeb7778d568b9ed23"
+      },
+      "topology": {
+        "ref": "app/docker-compose.e2e.yml",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "8c2c9c0e7e964ed3d5439df35d196c76bc7ec46b61588b674037a18916bb0754"
+      },
+      "fixture": {
+        "ref": "scripts/run-orodi.mjs",
+        "version": "body-war-v2-0.1.0",
+        "sha256": "0feebf94bd6ec8d9ccc567abd4ade66ba2dee67e93c4aaaa248e2254f64306ba"
+      },
+      "evaluator": {
+        "ref": "/home/vrondelli/projects/domainspec-core/projects/domainspec-v2/impl/operational-resilience/src/validate-operational-evidence.ts",
+        "version": "1.0.0-candidate-local",
+        "sha256": "74ad449f0c0a19e43a308ae21ebf260ce8f35b7691a499cb42ca97c8b724a92d"
+      },
+      "receipt_schema": {
+        "ref": "operational-evidence.ts",
+        "version": "v1",
+        "sha256": "33b6a8b9bd110f79f90ed9e3ae0feb72c62292e911a393fff67af6c7681856c1"
+      },
+      "owners": {
+        "semantic": "body-war-owner",
+        "integration": "body-war-v2-construction",
+        "evidence": "local-test-observer",
+        "privacy": "body-war-owner",
+        "evaluator": "domainspec-orodi"
+      },
+      "profiles": [
+        {
+          "role": "local-health-only",
+          "profile_id": "body-war-v2-observer",
+          "version": "0.1.0",
+          "sha256": "0feebf94bd6ec8d9ccc567abd4ade66ba2dee67e93c4aaaa248e2254f64306ba",
+          "status": "candidate-local"
+        }
+      ],
+      "policies": [
+        {
+          "role": "local-observation-limit",
+          "policy_id": "body-war-v2-no-deployment-claim",
+          "version": "0.1.0",
+          "sha256": "0feebf94bd6ec8d9ccc567abd4ade66ba2dee67e93c4aaaa248e2254f64306ba",
+          "enabled": true
+        }
+      ],
+      "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+      "created_at": "2026-09-07T22:00:02.070Z",
+      "expires_at": "2026-09-07T23:00:02.070Z"
+    },
+    "observations": [
+      {
+        "schema_version": "domainspec.orodi.observation/v1",
+        "observation_id": "local-http-observer",
+        "plane": "product",
+        "kind": "health",
+        "mode": "live",
+        "correlation_id": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "attributes": {
+          "service": "body-war-v2",
+          "signal": "local-http-health-and-auth"
+        },
+        "attribute_allowlist": [
+          "service",
+          "signal"
+        ],
+        "cardinality": {
+          "observed": 2,
+          "budget": 2
+        },
+        "telemetry": {
+          "offered": 1,
+          "queued": 1,
+          "exported": 0,
+          "rejected": 0,
+          "dropped": 0,
+          "pending": 1,
+          "partial_success": 0
+        },
+        "deployment_effect": false,
+        "independently_observed": false,
+        "observed_at": "2026-09-07T22:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8"
+      },
+      {
+        "schema_version": "domainspec.orodi.observation/v1",
+        "observation_id": "local-recovery-rehearsal",
+        "plane": "product",
+        "kind": "rollback-effect",
+        "mode": "simulation",
+        "correlation_id": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "attributes": {
+          "service": "body-war-v2",
+          "signal": "local-canary-rollback-restart"
+        },
+        "attribute_allowlist": [
+          "service",
+          "signal"
+        ],
+        "cardinality": {
+          "observed": 2,
+          "budget": 2
+        },
+        "telemetry": {
+          "offered": 6,
+          "queued": 5,
+          "exported": 5,
+          "rejected": 1,
+          "dropped": 0,
+          "pending": 0,
+          "partial_success": 0
+        },
+        "deployment_effect": false,
+        "independently_observed": false,
+        "observed_at": "2026-09-07T22:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8"
+      }
+    ],
+    "controls": [
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C01",
+        "state": "passed",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C02",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C03",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C04",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C05",
+        "state": "passed",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C06",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C07",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C08",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C09",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C10",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C11",
+        "state": "passed",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C12",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C13",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C14",
+        "state": "passed",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C15",
+        "state": "passed",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.control-receipt/v1",
+        "control_id": "C16",
+        "state": "not-run",
+        "observation_refs": [
+          "local-http-observer"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "authority_effect": "none"
+      }
+    ],
+    "claim": {
+      "claim_id": "body-war-v2-full-operational-readiness",
+      "required_controls": [
+        "C01",
+        "C02",
+        "C03",
+        "C04",
+        "C05",
+        "C06",
+        "C07",
+        "C08",
+        "C09",
+        "C10",
+        "C11",
+        "C12",
+        "C13",
+        "C14",
+        "C15",
+        "C16"
+      ]
+    },
+    "authority_effect": "none"
+  },
+  "derived": {
+    "schema_version": "domainspec.orodi.derived-control-set-result/v1",
+    "validator_id": "domainspec.orodi.foundational-derived-validator",
+    "validator_version": "1.0.0-candidate-local",
+    "evidence_lane": "candidate-local-prototype",
+    "binding_id": "body-war-v2-local-observer",
+    "evaluated_at": "2026-09-07T22:00:02.070Z",
+    "verdict": "reject",
+    "comparison": "match",
+    "derived_controls": [
+      {
+        "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+        "control_id": "C01",
+        "state": "passed",
+        "evaluator_id": "domainspec.orodi.c01-evaluator",
+        "rule_version": "1.0.0-candidate-local",
+        "observation_refs": [],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "findings": [],
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+        "control_id": "C05",
+        "state": "passed",
+        "evaluator_id": "domainspec.orodi.c05-evaluator",
+        "rule_version": "1.0.0-candidate-local",
+        "observation_refs": [
+          "local-http-observer",
+          "local-recovery-rehearsal"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "findings": [],
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+        "control_id": "C11",
+        "state": "passed",
+        "evaluator_id": "domainspec.orodi.c11-evaluator",
+        "rule_version": "1.0.0-candidate-local",
+        "observation_refs": [
+          "local-recovery-rehearsal"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "findings": [],
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+        "control_id": "C12",
+        "state": "not-run",
+        "evaluator_id": "domainspec.orodi.c12-evaluator",
+        "rule_version": "1.0.0-candidate-local",
+        "observation_refs": [],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "findings": [
+          {
+            "code": "ORODI_C12_LIVE_EFFECT_NOT_RUN",
+            "detail": "no live product deployment-effect observation exists"
+          }
+        ],
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+        "control_id": "C14",
+        "state": "passed",
+        "evaluator_id": "domainspec.orodi.c14-evaluator",
+        "rule_version": "1.0.0-candidate-local",
+        "observation_refs": [
+          "local-http-observer",
+          "local-recovery-rehearsal"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "findings": [],
+        "authority_effect": "none"
+      },
+      {
+        "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+        "control_id": "C15",
+        "state": "passed",
+        "evaluator_id": "domainspec.orodi.c15-evaluator",
+        "rule_version": "1.0.0-candidate-local",
+        "observation_refs": [
+          "local-http-observer",
+          "local-recovery-rehearsal"
+        ],
+        "evaluated_at": "2026-09-07T22:00:02.070Z",
+        "expires_at": "2026-09-07T23:00:02.070Z",
+        "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+        "findings": [],
+        "authority_effect": "none"
+      }
+    ],
+    "mismatches": [],
+    "findings": [],
+    "authority_effect": "none"
+  },
+  "full_operational_readiness": {
+    "schema_version": "domainspec.orodi.evaluation-result/v1",
+    "validator_id": "domainspec.orodi.generic-validator",
+    "validator_version": "1.0.0-candidate-local",
+    "evidence_lane": "candidate-local-prototype",
+    "binding_id": "body-war-v2-local-observer",
+    "claim_id": "body-war-v2-full-operational-readiness",
+    "evaluated_at": "2026-09-07T22:00:02.070Z",
+    "verdict": "reject",
+    "claim_state": "not-run",
+    "required_control_states": [
+      {
+        "control_id": "C01",
+        "state": "passed"
+      },
+      {
+        "control_id": "C02",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C03",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C04",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C05",
+        "state": "passed"
+      },
+      {
+        "control_id": "C06",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C07",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C08",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C09",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C10",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C11",
+        "state": "passed"
+      },
+      {
+        "control_id": "C12",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C13",
+        "state": "not-run"
+      },
+      {
+        "control_id": "C14",
+        "state": "passed"
+      },
+      {
+        "control_id": "C15",
+        "state": "passed"
+      },
+      {
+        "control_id": "C16",
+        "state": "not-run"
+      }
+    ],
+    "findings": [
+      {
+        "code": "ORODI_C11_SIMULATION_REQUIRED",
+        "path": "$.controls[10]",
+        "detail": "C11 pass requires a simulation observation with no deployment effect"
+      }
+    ],
+    "authority_effect": "none"
+  },
+  "negative_controls": {
+    "stale": {
+      "schema_version": "domainspec.orodi.derived-control-set-result/v1",
+      "validator_id": "domainspec.orodi.foundational-derived-validator",
+      "validator_version": "1.0.0-candidate-local",
+      "evidence_lane": "candidate-local-prototype",
+      "binding_id": "body-war-v2-local-observer",
+      "evaluated_at": "2026-09-07T22:00:02.070Z",
+      "verdict": "reject",
+      "comparison": "mismatch",
+      "derived_controls": [
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C01",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c01-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C05",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c05-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-http-observer",
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C11",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c11-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C12",
+          "state": "not-run",
+          "evaluator_id": "domainspec.orodi.c12-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [
+            {
+              "code": "ORODI_C12_LIVE_EFFECT_NOT_RUN",
+              "detail": "no live product deployment-effect observation exists"
+            }
+          ],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C14",
+          "state": "stale",
+          "evaluator_id": "domainspec.orodi.c14-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-http-observer",
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [
+            {
+              "code": "ORODI_C14_INVALIDATION_KEY_MISMATCH",
+              "detail": "local-http-observer does not match the binding invalidation key"
+            }
+          ],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C15",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c15-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-http-observer",
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        }
+      ],
+      "mismatches": [
+        {
+          "control_id": "C14",
+          "claimed_state": "passed",
+          "derived_state": "stale",
+          "code": "ORODI_DERIVED_CONTROL_STATE_MISMATCH"
+        }
+      ],
+      "findings": [],
+      "authority_effect": "none"
+    },
+    "unapproved_attribute": {
+      "schema_version": "domainspec.orodi.derived-control-set-result/v1",
+      "validator_id": "domainspec.orodi.foundational-derived-validator",
+      "validator_version": "1.0.0-candidate-local",
+      "evidence_lane": "candidate-local-prototype",
+      "binding_id": "body-war-v2-local-observer",
+      "evaluated_at": "2026-09-07T22:00:02.070Z",
+      "verdict": "reject",
+      "comparison": "mismatch",
+      "derived_controls": [
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C01",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c01-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C05",
+          "state": "failed",
+          "evaluator_id": "domainspec.orodi.c05-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-http-observer",
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [
+            {
+              "code": "ORODI_C05_ATTRIBUTE_NOT_ALLOWLISTED",
+              "detail": "local-http-observer attribute forbidden is not allowlisted"
+            }
+          ],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C11",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c11-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C12",
+          "state": "not-run",
+          "evaluator_id": "domainspec.orodi.c12-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [
+            {
+              "code": "ORODI_C12_LIVE_EFFECT_NOT_RUN",
+              "detail": "no live product deployment-effect observation exists"
+            }
+          ],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C14",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c14-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-http-observer",
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        },
+        {
+          "schema_version": "domainspec.orodi.derived-control-receipt/v1",
+          "control_id": "C15",
+          "state": "passed",
+          "evaluator_id": "domainspec.orodi.c15-evaluator",
+          "rule_version": "1.0.0-candidate-local",
+          "observation_refs": [
+            "local-http-observer",
+            "local-recovery-rehearsal"
+          ],
+          "evaluated_at": "2026-09-07T22:00:02.070Z",
+          "expires_at": "2026-09-07T23:00:02.070Z",
+          "invalidation_key_digest": "d44a8ad8d84190a7269ca8e616ce67ffbf8a05f618bb56e8b58e19196ed33db8",
+          "findings": [],
+          "authority_effect": "none"
+        }
+      ],
+      "mismatches": [
+        {
+          "control_id": "C05",
+          "claimed_state": "passed",
+          "derived_state": "failed",
+          "code": "ORODI_DERIVED_CONTROL_STATE_MISMATCH"
+        }
+      ],
+      "findings": [],
+      "authority_effect": "none"
+    }
+  },
+  "claim_ceiling": "Local HTTP, canary fault, rollback, process-loss/restart and collector export observed; no independent production deployment claim",
+  "authority_effect": "none",
+  "open_questions_ref": "../README.md#open-questions"
+}

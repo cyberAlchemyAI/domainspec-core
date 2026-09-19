@@ -1,0 +1,81 @@
+
+> @domainspec/body-war-v2@0.1.0 test
+> npm test --workspace @body-war-v2/app
+
+
+> @body-war-v2/app@0.1.0 test
+> npm run build:test && BODY_WAR_AUTH_BACKEND=memory BODY_WAR_STRAVA_FAKE=1 node --test dist-test/tests/*.test.js
+
+
+> @body-war-v2/app@0.1.0 build:test
+> npm run build --workspace @domainspec/auth-user-management && tsc -p tsconfig.test.json
+
+
+> @domainspec/auth-user-management@0.1.0 build
+> rm -rf dist && tsc -p tsconfig.json
+
+✔ Body War local fake-Strava auth flow creates safe profile and cookies (403.742754ms)
+✔ Body War public runner profile exposes Strava link without provider tokens (3.16551ms)
+✔ Body War activity import receipt keeps route authority deferred (0.633438ms)
+✔ exact evidence disposition is idempotent and resets only its affected track (76.962231ms)
+✔ provider revocation removes tokens while preserving profile and evidence (17.514987ms)
+✔ compiled consent rule rejects every incomplete boolean combination (3.269708ms)
+✔ compiled rule refuses missing consent input (1.165995ms)
+✔ OIDC profile validates real signature and rejects cross-app identity tokens (418.137742ms)
+✔ authentication freshness and session deadlines fail at their exact boundaries (6.883945ms)
+✔ provider account ownership cannot be stolen by an upsert (3.292633ms)
+✔ recorded export qualification returns only counts and hashes; never asserts authenticity (13.826181ms)
+✔ qualification rejects malformed coordinates, streams, duplicate references and mismatched reports (3.912917ms)
+✔ provider rejects pagination windows outside pages 1..10 and 1..100 records before fetch (16.176366ms)
+✔ provider can fetch one exact bounded start page (174.149114ms)
+✔ provider paginates to a short page, filters run types, and projects only the allowlist (17.504718ms)
+✔ provider returns an empty success when no activities are eligible (8.053047ms)
+▶ provider maps credential, rate-limit, malformed, network, and 5xx failures safely
+  ✔ 401 (3.066062ms)
+  ✔ 403 (7.12607ms)
+  ✔ 429 (3.723805ms)
+  ✔ 500 (3.34916ms)
+  ✔ malformed (2.662294ms)
+  ✔ network (3.538651ms)
+✔ provider maps credential, rate-limit, malformed, network, and 5xx failures safely (33.130842ms)
+✔ unexpired latest stored token is decrypted and used without refresh (17.566137ms)
+▶ normal adapter routing keeps fake mode local and real mode on one exact provider page
+  ✔ fake mode remains repository-backed and never fetches (12.315413ms)
+  ✔ real mode fetches exactly public page N (4.679949ms)
+  ✔ invalid normal bounds fail before repository or provider access (0.8701ms)
+✔ normal adapter routing keeps fake mode local and real mode on one exact provider page (23.05283ms)
+✔ expired latest token refreshes once, persists the rotated pair, then fetches (51.104608ms)
+▶ adapter rejects missing account, scope, token, and unreadable ciphertext without fetch
+  ✔ missing account (0.760802ms)
+  ✔ missing scope (1.125197ms)
+  ✔ missing token (5.755179ms)
+  ✔ unreadable ciphertext (2.365493ms)
+✔ adapter rejects missing account, scope, token, and unreadable ciphertext without fetch (14.69341ms)
+✔ a rejected refresh maps safely and prevents activity retrieval (7.823969ms)
+✔ historical detail verifies exact identity and projects only approved summary fields (4.893973ms)
+✔ historical detail rejects mismatched, missing and imprecise identities (25.101468ms)
+✔ historical detail sanitizes provider errors and bounds response bytes (23.554643ms)
+✔ historical adapter refreshes encrypted tokens before exact detail lookup (14.754724ms)
+✔ geometry exporter refreshes credentials and writes sanitized GeoJSON (278.518587ms)
+✔ submitted source fails before network access when IDs are fixtures (31.237905ms)
+✔ misaligned streams are reported without truncating evidence (28.819172ms)
+✔ empty activity discovery names the missing private-activity scope (27.761773ms)
+✔ private reconnect URL makes broader scope and forced consent explicit (15.40195ms)
+✔ reconnect refuses a non-loopback callback (2.623589ms)
+✔ public callback requires standard HTTPS and the exact callback path (1.925344ms)
+✔ authorization exchange atomically replaces same-athlete token (149.621563ms)
+✔ different athlete or denied private scope leaves token store unchanged (45.350024ms)
+✔ explicit partner authorization appends a new athlete without changing the first (27.316832ms)
+✔ add-athlete mode refuses to replace an already stored athlete (25.020819ms)
+✔ selected athlete reconnect updates only that athlete in a multi-athlete store (42.991424ms)
+✔ multi-athlete reconnect without a selector fails before token exchange (27.438129ms)
+✔ tunneled callback validates public Host and preserves single-use state (117.660337ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3564.703944
+

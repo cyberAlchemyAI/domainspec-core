@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "id": "oauth_replay",
+      "status": "passed",
+      "observed": {
+        "successful_sessions": 1,
+        "replay": "rejected"
+      }
+    },
+    {
+      "id": "runner_isolation",
+      "status": "passed",
+      "observed": {
+        "other_runner_candidates": 0,
+        "own_profile": true
+      }
+    },
+    {
+      "id": "permissions",
+      "status": "passed",
+      "observed": {
+        "anonymous": 401,
+        "authenticated_without_grant": 403
+      }
+    },
+    {
+      "id": "csrf_origin",
+      "status": "passed",
+      "observed": {
+        "missing_csrf": 403,
+        "untrusted_origin": 403
+      }
+    },
+    {
+      "id": "request_validation",
+      "status": "passed",
+      "observed": {
+        "malformed": 400,
+        "unknown_field": 400,
+        "wrong_type": 400,
+        "blank_required_text": 400,
+        "nonpositive_distance": 400,
+        "fractional_distance": 400,
+        "oversized": 413,
+        "writes": 0
+      }
+    },
+    {
+      "id": "consent_revocation",
+      "status": "passed",
+      "observed": {
+        "candidate_erased": true,
+        "last_evidence_reset": true,
+        "retry": "already_absent",
+        "boundary": "internal repository operation; no public revoke endpoint"
+      }
+    }
+  ],
+  "ontology_sha256": "599caa84633eb869663d22e6c9081cfb4ec44cf52ca1eef15959d8163bca216d",
+  "test_sha256": "d142039390989bde49182d4aef9a1c176e398129feea647a8f2c27128a3ff3dc",
+  "authority_effect": "none",
+  "open_questions_ref": "../README.md#open-questions"
+}

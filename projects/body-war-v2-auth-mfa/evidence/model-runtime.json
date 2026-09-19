@@ -1,0 +1,95 @@
+{
+  "status": "passed",
+  "source_sha256": "599caa84633eb869663d22e6c9081cfb4ec44cf52ca1eef15959d8163bca216d",
+  "checks": [
+    {
+      "id": "compiler-equivalence",
+      "status": "passed",
+      "artifacts": 23,
+      "manifest_sha256": "386a3f176d36b8ef7b34ad1d18be76b0e2fc3ddfa7368906cec53e47bca32832"
+    },
+    {
+      "id": "route-mutation",
+      "status": "passed",
+      "old_status": 404,
+      "new_status": 200
+    },
+    {
+      "id": "permission-mutation",
+      "status": "passed",
+      "baseline": 200,
+      "mutant": 403
+    },
+    {
+      "id": "response-mutation",
+      "status": "passed",
+      "baseline": 200,
+      "mutant": 500
+    },
+    {
+      "id": "lifecycle-mutation",
+      "status": "passed",
+      "baseline": "evidence_submitted",
+      "mutant": "operator_review"
+    },
+    {
+      "id": "invalid-inputs",
+      "status": "passed",
+      "rejected": 5
+    },
+    {
+      "id": "request-limit-mutation",
+      "status": "passed",
+      "mutant": 413
+    },
+    {
+      "id": "request-type-mutation",
+      "status": "passed",
+      "incompatible_normalizer": "rejected",
+      "invalid_limit": "rejected"
+    },
+    {
+      "id": "normalization-mutation",
+      "status": "passed",
+      "persisted_name": "Mut"
+    },
+    {
+      "id": "nested-type-mutation",
+      "status": "passed",
+      "mutant": 500
+    },
+    {
+      "id": "nested-private-field",
+      "status": "passed",
+      "mutant": 500,
+      "private_value_returned": false
+    },
+    {
+      "id": "query-bound-mutation",
+      "status": "passed",
+      "allowed": 200,
+      "outside_authored_bound": 400,
+      "duplicates": 400,
+      "unknown_fields": 400
+    },
+    {
+      "id": "identity-type-mutation",
+      "status": "passed",
+      "mutant": 500
+    },
+    {
+      "id": "identity-private-field",
+      "status": "passed",
+      "mutant": 500,
+      "private_value_returned": false
+    },
+    {
+      "id": "migration-removed",
+      "status": "passed",
+      "removed_endpoints": 404,
+      "removed_field": 400
+    }
+  ],
+  "authority_effect": "none",
+  "open_questions_ref": "../README.md#open-questions"
+}

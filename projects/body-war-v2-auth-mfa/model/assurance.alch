@@ -1,0 +1,46 @@
+domain body-war-assurance "TROQAR assurance contracts"
+profile bound-application-v1
+owner body-war-owner
+
+adapter TdeAdapter:
+  meaning "All modeled operations/effects plus exact compiled consent rule; needs-formal obligations retained."
+  category "tool"
+  source "../scripts/prepare-assurance.mjs"
+  exports []
+
+assurance TdeAssurance:
+  meaning "All modeled operations/effects plus exact compiled consent rule; needs-formal obligations retained."
+  adapter "TdeAdapter"
+  command ["node","--import","tsx","scripts/prepare-assurance.mjs"]
+  scope "All modeled operations/effects plus exact compiled consent rule; needs-formal obligations retained."
+  required true
+
+adapter EvfAdapter:
+  meaning "Twelve exact obligation witnesses: consent, ten lifecycle transitions and logout response field. Remaining obligations stay unverified; no general formal discharge."
+  category "tool"
+  source "../scripts/run-evf.mjs"
+  exports []
+
+assurance EvfAssurance:
+  meaning "Twelve exact obligation witnesses: consent, ten lifecycle transitions and logout response field. Remaining obligations stay unverified; no general formal discharge."
+  adapter "EvfAdapter"
+  command ["node","scripts/run-evf.mjs"]
+  scope "Twelve exact obligation witnesses: consent, ten lifecycle transitions and logout response field. Remaining obligations stay unverified; no general formal discharge."
+  required true
+
+adapter OrodiAdapter:
+  meaning "Local health, canary fault/rollback, process loss/restart and collector export observations; full operational readiness remains rejected."
+  category "tool"
+  source "../scripts/run-orodi.mjs"
+  exports []
+
+assurance OrodiAssurance:
+  meaning "Local health, canary fault/rollback, process loss/restart and collector export observations; full operational readiness remains rejected."
+  adapter "OrodiAdapter"
+  command ["node","--import","tsx","scripts/run-orodi.mjs"]
+  scope "Local health, canary fault/rollback, process loss/restart and collector export observations; full operational readiness remains rejected."
+  required true
+
+configuration CriticalRequirements:
+  meaning "Exact security and persistence requirement-to-case bindings. Integration witnesses are bounded and do not claim formal discharge."
+  values {"requirements":[{"case":"runner_isolation","id":"SEC_ISOLATION","formal":"Runner-scoped detail returns no other runner evidence and profile resolves to the authenticated principal.","evidence":"evidence/critical-security.json","test":"scripts/critical-security.mjs"},{"case":"permissions","id":"SEC_PERMISSION","formal":"Anonymous access returns 401 and an authenticated principal without the read grant receives 403.","evidence":"evidence/critical-security.json","test":"scripts/critical-security.mjs"},{"case":"oauth_replay","id":"SEC_OAUTH_REPLAY","formal":"A consumed OAuth callback cannot mint a second browser session.","evidence":"evidence/critical-security.json","test":"scripts/critical-security.mjs"},{"case":"csrf_origin","id":"SEC_CSRF","formal":"Missing CSRF and an untrusted origin reject a valid-session write.","evidence":"evidence/critical-security.json","test":"scripts/critical-security.mjs"},{"case":"request_validation","id":"SEC_REQUEST","formal":"Malformed, unknown-field, wrong-type and oversized JSON requests are rejected before persistence.","evidence":"evidence/critical-security.json","test":"scripts/critical-security.mjs"},{"case":"consent_revocation","id":"SEC_REVOCATION","formal":"Internal consent disposition erases the exact candidate, resets the empty track and is idempotent.","evidence":"evidence/critical-security.json","test":"scripts/critical-security.mjs"},{"case":"oauth_concurrency","id":"DB_OAUTH","formal":"Twelve concurrent PostgreSQL consumers return exactly one OAuth state; expiry at the boundary is rejected.","evidence":"evidence/critical-postgres.json","test":"app/e2e/critical-integrity.e2e.ts"},{"case":"evidence_concurrency","id":"DB_DUPLICATE","formal":"Twelve concurrent identical attachments create exactly one row; uniqueness includes runner identity.","evidence":"evidence/critical-postgres.json","test":"app/e2e/critical-integrity.e2e.ts"},{"case":"atomic_rollback","id":"DB_ATOMIC","formal":"Failure between evidence insertion and track update rolls both back and permits one successful retry.","evidence":"evidence/critical-postgres.json","test":"app/e2e/critical-integrity.e2e.ts"},{"case":"concurrent_disposition","id":"DB_DISPOSITION","formal":"Concurrent disposition and replacement preserve the new candidate and consistent track state.","evidence":"evidence/critical-postgres.json","test":"app/e2e/critical-integrity.e2e.ts"},{"case":"persistence_reopen","id":"DB_PERSISTENCE","formal":"A fresh reader process sees committed evidence and track state after all writer connections close.","evidence":"evidence/critical-postgres.json","test":"app/e2e/critical-integrity.e2e.ts"}]}

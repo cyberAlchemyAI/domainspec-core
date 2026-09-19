@@ -1,0 +1,51 @@
+domain body-war-ui "TROQAR ui contracts"
+profile bound-application-v1
+owner body-war-owner
+
+configuration UiConfiguration:
+  meaning "Browser consent copy and view states owned by the authored pilot model."
+  values {"consentText":"Autorizo o TROQAR a guardar somente o resumo redigido desta atividade como candidata de evidencia para a rota sugerida.","brand":"TROQAR","provider":"Strava","errors":{"security_action_finished":"A acao de seguranca terminou. Entre novamente para continuar.","consent_required":"Confirme o consentimento antes de enviar a candidata.","invalid_suggested_track":"Preencha nome, lugar, cidade e uma distancia positiva quando informada.","suggested_track_not_found":"Esta rota sugerida nao esta mais disponivel.","track_geometry_missing":"Geometria da rota ainda nao foi confirmada para esta evidencia."}}
+
+ui PilotUi:
+  meaning "Bound HTML/CSS/client adapters render the modeled login, profile, suggestion and evidence flow; generated API paths and visibility rules are consumed by the browser."
+  template "../app/ui/index.html"
+  style "../app/ui/styles.css"
+  client "../app/ui/app.js"
+  configuration "UiConfiguration"
+  pages ["/","/profile"]
+
+view LoginView:
+  meaning "LoginView visibility and operation contract."
+  selector "#auth-login"
+  visibility "anonymous"
+  operations ["StartStrava","CompleteStrava","StartOidc","CompleteOidc","LinkStrava"]
+
+view RunnerHomeView:
+  meaning "RunnerHomeView visibility and operation contract."
+  selector "#runner-home"
+  visibility "connected"
+  operations ["ReadProfile","ListActivities","ListTracks","CreateTrack","ReadTrack","AttachEvidence","WithdrawEvidence"]
+
+view LogoutView:
+  meaning "LogoutView visibility and operation contract."
+  selector "#logout"
+  visibility "connected"
+  operations ["Logout"]
+
+view ProfileLinkView:
+  meaning "ProfileLinkView visibility and operation contract."
+  selector "#profile-link"
+  visibility "connected"
+  operations ["ReadProfile"]
+
+view TopConnectView:
+  meaning "TopConnectView visibility and operation contract."
+  selector "#connect-top"
+  visibility "never"
+  operations ["StartStrava"]
+
+view SecurityView:
+  meaning "Security settings are available only to signed-in durable-identity consumers."
+  selector "#security-link"
+  visibility "never"
+  operations ["ReadSecurity","ChangeSecurity"]

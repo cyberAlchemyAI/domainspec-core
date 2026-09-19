@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "id": "oauth_concurrency",
+      "status": "passed",
+      "observed": {
+        "callers": 12,
+        "successful_consumptions": 1,
+        "expired_at_boundary": "rejected"
+      }
+    },
+    {
+      "id": "provider_owner_concurrency",
+      "status": "passed",
+      "observed": {
+        "attempts": 12,
+        "takeovers": 0,
+        "principal_provider_unique": "enforced"
+      }
+    },
+    {
+      "id": "evidence_concurrency",
+      "status": "passed",
+      "observed": {
+        "callers": 12,
+        "insertions": 1,
+        "replays": 11,
+        "database_unique_constraint": "enforced",
+        "different_runner": "allowed"
+      }
+    },
+    {
+      "id": "atomic_rollback",
+      "status": "passed",
+      "observed": {
+        "injected_failure": "between insert and track update",
+        "partial_rows": 0,
+        "retry_rows": 1
+      }
+    },
+    {
+      "id": "concurrent_disposition",
+      "status": "passed",
+      "observed": {
+        "replacement_survives": true,
+        "state_consistent": true,
+        "last_removal_resets": true
+      }
+    },
+    {
+      "id": "persistence_reopen",
+      "status": "passed",
+      "observed": {
+        "new_process": true,
+        "persisted_rows": 2,
+        "state": "evidence_submitted",
+        "database_process_restart": false
+      }
+    }
+  ],
+  "ontology_sha256": "599caa84633eb869663d22e6c9081cfb4ec44cf52ca1eef15959d8163bca216d",
+  "test_sha256": "0424b24a68472e55d6c9e802f6d76f2a95c2a78719c760fe08a98c99a7cca8df",
+  "authority_effect": "none",
+  "open_questions_ref": "../README.md#open-questions"
+}

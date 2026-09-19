@@ -1,0 +1,86 @@
+{
+  "schema_version": "domainspec.node/v1",
+  "node_id": "evidence-consent-required",
+  "feature_id": "body-war-pilot",
+  "kind": "Rule",
+  "body": {
+    "description": "All three facts must be true before any activity evidence is persisted.",
+    "predicate": "{\n  \"operator\": \"and\",\n  \"operands\": [\n    {\n      \"operator\": \"and\",\n      \"operands\": [\n        {\n          \"operator\": \"eq\",\n          \"operands\": [\n            {\n              \"node\": \"fact_ref\",\n              \"ref\": \"consentAcknowledged\"\n            },\n            {\n              \"node\": \"literal\",\n              \"value_type\": \"boolean\",\n              \"value\": true\n            }\n          ]\n        },\n        {\n          \"operator\": \"eq\",\n          \"operands\": [\n            {\n              \"node\": \"fact_ref\",\n              \"ref\": \"activityPresent\"\n            },\n            {\n              \"node\": \"literal\",\n              \"value_type\": \"boolean\",\n              \"value\": true\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"operator\": \"eq\",\n      \"operands\": [\n        {\n          \"node\": \"fact_ref\",\n          \"ref\": \"consentTextPresent\"\n        },\n        {\n          \"node\": \"literal\",\n          \"value_type\": \"boolean\",\n          \"value\": true\n        }\n      ]\n    }\n  ]\n}",
+    "typed_contract": {
+      "schema_version": "domainspec.typed-rule/v1",
+      "ontology_rule": "BW2-CONSENT",
+      "parameters": [
+        {
+          "name": "consent_acknowledged",
+          "type": {
+            "kind": "scalar",
+            "name": "Bool"
+          }
+        },
+        {
+          "name": "activity_present",
+          "type": {
+            "kind": "scalar",
+            "name": "Bool"
+          }
+        },
+        {
+          "name": "consent_text_present",
+          "type": {
+            "kind": "scalar",
+            "name": "Bool"
+          }
+        }
+      ],
+      "expression": {
+        "op": "all",
+        "terms": [
+          {
+            "op": "all",
+            "terms": [
+              {
+                "op": "eq",
+                "left": {
+                  "op": "path",
+                  "root": "consent_acknowledged",
+                  "properties": []
+                },
+                "right": {
+                  "op": "literal",
+                  "type": "Bool",
+                  "value": true
+                }
+              },
+              {
+                "op": "eq",
+                "left": {
+                  "op": "path",
+                  "root": "activity_present",
+                  "properties": []
+                },
+                "right": {
+                  "op": "literal",
+                  "type": "Bool",
+                  "value": true
+                }
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "left": {
+              "op": "path",
+              "root": "consent_text_present",
+              "properties": []
+            },
+            "right": {
+              "op": "literal",
+              "type": "Bool",
+              "value": true
+            }
+          }
+        ]
+      }
+    }
+  }
+}

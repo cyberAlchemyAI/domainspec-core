@@ -1,0 +1,23 @@
+domain body-war-v2 "TROQAR existing pilot application"
+profile bound-application-v1
+owner body-war-owner
+import Identity from "model/identity.alch"
+import Activities from "model/activities.alch"
+import Tracks from "model/tracks.alch"
+import Evidence from "model/evidence.alch"
+import Infrastructure from "model/infrastructure.alch"
+import Ui from "model/ui.alch"
+import Assurance from "model/assurance.alch"
+
+application BodyWarPilot:
+  meaning "Complete existing-pilot contracts and explicit adapter boundaries; no broader game or production claim."
+  output "app/src/application"
+  http "PilotHttp"
+  authorize "authorizeOperation"
+  static "serveStatic"
+  errors "sendJson"
+
+model Consent:
+  meaning "DomainSpec-generated evidence consent predicate consumed before persistence."
+  source "model/pilot.alch"
+  profile "domainspec-1.0.0"

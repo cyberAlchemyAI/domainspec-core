@@ -1,0 +1,692 @@
+{
+  "schema_version": "evf.provisional-bundle/v1",
+  "profile": {
+    "schema_version": "evf.enforcement-profile/v1",
+    "profile_id": "body-war-v2-oidc-policy",
+    "subject": "Body War OIDC session and authentication freshness policy",
+    "route": "executable",
+    "stages": [
+      {
+        "stage_id": "S0",
+        "required": true
+      },
+      {
+        "stage_id": "S1",
+        "required": true
+      },
+      {
+        "stage_id": "S2",
+        "required": true
+      },
+      {
+        "stage_id": "S3",
+        "required": true
+      },
+      {
+        "stage_id": "S4",
+        "required": true
+      },
+      {
+        "stage_id": "S5",
+        "required": true
+      },
+      {
+        "stage_id": "S6",
+        "required": true
+      },
+      {
+        "stage_id": "S7",
+        "required": true
+      },
+      {
+        "stage_id": "S8",
+        "required": true
+      },
+      {
+        "stage_id": "S9",
+        "required": true
+      },
+      {
+        "stage_id": "S10",
+        "required": true
+      },
+      {
+        "stage_id": "S11",
+        "required": true
+      },
+      {
+        "stage_id": "S12",
+        "required": true
+      }
+    ],
+    "semantic_refs": [
+      {
+        "path": "obligation.md",
+        "sha256": "7d6dca9a01afe0bae0528f1c3acf463d1e22d8f1c5c6ef77e6407face1819fc1",
+        "size_bytes": 464,
+        "location": "repository",
+        "current": true
+      }
+    ],
+    "obligation_ids": [
+      "BW2-OIDC-DEADLINES-FRESHNESS"
+    ],
+    "obligation_denominator": 1,
+    "binding_refs": [
+      {
+        "path": "policy.mjs",
+        "sha256": "8e53ea98e44a60fd44c5ac935bfef6b40248b8b693943a6257785cfe771f43ca",
+        "size_bytes": 1041,
+        "location": "repository",
+        "current": true
+      },
+      {
+        "path": "policy-mutant.mjs",
+        "sha256": "77b942ae0ac0e11210b8a7074fc35897295f6529e5ee259a9c0d65e2d23fbd96",
+        "size_bytes": 1039,
+        "location": "repository",
+        "current": true
+      },
+      {
+        "path": "provider.mjs",
+        "sha256": "7f2a91eb5abe7c2383a11d3960ee97a7380c8fb46136f2e3b10252bf4ba1091a",
+        "size_bytes": 1107,
+        "location": "repository",
+        "current": true
+      },
+      {
+        "path": "audit.json",
+        "sha256": "4511a767d367d879133d4071f7dfab182441c44260e07fc10b66eea5d17892a6",
+        "size_bytes": 1399,
+        "location": "repository",
+        "current": true
+      },
+      {
+        "path": "/home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/evf/evf-audit-kit-0.4.0/evf",
+        "sha256": "92f3664684290bcf1f01fe9b4673d502cc98abae4ea40ea27d50e021ba9a8d41",
+        "size_bytes": 273,
+        "location": "host",
+        "current": true
+      }
+    ],
+    "checks": [
+      {
+        "check_id": "oidc-policy-boundaries",
+        "provider_id": "node-oidc-policy",
+        "runtime": {
+          "executable_ref": {
+            "path": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+            "sha256": "19235a9b678f84729464c52623f92de130a165452747c6826d3fdc13df3abcc3",
+            "size_bytes": 150425704,
+            "location": "host",
+            "current": true
+          },
+          "tool_refs": [
+            {
+              "path": "policy.mjs",
+              "sha256": "8e53ea98e44a60fd44c5ac935bfef6b40248b8b693943a6257785cfe771f43ca",
+              "size_bytes": 1041,
+              "location": "repository",
+              "current": true
+            },
+            {
+              "path": "policy-mutant.mjs",
+              "sha256": "77b942ae0ac0e11210b8a7074fc35897295f6529e5ee259a9c0d65e2d23fbd96",
+              "size_bytes": 1039,
+              "location": "repository",
+              "current": true
+            },
+            {
+              "path": "provider.mjs",
+              "sha256": "7f2a91eb5abe7c2383a11d3960ee97a7380c8fb46136f2e3b10252bf4ba1091a",
+              "size_bytes": 1107,
+              "location": "repository",
+              "current": true
+            }
+          ],
+          "argv": [
+            "provider.mjs",
+            "{input}"
+          ],
+          "working_directory": ".",
+          "environment": {
+            "LANG": "C",
+            "LC_ALL": "C"
+          },
+          "timeout_ms": 5000,
+          "max_output_bytes": 4096,
+          "network": "forbidden",
+          "isolation": {
+            "mechanism": "linux-user-and-network-namespace",
+            "unshare_ref": {
+              "path": "/usr/bin/unshare",
+              "sha256": "978a4aec5a404ad0a05faac981df501d4b7eb0c5a3ad9c1a7b929a0bfd84f6c8",
+              "size_bytes": 47800,
+              "location": "host",
+              "current": true
+            }
+          }
+        },
+        "input_ref": {
+          "path": "positive.json",
+          "sha256": "a67bb5dcd48e4f9a4bcd7806394251254518681019f9deee6294c2d0e41515e0",
+          "size_bytes": 22,
+          "location": "repository",
+          "current": true
+        },
+        "expected_output": {
+          "cases": 12,
+          "failed_cases": 0,
+          "outcome": "pass",
+          "reason_code": "OIDC_POLICY_BOUNDARIES"
+        }
+      }
+    ],
+    "mutations": [
+      {
+        "mutant_id": "deadline-equality-bypass",
+        "check_id": "oidc-policy-boundaries",
+        "input_ref": {
+          "path": "negative.json",
+          "sha256": "0e0a1d15eea15db96dffc9b8c2a12699412ea8ce18b974450c40d6f375903a05",
+          "size_bytes": 21,
+          "location": "repository",
+          "current": true
+        },
+        "expected_output": {
+          "cases": 12,
+          "failed_cases": 2,
+          "outcome": "fail",
+          "reason_code": "OIDC_POLICY_MUTANT"
+        },
+        "expected_rejection_code": "OIDC_POLICY_MUTANT"
+      }
+    ],
+    "composition": {
+      "mode": "single",
+      "provider_ids": [
+        "node-oidc-policy"
+      ],
+      "compare_fields": [],
+      "comparability_refs": [
+        {
+          "path": "obligation.md",
+          "sha256": "7d6dca9a01afe0bae0528f1c3acf463d1e22d8f1c5c6ef77e6407face1819fc1",
+          "size_bytes": 464,
+          "location": "repository",
+          "current": true
+        }
+      ]
+    },
+    "producer": {
+      "executable_ref": {
+        "path": "/home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/evf/evf-audit-kit-0.4.0/bin/evf-run",
+        "sha256": "e89d0aa6544843f4323340de2a654a11537afa9c8e8632035394813d38dff367",
+        "size_bytes": 984104,
+        "location": "host",
+        "current": true
+      }
+    },
+    "verifier": {
+      "executable_ref": {
+        "path": "/home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/evf/evf-audit-kit-0.4.0/bin/evf-independent-verifier",
+        "sha256": "ece57193b910250484e7801bf4c289bd354178588d4e9f8bf7316743fb888b41",
+        "size_bytes": 598496,
+        "location": "host",
+        "current": true
+      }
+    },
+    "repetitions": 2,
+    "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+    "authority_effect": "none"
+  },
+  "profile_ref": {
+    "path": ".evf-profiles/body-war-v2-oidc-policy-1b434922780cf4a924ad9a67389a752cf67d636f9cb2e5e249e2088981ad0778.json",
+    "sha256": "1b434922780cf4a924ad9a67389a752cf67d636f9cb2e5e249e2088981ad0778",
+    "size_bytes": 6532,
+    "location": "repository",
+    "current": true
+  },
+  "stage_receipts": [
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S0",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {},
+      "evidence_refs": [
+        {
+          "path": "obligation.md",
+          "sha256": "7d6dca9a01afe0bae0528f1c3acf463d1e22d8f1c5c6ef77e6407face1819fc1",
+          "size_bytes": 464,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "semantic_ref_count": 1
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "cf201a4f2eb88678dd30bcb0b6cf1ffdd934b2d456300331b87398c75fb3c9a3"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S1",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S0": "cf201a4f2eb88678dd30bcb0b6cf1ffdd934b2d456300331b87398c75fb3c9a3"
+      },
+      "evidence_refs": [
+        {
+          "path": ".evf-profiles/body-war-v2-oidc-policy-1b434922780cf4a924ad9a67389a752cf67d636f9cb2e5e249e2088981ad0778.json",
+          "sha256": "1b434922780cf4a924ad9a67389a752cf67d636f9cb2e5e249e2088981ad0778",
+          "size_bytes": 6532,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "selected_route": "executable"
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "3694268c803c34cddd4ff2e7aea1be704e563575186288688280e09efccbb53f"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S2",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S1": "3694268c803c34cddd4ff2e7aea1be704e563575186288688280e09efccbb53f"
+      },
+      "evidence_refs": [
+        {
+          "path": "obligation.md",
+          "sha256": "7d6dca9a01afe0bae0528f1c3acf463d1e22d8f1c5c6ef77e6407face1819fc1",
+          "size_bytes": 464,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "obligation_denominator": 1,
+        "obligation_ids": [
+          "BW2-OIDC-DEADLINES-FRESHNESS"
+        ]
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "8a8179aaa8458faf0efd99c4952744e5893335eff6023cb89bb2c76cfdafeab4"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S3",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S2": "8a8179aaa8458faf0efd99c4952744e5893335eff6023cb89bb2c76cfdafeab4"
+      },
+      "evidence_refs": [
+        {
+          "path": "policy.mjs",
+          "sha256": "8e53ea98e44a60fd44c5ac935bfef6b40248b8b693943a6257785cfe771f43ca",
+          "size_bytes": 1041,
+          "location": "repository",
+          "current": true
+        },
+        {
+          "path": "policy-mutant.mjs",
+          "sha256": "77b942ae0ac0e11210b8a7074fc35897295f6529e5ee259a9c0d65e2d23fbd96",
+          "size_bytes": 1039,
+          "location": "repository",
+          "current": true
+        },
+        {
+          "path": "provider.mjs",
+          "sha256": "7f2a91eb5abe7c2383a11d3960ee97a7380c8fb46136f2e3b10252bf4ba1091a",
+          "size_bytes": 1107,
+          "location": "repository",
+          "current": true
+        },
+        {
+          "path": "audit.json",
+          "sha256": "4511a767d367d879133d4071f7dfab182441c44260e07fc10b66eea5d17892a6",
+          "size_bytes": 1399,
+          "location": "repository",
+          "current": true
+        },
+        {
+          "path": "/home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/evf/evf-audit-kit-0.4.0/evf",
+          "sha256": "92f3664684290bcf1f01fe9b4673d502cc98abae4ea40ea27d50e021ba9a8d41",
+          "size_bytes": 273,
+          "location": "host",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "binding_ref_count": 5
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "3f1fe79e4f88d476268f4436828b7f7573ce846e3626f40566f694c51c63bc0c"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S4",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S3": "3f1fe79e4f88d476268f4436828b7f7573ce846e3626f40566f694c51c63bc0c"
+      },
+      "evidence_refs": [
+        {
+          "path": "positive.json",
+          "sha256": "a67bb5dcd48e4f9a4bcd7806394251254518681019f9deee6294c2d0e41515e0",
+          "size_bytes": 22,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "check_ids": [
+          "oidc-policy-boundaries"
+        ]
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "13dc14590d414df352d171c21e9ca019ba80d9c7db0cdacc400156c81a24df73"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S5",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S4": "13dc14590d414df352d171c21e9ca019ba80d9c7db0cdacc400156c81a24df73"
+      },
+      "evidence_refs": [
+        {
+          "path": "/home/vrondelli/.local/share/are-runtimes/node-v26.8.1-linux-x64/bin/node",
+          "sha256": "19235a9b678f84729464c52623f92de130a165452747c6826d3fdc13df3abcc3",
+          "size_bytes": 150425704,
+          "location": "host",
+          "current": true
+        },
+        {
+          "path": "/usr/bin/unshare",
+          "sha256": "978a4aec5a404ad0a05faac981df501d4b7eb0c5a3ad9c1a7b929a0bfd84f6c8",
+          "size_bytes": 47800,
+          "location": "host",
+          "current": true
+        },
+        {
+          "path": "policy.mjs",
+          "sha256": "8e53ea98e44a60fd44c5ac935bfef6b40248b8b693943a6257785cfe771f43ca",
+          "size_bytes": 1041,
+          "location": "repository",
+          "current": true
+        },
+        {
+          "path": "policy-mutant.mjs",
+          "sha256": "77b942ae0ac0e11210b8a7074fc35897295f6529e5ee259a9c0d65e2d23fbd96",
+          "size_bytes": 1039,
+          "location": "repository",
+          "current": true
+        },
+        {
+          "path": "provider.mjs",
+          "sha256": "7f2a91eb5abe7c2383a11d3960ee97a7380c8fb46136f2e3b10252bf4ba1091a",
+          "size_bytes": 1107,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "isolation": "linux-user-and-network-namespace",
+        "network": "forbidden",
+        "provider_count": 1
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "3cd90c4b8b73f5b124498154f94f0a111e0198b94fdaac601b2233be350dd0f8"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S6",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S5": "3cd90c4b8b73f5b124498154f94f0a111e0198b94fdaac601b2233be350dd0f8"
+      },
+      "evidence_refs": [
+        {
+          "path": "positive.json",
+          "sha256": "a67bb5dcd48e4f9a4bcd7806394251254518681019f9deee6294c2d0e41515e0",
+          "size_bytes": 22,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "observations": {
+          "oidc-policy-boundaries": [
+            {
+              "check_id": "oidc-policy-boundaries",
+              "error_code": null,
+              "exit_code": 0,
+              "matched_expected": true,
+              "output": {
+                "cases": 12,
+                "failed_cases": 0,
+                "outcome": "pass",
+                "reason_code": "OIDC_POLICY_BOUNDARIES"
+              },
+              "provider_id": "node-oidc-policy",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_sha256": "c2401fb49774d8f8d4140225b8419e4e8b7f5e8a8965f2e4001c03b7a2725b0f",
+              "timed_out": false
+            },
+            {
+              "check_id": "oidc-policy-boundaries",
+              "error_code": null,
+              "exit_code": 0,
+              "matched_expected": true,
+              "output": {
+                "cases": 12,
+                "failed_cases": 0,
+                "outcome": "pass",
+                "reason_code": "OIDC_POLICY_BOUNDARIES"
+              },
+              "provider_id": "node-oidc-policy",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_sha256": "c2401fb49774d8f8d4140225b8419e4e8b7f5e8a8965f2e4001c03b7a2725b0f",
+              "timed_out": false
+            }
+          ]
+        },
+        "replay_equal": true
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "db036d8986e85bcb58a84cb9bdf6038e0749e073eda9729bef0a1bb49b5b3c37"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S7",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S6": "db036d8986e85bcb58a84cb9bdf6038e0749e073eda9729bef0a1bb49b5b3c37"
+      },
+      "evidence_refs": [
+        {
+          "path": "negative.json",
+          "sha256": "0e0a1d15eea15db96dffc9b8c2a12699412ea8ce18b974450c40d6f375903a05",
+          "size_bytes": 21,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "mutation_denominator": 1,
+        "mutations": [
+          {
+            "check_id": "oidc-policy-boundaries",
+            "expected_rejection_code": "OIDC_POLICY_MUTANT",
+            "killed_for_declared_cause": true,
+            "mutant_id": "deadline-equality-bypass",
+            "observations": [
+              {
+                "check_id": "oidc-policy-boundaries",
+                "error_code": null,
+                "exit_code": 0,
+                "matched_expected": true,
+                "output": {
+                  "cases": 12,
+                  "failed_cases": 2,
+                  "outcome": "fail",
+                  "reason_code": "OIDC_POLICY_MUTANT"
+                },
+                "provider_id": "node-oidc-policy",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout_sha256": "365b24254e10d47b03963227995a0f83b02ab6b6408b41768068d796cce6aa62",
+                "timed_out": false
+              },
+              {
+                "check_id": "oidc-policy-boundaries",
+                "error_code": null,
+                "exit_code": 0,
+                "matched_expected": true,
+                "output": {
+                  "cases": 12,
+                  "failed_cases": 2,
+                  "outcome": "fail",
+                  "reason_code": "OIDC_POLICY_MUTANT"
+                },
+                "provider_id": "node-oidc-policy",
+                "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "stdout_sha256": "365b24254e10d47b03963227995a0f83b02ab6b6408b41768068d796cce6aa62",
+                "timed_out": false
+              }
+            ]
+          }
+        ],
+        "replay_equal": true
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "b1c68a556ea6fbce982d06037f71c1862bf612e7a7b37144c03485a755e09552"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S8",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S7": "b1c68a556ea6fbce982d06037f71c1862bf612e7a7b37144c03485a755e09552"
+      },
+      "evidence_refs": [],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "normalized_outcome": "PASS_BOUNDED"
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "f1bcdb45cc5d6d5972b6f0287ab8b84048a23c4b66edb8df05cf15e4ae3ac02e"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S9",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S8": "f1bcdb45cc5d6d5972b6f0287ab8b84048a23c4b66edb8df05cf15e4ae3ac02e"
+      },
+      "evidence_refs": [
+        {
+          "path": "obligation.md",
+          "sha256": "7d6dca9a01afe0bae0528f1c3acf463d1e22d8f1c5c6ef77e6407face1819fc1",
+          "size_bytes": 464,
+          "location": "repository",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "compare_fields": [],
+        "mode": "single",
+        "provider_ids": [
+          "node-oidc-policy"
+        ]
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "47f6e401cfdcdc3559f0289f1e0c25d1e23290802206e7963cd210ebc4439132"
+    },
+    {
+      "schema_version": "evf.stage-receipt/v1",
+      "stage_id": "S10",
+      "profile_id": "body-war-v2-oidc-policy",
+      "route": "executable",
+      "state": "passed",
+      "input_stage_receipt_digests": {
+        "S9": "47f6e401cfdcdc3559f0289f1e0c25d1e23290802206e7963cd210ebc4439132"
+      },
+      "evidence_refs": [
+        {
+          "path": "/home/vrondelli/projects/domainspec-core/projects/body-war-v2-auth-mfa/.tools/evf/evf-audit-kit-0.4.0/bin/evf-run",
+          "sha256": "e89d0aa6544843f4323340de2a654a11537afa9c8e8632035394813d38dff367",
+          "size_bytes": 984104,
+          "location": "host",
+          "current": true
+        }
+      ],
+      "reason_codes": [],
+      "residue": [],
+      "details": {
+        "constructed_stage_receipts": 10
+      },
+      "claim_ceiling": "Twelve finite policy cases; no whole authentication or formal proof claim",
+      "authority_effect": "none",
+      "receipt_payload_digest": "553c7d3b66da19ef1334ae0f817f91da8f6e1b679bd0c002b7774fbd7cee5fa1"
+    }
+  ],
+  "producer_aggregate_state": "passed",
+  "denominator": {
+    "stages": 13,
+    "checks": 1,
+    "mutations": 1
+  },
+  "authority_effect": "none"
+}

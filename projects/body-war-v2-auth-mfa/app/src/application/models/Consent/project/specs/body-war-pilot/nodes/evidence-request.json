@@ -1,0 +1,65 @@
+{
+  "schema_version": "domainspec.node/v1",
+  "node_id": "evidence-request",
+  "feature_id": "body-war-pilot",
+  "kind": "Entity",
+  "body": {
+    "description": "A synthetic or consenting runner request to attach candidate activity evidence, never verified geometry or score.",
+    "fields": [
+      "request_id",
+      "consent_acknowledged",
+      "activity_present",
+      "consent_text_present"
+    ],
+    "typed_contract": {
+      "schema_version": "domainspec.typed-record/v1",
+      "ontology_node": "BW2-EVIDENCE-REQUEST",
+      "properties": [
+        {
+          "ontology_property": "BW2-EVIDENCE-REQUEST#requestId",
+          "name": "request_id",
+          "type": {
+            "kind": "scalar",
+            "name": "String"
+          },
+          "cardinality": "one",
+          "identity": true,
+          "meaning": "The candidate request identity."
+        },
+        {
+          "ontology_property": "BW2-EVIDENCE-REQUEST#consentAcknowledged",
+          "name": "consent_acknowledged",
+          "type": {
+            "kind": "scalar",
+            "name": "Bool"
+          },
+          "cardinality": "one",
+          "identity": false,
+          "meaning": "Whether the caller explicitly supplied boolean true."
+        },
+        {
+          "ontology_property": "BW2-EVIDENCE-REQUEST#activityPresent",
+          "name": "activity_present",
+          "type": {
+            "kind": "scalar",
+            "name": "Bool"
+          },
+          "cardinality": "one",
+          "identity": false,
+          "meaning": "Whether the activity identifier passed the HTTP string adapter."
+        },
+        {
+          "ontology_property": "BW2-EVIDENCE-REQUEST#consentTextPresent",
+          "name": "consent_text_present",
+          "type": {
+            "kind": "scalar",
+            "name": "Bool"
+          },
+          "cardinality": "one",
+          "identity": false,
+          "meaning": "Whether the consent explanation passed the HTTP string adapter."
+        }
+      ]
+    }
+  }
+}

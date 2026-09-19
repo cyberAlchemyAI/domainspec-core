@@ -1,0 +1,35 @@
+{
+  "schema_version": "alchlang.domainspec-bindings/v1",
+  "profile": "domainspec-1.0.0",
+  "source_sha256": "5a32f2415e35bb6469b74a65ee05c98c8a5f6ba7ba249e05db521d1e49939c2c",
+  "owner": "body-war-owner",
+  "declarations": {
+    "EvidenceRequest": {
+      "ontology": "BW2-EVIDENCE-REQUEST",
+      "meaning": "A synthetic or consenting runner request to attach candidate activity evidence, never verified geometry or score.",
+      "identity": "requestId",
+      "properties": {
+        "requestId": {
+          "ontology": "BW2-EVIDENCE-REQUEST#requestId",
+          "meaning": "The candidate request identity."
+        },
+        "consentAcknowledged": {
+          "ontology": "BW2-EVIDENCE-REQUEST#consentAcknowledged",
+          "meaning": "Whether the caller explicitly supplied boolean true."
+        },
+        "activityPresent": {
+          "ontology": "BW2-EVIDENCE-REQUEST#activityPresent",
+          "meaning": "Whether the activity identifier passed the HTTP string adapter."
+        },
+        "consentTextPresent": {
+          "ontology": "BW2-EVIDENCE-REQUEST#consentTextPresent",
+          "meaning": "Whether the consent explanation passed the HTTP string adapter."
+        }
+      }
+    },
+    "EvidenceConsentRequired": {
+      "ontology": "BW2-CONSENT",
+      "meaning": "All three facts must be true before any activity evidence is persisted."
+    }
+  }
+}

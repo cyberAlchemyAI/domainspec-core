@@ -1,0 +1,38 @@
+
+> @domainspec/body-war-v2@0.1.0 test:postgres
+> npm run e2e:all --workspace @body-war-v2/app
+
+
+> @body-war-v2/app@0.1.0 e2e:all
+> sh scripts/e2e.sh all
+
+
+> @body-war-v2/app@0.1.0 e2e
+> npm run build:e2e && BODY_WAR_AUTH_BACKEND=postgres BODY_WAR_STRAVA_FAKE=1 node .runtime/e2e-dist/e2e/body-war-auth.e2e.js
+
+
+> @body-war-v2/app@0.1.0 build:e2e
+> npm run build --workspace @domainspec/auth-user-management && rm -rf .runtime/e2e-dist && tsc -p tsconfig.e2e.json
+
+
+> @domainspec/auth-user-management@0.1.0 build
+> rm -rf dist && tsc -p tsconfig.json
+
+{"critical_postgres":"passed","cases":6}
+
+ Network body-war-v2-validation-521357_default Creating 
+ Network body-war-v2-validation-521357_default Creating 
+ Network body-war-v2-validation-521357_default Created 
+ Network body-war-v2-validation-521357_default Created 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Creating 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Created 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Starting 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Started 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Waiting 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Healthy 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Stopping 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Stopped 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Removing 
+ Container body-war-v2-validation-521357-body-war-postgres-1 Removed 
+ Network body-war-v2-validation-521357_default Removing 
+ Network body-war-v2-validation-521357_default Removed 

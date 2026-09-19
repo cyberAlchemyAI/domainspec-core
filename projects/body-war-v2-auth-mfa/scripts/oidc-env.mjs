@@ -1,0 +1,3 @@
+import {readFileSync} from 'node:fs';import {resolve} from 'node:path';
+export const root=resolve(new URL('..',import.meta.url).pathname),runtime=resolve(root,'.runtime/oidc'),fixture=JSON.parse(readFileSync(resolve(runtime,'config.json')));
+export function configure(){Object.assign(process.env,{BODY_WAR_APP_ROOT:resolve(runtime,'app'),BODY_WAR_IDENTITY_MODE:'oidc',BODY_WAR_AUTH_BACKEND:'memory',BODY_WAR_STRAVA_FAKE:'1',BODY_WAR_SECURE_COOKIES:'1',BODY_WAR_PUBLIC_BASE_URL:fixture.origin,BODY_WAR_ALLOWED_ORIGINS:fixture.origin,BODY_WAR_OIDC_CLIENT_SECRET:fixture.clientSecret,BODY_WAR_SESSION_SECRET:fixture.sessionSecret,BODY_WAR_TOKEN_PROTECTION_SECRET:fixture.tokenProtectionSecret});}

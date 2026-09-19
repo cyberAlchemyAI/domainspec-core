@@ -1,0 +1,41 @@
+import {runLocalRecovery} from './local-recovery.mjs';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {spawn} from 'node:child_process';
+import {createServer} from 'node:net';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
+const evaluator=resolve(root,'../domainspec-v2/impl/operational-resilience/src/validate-operational-evidence.ts');
+const {deriveOperationalControls,validateOperationalEvidence}=await import(pathToFileURL(evaluator));
+const sha=x=>createHash('sha256').update(x).digest('hex');
+const hashFile=p=>sha(readFileSync(join(root,p)));
+const port=await new Promise((yes,no)=>{const s=createServer();s.once('error',no);s.listen(0,'127.0.0.1',()=>{const p=s.address().port;s.close(()=>yes(p));});});
+const base=`http://127.0.0.1:${port}`;
+const child=spawn(process.execPath,['dist/server.js'],{cwd:join(root,'app'),env:{...process.env,BODY_WAR_HOST:'127.0.0.1',BODY_WAR_PORT:String(port),BODY_WAR_PUBLIC_BASE_URL:base,BODY_WAR_ALLOWED_ORIGINS:base,BODY_WAR_STRAVA_FAKE:'1',BODY_WAR_AUTH_BACKEND:'memory'},stdio:['ignore','ignore','pipe']});
+let stderr='';child.stderr.on('data',b=>stderr+=b);const exited=new Promise(r=>child.once('exit',r));
+const checks=[];
+try{
+ let ready=false;for(let i=0;i<100;i++){if(child.exitCode!==null)throw Error(stderr);try{const r=await fetch(base+'/api/status',{signal:AbortSignal.timeout(1000)});if(r.status===200){ready=true;break;}}catch{}await new Promise(r=>setTimeout(r,50));}if(!ready)throw Error('Pilot did not become ready');
+ for(const [path,status] of [['/',200],['/api/status',200],['/api/suggested-tracks',401]]){const r=await fetch(base+path,{signal:AbortSignal.timeout(3000)});assert.equal(r.status,status,path);checks.push({path,status:r.status});}
+}finally{child.kill('SIGTERM');await exited;}
+const recovery=await runLocalRecovery(root);
+const now=new Date().toISOString(),expires=new Date(Date.now()+3600000).toISOString();
+const digest=hashFile('evidence/candidate.json');
+const ref=(path)=>({ref:path,version:'body-war-v2-0.1.0',sha256:hashFile(path)});
+const binding={schema_version:'domainspec.orodi.evaluation-binding/v1',binding_id:'body-war-v2-local-observer',subject:ref('model/application-ontology.json'),environment:ref('app/package.json'),stable_artifact:ref('app/dist/server.js'),candidate_artifact:ref('app/dist/server.js'),configuration:ref('app/playwright.config.ts'),topology:ref('app/docker-compose.e2e.yml'),fixture:ref('scripts/run-orodi.mjs'),evaluator:{ref:evaluator,version:'1.0.0-candidate-local',sha256:sha(readFileSync(evaluator))},receipt_schema:{ref:'operational-evidence.ts',version:'v1',sha256:sha(readFileSync(resolve(root,'../domainspec-v2/impl/operational-resilience/contracts/operational-evidence.ts')))},owners:{semantic:'body-war-owner',integration:'body-war-v2-construction',evidence:'local-test-observer',privacy:'body-war-owner',evaluator:'domainspec-orodi'},profiles:[{role:'local-health-only',profile_id:'body-war-v2-observer',version:'0.1.0',sha256:hashFile('scripts/run-orodi.mjs'),status:'candidate-local'}],policies:[{role:'local-observation-limit',policy_id:'body-war-v2-no-deployment-claim',version:'0.1.0',sha256:hashFile('scripts/run-orodi.mjs'),enabled:true}],invalidation_key_digest:digest,created_at:now,expires_at:expires};
+const observation={schema_version:'domainspec.orodi.observation/v1',observation_id:'local-http-observer',plane:'product',kind:'health',mode:'live',correlation_id:digest,attributes:{service:'body-war-v2',signal:'local-http-health-and-auth'},attribute_allowlist:['service','signal'],cardinality:{observed:2,budget:2},telemetry:{offered:1,queued:1,exported:0,rejected:0,dropped:0,pending:1,partial_success:0},deployment_effect:false,independently_observed:false,observed_at:now,invalidation_key_digest:digest};
+const ids=Array.from({length:16},(_,i)=>'C'+String(i+1).padStart(2,'0'));
+const bundle={schema_version:'domainspec.orodi.evaluation-bundle/v1',evidence_lane:'candidate-local-prototype',binding,observations:[observation,{...observation,observation_id:'local-recovery-rehearsal',mode:'simulation',kind:'rollback-effect',attributes:{service:'body-war-v2',signal:'local-canary-rollback-restart'},telemetry:recovery.telemetry}],controls:ids.map(control_id=>({schema_version:'domainspec.orodi.control-receipt/v1',control_id,state:'not-run',observation_refs:['local-http-observer'],evaluated_at:now,expires_at:expires,invalidation_key_digest:digest,authority_effect:'none'})),claim:{claim_id:'body-war-v2-full-operational-readiness',required_controls:ids},authority_effect:'none'};
+const first=deriveOperationalControls(bundle,now);assert.equal(first.findings.length,0,JSON.stringify(first.findings));
+for(const c of first.derived_controls)bundle.controls.find(x=>x.control_id===c.control_id).state=c.state;
+const derived=deriveOperationalControls(bundle,now),full=validateOperationalEvidence(bundle,now);
+for(const id of ['C01','C05','C11','C14','C15'])assert.equal(derived.derived_controls.find(c=>c.control_id===id).state,'passed');
+assert.equal(full.verdict,'reject');assert.equal(derived.derived_controls.find(c=>c.control_id==='C12').state,'not-run');
+const stale=structuredClone(bundle);stale.observations[0].invalidation_key_digest='0'.repeat(64);
+const staleResult=deriveOperationalControls(stale,now);assert.equal(staleResult.derived_controls.find(c=>c.control_id==='C14').state,'stale');
+const leak=structuredClone(bundle);leak.observations[0].attributes.forbidden='synthetic';
+const leakResult=deriveOperationalControls(leak,now);assert.equal(leakResult.derived_controls.find(c=>c.control_id==='C05').state,'failed');
+writeFileSync(join(root,'evidence/orodi.json'),JSON.stringify({status:'bounded-adapter-checks-passed',recovery,checks,bundle,derived,full_operational_readiness:full,negative_controls:{stale:staleResult,unapproved_attribute:leakResult},claim_ceiling:'Local HTTP, canary fault, rollback, process-loss/restart and collector export observed; no independent production deployment claim',authority_effect:'none',open_questions_ref:'../README.md#open-questions'},null,2)+'\n');
+console.log(JSON.stringify({status:'bounded-adapter-checks-passed',http_checks:checks.length,full_operational_readiness:full.verdict}));

@@ -1,0 +1,79 @@
+domain body-war-infrastructure "TROQAR infrastructure contracts"
+profile bound-application-v1
+owner body-war-owner
+
+adapter MemoryStore:
+  meaning "In-process implementation of repository contracts, scoped to local tests."
+  category "persistence"
+  source "../app/src/auth/memory-repository.ts"
+  exports []
+
+adapter PostgresStore:
+  meaning "Postgres implementation using explicit schema/migration and auth dependency bindings."
+  category "persistence"
+  source "../app/src/auth/drizzle-repository.ts"
+  exports []
+
+configuration RuntimeConfiguration:
+  meaning "Named environment dependencies and local validation defaults. Values here are not live credentials."
+  values {"local":{"host":"127.0.0.1","port":5184,"authBackend":"memory","fakeStrava":true},"identity":{"profiles":["strava-pilot","oidc","oidc-durable"],"durable":{"origin":"https://body-war-durable.localhost:16443","client":"body-war-durable-browser","audience":"body-war-durable-api","store":"@auth-foundation/session-core","backend":"postgres","namespace":"body-war"},"oidcIssuer":"https://localhost:18443/realms/auth-https","oidcOrigin":"https://body-war.localhost:14443","client":"body-war-v2-browser","audience":"body-war-v2-api","idleSeconds":900,"maximumSeconds":28800},"secrets":["BODY_WAR_DURABLE_KEY","BODY_WAR_OIDC_CLIENT_SECRET","BODY_WAR_SESSION_SECRET","BODY_WAR_TOKEN_PROTECTION_SECRET","STRAVA_CLIENT_SECRET","BODY_WAR_DATABASE_URL"],"provider":["STRAVA_CLIENT_ID","STRAVA_REDIRECT_URI"],"session":{"sameSite":"Lax","httpOnly":true,"csrfOriginRequiredForMutation":true},"hosting":"local Node HTTP; no RWO deployment binding","recovery":"repository disposal idempotency and migration checksum ledger; no general durable outbox/canary claim"}
+
+storage RunnerProfileStorage:
+  meaning "RunnerProfile Postgres binding with complete field mapping; SQL and IO remain adapter-owned."
+  record "RunnerProfile"
+  adapter "PostgresStore"
+  table "body_war_runner_profiles"
+  schema "../app/src/infrastructure/postgres/schema.ts"
+  migrations ["../app/drizzle/0000_strong_iron_man.sql","../app/drizzle/0001_lyrical_living_mummy.sql","../app/drizzle/0002_evidence_identity.sql","../app/drizzle/0003_legacy_migration.sql","../app/drizzle/0004_provider_owner.sql"]
+  columns {"principalId":"principal_id","displayName":"display_name","privacyStatus":"privacy_status","createdAt":"created_at","updatedAt":"updated_at"}
+  constraints ["exact committed migration checksums","repository-level runtime behavior verified by Postgres E2E"]
+
+storage OAuthStateStorage:
+  meaning "OAuthState Postgres binding with complete field mapping; SQL and IO remain adapter-owned."
+  record "OAuthState"
+  adapter "PostgresStore"
+  table "body_war_oauth_states"
+  schema "../app/src/infrastructure/postgres/schema.ts"
+  migrations ["../app/drizzle/0000_strong_iron_man.sql","../app/drizzle/0001_lyrical_living_mummy.sql","../app/drizzle/0002_evidence_identity.sql","../app/drizzle/0003_legacy_migration.sql","../app/drizzle/0004_provider_owner.sql"]
+  columns {"state":"state","nonce":"nonce","redirectTarget":"redirect_target","createdAt":"created_at","expiresAt":"expires_at","consumedAt":"consumed_at"}
+  constraints ["exact committed migration checksums","repository-level runtime behavior verified by Postgres E2E"]
+
+storage ProviderAccountStorage:
+  meaning "ProviderAccount Postgres binding with complete field mapping; SQL and IO remain adapter-owned."
+  record "ProviderAccount"
+  adapter "PostgresStore"
+  table "body_war_provider_accounts"
+  schema "../app/src/infrastructure/postgres/schema.ts"
+  migrations ["../app/drizzle/0000_strong_iron_man.sql","../app/drizzle/0001_lyrical_living_mummy.sql","../app/drizzle/0002_evidence_identity.sql","../app/drizzle/0003_legacy_migration.sql","../app/drizzle/0004_provider_owner.sql"]
+  columns {"id":"id","provider":"provider","principalId":"principal_id","providerUserId":"provider_user_id","displayName":"display_name","scope":"scope","status":"status","linkedAt":"linked_at","updatedAt":"updated_at","metadata":"metadata"}
+  constraints ["exact committed migration checksums","repository-level runtime behavior verified by Postgres E2E"]
+
+storage ProviderTokenRecordStorage:
+  meaning "ProviderTokenRecord Postgres binding with complete field mapping; SQL and IO remain adapter-owned."
+  record "ProviderTokenRecord"
+  adapter "PostgresStore"
+  table "body_war_provider_tokens"
+  schema "../app/src/infrastructure/postgres/schema.ts"
+  migrations ["../app/drizzle/0000_strong_iron_man.sql","../app/drizzle/0001_lyrical_living_mummy.sql","../app/drizzle/0002_evidence_identity.sql","../app/drizzle/0003_legacy_migration.sql","../app/drizzle/0004_provider_owner.sql"]
+  columns {"id":"id","accountId":"account_id","accessTokenCiphertext":"access_token_ciphertext","refreshTokenCiphertext":"refresh_token_ciphertext","expiresAt":"expires_at","createdAt":"created_at","updatedAt":"updated_at"}
+  constraints ["exact committed migration checksums","repository-level runtime behavior verified by Postgres E2E"]
+
+storage SuggestedTrackStorage:
+  meaning "SuggestedTrack Postgres binding with complete field mapping; SQL and IO remain adapter-owned."
+  record "SuggestedTrack"
+  adapter "PostgresStore"
+  table "body_war_suggested_tracks"
+  schema "../app/src/infrastructure/postgres/schema.ts"
+  migrations ["../app/drizzle/0000_strong_iron_man.sql","../app/drizzle/0001_lyrical_living_mummy.sql","../app/drizzle/0002_evidence_identity.sql","../app/drizzle/0003_legacy_migration.sql","../app/drizzle/0004_provider_owner.sql"]
+  columns {"id":"id","slug":"slug","name":"name","placeLabel":"place_label","city":"city","country":"country","distanceHintMeters":"distance_hint_meters","status":"status","geometryAuthority":"geometry_authority","suggestedByPrincipalId":"suggested_by_principal_id","publicNote":"public_note","createdAt":"created_at","updatedAt":"updated_at"}
+  constraints ["exact committed migration checksums","repository-level runtime behavior verified by Postgres E2E"]
+
+storage ActivityEvidenceCandidateStorage:
+  meaning "ActivityEvidenceCandidate Postgres binding with complete field mapping; SQL and IO remain adapter-owned."
+  record "ActivityEvidenceCandidate"
+  adapter "PostgresStore"
+  table "body_war_activity_evidence_candidates"
+  schema "../app/src/infrastructure/postgres/schema.ts"
+  migrations ["../app/drizzle/0000_strong_iron_man.sql","../app/drizzle/0001_lyrical_living_mummy.sql","../app/drizzle/0002_evidence_identity.sql","../app/drizzle/0003_legacy_migration.sql","../app/drizzle/0004_provider_owner.sql"]
+  columns {"id":"id","suggestedTrackId":"suggested_track_id","principalId":"principal_id","provider":"provider","providerActivityId":"provider_activity_id","redactedSummary":"redacted_summary","consentText":"consent_text","consentedAt":"consented_at","status":"status","createdAt":"created_at","updatedAt":"updated_at"}
+  constraints ["exact committed migration checksums","repository-level runtime behavior verified by Postgres E2E"]

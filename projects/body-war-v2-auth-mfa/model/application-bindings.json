@@ -1,0 +1,133 @@
+{
+  "schema_version": "body-war-v2.application-bindings/v1",
+  "status": "construction-candidate",
+  "authority_effect": "none",
+  "generated": [
+    {
+      "capability": "Modeled HTTP dispatcher and authorization calls",
+      "source": "body-war.alch and model/*.alch",
+      "consumer": "app/src/application"
+    },
+    {
+      "capability": "domain records and enum values",
+      "source": "body-war.alch and model/*.alch",
+      "consumer": "app/src/application"
+    },
+    {
+      "capability": "JSON success-response shape guards",
+      "source": "body-war.alch and model/*.alch",
+      "consumer": "app/src/application"
+    },
+    {
+      "capability": "track evidence lifecycle",
+      "source": "body-war.alch and model/*.alch",
+      "consumer": "app/src/application"
+    },
+    {
+      "capability": "activity redaction projection",
+      "source": "body-war.alch and model/*.alch",
+      "consumer": "app/src/application"
+    },
+    {
+      "capability": "runtime defaults and browser route/view configuration",
+      "source": "body-war.alch and model/*.alch",
+      "consumer": "app/src/application"
+    },
+    {
+      "capability": "DomainSpec evidence consent predicate",
+      "source": "model/pilot.alch",
+      "consumer": "app/src/adapters/pilot-http.ts",
+      "provider": "app/src/compiled/generated/src/domainspec/typescript/body-war-pilot/evidence-consent-required.ts"
+    },
+    {
+      "capability": "Closed JSON request shape and 16 KiB bounds for three write operations",
+      "source": "model/tracks.alch, model/evidence.alch",
+      "consumer": "app/src/application/request.ts"
+    },
+    {
+      "capability": "Typed track/evidence input normalization and recursive public track/evidence/import receipt contracts",
+      "source": "model/tracks.alch, model/evidence.alch, model/activities.alch",
+      "consumer": "app/src/application/normalization.ts and validation.ts"
+    },
+    {
+      "capability": "Closed identity nested records and scalar union validation and closed activity query parsing",
+      "source": "model/identity.alch, model/activities.alch",
+      "consumer": "app/src/application/query.ts and validation.ts"
+    }
+  ],
+  "retained": [
+    {
+      "capability": "HTTP and browser-cookie/CSRF adaptation",
+      "sources": [
+        "app/src/adapters/pilot-http.ts",
+        "app/src/auth/browser-session.ts",
+        "app/src/auth/cookies.ts"
+      ]
+    },
+    {
+      "capability": "shared principal, session, token and permission logic",
+      "sources": [
+        "vendor/auth/src/index.ts"
+      ]
+    },
+    {
+      "capability": "Strava OAuth/activity IO adapters",
+      "sources": [
+        "app/src/auth/strava-oauth.ts",
+        "app/src/auth/strava-activity-provider.ts"
+      ]
+    },
+    {
+      "capability": "memory/Postgres repositories and migration",
+      "sources": [
+        "app/src/auth/memory-repository.ts",
+        "app/src/auth/drizzle-repository.ts",
+        "app/drizzle"
+      ]
+    },
+    {
+      "capability": "TROQAR browser UI",
+      "sources": [
+        "app/ui"
+      ]
+    }
+  ],
+  "assurance": [
+    {
+      "capability": "TDE",
+      "adapter": "scripts/prepare-assurance.mjs",
+      "scope": "canonical full application contract projection (205 obligations), separate consent projection and inherited diagnostics"
+    },
+    {
+      "capability": "EVF",
+      "adapter": "scripts/run-evf.mjs",
+      "scope": "12 exact finite executable obligation witnesses: consent, ten transitions, LogoutResponse.ok"
+    },
+    {
+      "capability": "ORODI",
+      "adapter": "scripts/run-orodi.mjs",
+      "scope": "local health, fault/rollback/restart and collector export; full-readiness rejection remains"
+    }
+  ],
+  "not_bound": [
+    "RWO deployment orchestration",
+    "conformance factory/BTE qualification",
+    "formal solver certification",
+    "managed secrets",
+    "independent canary/rollback campaign",
+    "release recipe qualification"
+  ],
+  "open_questions_ref": "../README.md#open-questions",
+  "model_root": "body-war.alch",
+  "profile": "bound-application-v1-candidate",
+  "compiler": "DomainSpec candidate application backend; AlchLang syntax/lowering frontend",
+  "shared_input": "model/application-ontology.json",
+  "explicit_adapters": [
+    {
+      "capability": "Historical Strava activity ID and linked-athlete verification, protected token refresh and bounded summary projection",
+      "source": "app/src/auth/strava-activity-provider.ts and app/src/auth/strava-oauth.ts",
+      "policy": "model/activities.alch:HistoricalActivityPolicy",
+      "validation": "app/tests/strava-activity-provider.test.ts and scripts/migration-flow.mjs"
+    }
+  ]
+}
